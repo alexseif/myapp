@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block container %}
+    <div class="actions clearfix">
+        {{ form_start(delete_form) }}
+        <div class="btn-group pull-right">
+            <a href="{{ path('tasks_index') }}" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span></a>
+            <a href="{{ path('tasks_edit', { 'id': task.id }) }}" class="btn btn-default"><span class="glyphicon glyphicon-edit" aria-hidden="true" aria-label="Edit"></span></a>
+            <button type="submit" value="Delete" class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></button>
+        </div>
+        {{ form_end(delete_form) }}
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h1 class="panel-title">Tasks</h1>
+        </div>
+        <div class="panel-body">
+            {{ task.task }}
+        </div>
+    </div>
+{% endblock %}
