@@ -17,7 +17,6 @@ class TasksType extends AbstractType
         $builder
             ->add('task')
             ->add('completed')
-            ->add('completedAt', 'datetime')
         ;
     }
     

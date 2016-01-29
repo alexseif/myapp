@@ -1,40 +1,19 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    <h1>Tasks</h1>
-
-    <table>
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ task.id }}</td>
-            </tr>
-            <tr>
-                <th>Task</th>
-                <td>{{ task.task }}</td>
-            </tr>
-            <tr>
-                <th>Completed</th>
-                <td>{% if task.completed %}Yes{% else %}No{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Completedat</th>
-                <td>{% if task.completedAt %}{{ task.completedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <ul>
-        <li>
-            <a href="{{ path('tasks_index') }}">Back to the list</a>
-        </li>
-        <li>
-            <a href="{{ path('tasks_edit', { 'id': task.id }) }}">Edit</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+{% block container %}
+    <h1>Task</h1>
+    {% if task.completed %}
+        <strike>
+        {% endif %}
+        {{ task.task }}
+        {% if task.completed %}
+        </strike>
+    {% endif %}
+    {{ form_start(delete_form) }}
+    <input type="submit" value="Delete">
+    {{ form_end(delete_form) }}
+    <div class="btn-group">
+        <a href="{{ path('tasks_index') }}" class="btn btn-default">Back to the list</a>
+        <a href="{{ path('tasks_edit', { 'id': task.id }) }}" class="btn btn-default">Edit</a>
+    </div>
 {% endblock %}

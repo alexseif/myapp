@@ -1,11 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
+{% block container %}
     <h1>Tasks creation</h1>
-
     {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <input type="submit" value="Create" />
+    {{ form_widget(form) }}
+    <input type="submit" value="Create" />
     {{ form_end(form) }}
 
     <ul>
