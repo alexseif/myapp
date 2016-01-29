@@ -16,7 +16,6 @@ use AppBundle\Form\TasksType;
  */
 class TasksController extends Controller
 {
-
     /**
      * Lists all Tasks entities.
      *
@@ -30,7 +29,7 @@ class TasksController extends Controller
         $tasks = $em->getRepository('AppBundle:Tasks')->findAll();
 
         return $this->render('tasks/index.html.twig', array(
-                    'tasks' => $tasks,
+            'tasks' => $tasks,
         ));
     }
 
@@ -51,12 +50,12 @@ class TasksController extends Controller
             $em->persist($task);
             $em->flush();
 
-            return $this->redirectToRoute('tasks_show', array('id' => $task->getId()));
+            return $this->redirectToRoute('tasks_show', array('id' => $tasks->getId()));
         }
 
         return $this->render('tasks/new.html.twig', array(
-                    'task' => $task,
-                    'form' => $form->createView(),
+            'task' => $task,
+            'form' => $form->createView(),
         ));
     }
 
@@ -71,8 +70,8 @@ class TasksController extends Controller
         $deleteForm = $this->createDeleteForm($task);
 
         return $this->render('tasks/show.html.twig', array(
-                    'task' => $task,
-                    'delete_form' => $deleteForm->createView(),
+            'task' => $task,
+            'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -97,9 +96,9 @@ class TasksController extends Controller
         }
 
         return $this->render('tasks/edit.html.twig', array(
-                    'task' => $task,
-                    'edit_form' => $editForm->createView(),
-                    'delete_form' => $deleteForm->createView(),
+            'task' => $task,
+            'edit_form' => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -133,10 +132,9 @@ class TasksController extends Controller
     private function createDeleteForm(Tasks $task)
     {
         return $this->createFormBuilder()
-                        ->setAction($this->generateUrl('tasks_delete', array('id' => $task->getId())))
-                        ->setMethod('DELETE')
-                        ->getForm()
+            ->setAction($this->generateUrl('tasks_delete', array('id' => $task->getId())))
+            ->setMethod('DELETE')
+            ->getForm()
         ;
     }
-
 }

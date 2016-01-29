@@ -8,7 +8,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TasksType extends AbstractType
 {
-
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -16,13 +15,12 @@ class TasksType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-                ->add('task', 'text', array(
-                    'label' => false
-                        )
-                )
+            ->add('task')
+            ->add('completed')
+            ->add('completedAt', 'datetime')
         ;
     }
-
+    
     /**
      * @param OptionsResolver $resolver
      */
@@ -32,5 +30,4 @@ class TasksType extends AbstractType
             'data_class' => 'AppBundle\Entity\Tasks'
         ));
     }
-
 }

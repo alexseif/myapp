@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Tasks
 {
+
     /**
      * @var int
      *
@@ -28,6 +29,19 @@ class Tasks
      */
     private $task;
 
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="completed", type="boolean", nullable=true)
+     */
+    private $completed;
+
+    /**
+     * @var datetime
+     *
+     * @ORM\Column(name="completedAt", type="datetime", nullable=true)
+     */
+    private $completedAt;
 
     /**
      * Get id
@@ -60,5 +74,52 @@ class Tasks
     public function getTask()
     {
         return $this->task;
+    }
+
+    /**
+     * Set completed
+     *
+     * @param \DateTime $completed
+     * @return Tasks
+     */
+    public function setCompleted($completed)
+    {
+        $this->completed = $completed;
+
+        return $this;
+    }
+
+    /**
+     * Get completed
+     *
+     * @return \DateTime 
+     */
+    public function getCompleted()
+    {
+        return $this->completed;
+    }
+
+
+    /**
+     * Set completedAt
+     *
+     * @param \DateTime $completedAt
+     * @return Tasks
+     */
+    public function setCompletedAt($completedAt)
+    {
+        $this->completedAt = $completedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get completedAt
+     *
+     * @return \DateTime 
+     */
+    public function getCompletedAt()
+    {
+        return $this->completedAt;
     }
 }

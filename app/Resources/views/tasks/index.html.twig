@@ -1,29 +1,43 @@
 {% extends 'base.html.twig' %}
 
-{% block container %}
-    <div class="actions clearfix">
-        <div class="btn-group pull-right">
-            <a href="{{ path('tasks_new') }}" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span></a>
-        </div>
-    </div>
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <span class="panel-title">Tasks list</span>
-        </div>
-        <ul class="list-group">
-            {% for task in tasks %}
-                <li class="list-group-item">
-                    <div class="row">
-                        <div class="col-sm-9">{{ task.task }}</div>
-                        <div class="col-sm-3">
-                            <div class="btn-group">
-{#                                <a href="{{ path('tasks_show', { 'id': task.id }) }}" class="btn btn-default" >show</a>#}
-                                <a href="{{ path('tasks_edit', { 'id': task.id }) }}" class="btn btn-default" ><span class="glyphicon glyphicon-edit" aria-hidden="true" aria-label="Edit"></span></a>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-            {% endfor %}
-        </ul>
-    </div>
+{% block body %}
+    <h1>Tasks list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Task</th>
+                <th>Completed</th>
+                <th>Completedat</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for task in tasks %}
+            <tr>
+                <td><a href="{{ path('tasks_show', { 'id': task.id }) }}">{{ task.id }}</a></td>
+                <td>{{ task.task }}</td>
+                <td>{% if task.completed %}Yes{% else %}No{% endif %}</td>
+                <td>{% if task.completedAt %}{{ task.completedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('tasks_show', { 'id': task.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('tasks_edit', { 'id': task.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('tasks_new') }}">Create a new entry</a>
+        </li>
+    </ul>
 {% endblock %}
