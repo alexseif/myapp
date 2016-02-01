@@ -32,7 +32,7 @@ class Tasks
     /**
      * @var boolean
      *
-     * @ORM\Column(name="completed", type="boolean", nullable=true)
+     * @ORM\Column(name="completed", type="boolean")
      */
     private $completed;
 

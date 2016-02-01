@@ -1,43 +1,58 @@
 {% extends 'base.html.twig' %}
 
 {% block container %}
-    <h1>Tasks list</h1>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Task</th>
-                <th>Completed</th>
-                <th>Completedat</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for task in tasks %}
+    <style type="text/css">
+        .floating-action{
+            background: #337ab7 none repeat scroll 0 0;
+            color: white;
+            border-radius: 50px;
+            display: table-cell;
+            height: 50px;
+            width: 50px;
+            vertical-align: middle;
+            text-align: center;
+            box-shadow: 1px 3px 2px #ccc;
+        }
+        .floating-action:hover{
+            background: #23527c none repeat scroll 0 0;
+            color: white;
+            {#            box-shadow: 1px 3px 2px grey;#}
+        }
+    </style>
+    <div class="clearfix">
+        <div class="pull-right">
+            <a href="{{ path('tasks_new') }}" class="floating-action"><span class="glyphicon glyphicon-plus"></span></a>
+        </div>
+    </div>
+    <hr/>
+    <div class="panel panel-primary">
+        <div class="panel-heading">Tasks</div>
+        <table class="table table-hover">
+            <thead>
                 <tr>
-                    <td><a href="{{ path('tasks_show', { 'id': task.id }) }}">{{ task.id }}</a></td>
-                    <td>{{ task.task }}</td>
-                    <td>{% if task.completed %}Yes{% else %}No{% endif %}</td>
-                    <td>{% if task.completedAt %}{{ task.completedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
-                    <td>
-                        <ul>
-                            <li>
-                                <a href="{{ path('tasks_show', { 'id': task.id }) }}">show</a>
-                            </li>
-                            <li>
-                                <a href="{{ path('tasks_edit', { 'id': task.id }) }}">edit</a>
-                            </li>
-                        </ul>
-                    </td>
+                    <th>Task</th>
+                    <th>Completed</th>
+                    <th>Actions</th>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
-    <ul>
-        <li>
-            <a href="{{ path('tasks_new') }}">Create a new entry</a>
-        </li>
-    </ul>
+            </thead>
+            <tbody>
+                {% for task in tasks %}
+                    <tr>
+                        <td>{{ task.task }}</td>
+                        <td>{% if task.completed %}Yes{% else %}No{% endif %}</td>
+                        <td>
+                            <ul>
+                                <li>
+                                    <a href="{{ path('tasks_show', { 'id': task.id }) }}">show</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('tasks_edit', { 'id': task.id }) }}">edit</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}
