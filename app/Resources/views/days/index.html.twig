@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block container %}
+    <style type="text/css">
+        small.edit-link{display: none;}
+        tr:hover small.edit-link{display: inline;}
+    </style>
+    <div class="row">
+        <div style="display: inline;">
+            <a href="{{ path('days_new') }}" class="floating-action" role="button"><span class="glyphicon glyphicon-plus"></span></a>
+        </div>
+        <div class="col-sm-4 col-sm-offset-4">
+{# TODO: color items #}
+            {% for day in days %}
+                {% set diff = date(day.deadline).diff(date()) %}
+                <div class="panel">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td class="h3" style="vertical-align: middle;">
+                                    {{ day.name }}
+                                    <small class="edit-link">
+                                        <sup>
+                                            <a href="{{ path('days_edit', { 'id': day.id }) }}" class="btn btn-xs">
+                                                <span class="glyphicon glyphicon-pencil"></span>
+                                            </a>
+                                        </sup>
+                                    </small>
+                                </td>
+                                <td  style="width: 25%;" class="h1">{{ diff.days }}</td>
+                            </tr>
+                            <tr>
+                                <td><sup>{{ day.deadline|date('D M d, Y') }}</sup></td>
+                                <td><sup>days {{ diff.invert ? "left" : "passed"}}</sup></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    {# TODO: completed items #}
+                    {# <li class="list-group-item">{% if day.complete %}Yes{% else %}No{% endif %}</li> #}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

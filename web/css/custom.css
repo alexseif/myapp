@@ -1,0 +1,15 @@
+.floating-action{
+    background: #337ab7 none repeat scroll 0 0;
+    color: white;
+    border-radius: 50px;
+    display: table-cell;
+    height: 50px;
+    width: 50px;
+    vertical-align: middle;
+    text-align: center;
+    box-shadow: 1px 3px 2px #ccc;
+}
+.floating-action:hover{
+    background: #23527c none repeat scroll 0 0;
+    color: white;
+}

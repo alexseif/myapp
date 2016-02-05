@@ -1,24 +1,6 @@
 {% extends 'base.html.twig' %}
 
 {% block container %}
-    <style type="text/css">
-        .floating-action{
-            background: #337ab7 none repeat scroll 0 0;
-            color: white;
-            border-radius: 50px;
-            display: table-cell;
-            height: 50px;
-            width: 50px;
-            vertical-align: middle;
-            text-align: center;
-            box-shadow: 1px 3px 2px #ccc;
-        }
-        .floating-action:hover{
-            background: #23527c none repeat scroll 0 0;
-            color: white;
-            {#            box-shadow: 1px 3px 2px grey;#}
-        }
-    </style>
     <div class="clearfix">
         <div class="pull-right">
             <a href="{{ path('tasks_new') }}" class="floating-action"><span class="glyphicon glyphicon-plus"></span></a>
