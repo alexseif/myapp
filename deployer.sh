@@ -1,3 +1,4 @@
+export PATH="$PATH:/usr/bin"
 git pull
 php -d allow_url_fopen=1 composer.phar install --no-dev --optimize-autoloader
 php app/console cache:clear --env=prod --no-debug
