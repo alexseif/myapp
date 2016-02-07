@@ -1,16 +1,38 @@
 {% extends 'base.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="/css/jquery-ui.min.css" />
+    <link rel="stylesheet" type="text/css" href="/css/jquery-ui.theme.min.css" />
+{% endblock %}
 
-{% block body %}
+{% block container %}
     <h1>Days creation</h1>
+    <div class="row">
+        <div style="display: inline;">
+            <a class="btn btn-default" href="{{ path('days_index') }}"><span class="glyphicon glyphicon-arrow-left"></span></a>
+                {#            <a href="{{ path('days_new') }}" class="floating-action" role="button"><span class="glyphicon glyphicon-plus"></span></a>#}
+        </div>
+        <div class="col-sm-4 col-sm-offset-4">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    {{ form_start(form) }}
+                    {{ form_widget(form) }}                    
+                    <div class="pull-right">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                    </div>
+                    {{ form_end(form) }}
+                </div>   
+            </div>   
+        </div>   
+    </div>   
 
-    {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <input type="submit" value="Create" />
-    {{ form_end(form) }}
-
-    <ul>
-        <li>
-            <a href="{{ path('days_index') }}">Back to the list</a>
-        </li>
-    </ul>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="/js/jquery-ui.min.js"></script>
+    <script type="text/javascript">
+        $('.datepicker').datepicker({
+            dateFormat: $('.datepicker').data('date-format')
+        });
+    </script>
 {% endblock %}

@@ -10,7 +10,8 @@
             <a href="{{ path('days_new') }}" class="floating-action" role="button"><span class="glyphicon glyphicon-plus"></span></a>
         </div>
         <div class="col-sm-4 col-sm-offset-4">
-{# TODO: color items #}
+            {# TODO: color items #}
+            {% set status = ['danger', 'warning', 'primary', 'success', 'info'] %}
             {% for day in days %}
                 {% set diff = date(day.deadline).diff(date()) %}
                 <div class="panel">
@@ -27,11 +28,11 @@
                                         </sup>
                                     </small>
                                 </td>
-                                <td  style="width: 25%;" class="h1">{{ diff.days }}</td>
+                                <td  style="width: 25%;" class="h1 bg-{{ cycle(status, loop.index0 ) }} text-center">{{ diff.days }}</td>
                             </tr>
                             <tr>
                                 <td><sup>{{ day.deadline|date('D M d, Y') }}</sup></td>
-                                <td><sup>days {{ diff.invert ? "left" : "passed"}}</sup></td>
+                                <td class="bg-{{ cycle(status, loop.index0 ) }} text-center"><sup>days<br/>{{ diff.invert ? "left" : "passed"}}</sup></td>
                             </tr>
                         </tbody>
                     </table>

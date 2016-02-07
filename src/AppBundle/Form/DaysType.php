@@ -8,6 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DaysType extends AbstractType
 {
+
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -15,12 +16,20 @@ class DaysType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
-            ->add('deadline', 'date')
-            ->add('complete')
+                ->add('name')
+                ->add('deadline', 'date', array(
+                    'widget' => 'single_text',
+                    'format' => 'dd/MM/yyyy',
+                    'attr' => array(
+                        'class' => 'form-control input-inline datepicker',
+                        'data-provide' => 'datepicker',
+                        'data-date-format' => 'dd/mm/yy',
+                    )
+                ))
+                ->add('complete')
         ;
     }
-    
+
     /**
      * @param OptionsResolver $resolver
      */
@@ -30,4 +39,5 @@ class DaysType extends AbstractType
             'data_class' => 'AppBundle\Entity\Days'
         ));
     }
+
 }
