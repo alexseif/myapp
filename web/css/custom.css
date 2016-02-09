@@ -13,3 +13,9 @@
     background: #23527c none repeat scroll 0 0;
     color: white;
 }
+small.edit-link{display: none;position: absolute;}
+tr:hover small.edit-link{display: inline;}
+.completed{color: #777}
+.completed .days, .completed .days-line{text-decoration: line-through;}
+.days-table tr:last-child td:first-child {border-top: 1px solid #222222;}
+.days-table tr:last-child td:first-child sup{border-bottom: 1px dotted #ccc;}

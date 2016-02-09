@@ -16,6 +16,7 @@ use AppBundle\Form\DaysType;
  */
 class DaysController extends Controller
 {
+
     /**
      * Lists all Days entities.
      *
@@ -24,13 +25,28 @@ class DaysController extends Controller
      */
     public function indexAction()
     {
-        //TODO: sort by date
         $em = $this->getDoctrine()->getManager();
 
-        $days = $em->getRepository('AppBundle:Days')->findAll();
+        $days = $em->getRepository('AppBundle:Days')->getActiveCards();
 
         return $this->render('days/index.html.twig', array(
-            'days' => $days,
+                    'days' => $days,
+        ));
+    }
+    /**
+     * Lists all Archived Days entities.
+     *
+     * @Route("/archive", name="days_archive")
+     * @Method("GET")
+     */
+    public function archiveAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $days = $em->getRepository('AppBundle:Days')->getArchiveCards();
+
+        return $this->render('days/index.html.twig', array(
+                    'days' => $days,
         ));
     }
 
@@ -55,8 +71,8 @@ class DaysController extends Controller
         }
 
         return $this->render('days/new.html.twig', array(
-            'day' => $day,
-            'form' => $form->createView(),
+                    'day' => $day,
+                    'form' => $form->createView(),
         ));
     }
 
@@ -71,8 +87,8 @@ class DaysController extends Controller
         $deleteForm = $this->createDeleteForm($day);
 
         return $this->render('days/show.html.twig', array(
-            'day' => $day,
-            'delete_form' => $deleteForm->createView(),
+                    'day' => $day,
+                    'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -93,13 +109,13 @@ class DaysController extends Controller
             $em->persist($day);
             $em->flush();
 
-            return $this->redirectToRoute('days_edit', array('id' => $day->getId()));
+            return $this->redirectToRoute('days_index');
         }
 
         return $this->render('days/edit.html.twig', array(
-            'day' => $day,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+                    'day' => $day,
+                    'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -133,9 +149,10 @@ class DaysController extends Controller
     private function createDeleteForm(Days $day)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('days_delete', array('id' => $day->getId())))
-            ->setMethod('DELETE')
-            ->getForm()
+                        ->setAction($this->generateUrl('days_delete', array('id' => $day->getId())))
+                        ->setMethod('DELETE')
+                        ->getForm()
         ;
     }
+
 }

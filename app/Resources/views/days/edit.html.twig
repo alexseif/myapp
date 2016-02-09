@@ -1,21 +1,42 @@
 {% extends 'base.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="/css/jquery-ui.min.css" />
+    <link rel="stylesheet" type="text/css" href="/css/jquery-ui.theme.min.css" />
+{% endblock %}
 
-{% block body %}
-    <h1>Days edit</h1>
-
-    {{ form_start(edit_form) }}
-        {{ form_widget(edit_form) }}
-        <input type="submit" value="Edit" />
-    {{ form_end(edit_form) }}
-
-    <ul>
-        <li>
-            <a href="{{ path('days_index') }}">Back to the list</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+{% block container %}
+    <div class="row">
+        <div style="display: inline;">
+            <a class="btn btn-default" href="{{ path('days_index') }}"><span class="glyphicon glyphicon-arrow-left"></span></a>
+                {#            <a href="{{ path('days_new') }}" class="floating-action" role="button"><span class="glyphicon glyphicon-plus"></span></a>#}
+        </div>
+        <div class="col-sm-4 col-sm-offset-4">
+            <div class="panel panel-default">
+                <div class="panel-heading ">
+                    Edit Deadline
+                    <div class="pull-right">
+                        {{ form_start(delete_form) }}
+                        <button type="submit" value="Delete" class="text-danger btn btn-default btn-xs"><span class="glyphicon glyphicon-trash"></span></button>
+                            {{ form_end(delete_form) }}
+                    </div>
+                </div>
+                <div class="panel-body">
+                    {{ form_start(edit_form) }}
+                    {{ form_widget(edit_form) }}
+                    <button type="submit" value="Edit" class="btn btn-default text-success pull-right"><span class="glyphicon glyphicon-floppy-save"></span></button>
+                        {{ form_end(edit_form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="/js/jquery-ui.min.js"></script>
+    <script type="text/javascript">
+        $('.datepicker').datepicker({
+            dateFormat: $('.datepicker').data('date-format')
+        });
+    </script>
 {% endblock %}

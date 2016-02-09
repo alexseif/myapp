@@ -2,8 +2,7 @@
 
 {% block container %}
     <style type="text/css">
-        small.edit-link{display: none;}
-        tr:hover small.edit-link{display: inline;}
+
     </style>
     <div class="row">
         <div style="display: inline;">
@@ -14,25 +13,25 @@
             {% set status = ['danger', 'warning', 'primary', 'success', 'info'] %}
             {% for day in days %}
                 {% set diff = date(day.deadline).diff(date()) %}
-                <div class="panel">
-                    <table class="table">
+                <div class="panel panel-default">
+                    <table class="table {{ day.complete ? "completed" }} days-table">
                         <tbody>
                             <tr>
-                                <td class="h3" style="vertical-align: middle;">
+                                <td class="h3 name" style="vertical-align: middle;">
                                     {{ day.name }}
                                     <small class="edit-link">
                                         <sup>
-                                            <a href="{{ path('days_edit', { 'id': day.id }) }}" class="btn btn-xs">
+                                            <a href="{{ path('days_edit', { 'id': day.id }) }}" class="btn btn-xs text-warning">
                                                 <span class="glyphicon glyphicon-pencil"></span>
                                             </a>
                                         </sup>
                                     </small>
                                 </td>
-                                <td  style="width: 25%;" class="h1 bg-{{ cycle(status, loop.index0 ) }} text-center">{{ diff.days }}</td>
+                                <td  style="width: 25%;" class="h1 bg-{{ cycle(status, loop.index0 ) }} text-center days">{{ diff.days }}</td>
                             </tr>
                             <tr>
-                                <td><sup>{{ day.deadline|date('D M d, Y') }}</sup></td>
-                                <td class="bg-{{ cycle(status, loop.index0 ) }} text-center"><sup>days<br/>{{ diff.invert ? "left" : "passed"}}</sup></td>
+                                <td style="vertical-align: bottom;"><sup>{{ day.deadline|date('D M d, Y') }}</sup></td>
+                                <td class="bg-{{ cycle(status, loop.index0 ) }} text-center days-line"><sup>days<br/>{{ diff.invert ? "left" : "passed"}}</sup></td>
                             </tr>
                         </tbody>
                     </table>
