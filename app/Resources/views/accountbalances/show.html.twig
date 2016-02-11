@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block container %}
+    <h1>AccountBalances</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ accountBalance.id }}</td>
+            </tr>
+            <tr>
+                <th>Balance</th>
+                <td>{{ accountBalance.balance }}</td>
+            </tr>
+            <tr>
+                <th>Createdat</th>
+                <td>{% if accountBalance.createdAt %}{{ accountBalance.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('accountbalances_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('accountbalances_edit', { 'id': accountBalance.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

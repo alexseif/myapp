@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block container %}
+    <h1>AccountPayments list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Amount</th>
+                <th>Createdat</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for accountPayment in accountPayments %}
+            <tr>
+                <td><a href="{{ path('accountpayments_show', { 'id': accountPayment.id }) }}">{{ accountPayment.id }}</a></td>
+                <td>{{ accountPayment.amount }}</td>
+                <td>{% if accountPayment.createdAt %}{{ accountPayment.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('accountpayments_show', { 'id': accountPayment.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('accountpayments_edit', { 'id': accountPayment.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('accountpayments_new') }}">Create a new entry</a>
+        </li>
+    </ul>
+{% endblock %}
