@@ -51,7 +51,7 @@ class AccountPaymentsController extends Controller
             $em->persist($accountPayment);
             $em->flush();
 
-            return $this->redirectToRoute('accountpayments_show', array('id' => $accountpayment->getId()));
+            return $this->redirectToRoute('accountpayments_show', array('id' => $accountPayment->getId()));
         }
 
         return $this->render('accountpayments/new.html.twig', array(

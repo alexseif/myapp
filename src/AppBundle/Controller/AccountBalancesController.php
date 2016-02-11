@@ -51,7 +51,7 @@ class AccountBalancesController extends Controller
             $em->persist($accountBalance);
             $em->flush();
 
-            return $this->redirectToRoute('accountbalances_show', array('id' => $accountbalance->getId()));
+            return $this->redirectToRoute('accountbalances_show', array('id' => $accountBalance->getId()));
         }
 
         return $this->render('accountbalances/new.html.twig', array(
