@@ -19,3 +19,12 @@ tr:hover small.edit-link{display: inline;}
 .completed .days, .completed .days-line{text-decoration: line-through;}
 .days-table tr:last-child td:first-child {border-top: 1px solid #222222;}
 .days-table tr:last-child td:first-child sup{border-bottom: 1px dotted #ccc;}
+
+.panel-transparent{border-color:#464545; margin-bottom: 0px;}
+.panel-transparent>.panel-group{margin-bottom: 0px;}
+.panel-transparent>.panel-heading{color:#ffffff;background-color:#303030;border-color:#464545}
+.panel-transparent>.panel-heading+.panel-collapse>.panel-body{border-top-color:#464545}
+.panel-transparent>.panel-heading .badge{color:#303030;background-color:#ffffff}
+.panel-transparent>.panel-footer+.panel-collapse>.panel-body{border-bottom-color:#464545}
+.panel-transparent>.panel-heading{background-color:#464545}
+.strike, .strike *{text-decoration:line-through;}

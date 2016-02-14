@@ -9,32 +9,6 @@
     <hr/>
     <div class="panel panel-primary">
         <div class="panel-heading">Tasks</div>
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>Task</th>
-                    <th>Completed</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for task in tasks %}
-                    <tr>
-                        <td>{{ task.task }}</td>
-                        <td>{% if task.completed %}Yes{% else %}No{% endif %}</td>
-                        <td>
-                            <ul>
-                                <li>
-                                    <a href="{{ path('tasks_show', { 'id': task.id }) }}">show</a>
-                                </li>
-                                <li>
-                                    <a href="{{ path('tasks_edit', { 'id': task.id }) }}">edit</a>
-                                </li>
-                            </ul>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        {% include 'tasks/tasks_list.html.twig' %}
     </div>
 {% endblock %}
