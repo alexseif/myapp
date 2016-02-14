@@ -25,7 +25,7 @@ class AccountBalances
     /**
      * @var int
      *
-     * @ORM\Column(name="Balance", type="integer")
+     * @ORM\Column(name="balance", type="integer")
      */
     private $balance;
 
