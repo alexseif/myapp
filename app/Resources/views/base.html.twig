@@ -5,7 +5,7 @@
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}
             <!-- Latest compiled and minified CSS -->
-{#            <link rel="stylesheet" href="/css/bootstrap.min.css"/>#}
+            {#            <link rel="stylesheet" href="/css/bootstrap.min.css"/>#}
             <!-- Optional theme -->
             {# <link rel="stylesheet" href="/css/bootstrap-theme.min.css"/>#}
             <!-- Bootswatch Darkly theme-->
@@ -65,14 +65,31 @@
             {% endblock %}
             <div class="container">
                 {% block container %}
-                {% endblock %}
-            </div>
-        {% endblock %}
-        {% block javascripts %}
-            <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-            <script src="/js/jquery.min.js"></script>
-            <!-- Latest compiled and minified JavaScript -->
-            <script src="/js/bootstrap.min.js"></script>
-        {% endblock %}
-    </body>
+                {% block pageActions %}{% endblock %}
+            {% block formStart %}{% endblock %}
+            {% block panel %}
+                <div class="panel panel-{% block panelClass %}default {% endblock %}">
+                    {% block panelHeading %}
+                        <div class="panel-heading">
+                            <span class="panel-title">{% block panelTitle %}{% endblock %}<small> {% block panelTitleSmall %}{% endblock %}</small></span>
+                            <div class="pull-right">
+                            {% block panelHeadingRight %}{% endblock %}
+                        </div>
+                    {% endblock %}
+                </div>
+            {% block panelBody %}{% endblock %}
+        {% block panelFooter %}{% endblock %}
+    </div>
+{% endblock %}
+{% block formEnd %}{% endblock %}
+{% endblock %}
+</div>
+{% endblock %}
+{% block javascripts %}
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="/js/jquery.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="/js/bootstrap.min.js"></script>
+{% endblock %}
+</body>
 </html>

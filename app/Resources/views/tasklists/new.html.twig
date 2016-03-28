@@ -1,7 +1,10 @@
 {% extends 'base.html.twig' %}
-
 {% block formStart %}{{ form_start(form) }}{% endblock %}
-{% block panelTitle %}New Account{% endblock %}
+{% block panelTitle %}
+    <a href="{{ path('tasklists_index') }}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-arrow-left"></span></a>
+    New Task List
+{% endblock %}
+
 {% block panelBody %}
     <div class="panel-body">
         {{ form_widget(form) }}
@@ -9,7 +12,8 @@
 {% endblock %}
 {% block panelFooter %}
     <div class="panel-footer">
-        <input type="submit" value="Create" class="btn btn-success"/>
+        <input type="submit" value="Create" class="btn btn-success" />
     </div>
 {% endblock %}
+
 {% block formEnd %}{{ form_end(form) }}{% endblock %}

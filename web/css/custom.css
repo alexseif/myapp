@@ -1,4 +1,9 @@
 .floating-action{
+    position: fixed;
+    bottom: 50px;
+    right: 50px;
+}
+.floating-action a{
     /*background: #337ab7 none repeat scroll 0 0;*/
     color: white;
     border-radius: 50px;
@@ -9,7 +14,7 @@
     text-align: center;
     /*box-shadow: 1px 3px 2px #ccc;*/
 }
-.floating-action:hover{
+.floating-action a:hover{
     background: #23527c none repeat scroll 0 0;
     color: white;
 }

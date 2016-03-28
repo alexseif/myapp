@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class TasksType extends AbstractType
+class TaskListsType extends AbstractType
 {
 
     /**
@@ -16,10 +16,7 @@ class TasksType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-                ->add('task')
-                ->add('completed')
-                ->add('taskList', 'entity', array('class' => 'AppBundle:TaskLists', 'choice_label' => 'name'));
-        ;
+                ->add('name');
     }
 
     /**
@@ -28,7 +25,7 @@ class TasksType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Tasks'
+            'data_class' => 'AppBundle\Entity\TaskLists'
         ));
     }
 

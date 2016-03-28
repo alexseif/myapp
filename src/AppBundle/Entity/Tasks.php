@@ -44,6 +44,12 @@ class Tasks
     private $completedAt;
 
     /**
+     * @ORM\ManyToOne(targetEntity="TaskLists", inversedBy="tasks")
+     * @ORM\JoinColumn(name="task_list_id", referencedColumnName="id")
+     */
+    private $taskList;
+
+    /**
      * Get id
      *
      * @return integer 
@@ -99,7 +105,6 @@ class Tasks
         return $this->completed;
     }
 
-
     /**
      * Set completedAt
      *
@@ -121,5 +126,29 @@ class Tasks
     public function getCompletedAt()
     {
         return $this->completedAt;
+    }
+
+
+    /**
+     * Set taskList
+     *
+     * @param \AppBundle\Entity\TaskLists $taskList
+     * @return Tasks
+     */
+    public function setTaskList(\AppBundle\Entity\TaskLists $taskList = null)
+    {
+        $this->taskList = $taskList;
+
+        return $this;
+    }
+
+    /**
+     * Get taskList
+     *
+     * @return \AppBundle\Entity\TaskLists 
+     */
+    public function getTaskList()
+    {
+        return $this->taskList;
     }
 }
