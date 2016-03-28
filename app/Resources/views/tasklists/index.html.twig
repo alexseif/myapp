@@ -10,26 +10,20 @@
 
 {% block panelBody %}
     <div class="table-responsive">
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Status</th>
-                    <th>Createdat</th>
-                </tr>
-            </thead>
+        <table class="table">
             <tbody>
                 {% for taskList in taskLists %}
                     <tr>
                         <td>
                             {{ taskList.name }}
-                            <small class="edit-link"><sup>
-                                    <a class="btn btn-xs text-warning" href="{{ path('tasklists_edit', { 'id': taskList.id }) }}">
-                                        <span class="glyphicon glyphicon-pencil"></span>
-                                    </a></sup></small>
+                            <span class="badge">{{ taskList.tasks|length }}</span>
+                            <span class="label label-default">{{ taskList.status|capitalize }}</span>
+                            <span class="label label-default">{{ taskList.createdAt ? taskList.createdAt|date('Y-m-d H:i') }}</span>
+                            <small class="edit-link">
+                                <a class="btn btn-xs" href="{{ path('tasklists_show', { 'id': taskList.id }) }}"><span class="glyphicon glyphicon-folder-open"></span></a>
+                                <a class="btn btn-xs" href="{{ path('tasklists_edit', { 'id': taskList.id }) }}"><span class="glyphicon glyphicon-pencil"></span></a>
+                            </small>
                         </td>
-                        <td><span class="label label-default">{{ taskList.status|capitalize }}</span></td>
-                        <td>{{ taskList.createdAt ? taskList.createdAt|date('Y-m-d H:i:s') }}</td>
                     </tr>
                 {% endfor %}
             </tbody>

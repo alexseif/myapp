@@ -1,0 +1,7 @@
+{% extends 'base.html.twig' %}
+
+{% block panelTitle %}{{ taskList.name }}{% endblock %}
+{% set tasks = taskList.tasks %}
+{% block panelBody %}
+    {% include 'tasks/tasks_list.html.twig' %}
+{% endblock %}
