@@ -12,4 +12,10 @@ use Doctrine\ORM\EntityRepository;
  */
 class TasksRepository extends EntityRepository
 {
+
+    public function findUnListed()
+    {
+        return $this->findBy(array("taskList" => null));
+    }
+
 }

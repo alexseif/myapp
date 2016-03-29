@@ -4,9 +4,16 @@
     <div class="row">
         <div class="col-sm-4">
             <div class="panel panel-primary">
-                <div class="panel-heading">Tasks</div>
+                <div class="panel-heading">UnListed</div>
                 {% include 'tasks/tasks_list.html.twig' %}
             </div>
+            {% for taskList in taskLists %}
+                {% set tasks = taskList.tasks %}
+                <div class="panel panel-primary">
+                    <div class="panel-heading">{{ taskList.name }}</div>
+                    {% include 'tasks/tasks_list.html.twig' %}
+                </div>
+            {% endfor %}
         </div>
         <div class="col-sm-4">
             </style>

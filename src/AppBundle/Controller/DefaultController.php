@@ -10,17 +10,19 @@ class DefaultController extends Controller
 {
 
     /**
-     * @Route("/", name="homepage")
+     * @Route("/", name="dashboard")
      */
-    public function indexAction(Request $request)
+    public function dashboardAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $tasks = $em->getRepository('AppBundle:Tasks')->findAll();
+        $taskLists = $em->getRepository('AppBundle:TaskLists')->findAll();
+        $tasks = $em->getRepository('AppBundle:Tasks')->findUnlisted();
         $days = $em->getRepository('AppBundle:Days')->getActiveCards();
         $accounts = $em->getRepository('AppBundle:Accounts')->findAll();
 
-        return $this->render('default/index.html.twig', array(
+        return $this->render('default/dashboard.html.twig', array(
+                    'taskLists' => $taskLists,
                     'tasks' => $tasks,
                     'days' => $days,
                     'accounts' => $accounts,

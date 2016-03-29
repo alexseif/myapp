@@ -1,40 +1,19 @@
-{#<table class="table table-hover">
-    <thead class="bg-primary">
-        <tr>
-            <th>Task</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for task in tasks %}
-            <tr>
-                <td class="{{ task.completed ? "strike" : "" }}">{{ task.task }}</td>
-                <td>
-                    <a href="{{ path('tasks_show', { 'id': task.id }) }}">show</a>
-                    <a href="{{ path('tasks_edit', { 'id': task.id }) }}">edit</a>
-                </td>
-            </tr>
-        {% endfor %}
-    </tbody>
-</table>#}
-{# TODO: autostrike #}
-{# TODO: move to bottom #}
 <ul class="list-group">
     {% for task in tasks %}
         <li class="list-group-item">
-            <div class="row">
-                <div class="col-sm-9">
-                    <div class="checkbox-inline">
-                        <label class="{{ task.completed ? "strike" : "" }}">
-                            <input type="checkbox" class="checkboxes" id="task_{{task.id}}" {{ task.completed ? "checked" : "" }} />
-                            {{ task.task }}
-                        </label>
-                    </div>
-                </div>
-                <div class="col-sm-3 text-right">
-                    <a href="{{ path('tasks_edit', { 'id': task.id }) }}" class="btn btn-default btn-xs">edit</a>
-                </div>
+            <div class="checkbox-inline">
+                <label class="{{ task.completed ? "strike" : "" }}">
+                    <input type="checkbox" class="checkboxes" id="task_{{task.id}}" {{ task.completed ? "checked" : "" }} />
+                    {{ task.task }}
+                </label>
             </div>
+                <small class="edit-link">
+                    <sup>
+                        <a href="{{ path('tasks_edit', { 'id': task.id }) }}" class="btn btn-xs text-warning">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </a>
+                    </sup>
+                </small>
         </li>
     {% endfor %}
 </ul>
