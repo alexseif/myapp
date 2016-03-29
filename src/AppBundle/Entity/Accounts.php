@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * Accounts
  *
@@ -38,6 +39,11 @@ class Accounts
      * @ORM\OneToMany(targetEntity="AccountPayments", mappedBy="account")
      */
     private $payments;
+
+    /**
+     * @ORM\OneToMany(targetEntity="TaskLists", mappedBy="account")
+     */
+    private $taskLists;
 
     /**
      * Get id
@@ -89,6 +95,7 @@ class Accounts
      */
     public function addBalance(\AppBundle\Entity\AccountBalances $balances)
     {
+        $balances->setAccount($this);
         $this->balances[] = $balances;
 
         return $this;
@@ -122,8 +129,8 @@ class Accounts
      */
     public function addPayment(\AppBundle\Entity\AccountPayments $payments)
     {
+        $payments->setAccount($this);
         $this->payments[] = $payments;
-
         return $this;
     }
 
@@ -146,4 +153,5 @@ class Accounts
     {
         return $this->payments;
     }
+
 }

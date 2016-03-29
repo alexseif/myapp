@@ -49,6 +49,12 @@ class TaskLists
     private $tasks;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Accounts", inversedBy="taskLists")
+     * @ORM\JoinColumn(name="account_id", referencedColumnName="id")
+     */
+    private $account;
+
+    /**
      * Get id
      *
      * @return integer 
@@ -145,6 +151,7 @@ class TaskLists
      */
     public function addTask(\AppBundle\Entity\Tasks $tasks)
     {
+        $tasks->setTaskList($this);
         $this->tasks[] = $tasks;
 
         return $this;
