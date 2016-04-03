@@ -73,6 +73,14 @@ class TasksController extends Controller
      */
     public function editAction(Request $request, Tasks $task)
     {
+        $em = $this->getDoctrine()->getManager();
+
+
+        if ($request->isXMLHttpRequest()) {
+            $task->setCompleted($request->get('completed'));
+            $em->flush();
+            return new \Symfony\Component\HttpFoundation\JsonResponse();
+        }
         $deleteForm = $this->createDeleteForm($task);
         $editForm = $this->createForm(TasksType::class, $task);
         $editForm->handleRequest($request);
