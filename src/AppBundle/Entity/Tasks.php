@@ -44,10 +44,25 @@ class Tasks
     private $completedAt;
 
     /**
+     * @var datetime
+     *
+     * @ORM\Column(name="createdAt", type="datetime")
+     */
+    private $createdAt;
+
+    /**
      * @ORM\ManyToOne(targetEntity="TaskLists", inversedBy="tasks")
      * @ORM\JoinColumn(name="task_list_id", referencedColumnName="id")
      */
     private $taskList;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime();
+    }
 
     /**
      * Get id
@@ -128,7 +143,6 @@ class Tasks
         return $this->completedAt;
     }
 
-
     /**
      * Set taskList
      *
@@ -150,5 +164,29 @@ class Tasks
     public function getTaskList()
     {
         return $this->taskList;
+    }
+
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     * @return Tasks
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime 
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
     }
 }

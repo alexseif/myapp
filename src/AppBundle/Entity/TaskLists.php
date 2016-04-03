@@ -55,6 +55,16 @@ class TaskLists
     private $account;
 
     /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->tasks = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->createdAt = new \DateTime();
+        $this->status = "start";
+    }
+
+    /**
      * Get id
      *
      * @return integer 
@@ -131,16 +141,6 @@ class TaskLists
     public function getCreatedAt()
     {
         return $this->createdAt;
-    }
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->tasks = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->createdAt = new \DateTime();
-        $this->status = "start";
     }
 
     /**
