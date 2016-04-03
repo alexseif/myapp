@@ -56,7 +56,7 @@ class AccountsController extends Controller
 
         return $this->render('accounts/new.html.twig', array(
                     'account' => $account,
-                    'form' => $form->createView(),
+                    'account_form' => $form->createView(),
         ));
     }
 
@@ -98,7 +98,7 @@ class AccountsController extends Controller
 
         return $this->render('accounts/edit.html.twig', array(
                     'account' => $account,
-                    'edit_form' => $editForm->createView(),
+                    'account_form' => $editForm->createView(),
                     'delete_form' => $deleteForm->createView(),
         ));
     }

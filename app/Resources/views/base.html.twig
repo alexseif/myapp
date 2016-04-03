@@ -66,23 +66,28 @@
             {% endblock %}
             <div class="container">
                 {% block container %}
-                {% block pageActions %}{% endblock %}
-            {% block formStart %}{% endblock %}
-            {% block panel %}
-                <div class="panel panel-{% block panelClass %}default {% endblock %}">
-                    {% block panelHeading %}
-                        <div class="panel-heading">
-                            <span class="panel-title">{% block panelTitle %}{% endblock %}<small> {% block panelTitleSmall %}{% endblock %}</small></span>
-                            <div class="pull-right">
-                            {% block panelHeadingRight %}{% endblock %}
+                    {% block pageActions %}
+                        <div class="floating-action">
+                            {% block floatingActions %}
+                            {% endblock %}
                         </div>
                     {% endblock %}
-                </div>
-            {% block panelBody %}{% endblock %}
-        {% block panelFooter %}{% endblock %}
-    </div>
-{% endblock %}
-{% block formEnd %}{% endblock %}
+                {% block formStart %}{% endblock %}
+                {% block panel %}
+                    <div class="panel panel-{% block panelClass %}default {% endblock %}">
+                        {% block panelHeading %}
+                            <div class="panel-heading">
+                                {% block panelBack %}<a href="{{ path('dashboard') }}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-dashboard"></span></a>{% endblock %}
+                                <span class="panel-title">{% block panelTitle %}{% endblock %}<small> {% block panelTitleSmall %}{% endblock %}</small></span>
+                                <div class="pull-right">
+                                {% block panelHeadingRight %}{% endblock %}
+                            </div>
+                        {% endblock %}
+                    </div>
+                {% block panelBody %}{% endblock %}
+            </div>
+        {% endblock %}
+    {% block formEnd %}{% endblock %}
 {% endblock %}
 </div>
 {% endblock %}

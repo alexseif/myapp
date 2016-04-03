@@ -1,32 +1,18 @@
 {% extends 'base.html.twig' %}
-
-{% block container %}
-    <h1>Accounts</h1>
-
-    <table>
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ account.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ account.name }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <ul>
-        <li>
-            <a href="{{ path('accounts_index') }}">Back to the list</a>
-        </li>
-        <li>
-            <a href="{{ path('accounts_edit', { 'id': account.id }) }}">Edit</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+{% block pageActions %}
+    <div class="floating-action">
+        <a href="{{ path('accounts_new') }}" class="bg-primary"><span class="glyphicon glyphicon-plus"></span></a>
+    </div>
 {% endblock %}
+{% block panelBack %}<a href="{{ path('accounts_index') }}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-arrow-left"></span></a>{% endblock %}
+
+{% block panelTitle %}{{ account.name }}{% endblock %}
+{% block panelHeadingRight %}
+    {{ form_start(delete_form) }}
+    <span class="btn-group btn-group-sm">
+        <a href="{{ path('accounts_edit', { 'id': account.id }) }}" class="btn btn-primary btn-secondary">Edit</a>
+        <input type="submit" value="Delete" class="btn btn-danger  btn-secondary">
+    </span>
+    {{ form_end(delete_form) }}
+{% endblock %}
+{# TODO: show account info#}

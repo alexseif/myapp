@@ -1,10 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block pageActions %}
-    <div class="floating-action">
-        <a href="{{ path('accounts_new') }}" class="bg-primary" role="button"><span class="glyphicon glyphicon-plus"></span></a>
-    </div>
+{% block floatingActions %}
+    <a href="{{ path('accounts_new') }}" class="bg-primary" role="button"><span class="glyphicon glyphicon-plus"></span></a>
 {% endblock %}
+
 {% block panelTitle %}Accounts{% endblock %}
 {% block panelBody %}
     {% include 'accounts/accounts_list.html.twig' %}

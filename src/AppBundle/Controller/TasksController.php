@@ -16,6 +16,7 @@ use AppBundle\Form\TasksType;
  */
 class TasksController extends Controller
 {
+
     /**
      * Lists all Tasks entities.
      *
@@ -29,7 +30,7 @@ class TasksController extends Controller
         $tasks = $em->getRepository('AppBundle:Tasks')->findAll();
 
         return $this->render('tasks/index.html.twig', array(
-            'tasks' => $tasks,
+                    'tasks' => $tasks,
         ));
     }
 
@@ -41,12 +42,16 @@ class TasksController extends Controller
      */
     public function newAction(Request $request)
     {
+        $em = $this->getDoctrine()->getManager();
         $task = new Tasks();
+        if (!empty($request->get("tasklist"))) {
+            $taskList = $em->getRepository('AppBundle:TaskLists')->find($request->get("tasklist"));
+            $task->setTaskList($taskList);
+        }
         $form = $this->createForm('AppBundle\Form\TasksType', $task);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
             $em->persist($task);
             $em->flush();
 
@@ -55,8 +60,8 @@ class TasksController extends Controller
         }
 
         return $this->render('tasks/new.html.twig', array(
-            'task' => $task,
-            'form' => $form->createView(),
+                    'task' => $task,
+                    'form' => $form->createView(),
         ));
     }
 
@@ -71,8 +76,8 @@ class TasksController extends Controller
         $deleteForm = $this->createDeleteForm($task);
 
         return $this->render('tasks/show.html.twig', array(
-            'task' => $task,
-            'delete_form' => $deleteForm->createView(),
+                    'task' => $task,
+                    'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -97,9 +102,9 @@ class TasksController extends Controller
         }
 
         return $this->render('tasks/edit.html.twig', array(
-            'task' => $task,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+                    'task' => $task,
+                    'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -133,9 +138,10 @@ class TasksController extends Controller
     private function createDeleteForm(Tasks $task)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('tasks_delete', array('id' => $task->getId())))
-            ->setMethod('DELETE')
-            ->getForm()
+                        ->setAction($this->generateUrl('tasks_delete', array('id' => $task->getId())))
+                        ->setMethod('DELETE')
+                        ->getForm()
         ;
     }
+
 }

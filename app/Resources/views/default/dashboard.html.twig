@@ -3,30 +3,37 @@
 {% block container %}
     <div class="row">
         <div class="col-sm-4">
-            <div class="panel panel-primary">
-                <div class="panel-heading">UnListed</div>
-                {% include 'tasks/tasks_list.html.twig' %}
-            </div>
-            {% for taskList in taskLists %}
-                {% set tasks = taskList.tasks %}
+            {% if tasks|length %}
                 <div class="panel panel-primary">
-                    <div class="panel-heading">{{ taskList.name }}</div>
+                    <div class="panel-heading">UnListed</div>
                     {% include 'tasks/tasks_list.html.twig' %}
                 </div>
+            {% endif %}
+            {% for taskList in taskLists %}
+                {% if taskList.tasks|length %}
+                    {% set tasks = taskList.tasks %}
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">{{ taskList.name }}</div>
+                        {% include 'tasks/tasks_list.html.twig' %}
+                    </div>
+                {% endif %}
             {% endfor %}
         </div>
-        <div class="col-sm-4">
-            </style>
-            <div class="panel panel-transparent">
-                <div class="panel-heading">Days</div>
-                {% include 'days/days_list.html.twig' %}
+        {% if days|length %}
+            <div class="col-sm-4">
+                <div class="panel panel-transparent">
+                    <div class="panel-heading">Days</div>
+                    {% include 'days/days_list.html.twig' %}
+                </div>
             </div>
-        </div>
-        <div class="col-sm-4">
-            <div class="panel panel-default">
-                <div class="panel-heading">Balance</div>
-                {% include 'accounts/accounts_list.html.twig' %}
+        {% endif %}
+        {% if accounts|length %}
+            <div class="col-sm-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Balance</div>
+                    {% include 'accounts/accounts_list.html.twig' %}
+                </div>
             </div>
-        </div>
+        {% endif %}
     </div>
 {% endblock %}

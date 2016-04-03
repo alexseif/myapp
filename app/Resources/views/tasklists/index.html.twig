@@ -15,12 +15,13 @@
                 {% for taskList in taskLists %}
                     <tr>
                         <td>
-                            {{ taskList.name }}
+                            <a class="btn btn-xs" href="{{ path('tasklists_show', { 'id': taskList.id }) }}">
+                                {{ taskList.name }}
+                            </a>
                             <span class="badge">{{ taskList.tasks|length }}</span>
                             <span class="label label-default">{{ taskList.status|capitalize }}</span>
                             <span class="label label-default">{{ taskList.createdAt ? taskList.createdAt|date('Y-m-d H:i') }}</span>
                             <small class="edit-link">
-                                <a class="btn btn-xs" href="{{ path('tasklists_show', { 'id': taskList.id }) }}"><span class="glyphicon glyphicon-folder-open"></span></a>
                                 <a class="btn btn-xs" href="{{ path('tasklists_edit', { 'id': taskList.id }) }}"><span class="glyphicon glyphicon-pencil"></span></a>
                             </small>
                         </td>
