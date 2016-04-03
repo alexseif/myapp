@@ -72,23 +72,7 @@ class DaysController extends Controller
 
         return $this->render('days/new.html.twig', array(
                     'day' => $day,
-                    'form' => $form->createView(),
-        ));
-    }
-
-    /**
-     * Finds and displays a Days entity.
-     *
-     * @Route("/{id}", name="days_show")
-     * @Method("GET")
-     */
-    public function showAction(Days $day)
-    {
-        $deleteForm = $this->createDeleteForm($day);
-
-        return $this->render('days/show.html.twig', array(
-                    'day' => $day,
-                    'delete_form' => $deleteForm->createView(),
+                    'day_form' => $form->createView(),
         ));
     }
 
@@ -114,7 +98,7 @@ class DaysController extends Controller
 
         return $this->render('days/edit.html.twig', array(
                     'day' => $day,
-                    'edit_form' => $editForm->createView(),
+                    'day_form' => $editForm->createView(),
                     'delete_form' => $deleteForm->createView(),
         ));
     }

@@ -1,33 +1,22 @@
 {% extends 'base.html.twig' %}
 
+{% block floatingActions %}
+    <a href="{{ path('tasklists_new') }}" class="bg-primary"><span class="glyphicon glyphicon-plus"></span></a>
 
-{% block panelTitle %}Task Lists{% endblock %}
-{% block pageActions %}
-    <div class="floating-action">
-        <a href="{{ path('tasklists_new') }}" class="bg-primary"><span class="glyphicon glyphicon-plus"></span></a>
-    </div>
 {% endblock %}
-
+{% block panelTitle %}Task Lists{% endblock %}
 {% block panelBody %}
-    <div class="table-responsive">
-        <table class="table">
-            <tbody>
-                {% for taskList in taskLists %}
-                    <tr>
-                        <td>
-                            <a class="btn btn-xs" href="{{ path('tasklists_show', { 'id': taskList.id }) }}">
-                                {{ taskList.name }}
-                            </a>
-                            <span class="badge">{{ taskList.tasks|length }}</span>
-                            <span class="label label-default">{{ taskList.status|capitalize }}</span>
-                            <span class="label label-default">{{ taskList.createdAt ? taskList.createdAt|date('Y-m-d H:i') }}</span>
-                            <small class="edit-link">
-                                <a class="btn btn-xs" href="{{ path('tasklists_edit', { 'id': taskList.id }) }}"><span class="glyphicon glyphicon-pencil"></span></a>
-                            </small>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+    <ul class="list-group">
+        {% for taskList in taskLists %}
+            <li class="list-group-item">
+                <a class="btn btn-default" href="{{ path('tasklists_show', { 'id': taskList.id }) }}">
+                    {{ taskList.name }}
+                    <span class="badge">{{ taskList.tasks|length }}</span>
+                    <span class="label label-default">{{ taskList.status|capitalize }}</span>
+                    <span class="label label-default">{{ taskList.createdAt ? taskList.createdAt|date('Y-m-d H:i') }}</span>
+                </a>
+                <a class="btn btn-primary edit-fixed-link" href="{{ path('tasklists_edit', { 'id': taskList.id }) }}"><span class="glyphicon glyphicon-pencil"></span></a>
+            </li>
+        {% endfor %}
+    </ul>
 {% endblock %}

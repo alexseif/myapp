@@ -1,42 +1,26 @@
 {% extends 'base.html.twig' %}
-{% block stylesheets %}
-    {{ parent() }}
-    <link rel="stylesheet" type="text/css" href="/css/jquery-ui.min.css" />
-    <link rel="stylesheet" type="text/css" href="/css/jquery-ui.theme.min.css" />
-{% endblock %}
 
-{% block container %}
-    <div class="row">
-        <div style="display: inline;">
-            <a class="btn btn-default" href="{{ path('days_index') }}"><span class="glyphicon glyphicon-arrow-left"></span></a>
-                {#            <a href="{{ path('days_new') }}" class="floating-action" role="button"><span class="glyphicon glyphicon-plus"></span></a>#}
-        </div>
-        <div class="col-sm-4 col-sm-offset-4">
-            <div class="panel panel-default">
-                <div class="panel-heading ">
-                    Edit Deadline
-                    <div class="pull-right">
-                        {{ form_start(delete_form) }}
-                        <button type="submit" value="Delete" class="text-danger btn btn-default btn-xs"><span class="glyphicon glyphicon-trash"></span></button>
-                            {{ form_end(delete_form) }}
-                    </div>
-                </div>
-                <div class="panel-body">
-                    {{ form_start(edit_form) }}
-                    {{ form_widget(edit_form) }}
-                    <button type="submit" value="Edit" class="btn btn-default text-success pull-right"><span class="glyphicon glyphicon-floppy-save"></span></button>
-                        {{ form_end(edit_form) }}
-                </div>
+{% block panelTitle %}Edit Day Card{% endblock %}
+{% block panelTitleSmall %}{{day.name}}{% endblock %}
+{% block panelBack %}<a href="{{ path('days_index') }}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-arrow-left"></span></a>{% endblock %}
+
+{% block panelHeadingRight %}
+    {{ form_start(delete_form) }}
+    <button type="submit" value="Delete" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span></button>
+
+    {{ form_end(delete_form) }}
+{% endblock %}
+{% block panelBody %}
+    <div class="panel-body">
+        {{ form_start(day_form) }}
+        <div class="row">
+            <div class="col-sm-11">
+                {{ form_widget(day_form) }}
+            </div>
+            <div class="col-sm-1">
+                <button type="submit" value="Edit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-save"></span></button>
             </div>
         </div>
+        {{ form_end(day_form) }}
     </div>
-{% endblock %}
-{% block javascripts %}
-    {{ parent() }}
-    <script type="text/javascript" src="/js/jquery-ui.min.js"></script>
-    <script type="text/javascript">
-        $('.datepicker').datepicker({
-            dateFormat: $('.datepicker').data('date-format')
-        });
-    </script>
 {% endblock %}

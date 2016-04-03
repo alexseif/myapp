@@ -48,7 +48,7 @@ class TasksController extends Controller
             $taskList = $em->getRepository('AppBundle:TaskLists')->find($request->get("tasklist"));
             $task->setTaskList($taskList);
         }
-        $form = $this->createForm('AppBundle\Form\TasksType', $task);
+        $form = $this->createForm(TasksType::class, $task);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -61,23 +61,7 @@ class TasksController extends Controller
 
         return $this->render('tasks/new.html.twig', array(
                     'task' => $task,
-                    'form' => $form->createView(),
-        ));
-    }
-
-    /**
-     * Finds and displays a Tasks entity.
-     *
-     * @Route("/{id}", name="tasks_show")
-     * @Method("GET")
-     */
-    public function showAction(Tasks $task)
-    {
-        $deleteForm = $this->createDeleteForm($task);
-
-        return $this->render('tasks/show.html.twig', array(
-                    'task' => $task,
-                    'delete_form' => $deleteForm->createView(),
+                    'task_form' => $form->createView(),
         ));
     }
 
@@ -90,7 +74,7 @@ class TasksController extends Controller
     public function editAction(Request $request, Tasks $task)
     {
         $deleteForm = $this->createDeleteForm($task);
-        $editForm = $this->createForm('AppBundle\Form\TasksType', $task);
+        $editForm = $this->createForm(TasksType::class, $task);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
@@ -103,7 +87,7 @@ class TasksController extends Controller
 
         return $this->render('tasks/edit.html.twig', array(
                     'task' => $task,
-                    'edit_form' => $editForm->createView(),
+                    'task_form' => $editForm->createView(),
                     'delete_form' => $deleteForm->createView(),
         ));
     }

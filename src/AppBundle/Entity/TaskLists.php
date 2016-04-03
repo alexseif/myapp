@@ -44,7 +44,7 @@ class TaskLists
     private $createdAt;
 
     /**
-     * @ORM\OneToMany(targetEntity="Tasks", mappedBy="taskList")
+     * @ORM\OneToMany(targetEntity="Tasks", mappedBy="taskList", cascade="remove")
      */
     private $tasks;
 

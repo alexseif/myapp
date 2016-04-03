@@ -1,19 +1,11 @@
-<ul class="list-group">
+<ul class="list-group task-list">
     {% for task in tasks %}
         <li class="list-group-item">
-            <div class="checkbox-inline">
-                <label class="{{ task.completed ? "strike" : "" }}">
-                    <input type="checkbox" class="checkboxes" id="task_{{task.id}}" {{ task.completed ? "checked" : "" }} />
-                    {{ task.task }}
-                </label>
-            </div>
-                <small class="edit-link">
-                    <sup>
-                        <a href="{{ path('tasks_edit', { 'id': task.id }) }}" class="btn btn-xs text-warning">
-                            <span class="glyphicon glyphicon-pencil"></span>
-                        </a>
-                    </sup>
-                </small>
+            <label class="btn btn-default{{ task.completed ? " strike" : "" }}" title="{{ task.task }}">
+                <input type="checkbox" data-taskid="{{task.id}}" class="checkbox-inline" {{ task.completed ? "checked" : "" }}/>
+                {{ task.task }}
+            </label>
+            <a href="{{ path('tasks_edit', { 'id': task.id }) }}" class="btn btn-primary edit-fixed-link"><span class="glyphicon glyphicon-pencil"></span></a>
         </li>
     {% endfor %}
 </ul>

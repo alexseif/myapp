@@ -1,18 +1,24 @@
 {% extends 'base.html.twig' %}
+{% block panelBack %}
+    <a href="{{ path('tasklists_show', {'id':taskList.id}) }}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-arrow-left"></span></a>
 
-{% block formStart %}{{ form_start(form) }}{% endblock %}
-{% block panelTitle %}
-    <a href="{{ path('tasklists_index') }}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-arrow-left"></span></a>
-    New Task List
 {% endblock %}
+
+{% block panelTitle %}Edit Task List{% endblock %}
+{% block panelTitleSmall %}{{taskList.name}}{% endblock %}
 
 {% block panelBody %}
+    {{ form_start(tasklist_form) }}
     <div class="panel-body">
-        {{ form_widget(form) }}
+        <div class="row">
+            <div class="col-sm-11">
+                {{ form_widget(tasklist_form) }}
+            </div>
+            <div class="col-sm-1">
+                <button type="submit" value="Edit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span></button>
+            </div>
+        </div>
     </div>
-    <div class="panel-footer">
-        <input type="submit" value="Edit" class="btn btn-success"/>
-    </div>
+    {{ form_end(tasklist_form) }}
 {% endblock %}
 
-{% block formEnd %}{{ form_end(form) }}{% endblock %}

@@ -1,11 +1,10 @@
 {% extends 'base.html.twig' %}
+{% block floatingActions %}
+    <a href="{{ path('tasks_new') }}" class="bg-primary"><span class="glyphicon glyphicon-plus"></span></a>
 
-{% block container %}
-    <div class="floating-action">
-        <a href="{{ path('tasks_new') }}" class="bg-primary"><span class="glyphicon glyphicon-plus"></span></a>
-    </div>
-    <div class="panel panel-primary">
-        <div class="panel-heading">Tasks</div>
-        {% include 'tasks/tasks_list.html.twig' %}
-    </div>
 {% endblock %}
+{% block panelTitle %}Tasks{% endblock %}
+{% block panelBody %}
+    {% include 'tasks/tasks_list.html.twig' %}
+{% endblock %}
+

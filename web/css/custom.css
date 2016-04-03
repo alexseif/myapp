@@ -34,3 +34,8 @@ li:hover .edit-link{display: inline;}
 .panel-transparent>.panel-footer+.panel-collapse>.panel-body{border-bottom-color:#464545}
 .panel-transparent>.panel-heading{background-color:#464545}
 .strike, .strike *{text-decoration:line-through;}
+input[type="checkbox"] {
+    margin:0;
+}
+.task-list li label{overflow: hidden;}
+.edit-fixed-link{position: absolute;right: 5px;}

@@ -1,21 +1,27 @@
 {% extends 'base.html.twig' %}
 
-{% block container %}
-    <h1>Tasks edit</h1>
+{% block panelTitle %}Edit Task{% endblock %}
+{% block panelTitleSmall %}{{task.task}}{% endblock %}
+{% block panelBack %}<a href="{{ path('tasks_index') }}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-arrow-left"></span></a>{% endblock %}
 
-    {{ form_start(edit_form) }}
-    {{ form_widget(edit_form) }}
-    <input type="submit" value="Edit" />
-    {{ form_end(edit_form) }}
+{% block panelHeadingRight %}
+    {{ form_start(delete_form) }}
+    <button type="submit" value="Delete" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span></button>
 
-    <ul>
-        <li>
-            <a href="{{ path('tasks_index') }}">Back to the list</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-            <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+    {{ form_end(delete_form) }}
+{% endblock %}
+{% block panelBody %}
+
+    {{ form_start(task_form) }}
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-sm-11">
+                {{ form_widget(task_form) }}
+            </div>
+            <div class="col-sm-1">
+                <button type="submit" value="Edit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span></button>
+            </div>
+        </div>
+    </div>
+    {{ form_end(task_form) }}
 {% endblock %}

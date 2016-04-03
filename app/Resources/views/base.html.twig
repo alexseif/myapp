@@ -10,6 +10,8 @@
             {# <link rel="stylesheet" href="/css/bootstrap-theme.min.css"/>#}
             <!-- Bootswatch Darkly theme-->
             <link rel="stylesheet" href="/css/bootstrap.darkly.min.css"/>
+            <link rel="stylesheet" type="text/css" href="/css/jquery-ui.min.css" />
+            <link rel="stylesheet" type="text/css" href="/css/jquery-ui.theme.min.css" />
             <!-- Custom Styling -->
             <link rel="stylesheet" href="/css/custom.css"/>
 
@@ -96,6 +98,14 @@
     <script src="/js/jquery.min.js"></script>
     <!-- Latest compiled and minified JavaScript -->
     <script src="/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/jquery-ui.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.datepicker').datepicker({
+                dateFormat: $('.datepicker').data('date-format')
+            });
+        });
+    </script>
 {% endblock %}
 </body>
 </html>

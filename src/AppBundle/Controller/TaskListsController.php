@@ -56,7 +56,7 @@ class TaskListsController extends Controller
 
         return $this->render('tasklists/new.html.twig', array(
                     'taskList' => $taskList,
-                    'form' => $form->createView(),
+                    'tasklist_form' => $form->createView(),
         ));
     }
 
@@ -98,7 +98,7 @@ class TaskListsController extends Controller
 
         return $this->render('tasklists/edit.html.twig', array(
                     'taskList' => $taskList,
-                    'form' => $editForm->createView(),
+                    'tasklist_form' => $editForm->createView(),
                     'delete_form' => $deleteForm->createView(),
         ));
     }

@@ -17,8 +17,8 @@ class TasksType extends AbstractType
     {
         $builder
                 ->add('task')
+                ->add('taskList', 'entity', array('class' => \AppBundle\Entity\TaskLists::class, 'choice_label' => 'name'))
                 ->add('completed')
-                ->add('taskList', 'entity', array('class' => 'AppBundle:TaskLists', 'choice_label' => 'name'));
         ;
     }
 
@@ -28,7 +28,7 @@ class TasksType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Tasks'
+            'data_class' => \AppBundle\Entity\Tasks::class
         ));
     }
 

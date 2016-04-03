@@ -9,13 +9,9 @@
                     <tr>
                         <td class="h3 name" style="vertical-align: middle;">
                             {{ day.name }}
-                            <small class="edit-link">
-                                <sup>
-                                    <a href="{{ path('days_edit', { 'id': day.id }) }}" class="btn btn-xs text-warning">
-                                        <span class="glyphicon glyphicon-pencil"></span>
-                                    </a>
-                                </sup>
-                            </small>
+                            <span class="edit-link">
+                                <a href="{{ path('days_edit', { 'id': day.id }) }}" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-pencil"></span></a>
+                            </span>
                         </td>
                         <td  style="width: 25%;" class="h1 bg-{{ cycle(status, loop.index0 ) }} text-center days">{{ diff.days }}</td>
                     </tr>
