@@ -31,14 +31,9 @@ class Accounts
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="AccountBalances", mappedBy="account")
+     * @ORM\OneToMany(targetEntity="AccountTransactions", mappedBy="account")
      */
-    private $balances;
-
-    /**
-     * @ORM\OneToMany(targetEntity="AccountPayments", mappedBy="account")
-     */
-    private $payments;
+    private $transactions;
 
     /**
      * @ORM\OneToMany(targetEntity="TaskLists", mappedBy="account")
@@ -83,75 +78,74 @@ class Accounts
      */
     public function __construct()
     {
-        $this->balances = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->payments = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->transactions = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
+    
+
     /**
-     * Add balances
+     * Add transactions
      *
-     * @param \AppBundle\Entity\AccountBalances $balances
+     * @param \AppBundle\Entity\AccountTransactions $transactions
      * @return Accounts
      */
-    public function addBalance(\AppBundle\Entity\AccountBalances $balances)
+    public function addTransaction(\AppBundle\Entity\AccountTransactions $transactions)
     {
-        $balances->setAccount($this);
-        $this->balances[] = $balances;
+        $this->transactions[] = $transactions;
 
         return $this;
     }
 
     /**
-     * Remove balances
+     * Remove transactions
      *
-     * @param \AppBundle\Entity\AccountBalances $balances
+     * @param \AppBundle\Entity\AccountTransactions $transactions
      */
-    public function removeBalance(\AppBundle\Entity\AccountBalances $balances)
+    public function removeTransaction(\AppBundle\Entity\AccountTransactions $transactions)
     {
-        $this->balances->removeElement($balances);
+        $this->transactions->removeElement($transactions);
     }
 
     /**
-     * Get balances
+     * Get transactions
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getBalances()
+    public function getTransactions()
     {
-        return $this->balances;
+        return $this->transactions;
     }
 
     /**
-     * Add payments
+     * Add taskLists
      *
-     * @param \AppBundle\Entity\AccountPayments $payments
+     * @param \AppBundle\Entity\TaskLists $taskLists
      * @return Accounts
      */
-    public function addPayment(\AppBundle\Entity\AccountPayments $payments)
+    public function addTaskList(\AppBundle\Entity\TaskLists $taskLists)
     {
-        $payments->setAccount($this);
-        $this->payments[] = $payments;
+        $this->taskLists[] = $taskLists;
+
         return $this;
     }
 
     /**
-     * Remove payments
+     * Remove taskLists
      *
-     * @param \AppBundle\Entity\AccountPayments $payments
+     * @param \AppBundle\Entity\TaskLists $taskLists
      */
-    public function removePayment(\AppBundle\Entity\AccountPayments $payments)
+    public function removeTaskList(\AppBundle\Entity\TaskLists $taskLists)
     {
-        $this->payments->removeElement($payments);
+        $this->taskLists->removeElement($taskLists);
     }
 
     /**
-     * Get payments
+     * Get taskLists
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getPayments()
+    public function getTaskLists()
     {
-        return $this->payments;
+        return $this->taskLists;
     }
-
 }

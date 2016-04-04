@@ -5,14 +5,13 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * AccountPayments
+ * AccountTransactions
  *
- * @ORM\Table(name="account_payments")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\AccountPaymentsRepository")
+ * @ORM\Table(name="account_transactions")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\AccountTransactionsRepository")
  */
-class AccountPayments
+class AccountTransactions
 {
-
     /**
      * @var int
      *
@@ -25,9 +24,16 @@ class AccountPayments
     /**
      * @var int
      *
-     * @ORM\Column(name="Amount", type="integer")
+     * @ORM\Column(name="amount", type="integer")
      */
     private $amount;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="note", type="text", nullable=true)
+     */
+    private $note;
 
     /**
      * @var \DateTime
@@ -36,17 +42,19 @@ class AccountPayments
      */
     private $createdAt;
 
-    function __construct()
-    {
-        $this->createdAt = new \DateTime();
-    }
-
     /**
-     * @ORM\ManyToOne(targetEntity="Accounts", inversedBy="payments")
+     * @ORM\ManyToOne(targetEntity="Accounts", inversedBy="transactions")
      * @ORM\JoinColumn(name="account_id", referencedColumnName="id")
      */
     private $account;
-
+    
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime();
+    }
     /**
      * Get id
      *
@@ -61,7 +69,7 @@ class AccountPayments
      * Set amount
      *
      * @param integer $amount
-     * @return AccountPayments
+     * @return AccountTransactions
      */
     public function setAmount($amount)
     {
@@ -81,10 +89,33 @@ class AccountPayments
     }
 
     /**
+     * Set note
+     *
+     * @param string $note
+     * @return AccountTransactions
+     */
+    public function setNote($note)
+    {
+        $this->note = $note;
+
+        return $this;
+    }
+
+    /**
+     * Get note
+     *
+     * @return string 
+     */
+    public function getNote()
+    {
+        return $this->note;
+    }
+
+    /**
      * Set createdAt
      *
      * @param \DateTime $createdAt
-     * @return AccountPayments
+     * @return AccountTransactions
      */
     public function setCreatedAt($createdAt)
     {
@@ -107,7 +138,7 @@ class AccountPayments
      * Set account
      *
      * @param \AppBundle\Entity\Accounts $account
-     * @return AccountPayments
+     * @return AccountTransactions
      */
     public function setAccount(\AppBundle\Entity\Accounts $account = null)
     {
@@ -125,5 +156,4 @@ class AccountPayments
     {
         return $this->account;
     }
-
 }

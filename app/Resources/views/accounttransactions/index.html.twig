@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+{% block floatingActions %}
+    <a href="{{ path('accounttransactions_new') }}" class="bg-primary"><span class="glyphicon glyphicon-plus"></span></a>
+
+{% endblock %}
+{% block panelTitle %}Transactions{% endblock %}
+{% block panelBody %}
+    <table class="table table-condensed table-bordered table-stripped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Amount</th>
+                <th>Note</th>
+                <th>Createdat</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for accountTransaction in accountTransactions %}
+            <tr>
+                <td><a href="{{ path('accounttransactions_show', { 'id': accountTransaction.id }) }}">{{ accountTransaction.id }}</a></td>
+                <td>{{ accountTransaction.amount }}</td>
+                <td>{{ accountTransaction.note }}</td>
+                <td>{% if accountTransaction.createdAt %}{{ accountTransaction.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('accounttransactions_show', { 'id': accountTransaction.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('accounttransactions_edit', { 'id': accountTransaction.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
