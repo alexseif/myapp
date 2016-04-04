@@ -16,7 +16,7 @@ class AccountTransactionsType extends AbstractType
     {
         $builder
             ->add('account', 'entity', array('class' => 'AppBundle:Accounts', 'choice_label' => 'name'))
-            ->add('amount')
+            ->add('amount', 'money')
             ->add('note')
             
         ;

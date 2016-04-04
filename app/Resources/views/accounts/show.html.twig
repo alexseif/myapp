@@ -15,4 +15,9 @@
     </span>
     {{ form_end(delete_form) }}
 {% endblock %}
+{% set accountTransactions = account.transactions %}
+{% block panelBody %}
+    {% include 'accounttransactions/transactions_list.html.twig' %}
+{% endblock %}
+
 {# TODO: show account info#}

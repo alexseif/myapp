@@ -1,0 +1,42 @@
+<table class="table table-condensed table-bordered table-stripped">
+        <thead>
+            <tr>
+                <th>Transaction Id</th>
+                <th>Amount</th>
+                <th>Account</th>
+                <th>Note</th>
+                <th>Createdat</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% set total=0 %}
+        {% for accountTransaction in accountTransactions %}
+            {% set total = total + accountTransaction.amount %}
+            <tr>
+                <td><a href="{{ path('accounttransactions_show', { 'id': accountTransaction.id }) }}"># {{ accountTransaction.id }}</a></td>
+                <td class="text-right"><span class="pull-left">EGP</span> {{ accountTransaction.amount|number_format }}</td>
+                <td>{{ accountTransaction.account.name }}</td>
+                <td>{{ accountTransaction.note }}</td>
+                <td>{% if accountTransaction.createdAt %}{{ accountTransaction.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('accounttransactions_show', { 'id': accountTransaction.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('accounttransactions_edit', { 'id': accountTransaction.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        <tfoot>
+            <tr>
+                <th class="text-right">Total</th>
+                <th class="text-right"><span class="pull-left">EGP</span> {{ total|number_format }}</th>
+                <th colspan="4"></th>
+            </tr>
+        </tfoot>
+        </tbody>
+    </table>

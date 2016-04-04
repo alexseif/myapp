@@ -37,6 +37,14 @@ twig:
     strict_variables: "%kernel.debug%"
     form:
         resources: ['bootstrap_3_horizontal_layout.html.twig']
+    date:
+        format: d.m.Y, H:i:s
+        interval_format: '%%d days'
+        timezone: Africa/Cairo
+    number_format:
+        decimals: 2
+        decimal_point: ','
+        thousands_separator: '.'
 
 # Doctrine Configuration
 doctrine:
