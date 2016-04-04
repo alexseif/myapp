@@ -12,4 +12,14 @@ use Doctrine\ORM\EntityRepository;
  */
 class TaskListsRepository extends EntityRepository
 {
+	public function findAll()
+    {
+        return $this
+        ->createQueryBuilder('tl')
+        ->join('tl.tasks', 't')
+        ->addOrderBy("t.completed", "ASC")
+		->addOrderBy("t.order",  "ASC")        
+        ->getQuery()
+        ->getResult();
+    }
 }

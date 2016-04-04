@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+
 /**
  * TaskLists
  *
@@ -45,6 +46,7 @@ class TaskLists
 
     /**
      * @ORM\OneToMany(targetEntity="Tasks", mappedBy="taskList", cascade="remove")
+     * @ORM\OrderBy({"completed" = "ASC", "order" = "ASC"})
      */
     private $tasks;
 

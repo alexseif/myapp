@@ -1,7 +1,7 @@
 <ul class="list-group task-list">
     {% for task in tasks %}
-        <li class="list-group-item">
-            <label class="btn btn-default{{ task.completed ? " strike" : "" }}" title="{{ task.task }}">
+        <li class="list-group-item{{ task.completed ? " completed" }}" data-order="id_{{task.id}}">
+            <label class="btn btn-default" title="{{ task.task }}">
                 <input type="checkbox" data-taskid="{{task.id}}" class="checkbox-inline" {{ task.completed ? "checked" : "" }}/>
                 {{ task.task }}
             </label>

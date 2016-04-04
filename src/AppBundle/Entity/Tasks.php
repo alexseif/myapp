@@ -30,6 +30,13 @@ class Tasks
     private $task;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="torder", type="integer")
+     */
+    private $order;
+
+    /**
      * @var boolean
      *
      * @ORM\Column(name="completed", type="boolean")
@@ -188,5 +195,28 @@ class Tasks
     public function getCreatedAt()
     {
         return $this->createdAt;
+    }
+
+    /**
+     * Set order
+     *
+     * @param integer $order
+     * @return Tasks
+     */
+    public function setOrder($order)
+    {
+        $this->order = $order;
+
+        return $this;
+    }
+
+    /**
+     * Get order
+     *
+     * @return integer 
+     */
+    public function getOrder()
+    {
+        return $this->order;
     }
 }

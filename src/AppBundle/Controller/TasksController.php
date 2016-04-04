@@ -27,7 +27,7 @@ class TasksController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $tasks = $em->getRepository('AppBundle:Tasks')->findAll();
+        $tasks = $em->getRepository('AppBundle:Tasks')->findUnlisted();
 
         return $this->render('tasks/index.html.twig', array(
                     'tasks' => $tasks,
@@ -68,6 +68,29 @@ class TasksController extends Controller
     /**
      * Displays a form to edit an existing Tasks entity.
      *
+     * @Route("/order", name="tasks_order")
+     * @Method("POST")
+     */
+    public function orderAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        if ($request->isXMLHttpRequest()) {
+            $tasks = $request->get('tasks');
+            foreach ($tasks as $order => $taskId) {
+                $task = $em->find(Tasks::class, $taskId);
+                $task->setOrder($order);
+            }
+            $em->flush();
+            return new \Symfony\Component\HttpFoundation\JsonResponse();
+        }
+    
+    }
+
+
+    /**
+     * Displays a form to edit an existing Tasks entity.
+     *
      * @Route("/{id}/edit", name="tasks_edit")
      * @Method({"GET", "POST"})
      */
@@ -78,6 +101,11 @@ class TasksController extends Controller
 
         if ($request->isXMLHttpRequest()) {
             $task->setCompleted($request->get('completed'));
+            if($task->getCompleted()){
+                $task->setCompletedAt(new \DateTime());
+            }else{
+                $task->setCompletedAt(null);
+            }
             $em->flush();
             return new \Symfony\Component\HttpFoundation\JsonResponse();
         }
