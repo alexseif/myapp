@@ -16,7 +16,7 @@ class TaskListsRepository extends EntityRepository
     {
         return $this
         ->createQueryBuilder('tl')
-        ->join('tl.tasks', 't')
+        ->leftJoin('tl.tasks', 't')
         ->addOrderBy("t.completed", "ASC")
 		->addOrderBy("t.order",  "ASC")        
         ->getQuery()

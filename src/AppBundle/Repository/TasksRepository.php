@@ -13,7 +13,7 @@ use Doctrine\ORM\EntityRepository;
 class TasksRepository extends EntityRepository
 {
 	public function findBy(array $criteria, array $orderBy = array("order" =>"ASC", "completed"=>"ASC"), $limit = null, $offset = null)
-    {dump($orderBy);
+    {
         return parent::findBy($criteria, $orderBy, $limit, $offset);
     }
 
