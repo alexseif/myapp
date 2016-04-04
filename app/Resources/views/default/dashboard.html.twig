@@ -1,6 +1,19 @@
 {% extends 'base.html.twig' %}
 
 {% block container %}
+    <div class="floating-action dropup">
+      <a class="btn btn-primary dropdown-toggle" type="button" id="dahboardMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <span class="glyphicon glyphicon-plus"></span>
+      </a>
+      <ul class="dropdown-menu floating-actions" aria-labelledby="dahboardMenuButton">
+        <li><a href="{{ path('tasks_new') }}" class="btn btn-primary"><span class="glyphicon glyphicon-check"></span></a></li>
+        <li><a href="{{ path('tasklists_new') }}" class="btn btn-primary"><span class="glyphicon glyphicon-tasks"></span></a></li>
+        <li><a href="{{ path('days_new') }}" class="btn btn-primary"><span class="glyphicon glyphicon-th-large"></span></a></li>
+        <li><a href="{{ path('accounts_new') }}" class="btn btn-primary"><span class="glyphicon glyphicon-piggy-bank"></span></a></li>
+        <li><a href="{{ path('accountbalances_new') }}" class="btn btn-primary"><span class="glyphicon glyphicon-shopping-cart"></span></a></li>
+        <li><a href="{{ path('accountpayments_new') }}" class="btn btn-primary"><span class="glyphicon glyphicon-credit-card"></span></a></li>
+      </ul>
+    </div>
     <div class="row">
         <div class="col-sm-4">
             {% if tasks|length %}

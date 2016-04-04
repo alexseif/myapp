@@ -15,7 +15,10 @@
                     <span class="label label-default">{{ taskList.status|capitalize }}</span>
                     <span class="label label-default">{{ taskList.createdAt ? taskList.createdAt|date('Y-m-d H:i') }}</span>
                 </a>
-                <a class="btn btn-primary edit-fixed-link" href="{{ path('tasklists_edit', { 'id': taskList.id }) }}"><span class="glyphicon glyphicon-pencil"></span></a>
+                <span class="edit-fixed-link">
+                    <a href="{{ path('tasks_new', {"tasklist": taskList.id}) }}" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span></a>
+                    <a class="btn btn-primary" href="{{ path('tasklists_edit', { 'id': taskList.id }) }}"><span class="glyphicon glyphicon-pencil"></span></a>
+                </span>
             </li>
         {% endfor %}
     </ul>

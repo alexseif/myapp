@@ -3,6 +3,18 @@
     bottom: 50px;
     right: 50px;
 }
+.floating-action .dropdown-menu{background: none; border: none;box-shadow: none;}
+.floating-action .dropdown-menu > li{margin: 5px 0;}
+.floating-action .dropdown-menu > li > a{
+    color: white;
+    border-radius: 50px;
+    display: table-cell;
+    height: 50px;
+    width: 50px;
+    vertical-align: middle;
+    text-align: center;
+    padding: 0px;
+}
 .floating-action a{
     /*background: #337ab7 none repeat scroll 0 0;*/
     color: white;

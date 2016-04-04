@@ -69,6 +69,7 @@ class Tasks
     public function __construct()
     {
         $this->createdAt = new \DateTime();
+        $this->order=0;
     }
 
     /**
