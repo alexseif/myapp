@@ -81,8 +81,6 @@ class Accounts
         $this->transactions = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
-    
-
     /**
      * Add transactions
      *
@@ -148,4 +146,15 @@ class Accounts
     {
         return $this->taskLists;
     }
+
+    public function getBalance()
+    {
+        $balance = 0;
+        $transactions = $this->getTransactions();
+        foreach ($transactions as $transaction) {
+            $balance+=$transaction->getAmount();
+        }
+        return $balance;
+    }
+
 }

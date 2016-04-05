@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block panelTitle %}Edit Transactions{% endblock %}
-{% block panelTitleSmall %}{{accounttransactions.account.name}}{% endblock %}
+{% block panelTitleSmall %}{{accountTransaction.account.name}}{% endblock %}
 {% block panelBack %}<a href="{{ path('accounttransactions_index') }}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-arrow-left"></span></a>{% endblock %}
 
 {% block panelHeadingRight %}
@@ -24,25 +24,4 @@
         </div>
     </div>
     {{ form_end(transaction_form) }}
-{% endblock %}
-
-
-{% block container %}
-    <h1>AccountTransactions edit</h1>
-
-    {{ form_start(edit_form) }}
-        {{ form_widget(edit_form) }}
-        <input type="submit" value="Edit" />
-    {{ form_end(edit_form) }}
-
-    <ul>
-        <li>
-            <a href="{{ path('accounttransactions_index') }}">Back to the list</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
 {% endblock %}

@@ -34,7 +34,7 @@
         <tfoot>
             <tr>
                 <th class="text-right">Total</th>
-                <th class="text-right"><span class="pull-left">EGP</span> {{ total|number_format }}</th>
+                <th class="text-right"><span class="pull-left">EGP</span> {{ accountTransactions|last.account.balance|number_format }}</th>
                 <th colspan="4"></th>
             </tr>
         </tfoot>

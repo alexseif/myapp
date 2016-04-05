@@ -2,16 +2,16 @@
 
 {% block container %}
     <div class="floating-action dropup">
-      <a class="btn btn-primary dropdown-toggle" type="button" id="dahboardMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <span class="glyphicon glyphicon-plus"></span>
-      </a>
-      <ul class="dropdown-menu floating-actions" aria-labelledby="dahboardMenuButton">
-        <li><a href="{{ path('tasks_new') }}" class="btn btn-primary"><span class="glyphicon glyphicon-check"></span></a></li>
-        <li><a href="{{ path('tasklists_new') }}" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span></a></li>
-        <li><a href="{{ path('days_new') }}" class="btn btn-primary"><span class="glyphicon glyphicon-th-large"></span></a></li>
-        <li><a href="{{ path('accounts_new') }}" class="btn btn-primary"><span class="glyphicon glyphicon-piggy-bank"></span></a></li>
-        <li><a href="{{ path('accounttransactions_new') }}" class="btn btn-primary"><span class="glyphicon glyphicon-transfer"></span></a></li>
-      </ul>
+        <a class="btn btn-primary dropdown-toggle" type="button" id="dahboardMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="glyphicon glyphicon-plus"></span>
+        </a>
+        <ul class="dropdown-menu floating-actions" aria-labelledby="dahboardMenuButton">
+            <li><a href="{{ path('tasks_new') }}" class="btn btn-primary"><span class="glyphicon glyphicon-check"></span></a></li>
+            <li><a href="{{ path('tasklists_new') }}" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span></a></li>
+            <li><a href="{{ path('days_new') }}" class="btn btn-primary"><span class="glyphicon glyphicon-th-large"></span></a></li>
+            <li><a href="{{ path('accounts_new') }}" class="btn btn-primary"><span class="glyphicon glyphicon-piggy-bank"></span></a></li>
+            <li><a href="{{ path('accounttransactions_new') }}" class="btn btn-primary"><span class="glyphicon glyphicon-transfer"></span></a></li>
+        </ul>
     </div>
     <div class="row">
         <div class="col-sm-4">
@@ -25,7 +25,7 @@
                 {% if taskList.tasks|length %}
                     {% set tasks = taskList.tasks %}
                     <div class="panel panel-primary">
-                        <div class="panel-heading">{{ taskList.name }}</div>
+                        <div class="panel-heading"><span class="panel-title">{{ taskList.name }}</span></div>
                         {% include 'tasks/tasks_list.html.twig' %}
                     </div>
                 {% endif %}
@@ -33,18 +33,12 @@
         </div>
         {% if days|length %}
             <div class="col-sm-4">
-                <div class="panel panel-transparent">
-                    <div class="panel-heading">Days</div>
-                    {% include 'days/days_list.html.twig' %}
-                </div>
+                {% include 'days/days_list.html.twig' %}
             </div>
         {% endif %}
         {% if accounts|length %}
             <div class="col-sm-4">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Balance</div>
-                    {% include 'accounts/accounts_list.html.twig' %}
-                </div>
+                {% include 'accounts/accounts_list.html.twig' %}
             </div>
         {% endif %}
     </div>

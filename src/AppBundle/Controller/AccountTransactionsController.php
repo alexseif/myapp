@@ -41,12 +41,16 @@ class AccountTransactionsController extends Controller
      */
     public function newAction(Request $request)
     {
+            $em = $this->getDoctrine()->getManager();
         $accountTransaction = new AccountTransactions();
+        if (!empty($request->get("account"))) {
+            $account = $em->getRepository('AppBundle:Accounts')->find($request->get("account"));
+            $accountTransaction->setAccount($account);
+        }
         $form = $this->createForm('AppBundle\Form\AccountTransactionsType', $accountTransaction);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
             $em->persist($accountTransaction);
             $em->flush();
 

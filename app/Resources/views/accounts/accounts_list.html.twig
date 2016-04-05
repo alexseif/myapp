@@ -1,8 +1,21 @@
-<ul class="list-group">
-    {% for account in accounts %}
-        <li class="list-group-item">
-            <a href="{{ path('accounts_show', { 'id': account.id }) }}" class="btn btn-default">{{ account.name }}</a>
-            <a href="{{ path('accounts_edit', { 'id': account.id }) }}" class="btn btn-primary edit-fixed-link"><span class="glyphicon glyphicon-pencil"></span></a>
-        </li>
-    {% endfor %}
-</ul>
+<div class="table-responsive">
+    <table class="table table-condensed">
+        {% for account in accounts %}
+            <tr>
+                <td>
+                    <div class="btn-group btn-group-justified">
+                        <a href="{{ path('accounts_show', { 'id': account.id }) }}" class="btn btn-default" style="text-align: left;">
+                            {{ account.name }}
+                        </a>
+                        <a href="{{ path('accounts_show', { 'id': account.id }) }}" class="btn btn-{{ account.balance == 0 ? "default" : account.balance < 0 ? "success": "danger" }}" style="text-align: right;">
+                            <span class="pull-left">EGP</span> {{ account.balance|number_format }}
+                        </a>
+                        <a href="{{ path('accounttransactions_new', { 'account': account.id }) }}" class="btn btn-primary" style="width: 0.3%;">
+                            <span class="glyphicon glyphicon-plus"></span>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
