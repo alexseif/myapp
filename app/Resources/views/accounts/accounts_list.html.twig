@@ -1,21 +1,43 @@
 <div class="table-responsive">
     <table class="table table-condensed">
-        {% for account in accounts %}
-            <tr>
+        <tbody>
+            {% set total = 0 %}
+            {% for account in accounts %}
+                {% set total = total + account.balance %}
+                <tr>
+                    <td>
+                        <div class="btn-group btn-group-justified">
+                            <a href="{{ path('accounts_show', { 'id': account.id }) }}" class="btn btn-default" style="text-align: left;">
+                                {{ account.name }}
+                            </a>
+                            <a href="{{ path('accounts_show', { 'id': account.id }) }}" class="btn btn-{{ account.balance == 0 ? "default" : account.balance < 0 ? "success": "danger" }}" style="text-align: right;">
+                                <span class="pull-left">EGP</span> {{ account.balance|number_format }}
+                            </a>
+                            <a href="{{ path('accounttransactions_new', { 'account': account.id }) }}" class="btn btn-primary" style="width: 0.3%;">
+                                <span class="glyphicon glyphicon-plus"></span>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr class="table-bordered">
                 <td>
                     <div class="btn-group btn-group-justified">
-                        <a href="{{ path('accounts_show', { 'id': account.id }) }}" class="btn btn-default" style="text-align: left;">
-                            {{ account.name }}
-                        </a>
-                        <a href="{{ path('accounts_show', { 'id': account.id }) }}" class="btn btn-{{ account.balance == 0 ? "default" : account.balance < 0 ? "success": "danger" }}" style="text-align: right;">
-                            <span class="pull-left">EGP</span> {{ account.balance|number_format }}
-                        </a>
-                        <a href="{{ path('accounttransactions_new', { 'account': account.id }) }}" class="btn btn-primary" style="width: 0.3%;">
+                        <span class="btn btn-primary" style="text-align: left;font-weight: bold;">
+                            Total
+                        </span>
+                        <span class="btn btn-{{ total == 0 ? "default" : total < 0 ? "success": "danger" }}" style="text-align: right;font-weight: bold;">
+                            <span class="pull-left">EGP</span> {{ total|number_format }}
+                        </span>
+                        <a class="btn btn-primary" style="width: 0.3%;" href="{{ path('accounttransactions_new') }}">
                             <span class="glyphicon glyphicon-plus"></span>
                         </a>
                     </div>
+
                 </td>
             </tr>
-        {% endfor %}
+        </tfoot>
     </table>
 </div>

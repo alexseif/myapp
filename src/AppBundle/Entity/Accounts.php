@@ -31,7 +31,7 @@ class Accounts
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="AccountTransactions", mappedBy="account")
+     * @ORM\OneToMany(targetEntity="AccountTransactions", mappedBy="account", cascade="remove")
      */
     private $transactions;
 
