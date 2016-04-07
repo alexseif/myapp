@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block panelTitle %}New Project{% endblock %}
+{% block panelBack %}<a href="{{ path('projects_index') }}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-arrow-left"></span></a>{% endblock %}
+
+{% block panelBody %}
+    {{ form_start(project_form) }}
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-sm-11">
+                {{ form_widget(project_form) }}
+            </div>
+            <div class="col-sm-1">
+                <button type="submit" value="Edit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span></button>
+            </div>
+        </div>
+    </div>
+    {{ form_end(project_form) }}
+{% endblock %}

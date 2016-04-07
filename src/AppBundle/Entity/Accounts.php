@@ -36,9 +36,12 @@ class Accounts
     private $transactions;
 
     /**
-     * @ORM\OneToMany(targetEntity="TaskLists", mappedBy="account")
+     * Constructor
      */
-    private $taskLists;
+    public function __construct()
+    {
+        $this->transactions = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -74,14 +77,6 @@ class Accounts
     }
 
     /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->transactions = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
      * Add transactions
      *
      * @param \AppBundle\Entity\AccountTransactions $transactions
@@ -112,39 +107,6 @@ class Accounts
     public function getTransactions()
     {
         return $this->transactions;
-    }
-
-    /**
-     * Add taskLists
-     *
-     * @param \AppBundle\Entity\TaskLists $taskLists
-     * @return Accounts
-     */
-    public function addTaskList(\AppBundle\Entity\TaskLists $taskLists)
-    {
-        $this->taskLists[] = $taskLists;
-
-        return $this;
-    }
-
-    /**
-     * Remove taskLists
-     *
-     * @param \AppBundle\Entity\TaskLists $taskLists
-     */
-    public function removeTaskList(\AppBundle\Entity\TaskLists $taskLists)
-    {
-        $this->taskLists->removeElement($taskLists);
-    }
-
-    /**
-     * Get taskLists
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getTaskLists()
-    {
-        return $this->taskLists;
     }
 
     public function getBalance()

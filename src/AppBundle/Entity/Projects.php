@@ -5,12 +5,12 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * TaskLists
+ * Projects
  *
- * @ORM\Table(name="task_lists")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\TaskListsRepository")
+ * @ORM\Table(name="projects")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\ProjectsRepository")
  */
-class TaskLists
+class Projects
 {
 
     /**
@@ -39,24 +39,20 @@ class TaskLists
     /**
      * @var \DateTime
      *
+     * @ORM\Column(name="startedAt", type="datetime")
+     */
+    private $startedAt;
+
+    /**
+     * @var \DateTime
+     *
      * @ORM\Column(name="createdAt", type="datetime")
      */
     private $createdAt;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Tasks", mappedBy="taskList", cascade="remove")
-     * @ORM\OrderBy({"completed" = "ASC", "order" = "ASC"})
-     */
-    private $tasks;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
+    function __construct()
     {
-        $this->tasks = new \Doctrine\Common\Collections\ArrayCollection();
         $this->createdAt = new \DateTime();
-        $this->status = "start";
     }
 
     /**
@@ -73,7 +69,7 @@ class TaskLists
      * Set name
      *
      * @param string $name
-     * @return TaskLists
+     * @return Projects
      */
     public function setName($name)
     {
@@ -96,7 +92,7 @@ class TaskLists
      * Set status
      *
      * @param string $status
-     * @return TaskLists
+     * @return Projects
      */
     public function setStatus($status)
     {
@@ -116,10 +112,33 @@ class TaskLists
     }
 
     /**
+     * Set startedAt
+     *
+     * @param \DateTime $startedAt
+     * @return Projects
+     */
+    public function setStartedAt($startedAt)
+    {
+        $this->startedAt = $startedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get startedAt
+     *
+     * @return \DateTime 
+     */
+    public function getStartedAt()
+    {
+        return $this->startedAt;
+    }
+
+    /**
      * Set createdAt
      *
      * @param \DateTime $createdAt
-     * @return TaskLists
+     * @return Projects
      */
     public function setCreatedAt($createdAt)
     {
@@ -136,40 +155,6 @@ class TaskLists
     public function getCreatedAt()
     {
         return $this->createdAt;
-    }
-
-    /**
-     * Add tasks
-     *
-     * @param \AppBundle\Entity\Tasks $tasks
-     * @return TaskLists
-     */
-    public function addTask(\AppBundle\Entity\Tasks $tasks)
-    {
-        $tasks->setTaskList($this);
-        $this->tasks[] = $tasks;
-
-        return $this;
-    }
-
-    /**
-     * Remove tasks
-     *
-     * @param \AppBundle\Entity\Tasks $tasks
-     */
-    public function removeTask(\AppBundle\Entity\Tasks $tasks)
-    {
-        $this->tasks->removeElement($tasks);
-    }
-
-    /**
-     * Get tasks
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getTasks()
-    {
-        return $this->tasks;
     }
 
 }
