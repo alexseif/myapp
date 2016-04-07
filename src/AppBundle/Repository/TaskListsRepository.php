@@ -12,14 +12,21 @@ use Doctrine\ORM\EntityRepository;
  */
 class TaskListsRepository extends EntityRepository
 {
-	public function findAll()
+
+    public function findAll()
     {
+        $today = new \DateTime();
         return $this
-        ->createQueryBuilder('tl')
-        ->leftJoin('tl.tasks', 't')
-        ->addOrderBy("t.completed", "ASC")
-		->addOrderBy("t.order",  "ASC")        
-        ->getQuery()
-        ->getResult();
+                        ->createQueryBuilder('tl')
+                        ->select('tl, t')
+                        ->leftJoin('tl.tasks', 't')
+                        ->where('t.completedAt > :today')
+                        ->orWhere('t.completed <> true')
+                        ->addOrderBy("t.completed", "ASC")
+                        ->addOrderBy("t.order", "ASC")
+                        ->setParameter(':today', $today->format('Y-m-d'))
+                        ->getQuery()
+                        ->getResult();
     }
+
 }
