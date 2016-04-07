@@ -20,12 +20,14 @@ class DefaultController extends Controller
         $tasks = $em->getRepository('AppBundle:Tasks')->findUnlisted();
         $days = $em->getRepository('AppBundle:Days')->getActiveCards();
         $accounts = $em->getRepository('AppBundle:Accounts')->findAll();
+        $projects = $em->getRepository('AppBundle:Projects')->findAll();
 
         return $this->render('default/dashboard.html.twig', array(
                     'taskLists' => $taskLists,
                     'tasks' => $tasks,
                     'days' => $days,
                     'accounts' => $accounts,
+                    'projects' => $projects
         ));
     }
 
