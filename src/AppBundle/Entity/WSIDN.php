@@ -21,7 +21,7 @@ class WSIDN
     {
         $this->slots = array();
         $this->timeIndex = new \DateTime();
-        $this->timeIndex->setTime('4', '0', '0');
+        $this->timeIndex->setTime('10', '0', '0');
         $this->total = 0;
         $this->max = 16 * 60;
     }
