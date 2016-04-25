@@ -49,7 +49,7 @@ li:hover .edit-link{display: inline;}
 .task-list input[type="checkbox"] {
     margin:0;
 }
-.task-list li{padding: 5px 15px;}
+.task-list li{padding: 5px 15px;white-space: nowrap;}
 .task-list li label{overflow: hidden;}
 .edit-fixed-link{position: absolute;right: 5px;}
 .ui-state-highlight { height: 1.5em; line-height: 1.2em; border:1px solid #dad55e;background:#f39c12;;color:#777620}
