@@ -40,3 +40,4 @@
 /composer.phar
 
 /nbproject/private/
+/nbproject/configs/DEV.properties
