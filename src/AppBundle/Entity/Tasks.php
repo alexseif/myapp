@@ -12,6 +12,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Tasks
 {
+    const LOW_PRIORITY = -1;
+    CONST NORMAL_PRIORITY = 0;
+    CONST HIGH_PRIORITY = 1;
+    CONST NORMAL_URGENCY = 0;
+    CONST HIGH_URGENCY = 1;
 
     /**
      * @var int
@@ -35,6 +40,18 @@ class Tasks
      * @ORM\Column(name="torder", type="integer")
      */
     private $order;
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="priority", type="integer")
+     */
+    private $priority;
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="urgency", type="integer")
+     */
+    private $urgency;
 
     /**
      * @var boolean
@@ -70,6 +87,8 @@ class Tasks
     {
         $this->createdAt = new \DateTime();
         $this->order=0;
+        $this->priority = Tasks::NORMAL_PRIORITY;
+        $this->urgency = Tasks::NORMAL_URGENCY;
     }
 
     /**
@@ -219,5 +238,51 @@ class Tasks
     public function getOrder()
     {
         return $this->order;
+    }
+
+    /**
+     * Set priority
+     *
+     * @param integer $priority
+     * @return Tasks
+     */
+    public function setPriority($priority)
+    {
+        $this->priority = $priority;
+
+        return $this;
+    }
+
+    /**
+     * Get priority
+     *
+     * @return integer 
+     */
+    public function getPriority()
+    {
+        return $this->priority;
+    }
+
+    /**
+     * Set urgency
+     *
+     * @param integer $urgency
+     * @return Tasks
+     */
+    public function setUrgency($urgency)
+    {
+        $this->urgency = $urgency;
+
+        return $this;
+    }
+
+    /**
+     * Get urgency
+     *
+     * @return integer 
+     */
+    public function getUrgency()
+    {
+        return $this->urgency;
     }
 }
