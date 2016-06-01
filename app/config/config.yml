@@ -80,3 +80,32 @@ fos_user:
     db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
     firewall_name: main
     user_class: AppBundle\Entity\User
+    
+zenstruck_backup:
+    namers:
+        daily:
+            timestamp:
+                format: Ymd-His
+                prefix: myapp-
+        snapshot:
+            timestamp:
+                prefix: myapp-
+    sources:
+        database: 
+            mysqldump: 
+                database:   "%database_name%"
+                user:       "%database_user%"
+                password:   "%database_password%"
+    processors:
+        gzip: { gzip:~ }
+    destinations:
+        dir: 
+            stream: 
+                directory: 'backups'
+    profiles:
+        daily:
+            scratch_dir: "%kernel.cache_dir%/backups"
+            sources: [database]
+            namer: daily
+            processor: gzip
+            destinations: [dir]

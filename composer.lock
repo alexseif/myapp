@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "d8d41e6b9605c80702cb7fcd98eef907",
-    "content-hash": "39b0c5ef58af238958f764d96849f7b3",
+    "hash": "6403d2ba6aa73811ef6bc4edbc7c9f0e",
+    "content-hash": "1873eef43171c122f1f3e5bc19dca027",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -726,7 +726,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/16b04c49af05dd3fb381e4abe04f0e5e231ac76d",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/d1fccc6335b74beca94525551cacc06b256ed261",
                 "reference": "16b04c49af05dd3fb381e4abe04f0e5e231ac76d",
                 "shasum": ""
             },
@@ -2174,6 +2174,117 @@
                 "templating"
             ],
             "time": "2016-01-25 21:22:18"
+        },
+        {
+            "name": "zenstruck/backup",
+            "version": "v1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kbond/php-backup.git",
+                "reference": "e396e090e34276bdfbbb35b30d80cf94d938d3af"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kbond/php-backup/zipball/e396e090e34276bdfbbb35b30d80cf94d938d3af",
+                "reference": "e396e090e34276bdfbbb35b30d80cf94d938d3af",
+                "shasum": ""
+            },
+            "require": {
+                "psr/log": "~1.0",
+                "symfony/filesystem": "~2.3|~3.0"
+            },
+            "require-dev": {
+                "gabrielelana/byte-units": "^0.3.0",
+                "league/flysystem": "~1.0",
+                "sllh/php-cs-fixer-styleci-bridge": "~1.4",
+                "symfony/console": "~2.5|~3.0",
+                "symfony/finder": "~2.5|~3.0",
+                "symfony/process": "~2.3|~3.0"
+            },
+            "suggest": {
+                "gabrielelana/byte-units": "For pretty filesize display"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Zenstruck\\Backup\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kevin Bond",
+                    "email": "kevinbond@gmail.com"
+                }
+            ],
+            "description": "Library to create and archive backups",
+            "homepage": "http://zenstruck.com/projects/php-backup",
+            "keywords": [
+                "backup"
+            ],
+            "time": "2015-11-20 14:48:14"
+        },
+        {
+            "name": "zenstruck/backup-bundle",
+            "version": "v1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kbond/ZenstruckBackupBundle.git",
+                "reference": "87ff8ba53981f2dc34d040e0623a75f47a347b57"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kbond/ZenstruckBackupBundle/zipball/87ff8ba53981f2dc34d040e0623a75f47a347b57",
+                "reference": "87ff8ba53981f2dc34d040e0623a75f47a347b57",
+                "shasum": ""
+            },
+            "require": {
+                "symfony/framework-bundle": "~2.3|~3.0",
+                "zenstruck/backup": "^1.1.1"
+            },
+            "require-dev": {
+                "matthiasnoback/symfony-dependency-injection-test": "^0.7.4",
+                "sllh/php-cs-fixer-styleci-bridge": "~1.4",
+                "symfony/console": "~2.3|~3.0",
+                "symfony/yaml": "~2.3|~3.0"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Zenstruck\\BackupBundle\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kevin Bond",
+                    "email": "kevinbond@gmail.com"
+                }
+            ],
+            "description": "Symfony2 Bundle that wraps backup commands",
+            "homepage": "http://zenstruck.com/projects/ZenstruckBackupBundle",
+            "keywords": [
+                "Symfony2",
+                "backup",
+                "bundle"
+            ],
+            "time": "2015-12-01 15:05:27"
         }
     ],
     "packages-dev": [

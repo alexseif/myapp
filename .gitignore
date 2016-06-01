@@ -41,3 +41,5 @@
 
 /nbproject/private/
 /nbproject/configs/DEV.properties
+/backups/*
+!backups/.gitkeep
