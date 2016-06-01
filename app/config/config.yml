@@ -102,7 +102,7 @@ zenstruck_backup:
     destinations:
         dir: 
             stream: 
-                directory: 'backups'
+                directory: "%kernel.root_dir%/../backups"
     profiles:
         daily:
             scratch_dir: "%kernel.cache_dir%/backups"

@@ -1,6 +1,10 @@
 {% extends "::base.html.twig" %}
 
 {% block title %}Backups{% endblock %}
+{% block floatingActions %}
+    <a href="{{ path('backups_generate') }}" class="bg-primary"><span class="glyphicon glyphicon-plus"></span></a>
+
+{% endblock %}
 {% block panelTitle %}Backups{% endblock %}
 {% block panelBody %}
     <ul class="list-group">
