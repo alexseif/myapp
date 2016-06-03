@@ -25,13 +25,15 @@ class TasksType extends AbstractType
                         1 => 'High',
                     ),
                     'expanded' => true,
+                    'label_attr' => array('class' => 'radio-inline')
                 ))
                 ->add('urgency', ChoiceType::class, array(
                     'choices' => array(
                         0 => 'Normal',
                         1 => 'Urgent',
                     ),
-                    'expanded' => true
+                    'expanded' => true,
+                    'label_attr' => array('class' => 'radio-inline')
                 ))
                 ->add('taskList', 'entity', array('class' => \AppBundle\Entity\TaskLists::class, 'choice_label' => 'name'))
                 ->add('completed')
