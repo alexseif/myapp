@@ -5,6 +5,7 @@
                 <input type="checkbox" data-taskid="{{task.id}}" class="checkbox-inline" {{ task.completed ? "checked" : "" }}/>
                 {{ task.task }}
             </label>
+            <label class="label label-default">{{ task.taskList.name }}</label>
             <a href="{{ path('tasks_edit', { 'id': task.id }) }}" class="btn btn-primary edit-fixed-link"><span class="glyphicon glyphicon-pencil"></span></a>
         </li>
     {% endfor %}

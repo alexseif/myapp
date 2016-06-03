@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Tasks
 {
+
     const LOW_PRIORITY = -1;
     CONST NORMAL_PRIORITY = 0;
     CONST HIGH_PRIORITY = 1;
@@ -40,12 +41,14 @@ class Tasks
      * @ORM\Column(name="torder", type="integer")
      */
     private $order;
+
     /**
      * @var integer
      *
      * @ORM\Column(name="priority", type="integer")
      */
     private $priority;
+
     /**
      * @var integer
      *
@@ -86,7 +89,7 @@ class Tasks
     public function __construct()
     {
         $this->createdAt = new \DateTime();
-        $this->order=0;
+        $this->order = 0;
         $this->priority = Tasks::NORMAL_PRIORITY;
         $this->urgency = Tasks::NORMAL_URGENCY;
     }
@@ -193,7 +196,6 @@ class Tasks
         return $this->taskList;
     }
 
-
     /**
      * Set createdAt
      *
@@ -285,4 +287,5 @@ class Tasks
     {
         return $this->urgency;
     }
+
 }

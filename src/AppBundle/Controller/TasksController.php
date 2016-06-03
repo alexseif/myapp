@@ -27,7 +27,7 @@ class TasksController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $tasks = $em->getRepository('AppBundle:Tasks')->findUnlisted();
+        $tasks = $em->getRepository('AppBundle:Tasks')->findAll();
 
         return $this->render('tasks/index.html.twig', array(
                     'tasks' => $tasks,
@@ -84,9 +84,7 @@ class TasksController extends Controller
             $em->flush();
             return new \Symfony\Component\HttpFoundation\JsonResponse();
         }
-    
     }
-
 
     /**
      * Displays a form to edit an existing Tasks entity.
@@ -101,9 +99,9 @@ class TasksController extends Controller
 
         if ($request->isXMLHttpRequest()) {
             $task->setCompleted($request->get('completed'));
-            if($task->getCompleted()){
+            if ($task->getCompleted()) {
                 $task->setCompletedAt(new \DateTime());
-            }else{
+            } else {
                 $task->setCompletedAt(null);
             }
             $em->flush();

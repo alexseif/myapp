@@ -25,8 +25,12 @@
                 {% if taskList.tasks|length %}
                     {% set tasks = taskList.tasks %}
                     <div class="panel panel-primary">
-                        <div class="panel-heading"><span class="panel-title">{{ taskList.name }}</span> <span class="badge">{{ taskList.tasks.count }}</span></div>
-                            {% include 'tasks/tasks_list.html.twig' %}
+                        <div class="panel-heading">
+                            <span class="panel-title">
+                                <a href="{{ path('tasklists_show', {"id":taskList.id}) }}">{{ taskList.name }}</a>
+                            </span> <span class="badge">{{ taskList.tasks.count }}</span>
+                        </div>
+                        {% include 'tasks/tasks_list.html.twig' %}
                     </div>
                 {% endif %}
             {% endfor %}
