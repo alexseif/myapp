@@ -56,7 +56,7 @@ class TasksController extends Controller
             $em->flush();
 
 //            return $this->redirectToRoute('tasks_show', array('id' => $task ->getId()));
-            return $this->redirectToRoute('tasks_index');
+            return $this->redirectToRoute('focus');
         }
 
         return $this->render('tasks/new.html.twig', array(
@@ -116,7 +116,7 @@ class TasksController extends Controller
             $em->persist($task);
             $em->flush();
 
-            return $this->redirectToRoute('tasks_edit', array('id' => $task->getId()));
+            return $this->redirect($this->generateUrl('focus') . '#task_' . $task->getId());
         }
 
         return $this->render('tasks/edit.html.twig', array(

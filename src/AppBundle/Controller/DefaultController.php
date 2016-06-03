@@ -31,4 +31,18 @@ class DefaultController extends Controller
         ));
     }
 
+    /**
+     * @Route("/focus", name="focus")
+     */
+    public function focusAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $tasks = $em->getRepository('AppBundle:Tasks')->focusList();
+
+        return $this->render('default/focus.html.twig', array(
+                    'tasks' => $tasks,
+        ));
+    }
+
 }

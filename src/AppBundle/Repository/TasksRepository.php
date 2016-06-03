@@ -28,4 +28,9 @@ class TasksRepository extends EntityRepository
         return $this->findBy(array("taskList" => null));
     }
 
+    public function focusList()
+    {
+        return $this->findBy(array("completed" => false), array("urgency" => "DESC", "priority" => "DESC", "order" => "ASC"));
+    }
+
 }

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block container %}
+    <div class="floating-action">
+        <a href="{{ path('tasks_new') }}" class="bg-primary"><span class="glyphicon glyphicon-plus"></span></a>
+    </div>
+    <div class="container">
+        {% include 'tasks/tasks_list.html.twig' %}
+    </div>
+{% endblock %}
+

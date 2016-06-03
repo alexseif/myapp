@@ -1,7 +1,5 @@
 {% extends 'base.html.twig' %}
 
-{% form_theme task_form 'form/radioButtons.html.twig' %}
-
 {% block panelTitle %}New Task{% endblock %}
 {% block panelBack %}<a href="{{ path('tasks_index') }}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-arrow-left"></span></a>{% endblock %}
 
@@ -10,17 +8,7 @@
     <div class="panel-body">
         <div class="row">
             <div class="col-sm-11">
-                {{ form_row(task_form.task) }}
-                {{ form_widget(task_form.priority) }}
-                {{ form_row(task_form.urgency) }}
-            </div>
-            <div class="btn-group btn-toggle" data-toggle="buttons">
-                <label class="btn btn-primary active">
-                    <input name="options" value="option1" type="radio"> On
-                </label>
-                <label class="btn btn-default">
-                    <input name="options" value="option2" checked="" type="radio"> Off
-                </label>
+                {{ form_widget(task_form.task) }}
             </div>
             <div class="col-sm-1">
                 <button type="submit" value="Edit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span></button>

@@ -20,21 +20,16 @@ class TasksType extends AbstractType
                 ->add('task')
                 ->add('priority', ChoiceType::class, array(
                     'choices' => array(
-                        1 => 'High',
-                        0 => 'Normal',
                         -1 => 'Low',
+                        0 => 'Normal',
+                        1 => 'High',
                     ),
                     'expanded' => true,
-                    'attr' => array(
-                        'class' => 'btn-group btn-toggle',
-                        "data-toggle"=>"buttons"
-                        ),
-                    'label_attr' => array('class' => 'btn btn-primary radio-inline')
                 ))
                 ->add('urgency', ChoiceType::class, array(
                     'choices' => array(
+                        0 => 'Normal',
                         1 => 'Urgent',
-                        0 => 'Not Urgent',
                     ),
                     'expanded' => true
                 ))
