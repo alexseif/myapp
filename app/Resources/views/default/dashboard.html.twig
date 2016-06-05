@@ -18,7 +18,7 @@
             {% if tasks|length %}
                 <div class="panel panel-primary">
                     <div class="panel-heading">UnListed</div>
-                    {% include 'tasks/tasks_list.html.twig' %}
+                    {% include 'tasks/tasks.html.twig' %}
                 </div>
             {% endif %}
             {% for taskList in taskLists %}
@@ -30,7 +30,7 @@
                                 <a href="{{ path('tasklists_show', {"id":taskList.id}) }}">{{ taskList.name }}</a>
                             </span> <span class="badge">{{ taskList.tasks.count }}</span>
                         </div>
-                        {% include 'tasks/tasks_list.html.twig' %}
+                        {% include 'tasks/tasks.html.twig' %}
                     </div>
                 {% endif %}
             {% endfor %}

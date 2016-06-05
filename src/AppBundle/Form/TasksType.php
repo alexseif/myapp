@@ -18,6 +18,7 @@ class TasksType extends AbstractType
     {
         $builder
                 ->add('task')
+                ->add('est')
                 ->add('priority', ChoiceType::class, array(
                     'choices' => array(
                         -1 => 'Low',

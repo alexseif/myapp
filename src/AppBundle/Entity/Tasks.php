@@ -59,6 +59,13 @@ class Tasks
     /**
      * @var boolean
      *
+     * @ORM\Column(name="est", type="integer", nullable=true)
+     */
+    private $est;
+
+    /**
+     * @var boolean
+     *
      * @ORM\Column(name="completed", type="boolean")
      */
     private $completed;
@@ -290,4 +297,27 @@ class Tasks
         return $this->urgency;
     }
 
+
+    /**
+     * Set est
+     *
+     * @param integer $est
+     * @return Tasks
+     */
+    public function setEst($est)
+    {
+        $this->est = $est;
+
+        return $this;
+    }
+
+    /**
+     * Get est
+     *
+     * @return integer 
+     */
+    public function getEst()
+    {
+        return $this->est;
+    }
 }
