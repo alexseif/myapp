@@ -5,6 +5,8 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Entity\Tasks;
+use AppBundle\Form\TasksType;
 
 class DefaultController extends Controller
 {
@@ -39,9 +41,11 @@ class DefaultController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $tasks = $em->getRepository('AppBundle:Tasks')->focusList();
-
+        $task = new Tasks();
+        $form = $this->createForm(TasksType::class, $task);
         return $this->render('default/focus.html.twig', array(
                     'tasks' => $tasks,
+                    'task_form' => $form->createView(),
         ));
     }
 
