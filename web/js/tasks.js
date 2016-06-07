@@ -20,11 +20,11 @@ $(document).ready(function () {
     });
 
     //Sorting Tasks
-    $( ".task-list" ).sortable({        
+    $(".task-list").sortable({
         placeholder: "ui-state-highlight",
         items: "li:not(.completed)",
         update: function (event, ui) {
-            var data = $(this).sortable("serialize", { "key":"tasks[][id]",attribute: "data-order" });
+            var data = $(this).sortable("serialize", {"key": "tasks[][id]", attribute: "data-order"});
             console.log(data);
             $.ajax({
                 data: data,
@@ -34,4 +34,9 @@ $(document).ready(function () {
             });
         }
     });
+
+    //Modal handling
+    $('#newTask').on('shown.bs.modal', function () {
+        $('#tasks_task').focus();
+    })
 });
