@@ -42,7 +42,9 @@ class DefaultController extends Controller
 
         $tasks = $em->getRepository('AppBundle:Tasks')->focusList();
         $task = new Tasks();
-        $form = $this->createForm(TasksType::class, $task);
+        $form = $this->createForm(TasksType::class, $task, array(
+            'action' => $this->generateUrl('tasks_new')
+        ));
         return $this->render('default/focus.html.twig', array(
                     'tasks' => $tasks,
                     'task_form' => $form->createView(),
