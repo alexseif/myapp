@@ -1,9 +1,15 @@
 {% set timeLeft = 480 %}
-<ul class="list-group task-list">
-    {% for task in tasks %}
-        {% set timeLeft = timeLeft - task.est %}
+{% set dayStart = true %}
+{% set dayEnd = false %}
+
+{% for task in tasks %}
+    {% if dayStart %}
+        <ul class="list-group task-list">
+            {% set dayStart = false %}
+        {% endif %}
+
         <li class="list-group-item {{ task.completed ? "completed" }}" data-order="id_{{task.id}}" id="task_{{task.id}}" 
-            style="height: {{ (timeLeft > 0) and task.est ? (task.est / 480)*100 ~ "vh" : "auto" }}">
+            style="height: {{ (timeLeft > 0) and task.est ? (task.est / 480)*90 ~ "vh" : "auto" }}">
             <label class="btn btn-{{ (timeLeft > 0) ? "primary" : "default" }} btn-sm " title="{{ task.task }}">
                 <input type="checkbox" data-taskid="{{task.id}}" class="checkbox-inline" {{ task.completed ? "checked" : "" }}/>
                 {{ task.task }}
@@ -14,5 +20,16 @@
             <label class="label label-info">{{ task.est ? task.est ~ " mins"}}</label>
             <a href="{{ path('tasks_edit', { 'id': task.id }) }}" class="btn btn-primary edit-fixed-link btn-sm"><span class="glyphicon glyphicon-pencil"></span></a>
         </li>
+
+        {% set timeLeft = timeLeft - task.est %}
+        {% if (timeLeft <= 0 ) %}
+            {% if (not dayEnd) %}
+            </ul>
+            <ul class="list-group task-list">
+            {% endif %}
+            {% set dayEnd = true %}
+        {% endif %}
+
+
     {% endfor %}
-</ul>
+</ul>   
