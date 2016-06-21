@@ -36,13 +36,13 @@ class Transactions
     private $date;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Categories", inversedBy="transactions")
+     * @ORM\ManyToOne(targetEntity="Categories", inversedBy="transactions", cascade={"all"})
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
      */
     private $category;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Tags", inversedBy="transactions")
+     * @ORM\ManyToMany(targetEntity="Tags", inversedBy="transactions", cascade={"all"})
      * @ORM\JoinTable(name="txn_tags")
      */
     private $tags;
@@ -130,7 +130,7 @@ class Transactions
     public function setCategory(\AppBundle\Entity\Categories $category = null)
     {
         $this->category = $category;
-
+//        $category->addTransaction($this);
         return $this;
     }
 
@@ -152,8 +152,8 @@ class Transactions
      */
     public function addTag(\AppBundle\Entity\Tags $tags)
     {
-        $this->tags[] = $tags;
         $tags->addTransaction($this);
+        $this->tags[] = $tags;
         return $this;
     }
 

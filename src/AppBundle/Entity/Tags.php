@@ -30,7 +30,7 @@ class Tags
     private $tag;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Transactions", mappedBy="tags")
+     * @ORM\ManyToMany(targetEntity="Transactions", mappedBy="tags", cascade={"all"})
      */
     private $transactions;
 

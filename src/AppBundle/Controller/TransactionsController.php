@@ -108,12 +108,7 @@ class TransactionsController extends Controller
 
         $form->handleRequest($request);
 
-        $em            = $this->getDoctrine()->getManager();
-        $transactions  = new \Doctrine\Common\Collections\ArrayCollection();
-        $categories    = new \Doctrine\Common\Collections\ArrayCollection($em->getRepository('AppBundle:Categories')->findAll());
-        $tags          = new \Doctrine\Common\Collections\ArrayCollection($em->getRepository('AppBundle:Tags')->findAll());
-        $csvCategories = array();
-        $csvTags       = array();
+        $em = $this->getDoctrine()->getManager();
 
         if ($form->isSubmitted() && $form->isValid()) {
             // Get file
@@ -122,7 +117,7 @@ class TransactionsController extends Controller
             // Your csv file here when you hit submit button
 
             $rows            = array();
-            $ignoreFirstLine = true;
+            $ignoreFirstLine = false;
             if (($handle          = fopen($file->getData(), "r")) !== FALSE) {
 
                 $i = 0;
@@ -132,62 +127,103 @@ class TransactionsController extends Controller
                     if ($ignoreFirstLine && $i == 1) {
                         continue;
                     }
-                    $rows[]          = $data;
-                    if (!in_array($data[2], $csvCategories))
-                            $csvCategories[] = $data[2];
-                    $csvTags         = $data[3];
+                    $rows[] = $data;
                 }
 
                 fclose($handle);
 
-                foreach ($categories as $cat) {
-                    if (in_array($cat->getCategory(), $csvCategories)) {
-                        $csvCategories[$cat->getCategory()] = $cat;
+                foreach ($rows as $row) {
+                    $row[2] = ucfirst(trim($row[2]));
+                    if ("" == $row[2]) {
+                        continue;
+                    }
+                    $cat = $em->getRepository('AppBundle:Categories')->findOneBy(array(
+                        'category' => $row[2]));
+                    if (!$cat) {
+                        $category = new \AppBundle\Entity\Categories();
+                        $category->setCategory($row[2]);
+                        $em->persist($category);
+                        $em->flush();
+                        $em->clear();
                     }
                 }
 
                 foreach ($rows as $row) {
-                    $transaction = new Transactions();
-                    $date        = \DateTime::createFromFormat('m/d/Y', $row[0]);
-                    $transaction->setDate($date);
-
-                    if (exists($row[2], $availableCategories)) {
-                        $category = $categories->get($key);
-                    } else {
-                        $category = new \AppBundle\Entity\Categories();
-                        $category->setCategory($row[2]);
-                        $categories->add($category);
-                    }
-
-                    $transaction->setCategory($category);
-
                     $rawTags = explode(',', $row[3]);
                     foreach ($rawTags as $rawTag) {
-                        $tag = new \AppBundle\Entity\Tags();
-                        $tag->setTag($rawTag);
-//                        if (!$tags->contains($tag)) {
-                        $tags->add($tag);
-//                        }
-                        $transaction->addTag($tag);
-                        $transaction->setAmount($row[4] * 100);
+                        $rawTag = ucfirst(trim($rawTag));
+                        if ("" == $rawTag) {
+                            continue;
+                        }
+                        $tg = $em->getRepository('AppBundle:Tags')->findOneBy(array(
+                            'tag' => $rawTag));
+                        if (!$tg) {
+                            $tag = new \AppBundle\Entity\Tags();
+                            $tag->setTag($rawTag);
+                            $em->persist($tag);
+                            $em->flush();
+                            $em->clear();
+                        }
                     }
-
+                }
+                $transactions = new \Doctrine\Common\Collections\ArrayCollection();
+                foreach ($rows as $row) {
+                    $transaction = new Transactions();
+                    $date        = \DateTime::createFromFormat('m/d/y', $row[0]);
+                    $transaction->setDate($date);
+                    $row[2]      = ucfirst($row[2]);
+                    if ("" != $row[2]) {
+                        $cat = $em->getRepository('AppBundle:Categories')->findOneBy(array(
+                            'category' => $row[2]));
+                        if ($cat) {
+                            $transaction->setCategory($cat);
+                        }
+                    }
+                    $rawTags = explode(',', $row[3]);
+                    foreach ($rawTags as $rawTag) {
+                        $rawTag = ucfirst(trim($rawTag));
+                        if ("" != $rawTag) {
+                            $tg = $em->getRepository('AppBundle:Tags')->findOneBy(array(
+                                'tag' => $rawTag));
+                            if ($tg) {
+                                $transaction->addTag($tg);
+                            }
+                        }
+                    }
+                    
+                    $row[4] = (float) abs(str_replace(',', '', $row[4]));
+                    $row[5] = (float) abs(str_replace(',', '', $row[5]));
+                    if ($row[4] > 0) {
+                        $transaction->setAmount($row[4] * 100);
+                        $transaction->makeExpense();
+                    } elseif ($row[5] > 0) {
+                        $transaction->setAmount($row[5] * 100);
+                    } else {
+                        dump($row);
+                    }
                     $transactions->add($transaction);
                 }
+                dump(count($rows));
+                dump($transactions->count());
             }
-
-
-//            $em->persist($transaction);
-//            $em->flush();
+            
+            foreach ($transactions as $txn) {
+                if($txn->getTags()->count()<1){
+                    dump($txn);
+                }
+                if(!$txn->getCategory()->getId()){
+                    dump($txn);
+                }
+                $em->persist($txn);
+                $em->flush();
+                $em->clear();
+            }
 //            return $this->redirectToRoute('transactions_show',
 //                    array('id' => $transaction->getId()));
         }
 
         return $this->render('transactions/import.html.twig',
                 array(
-                'transactions' => $transactions,
-                'categories' => $categories,
-                'tags' => $tags,
                 'form' => $form->createView(),
         ));
     }
