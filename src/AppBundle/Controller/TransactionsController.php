@@ -29,8 +29,9 @@ class TransactionsController extends Controller
 
         $transactions = $em->getRepository('AppBundle:Transactions')->findAll();
 
-        return $this->render('transactions/index.html.twig', array(
-                    'transactions' => $transactions,
+        return $this->render('transactions/index.html.twig',
+                array(
+                'transactions' => $transactions,
         ));
     }
 
@@ -43,7 +44,8 @@ class TransactionsController extends Controller
     public function newExpenseAction(Request $request)
     {
         $transaction = new Transactions();
-        $form = $this->createForm('AppBundle\Form\TransactionsType', $transaction);
+        $form        = $this->createForm('AppBundle\Form\TransactionsType',
+            $transaction);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -52,12 +54,14 @@ class TransactionsController extends Controller
             $em->persist($transaction);
             $em->flush();
 
-            return $this->redirectToRoute('transactions_show', array('id' => $transaction->getId()));
+            return $this->redirectToRoute('transactions_show',
+                    array('id' => $transaction->getId()));
         }
 
-        return $this->render('transactions/new.html.twig', array(
-                    'transaction' => $transaction,
-                    'form' => $form->createView(),
+        return $this->render('transactions/new.html.twig',
+                array(
+                'transaction' => $transaction,
+                'form' => $form->createView(),
         ));
     }
 
@@ -70,7 +74,8 @@ class TransactionsController extends Controller
     public function newIncomeAction(Request $request)
     {
         $transaction = new Transactions();
-        $form = $this->createForm('AppBundle\Form\TransactionsType', $transaction);
+        $form        = $this->createForm('AppBundle\Form\TransactionsType',
+            $transaction);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -78,12 +83,112 @@ class TransactionsController extends Controller
             $em->persist($transaction);
             $em->flush();
 
-            return $this->redirectToRoute('transactions_show', array('id' => $transaction->getId()));
+            return $this->redirectToRoute('transactions_show',
+                    array('id' => $transaction->getId()));
         }
 
-        return $this->render('transactions/new.html.twig', array(
-                    'transaction' => $transaction,
-                    'form' => $form->createView(),
+        return $this->render('transactions/new.html.twig',
+                array(
+                'transaction' => $transaction,
+                'form' => $form->createView(),
+        ));
+    }
+
+    /**
+     * Imports Transactions from CSV.
+     *
+     * @Route("/import", name="import")
+     * @Method({"GET", "POST"})
+     */
+    public function importAction(Request $request)
+    {
+        $form = $this->createFormBuilder()
+            ->add('submitFile', 'file', array('label' => 'File to Submit'))
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        $em            = $this->getDoctrine()->getManager();
+        $transactions  = new \Doctrine\Common\Collections\ArrayCollection();
+        $categories    = new \Doctrine\Common\Collections\ArrayCollection($em->getRepository('AppBundle:Categories')->findAll());
+        $tags          = new \Doctrine\Common\Collections\ArrayCollection($em->getRepository('AppBundle:Tags')->findAll());
+        $csvCategories = array();
+        $csvTags       = array();
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Get file
+            $file = $form->get('submitFile');
+
+            // Your csv file here when you hit submit button
+
+            $rows            = array();
+            $ignoreFirstLine = true;
+            if (($handle          = fopen($file->getData(), "r")) !== FALSE) {
+
+                $i = 0;
+
+                while (($data = fgetcsv($handle)) !== FALSE) {
+                    $i++;
+                    if ($ignoreFirstLine && $i == 1) {
+                        continue;
+                    }
+                    $rows[]          = $data;
+                    if (!in_array($data[2], $csvCategories))
+                            $csvCategories[] = $data[2];
+                    $csvTags         = $data[3];
+                }
+
+                fclose($handle);
+
+                foreach ($categories as $cat) {
+                    if (in_array($cat->getCategory(), $csvCategories)) {
+                        $csvCategories[$cat->getCategory()] = $cat;
+                    }
+                }
+
+                foreach ($rows as $row) {
+                    $transaction = new Transactions();
+                    $date        = \DateTime::createFromFormat('m/d/Y', $row[0]);
+                    $transaction->setDate($date);
+
+                    if (exists($row[2], $availableCategories)) {
+                        $category = $categories->get($key);
+                    } else {
+                        $category = new \AppBundle\Entity\Categories();
+                        $category->setCategory($row[2]);
+                        $categories->add($category);
+                    }
+
+                    $transaction->setCategory($category);
+
+                    $rawTags = explode(',', $row[3]);
+                    foreach ($rawTags as $rawTag) {
+                        $tag = new \AppBundle\Entity\Tags();
+                        $tag->setTag($rawTag);
+//                        if (!$tags->contains($tag)) {
+                        $tags->add($tag);
+//                        }
+                        $transaction->addTag($tag);
+                        $transaction->setAmount($row[4] * 100);
+                    }
+
+                    $transactions->add($transaction);
+                }
+            }
+
+
+//            $em->persist($transaction);
+//            $em->flush();
+//            return $this->redirectToRoute('transactions_show',
+//                    array('id' => $transaction->getId()));
+        }
+
+        return $this->render('transactions/import.html.twig',
+                array(
+                'transactions' => $transactions,
+                'categories' => $categories,
+                'tags' => $tags,
+                'form' => $form->createView(),
         ));
     }
 
@@ -97,9 +202,10 @@ class TransactionsController extends Controller
     {
         $deleteForm = $this->createDeleteForm($transaction);
 
-        return $this->render('transactions/show.html.twig', array(
-                    'transaction' => $transaction,
-                    'delete_form' => $deleteForm->createView(),
+        return $this->render('transactions/show.html.twig',
+                array(
+                'transaction' => $transaction,
+                'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -112,7 +218,8 @@ class TransactionsController extends Controller
     public function editAction(Request $request, Transactions $transaction)
     {
         $deleteForm = $this->createDeleteForm($transaction);
-        $editForm = $this->createForm('AppBundle\Form\TransactionsType', $transaction);
+        $editForm   = $this->createForm('AppBundle\Form\TransactionsType',
+            $transaction);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
@@ -120,13 +227,15 @@ class TransactionsController extends Controller
             $em->persist($transaction);
             $em->flush();
 
-            return $this->redirectToRoute('transactions_edit', array('id' => $transaction->getId()));
+            return $this->redirectToRoute('transactions_edit',
+                    array('id' => $transaction->getId()));
         }
 
-        return $this->render('transactions/edit.html.twig', array(
-                    'transaction' => $transaction,
-                    'edit_form' => $editForm->createView(),
-                    'delete_form' => $deleteForm->createView(),
+        return $this->render('transactions/edit.html.twig',
+                array(
+                'transaction' => $transaction,
+                'edit_form' => $editForm->createView(),
+                'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -160,10 +269,10 @@ class TransactionsController extends Controller
     private function createDeleteForm(Transactions $transaction)
     {
         return $this->createFormBuilder()
-                        ->setAction($this->generateUrl('transactions_delete', array('id' => $transaction->getId())))
-                        ->setMethod('DELETE')
-                        ->getForm()
+                ->setAction($this->generateUrl('transactions_delete',
+                        array('id' => $transaction->getId())))
+                ->setMethod('DELETE')
+                ->getForm()
         ;
     }
-
 }

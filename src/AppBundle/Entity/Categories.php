@@ -12,7 +12,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Categories
 {
-
     /**
      * @var int
      *
@@ -107,7 +106,9 @@ class Categories
     {
         return $this->transactions;
     }
-   public function __toString() {
-    return $this->category;
-}
+
+    public function __toString()
+    {
+        return $this->category;
+    }
 }

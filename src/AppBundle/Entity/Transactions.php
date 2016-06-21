@@ -12,7 +12,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Transactions
 {
-
     /**
      * @var int
      *
@@ -78,8 +77,9 @@ class Transactions
      */
     public function getAmount()
     {
-        return $this->amount/100;
+        return $this->amount / 100;
     }
+
     /**
      * Get amount
      *
@@ -153,7 +153,7 @@ class Transactions
     public function addTag(\AppBundle\Entity\Tags $tags)
     {
         $this->tags[] = $tags;
-
+        $tags->addTransaction($this);
         return $this;
     }
 
@@ -179,8 +179,6 @@ class Transactions
 
     public function makeExpense()
     {
-        return $this->amount  = $this->amount * -1;
+        return $this->amount = $this->amount * -1;
     }
-
-
 }
