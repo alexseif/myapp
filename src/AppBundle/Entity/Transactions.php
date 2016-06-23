@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Transactions
 {
+
     /**
      * @var int
      *
@@ -34,6 +35,13 @@ class Transactions
      * @ORM\Column(name="txn_date", type="date")
      */
     private $date;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="text", nullable=true)
+     */
+    private $description;
 
     /**
      * @ORM\ManyToOne(targetEntity="Categories", inversedBy="transactions", cascade={"all"})
@@ -180,5 +188,29 @@ class Transactions
     public function makeExpense()
     {
         return $this->amount = $this->amount * -1;
+    }
+
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     * @return Transactions
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string 
+     */
+    public function getDescription()
+    {
+        return $this->description;
     }
 }
