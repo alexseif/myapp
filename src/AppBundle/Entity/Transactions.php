@@ -44,7 +44,7 @@ class Transactions
     private $description;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Categories", inversedBy="transactions", cascade={"all"})
+     * @ORM\ManyToOne(targetEntity="Categories", inversedBy="transactions", cascade={"persist"})
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
      */
     private $category;
