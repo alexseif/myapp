@@ -31,8 +31,8 @@ class ToshlImporter
         $this->em = $em;
         $this->data = array();
         $this->transactions = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->categories = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->categories = array();
+        $this->tags = array();
     }
 
     public function parseCsv($file)
@@ -58,6 +58,11 @@ class ToshlImporter
                     continue;
                 }
                 $this->data[] = $data;
+                $this->setCategory($data[2]);
+                $rawTags = explode(',', $data[3]);
+                foreach ($rawTags as $rawTag) {
+                    $tag = $this->setTag($rawTag);
+                }
             }
         }
         fclose($handle);
@@ -78,7 +83,7 @@ class ToshlImporter
     {
         $category = $this->cleanWord($category);
         if ("" == $category) {
-            dump("Invalid category" . $i);
+            dump("Invalid category");
             dump($category);
             return null;
         }
@@ -86,11 +91,9 @@ class ToshlImporter
         $cat = $this->em->getRepository('AppBundle:Categories')->findOneBy(array(
             'category' => $category));
         if (!$cat) {
-            $cat = new \AppBundle\Entity\Categories();
-            $cat->setCategory($category);
-            $this->em->persist($cat);
-            $this->em->flush();
-            $this->em->clear();
+            if (!in_array($category, $this->categories))
+                $this->categories[] = $category;
+            return null;
         }
         return $cat;
     }
@@ -104,16 +107,25 @@ class ToshlImporter
         $tg = $this->em->getRepository('AppBundle:Tags')->findOneBy(array(
             'tag' => $tag));
         if (!$tg) {
-            $tg = new \AppBundle\Entity\Tags();
-            $tg->setTag($tag);
-            $this->em->persist($tg);
-            $this->em->flush();
-            $this->em->clear();
+            if (!in_array(strtolower($tag), array_map('strtolower', $this->tags)))
+                $this->tags[] = $tag;
+            return null;
         }
+        return $tg;
     }
 
     public function parseData()
     {
+        foreach ($this->categories as $ct) {
+            $category = new \AppBundle\Entity\Categories();
+            $category->setCategory($ct);
+            $this->persist($category);
+        }
+        foreach ($this->tags as $tg) {
+            $tag = new \AppBundle\Entity\Tags();
+            $tag->setTag($tg);
+            $this->persist($tag);
+        }
         foreach ($this->data as $data) {
 
             $transaction = new \AppBundle\Entity\Transactions();
@@ -132,8 +144,8 @@ class ToshlImporter
             $rawTags = explode(',', $data[3]);
             foreach ($rawTags as $rawTag) {
                 $tag = $this->setTag($rawTag);
-                if (NULL != $tag)
-                    $transaction->addTag();
+                if ($tag)
+                    $transaction->addTag($tag);
             }
 
             if ($data[4] > 0) {
@@ -162,10 +174,15 @@ class ToshlImporter
                 $transaction->setDescription($description);
 
             $this->transactions->add($transaction);
-            $this->em->persist($transaction);
-            $this->em->flush();
-            $this->em->clear();
+            $this->persist($transaction);
         }
+    }
+
+    public function persist($entity)
+    {
+        $this->em->persist($entity);
+        $this->em->flush();
+        $this->em->clear();
     }
 
 }

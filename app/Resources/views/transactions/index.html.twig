@@ -5,7 +5,7 @@
     <a href="{{ path('new_income') }}" class="bg-primary"><span class="glyphicon glyphicon-plus"></span></a>
 
 {% endblock %}
-{% block panelTitle %}Transactions{% endblock %}
+{% block panelTitle %}Transactions <small>{{transactions|length}}</small>{% endblock %}
 {% block panelBody %}
     <table class="table table-bordered table-stripped">
         <thead>
