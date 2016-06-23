@@ -12,4 +12,22 @@ use Doctrine\ORM\EntityRepository;
  */
 class TransactionsRepository extends EntityRepository
 {
+
+    public function getFirstDate()
+    {
+        return $this->createQueryBuilder('t')
+                        ->orderBy("t.date")
+                        ->setMaxResults(1)
+                        ->getQuery()
+                        ->getOneOrNullResult();
+    }
+
+    public function getAvg()
+    {
+        return $this->createQueryBuilder('t')
+                        ->select('round(avg(t.amount)/100) as tavg, count(t.amount) as tcnt')
+                        ->getQuery()
+                        ->getOneOrNullResult();
+    }
+
 }

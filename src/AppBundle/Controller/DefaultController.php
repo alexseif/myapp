@@ -23,13 +23,17 @@ class DefaultController extends Controller
         $days = $em->getRepository('AppBundle:Days')->getActiveCards();
         $accounts = $em->getRepository('AppBundle:Accounts')->findAll();
         $projects = $em->getRepository('AppBundle:Projects')->findAll();
+        $txnDate = $em->getRepository('AppBundle:Transactions')->getFirstDate();
+        $txnAvg = $em->getRepository('AppBundle:Transactions')->getAvg();
 
         return $this->render('default/dashboard.html.twig', array(
                     'taskLists' => $taskLists,
                     'tasks' => $tasks,
                     'days' => $days,
                     'accounts' => $accounts,
-                    'projects' => $projects
+                    'projects' => $projects,
+                    'txnDate' => $txnDate,
+                    'txnAvg' => $txnAvg
         ));
     }
 
