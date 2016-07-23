@@ -188,3 +188,8 @@ zenstruck_backup:
             namer: daily
             processor: gzip
             destinations: [dir]
+            
+liip_url_auto_converter:
+    linkclass:
+    target: _blank
+    debugmode: false
