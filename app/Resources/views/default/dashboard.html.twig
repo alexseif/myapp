@@ -36,6 +36,7 @@
             {% endfor %}
         </div>
         {% if accounts|length %}
+          {% set hideEmpty = true %}
             <div class="col-xs-12 col-sm-6 col-md-8 col-lg-3">
                 {% include 'accounts/accounts_list.html.twig' %}
             </div>
