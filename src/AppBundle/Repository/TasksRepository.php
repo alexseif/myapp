@@ -38,8 +38,8 @@ class TasksRepository extends EntityRepository
             ->orWhere('t.completed <> true')
             ->orderBy("t.urgency", "DESC")
             ->addOrderBy("t.priority", "DESC")
-            ->addOrderBy("t.order", "ASC")
             ->addOrderBy("t.completedAt", "ASC")
+            ->addOrderBy("t.order", "ASC")
             ->setParameter(':today', $today->format('Y-m-d'))
             ->getQuery()
             ->getResult();
