@@ -45,4 +45,16 @@ class TasksRepository extends EntityRepository
             ->getResult();
   }
 
+  public function findTasksCountByDay()
+  {
+    return $this
+            ->createQueryBuilder('t')
+            ->select('COUNT(t.id) as cnt, DAYNAME(t.completedAt) as day_name')
+            ->where('t.completed = 1')
+            ->groupBy('day_name')
+            ->orderBy('cnt', 'DESC')
+            ->getQuery()
+            ->getResult();
+  }
+
 }

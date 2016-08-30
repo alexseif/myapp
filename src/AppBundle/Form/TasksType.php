@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 class TasksType extends AbstractType
 {
@@ -37,6 +38,7 @@ class TasksType extends AbstractType
                     'label_attr' => array('class' => 'radio-inline')
                 ))
                 ->add('taskList', 'entity', array('class' => \AppBundle\Entity\TaskLists::class, 'choice_label' => 'name'))
+                ->add('order', HiddenType::class)
                 ->add('completed')
         ;
     }

@@ -8,12 +8,14 @@ use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Tasks;
 use AppBundle\Form\TasksType;
 
-class DefaultController extends Controller {
+class DefaultController extends Controller
+{
 
   /**
    * @Route("/", name="dashboard")
    */
-  public function dashboardAction(Request $request) {
+  public function dashboardAction(Request $request)
+  {
     $em = $this->getDoctrine()->getManager();
 
     $taskLists = $em->getRepository('AppBundle:TaskLists')->findAllWithActiveTasks();
@@ -23,7 +25,12 @@ class DefaultController extends Controller {
     $projects = $em->getRepository('AppBundle:Projects')->findAll();
     $txnDate = $em->getRepository('AppBundle:Transactions')->getFirstDate();
     $txnAvg = $em->getRepository('AppBundle:Transactions')->getAvg();
-
+    $tsksCntDay = $em->getRepository('AppBundle:Tasks')->findTasksCountByDay();
+    $completed = 0;
+    $tskCnt = array();
+    foreach ($tsksCntDay as $t) {
+      $tskCnt[$t['day_name']] = $t['cnt'];
+    }
     return $this->render('default/dashboard.html.twig', array(
           'taskLists' => $taskLists,
           'tasks' => $tasks,
@@ -31,14 +38,16 @@ class DefaultController extends Controller {
           'accounts' => $accounts,
           'projects' => $projects,
           'txnDate' => $txnDate,
-          'txnAvg' => $txnAvg
+          'txnAvg' => $txnAvg,
+          'tskCnt' => $tskCnt,
     ));
   }
 
   /**
    * @Route("/focus", name="focus")
    */
-  public function focusAction() {
+  public function focusAction()
+  {
     $em = $this->getDoctrine()->getManager();
 
     $tasks = $em->getRepository('AppBundle:Tasks')->focusList();

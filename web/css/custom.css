@@ -55,3 +55,5 @@ li:hover .edit-link{display: inline;}
 .ui-state-highlight { height: 1.5em; line-height: 1.2em; border:1px solid #dad55e;background:#f39c12;;color:#777620}
 .completed, .completed *{text-decoration:line-through;opacity:.35;filter:Alpha(Opacity=35);background-image:none;}
 a.navbar-brand{background-color: #222222;}
+.progress{height: 20px;}
+.progress .progress-bar{line-height: 20px;font-size: 14px;}

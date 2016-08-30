@@ -1,134 +1,134 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>{% block title %}myApp{% endblock %}</title>
-        {% block stylesheets %}
-            <!-- Latest compiled and minified CSS -->
-            {# <link rel="stylesheet" href="/css/bootstrap.min.css"/>#}
-            <!-- Optional theme -->
-            {# <link rel="stylesheet" href="/css/bootstrap-theme.min.css"/>#}
-            <!-- Bootswatch Darkly theme-->
-            <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
-            <link rel="stylesheet" type="text/css" href="/css/bootstrap.darkly.min.css"/>
-            <link rel="stylesheet" type="text/css" href="/css/jquery-ui.min.css" />
-            <link rel="stylesheet" type="text/css" href="/css/jquery-ui.theme.min.css" />
-            <!-- Custom Styling -->
-            <link rel="stylesheet" href="/css/custom.css"/>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}myApp{% endblock %}</title>
+    {% block stylesheets %}
+      <!-- Latest compiled and minified CSS -->
+      {# <link rel="stylesheet" href="/css/bootstrap.min.css"/>#}
+      <!-- Optional theme -->
+      {# <link rel="stylesheet" href="/css/bootstrap-theme.min.css"/>#}
+      <!-- Bootswatch Darkly theme-->
+      <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
+      <link rel="stylesheet" type="text/css" href="/css/bootstrap.darkly.min.css"/>
+      <link rel="stylesheet" type="text/css" href="/css/jquery-ui.min.css" />
+      <link rel="stylesheet" type="text/css" href="/css/jquery-ui.theme.min.css" />
+      <!-- Custom Styling -->
+      <link rel="stylesheet" href="/css/custom.css"/>
 
-        {% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-    </head>
-    <body>
-        {% block body %}
-            {% block nav %}
-                <nav class="navbar navbar-default">
-                    <div class="container-fluid">
-                        <div class="navbar-header">
-                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
-                                <span class="sr-only">Toggle navigation</span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                            </button>
-                            <a class="navbar-brand" href="{{ path('dashboard') }}">myApp</a>
-                        </div>
-                        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-                            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
-                                <ul class="nav navbar-nav">
-                                    <li>
-                                        <a href="{{ path('focus') }}">Focus</a>
-                                    </li>
-                                    <li class="dropdown">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Tasks <span class="caret"></span></a>
-                                        <ul class="dropdown-menu" role="menu">
-                                            <li><a href="{{ path('tasklists_index') }}" title="Task Lists"><span class="glyphicon glyphicon-list-alt"></span> Lists</a></li>
-                                            <li><a href="{{ path('tasks_index') }}" title="Tasks"><span class="glyphicon glyphicon-th-list"></span> Tasks</a></li>
-                                            <li><a href="{{ path('tasks_new') }}" title="New Task"><span class="glyphicon glyphicon-check"></span> Add Task</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="dropdown">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Days</span> <span class="caret"></span></a>
-                                        <ul class="dropdown-menu" role="menu">
-                                            <li><a href="{{ path('days_index') }}">Days</a></li>
-                                            <li><a href="{{ path('days_new') }}"><span class="glyphicon glyphicon-th-large"></span> Add Day</a></li>
-                                            <li><a href="{{ path('days_archive') }}">Archive</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="dropdown">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Accounts <span class="caret"></span></a>
-                                        <ul class="dropdown-menu" role="menu">
-                                            <li><a href="{{ path('accounts_index') }}">Accounts</a></li>
-                                            <li><a href="{{ path('accounts_new') }}"><span class="glyphicon glyphicon-piggy-bank"></span> Add Account</a></li>
-                                            <li><a href="{{ path('accounttransactions_new') }}"><span class="glyphicon glyphicon-transfer"></span> Add Transaction</a></li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a href="{{ path('notes_index') }}">
-                                            <span class="glyphicon glyphicon-pushpin"></span>
-                                        </a>
-                                    </li>
-                                </ul>
-                                <ul class="nav navbar-nav navbar-right">
-                                    <li class="dropdown">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-cog"></span></a>
-                                        <ul class="dropdown-menu" role="menu">
-                                            <li><a href="{{ path('backups') }}">Backups</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="{{ path('fos_user_security_logout') }}"><span class="glyphicon glyphicon-log-out"></span></a></li>
-                                </ul>
-                            </div>
-                        {% endif %}
-                    </div>
-                </nav>
-            {% endblock %}
-            <div class="container-fluid">
-                {% block container %}
-                    {% block pageActions %}
-                        <div class="floating-action">
-                            {% block floatingActions %}
-                            {% endblock %}
-                        </div>
-                    {% endblock %}
-                {% block formStart %}{% endblock %}
-                {% block panel %}
-                    <div class="panel panel-{% block panelClass %}default {% endblock %}">
-                        {% block panelHeading %}
-                            <div class="panel-heading">
-                                {% block panelBack %}<a href="{{ path('dashboard') }}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-dashboard"></span></a>{% endblock %}
-                                <span class="panel-title">{% block panelTitle %}{% endblock %}<small> {% block panelTitleSmall %}{% endblock %}</small></span>
-                                <div class="pull-right">
-                                {% block panelHeadingRight %}{% endblock %}
-                            </div>
-                        {% endblock %}
-                    </div>
-                {% block panelBody %}{% endblock %}
+    {% endblock %}
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+  </head>
+  <body>
+    {% block body %}
+      {% block nav %}
+        <nav class="navbar navbar-default">
+          <div class="container-fluid">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="{{ path('dashboard') }}">myApp</a>
             </div>
-        {% endblock %}
-    {% block formEnd %}{% endblock %}
+            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+              <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+                <ul class="nav navbar-nav">
+                  <li>
+                    <a href="{{ path('focus') }}">Focus</a>
+                  </li>
+                  <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Tasks <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                      <li><a href="{{ path('tasklists_index') }}" title="Task Lists"><span class="glyphicon glyphicon-list-alt"></span> Lists</a></li>
+                      <li><a href="{{ path('tasks_index') }}" title="Tasks"><span class="glyphicon glyphicon-th-list"></span> Tasks</a></li>
+                      <li><a href="{{ path('tasks_new') }}" title="New Task"><span class="glyphicon glyphicon-check"></span> Add Task</a></li>
+                    </ul>
+                  </li>
+                  <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Days</span> <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                      <li><a href="{{ path('days_index') }}">Days</a></li>
+                      <li><a href="{{ path('days_new') }}"><span class="glyphicon glyphicon-th-large"></span> Add Day</a></li>
+                      <li><a href="{{ path('days_archive') }}">Archive</a></li>
+                    </ul>
+                  </li>
+                  <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Accounts <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                      <li><a href="{{ path('accounts_index') }}">Accounts</a></li>
+                      <li><a href="{{ path('accounts_new') }}"><span class="glyphicon glyphicon-piggy-bank"></span> Add Account</a></li>
+                      <li><a href="{{ path('accounttransactions_new') }}"><span class="glyphicon glyphicon-transfer"></span> Add Transaction</a></li>
+                    </ul>
+                  </li>
+                  <li>
+                    <a href="{{ path('notes_index') }}">
+                      <span class="glyphicon glyphicon-pushpin"></span>
+                    </a>
+                  </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                  <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-cog"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                      <li><a href="{{ path('backups') }}">Backups</a></li>
+                    </ul>
+                  </li>
+                  <li><a href="{{ path('fos_user_security_logout') }}"><span class="glyphicon glyphicon-log-out"></span></a></li>
+                </ul>
+              </div>
+            {% endif %}
+          </div>
+        </nav>
+      {% endblock %}
+      <div class="container-fluid">
+        {% block container %}
+          {% block pageActions %}
+            <div class="floating-action">
+              {% block floatingActions %}
+              {% endblock %}
+            </div>
+          {% endblock %}
+        {% block formStart %}{% endblock %}
+        {% block panel %}
+          <div class="panel panel-{% block panelClass %}default {% endblock %}">
+            {% block panelHeading %}
+              <div class="panel-heading">
+                {% block panelBack %}<a href="{{ path('dashboard') }}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-dashboard"></span></a>{% endblock %}
+                <span class="panel-title">{% block panelTitle %}{% endblock %}<small> {% block panelTitleSmall %}{% endblock %}</small></span>
+                <div class="pull-right">
+                {% block panelHeadingRight %}{% endblock %}
+              </div>
+            {% endblock %}
+          </div>
+        {% block panelBody %}{% endblock %}
+      </div>
+    {% endblock %}
+  {% block formEnd %}{% endblock %}
 {% endblock %}
 </div>
 {% endblock %}
 {% block javascripts %}
-    <script type="text/javascript">
-        var tasks_path = '{{ path('tasks_index') }}';
-        var tasks_order = '{{ path('tasks_order') }}';
-    </script>
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="/js/jquery.min.js"></script>
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="/js/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="/js/tasks.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('.datepicker').datepicker({
-                dateFormat: $('.datepicker').data('date-format')
-            });
-        });
-    </script>
+  <script type="text/javascript">
+    var tasks_path = '{{ path('tasks_index') }}';
+    var tasks_order = '{{ path('tasks_order') }}';
+  </script>
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script src="/js/jquery.min.js"></script>
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="/js/jquery-ui.min.js"></script>
+  <script type="text/javascript" src="/js/tasks.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function () {
+      $('.datepicker').datepicker({
+        dateFormat: $('.datepicker').data('date-format')
+      });
+    });
+  </script>
 {% endblock %}
 </body>
 </html>

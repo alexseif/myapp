@@ -1,64 +1,95 @@
 {% extends 'base.html.twig' %}
 {# TODO: http://bootsnipp.com/user/favorites #}
 {% block container %}
-    <div class="floating-action dropup">
-        <a class="btn btn-info dropdown-toggle" type="button" id="dahboardMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <span class="glyphicon glyphicon-plus"></span>
-        </a>
-        <ul class="dropdown-menu floating-actions" aria-labelledby="dahboardMenuButton">
-            <li><a href="{{ path('tasks_new') }}" class="btn btn-info"><span class="glyphicon glyphicon-check"></span></a></li>
-            <li><a href="{{ path('tasklists_new') }}" class="btn btn-info"><span class="glyphicon glyphicon-list-alt"></span></a></li>
-            <li><a href="{{ path('days_new') }}" class="btn btn-info"><span class="glyphicon glyphicon-th-large"></span></a></li>
-            <li><a href="{{ path('accounts_new') }}" class="btn btn-info"><span class="glyphicon glyphicon-piggy-bank"></span></a></li>
-            <li><a href="{{ path('accounttransactions_new') }}" class="btn btn-info"><span class="glyphicon glyphicon-transfer"></span></a></li>
+  <div class="floating-action dropup">
+    <a class="btn btn-info dropdown-toggle" type="button" id="dahboardMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <span class="glyphicon glyphicon-plus"></span>
+    </a>
+    <ul class="dropdown-menu floating-actions" aria-labelledby="dahboardMenuButton">
+      <li><a href="{{ path('tasks_new') }}" class="btn btn-info"><span class="glyphicon glyphicon-check"></span></a></li>
+      <li><a href="{{ path('tasklists_new') }}" class="btn btn-info"><span class="glyphicon glyphicon-list-alt"></span></a></li>
+      <li><a href="{{ path('days_new') }}" class="btn btn-info"><span class="glyphicon glyphicon-th-large"></span></a></li>
+      <li><a href="{{ path('accounts_new') }}" class="btn btn-info"><span class="glyphicon glyphicon-piggy-bank"></span></a></li>
+      <li><a href="{{ path('accounttransactions_new') }}" class="btn btn-info"><span class="glyphicon glyphicon-transfer"></span></a></li>
+    </ul>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      {% if tasks|length %}
+        <div class="panel panel-primary">
+          <div class="panel-heading">UnListed</div>
+          {% include 'tasks/tasks.html.twig' %}
+        </div>
+      {% endif %}
+      {% for taskList in taskLists %}
+        {% if taskList.tasks|length %}
+          {% set tasks = taskList.tasks %}
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <span class="panel-title">
+                <a href="{{ path('tasklists_show', {"id":taskList.id}) }}">{{ taskList.name }}</a>
+              </span> <span class="badge">{{ taskList.tasks.count }}</span>
+            </div>
+            {% include 'tasks/tasks.html.twig' %}
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+    {% if accounts|length %}
+      {% set hideEmpty = true %}
+      <div class="col-xs-12 col-sm-6 col-md-8 col-lg-3">
+        {% include 'accounts/accounts_list.html.twig' %}
+      </div>
+    {% endif %}
+    {#{% if projects|length %}
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            {% include 'projects/projects_list.html.twig' %}
+        </div>
+    {% endif %}#}
+    {% if days|length %}
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        {% include 'days/days_list.html.twig' %}
+      </div>
+    {% endif %}
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="panel">
+        <ul class="list-group">
+          <li class="list-group-item list-group-item-{{ txnAvg.tavg > 0 ? 'success':'danger' }}">Average {{ txnAvg.tavg }}</li>
+          <li class="list-group-item list-group-item-{{ txnAvg.tavg > 0 ? 'success':'danger' }}"># days {{ txnAvg.tcnt }}</li>
+          <li class="list-group-item list-group-item-{{ txnAvg.tavg > 0 ? 'success':'danger' }}">Since {% if txnDate.date %}{{ txnDate.date|date('Y-m-d') }}{% endif %}</li>
         </ul>
+      </div>
     </div>
-    <div class="row">
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-            {% if tasks|length %}
-                <div class="panel panel-primary">
-                    <div class="panel-heading">UnListed</div>
-                    {% include 'tasks/tasks.html.twig' %}
-                </div>
-            {% endif %}
-            {% for taskList in taskLists %}
-                {% if taskList.tasks|length %}
-                    {% set tasks = taskList.tasks %}
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <span class="panel-title">
-                                <a href="{{ path('tasklists_show', {"id":taskList.id}) }}">{{ taskList.name }}</a>
-                            </span> <span class="badge">{{ taskList.tasks.count }}</span>
-                        </div>
-                        {% include 'tasks/tasks.html.twig' %}
-                    </div>
-                {% endif %}
-            {% endfor %}
-        </div>
-        {% if accounts|length %}
-          {% set hideEmpty = true %}
-            <div class="col-xs-12 col-sm-6 col-md-8 col-lg-3">
-                {% include 'accounts/accounts_list.html.twig' %}
-            </div>
-        {% endif %}
-        {#{% if projects|length %}
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                {% include 'projects/projects_list.html.twig' %}
-            </div>
-        {% endif %}#}
-        {% if days|length %}
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                {% include 'days/days_list.html.twig' %}
-            </div>
-        {% endif %}
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-            <div class="panel">
-                <ul class="list-group">
-                    <li class="list-group-item list-group-item-{{ txnAvg.tavg > 0 ? 'success':'danger' }}">Average {{ txnAvg.tavg }}</li>
-                    <li class="list-group-item list-group-item-{{ txnAvg.tavg > 0 ? 'success':'danger' }}"># days {{ txnAvg.tcnt }}</li>
-                    <li class="list-group-item list-group-item-{{ txnAvg.tavg > 0 ? 'success':'danger' }}">Since {% if txnDate.date %}{{ txnDate.date|date('Y-m-d') }}{% endif %}</li>
-                </ul>
-            </div>
-        </div>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <div id="donutchart" style="width: 100%;height: 400px;"></div>
     </div>
+  </div>
+{% endblock %}
+{% block javascripts %}
+  {{ parent() }}
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    google.charts.load("current", {packages: ["corechart"]});
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+      var data = google.visualization.arrayToDataTable([
+        ['Day', 'Tasks'],
+    {% for t ,i in tskCnt %}
+          ['{{t}}', {{i}}],
+    {% endfor %}
+        ]);
+        var options = {
+          legend: 'none',
+          pieSliceText: 'label',
+          pieHole: 0.4,
+          backgroundColor: 'transparent',
+          pieSliceBorderColor: '#222222',
+        };
+        var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+        chart.draw(data, options);
+      }
+      $(window).resize(function () {
+        drawChart();
+      });
+  </script>
 {% endblock %}
