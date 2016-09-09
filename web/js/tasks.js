@@ -1,3 +1,19 @@
+function focusTitle() {
+  $path = window.location.pathname;
+  if ($path.indexOf('focus') !== -1) {
+    $list = $('.task-list input[type="checkbox"]');
+    $newTitle = true;
+    $i = 0;
+    while ($newTitle) {
+      if (!$($list[$i]).is(':checked')) {
+        $text = $($list[$i]).parent().text().trim();
+        $newTitle = false;
+      }
+      $i++;
+    }
+    $('title').text($text);
+  }
+}
 $(document).ready(function () {
   $('[data-toggle="tooltip"]').tooltip();
   $('[data-toggle="popover"]').popover({html: true, trigger: 'focus'});
@@ -18,7 +34,8 @@ $(document).ready(function () {
       data: {
         "completed": completed
       }
-    });
+    })
+            .done(focusTitle())
   });
 
   //Sorting Tasks
@@ -33,7 +50,7 @@ $(document).ready(function () {
         dataType: "json",
         type: 'POST',
         url: tasks_order
-      });
+      }).done(focusTitle());
     }
   });
 
