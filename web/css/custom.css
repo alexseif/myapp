@@ -17,7 +17,6 @@
     padding: 0px;
 }
 .floating-action a{
-    /*background: #337ab7 none repeat scroll 0 0;*/
     color: white;
     border-radius: 50px;
     display: table-cell;
@@ -25,11 +24,14 @@
     width: 50px;
     vertical-align: middle;
     text-align: center;
-    /*box-shadow: 1px 3px 2px #ccc;*/
 }
-.floating-action a:hover{
-    background: #23527c none repeat scroll 0 0;
-    color: white;
+.bg-embed{
+  background-color: #222222;
+  color: #303030 !important;
+}
+.bg-embed:hover{
+  background-color: #303030;
+  color: #222222 !important;
 }
 .edit-link{display: none;}
 tr:hover .edit-link{display: inline;}

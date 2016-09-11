@@ -1,8 +1,11 @@
 {% extends 'base.html.twig' %}
 {% block title %}{{ tasks|first.task}} - myApp{% endblock %}
+{% block nav %}{% endblock %}
 {% block container %}
+  <div class="floating-action" style="top: 50px;">
+    <a href="{{ path('dashboard') }}" class="bg-embed"><span class="glyphicon glyphicon-home"></span></a>
+  </div>
   <div class="floating-action">
-    {#        <a href="{{ path('tasks_new') }}" class="bg-primary"><span class="glyphicon glyphicon-plus"></span></a>#}
     <a class="bg-primary" data-toggle="modal" data-target="#newTask"><span class="glyphicon glyphicon-plus"></span></a>
   </div>
   <div class="container">
