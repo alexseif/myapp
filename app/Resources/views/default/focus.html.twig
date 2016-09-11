@@ -9,7 +9,7 @@
     <a href="{{ path('focus') }}" class="bg-embed"><span class="glyphicon glyphicon-refresh"></span></a>
   </div>
   <div class="floating-action" style="top: 125px;">
-    <a href="#" class="bg-embed" id="cls"><strong>CLS</strong></a>
+    <a class="bg-embed" id="cls"><strong>CLS</strong></a>
   </div>
   <div class="floating-action">
     <a class="bg-primary" data-toggle="modal" data-target="#newTask"><span class="glyphicon glyphicon-plus"></span></a>
@@ -43,7 +43,6 @@
       $('.task-list-name').dblclick(function () {
         $tasklist = $(this).data('tasklist');
         $('.task-list li').each(function () {
-          console.log($(this).children('.task-list-name').text() + ' : ' + $tasklist);
           if($(this).children('.task-list-name').text() != $tasklist){
             $(this).hide();
           }
