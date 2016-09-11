@@ -9,7 +9,7 @@
     {% endif %}
     <li class="list-group-item {{ task.completed ? "completed" }}" 
         data-order="id_{{task.id}}" id="task_{{task.id}}" 
-        style="height: {{ (timeLeft > 0) and task.est ? (task.est / 480)*90 ~ "vh" : "auto" }}">
+        style="height: {{ (timeLeft > 0) and task.est ? (task.est / 480)*100 ~ "vh" : "auto" }}">
       {% if task.urgency %}
         <span class="glyphicon glyphicon-flash text-warning"></span>
 
@@ -27,7 +27,7 @@
                {{ task.completed ? "checked" : "" }}/>
         {{ task.task|converturls }}
       </label>
-      <label class="label label-default">{{ task.taskList.name }}</label>
+      <label class="label label-default task-list-name" data-tasklist="{{ task.taskList.name }}">{{ task.taskList.name }}</label>
       <small class="text-info">{{ task.est ? task.est ~ "m"}}</small>
       <a href="{{ path('tasks_edit', { 'id': task.id }) }}" 
          class="btn btn-primary edit-fixed-link btn-sm">
