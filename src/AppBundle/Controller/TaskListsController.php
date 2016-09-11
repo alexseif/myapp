@@ -7,7 +7,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Entity\TaskLists;
+use AppBundle\Entity\Tasks;
 use AppBundle\Form\TaskListsType;
+use AppBundle\Form\TasksMassEditType;
 
 /**
  * TaskLists controller.
@@ -17,126 +19,141 @@ use AppBundle\Form\TaskListsType;
 class TaskListsController extends Controller
 {
 
-    /**
-     * Lists all TaskLists entities.
-     *
-     * @Route("/", name="tasklists_index")
-     * @Method("GET")
-     */
-    public function indexAction()
-    {
-        $em = $this->getDoctrine()->getManager();
+  /**
+   * Lists all TaskLists entities.
+   *
+   * @Route("/", name="tasklists_index")
+   * @Method({"GET", "POST"})
+   */
+  public function indexAction(Request $request)
+  {
+    $em = $this->getDoctrine()->getManager();
 
-        $taskLists = $em->getRepository('AppBundle:TaskLists')->findAll();
+    $taskLists = $em->getRepository('AppBundle:TaskLists')->findAll();
 
-        return $this->render('tasklists/index.html.twig', array(
-                    'taskLists' => $taskLists,
-        ));
+    $taskTemplate = new Tasks();
+    $form = $this->createForm('AppBundle\Form\TasksMassEditType', $taskTemplate);
+    $form->handleRequest($request);
+    if ($form->isSubmitted() && $form->isValid()) {
+      $tasks = $em->getRepository('AppBundle:Tasks')->findBy(array("taskList" => $taskTemplate->getTaskList()));
+      foreach ($tasks as $task) {
+        $task->setPriority($taskTemplate->getPriority());
+        $task->setUrgency($taskTemplate->getUrgency());
+      }
+      $em->flush();
+
+      return $this->redirectToRoute('tasklists_index');
     }
 
-    /**
-     * Creates a new TaskLists entity.
-     *
-     * @Route("/new", name="tasklists_new")
-     * @Method({"GET", "POST"})
-     */
-    public function newAction(Request $request)
-    {
-        $taskList = new TaskLists();
-        $form = $this->createForm('AppBundle\Form\TaskListsType', $taskList);
-        $form->handleRequest($request);
+    return $this->render('tasklists/index.html.twig', array(
+          'taskLists' => $taskLists,
+          'tasksMassEdit_form' => $form->createView(),
+    ));
+  }
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($taskList);
-            $em->flush();
+  /**
+   * Creates a new TaskLists entity.
+   *
+   * @Route("/new", name="tasklists_new")
+   * @Method({"GET", "POST"})
+   */
+  public function newAction(Request $request)
+  {
+    $taskList = new TaskLists();
+    $form = $this->createForm('AppBundle\Form\TaskListsType', $taskList);
+    $form->handleRequest($request);
 
-            return $this->redirectToRoute('tasklists_index');
-        }
+    if ($form->isSubmitted() && $form->isValid()) {
+      $em = $this->getDoctrine()->getManager();
+      $em->persist($taskList);
+      $em->flush();
 
-        return $this->render('tasklists/new.html.twig', array(
-                    'taskList' => $taskList,
-                    'tasklist_form' => $form->createView(),
-        ));
+      return $this->redirectToRoute('tasklists_index');
     }
 
-    /**
-     * Finds and displays a TaskLists entity.
-     *
-     * @Route("/{id}", name="tasklists_show")
-     * @Method("GET")
-     */
-    public function showAction(TaskLists $taskList)
-    {
-        $deleteForm = $this->createDeleteForm($taskList);
+    return $this->render('tasklists/new.html.twig', array(
+          'taskList' => $taskList,
+          'tasklist_form' => $form->createView(),
+    ));
+  }
 
-        return $this->render('tasklists/show.html.twig', array(
-                    'taskList' => $taskList,
-                    'delete_form' => $deleteForm->createView(),
-        ));
+  /**
+   * Finds and displays a TaskLists entity.
+   *
+   * @Route("/{id}", name="tasklists_show")
+   * @Method("GET")
+   */
+  public function showAction(TaskLists $taskList)
+  {
+    $deleteForm = $this->createDeleteForm($taskList);
+
+    return $this->render('tasklists/show.html.twig', array(
+          'taskList' => $taskList,
+          'delete_form' => $deleteForm->createView(),
+    ));
+  }
+
+  /**
+   * Displays a form to edit an existing TaskLists entity.
+   *
+   * @Route("/{id}/edit", name="tasklists_edit")
+   * @Method({"GET", "POST"})
+   */
+  public function editAction(Request $request, TaskLists $taskList)
+  {
+    $deleteForm = $this->createDeleteForm($taskList);
+    $editForm = $this->createForm('AppBundle\Form\TaskListsType', $taskList);
+    $editForm->handleRequest($request);
+
+    if ($editForm->isSubmitted() && $editForm->isValid()) {
+      $em = $this->getDoctrine()->getManager();
+      $em->persist($taskList);
+      $em->flush();
+
+      return $this->redirectToRoute('tasklists_index');
     }
 
-    /**
-     * Displays a form to edit an existing TaskLists entity.
-     *
-     * @Route("/{id}/edit", name="tasklists_edit")
-     * @Method({"GET", "POST"})
-     */
-    public function editAction(Request $request, TaskLists $taskList)
-    {
-        $deleteForm = $this->createDeleteForm($taskList);
-        $editForm = $this->createForm('AppBundle\Form\TaskListsType', $taskList);
-        $editForm->handleRequest($request);
+    return $this->render('tasklists/edit.html.twig', array(
+          'taskList' => $taskList,
+          'tasklist_form' => $editForm->createView(),
+          'delete_form' => $deleteForm->createView(),
+    ));
+  }
 
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($taskList);
-            $em->flush();
+  /**
+   * Deletes a TaskLists entity.
+   *
+   * @Route("/{id}", name="tasklists_delete")
+   * @Method("DELETE")
+   */
+  public function deleteAction(Request $request, TaskLists $taskList)
+  {
+    $form = $this->createDeleteForm($taskList);
+    $form->handleRequest($request);
 
-            return $this->redirectToRoute('tasklists_index');
-        }
-
-        return $this->render('tasklists/edit.html.twig', array(
-                    'taskList' => $taskList,
-                    'tasklist_form' => $editForm->createView(),
-                    'delete_form' => $deleteForm->createView(),
-        ));
+    if ($form->isSubmitted() && $form->isValid()) {
+      $em = $this->getDoctrine()->getManager();
+      $em->remove($taskList);
+      $em->flush();
     }
 
-    /**
-     * Deletes a TaskLists entity.
-     *
-     * @Route("/{id}", name="tasklists_delete")
-     * @Method("DELETE")
-     */
-    public function deleteAction(Request $request, TaskLists $taskList)
-    {
-        $form = $this->createDeleteForm($taskList);
-        $form->handleRequest($request);
+    return $this->redirectToRoute('tasklists_index');
+  }
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($taskList);
-            $em->flush();
-        }
-
-        return $this->redirectToRoute('tasklists_index');
-    }
-
-    /**
-     * Creates a form to delete a TaskLists entity.
-     *
-     * @param TaskLists $taskList The TaskLists entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm(TaskLists $taskList)
-    {
-        return $this->createFormBuilder()
-                        ->setAction($this->generateUrl('tasklists_delete', array('id' => $taskList->getId())))
-                        ->setMethod('DELETE')
-                        ->getForm()
-        ;
-    }
+  /**
+   * Creates a form to delete a TaskLists entity.
+   *
+   * @param TaskLists $taskList The TaskLists entity
+   *
+   * @return \Symfony\Component\Form\Form The form
+   */
+  private function createDeleteForm(TaskLists $taskList)
+  {
+    return $this->createFormBuilder()
+            ->setAction($this->generateUrl('tasklists_delete', array('id' => $taskList->getId())))
+            ->setMethod('DELETE')
+            ->getForm()
+    ;
+  }
 
 }
