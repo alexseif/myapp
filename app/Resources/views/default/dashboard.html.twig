@@ -38,6 +38,12 @@
     {% if accounts|length %}
       {% set hideEmpty = true %}
       <div class="col-xs-12 col-sm-6 col-md-8 col-lg-3">
+        {# 500 Dollar plan progress #}
+        <div class="progress">
+          <div class="progress-bar progress-bar-success" role="progressbar" style="width:{{ (paid/5000)*100 }}%">EGP {{ paid }}</div>
+          <div class="progress-bar progress-bar-info" role="progressbar" style="width:{{ (pending/5000)*100 }}%">EGP {{ pending }}</div>
+          <div class="progress-bar progress-bar-{{ ("now"|date("d") > 15)?"warning":"danger" }}" role="progressbar" style="width:{{ 100 - ((paid/5000)*100) - ((pending/5000)*100) }}%">EGP {{ 5000 - paid - pending }}</div>
+        </div>
         {% include 'accounts/accounts_list.html.twig' %}
       </div>
     {% endif %}
