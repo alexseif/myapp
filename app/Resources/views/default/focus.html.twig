@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-{% block title %}{{ tasks|first.task}} - myApp{% endblock %}
+{% block title %}Focus{% endblock %}
 {% block nav %}{% endblock %}
 {% block container %}
   <div class="floating-action" style="top: 25px;">
@@ -51,6 +51,7 @@
       $('#cls').click(function () {
         $('.task-list li').show();
       });
+      focusTitle();
     });
   </script>
 {% endblock %}

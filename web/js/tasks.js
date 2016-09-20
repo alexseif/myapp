@@ -11,7 +11,7 @@ function focusTitle() {
       }
       $i++;
     }
-    $('title').text($text);
+    $('title').text($text + "| myApp");
   }
 }
 $(document).ready(function () {
