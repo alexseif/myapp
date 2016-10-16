@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Obstacles</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ obstacle.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ obstacle.name }}</td>
+            </tr>
+            <tr>
+                <th>Priority</th>
+                <td>{{ obstacle.priority }}</td>
+            </tr>
+            <tr>
+                <th>Urgency</th>
+                <td>{{ obstacle.urgency }}</td>
+            </tr>
+            <tr>
+                <th>Completed</th>
+                <td>{% if obstacle.completed %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Completedat</th>
+                <td>{% if obstacle.completedAt %}{{ obstacle.completedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Createdat</th>
+                <td>{% if obstacle.createdAt %}{{ obstacle.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('obstacles_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('obstacles_edit', { 'id': obstacle.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

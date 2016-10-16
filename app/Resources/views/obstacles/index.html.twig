@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Obstacles list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Priority</th>
+                <th>Urgency</th>
+                <th>Completed</th>
+                <th>Completedat</th>
+                <th>Createdat</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for obstacle in obstacles %}
+            <tr>
+                <td><a href="{{ path('obstacles_show', { 'id': obstacle.id }) }}">{{ obstacle.id }}</a></td>
+                <td>{{ obstacle.name }}</td>
+                <td>{{ obstacle.priority }}</td>
+                <td>{{ obstacle.urgency }}</td>
+                <td>{% if obstacle.completed %}Yes{% else %}No{% endif %}</td>
+                <td>{% if obstacle.completedAt %}{{ obstacle.completedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if obstacle.createdAt %}{{ obstacle.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('obstacles_show', { 'id': obstacle.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('obstacles_edit', { 'id': obstacle.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('obstacles_new') }}">Create a new entry</a>
+        </li>
+    </ul>
+{% endblock %}

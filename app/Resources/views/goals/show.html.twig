@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block panelBack %}<a href="{{ path('goals_index') }}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-arrow-left"></span></a>{% endblock %}
+{% block panelTitle %}Goal{% endblock %}
+{% block panelTitleSmall %}{{goal.name}}{% endblock %}
+{% block panelHeadingRight %}
+  {{ form_start(delete_form) }}
+  <button type="submit" value="Delete" class="btn btn-danger btn-sm">
+    <span class="glyphicon glyphicon-trash"></span>
+  </button>
+
+  {{ form_end(delete_form) }}
+{% endblock %}
+{% block panelBody %}
+  <div class='list-group'>
+    <div class='list-group-item'>
+      <div class='row'>
+        {{ goal.name }}
+        <a href="{{ path('goals_edit', { 'id': goal.id }) }}" class='btn btn-default btn-sm'>
+          <span class='glyphicon glyphicon-edit'></span>
+        </a>
+      </div>
+    </div>
+    <div class='list-group-item'>
+      <div class='row'>
+        <div class='col-sm-6'>
+          <span class='title'>Tasks</span>
+          <ul class='list-group'>
+            {% for task in goal.tasks %}
+              <li class='list-group-item'>{{ task.name }}</li>
+              {% endfor %}
+          </ul>
+        </div>
+        <div class='col-sm-6'>
+          <span class='title'>Obstacles</span>
+          <ul class='list-group'>
+            {% for obstacle in goal.obstacles %}
+              <li class='list-group-item'>{{ obstacle.name }}</li>
+              {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
