@@ -99,19 +99,17 @@
               <div class="panel-heading">
                 {% block panelBack %}<a href="{{ path('dashboard') }}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-dashboard"></span></a>{% endblock %}
                 <span class="panel-title">{% block panelTitle %}{% endblock %}<small> {% block panelTitleSmall %}{% endblock %}</small></span>
-                <div class="pull-right">
-                {% block panelHeadingRight %}{% endblock %}
+                <div class="pull-right">{% block panelHeadingRight %}{% endblock %}</div>
               </div>
             {% endblock %}
-          </div>
-        {% block panelBody %}{% endblock %}
-      </div>
-    {% endblock %}
-  {% block formEnd %}{% endblock %}
-{% endblock %}
+          {% block panelBody %}{% endblock %}
+        </div>
+      {% endblock %}
+    {% block formEnd %}{% endblock %}
+  {% endblock %}
 </div>
 <footer>
-  {% block footer %}{% endblock %}
+{% block footer %}{% endblock %}
 </footer>
 {% endblock %}
 {% block javascripts %}
