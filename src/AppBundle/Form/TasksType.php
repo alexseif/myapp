@@ -22,16 +22,15 @@ class TasksType extends AbstractType
         ->add('est')
         ->add('priority', ChoiceType::class, array(
           'choices' => array(
-            -1 => 'Low',
-            0 => 'Normal',
-            1 => 'High',
+            0 => 'Not Important',
+            1 => 'Important',
           ),
           'expanded' => true,
           'label_attr' => array('class' => 'radio-inline')
         ))
         ->add('urgency', ChoiceType::class, array(
           'choices' => array(
-            0 => 'Normal',
+            0 => 'Not Urgent',
             1 => 'Urgent',
           ),
           'expanded' => true,
