@@ -93,17 +93,19 @@
             </div>
           {% endblock %}
         {% block formStart %}{% endblock %}
-        {% block panel %}
-          <div class="panel panel-{% block panelClass %}default {% endblock %}">
-            {% block panelHeading %}
-              <div class="panel-heading">
-                {% block panelBack %}<a href="{{ path('dashboard') }}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-dashboard"></span></a>{% endblock %}
-                <span class="panel-title">{% block panelTitle %}{% endblock %}<small> {% block panelTitleSmall %}{% endblock %}</small></span>
-                <div class="pull-right">{% block panelHeadingRight %}{% endblock %}</div>
-              </div>
-            {% endblock %}
-          {% block panelBody %}{% endblock %}
-        </div>
+        {% block content %}
+          {% block panel %}
+            <div class="panel panel-{% block panelClass %}default {% endblock %}">
+              {% block panelHeading %}
+                <div class="panel-heading">
+                  {% block panelBack %}<a href="{{ path('dashboard') }}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-dashboard"></span></a>{% endblock %}
+                  <span class="panel-title">{% block panelTitle %}{% endblock %}<small> {% block panelTitleSmall %}{% endblock %}</small></span>
+                  <div class="pull-right">{% block panelHeadingRight %}{% endblock %}</div>
+                </div>
+              {% endblock %}
+            {% block panelBody %}{% endblock %}
+          </div>
+        {% endblock %}
       {% endblock %}
     {% block formEnd %}{% endblock %}
   {% endblock %}

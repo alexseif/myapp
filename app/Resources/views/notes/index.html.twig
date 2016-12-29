@@ -1,25 +1,86 @@
 {% extends 'base.html.twig' %}
 {% block floatingActions %}
-    <a href="{{ path('notes_new') }}" class="bg-primary"><span class="glyphicon glyphicon-plus"></span></a>
+  <a href="{{ path('notes_new') }}" class="bg-primary"><span class="glyphicon glyphicon-plus"></span></a>
 
 {% endblock %}
-{% block panelTitle %}Notes{% endblock %}
-{% block panelBody %}
-    <table class="table">
-        <tbody>
-            {% for note in notes %}
-                <tr>
-                    <td>
-                        <span class="label label-info">{{ note.type|title }}</span> 
-                        <span class="label label-primary">{% if note.createdAt %}{{ note.createdAt|date('Y-m-d H:i:s') }}{% endif %}</span>
-                        {{ note.note }}
-                        <span class="pull-right">
-                            <a class="btn btn-primary btn-sm" href="{{ path('notes_show', {"id": note.id}) }}"><span class="glyphicon glyphicon-search"></span></a>
-                            <a class="btn btn-primary  btn-sm" href="{{ path('notes_edit', { 'id': note.id }) }}"><span class="glyphicon glyphicon-pencil"></span></a>
-                        </span>
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+
+{% block content %}
+  <style type="text/css">
+    .notes-container{position: relative; margin: 0 auto;}
+    .note-container{
+      margin: 16px;
+      display: block;
+      position: absolute;
+      transition-property: opacity, transform;
+      transition-duration: .218s;
+    }
+    .note{
+      box-sizing: border-box;
+      box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+      overflow: hidden;
+      position: relative;
+      border-radius: 2px;
+      transition-duration: .218s;
+      transition-property: background, opacity, box-shadow, transform;
+      transition-timing-function: ease-in;
+    }
+    .note p{margin: 15px 10px;}
+    .note .btn-group{visibility:hidden;}
+    .note:hover{box-shadow: 0 2px 15px rgba(0, 0, 0, 0.30);}
+    .note:hover .btn-group{visibility:visible;}
+  </style>
+  <div class="notes-container">
+    {% for note in notes %}
+      <div class="note-container">
+        <div class="note">
+          <p>{{ note.note }}</p>
+          <span class="label label-default pull-right">{{ note.type|title }}</span> 
+          <div class="btn-group btn-group-xs">
+            <a class="btn btn-default btn-sm" href="{{ path('notes_show', {"id": note.id}) }}"><span class="glyphicon glyphicon-search"></span></a>
+            <a class="btn btn-default  btn-sm" href="{{ path('notes_edit', { 'id': note.id }) }}"><span class="glyphicon glyphicon-pencil"></span></a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}
+{% block javascripts %}
+  {{ parent() }}
+  <script type="text/javascript">
+    var translate = [0, 0];
+    var colPos = 0;
+    var colWidth = '240px';
+    var colCount;
+    var colHeight;
+    function spreadNotes() {
+      colCount = Math.floor($(window).width() / 256);
+      if (colCount <= 1) {
+        colCount = 1;
+        colWidth = '95%';
+        $('.notes-container').css('width', 'auto');
+      } else {
+        colWidth = '240px';
+        $('.notes-container').css('width', 256 * colCount);
+      }
+      colHeight = Array.apply(null, Array(colCount)).map(function () {
+        return 0;
+      });
+      $('.note').each(function () {
+        pos = colPos % colCount;
+        translate[0] = (pos) * 256;
+        translate[1] = colHeight[pos];
+        $(this).parent().css('width', colWidth);
+        $(this).parent().css('transform', 'translate(' + translate[0] + 'px, ' + translate[1] + 'px)');
+        colHeight[pos] += $(this).height() + 16;
+        colPos++;
+      });
+    }
+    $(document).ready(spreadNotes);
+    // Wait a bit before executing on resize
+    var doit;
+    $(window).resize(function () {
+      clearTimeout(doit);
+      doit = setTimeout(spreadNotes, 100);
+    });
+  </script>
 {% endblock %}
