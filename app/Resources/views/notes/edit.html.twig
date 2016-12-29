@@ -1,30 +1,30 @@
 {% extends 'base.html.twig' %}
 {% block panelBack %}
-    <a href="{{ path('notes_show', {'id':note.id}) }}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-arrow-left"></span></a>
+  <a href="{{ path('notes_show', {'id':note.id}) }}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-arrow-left"></span></a>
 
 {% endblock %}
 
 {% block panelTitle %}Edit note{% endblock %}
 {% block panelTitleSmall %}{{note.note|truncate(10)}}{% endblock %}
 {% block panelHeadingRight %}
-    <span class="label label-info">{{ note.type|title }}</span> 
-    <span class="label label-primary">{% if note.createdAt %}{{ note.createdAt|date('Y-m-d H:i:s') }}{% endif %}</span>
+  <span class="label label-info">{{ note.type|title }}</span> 
+  <span class="label label-primary">{% if note.createdAt %}{{ note.createdAt|date('Y-m-d H:i:s') }}{% endif %}</span>
 {% endblock %}
 {% block panelBody %}
-    {{ form_start(notes_form) }}
-    <div class="panel-body">
-        <div class="row">
-            {{ form_label(notes_form.note) }}
-            <div class="col-sm-10"></div>
-        </div>
-        <div class="row">
-            <div class="col-sm-11">
-                {{ form_widget(notes_form.note) }}
-            </div>
-            <div class="col-sm-1">
-                <button type="submit" value="Edit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span></button>
-            </div>
-        </div>
+  {{ form_start(notes_form) }}
+  <div class="panel-body">
+    <div class="row">
+      {{ form_label(notes_form.note) }}
+      <div class="col-sm-10"></div>
     </div>
-    {{ form_end(notes_form) }}
+    <div class="row">
+      <div class="col-sm-11">
+        {{ form_widget(notes_form.note) }}
+      </div>
+      <div class="col-sm-1">
+        <button type="submit" value="Edit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span></button>
+      </div>
+    </div>
+  </div>
+  {{ form_end(notes_form) }}
 {% endblock %}
