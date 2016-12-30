@@ -20,7 +20,7 @@
     {% endblock %}
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
   </head>
-  <body>
+  <body class="{% block bodyClasses %}{{ get_controller_name() }}{% endblock %}">
     {% block body %}
       {% block nav %}
         <nav class="navbar navbar-default">

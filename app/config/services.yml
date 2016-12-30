@@ -14,4 +14,9 @@ services:
     csv.import:
         class:  AppBundle\Services\ToshlImporter
         arguments: [ "@doctrine.orm.entity_manager" ]
-             
+    twig.controller_action_extension:
+        class: AppBundle\Twig\Extension\ControllerActionExtension
+        calls:
+            - [setRequest, ["@?request="]]
+        tags:
+            - { name: twig.extension }
