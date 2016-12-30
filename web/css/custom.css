@@ -1,9 +1,4 @@
-.floating-action{
-    position: fixed;
-    bottom: 50px;
-    right: 50px;
-    z-index: 1;
-}
+.floating-action{position: fixed;bottom: 50px;right: 50px;z-index: 1;}
 .floating-action .dropdown-menu{background: none; border: none;box-shadow: none;}
 .floating-action .dropdown-menu > li{margin: 5px 0;}
 .floating-action .dropdown-menu > li > a{
@@ -25,14 +20,8 @@
     vertical-align: middle;
     text-align: center;
 }
-.bg-embed{
-    background-color: #222222;
-    color: #303030 !important;
-}
-.bg-embed:hover{
-    background-color: #303030;
-    color: #222222 !important;
-}
+.bg-embed{background-color: #222222;color: #303030 !important;}
+.bg-embed:hover{background-color: #303030;color: #222222 !important;}
 .edit-link{display: none;}
 tr:hover .edit-link{display: inline;}
 li:hover .edit-link{display: inline;}
@@ -57,6 +46,7 @@ li:hover .edit-link{display: inline;}
 a.navbar-brand{background-color: #222222;}
 .progress{height: 40px;margin: 0 5px 21px 5px;}
 .progress .progress-bar{line-height: 40px;font-size: 14px;}
+.label-muted{background: #e8e8e8;color: #999999;font-weight: normal;}
 
 /** Notes **/
 body.notes {background: #e8e8e8}
@@ -84,3 +74,4 @@ body.notes {background: #e8e8e8}
 .note p{margin: 15px 10px;}
 .note .btn-group{visibility:hidden;}
 .note:hover .btn-group{visibility:visible;}
+.note .label{border-radius: 0.25em 0em 0em 0.25em;}
