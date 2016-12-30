@@ -26,12 +26,12 @@
     text-align: center;
 }
 .bg-embed{
-  background-color: #222222;
-  color: #303030 !important;
+    background-color: #222222;
+    color: #303030 !important;
 }
 .bg-embed:hover{
-  background-color: #303030;
-  color: #222222 !important;
+    background-color: #303030;
+    color: #222222 !important;
 }
 .edit-link{display: none;}
 tr:hover .edit-link{display: inline;}
@@ -57,3 +57,30 @@ li:hover .edit-link{display: inline;}
 a.navbar-brand{background-color: #222222;}
 .progress{height: 40px;margin: 0 5px 21px 5px;}
 .progress .progress-bar{line-height: 40px;font-size: 14px;}
+
+/** Notes **/
+body.notes {background: #e8e8e8}
+.notes-container{position: relative; margin: 0 auto;}
+.note-container{
+    margin: 16px;
+    display: block;
+    position: absolute;
+    transition-property: opacity, transform;
+    transition-duration: .218s;
+}
+.note{
+    box-sizing: border-box;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+    overflow: hidden;
+    position: relative;
+    border-radius: 2px;
+    transition-duration: .218s;
+    transition-property: background, opacity, box-shadow, transform;
+    transition-timing-function: ease-in;
+    background: #ffffff;
+    color: #222222;
+}
+.note:hover{box-shadow: 0 2px 15px rgba(0, 0, 0, 0.30);}
+.note p{margin: 15px 10px;}
+.note .btn-group{visibility:hidden;}
+.note:hover .btn-group{visibility:visible;}
