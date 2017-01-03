@@ -22,37 +22,27 @@ class DefaultController extends Controller
     $tasks = $em->getRepository('AppBundle:Tasks')->findUnlisted();
     $days = $em->getRepository('AppBundle:Days')->getActiveCards();
     $accounts = $em->getRepository('AppBundle:Accounts')->findAll();
-    $thisMonth = $em->getRepository('AppBundle:AccountTransactions')->thisMonth();
+    $paidThisMonth = $em->getRepository('AppBundle:AccountTransactions')->paidThisMonth();
     $projects = $em->getRepository('AppBundle:Projects')->findAll();
     $txnDate = $em->getRepository('AppBundle:Transactions')->getFirstDate();
-    $txnAvg = $em->getRepository('AppBundle:Transactions')->getAvg();
     $tsksCntDay = $em->getRepository('AppBundle:Tasks')->findTasksCountByDay();
-    $completed = 0;
     $tskCnt = array();
     foreach ($tsksCntDay as $t) {
       $tskCnt[$t['day_name']] = $t['cnt'];
     }
     $paid = 0;
-    $pending = 0;
-    foreach ($thisMonth as $tm) {
-      if ($tm->getAmount() > 0) {
-        $paid +=$tm->getAmount();
-      } else {
-        $pending +=$tm->getAmount();
-      }
+    foreach ($paidThisMonth as $tm) {
+      $paid += abs($tm->getAmount());
     }
-    
-    
+
+
     return $this->render('default/dashboard.html.twig', array(
           'taskLists' => $taskLists,
           'tasks' => $tasks,
           'days' => $days,
           'accounts' => $accounts,
           'paid' => $paid,
-          'pending' => $pending,
           'projects' => $projects,
-          'txnDate' => $txnDate,
-          'txnAvg' => $txnAvg,
           'tskCnt' => $tskCnt,
     ));
   }

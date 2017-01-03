@@ -13,13 +13,14 @@ use Doctrine\ORM\EntityRepository;
 class AccountTransactionsRepository extends EntityRepository
 {
 
-  public function thisMonth()
+  public function paidThisMonth()
   {
     $today = new \DateTime();
     return $this
             ->createQueryBuilder('at')
             ->select('at')
             ->where('MONTH(at.createdAt) = MONTH(:today)')
+            ->andWhere('at.amount < 0')
             ->setParameter(':today', $today->format('Y-m-d'))
             ->getQuery()
             ->getResult();

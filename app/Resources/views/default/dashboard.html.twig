@@ -41,8 +41,7 @@
         {# 500 Dollar plan progress #}
         <div class="progress">
           <div class="progress-bar progress-bar-success" role="progressbar" style="width:{{ (paid/5000)*100 }}%">EGP {{ paid }}</div>
-          <div class="progress-bar progress-bar-info" role="progressbar" style="width:{{ (pending/5000)*100 }}%">EGP {{ pending }}</div>
-          <div class="progress-bar progress-bar-{{ ("now"|date("d") > 15)?"warning":"danger" }}" role="progressbar" style="width:{{ 100 - ((paid/5000)*100) - ((pending/5000)*100) }}%">EGP {{ 5000 - paid - pending }}</div>
+          <div class="progress-bar progress-bar-{{ (19 - "now"|date("d")) > 10 ?"warning":"danger" }}" role="progressbar" style="width:{{ 100 - ((paid/5000)*100) }}%">EGP {{ 5000 - paid }}</div>
         </div>
         {% include 'accounts/accounts_list.html.twig' %}
       </div>
@@ -58,15 +57,6 @@
       </div>
     {% endif %}
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-      <div class="panel">
-        <ul class="list-group">
-          <li class="list-group-item list-group-item-{{ txnAvg.tavg > 0 ? 'success':'danger' }}">Average {{ txnAvg.tavg }}</li>
-          <li class="list-group-item list-group-item-{{ txnAvg.tavg > 0 ? 'success':'danger' }}"># days {{ txnAvg.tcnt }}</li>
-          <li class="list-group-item list-group-item-{{ txnAvg.tavg > 0 ? 'success':'danger' }}">Since {% if txnDate.date %}{{ txnDate.date|date('Y-m-d') }}{% endif %}</li>
-        </ul>
-      </div>
-    </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
       <div id="donutchart" style="width: 100%;height: 400px;"></div>
     </div>
   </div>
@@ -81,7 +71,7 @@
       var data = google.visualization.arrayToDataTable([
         ['Day', 'Tasks'],
     {% for t ,i in tskCnt %}
-          ['{{t}}', {{i}}],
+          ['{{t|slice(0, 3)|upper}}', {{i}}],
     {% endfor %}
         ]);
         var options = {
