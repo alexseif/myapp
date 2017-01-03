@@ -40,11 +40,11 @@ $(document).ready(function () {
 
   //Sorting Tasks
   $(".task-list").sortable({
+    connectWith: ".task-list",
     placeholder: "ui-state-highlight",
     items: "li:not(.completed)",
     update: function (event, ui) {
       var data = $(this).sortable("serialize", {"key": "tasks[][id]", attribute: "data-order"});
-      console.log(data);
       $.ajax({
         data: data,
         dataType: "json",

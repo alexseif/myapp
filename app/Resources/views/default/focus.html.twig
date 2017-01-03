@@ -43,7 +43,7 @@
       $('.task-list-name').dblclick(function () {
         $tasklist = $(this).data('tasklist');
         $('.task-list li').each(function () {
-          if($(this).children('.task-list-name').text() != $tasklist){
+          if ($(this).children('.task-list-name').text() != $tasklist) {
             $(this).hide();
           }
         });
@@ -52,6 +52,52 @@
         $('.task-list li').show();
       });
       focusTitle();
+    });
+  </script>
+  <script type="text/javascript">
+    $(document).ready(function () {
+      var timeLeft = 480;
+      var timeNeeded = 0;
+      var tasks = $('.task-list li').not('.completed');
+      var completed = $('.completed');
+      var container = $('.container');
+      var focus = $('<ul class="list-group task-list" id="focus"></ul>');
+      focus.prependTo(container);
+      completed.each(function () {
+        timeLeft -= $(this).data('time');
+        $(this).appendTo(focus);
+        $(this).children('.task').addClass('btn-primary').removeClass('btn-default');
+      });
+      var remainingHeight = ($(window).height() - focus.height()) / $(window).height() * 100;
+      tasks.each(function () {
+        $est = $(this).data('time');
+        timeLeft -= $est;
+        if (timeLeft >= 0) {
+          $(this).prependTo(focus);
+          timeNeeded += $est;
+        }
+      });
+      focus.children('li').not('.completed').each(function () {
+        $est = $(this).data('time');
+        if ($est) {
+          $(this).animate({height: ($est / timeNeeded) * remainingHeight + 'vh'});
+        }
+        $(this).children('.task').addClass('btn-primary').removeClass('btn-default');
+      });
+      focus.sortable({
+        connectWith: ".task-list",
+        placeholder: "ui-state-highlight",
+        items: "li:not(.completed)",
+        update: function (event, ui) {
+          var data = $(this).sortable("serialize", {"key": "tasks[][id]", attribute: "data-order"});
+          $.ajax({
+            data: data,
+            dataType: "json",
+            type: 'POST',
+            url: tasks_order
+          }).done(focusTitle());
+        }
+      });
     });
   </script>
 {% endblock %}

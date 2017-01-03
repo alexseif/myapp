@@ -1,26 +1,18 @@
-{% set timeLeft = 480 %}
-{% set dayStart = true %}
-{% set dayEnd = false %}
-
-{% for task in tasks %}
-  {% if dayStart %}
-    <ul class="list-group task-list">
-      {% set dayStart = false %}
-    {% endif %}
+<ul class="list-group task-list">
+  {% for task in tasks %}
     <li class="list-group-item {{ task.completed ? "completed" }}" 
         data-order="id_{{task.id}}" id="task_{{task.id}}" 
-        style="height: {{ (timeLeft > 0) and task.est ? (task.est / 480)*100 ~ "vh" : "auto" }}">
+        data-time="{{ task.est }}">
       {% if task.urgency %}
         <span class="glyphicon glyphicon-flash text-warning"></span>
-
       {% endif %}
       {% if task.priority %}
         <span class="glyphicon glyphicon-menu-up text-danger"></span>
       {% else %}
         <span class="glyphicon glyphicon-menu-right text-primary"></span>
       {% endif %}
-      <label class="btn btn-{{ (timeLeft > 0) ? "primary" : "default" }} btn-sm task" 
-             title="{{ task.task }}" data-toggle="tooltip">
+      <label class="btn btn-default btn-sm task" title="{{ task.task }}" 
+             data-toggle="tooltip">
         <input type="checkbox" data-taskid="{{task.id}}" class="checkbox-inline" 
                {{ task.completed ? "checked" : "" }}/>
         {{ task.task|converturls }}
@@ -31,13 +23,5 @@
          class="btn btn-primary edit-fixed-link btn-sm">
         <span class="glyphicon glyphicon-pencil"></span></a>
     </li>
-    {% set timeLeft = timeLeft - task.est %}
-    {% if (timeLeft <= 0 ) %}
-      {% if (not dayEnd) %}
-      </ul>
-      <ul class="list-group task-list">
-      {% endif %}
-      {% set dayEnd = true %}
-    {% endif %}
   {% endfor %}
 </ul>   
