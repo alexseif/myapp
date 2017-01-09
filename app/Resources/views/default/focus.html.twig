@@ -69,12 +69,22 @@
         $(this).children('.task').addClass('btn-primary').removeClass('btn-default');
       });
       var remainingHeight = ($(window).height() - focus.height()) / $(window).height() * 100;
+      var lastLi = null;
       tasks.each(function () {
         $est = $(this).data('time');
-        timeLeft -= $est;
+        if ($est) {
+          timeLeft -= $est;
+        }
         if (timeLeft >= 0) {
-          $(this).prependTo(focus);
-          timeNeeded += $est;
+          if (null == lastLi) {
+            $(this).prependTo(focus);
+          } else {
+            $(lastLi).after(this);
+          }
+          lastLi = this;
+          if ($est) {
+            timeNeeded += $est;
+          }
         }
       });
       focus.children('li').not('.completed').each(function () {

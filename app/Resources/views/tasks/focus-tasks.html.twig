@@ -2,7 +2,8 @@
   {% for task in tasks %}
     <li class="list-group-item {{ task.completed ? "completed" }}" 
         data-order="id_{{task.id}}" id="task_{{task.id}}" 
-        data-time="{{ task.est }}">
+        data-time="{{ task.est }}"
+        data-order-no="{{ task.order}}">
       {% if task.urgency %}
         <span class="glyphicon glyphicon-flash text-warning"></span>
       {% endif %}
