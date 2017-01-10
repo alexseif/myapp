@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+{% block panelBack %}
+  <a href="{{ path('goal_index') }}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-arrow-left"></span></a>
+
+{% endblock %}
+{% block panelTitle %}New goal{% endblock %}
+{% block panelBody %}
+
+  {{ form_start(form) }}
+  <div class="panel-body">
+    {{ form_widget(form) }}
+    <button  type="submit" value="Create" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span></button>
+  </div>
+  {{ form_end(form) }}
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block floatingActions %}
+  <a href="{{ path('goal_new') }}" class="bg-primary"><span class="glyphicon glyphicon-plus"></span></a>
+
+{% endblock %}
+{% block panelTitle %}Goal{% endblock %}
+{% block panelBody %}
+  <ul class="list-group">
+    {% for goal in goals %}
+      <li class="list-group-item">
+        <a class="btn btn-default" title="{{ goal.name }}" href="{{ path('goal_show', { 'id': goal.id }) }}">
+          {{ goal.name}}
+        </a>
+        <a href="{{ path('goal_edit', { 'id': goal.id }) }}" class="btn btn-primary edit-fixed-link"><span class="glyphicon glyphicon-pencil"></span></a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

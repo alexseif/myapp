@@ -91,12 +91,6 @@ class Tasks
   private $taskList;
 
   /**
-   * @ORM\ManyToOne(targetEntity="Goals", inversedBy="tasks")
-   * @ORM\JoinColumn(name="goal_id", referencedColumnName="id", nullable=true)
-   */
-  private $goal;
-
-  /**
    * Constructor
    */
   public function __construct()
@@ -324,29 +318,6 @@ class Tasks
   public function getEst()
   {
     return $this->est;
-  }
-
-  /**
-   * Set goal
-   *
-   * @param \AppBundle\Entity\Goals $goal
-   * @return Tasks
-   */
-  public function setGoal(\AppBundle\Entity\Goals $goal = null)
-  {
-    $this->goal = $goal;
-
-    return $this;
-  }
-
-  /**
-   * Get goal
-   *
-   * @return \AppBundle\Entity\Goals 
-   */
-  public function getGoal()
-  {
-    return $this->goal;
   }
 
 }

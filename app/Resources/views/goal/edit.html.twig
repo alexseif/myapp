@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+{% block panelBack %}
+  <a href="{{ path('goal_show', {'id':goal.id}) }}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-arrow-left"></span></a>
+
+{% endblock %}
+
+{% block panelTitle %}Edit goal{% endblock %}
+{% block panelTitleSmall %}{{ goal.name }}{% endblock %}
+{% block panelHeadingRight %}
+  {{ form_start(delete_form) }}
+  <button type="submit" value="Delete" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span></button>
+
+  {{ form_end(delete_form) }}
+{% endblock %}
+{% block panelBody %}
+  {{ form_start(edit_form) }}
+  <div class="panel-body">
+    {{ form_widget(edit_form) }}  
+    <button type="submit" value="Edit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span></button>
+  </div>
+  {{ form_end(edit_form) }}
+{% endblock %}
+
