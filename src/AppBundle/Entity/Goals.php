@@ -30,16 +30,6 @@ class Goals
   private $name;
 
   /**
-   * @ORM\OneToMany(targetEntity="Tasks", mappedBy="goal", cascade="remove")
-   */
-  private $tasks;
-
-  /**
-   * @ORM\OneToMany(targetEntity="Obstacles", mappedBy="goal", cascade="remove")
-   */
-  private $obstacles;
-
-  /**
    * Get id
    *
    * @return integer 
@@ -72,78 +62,4 @@ class Goals
     return $this->name;
   }
 
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->tasks = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->obstacles = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
-     * Add tasks
-     *
-     * @param \AppBundle\Entity\Tasks $tasks
-     * @return Goals
-     */
-    public function addTask(\AppBundle\Entity\Tasks $tasks)
-    {
-        $this->tasks[] = $tasks;
-
-        return $this;
-    }
-
-    /**
-     * Remove tasks
-     *
-     * @param \AppBundle\Entity\Tasks $tasks
-     */
-    public function removeTask(\AppBundle\Entity\Tasks $tasks)
-    {
-        $this->tasks->removeElement($tasks);
-    }
-
-    /**
-     * Get tasks
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getTasks()
-    {
-        return $this->tasks;
-    }
-
-    /**
-     * Add obstacles
-     *
-     * @param \AppBundle\Entity\Obstacles $obstacles
-     * @return Goals
-     */
-    public function addObstacle(\AppBundle\Entity\Obstacles $obstacles)
-    {
-        $this->obstacles[] = $obstacles;
-
-        return $this;
-    }
-
-    /**
-     * Remove obstacles
-     *
-     * @param \AppBundle\Entity\Obstacles $obstacles
-     */
-    public function removeObstacle(\AppBundle\Entity\Obstacles $obstacles)
-    {
-        $this->obstacles->removeElement($obstacles);
-    }
-
-    /**
-     * Get obstacles
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getObstacles()
-    {
-        return $this->obstacles;
-    }
 }
