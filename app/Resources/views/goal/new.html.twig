@@ -9,7 +9,35 @@
   {{ form_start(form) }}
   <div class="panel-body">
     {{ form_widget(form) }}
+    <div><a href="#" id="add-another-req">Add another requirement</a></div>
     <button  type="submit" value="Create" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span></button>
   </div>
   {{ form_end(form) }}
+{% endblock %}
+{% block javascripts %}
+  {{ parent() }}
+  <script type="text/javascript">
+    // keep track of how many req fields have been rendered
+    var reqCount = '{{ form.requirements|length }}';
+
+    $(document).ready(function () {
+      $('#add-another-req').click(function (e) {
+        e.preventDefault();
+
+        var reqList = $('#appbundle_goal_requirements');
+
+        // grab the prototype template
+        var newWidget = reqList.attr('data-prototype');
+        // replace the "__name__" used in the id and name of the prototype
+        // with a number that's unique to your reqs
+        // end name attribute looks like name="contact[reqs][2]"
+        newWidget = newWidget.replace(/__name__/g, reqCount);
+        reqCount++;
+
+        // create a new list element and add it to the list
+        var newLi = $('<div></div>').html(newWidget);
+        newLi.appendTo(reqList);
+      });
+    })
+  </script>
 {% endblock %}

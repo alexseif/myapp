@@ -15,12 +15,14 @@ class GoalType extends AbstractType
   public function buildForm(FormBuilderInterface $builder, array $options)
   {
     $builder->add('name')
-        ->add('goalOrder')
         ->add('requirements', \Symfony\Component\Form\Extension\Core\Type\CollectionType::class, array(
           'entry_type' => \Symfony\Component\Form\Extension\Core\Type\TextType::class,
-          'allow_add'=>true,
-          'allow_delete'=>true,
-          'delete_empty'=>true,
+          'entry_options' => array(
+            'label' => false
+          ),
+          'allow_add' => true,
+          'allow_delete' => true,
+          'delete_empty' => true,
     ));
   }
 
