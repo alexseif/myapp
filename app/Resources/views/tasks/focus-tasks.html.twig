@@ -18,7 +18,7 @@
                {{ task.completed ? "checked" : "" }}/>
         {{ task.task|converturls }}
       </label>
-      <a class="label label-default task-list-name" data-tasklist="{{ task.taskList.name }}" href="{{ path("focus_tasklist", {'tasklist':task.taskList.name}) }}">{{ task.taskList.name }}</a>
+      <a class="label label-default task-list-name" data-tasklist="{{ task.taskList.name }}" href="{{ path("focus_tasklist", {'name':task.taskList.name}) }}">{{ task.taskList.name }}</a>
       <small class="text-info">{{ task.est ? task.est ~ "m"}}</small>
       <a href="{{ path('tasks_edit', { 'id': task.id }) }}" 
          class="btn btn-primary edit-fixed-link btn-sm">

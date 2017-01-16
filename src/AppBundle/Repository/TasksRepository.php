@@ -45,21 +45,20 @@ class TasksRepository extends EntityRepository
             ->getResult();
   }
 
-  public function focusByTasklist($tasklist)
+  public function focusByTasklist($taskList)
   {
     $today = new \DateTime();
     return $this
             ->createQueryBuilder('t')
             ->select('t')
-        ->join('t.taskList', 'tl')
             ->where('t.completedAt > :today')
             ->orWhere('t.completed <> true')
-            ->andWhere('tl.name = :tasklist')
+            ->andWhere('t.taskList = :tasklist')
             ->orderBy("t.urgency", "DESC")
             ->addOrderBy("t.priority", "DESC")
             ->addOrderBy("t.completedAt", "ASC")
             ->addOrderBy("t.order", "ASC")
-            ->setParameter(':tasklist', $tasklist)
+            ->setParameter(':tasklist', $taskList)
             ->setParameter(':today', $today->format('Y-m-d'))
             ->getQuery()
             ->getResult();

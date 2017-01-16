@@ -6,6 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Tasks;
+use AppBundle\Entity\TaskLists;
 use AppBundle\Form\TasksType;
 
 class DefaultController extends Controller
@@ -67,14 +68,16 @@ class DefaultController extends Controller
 
   /**
    * 
-   * @ROUTE("/focus/{tasklist}", name="focus_tasklist")
+   * @ROUTE("/focus/{name}", name="focus_tasklist")
    */
-  public function focusByTaskListAction($tasklist)
+  public function focusByTaskListAction(TaskLists $taskList)
   {
     $em = $this->getDoctrine()->getManager();
 
-    $tasks = $em->getRepository('AppBundle:Tasks')->focusByTasklist($tasklist);
+    $tasks = $em->getRepository('AppBundle:Tasks')->focusByTasklist($taskList);
+
     $task = new Tasks();
+    $task->setTaskList($taskList);
     $form = $this->createForm(TasksType::class, $task, array(
       'action' => $this->generateUrl('tasks_new')
     ));
