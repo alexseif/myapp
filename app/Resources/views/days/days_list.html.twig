@@ -3,7 +3,7 @@
   {% set status = ['danger', 'warning', 'info', 'primary'] %}
   {% for day in days %}
     {% set diff = date(day.deadline).diff(date()) %}
-    {% set curStatus = (diff.days < 15 ) ? 'danger' :  (diff.days < 30 ) ? 'warning' :(diff.days < 60 ) ? 'info' : 'primary' %}
+    {% set curStatus = day.complete ? "success" : (diff.days < 15 ) ? 'danger' :  (diff.days < 30 ) ? 'warning' :(diff.days < 60 ) ? 'info' : 'primary' %}
     <div class="panel panel-{{ curStatus }}">
       <table class="table {{ day.complete ? "completed" }} days-table">
         <tbody>
