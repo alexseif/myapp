@@ -65,4 +65,23 @@ class DefaultController extends Controller
     ));
   }
 
+  /**
+   * 
+   * @ROUTE("/focus/{tasklist}", name="focus_tasklist")
+   */
+  public function focusByTaskListAction($tasklist)
+  {
+    $em = $this->getDoctrine()->getManager();
+
+    $tasks = $em->getRepository('AppBundle:Tasks')->focusByTasklist($tasklist);
+    $task = new Tasks();
+    $form = $this->createForm(TasksType::class, $task, array(
+      'action' => $this->generateUrl('tasks_new')
+    ));
+    return $this->render('default/focus.html.twig', array(
+          'tasks' => $tasks,
+          'task_form' => $form->createView(),
+    ));
+  }
+
 }
