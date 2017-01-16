@@ -19,7 +19,7 @@ class AccountTransactionsRepository extends EntityRepository
     return $this
             ->createQueryBuilder('at')
             ->select('at')
-            ->where('MONTH(at.createdAt) = MONTH(:today)')
+            ->where('MONTH(at.paidAt) = MONTH(:today)')
             ->andWhere('at.amount < 0')
             ->setParameter(':today', $today->format('Y-m-d'))
             ->getQuery()

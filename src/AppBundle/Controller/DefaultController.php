@@ -25,7 +25,6 @@ class DefaultController extends Controller
     $accounts = $em->getRepository('AppBundle:Accounts')->findAll();
     $paidThisMonth = $em->getRepository('AppBundle:AccountTransactions')->paidThisMonth();
     $projects = $em->getRepository('AppBundle:Projects')->findAll();
-    $txnDate = $em->getRepository('AppBundle:Transactions')->getFirstDate();
     $tsksCntDay = $em->getRepository('AppBundle:Tasks')->findTasksCountByDay();
     $tskCnt = array();
     foreach ($tsksCntDay as $t) {
