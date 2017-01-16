@@ -88,7 +88,6 @@ class AccountTransactionsController extends Controller
    */
   public function editAction(Request $request, AccountTransactions $accountTransaction)
   {
-    $accountTransaction->setPaidAt($accountTransaction->getCreatedAt());
 
     $deleteForm = $this->createDeleteForm($accountTransaction);
     $editForm = $this->createForm('AppBundle\Form\AccountTransactionsType', $accountTransaction);

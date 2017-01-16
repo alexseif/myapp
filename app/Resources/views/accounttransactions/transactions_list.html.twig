@@ -4,8 +4,8 @@
       <th>Transaction Id</th>
       <th>Amount</th>
       <th>Account</th>
-      <th>Note</th>
       <th>Paid At</th>
+      <th>Note</th>
       <th>Created At</th>
       <th>Actions</th>
     </tr>
@@ -18,8 +18,8 @@
         <td><a href="{{ path('accounttransactions_show', { 'id': accountTransaction.id }) }}"># {{ accountTransaction.id }}</a></td>
         <td class="text-right"><span class="pull-left">EGP</span> {{ accountTransaction.amount|number_format }}</td>
         <td>{{ accountTransaction.account.name }}</td>
-        <td>{{ accountTransaction.note }}</td>
         <td>{% if accountTransaction.paidAt %}{{ accountTransaction.paidAt|date('Y-m-d') }}{% endif %}</td>
+        <td>{{ accountTransaction.note }}</td>
         <td>{% if accountTransaction.createdAt %}{{ accountTransaction.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
         <td>
           <ul>

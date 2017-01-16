@@ -1,40 +1,35 @@
 {% extends 'base.html.twig' %}
 
-{% block container %}
-    <h1>AccountTransactions</h1>
+{% block title %}#{{accountTransaction.id}} {{accountTransaction.account.name}} Transaction{% endblock %}
+{% block content %}
+  <div class="row">
+    <div class="col-md-4 col-md-push-4">
+      {{ parent() }}
+    </div>
+  </div>
 
-    <table>
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ accountTransaction.id }}</td>
-            </tr>
-            <tr>
-                <th>Amount</th>
-                <td>{{ accountTransaction.amount }}</td>
-            </tr>
-            <tr>
-                <th>Note</th>
-                <td>{{ accountTransaction.note }}</td>
-            </tr>
-            <tr>
-                <th>Createdat</th>
-                <td>{% if accountTransaction.createdAt %}{{ accountTransaction.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <ul>
-        <li>
-            <a href="{{ path('accounttransactions_index') }}">Back to the list</a>
-        </li>
-        <li>
-            <a href="{{ path('accounttransactions_edit', { 'id': accountTransaction.id }) }}">Edit</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+{% endblock %}
+{% block pageActions %}
+  <div class="floating-action">
+    <a href="{{ path('accounttransactions_new') }}" class="bg-primary"><span class="glyphicon glyphicon-plus"></span></a>
+  </div>
+{% endblock %}
+{% block panelBack %}<a href="{{ path('accounttransactions_index') }}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-arrow-left"></span></a>{% endblock %}
+{% block panelTitle %}Transaction{% endblock %}
+{% block panelHeadingRight %}
+  {{ form_start(delete_form) }}
+  <span class="btn-group btn-group-sm">
+    <a href="{{ path('accounttransactions_edit', { 'id': accountTransaction.id }) }}" class="btn btn-primary btn-secondary"><span class="glyphicon glyphicon-pencil"></span></a>
+    <button type="submit" value="Delete" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span></button>
+  </span>
+  {{ form_end(delete_form) }}
+{% endblock %}
+{% block panelBody %}
+  <ul class="list-group">
+    <li class="list-group-item">#{{ accountTransaction.id }} <span class="badge">{{ accountTransaction.account.name }}</span></li>
+    <li class="list-group-item">{{ accountTransaction.amount }} EGP</li>
+    <li class="list-group-item"><span class="badge">Paid</span> {% if accountTransaction.paidAt %}{{ accountTransaction.paidAt|date('Y-m-d') }}{% endif %}</li>
+    <li class="list-group-item">{{ accountTransaction.note }}</li>
+    <li class="list-group-item"><span class="badge">Created</span> {% if accountTransaction.createdAt %}{{ accountTransaction.createdAt|date('Y-m-d H:i:s') }}{% endif %}</li>
+  </ul>
 {% endblock %}

@@ -4,16 +4,16 @@
 {% block panelBack %}<a href="{{ path('accounttransactions_index') }}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-arrow-left"></span></a>{% endblock %}
 
 {% block panelBody %}
-    {{ form_start(transaction_form) }}
-    <div class="panel-body">
-        <div class="row">
-            <div class="col-sm-11">
-                {{ form_widget(transaction_form) }}
-            </div>
-            <div class="col-sm-1">
-                <button type="submit" value="Edit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span></button>
-            </div>
-        </div>
+  {{ form_start(transaction_form) }}
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-sm-11">
+        {{ form_widget(transaction_form) }}
+      </div>
+      <div class="col-sm-1">
+        <button type="submit" value="Edit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span></button>
+      </div>
     </div>
-    {{ form_end(transaction_form) }}
+  </div>
+  {{ form_end(transaction_form) }}
 {% endblock %}
