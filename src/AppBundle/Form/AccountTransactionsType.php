@@ -8,27 +8,28 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AccountTransactionsType extends AbstractType
 {
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
-        $builder
-            ->add('account', 'entity', array('class' => 'AppBundle:Accounts', 'choice_label' => 'name'))
-            ->add('amount', 'money')
-            ->add('note')
-            
-        ;
-    }
-    
-    /**
-     * @param OptionsResolver $resolver
-     */
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\AccountTransactions'
-        ));
-    }
+
+  /**
+   * @param FormBuilderInterface $builder
+   * @param array $options
+   */
+  public function buildForm(FormBuilderInterface $builder, array $options)
+  {
+    $builder
+        ->add('account', 'entity', array('class' => 'AppBundle:Accounts', 'choice_label' => 'name'))
+        ->add('amount', 'money')
+        ->add('note')
+        ->add('paidAt');
+  }
+
+  /**
+   * @param OptionsResolver $resolver
+   */
+  public function configureOptions(OptionsResolver $resolver)
+  {
+    $resolver->setDefaults(array(
+      'data_class' => 'AppBundle\Entity\AccountTransactions'
+    ));
+  }
+
 }

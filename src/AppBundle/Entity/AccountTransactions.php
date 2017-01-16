@@ -12,148 +12,181 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class AccountTransactions
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="amount", type="integer")
-     */
-    private $amount;
+  /**
+   * @var int
+   *
+   * @ORM\Column(name="id", type="integer")
+   * @ORM\Id
+   * @ORM\GeneratedValue(strategy="AUTO")
+   */
+  private $id;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="note", type="text", nullable=true)
-     */
-    private $note;
+  /**
+   * @var int
+   *
+   * @ORM\Column(name="amount", type="integer")
+   */
+  private $amount;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="createdAt", type="datetime")
-     */
-    private $createdAt;
+  /**
+   * @var string
+   *
+   * @ORM\Column(name="note", type="text", nullable=true)
+   */
+  private $note;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Accounts", inversedBy="transactions")
-     * @ORM\JoinColumn(name="account_id", referencedColumnName="id")
-     */
-    private $account;
-    
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->createdAt = new \DateTime();
-    }
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+  /**
+   * @var \DateTime
+   *
+   * @ORM\Column(name="paidAt", type="date")
+   */
+  private $paidAt;
 
-    /**
-     * Set amount
-     *
-     * @param integer $amount
-     * @return AccountTransactions
-     */
-    public function setAmount($amount)
-    {
-        $this->amount = $amount;
+  /**
+   * @var \DateTime
+   *
+   * @ORM\Column(name="createdAt", type="datetime")
+   */
+  private $createdAt;
 
-        return $this;
-    }
+  /**
+   * @ORM\ManyToOne(targetEntity="Accounts", inversedBy="transactions")
+   * @ORM\JoinColumn(name="account_id", referencedColumnName="id")
+   */
+  private $account;
 
-    /**
-     * Get amount
-     *
-     * @return integer 
-     */
-    public function getAmount()
-    {
-        return $this->amount;
-    }
+  /**
+   * Constructor
+   */
+  public function __construct()
+  {
+    $this->paidAt = $this->createdAt = new \DateTime();
+  }
 
-    /**
-     * Set note
-     *
-     * @param string $note
-     * @return AccountTransactions
-     */
-    public function setNote($note)
-    {
-        $this->note = $note;
+  /**
+   * Get id
+   *
+   * @return integer 
+   */
+  public function getId()
+  {
+    return $this->id;
+  }
 
-        return $this;
-    }
+  /**
+   * Set amount
+   *
+   * @param integer $amount
+   * @return AccountTransactions
+   */
+  public function setAmount($amount)
+  {
+    $this->amount = $amount;
 
-    /**
-     * Get note
-     *
-     * @return string 
-     */
-    public function getNote()
-    {
-        return $this->note;
-    }
+    return $this;
+  }
 
-    /**
-     * Set createdAt
-     *
-     * @param \DateTime $createdAt
-     * @return AccountTransactions
-     */
-    public function setCreatedAt($createdAt)
-    {
-        $this->createdAt = $createdAt;
+  /**
+   * Get amount
+   *
+   * @return integer 
+   */
+  public function getAmount()
+  {
+    return $this->amount;
+  }
 
-        return $this;
-    }
+  /**
+   * Set note
+   *
+   * @param string $note
+   * @return AccountTransactions
+   */
+  public function setNote($note)
+  {
+    $this->note = $note;
 
-    /**
-     * Get createdAt
-     *
-     * @return \DateTime 
-     */
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
+    return $this;
+  }
 
-    /**
-     * Set account
-     *
-     * @param \AppBundle\Entity\Accounts $account
-     * @return AccountTransactions
-     */
-    public function setAccount(\AppBundle\Entity\Accounts $account = null)
-    {
-        $this->account = $account;
+  /**
+   * Get note
+   *
+   * @return string 
+   */
+  public function getNote()
+  {
+    return $this->note;
+  }
 
-        return $this;
-    }
+  /**
+   * Set createdAt
+   *
+   * @param \DateTime $createdAt
+   * @return AccountTransactions
+   */
+  public function setCreatedAt($createdAt)
+  {
+    $this->createdAt = $createdAt;
 
-    /**
-     * Get account
-     *
-     * @return \AppBundle\Entity\Accounts 
-     */
-    public function getAccount()
-    {
-        return $this->account;
-    }
+    return $this;
+  }
+
+  /**
+   * Get createdAt
+   *
+   * @return \DateTime 
+   */
+  public function getCreatedAt()
+  {
+    return $this->createdAt;
+  }
+
+  /**
+   * Set account
+   *
+   * @param \AppBundle\Entity\Accounts $account
+   * @return AccountTransactions
+   */
+  public function setAccount(\AppBundle\Entity\Accounts $account = null)
+  {
+    $this->account = $account;
+
+    return $this;
+  }
+
+  /**
+   * Get account
+   *
+   * @return \AppBundle\Entity\Accounts 
+   */
+  public function getAccount()
+  {
+    return $this->account;
+  }
+
+  /**
+   * Set paidAt
+   *
+   * @param \DateTime $paidAt
+   * @return AccountTransactions
+   */
+  public function setPaidAt($paidAt)
+  {
+    $this->paidAt = $paidAt;
+
+    return $this;
+  }
+
+  /**
+   * Get paidAt
+   *
+   * @return \DateTime 
+   */
+  public function getPaidAt()
+  {
+    return $this->paidAt;
+  }
+
 }
