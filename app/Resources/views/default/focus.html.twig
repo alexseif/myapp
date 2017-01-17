@@ -34,7 +34,7 @@
   <script type="text/javascript">
     $(document).ready(function () {
       //Focus task list draw
-      var timeLeft = 480;
+     {# var timeLeft = 480;
       var timeNeeded = 0;
       var tasks = $('.task-list li').not('.completed');
       var completed = $('.completed');
@@ -71,7 +71,7 @@
           $(this).animate({height: ($est / timeNeeded) * remainingHeight + 'vh'});
         }
         $(this).children('.task').addClass('btn-primary').removeClass('btn-default');
-      });
+      });#}
       focus.sortable({
         connectWith: ".task-list",
         placeholder: "ui-state-highlight",
