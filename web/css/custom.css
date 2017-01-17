@@ -2,23 +2,23 @@
 .floating-action .dropdown-menu{background: none; border: none;box-shadow: none;}
 .floating-action .dropdown-menu > li{margin: 5px 0;}
 .floating-action .dropdown-menu > li > a{
-    color: white;
-    border-radius: 50px;
-    display: table-cell;
-    height: 50px;
-    width: 50px;
-    vertical-align: middle;
-    text-align: center;
-    padding: 0px;
+  color: white;
+  border-radius: 50px;
+  display: table-cell;
+  height: 50px;
+  width: 50px;
+  vertical-align: middle;
+  text-align: center;
+  padding: 0px;
 }
 .floating-action a{
-    color: white;
-    border-radius: 50px;
-    display: table-cell;
-    height: 50px;
-    width: 50px;
-    vertical-align: middle;
-    text-align: center;
+  color: white;
+  border-radius: 50px;
+  display: table-cell;
+  height: 50px;
+  width: 50px;
+  vertical-align: middle;
+  text-align: center;
 }
 .bg-embed{background-color: #222222;color: #303030 !important;}
 .bg-embed:hover{background-color: #303030;color: #222222 !important;}
@@ -38,7 +38,7 @@ li:hover .edit-link{display: inline;}
 .panel-transparent>.panel-footer+.panel-collapse>.panel-body{border-bottom-color:#464545}
 .panel-transparent>.panel-heading{background-color:#464545}
 .task-list input[type="checkbox"] {margin:0;}
-.task-list li{padding: 5px 15px;white-space: nowrap;}
+.task-list li{padding: 5px 15px;white-space: nowrap;min-height: 35px;}
 .task-list li .task{overflow: hidden;max-width: 60%;}
 .edit-fixed-link{position: absolute;right: 5px;}
 .ui-state-highlight { height: 1.5em; line-height: 1.2em; border:1px solid #dad55e;background:#f39c12;;color:#777620}
@@ -53,23 +53,23 @@ a.navbar-brand{background-color: #222222;}
 body.notes {background: #e8e8e8}
 .notes-container{position: relative; margin: 0 auto;}
 .note-container{
-    margin: 16px;
-    display: block;
-    position: absolute;
-    transition-property: opacity, transform;
-    transition-duration: .218s;
+  margin: 16px;
+  display: block;
+  position: absolute;
+  transition-property: opacity, transform;
+  transition-duration: .218s;
 }
 .note{
-    box-sizing: border-box;
-    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
-    overflow: hidden;
-    position: relative;
-    border-radius: 2px;
-    transition-duration: .218s;
-    transition-property: background, opacity, box-shadow, transform;
-    transition-timing-function: ease-in;
-    background: #ffffff;
-    color: #222222;
+  box-sizing: border-box;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+  position: relative;
+  border-radius: 2px;
+  transition-duration: .218s;
+  transition-property: background, opacity, box-shadow, transform;
+  transition-timing-function: ease-in;
+  background: #ffffff;
+  color: #222222;
 }
 .note:hover{box-shadow: 0 2px 15px rgba(0, 0, 0, 0.30);}
 .note p{margin: 15px 10px;}
