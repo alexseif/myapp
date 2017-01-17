@@ -37,22 +37,25 @@ $(document).ready(function () {
     })
             .done(focusTitle())
   });
-
-  //Sorting Tasks
-  $(".task-list").sortable({
-    connectWith: ".task-list",
-    placeholder: "ui-state-highlight",
-    items: "li:not(.completed)",
-    update: function (event, ui) {
-      var data = $(this).sortable("serialize", {"key": "tasks[][id]", attribute: "data-order"});
-      $.ajax({
-        data: data,
-        dataType: "json",
-        type: 'POST',
-        url: tasks_order
-      }).done(focusTitle());
-    }
-  });
+  //Disabling on mobile devices
+  // Maybe I should use screen width
+  if (touch) {
+    //Sorting Tasks
+    $(".task-list").sortable({
+      connectWith: ".task-list",
+      placeholder: "ui-state-highlight",
+      items: "li:not(.completed)",
+      update: function (event, ui) {
+        var data = $(this).sortable("serialize", {"key": "tasks[][id]", attribute: "data-order"});
+        $.ajax({
+          data: data,
+          dataType: "json",
+          type: 'POST',
+          url: tasks_order
+        }).done(focusTitle());
+      }
+    });
+  }
 
   //Modal handling
   $('#newTask').on('shown.bs.modal', function () {
