@@ -1,10 +1,12 @@
 {% extends 'base.html.twig' %}
+{% import "tasks/tasks_macros.html.twig" as tasks_view %}
+
 {% block floatingActions %}
-    <a href="{{ path('tasks_new') }}" class="bg-primary"><span class="glyphicon glyphicon-plus"></span></a>
+  <a href="{{ path('tasks_new') }}" class="bg-primary"><span class="glyphicon glyphicon-plus"></span></a>
 
 {% endblock %}
 {% block panelTitle %}Tasks{% endblock %}
 {% block panelBody %}
-    {% include 'tasks/tasks.html.twig' %}
+  {{ tasks_view.ul(tasks) }}
 {% endblock %}
 

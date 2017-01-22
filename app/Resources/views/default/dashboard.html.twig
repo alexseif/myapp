@@ -1,4 +1,6 @@
 {% extends 'base.html.twig' %}
+{% import "tasks/tasks_macros.html.twig" as tasks_view %}
+
 {# TODO: http://bootsnipp.com/user/favorites #}
 {% block container %}
   <div class="floating-action dropup">
@@ -18,7 +20,7 @@
       {% if tasks|length %}
         <div class="panel panel-primary">
           <div class="panel-heading">UnListed</div>
-          {% include 'tasks/tasks.html.twig' %}
+          {{ tasks_view.ul(tasks) }}
         </div>
       {% endif %}
       {% for taskList in taskLists %}
@@ -30,7 +32,7 @@
                 <a href="{{ path('tasklists_show', {"id":taskList.id}) }}">{{ taskList.name }}</a>
               </span> <span class="badge">{{ taskList.tasks.count }}</span>
             </div>
-            {% include 'tasks/tasks.html.twig' %}
+            {{ tasks_view.ul(tasks) }}
           </div>
         {% endif %}
       {% endfor %}

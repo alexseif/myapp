@@ -1,4 +1,6 @@
 {% extends 'base.html.twig' %}
+{% import "tasks/tasks_macros.html.twig" as tasks_view %}
+
 {% block title %}Focus{% endblock %}
 {% block nav %}{% endblock %}
 {% block container %}
@@ -12,9 +14,9 @@
     <a class="bg-primary" href="{{ path('tasks_new')}}"><span class="glyphicon glyphicon-plus"></span></a>
   </div>
   <div class="container">
-    {% include 'tasks/focus-tasks.html.twig' %}
+    {{ tasks_view.ul(tasks) }}
   </div>
-  
+
 {% endblock %}
 {% block javascripts %}
   {{ parent() }}
@@ -34,58 +36,58 @@
   <script type="text/javascript">
     $(document).ready(function () {
       //Focus task list draw
-     {# var timeLeft = 480;
-      var timeNeeded = 0;
-      var tasks = $('.task-list li').not('.completed');
-      var completed = $('.completed');
-      var container = $('.container');
-      var focus = $('<ul class="list-group task-list" id="focus"></ul>');
-      focus.prependTo(container);
-      completed.each(function () {
-        timeLeft -= $(this).data('time');
-        $(this).appendTo(focus);
-        $(this).children('.task').addClass('btn-primary').removeClass('btn-default');
-      });
-      var remainingHeight = ($(window).height() - focus.height()) / $(window).height() * 100;
-      var lastLi = null;
-      tasks.each(function () {
-        $est = $(this).data('time');
-        if ($est) {
-          timeLeft -= $est;
-        }
-        if (timeLeft >= 0) {
-          if (null == lastLi) {
-            $(this).prependTo(focus);
-          } else {
-            $(lastLi).after(this);
-          }
-          lastLi = this;
-          if ($est) {
-            timeNeeded += $est;
-          }
-        }
-      });
-      focus.children('li').not('.completed').each(function () {
-        $est = $(this).data('time');
-        if ($est) {
-          $(this).animate({height: ($est / timeNeeded) * remainingHeight + 'vh'});
-        }
-        $(this).children('.task').addClass('btn-primary').removeClass('btn-default');
-      });#}
-      focus.sortable({
-        connectWith: ".task-list",
-        placeholder: "ui-state-highlight",
-        items: "li:not(.completed)",
-        update: function (event, ui) {
-          var data = $(this).sortable("serialize", {"key": "tasks[][id]", attribute: "data-order"});
-          $.ajax({
-            data: data,
-            dataType: "json",
-            type: 'POST',
-            url: tasks_order
-          }).done(focusTitle());
-        }
-      });
-    });
+    {# var timeLeft = 480;
+     var timeNeeded = 0;
+     var tasks = $('.task-list li').not('.completed');
+     var completed = $('.completed');
+     var container = $('.container');
+     var focus = $('<ul class="list-group task-list" id="focus"></ul>');
+     focus.prependTo(container);
+     completed.each(function () {
+       timeLeft -= $(this).data('time');
+       $(this).appendTo(focus);
+       $(this).children('.task').addClass('btn-primary').removeClass('btn-default');
+     });
+     var remainingHeight = ($(window).height() - focus.height()) / $(window).height() * 100;
+     var lastLi = null;
+     tasks.each(function () {
+       $est = $(this).data('time');
+       if ($est) {
+         timeLeft -= $est;
+       }
+       if (timeLeft >= 0) {
+         if (null == lastLi) {
+           $(this).prependTo(focus);
+         } else {
+           $(lastLi).after(this);
+         }
+         lastLi = this;
+         if ($est) {
+           timeNeeded += $est;
+         }
+       }
+     });
+     focus.children('li').not('.completed').each(function () {
+       $est = $(this).data('time');
+       if ($est) {
+         $(this).animate({height: ($est / timeNeeded) * remainingHeight + 'vh'});
+       }
+       $(this).children('.task').addClass('btn-primary').removeClass('btn-default');
+     });#}
+         focus.sortable({
+           connectWith: ".task-list",
+           placeholder: "ui-state-highlight",
+           items: "li:not(.completed)",
+           update: function (event, ui) {
+             var data = $(this).sortable("serialize", {"key": "tasks[][id]", attribute: "data-order"});
+             $.ajax({
+               data: data,
+               dataType: "json",
+               type: 'POST',
+               url: tasks_order
+             }).done(focusTitle());
+           }
+         });
+       });
   </script>
 {% endblock %}
