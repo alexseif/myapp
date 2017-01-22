@@ -14,115 +14,90 @@ function focusTitle() {
     $('title').text($text + "| myApp");
   }
 }
-
+var time = {
+  day: 480,
+  completed: 0,
+  lowest: 480,
+  remaining: 480
+};
+var container = $('.container');
+var focus = $('<ul class="list-group task-list" id="focus"></ul>');
+focus.prependTo(container);
+var completed = $('.completed');
 function drawFocusTasks() {
-  var time = {
-    day: 480,
-    worked: 0,
-    lowest: 480
-  };
-  var timeLeft = 480;
-  var timeNeeded = 0;
-  var tasksLis = $('.task-list li').not('.completed');
-  var completed = $('.completed');
-  var container = $('.container');
-  var focus = $('<ul class="list-group task-list" id="focus"></ul>');
-  focus.prependTo(container);
-
-  var tasks = [];
-  var tasksIndex = 0
-
+  completed = $('.completed');
+  focus.children('li').prependTo('#tasks');
+  time.completed = 0;
   completed.each(function () {
-    tasks[tasksIndex] = {
-      id: $(this).data('id'),
-      est: ($(this).data("time")) ? $(this).data("time") : 0,
-      order: $(this).data("order-no"),
-      completed: true
-    };
-    time.worked += tasks[tasksIndex].est;
-    focus.append(this);
-    tasksIndex++;
+    time.completed += ($(this).data("time")) ? $(this).data("time") : 0;
   });
-
-  tasksLis.each(function () {
-    tasks[tasksIndex] = {
-      id: $(this).data('id'),
-      est: ($(this).data("time")) ? $(this).data("time") : 0,
-      order: $(this).data("order-no"),
-      completed: $(this).hasClass('completed')
-    };
-
-    if (tasks[tasksIndex].est < time.lowest) {
-      time.lowest = tasks[tasksIndex].est;
-    }
-    time.day -= tasks[tasksIndex].est;
-    if (time.day > 0) {
-      focus.append(this);
-    }
-    tasksIndex++;
-  });
-
-  console.log(tasks);
-  console.log(time);
-
-
-//  tasksLis.each(function () {
-//  focus.children('li').not('.completed').each(function () {
-//    $est = $(this).data('time');
-//    if ($est) {
-//      $(this).animate({height: ($est / timeNeeded) * remainingHeight + 'vh'});
-//    }
-//    $(this).children('.task').addClass('btn-primary').removeClass('btn-default');
-//  });
+  time.remaining = time.day - time.completed;
+  while (time.remaining > 0) {
+    task = $('#tasks li:first');
+    time.remaining -= (task.data("time")) ? task.data("time") : 0;
+    focus.append(task);
+  }
+  focus.append(completed);
+  focusTitle();
 }
-$(document).ready(function () {
+
+function updateOrder() {
+  var data = {};
+  var order = 0;
+  var dataString = "";
+//  tasks[][id]=544&tasks[][id]=711&tasks[][id]=709&tasks[][id]=717&tasks[][id]=766&tasks[][id]=716&tasks[][id]=703&tasks[][id]=754&tasks[][id]=753&tasks[][id]=710&tasks[][id]=752&tasks[][id]=760
+  $('.task-list li').each(function () {
+    dataString += "tasks[][id]=" + $(this).data('id') + "&";
+  });
+  $.ajax({
+    data: dataString,
+    dataType: "json",
+    type: 'POST',
+    url: tasks_order
+  }).done(drawFocusTasks());
+}
+
+function focusTaskChange() {
+  if ($(this).is(":checked")) {
+    $(this).parent().removeClass('btn-sm').addClass('btn-xs');
+    $(this).parent().parent().addClass('completed').css('height', 'auto');
+    $ajaxValue = 1;
+  } else {
+    $(this).parent().parent().removeClass('completed');
+    $(this).parent().removeClass('btn-xs').addClass('btn-sm');
+    $ajaxValue = 0;
+  }
+  $.ajax({
+    type: "POST",
+    url: tasks_path + $(this).data('taskid') + "/edit",
+    dataType: "json",
+    data: {
+      "completed": $ajaxValue
+    }
+  }).done(drawFocusTasks());
+}
+function focusInit() {
   $('[data-toggle="tooltip"]').tooltip();
   $('[data-toggle="popover"]').popover({html: true, trigger: 'focus'});
-  //Checking Tasks
-  $('.task-list input[type="checkbox"]').change(function () {
-    taskId = $(this).data('taskid');
-    $taskLi = $(this).parent().parent();
-    if ($(this).is(":checked")) {
-      $(this).parent().removeClass('btn-sm').addClass('btn-xs');
-      $taskLi.addClass('completed').css('height', 'auto');
-      completed = 1;
-    } else {
-      $taskLi.removeClass('completed');
-      $(this).parent().removeClass('btn-xs').addClass('btn-sm');
-      completed = 0;
-    }
-    $.ajax({
-      type: "POST",
-      url: tasks_path + taskId + "/edit",
-      dataType: "json",
-      data: {
-        "completed": completed
-      }
-    })
-            .done(focusTitle())
-  });
+//Checking Tasks
+  $('.task-list input[type="checkbox"]').change(focusTaskChange);
   //Disabling on mobile devices
   // Maybe I should use screen width
-  if (touch) {
-//Sorting Tasks
-    $(".task-list").sortable({
+  if (!touch) {
+    $("#focus, #tasks").sortable({
       connectWith: ".task-list",
-      placeholder: "ui-state-highlight",
+//      placeholder: "ui-state-highlight",
       items: "li:not(.completed)",
-      update: function (event, ui) {
-        var data = $(this).sortable("serialize", {"key": "tasks[][id]", attribute: "data-order"});
-        $.ajax({
-          data: data,
-          dataType: "json",
-          type: 'POST',
-          url: tasks_order
-        }).done(focusTitle());
-      }
+      update: updateOrder
+//      update: function (event, ui) {
+//        var data = $(this).sortable("serialize", {"key": "tasks[][id]", attribute: "data-order"});
+//        $.ajax({
+//          data: data,
+//          dataType: "json",
+//          type: 'POST',
+//          url: tasks_order
+//        }).done(drawFocusTasks());
+//      }
     });
   }
-
-//Modal handling
-  $('#newTask').on('shown.bs.modal', function () {
-    $('#tasks_task').focus();
-  });
-});
+}
