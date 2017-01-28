@@ -55,12 +55,14 @@ class DefaultController extends Controller
     $em = $this->getDoctrine()->getManager();
 
     $tasks = $em->getRepository('AppBundle:Tasks')->focusList();
+    $completedToday = $em->getRepository('AppBundle:Tasks')->getCompletedToday();
     $task = new Tasks();
     $form = $this->createForm(TasksType::class, $task, array(
       'action' => $this->generateUrl('tasks_new')
     ));
     return $this->render('default/focus.html.twig', array(
           'tasks' => $tasks,
+          'completed' => $completedToday,
           'task_form' => $form->createView(),
     ));
   }
@@ -74,6 +76,7 @@ class DefaultController extends Controller
     $em = $this->getDoctrine()->getManager();
 
     $tasks = $em->getRepository('AppBundle:Tasks')->focusByTasklist($taskList);
+    $completedToday = $em->getRepository('AppBundle:Tasks')->getCompletedToday();
 
     $task = new Tasks();
     $task->setTaskList($taskList);
@@ -82,6 +85,7 @@ class DefaultController extends Controller
     ));
     return $this->render('default/focus.html.twig', array(
           'tasks' => $tasks,
+          'completed' => $completedToday,
           'task_form' => $form->createView(),
     ));
   }

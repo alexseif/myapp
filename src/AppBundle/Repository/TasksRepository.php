@@ -28,19 +28,32 @@ class TasksRepository extends EntityRepository
     return $this->findBy(array("taskList" => null));
   }
 
-  public function focusList()
+  public function getCompletedToday()
   {
     $today = new \DateTime();
     return $this
             ->createQueryBuilder('t')
             ->select('t')
             ->where('t.completedAt > :today')
-            ->orWhere('t.completed <> true')
             ->orderBy("t.urgency", "DESC")
             ->addOrderBy("t.priority", "DESC")
             ->addOrderBy("t.completedAt", "ASC")
             ->addOrderBy("t.order", "ASC")
             ->setParameter(':today', $today->format('Y-m-d'))
+            ->getQuery()
+            ->getResult();
+  }
+
+  public function focusList()
+  {
+    return $this
+            ->createQueryBuilder('t')
+            ->select('t')
+            ->where('t.completed <> true')
+            ->orderBy("t.urgency", "DESC")
+            ->addOrderBy("t.priority", "DESC")
+            ->addOrderBy("t.completedAt", "ASC")
+            ->addOrderBy("t.order", "ASC")
             ->getQuery()
             ->getResult();
   }

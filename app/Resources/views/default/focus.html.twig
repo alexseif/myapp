@@ -15,26 +15,13 @@
   </div>
 
   <div class="container">
-    {{ tasks_view.ul(tasks) }}
+    {{ tasks_view.ul(completed, 'completed') }}
+    {{ tasks_view.ul(tasks, 'tasks' ) }}
   </div>
 
 {% endblock %}
 {% block javascripts %}
   {{ parent() }}
-  <script type="text/javascript">
-    $(document).ready(function () {
-      $('.task-list-name').dblclick(function () {
-        $tasklist = $(this).data('tasklist');
-        $('.task-list li').each(function () {
-          if ($(this).children('.task-list-name').text() != $tasklist) {
-            $(this).hide();
-          }
-        });
-      });
-      drawFocusTasks();
-      focusTitle();
-    });
-  </script>
   <script type="text/javascript">
     $(document).ready(focusInit());
   </script>
