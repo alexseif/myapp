@@ -15,7 +15,7 @@
   {{ form_start(delete_form) }}
   <span class="btn-group btn-group-sm">
     <a href="{{ path('tasklists_edit', { 'id': taskList.id }) }}" class="btn btn-primary btn-secondary"><span class="glyphicon glyphicon-pencil"></span></a>
-    <button type="submit" value="Delete" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span></button>
+    <button type="submit" value="Delete" class="btn btn-danger btn-sm btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
   </span>
   {{ form_end(delete_form) }}
 {% endblock %}
