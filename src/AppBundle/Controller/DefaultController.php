@@ -84,6 +84,7 @@ class DefaultController extends Controller
       'action' => $this->generateUrl('tasks_new')
     ));
     return $this->render('default/focus.html.twig', array(
+          'taskList' => $taskList,
           'tasks' => $tasks,
           'completed' => $completedToday,
           'task_form' => $form->createView(),

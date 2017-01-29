@@ -8,7 +8,8 @@
     <a href="{{ path('dashboard') }}" class="bg-embed"><span class="glyphicon glyphicon-home"></span></a>
   </div>
   <div class="floating-action" style="top: 75px;">
-    <a href="{{ path('focus') }}" class="bg-embed"><span class="glyphicon glyphicon-refresh"></span></a>
+    <a href="{{ (taskList) ? path('focus_tasklist', {'name': taskList.name}) : path('focus') }}" class="bg-embed">
+      <span class="glyphicon glyphicon-refresh"></span></a>
   </div>
   <div class="floating-action">
     <a class="bg-primary" href="{{ path('tasks_new')}}"><span class="glyphicon glyphicon-plus"></span></a>
