@@ -92,5 +92,5 @@ function focusInit() {
       update: updateOrder
     });
   }
-//  drawFocusTasks();
+  drawFocusTasks();
 }
