@@ -5,14 +5,17 @@
 {% block nav %}{% endblock %}
 {% block container %}
   <div class="floating-action" style="top: 25px;">
-    <a href="{{ path('dashboard') }}" class="bg-embed"><span class="glyphicon glyphicon-home"></span></a>
+    <a href="{{ path('dashboard') }}" class="bg-embed">
+      <span class="glyphicon glyphicon-home"></span></a>
   </div>
   <div class="floating-action" style="top: 75px;">
-    <a href="{{ (taskList is defined) ? path('focus_tasklist', {'name': taskList.name}) : path('focus') }}" class="bg-embed">
+    <a href="{{ (taskList is defined) ? path('focus_tasklist', {'name': taskList.name}) : path('focus') }}" 
+       class="bg-embed">
       <span class="glyphicon glyphicon-refresh"></span></a>
   </div>
   <div class="floating-action">
-    <a class="bg-primary" href="{{ path('tasks_new')}}"><span class="glyphicon glyphicon-plus"></span></a>
+    <a class="bg-primary" href="{{ path('tasks_new')}}">
+      <span class="glyphicon glyphicon-plus"></span></a>
   </div>
 
   <div class="container">
