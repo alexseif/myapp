@@ -64,15 +64,13 @@ class TasksRepository extends EntityRepository
     return $this
             ->createQueryBuilder('t')
             ->select('t')
-            ->where('t.completedAt > :today')
-            ->orWhere('t.completed <> true')
+            ->where('t.completed <> true')
             ->andWhere('t.taskList = :tasklist')
             ->orderBy("t.urgency", "DESC")
             ->addOrderBy("t.priority", "DESC")
             ->addOrderBy("t.completedAt", "ASC")
             ->addOrderBy("t.order", "ASC")
             ->setParameter(':tasklist', $taskList)
-            ->setParameter(':today', $today->format('Y-m-d'))
             ->getQuery()
             ->getResult();
   }
