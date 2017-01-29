@@ -18,6 +18,7 @@ class AppKernel extends Kernel {
       new FOS\UserBundle\FOSUserBundle(),
       new Zenstruck\BackupBundle\ZenstruckBackupBundle(),
       new Liip\UrlAutoConverterBundle\LiipUrlAutoConverterBundle(),
+      new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
     );
 
     if (in_array($this->getEnvironment(), array('dev', 'test'), true)) {
