@@ -35,17 +35,17 @@
       title="{{ task.taskList.name}}"
       data-content='<p>{{ task.task|converturls }}</p>
       <div class="text-info small">
-        <span class="label label-default">Est:</span>&nbsp;
-        {{ task.est }}m</div>
+      <span class="label label-default">Est:</span>&nbsp;
+      {{ task.est }}m</div>
       <div class="text-info small">
-        <span class="label label-default">Created At:</span>&nbsp;
-        {{ task.createdAt|date }}</div>'
+      <span class="label label-default">Created At:</span>&nbsp;
+      {{ task.createdAt|date }}</div>'
       ><i class="glyphicon glyphicon-info-sign"></i></button>
   </li>
 {% endmacro %}
 
 {% macro ul(tasks, id) %}
-  <ul class="list-group task-list" id="{{ id }}">
+  <ul class="list-group task-list" {{ (id)? 'id="'+ id +'"'}}>
     {% for task in tasks %}
       {{ _self.li(task) }}
     {% endfor %}

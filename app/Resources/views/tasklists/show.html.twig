@@ -1,4 +1,6 @@
 {% extends 'base.html.twig' %}
+{% import "tasks/tasks_macros.html.twig" as tasks_view %}
+
 {% block pageActions %}
   <div class="floating-action">
     <a href="{{ path('tasks_new', {"tasklist": taskList.id}) }}" class="bg-primary"><span class="glyphicon glyphicon-plus"></span></a>
@@ -19,5 +21,5 @@
 {% endblock %}
 {% set tasks = taskList.tasks %}
 {% block panelBody %}
-  {% include 'tasks/tasks.html.twig' %}
+  {{ tasks_view.ul(tasks) }}
 {% endblock %}
