@@ -1,9 +1,0 @@
-{% extends 'base.html.twig' %}
-{% block floatingActions %}
-    <a href="{{ path('projects_new') }}" class="bg-primary"><span class="glyphicon glyphicon-plus"></span></a>
-
-{% endblock %}
-{% block panelTitle %}Projects{% endblock %}
-{% block panelBody %}
-    {% include 'projects/projects_list.html.twig' %}
-{% endblock %}

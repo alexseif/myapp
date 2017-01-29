@@ -7,16 +7,13 @@ services:
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]        
-    twig.extension.text:
-         class: Twig_Extensions_Extension_Text
-         tags:
-             - { name: twig.extension }
-    csv.import:
-        class:  AppBundle\Services\ToshlImporter
-        arguments: [ "@doctrine.orm.entity_manager" ]
-    twig.controller_action_extension:
-        class: AppBundle\Twig\Extension\ControllerActionExtension
-        calls:
-            - [setRequest, ["@?request="]]
-        tags:
-            - { name: twig.extension }
+  twig.extension.text:
+    class: Twig_Extensions_Extension_Text
+    tags:
+        - { name: twig.extension }
+  twig.controller_action_extension:
+    class: AppBundle\Twig\Extension\ControllerActionExtension
+    calls:
+        - [setRequest, ["@?request="]]
+    tags:
+        - { name: twig.extension }
