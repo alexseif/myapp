@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+{% block panelBack %}
+  <a class="btn btn-default btn-sm" 
+     href="{{ path('currency_index') }}">
+    <span class="glyphicon glyphicon-arrow-left"></span></a>
+
+{% endblock %}
+{% block panelTitle %}New Currency{% endblock %}
+{% block panelBody %}
+  {{ forms.panel(form) }}
+{% endblock %}
