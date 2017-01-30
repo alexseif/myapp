@@ -1,24 +1,10 @@
 {% extends 'base.html.twig' %}
-{% block pageActions %}
-  <div class="floating-action">
-    <a href="{{ path('currency_new') }}" class="bg-primary">
-      <span class="glyphicon glyphicon-plus"></span></a>
-  </div>
-{% endblock %}
-{% block panelBack %}
-  <a href="{{ path('currency_index') }}" class="btn btn-default btn-sm">
-    <span class="glyphicon glyphicon-arrow-left"></span></a>
-
-{% endblock %}
+{% block floatingActions %}{{ a.add('currency_new') }}{% endblock %}
+{% block panelBack %}{{ a.back('currency_index') }}{% endblock %}
 {% block panelTitle %}{{ currency.code }}{% endblock %}
 {% block panelHeadingRight %}
-  {{ form_start(delete_form) }}
-  <span class="btn-group btn-group-sm">
-    <a href="{{ path('currency_edit', { 'id': currency.id }) }}" 
-       class="btn btn-primary btn-secondary">Edit</a>
-    <input type="submit" value="Delete" class="btn btn-danger btn-secondary">
-  </span>
-  {{ form_end(delete_form) }}
+  {{ a.edit('currency_edit', { 'id': currency.id }) }}
+  {{ forms.delete(delete_form) }}
 {% endblock %}
 {% block panelBody %}
   <div class="panel-body">

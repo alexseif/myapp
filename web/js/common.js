@@ -6,8 +6,8 @@ $(document).ready(function () {
   $('.datepicker').datepicker({
     dateFormat: $('.datepicker').data('date-format')
   });
-  
-  $('.btn-delete').click(function () {
-    return confirm('Are you sure you want to delete?');
+
+  $('.btn-confirm').click(function () {
+    return confirm('Are you sure you want to perform this action?');
   });
 });

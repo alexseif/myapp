@@ -1,32 +1,19 @@
 {% extends 'base.html.twig' %}
-{% block pageActions %}
-  <div class="floating-action">
-    <a href="{{ path('notes_new') }}" class="bg-primary"><span class="glyphicon glyphicon-plus"></span></a>
-  </div>
-{% endblock %}
-{% block panelBack %}
-  <a href="{{ path('notes_index') }}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-arrow-left"></span></a>
-
-{% endblock %}
-{% block panelTitle %}{{ note.note|truncate(10) }}{% endblock %}
-{% block panelTitleSmall %}
+{% block floatingActions %}{{ a.add('notes_new') }}{% endblock %}
+{% block panelBack %}{{ a.back('notes_index') }}{% endblock %}
+{% block panelTitle %}{{ note.note|truncate(50) }}{% endblock %}
+{% block panelTitleLabels %}
   <span class="label label-info">{{ note.type|title }}</span> 
-  <span class="label label-primary">
-    {% if note.createdAt %}{{ note.createdAt|date('Y-m-d H:i:s') }}{% endif %}
-  </span>
+  {% if note.createdAt %}
+    <span class="label label-primary">
+      {{ note.createdAt|date('Y-m-d H:i:s') }}
+    </span>
+  {% endif %}
 {% endblock %}
 {% block panelHeadingRight %}
-  {{ form_start(delete_form) }}
-  <span class="btn-group btn-group-sm">
-    <a href="{{ path('notes_edit', { 'id': note.id }) }}" class="btn btn-primary btn-secondary">Edit</a>
-    <input type="submit" value="Delete" class="btn btn-danger  btn-secondary">
-  </span>
-  {{ form_end(delete_form) }}
+  {{ a.edit('notes_edit', { 'id': note.id }) }}
+  {{ forms.delete(delete_form) }}
 {% endblock %}
 {% block panelBody %}
-  <div class="panel-body">
-    <div class="note">
-      {{ note.note }}
-    </div>
-  </div>
+  <div class="panel-body"><div class="note">{{ note.note }}</div></div>
 {% endblock %}

@@ -1,0 +1,27 @@
+{# Default render for add link #}
+{% macro add(path, parameters = {}) %}
+  {{ _self.linkGlyph('primary', 'plus', path, parameters) }}  
+{% endmacro %}
+
+{# Default render for show link #}
+{% macro show(path, parameters = {}) %}
+  {{ _self.linkGlyph('info', 'open', path, parameters) }}
+{% endmacro %}
+
+{# Default render for edit link #}
+{% macro edit(path, parameters) %}
+  {{ _self.linkGlyph('primary', 'pencil', path, parameters) }}
+{% endmacro %}
+
+{# Default render for back link #}
+{% macro back(path, parameters = {}) %}
+  {{ _self.linkGlyph('default', 'arrow-left', path, parameters) }}
+{% endmacro %}
+
+{# Generic render for link with glyphicon #}
+{% macro linkGlyph(btnClass = 'default', glyph, path, parameters = {}) %}
+  <a href="{{ path(path, parameters) }}" role="button"
+     class="btn btn-sm btn-{{btnClass}}">
+    <span class="glyphicon glyphicon-{{glyph}}"></span></a>
+
+{% endmacro %}

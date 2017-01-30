@@ -1,16 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block panelTitle %}Edit Day Card{% endblock %}
-{% block panelTitleSmall %}{{day.name}}{% endblock %}
-{% block panelBack %}<a href="{{ path('days_index') }}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-arrow-left"></span></a>{% endblock %}
-
-{% block panelHeadingRight %}
-    {{ form_start(delete_form) }}
-    <button type="submit" value="Delete" class="btn btn-danger btn-sm btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
-
-    {{ form_end(delete_form) }}
-{% endblock %}
-{% block panelBody %}
-      {{ forms.panel(day_form, false) }}
-    </div>
-{% endblock %}
+{% block panelTitleSmall %}{{ day.name }}{% endblock %}
+{% block panelBack %}{{ a.back('days_index') }}{% endblock %}
+{% block panelHeadingRight %}{{ forms.delete(delete_form) }}{% endblock %}
+{% block panelBody %}{{ forms.panel(day_form, false) }}{% endblock %}

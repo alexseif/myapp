@@ -1,0 +1,52 @@
+a.navbar-brand{background-color: #222222;}
+.navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus{color: #fff;background-color: #375a7f;}
+.list-group{overflow: auto;}
+.popover-content{overflow: auto; word-wrap: break-word;}
+.floating-action{position: fixed;bottom: 50px;right: 50px;z-index: 1;}
+.floating-action .dropdown-menu{background: none; border: none;box-shadow: none;}
+.floating-action .dropdown-menu > li{margin: 5px 0;}
+.floating-action .dropdown-menu > li > a{
+  color: white;
+  border-radius: 50px;
+  display: table-cell;
+  height: 50px;
+  width: 50px;
+  vertical-align: middle;
+  text-align: center;
+  padding: 0px;
+}
+.floating-action a{
+  color: white;
+  border-radius: 50px;
+  display: table-cell;
+  height: 50px;
+  width: 50px;
+  vertical-align: middle;
+  text-align: center;
+  box-shadow: 0px 0px 5px #222;
+}
+.floating-action a:hover{box-shadow: 0px 0px 15px #222;}
+
+.bg-embed{background-color: #222222;color: #303030 !important;}
+.bg-embed:hover{background-color: #303030;color: #222222 !important;}
+.edit-link{display: none;}
+tr:hover .edit-link{display: inline;}
+li:hover .edit-link{display: inline;}
+.edit-fixed-link{position: absolute;right: 5px;}
+
+.delete-form{display:inline-block;}
+.panel-title-small:before, .panel-title-labels:before{content: ""; margin: 0 5px;}
+.panel-transparent{border-color:#464545; margin-bottom: 0px;}
+.panel-transparent>.panel-group{margin-bottom: 0px;}
+.panel-transparent>.panel-heading{color:#ffffff;background-color:#303030;border-color:#464545}
+.panel-transparent>.panel-heading+.panel-collapse>.panel-body{border-top-color:#464545}
+.panel-transparent>.panel-heading .badge{color:#303030;background-color:#ffffff}
+.panel-transparent>.panel-footer+.panel-collapse>.panel-body{border-bottom-color:#464545}
+.panel-transparent>.panel-heading{background-color:#464545}
+
+.progress{height: 40px;margin: 0 5px 21px 5px;}
+.progress .progress-bar{line-height: 40px;font-size: 14px;}
+.label-muted{background: #e8e8e8;color: #999999;font-weight: normal;}
+
+.completed{color: #777}
+.completed, .completed *{text-decoration:line-through;background-image:none;}

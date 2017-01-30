@@ -1,12 +1,8 @@
 {% extends 'base.html.twig' %}
-{% block floatingActions %}
-  <a href="{{ path('currency_new') }}" class="bg-primary">
-    <span class="glyphicon glyphicon-plus"></span></a>
-
-{% endblock %}
+{% block floatingActions %}{{ a.add('currency_new') }}{% endblock %}
 {% block panelTitle %}Currencies{% endblock %}
 {% block panelBody %}
-  <table class="table table-condensed table-bordered table-stripped">
+  <table class="table table-condensed table-bordered table-striped">
     <thead>
       <tr>
         <th>Code</th>
@@ -22,14 +18,10 @@
           <td>{{ currency.name }}</td>
           <td>USD {{ (currency.usd/100) }}</td>
           <td>
-            <ul>
-              <li>
-                <a href="{{ path('currency_show', { 'id': currency.id }) }}">show</a>
-              </li>
-              <li>
-                <a href="{{ path('currency_edit', { 'id': currency.id }) }}">edit</a>
-              </li>
-            </ul>
+            <div class="btn-group">
+              {{ a.show('currency_show', { 'id': currency.id }) }}
+              {{ a.edit('currency_edit', { 'id': currency.id }) }}
+            </div>
           </td>
         </tr>
       {% endfor %}

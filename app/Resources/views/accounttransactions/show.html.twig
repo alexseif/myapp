@@ -7,29 +7,24 @@
       {{ parent() }}
     </div>
   </div>
-
 {% endblock %}
-{% block pageActions %}
-  <div class="floating-action">
-    <a href="{{ path('accounttransactions_new') }}" class="bg-primary"><span class="glyphicon glyphicon-plus"></span></a>
-  </div>
-{% endblock %}
-{% block panelBack %}<a href="{{ path('accounttransactions_index') }}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-arrow-left"></span></a>{% endblock %}
-{% block panelTitle %}Transaction{% endblock %}
+{% block floatingActions %}{{ a.add('accounttransactions_new') }}{% endblock %}
+{% block panelBack %}{{ a.back('accounts_show', {'id': accountTransaction.account.id}) }}{% endblock %}
+{% block panelTitle %}Transaction #{{accountTransaction.id}}{% endblock %}
+{% block panelTitleSmall %}{{accountTransaction.account.name}}{% endblock %}
 {% block panelHeadingRight %}
-  {{ form_start(delete_form) }}
-  <span class="btn-group btn-group-sm">
-    <a href="{{ path('accounttransactions_edit', { 'id': accountTransaction.id }) }}" class="btn btn-primary btn-secondary"><span class="glyphicon glyphicon-pencil"></span></a>
-    <button type="submit" value="Delete" class="btn btn-danger btn-sm  btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
-  </span>
-  {{ form_end(delete_form) }}
+  {{ a.edit('accounttransactions_edit', { 'id': accountTransaction.id }) }}
+  {{ forms.delete(delete_form) }}
 {% endblock %}
 {% block panelBody %}
   <ul class="list-group">
-    <li class="list-group-item">#{{ accountTransaction.id }} <span class="badge">{{ accountTransaction.account.name }}</span></li>
-    <li class="list-group-item">{{ accountTransaction.amount }} EGP</li>
+    <li class="list-group-item">
+      <span class="badge"><a href="{{ path('accounts_show', {'id': accountTransaction.account.id}) }}">{{ accountTransaction.account.name }}</a></span>
+      # {{ accountTransaction.id }} 
+    </li>
+    <li class="list-group-item"><span class="badge">EGP</span>{{ accountTransaction.amount|number_format }}</li>
     <li class="list-group-item"><span class="badge">Paid</span> {% if accountTransaction.paidAt %}{{ accountTransaction.paidAt|date('Y-m-d') }}{% endif %}</li>
-    <li class="list-group-item">{{ accountTransaction.note }}</li>
+    <li class="list-group-item"><span class="badge">Note</span> {{ accountTransaction.note }}</li>
     <li class="list-group-item"><span class="badge">Created</span> {% if accountTransaction.createdAt %}{{ accountTransaction.createdAt|date('Y-m-d H:i:s') }}{% endif %}</li>
   </ul>
 {% endblock %}

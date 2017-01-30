@@ -1,4 +1,3 @@
-{# TODO: color items #}
 <div class="panel-group">
   {% set status = ['danger', 'warning', 'info', 'primary'] %}
   {% for day in days %}
@@ -10,8 +9,8 @@
           <tr>
             <td class="h3 name" style="vertical-align: middle;">
               {{ day.name }}
-              <span class="edit-link">
-                <a href="{{ path('days_edit', { 'id': day.id }) }}" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-pencil"></span></a>
+              <span class="edit-link pull-right">
+                {{ a.edit('days_edit', { 'id': day.id }) }}
               </span>
             </td>
             <td  style="width: 25%;" class="h1 bg-{{ curStatus }} text-center days">{{ diff.days }}</td>
@@ -22,8 +21,6 @@
           </tr>
         </tbody>
       </table>
-      {# TODO: completed items #}
-      {# <li class="list-group-item">{% if day.complete %}Yes{% else %}No{% endif %}</li> #}
     </div>
   {% endfor %}
 </div>

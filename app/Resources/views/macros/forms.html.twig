@@ -1,5 +1,5 @@
+{# Default layout for form in panel for new and edit forms #}
 {% macro panel(form, new = true) %}
-  {#      {{ _self.li(task) }}#}
   {{ form_start(form) }}
   <div class="panel-body">
     <div class="row">
@@ -14,3 +14,13 @@
   </div>
   {{ form_end(form) }}
 {% endmacro %}
+
+{# Default render for delete forms #}
+{% macro delete(delete_form) %}
+  {{ form_start(delete_form, {"attr":{"class":"delete-form"} }) }}
+  <button type="submit" value="Delete" class="btn btn-danger btn-sm btn-confirm">
+    <span class="glyphicon glyphicon-trash"></span></button>
+
+  {{ form_end(delete_form) }}
+{% endmacro %}
+

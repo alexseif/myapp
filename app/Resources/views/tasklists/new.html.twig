@@ -1,10 +1,4 @@
 {% extends 'base.html.twig' %}
-{% block panelBack %}
-  <a href="{{ path('tasklists_index') }}" class="btn btn-default btn-sm">
-    <span class="glyphicon glyphicon-arrow-left"></span></a>
-
-{% endblock %}
+{% block panelBack %}{{ a.back('tasklists_index') }}{% endblock %}
 {% block panelTitle %}New Task List{% endblock %}
-{% block panelBody %}
-  {{ forms.panel(tasklist_form) }}
-{% endblock %}
+{% block panelBody %}{{ forms.panel(tasklist_form) }}{% endblock %}

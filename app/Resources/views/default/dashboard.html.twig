@@ -30,7 +30,7 @@
             <div class="panel-heading">
               <span class="panel-title">
                 <a href="{{ path('tasklists_show', {"id":taskList.id}) }}">{{ taskList.name }}</a>
-              </span> <span class="badge">{{ taskList.tasks.count }}</span>
+              </span><span class="badge">{{ taskList.tasks.count }}</span>
             </div>
             {{ tasks_view.ul(tasks) }}
           </div>

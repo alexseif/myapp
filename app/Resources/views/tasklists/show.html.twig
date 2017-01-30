@@ -1,25 +1,8 @@
 {% extends 'base.html.twig' %}
 {% import "tasks/tasks_macros.html.twig" as tasks_view %}
 
-{% block pageActions %}
-  <div class="floating-action">
-    <a href="{{ path('tasks_new', {"tasklist": taskList.id}) }}" class="bg-primary"><span class="glyphicon glyphicon-plus"></span></a>
-  </div>
-{% endblock %}
-{% block panelBack %}
-  <a href="{{ path('tasklists_index') }}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-arrow-left"></span></a>
-
-{% endblock %}
+{% block floatingActions %}{{ a.add('tasks_new', {"tasklist": taskList.id}) }}{% endblock %}
+{% block panelBack %}{{ a.back('tasklists_index') }}{% endblock %}
 {% block panelTitle %}{{ taskList.name }} Tasks{% endblock %}
-{% block panelHeadingRight %}
-  {{ form_start(delete_form) }}
-  <span class="btn-group btn-group-sm">
-    <a href="{{ path('tasklists_edit', { 'id': taskList.id }) }}" class="btn btn-primary btn-secondary"><span class="glyphicon glyphicon-pencil"></span></a>
-    <button type="submit" value="Delete" class="btn btn-danger btn-sm btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
-  </span>
-  {{ form_end(delete_form) }}
-{% endblock %}
-{% set tasks = taskList.tasks %}
-{% block panelBody %}
-  {{ tasks_view.ul(tasks) }}
-{% endblock %}
+{% block panelHeadingRight %}{{ forms.delete(delete_form) }}{% endblock %}
+{% block panelBody %}{{ tasks_view.ul(taskList.tasks) }}{% endblock %}

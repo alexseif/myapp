@@ -2,28 +2,15 @@
 
 {% block panelTitle %}Edit Task{% endblock %}
 {% block panelTitleSmall %}{{task.task}}{% endblock %}
-{% block panelBack %}<a href="{{ path('tasks_index') }}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-arrow-left"></span></a>{% endblock %}
-
-{% block panelHeadingRight %}
-  {{ form_start(delete_form) }}
-  <button type="submit" value="Delete" class="btn btn-danger btn-sm btn-delete" btn-delete><span class="glyphicon glyphicon-trash"></span></button>
-
-  {{ form_end(delete_form) }}
-{% endblock %}
+{% block panelBack %}{{ a.back('tasks_index') }}{% endblock %}
+{% block panelHeadingRight %}{{ forms.delete(delete_form) }}{% endblock %}
 {% block panelBody %}
-  {{ form_start(task_form) }}
-  <div class="panel-body">
-    <div class="row">
-      <div class="col-sm-11">
-        {{ form_widget(task_form) }}
-        <a id="adv" href="#" class="text-warning pull-right" tabindex="-1" >Archive</a>
-      </div>
-      <div class="col-sm-1">
-        <button type="submit" value="Edit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span></button>
-      </div>
-    </div>
+  {{ forms.panel(task_form, false) }}
+  <div class="panel-footer text-right">
+    <a id="adv" tabindex="-1" class="text-warning" role="button">
+      <span class="glyphicon glyphicon-folder-close"></span>
+    </a>
   </div>
-  {{ form_end(task_form) }}
 {% endblock %}
 {% block javascripts %}
   {{ parent() }}

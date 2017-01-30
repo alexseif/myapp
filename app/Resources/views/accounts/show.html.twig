@@ -1,23 +1,20 @@
 {% extends 'base.html.twig' %}
 {% block pageActions %}
-    <div class="floating-action">
-        <a href="{{ path('accounttransactions_new', { 'account': account.id }) }}" class="bg-primary"><span class="glyphicon glyphicon-plus"></span></a>
-    </div>
+  <div class="floating-action">
+    {{ a.add('accounttransactions_new', { 'account': account.id }) }}
+  </div>
 {% endblock %}
-{% block panelBack %}<a href="{{ path('accounts_index') }}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-arrow-left"></span></a>{% endblock %}
+{% block panelBack %}{{ a.back('accounts_index') }}{% endblock %}
 
 {% block panelTitle %}{{ account.name }}{% endblock %}
 {% block panelHeadingRight %}
-    {{ form_start(delete_form) }}
-    <span class="btn-group btn-group-sm">
-        <a href="{{ path('accounts_edit', { 'id': account.id }) }}" class="btn btn-primary btn-secondary">Edit</a>
-        <input type="submit" value="Delete" class="btn btn-danger  btn-secondary">
-    </span>
-    {{ form_end(delete_form) }}
+  {{ a.edit('accounts_edit', {'id':account.id}) }}
+  {{ forms.delete(delete_form) }}
+
 {% endblock %}
 {% set accountTransactions = account.transactions %}
 {% block panelBody %}
-    {% include 'accounttransactions/transactions_list.html.twig' %}
+  {% include 'accounttransactions/transactions_list.html.twig' %}
 {% endblock %}
 
 {# TODO: show account info#}

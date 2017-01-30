@@ -1,15 +1,10 @@
 {% extends 'base.html.twig' %}
-{% block panelBack %}
-  <a href="{{ path('notes_show', {'id':note.id}) }}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-arrow-left"></span></a>
-
-{% endblock %}
-
+{% block panelBack %}{{ a.back('notes_show', {'id':note.id}) }}{% endblock %}
 {% block panelTitle %}Edit note{% endblock %}
-{% block panelTitleSmall %}{{note.note|truncate(10)}}{% endblock %}
-{% block panelHeadingRight %}
+{% block panelTitleSmall %}{{ note.note|truncate(10) }}{% endblock %}
+{% block panelTitleLabels %}
   <span class="label label-info">{{ note.type|title }}</span> 
   <span class="label label-primary">{% if note.createdAt %}{{ note.createdAt|date('Y-m-d H:i:s') }}{% endif %}</span>
 {% endblock %}
-{% block panelBody %}
-  {{ forms.panel(notes_form, false) }}
-{% endblock %}
+{% block panelHeadingRight %}{{ forms.delete(delete_form) }}{% endblock %}
+{% block panelBody %}{{ forms.panel(notes_form, false) }}{% endblock %}

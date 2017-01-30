@@ -3,26 +3,23 @@
     {% set total = 0 %}
     {% for account in accounts %}
       {% if account.balance or not hideEmpty %}
-      {% set total = total + account.balance %}
-      <tr>
-        <td>
-          <div class="btn-group btn-group-justified">
-            <a href="{{ path('accounts_show', { 'id': account.id }) }}" 
-               class="btn btn-default" style="text-align: left;">
-              {{ account.name }}
-            </a>
-            <a href="{{ path('accounts_show', { 'id': account.id }) }}" 
-               class="btn btn-{{ account.balance == 0 ? "default" : account.balance < 0 ? "success": "danger" }}" 
-               style="text-align: right;">
-              <span class="pull-left">EGP</span> {{ account.balance|number_format }}
-            </a>
-            <a href="{{ path('accounttransactions_new', { 'account': account.id }) }}" 
-               class="btn btn-primary" style="width: 0.3%;">
-              <span class="glyphicon glyphicon-plus"></span>
-            </a>
-          </div>
-        </td>
-      </tr>
+        {% set total = total + account.balance %}
+        <tr>
+          <td>
+            <div class="btn-group btn-group-justified">
+              <a href="{{ path('accounts_show', { 'id': account.id }) }}" 
+                 class="btn btn-default" style="text-align: left;">
+                {{ account.name }}
+              </a>
+              <a href="{{ path('accounts_show', { 'id': account.id }) }}" 
+                 class="btn btn-{{ account.balance == 0 ? "default" : account.balance < 0 ? "success": "danger" }}" 
+                 style="text-align: right;">
+                <span class="pull-left">EGP</span> {{ account.balance|number_format }}
+              </a>
+              {{ a.add('accounttransactions_new', { 'account': account.id }) }}
+            </div>
+          </td>
+        </tr>
       {% endif %}
     {% endfor %}
   </tbody>

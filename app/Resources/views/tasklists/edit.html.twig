@@ -1,13 +1,7 @@
 {% extends 'base.html.twig' %}
-{% block panelBack %}
-    <a href="{{ path('tasklists_show', {'id':taskList.id}) }}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-arrow-left"></span></a>
-
-{% endblock %}
-
+{% block panelBack %}{{ a.back('tasklists_show', {'id':taskList.id}) }}{% endblock %}
 {% block panelTitle %}Edit Task List{% endblock %}
 {% block panelTitleSmall %}{{taskList.name}}{% endblock %}
-
-{% block panelBody %}
-    {{ forms.panel(tasklist_form, false) }}
-{% endblock %}
+{% block panelHeadingRight %}{{ forms.delete(delete_form) }}{% endblock %}
+{% block panelBody %}{{ forms.panel(tasklist_form, false) }}{% endblock %}
 

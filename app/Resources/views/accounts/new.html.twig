@@ -1,11 +1,5 @@
 {% extends 'base.html.twig' %}
 
 {% block panelTitle %}New Account{% endblock %}
-{% block panelBack %}
-  <a href="{{ path('accounts_index') }}" 
-     class="btn btn-default btn-sm">
-    <span class="glyphicon glyphicon-arrow-left"></span></a>
-{% endblock %}
-{% block panelBody %}
-  {{ forms.panel(account_form) }}
-{% endblock %}
+{% block panelBack %}{{ elements.a_back('accounts_index') }}{% endblock %}
+{% block panelBody %}{{ forms.panel(account_form) }}{% endblock %}
