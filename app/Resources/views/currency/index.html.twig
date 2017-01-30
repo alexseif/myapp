@@ -1,43 +1,38 @@
 {% extends 'base.html.twig' %}
+{% block floatingActions %}
+  <a href="{{ path('currency_new') }}" class="bg-primary">
+    <span class="glyphicon glyphicon-plus"></span></a>
 
-{% block body %}
-    <h1>Currencies list</h1>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Code</th>
-                <th>Name</th>
-                <th>Usd</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for currency in currencies %}
-            <tr>
-                <td><a href="{{ path('currency_show', { 'id': currency.id }) }}">{{ currency.id }}</a></td>
-                <td>{{ currency.code }}</td>
-                <td>{{ currency.name }}</td>
-                <td>{{ currency.usd }}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('currency_show', { 'id': currency.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('currency_edit', { 'id': currency.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <ul>
-        <li>
-            <a href="{{ path('currency_new') }}">Create a new currency</a>
-        </li>
-    </ul>
+{% endblock %}
+{% block panelTitle %}Currencies{% endblock %}
+{% block panelBody %}
+  <table class="table table-condensed table-bordered table-stripped">
+    <thead>
+      <tr>
+        <th>Code</th>
+        <th>Name</th>
+        <th>USD</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for currency in currencies %}
+        <tr>
+          <td>{{ currency.code }}</td>
+          <td>{{ currency.name }}</td>
+          <td>USD {{ (currency.usd/100) }}</td>
+          <td>
+            <ul>
+              <li>
+                <a href="{{ path('currency_show', { 'id': currency.id }) }}">show</a>
+              </li>
+              <li>
+                <a href="{{ path('currency_edit', { 'id': currency.id }) }}">edit</a>
+              </li>
+            </ul>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 {% endblock %}
