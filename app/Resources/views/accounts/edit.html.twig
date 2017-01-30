@@ -5,24 +5,13 @@
 {% block panelBack %}<a href="{{ path('accounts_index') }}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-arrow-left"></span></a>{% endblock %}
 
 {% block panelHeadingRight %}
-    {{ form_start(delete_form) }}
-    <button type="submit" value="Delete" class="btn btn-danger btn-sm btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+  {{ form_start(delete_form) }}
+  <button type="submit" value="Delete" class="btn btn-danger btn-sm btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
 
-    {{ form_end(delete_form) }}
+  {{ form_end(delete_form) }}
 
 {% endblock %}
 
 {% block panelBody %}
-    <div class="panel-body">
-        {{ form_start(account_form) }}
-        <div class="row">
-            <div class="col-sm-11">
-                {{ form_widget(account_form) }}
-            </div>
-            <div class="col-sm-1">
-                <button type="submit" value="Edit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span></button>
-            </div>
-        </div>
-        {{ form_end(account_form) }}
-    </div>
+  {{ forms.panel(account_form, false) }}
 {% endblock %}

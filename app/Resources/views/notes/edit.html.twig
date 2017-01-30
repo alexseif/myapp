@@ -11,20 +11,5 @@
   <span class="label label-primary">{% if note.createdAt %}{{ note.createdAt|date('Y-m-d H:i:s') }}{% endif %}</span>
 {% endblock %}
 {% block panelBody %}
-  {{ form_start(notes_form) }}
-  <div class="panel-body">
-    <div class="row">
-      {{ form_label(notes_form.note) }}
-      <div class="col-sm-10"></div>
-    </div>
-    <div class="row">
-      <div class="col-sm-11">
-        {{ form_widget(notes_form.note) }}
-      </div>
-      <div class="col-sm-1">
-        <button type="submit" value="Edit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span></button>
-      </div>
-    </div>
-  </div>
-  {{ form_end(notes_form) }}
+  {{ forms.panel(notes_form, false) }}
 {% endblock %}

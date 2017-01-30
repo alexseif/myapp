@@ -11,16 +11,6 @@
     {{ form_end(delete_form) }}
 {% endblock %}
 {% block panelBody %}
-    <div class="panel-body">
-        {{ form_start(day_form) }}
-        <div class="row">
-            <div class="col-sm-11">
-                {{ form_widget(day_form) }}
-            </div>
-            <div class="col-sm-1">
-                <button type="submit" value="Edit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-save"></span></button>
-            </div>
-        </div>
-        {{ form_end(day_form) }}
+      {{ forms.panel(day_form, false) }}
     </div>
 {% endblock %}

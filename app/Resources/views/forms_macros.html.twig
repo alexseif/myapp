@@ -1,0 +1,16 @@
+{% macro panel(form, new = true) %}
+  {#      {{ _self.li(task) }}#}
+  {{ form_start(form) }}
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-sm-11">
+        {{ form_widget(form) }}
+      </div>
+      <div class="col-sm-1">
+        <button type="submit" value="{{(new)?"Create":"Edit"}}" class="btn btn-success">
+          <span class="glyphicon glyphicon-floppy-disk"></span></button>
+      </div>
+    </div>
+  </div>
+  {{ form_end(form) }}
+{% endmacro %}

@@ -1,21 +1,10 @@
 {% extends 'base.html.twig' %}
 {% block panelBack %}
-    <a class="btn btn-default btn-sm" href="{{ path('days_index') }}"><span class="glyphicon glyphicon-arrow-left"></span></a>
+  <a class="btn btn-default btn-sm" href="{{ path('days_index') }}">
+    <span class="glyphicon glyphicon-arrow-left"></span></a>
 
 {% endblock %}
 {% block panelTitle %}New Day Card{% endblock %}
-
 {% block panelBody %}
-    {{ form_start(day_form) }}
-    <div class="panel-body">
-        <div class="row">
-            <div class="col-sm-11">
-                {{ form_widget(day_form) }}                    
-            </div>
-            <div class="col-sm-1">
-                <button type="submit" value="Create" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span></button>
-            </div>
-        </div>
-    </div>   
-    {{ form_end(day_form) }}
+  {{ forms.panel(day_form) }}
 {% endblock %}
