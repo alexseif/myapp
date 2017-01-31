@@ -35,10 +35,7 @@
                 style="text-align: right;font-weight: bold;">
             <span class="pull-left">EGP</span> {{ total|number_format }}
           </span>
-          <a class="btn btn-primary" style="width: 0.3%;"
-             href="{{ path('accounttransactions_new') }}">
-            <span class="glyphicon glyphicon-plus"></span>
-          </a>
+          {{ a.add('accounttransactions_new') }}
         </div>
       </td>
     </tr>
