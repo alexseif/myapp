@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c30b1fc94fa602d9b0471bc7fffc87b5",
+    "hash": "0ee35922714e97b42dc114ca390bc23d",
     "content-hash": "a1c8d567cc9a91f66c5ddce99dfa350d",
     "packages": [
         {
@@ -1101,12 +1101,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSUserBundle.git",
-                "reference": "6b8828bcc64d0861b3918e1551947112d58e4d0c"
+                "reference": "523eaa012121639daacb93025cd1a6a3503ba16a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/6b8828bcc64d0861b3918e1551947112d58e4d0c",
-                "reference": "6b8828bcc64d0861b3918e1551947112d58e4d0c",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/523eaa012121639daacb93025cd1a6a3503ba16a",
+                "reference": "523eaa012121639daacb93025cd1a6a3503ba16a",
                 "shasum": ""
             },
             "require": {
@@ -1169,7 +1169,7 @@
             "keywords": [
                 "User management"
             ],
-            "time": "2017-01-27 14:24:54"
+            "time": "2017-01-31 16:52:32"
         },
         {
             "name": "gedmo/doctrine-extensions",
