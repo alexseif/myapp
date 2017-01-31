@@ -1,9 +1,5 @@
 {% extends 'base.html.twig' %}
-{% block pageActions %}
-  <div class="floating-action">
-    {{ a.add('accounttransactions_new', { 'account': account.id }) }}
-  </div>
-{% endblock %}
+{% block floatingActions %}{{ a.add('accounttransactions_new', { 'account': account.id }) }}{% endblock %}
 {% block panelBack %}{{ a.back('accounts_index') }}{% endblock %}
 
 {% block panelTitle %}{{ account.name }}{% endblock %}
