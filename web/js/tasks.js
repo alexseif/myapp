@@ -38,8 +38,12 @@ function drawFocusTasks() {
   time.remaining = time.day - time.completed;
   while (time.remaining > 0) {
     task = $('#tasks li:first');
-    time.remaining -= (task.data("time")) ? task.data("time") : 0;
-    focus.append(task);
+    if (task.length) {
+      time.remaining -= (task.data("time")) ? task.data("time") : 0;
+      focus.append(task);
+    } else {
+      break;
+    }
   }
   focusTitle();
 }
