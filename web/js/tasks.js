@@ -1,3 +1,12 @@
+var time = {
+  day: 480,
+  completed: 0,
+  lowest: 480,
+  remaining: 480
+};
+var container = $('.container');
+var focus = $('<ul class="list-group task-list" id="focus"></ul>');
+var completed = $('.completed');
 function focusTitle() {
   $path = window.location.pathname;
   if ($path.indexOf('focus') !== -1) {
@@ -14,17 +23,10 @@ function focusTitle() {
     $('title').text($text + "| myApp");
   }
 }
-var time = {
-  day: 480,
-  completed: 0,
-  lowest: 480,
-  remaining: 480
-};
-var container = $('.container');
-var focus = $('<ul class="list-group task-list" id="focus"></ul>');
-focus.prependTo(container);
-var completed = $('.completed');
-
+function drawTaskSize() {
+  $('#focus li').css('height', ((1 - ($('#completed').height() / $(window).height())) * 100 / $('#focus li').length + 'vh'));
+  $('#completed li').css('height', 'auto');
+}
 function drawFocusTasks() {
   completed = $('.completed');
   $('#completed').append(completed);
@@ -46,8 +48,8 @@ function drawFocusTasks() {
     }
   }
   focusTitle();
+  focusTaskSize();
 }
-
 function updateOrder() {
   var dataString = "";
   $('.task-list li').each(function () {
@@ -60,7 +62,6 @@ function updateOrder() {
     url: tasks_order
   }).done(drawFocusTasks());
 }
-
 function focusTaskChange() {
   $li = $(this).parent().parent();
   $ul = $li.parent();
@@ -81,9 +82,9 @@ function focusTaskChange() {
     drawFocusTasks();
   });
 }
-
 function focusInit() {
-//  $('[data-toggle="tooltip"]').tooltip();
+  focus.prependTo(container);
+  // $('[data-toggle="tooltip"]').tooltip();
   $('[data-toggle="popover"]').popover({html: true});
   // Checking Tasks
   $('.task-list input[type="checkbox"]').change(focusTaskChange);
