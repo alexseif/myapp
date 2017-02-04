@@ -48,7 +48,7 @@ function drawFocusTasks() {
     }
   }
   focusTitle();
-  focusTaskSize();
+  drawTaskSize();
 }
 function updateOrder() {
   var dataString = "";
