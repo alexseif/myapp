@@ -26,6 +26,7 @@ function focusTitle() {
 function drawTaskSize() {
   $('#focus li').css('height', ((1 - ($('#completed').height() / $(window).height())) * 100 / $('#focus li').length + 'vh'));
   $('#completed li').css('height', 'auto');
+  $('#tasks li').css('height', 'auto');
 }
 function drawFocusTasks() {
   completed = $('.completed');
