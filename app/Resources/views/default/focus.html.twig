@@ -28,6 +28,8 @@
     {{ parent() }}
     <script type="text/javascript" src="/js/tasks.obj.js"></script>
     <script type="text/javascript">
-        $(document).ready(tasks.init());
+        $(document).ready(function(){
+            Tasks.init();
+        });
     </script>
 {% endblock %}
