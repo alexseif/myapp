@@ -4,29 +4,30 @@
 {% block title %}Focus{% endblock %}
 {% block nav %}{% endblock %}
 {% block container %}
-  <div class="floating-action" style="top: 25px;">
-    <a href="{{ path('dashboard') }}" class="bg-embed">
-      <span class="glyphicon glyphicon-home"></span></a>
-  </div>
-  <div class="floating-action" style="top: 75px;">
-    <a href="{{ (taskList is defined) ? path('focus_tasklist', {'name': taskList.name}) : path('focus') }}" 
-       class="bg-embed">
-      <span class="glyphicon glyphicon-refresh"></span></a>
-  </div>
-  <div class="floating-action">
-    <a class="btn btn-primary" href="{{ path('tasks_new')}}">
-      <span class="glyphicon glyphicon-plus"></span></a>
-  </div>
+    <div class="floating-action" style="top: 25px;">
+        <a href="{{ path('dashboard') }}" class="bg-embed">
+            <span class="glyphicon glyphicon-home"></span></a>
+    </div>
+    <div class="floating-action" style="top: 75px;">
+        <a href="{{ (taskList is defined) ? path('focus_tasklist', {'name': taskList.name}) : path('focus') }}" 
+           class="bg-embed">
+            <span class="glyphicon glyphicon-refresh"></span></a>
+    </div>
+    <div class="floating-action">
+        <a class="btn btn-primary" href="{{ path('tasks_new')}}">
+            <span class="glyphicon glyphicon-plus"></span></a>
+    </div>
 
-  <div class="container">
-    {{ tasks_view.ul(completed, 'completed') }}
-    {{ tasks_view.ul(tasks, 'tasks' ) }}
-  </div>
+    <div class="container">
+        {{ tasks_view.ul(completed, 'completed') }}
+        {{ tasks_view.ul(tasks, 'tasks' ) }}
+    </div>
 
 {% endblock %}
 {% block javascripts %}
-  {{ parent() }}
-  <script type="text/javascript">
-    $(document).ready(focusInit());
-  </script>
+    {{ parent() }}
+    <script type="text/javascript" src="/js/tasks.obj.js"></script>
+    <script type="text/javascript">
+        $(document).ready(tasks.init());
+    </script>
 {% endblock %}
