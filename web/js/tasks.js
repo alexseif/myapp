@@ -48,9 +48,15 @@ var Tasks = {
             }
         }).done(function (){
             if(isCompleted){
-                $(taskEl).parent().parent().addClass('completed');
+                $(taskEl).parent().parent()
+                    .addClass('completed')
+                    .children('.btn-sm:not(.info-link)')
+                    .removeClass('btn-sm').addClass('btn-xs');
             }else{
-                $(taskEl).parent().parent().removeClass('completed');
+                $(taskEl).parent().parent()
+                    .removeClass('completed')
+                    .children('.btn-xs:not(.info-link)')
+                    .removeClass('btn-xs').addClass('btn-sm');
             }
             if(self.isFocus){
                 self.drawFocus();
