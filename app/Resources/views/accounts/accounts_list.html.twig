@@ -6,7 +6,7 @@
         {% set total = total + account.balance %}
         <tr>
           <td>
-            <div class="btn-group btn-group-justified">
+            <div class="btn-group btn-group-justified btn-group-sm">
               <a href="{{ path('accounts_show', { 'id': account.id }) }}" 
                  class="btn btn-default" style="text-align: left;">
                 {{ account.name }}
@@ -26,7 +26,7 @@
   <tfoot>
     <tr class="table-bordered">
       <td>
-        <div class="btn-group btn-group-justified">
+        <div class="btn-group btn-group-justified btn-group-sm">
           <span class="btn btn-primary" 
                 style="text-align: left;font-weight: bold;">
             Total

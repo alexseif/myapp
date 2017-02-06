@@ -32,7 +32,7 @@
                 <a href="{{ path('tasklists_show', {"id":taskList.id}) }}">{{ taskList.name }}</a>
               </span><span class="badge">{{ taskList.tasks.count }}</span>
             </div>
-            {{ tasks_view.ul(tasks) }}
+            {{ tasks_view.ul(tasks, '',false) }}
           </div>
         {% endif %}
       {% endfor %}
