@@ -21,13 +21,6 @@
         {% endif %}
       </span>
     </label>
-    <a class="label label-default task-list-name" 
-       data-tasklist="{{ task.taskList.name }}" 
-       href="{{ path("focus_tasklist", {'name':task.taskList.name}) }}">{{ task.taskList.name }}</a>
-    <small class="text-info">{{ task.est ? task.est ~ "m"}}</small>
-    <a href="{{ path('tasks_edit', { 'id': task.id }) }}" 
-       class="btn btn-primary edit-fixed-link btn-{{ task.completed ? "xs":"sm" }}">
-      <span class="glyphicon glyphicon-pencil"></span></a>
     <button
       class="btn btn-link btn-xs"
       data-toggle="popover"
@@ -41,6 +34,13 @@
       <span class="label label-default">Created At:</span>&nbsp;
       {{ task.createdAt|date }}</div>'
       ><i class="glyphicon glyphicon-info-sign"></i></button>
+    <a class="label label-default task-list-name" 
+       data-tasklist="{{ task.taskList.name }}" 
+       href="{{ path("focus_tasklist", {'name':task.taskList.name}) }}">{{ task.taskList.name }}</a>
+    <small class="text-info">{{ task.est ? task.est ~ "m"}}</small>
+    <a href="{{ path('tasks_edit', { 'id': task.id }) }}" 
+       class="btn btn-primary edit-fixed-link btn-{{ task.completed ? "xs":"sm" }}">
+      <span class="glyphicon glyphicon-pencil"></span></a>
   </li>
 {% endmacro %}
 

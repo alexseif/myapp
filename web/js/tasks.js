@@ -9,6 +9,11 @@ var Tasks = {
 
     init: function(){
         this.bindEvents();
+    },
+
+    bindEvents: function(){
+        $('.task-list input[type="checkbox"]').change(this.updateTask);
+        $('[data-toggle="popover"]').popover({html: true, container: "body"});
         if (!touch) {
             $("#tasks").sortable({
                 connectWith: ".task-list",
@@ -27,11 +32,6 @@ var Tasks = {
                 });
             }
         }
-    },
-
-    bindEvents: function(){
-        $('.task-list input[type="checkbox"]').change(this.updateTask);
-        $('[data-toggle="popover"]').popover({html: true});
     },
 
     updateTask: function(){
