@@ -1,4 +1,4 @@
-{% macro li(task) %}
+{% macro li(task, displayListName = true) %}
   <li class="list-group-item {{ task.completed ? "completed" }}" 
       data-order="id_{{task.id}}" 
       id="task_{{task.id}}" 
@@ -34,9 +34,11 @@
       <span class="label label-default">Created At:</span>&nbsp;
       {{ task.createdAt|date }}</div>'
       ><i class="glyphicon glyphicon-info-sign"></i></button>
-    <a class="label label-default task-list-name" 
-       data-tasklist="{{ task.taskList.name }}" 
-       href="{{ path("focus_tasklist", {'name':task.taskList.name}) }}">{{ task.taskList.name }}</a>
+      {% if displayListName %}
+        <a class="label label-default task-list-name" 
+          data-tasklist="{{ task.taskList.name }}" 
+          href="{{ path("focus_tasklist", {'name':task.taskList.name}) }}">{{ task.taskList.name }}</a>
+      {% endif %}
     <small class="text-info">{{ task.est ? task.est ~ "m"}}</small>
     <a href="{{ path('tasks_edit', { 'id': task.id }) }}" 
        class="btn btn-primary edit-fixed-link btn-{{ task.completed ? "xs":"sm" }}">
@@ -44,10 +46,10 @@
   </li>
 {% endmacro %}
 
-{% macro ul(tasks, id) %}
+{% macro ul(tasks, id, displayListName) %}
   <ul class="list-group task-list" {{ (id) ? 'id='~id }}>
     {% for task in tasks %}
-      {{ _self.li(task) }}
+      {{ _self.li(task, displayListName) }}
     {% endfor %}
   </ul>   
 {% endmacro %}
