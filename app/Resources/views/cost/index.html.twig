@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+{% block title %}Cost{% endblock %}
+{% block content %}
+  <div class="row">
+    <div class="col-md-6 col-md-push-3">
+      {{ parent() }}
+    </div>
+  </div>
+{% endblock %}
+{% block floatingActions %}{{ a.add('cost_new') }}{% endblock %}
+{% block panelTitle %}Cost Of Life{% endblock %}
+{% block panelBody %}
+  <table class="table table-condensed table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Value</th>
+        <th>Generatedat</th>
+        <th>Createdat</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for cost in costs %}
+        <tr>
+          <td>{{ cost.name }}</td>
+          <td class="text-right"><span class="pull-left">{{ cost.currency.code }}</span> {{ cost.value/100 }}</td>
+          <td>{% if cost.generatedAt %}{{ cost.generatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+          <td>{% if cost.createdAt %}{{ cost.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+          <td>
+            <div class="btn-group">
+              {{ a.show('cost_show', { 'id': cost.id }) }}
+              {{ a.edit('cost_edit', { 'id': cost.id }) }}
+            </div>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
