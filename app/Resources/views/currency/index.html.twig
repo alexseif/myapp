@@ -15,7 +15,7 @@
       <tr>
         <th>Code</th>
         <th>Name</th>
-        <th>USD</th>
+        <th>EGP</th>
         <th>Actions</th>
       </tr>
     </thead>
@@ -24,7 +24,7 @@
         <tr>
           <td>{{ currency.code }}</td>
           <td>{{ currency.name }}</td>
-          <td class="text-right"><span class="pull-left">USD</span> {{ (currency.usd/100) }}</td>
+          <td class="text-right"><span class="pull-left">EGP</span> {{ (currency.egp/100) }}</td>
           <td>
             <div class="btn-group">
               {{ a.show('currency_show', { 'id': currency.id }) }}
