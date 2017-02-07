@@ -39,7 +39,7 @@
     </div>
     {% if accounts|length %}
       {% set hideEmpty = true %}
-      {% set plan = 6000 %}
+      {% set plan = costOfLife.monthly %}
       <div class="col-xs-12 col-sm-6 col-md-8 col-lg-3">
         {# 500 Dollar plan progress #}
         <div class="progress">
@@ -55,6 +55,26 @@
           {% endif %}
         </div>
         {% include 'accounts/accounts_list.html.twig' %}
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th></th>
+                {% for currency in costOfLife.currencies %}
+                <th>{{ currency.code }}</th>
+                {% endfor %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for key,col in costOfLife.col %}
+              <tr>
+                <td>{{ key|capitalize }}</td>
+                {% for code, value in col %}
+                  <td class="text-right"><span class="pull-left">{{ code|upper }} </span> {{ value|number_format }}</td>
+                {% endfor %}
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
       </div>
     {% endif %}
     {% if days|length %}

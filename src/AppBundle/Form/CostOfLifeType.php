@@ -7,7 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 
-class CurrencyType extends AbstractType
+class CostOfLifeType extends AbstractType
 {
 
   /**
@@ -15,12 +15,18 @@ class CurrencyType extends AbstractType
    */
   public function buildForm(FormBuilderInterface $builder, array $options)
   {
-    $builder->add('code')
+    $builder
         ->add('name')
-        ->add('egp', MoneyType::class, array('currency' => 'EGP',
+        ->add('value', MoneyType::class, array(
+          'currency' => ($options['data']->getCurrency() ? $options['data']->getCurrency()->getCode() : ""),
           'divisor' => 100,
-          'scale' => 3,
-          'label' => 'EGP'));
+          'scale' => 2,
+        ))
+        ->add('currency', 'entity', array(
+          'class' => \AppBundle\Entity\Currency::class,
+          'choice_label' => 'code'
+        ))
+    ;
   }
 
   /**
@@ -29,7 +35,7 @@ class CurrencyType extends AbstractType
   public function configureOptions(OptionsResolver $resolver)
   {
     $resolver->setDefaults(array(
-      'data_class' => 'AppBundle\Entity\Currency'
+      'data_class' => 'AppBundle\Entity\CostOfLife'
     ));
   }
 
@@ -38,7 +44,7 @@ class CurrencyType extends AbstractType
    */
   public function getBlockPrefix()
   {
-    return 'appbundle_currency';
+    return 'appbundle_costoflife';
   }
 
 }

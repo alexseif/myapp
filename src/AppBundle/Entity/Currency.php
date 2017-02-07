@@ -39,9 +39,9 @@ class Currency
   /**
    * @var float
    *
-   * @ORM\Column(name="usd", type="float")
+   * @ORM\Column(name="egp", type="float")
    */
-  private $usd;
+  private $EGP;
 
   /**
    * Get id
@@ -104,13 +104,13 @@ class Currency
   /**
    * Set usd
    *
-   * @param float $usd
+   * @param float $egp
    *
    * @return Currency
    */
-  public function setUsd($usd)
+  public function setEgp($egp)
   {
-    $this->usd = $usd;
+    $this->EGP = $egp;
 
     return $this;
   }
@@ -120,9 +120,9 @@ class Currency
    *
    * @return float
    */
-  public function getUsd()
+  public function getEgp()
   {
-    return $this->usd;
+    return $this->EGP;
   }
 
 }
