@@ -43,6 +43,13 @@ class Cost
   private $currency;
 
   /**
+   * @var string
+   *
+   * @ORM\Column(name="note", type="text", nullable=true)
+   */
+  private $note;
+
+  /**
    * @var \DateTime
    *
    * @ORM\Column(name="generatedAt", type="datetime")
@@ -191,4 +198,28 @@ class Cost
     return $this->createdAt;
   }
 
+
+    /**
+     * Set note
+     *
+     * @param string $note
+     *
+     * @return Cost
+     */
+    public function setNote($note)
+    {
+        $this->note = $note;
+
+        return $this;
+    }
+
+    /**
+     * Get note
+     *
+     * @return string
+     */
+    public function getNote()
+    {
+        return $this->note;
+    }
 }

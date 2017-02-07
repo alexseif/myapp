@@ -34,6 +34,7 @@ class CostType extends AbstractType
             'data-date-format' => 'dd/mm/yy',
           )
         ))
+        ->add('note')
     ;
   }
 
