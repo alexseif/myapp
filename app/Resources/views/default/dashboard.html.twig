@@ -39,21 +39,23 @@
     </div>
     {% if accounts|length %}
       {% set hideEmpty = true %}
-      {% set plan = costOfLife.monthly %}
       <div class="col-xs-12 col-sm-6 col-md-8 col-lg-3">
         {# 500 Dollar plan progress #}
-        <div class="progress">
-          {% set per = (paid/plan)*100 %}
-          {% if per < 100 %}
-            <div class="progress-bar progress-bar-success" role="progressbar" style="width:{{ per }}%">EGP {{ paid }}</div>
-            <div class="progress-bar progress-bar-{{ (19 - "now"|date("d")) > 10 ?"warning":"danger" }}" role="progressbar" style="width:{{ 100 - ((paid/plan)*100) }}%">EGP {{ plan - paid }}</div>
-          {% else %}
-            {% set per = (100/per)*100%}
-            <div class="progress-bar progress-bar-success" role="progressbar" style="width:{{ per }}%">EGP {{ plan }}</div>
-            <div class="progress-bar progress-bar-info" role="progressbar" style="width:{{ 100 - per }}%">EGP {{ paid - plan }}</div>
-            <div class="progress-bar progress-bar-{{ (19 - "now"|date("d")) > 10 ?"warning":"danger" }}" role="progressbar" style="width:{{ 100 - ((paid/plan)*100) }}%">EGP {{ plan - paid }}</div>
-          {% endif %}
-        </div>
+        {% if costOfLife.monthly > 0 %}
+          {% set plan = costOfLife.monthly %}
+          <div class="progress">
+            {% set per = (paid/plan)*100 %}
+            {% if per < 100 %}
+              <div class="progress-bar progress-bar-success" role="progressbar" style="width:{{ per }}%">EGP {{ paid }}</div>
+              <div class="progress-bar progress-bar-{{ (19 - "now"|date("d")) > 10 ?"warning":"danger" }}" role="progressbar" style="width:{{ 100 - ((paid/plan)*100) }}%">EGP {{ plan - paid }}</div>
+            {% else %}
+              {% set per = (100/per)*100%}
+              <div class="progress-bar progress-bar-success" role="progressbar" style="width:{{ per }}%">EGP {{ plan }}</div>
+              <div class="progress-bar progress-bar-info" role="progressbar" style="width:{{ 100 - per }}%">EGP {{ paid - plan }}</div>
+              <div class="progress-bar progress-bar-{{ (19 - "now"|date("d")) > 10 ?"warning":"danger" }}" role="progressbar" style="width:{{ 100 - ((paid/plan)*100) }}%">EGP {{ plan - paid }}</div>
+            {% endif %}
+          </div>
+        {% endif %}
         {% include 'accounts/accounts_list.html.twig' %}
         <table class="table table-bordered">
           <thead>
