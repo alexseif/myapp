@@ -15,9 +15,13 @@ class CostType extends AbstractType
    */
   public function buildForm(FormBuilderInterface $builder, array $options)
   {
+    $currency="";
+    if (isset($options['data'])) {
+      $currency = $options['data']->getCurrency() ? $options['data']->getCurrency()->getCode():"";
+    }
     $builder->add('name')
         ->add('value', MoneyType::class, array(
-          'currency' => ($options['data']->getCurrency() ? $options['data']->getCurrency()->getCode() : ""),
+          'currency' => $currency,
           'divisor' => 100,
           'scale' => 2,
         ))
