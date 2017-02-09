@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ cost.name }}{% endblock %}
+{% block content %}
+  <div class="row">
+    <div class="col-md-3 col-md-push-4">
+      {{ parent() }}
+    </div>
+  </div>
+{% endblock %}
+{% block floatingActions %}{{ a.add('cost_new') }}{% endblock %}
+{% block panelBack %}{{ a.back('cost_index') }}{% endblock %}
+{% block panelTitle %}{{ cost.name }}{% endblock %}
+{% block panelHeadingRight %}
+  {{ a.edit('cost_edit', { 'id': cost.id }) }}
+  {{ forms.delete(delete_form) }}
+{% endblock %}
+{% block panelBody %}
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-sm-6">{{ cost.name }}</div>
+      <div class="col-sm-6 text-right"><span class="pull-left">{{ cost.currency.code }}</span> {{ (cost.value/100) }}</div>
+    </div>
+  </div>
+{% endblock %}

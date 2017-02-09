@@ -25,6 +25,20 @@ class DefaultController extends Controller
     $accounts = $em->getRepository('AppBundle:Accounts')->findAll();
     $paidThisMonth = $em->getRepository('AppBundle:AccountTransactions')->paidThisMonth();
     $tsksCntDay = $em->getRepository('AppBundle:Tasks')->findTasksCountByDay();
+    $estSum = $em->getRepository('AppBundle:Tasks')->sumEst()["est"];
+    $today = new \DateTime();
+    $endDay = new \DateTime();
+    $endDay->add(\DateInterval::createFromDateString($estSum." minutes"));
+    $interval = $endDay->diff($today, true);
+    
+    /** Cost Of Life * */
+    $currencies = $em->getRepository('AppBundle:Currency')->findAll();
+    $cost = $em->getRepository('AppBundle:CostOfLife')->sumCostOfLife()["cost"];
+    
+    $costOfLife = new \AppBundle\Logic\CostOfLifeLogic($cost, $currencies);
+    
+
+
     $tskCnt = array();
     foreach ($tsksCntDay as $t) {
       $tskCnt[$t['day_name']] = $t['cnt'];
@@ -42,6 +56,8 @@ class DefaultController extends Controller
           'accounts' => $accounts,
           'paid' => $paid,
           'tskCnt' => $tskCnt,
+          'interval' => $interval,
+          'costOfLife' => $costOfLife,
     ));
   }
 
