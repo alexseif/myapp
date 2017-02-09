@@ -16,7 +16,7 @@
     </ul>
   </div>
   <div class="row">
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
       <div class="btn btn-default btn-xs">{{ interval|date("%d %H:%I") }}</div>
       <div class="panel-group">
         {% if tasks|length %}
@@ -49,7 +49,7 @@
     </div>
     {% if accounts|length %}
       {% set hideEmpty = true %}
-      <div class="col-xs-12 col-sm-6 col-md-8 col-lg-3">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
         {# 500 Dollar plan progress #}
         {% if costOfLife.monthly > 0 %}
           {% set plan = costOfLife.monthly %}
@@ -87,16 +87,14 @@
             {% endfor %}
           </tbody>
         </table>
+        <div id="donutchart" style="width: 100%;height: 400px;"></div>
       </div>
     {% endif %}
     {% if days|length %}
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
         {% include 'days/days_list.html.twig' %}
       </div>
     {% endif %}
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-      <div id="donutchart" style="width: 100%;height: 400px;"></div>
-    </div>
   </div>
 {% endblock %}
 {% block javascripts %}
