@@ -172,4 +172,19 @@ class TaskLists
         return $this->tasks;
     }
 
+    public function getEstTotal()
+    {
+        $estTotal = 0;
+        $tasks = $this->getTasks();
+        foreach ($tasks as $task) {
+            $estTotal += $task->getEst();
+        }
+        $today = new \DateTime();
+        $endDay = new \DateTime();
+        $endDay->add(\DateInterval::createFromDateString($estTotal." minutes"));
+        $interval = $endDay->diff($today);
+
+        return $interval;
+    }
+
 }

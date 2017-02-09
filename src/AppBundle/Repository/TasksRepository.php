@@ -87,4 +87,13 @@ class TasksRepository extends EntityRepository
             ->getResult();
   }
 
+  public function sumEst()
+  {
+    return $this
+            ->createQueryBuilder('t')
+            ->select('SUM(t.est) as est')
+            ->where('t.completed <> true')
+            ->getQuery()
+            ->getSingleResult();
+  }
 }
