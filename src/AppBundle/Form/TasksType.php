@@ -44,7 +44,8 @@ class TasksType extends AbstractType
         ->add('order', HiddenType::class)
         ->add('eta', DateTimeType::class, array(
           'date_widget' => 'single_text',
-          'time_widget' => 'single_text'
+          'time_widget' => 'single_text',
+          'required'=>false
         ))
         ->add('completed')
     ;
