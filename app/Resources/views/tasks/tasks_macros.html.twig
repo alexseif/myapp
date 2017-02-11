@@ -1,56 +1,59 @@
 {% macro li(task, displayListName = true) %}
-    <li class="list-group-item {{ task.completed ? "completed" }}" 
-        data-order="id_{{task.id}}" 
-        id="task_{{task.id}}" 
-        data-id="{{task.id}}"
-        data-time="{{ task.est }}"
-        data-order-no="{{ task.order }}"
-        >
-        <label class="btn btn-default btn-{{ task.completed ? "xs":"sm" }} task">
-            <input type="checkbox" data-taskid="{{task.id}}" class="checkbox-inline" 
-                   {{ task.completed ? "checked" : "" }}/>
-            {{ task.task|truncate(50) }}
-            <span class="badge">
-                {% if task.urgency %}
-                    <span class="glyphicon glyphicon-flash text-warning"></span>
-                {% endif %}
-                {% if task.priority %}
-                    <span class="glyphicon glyphicon-menu-up text-danger"></span>
-                {% else %}
-                    <span class="glyphicon glyphicon-menu-right text-primary"></span>
-                {% endif %}
-            </span>
-        </label>
-        <button
-            class="btn btn-link btn-xs info-link"
-            data-toggle="popover"
-            data-trigger="focus"
-            title="{{ task.taskList.name}}"
-            data-content='<p>{{ task.task|converturls }}</p>
-            <div class="text-info small">
-            <span class="label label-default">Est:</span>&nbsp;
-            {{ task.est }}m</div>
-            <div class="text-info small">
-            <span class="label label-default">Created At:</span>&nbsp;
-            {{ task.createdAt|date }}</div>'
-            ><i class="glyphicon glyphicon-info-sign"></i></button>
-
-        {% if displayListName %}
-            <a class="label label-default task-list-name" 
-               data-tasklist="{{ task.taskList.name }}" 
-               href="{{ path("focus_tasklist", {'name':task.taskList.name}) }}">{{ task.taskList.name }}</a>
+  <li class="list-group-item {{ task.completed ? "completed" }}" 
+      data-order="id_{{task.id}}" 
+      id="task_{{task.id}}" 
+      data-id="{{task.id}}"
+      data-time="{{ task.est }}"
+      data-order-no="{{ task.order }}"
+      >
+    <label class="btn btn-default btn-{{ task.completed ? "xs":"sm" }} task">
+      <input type="checkbox" data-taskid="{{task.id}}" class="checkbox-inline" 
+             {{ task.completed ? "checked" : "" }}/>
+      {{ task.task|truncate(50) }}
+      <span class="badge">
+        {% if task.urgency %}
+          <span class="glyphicon glyphicon-flash text-warning"></span>
         {% endif %}
-        <small class="text-info">{{ task.est ? task.est ~ "m"}}</small>
-        <a href="{{ path('tasks_edit', { 'id': task.id }) }}" 
-           class="btn btn-primary edit-fixed-link btn-{{ task.completed ? "xs":"sm" }}">
-            <span class="glyphicon glyphicon-pencil"></span></a>
-    </li>
+        {% if task.priority %}
+          <span class="glyphicon glyphicon-menu-up text-danger"></span>
+        {% else %}
+          <span class="glyphicon glyphicon-menu-right text-primary"></span>
+        {% endif %}
+      </span>
+    </label>
+    <button
+      class="btn btn-link btn-xs info-link"
+      data-toggle="popover"
+      data-trigger="focus"
+      title="{{ task.taskList.name}}"
+      data-content='<p>{{ task.task|converturls }}</p>
+      <div class="text-info small">
+      <span class="label label-default">Est:</span>&nbsp;
+      {{ task.est }}m</div>
+      <div class="text-info small">
+      <span class="label label-default">ETA:</span>&nbsp;
+      {{ (task.eta)?task.eta|date:"-" }}
+      </div>
+      <div class="text-info small">
+      <span class="label label-default">Created At:</span>&nbsp;
+      {{ task.createdAt|date }}</div>'
+      ><i class="glyphicon glyphicon-info-sign"></i></button>
+      {% if displayListName %}
+      <a class="label label-default task-list-name" 
+         data-tasklist="{{ task.taskList.name }}" 
+         href="{{ path("focus_tasklist", {'name':task.taskList.name}) }}">{{ task.taskList.name }}</a>
+    {% endif %}
+    <small class="text-info">{{ task.est ? task.est ~ "m"}}</small>
+    <a href="{{ path('tasks_edit', { 'id': task.id }) }}" 
+       class="btn btn-primary edit-fixed-link btn-{{ task.completed ? "xs":"sm" }}">
+      <span class="glyphicon glyphicon-pencil"></span></a>
+  </li>
 {% endmacro %}
 
 {% macro ul(tasks, id, displayListName = true) %}
-    <ul class="list-group task-list" {{ (id) ? 'id='~id }}>
-        {% for task in tasks %}
-            {{ _self.li(task, displayListName) }}
-        {% endfor %}
-    </ul>   
+  <ul class="list-group task-list" {{ (id) ? 'id='~id }}>
+    {% for task in tasks %}
+      {{ _self.li(task, displayListName) }}
+    {% endfor %}
+  </ul>   
 {% endmacro %}

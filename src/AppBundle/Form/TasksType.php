@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
 class TasksType extends AbstractType
 {
@@ -36,8 +37,15 @@ class TasksType extends AbstractType
           'expanded' => true,
           'label_attr' => array('class' => 'radio-inline')
         ))
-        ->add('taskList', 'entity', array('class' => \AppBundle\Entity\TaskLists::class, 'choice_label' => 'name'))
+        ->add('taskList', 'entity', array(
+          'class' => \AppBundle\Entity\TaskLists::class,
+          'choice_label' => 'name'
+        ))
         ->add('order', HiddenType::class)
+        ->add('eta', DateTimeType::class, array(
+          'date_widget' => 'single_text',
+          'time_widget' => 'single_text'
+        ))
         ->add('completed')
     ;
   }
