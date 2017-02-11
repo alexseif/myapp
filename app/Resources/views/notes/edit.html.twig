@@ -4,7 +4,14 @@
 {% block panelTitleSmall %}{{ note.note|truncate(10) }}{% endblock %}
 {% block panelTitleLabels %}
   <span class="label label-info">{{ note.type|title }}</span> 
-  <span class="label label-primary">{% if note.createdAt %}{{ note.createdAt|date('Y-m-d H:i:s') }}{% endif %}</span>
+  <span class="label label-primary">
+    {% if note.createdAt %}{{ note.createdAt|date('Y-m-d H:i:s') }}{% endif %}
+  </span>
 {% endblock %}
 {% block panelHeadingRight %}{{ forms.delete(delete_form) }}{% endblock %}
 {% block panelBody %}{{ forms.panel(notes_form, false) }}{% endblock %}
+{% block javascripts %}
+  {{ parent() }}
+  <script src="/js/tinymce/tinymce.min.js"></script>
+  <script>tinymce.init({selector: '#notes_note'});</script>
+{% endblock %}
