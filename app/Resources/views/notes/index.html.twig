@@ -7,7 +7,7 @@
     {% for note in notes %}
       <div class="note-container">
         <div class="note">
-          <p>{{ note.note }}</p>
+          <p>{{ note.note|raw }}</p>
           <span class="label label-muted pull-right">{{ note.type|title }}</span> 
           <div class="btn-group btn-group-xs">
             <a class="btn btn-default btn-sm" href="{{ path('notes_show', {"id": note.id}) }}"><span class="glyphicon glyphicon-search"></span></a>

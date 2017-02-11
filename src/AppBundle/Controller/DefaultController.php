@@ -28,15 +28,15 @@ class DefaultController extends Controller
     $estSum = $em->getRepository('AppBundle:Tasks')->sumEst()["est"];
     $today = new \DateTime();
     $endDay = new \DateTime();
-    $endDay->add(\DateInterval::createFromDateString($estSum." minutes"));
+    $endDay->add(\DateInterval::createFromDateString($estSum . " minutes"));
     $interval = $endDay->diff($today, true);
-    
+
     /** Cost Of Life * */
     $currencies = $em->getRepository('AppBundle:Currency')->findAll();
     $cost = $em->getRepository('AppBundle:CostOfLife')->sumCostOfLife()["cost"];
-    
+
     $costOfLife = new \AppBundle\Logic\CostOfLifeLogic($cost, $currencies);
-    
+
 
 
     $tskCnt = array();
@@ -102,6 +102,43 @@ class DefaultController extends Controller
           'tasks' => $tasks,
           'completed' => $completedToday,
           'task_form' => $form->createView(),
+    ));
+  }
+
+  /**
+   * 
+   * @ROUTE("/debug", name="debug")
+   */
+  public function debug()
+  {
+    $availableRoutes = $this->get('router')->getRouteCollection()->all();
+    $routes = array();
+    foreach ($availableRoutes as $name => $route) {
+      if (strpos($name, "_") !== 0) {
+        $div = explode('_', $name);
+        $first = $div[0];
+        unset($div[0]);
+
+        $r['name'] = implode('_', $div);
+        $r['path'] = $route->getPath();
+        $r['methods'] = $route->getMethods();
+        $routes[$first][] = $r;
+      }
+    }
+    $entities = array();
+    $em = $this->getDoctrine()->getManager();
+    $meta = $em->getMetadataFactory()->getAllMetadata();
+    foreach ($meta as $m) {
+      $e['entity'] = $m->getName();
+      $e['name'] = explode('\\', $e['entity']);
+      $e['name'] = end($e['name']);
+
+      $entities[] = $e;
+    }
+
+    return $this->render('default/debug.html.twig', array(
+          'routes' => $routes,
+          'entities' => $entities
     ));
   }
 

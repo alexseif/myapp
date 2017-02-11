@@ -52,7 +52,6 @@ class TasksRepository extends EntityRepository
             ->where('t.completed <> true')
             ->orderBy("t.urgency", "DESC")
             ->addOrderBy("t.priority", "DESC")
-            ->addOrderBy("t.completedAt", "ASC")
             ->addOrderBy("t.order", "ASC")
             ->getQuery()
             ->getResult();

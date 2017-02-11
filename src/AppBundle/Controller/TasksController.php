@@ -55,8 +55,8 @@ class TasksController extends Controller
       $em->persist($task);
       $em->flush();
 
-//            return $this->redirectToRoute('tasks_show', array('id' => $task ->getId()));
-      return $this->redirectToRoute('focus');
+      return $this->redirectToRoute('tasks_show', array('id' => $task->getId()));
+//            return $this->redirectToRoute('focus');
     }
 
     return $this->render('tasks/new.html.twig', array(
@@ -84,6 +84,22 @@ class TasksController extends Controller
       $em->flush();
       return new \Symfony\Component\HttpFoundation\JsonResponse();
     }
+  }
+
+  /**
+   * Finds and displays a Tasks entity.
+   *
+   * @Route("/{id}", name="tasks_show")
+   * @Method("GET")
+   */
+  public function showAction(Tasks $tasks)
+  {
+    $deleteForm = $this->createDeleteForm($tasks);
+
+    return $this->render('tasks/show.html.twig', array(
+          'task' => $tasks,
+          'delete_form' => $deleteForm->createView(),
+    ));
   }
 
   /**
@@ -128,7 +144,8 @@ class TasksController extends Controller
       }
       $em->persist($task);
       $em->flush();
-      return $this->redirect($this->generateUrl('focus') . '#task_' . $task->getId());
+      return $this->redirectToRoute('tasks_show', array('id' => $task->getId()));
+//            return $this->redirect($this->generateUrl('focus') . '#task_' . $task->getId());
     }
 
     return $this->render('tasks/edit.html.twig', array(

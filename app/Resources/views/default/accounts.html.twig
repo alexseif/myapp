@@ -1,0 +1,40 @@
+{% if accounts|length %}
+    {% set hideEmpty = true %}
+    {% if costOfLife.monthly > 0 %}
+        {% set plan = costOfLife.monthly %}
+        <div class="progress">
+            {% set per = (paid/plan)*100 %}
+            {% if per < 100 %}
+                <div class="progress-bar progress-bar-success" role="progressbar" style="width:{{ per }}%">EGP {{ paid }}</div>
+                <div class="progress-bar progress-bar-{{ (19 - "now"|date("d")) > 10 ?"warning":"danger" }}" role="progressbar" style="width:{{ 100 - ((paid/plan)*100) }}%">EGP {{ plan - paid }}</div>
+            {% else %}
+                {% set per = (100/per)*100%}
+                <div class="progress-bar progress-bar-success" role="progressbar" style="width:{{ per }}%">EGP {{ plan }}</div>
+                <div class="progress-bar progress-bar-info" role="progressbar" style="width:{{ 100 - per }}%">EGP {{ paid - plan }}</div>
+                <div class="progress-bar progress-bar-{{ (19 - "now"|date("d")) > 10 ?"warning":"danger" }}" role="progressbar" style="width:{{ 100 - ((paid/plan)*100) }}%">EGP {{ plan - paid }}</div>
+            {% endif %}
+        </div>
+    {% endif %}
+    {% include 'accounts/accounts_list.html.twig' %}
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th></th>
+                    {% for currency in costOfLife.currencies %}
+                    <th>{{ currency.code }}</th>
+                    {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for key,col in costOfLife.col %}
+                <tr>
+                    <td>{{ key|capitalize }}</td>
+                    {% for code, value in col %}
+                        <td class="text-right"><span class="pull-left">{{ code|upper }} </span> {{ value|number_format }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div id="donutchart" style="width: 100%;height: 400px;"></div>
+{% endif %}

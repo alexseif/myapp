@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+{% block title %}Road Map{% endblock %}
+{% block content %}
+    <div class="row">
+        {% for entity in entities %}
+            <div class="col-sm-4">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <div class="panel-title">{{ entity.name }}</div>
+                        <small>{{ entity.entity }}</small>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <hr/>
+    <div class="row">
+        {% for group, route in routes %}
+            <div class="col-sm-4">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <div class="panel-title">{{ group }}</div>
+                    </div>
+                    <table class="table">
+                        {% for r in route %}
+                            <tr>
+                                <td>{{ r.name }}</td>
+                                <td>{{ r.path}}</td>
+                                <td>{{ r.methods|join("\n")|nl2br }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

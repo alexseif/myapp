@@ -1,7 +1,7 @@
 a.navbar-brand{background-color: #222222;}
 .navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus{color: #fff;background-color: #375a7f;}
-/* TODO: Fix this is not correct*/
-/*.list-group{overflow: auto;}*/
+/* TODO: Fix this is not correct */
+/* .list-group{overflow: auto;} */
 .popover-content{overflow: auto; word-wrap: break-word;}
 .floating-action{position: fixed;bottom: 50px;right: 50px;z-index: 1;}
 .floating-action .dropdown-menu{background: none; border: none;box-shadow: none;}
