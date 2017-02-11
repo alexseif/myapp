@@ -92,7 +92,7 @@ class TasksController extends Controller {
         $deleteForm = $this->createDeleteForm($tasks);
 
         return $this->render('tasks/show.html.twig', array(
-                    'tasks' => $tasks,
+                    'task' => $tasks,
                     'delete_form' => $deleteForm->createView(),
         ));
     }
