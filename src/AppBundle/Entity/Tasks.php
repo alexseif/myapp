@@ -64,6 +64,13 @@ class Tasks
   private $est;
 
   /**
+   * @var datetime
+   *
+   * @ORM\Column(name="eta", type="datetime", nullable=true)
+   */
+  private $eta;
+
+  /**
    * @var boolean
    *
    * @ORM\Column(name="completed", type="boolean")
@@ -331,38 +338,62 @@ class Tasks
     return $this->est;
   }
 
+  /**
+   * Add cost
+   *
+   * @param \AppBundle\Entity\Cost $cost
+   *
+   * @return Tasks
+   */
+  public function addCost(\AppBundle\Entity\Cost $cost)
+  {
+    $this->costs[] = $cost;
+
+    return $this;
+  }
+
+  /**
+   * Remove cost
+   *
+   * @param \AppBundle\Entity\Cost $cost
+   */
+  public function removeCost(\AppBundle\Entity\Cost $cost)
+  {
+    $this->costs->removeElement($cost);
+  }
+
+  /**
+   * Get costs
+   *
+   * @return \Doctrine\Common\Collections\Collection
+   */
+  public function getCosts()
+  {
+    return $this->costs;
+  }
+
 
     /**
-     * Add cost
+     * Set eta
      *
-     * @param \AppBundle\Entity\Cost $cost
+     * @param \DateTime $eta
      *
      * @return Tasks
      */
-    public function addCost(\AppBundle\Entity\Cost $cost)
+    public function setEta($eta)
     {
-        $this->costs[] = $cost;
+        $this->eta = $eta;
 
         return $this;
     }
 
     /**
-     * Remove cost
+     * Get eta
      *
-     * @param \AppBundle\Entity\Cost $cost
+     * @return \DateTime
      */
-    public function removeCost(\AppBundle\Entity\Cost $cost)
+    public function getEta()
     {
-        $this->costs->removeElement($cost);
-    }
-
-    /**
-     * Get costs
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getCosts()
-    {
-        return $this->costs;
+        return $this->eta;
     }
 }

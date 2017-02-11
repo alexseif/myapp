@@ -46,13 +46,16 @@ class TasksRepository extends EntityRepository
 
   public function focusList()
   {
+    $today = new \DateTime();
     return $this
             ->createQueryBuilder('t')
             ->select('t')
             ->where('t.completed <> true')
+            ->andWhere('DATE(t.eta) <= :today OR t.eta IS NULL')
             ->orderBy("t.urgency", "DESC")
             ->addOrderBy("t.priority", "DESC")
             ->addOrderBy("t.order", "ASC")
+            ->setParameter(':today', $today->format('Y-m-d'))
             ->getQuery()
             ->getResult();
   }
@@ -95,4 +98,5 @@ class TasksRepository extends EntityRepository
             ->getQuery()
             ->getSingleResult();
   }
+
 }
