@@ -4,7 +4,7 @@
 .days-table tr:last-child td:first-child sup{border-bottom: 1px dotted #ccc;}
 
 /** Tasks **/
-.task-list input[type="checkbox"] {margin:0px 5px 2px;}
+.task input[type="checkbox"] {margin:0px 5px 2px;}
 .task-list li{padding: 5px 15px;white-space: nowrap;min-height: 35px;}
 .task-list li .task{overflow: hidden; max-width: 60%;}
 .task-list > .completed{opacity: 0.35;}
