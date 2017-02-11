@@ -138,7 +138,8 @@ class TasksController extends Controller {
             }
             $em->persist($task);
             $em->flush();
-            return $this->redirect($this->generateUrl('focus') . '#task_' . $task->getId());
+            return $this->redirectToRoute('tasks_show', array('id' => $task->getId()));
+//            return $this->redirect($this->generateUrl('focus') . '#task_' . $task->getId());
         }
 
         return $this->render('tasks/edit.html.twig', array(

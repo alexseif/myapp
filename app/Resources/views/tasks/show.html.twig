@@ -4,5 +4,28 @@
 {% block floatingActions %}{{ a.add('tasks_new') }}{% endblock %}
 {% block panelBack %}{{ a.back('tasks_index') }}{% endblock %}
 {% block panelTitle %}{{ tasks.task }}{% endblock %}
-{% block panelHeadingRight %}{{ forms.delete(delete_form) }}{% endblock %}
-{% block panelBody %}{{ dump(tasks) }}{% endblock %}
+{% block panelHeadingRight %}
+    {{ a.edit('tasks_edit', { 'id': tasks.id }) }}
+    {{ forms.delete(delete_form) }}
+{% endblock %}
+{% block panelBody %}
+    <div class="table-responsive">
+        <table class="table table-condensed">
+            <tr>
+                <td>Task: {{ tasks.task }}</td>
+                <td>Priority: {{ tasks.priority }}</td>
+                <td>Urgency: {{ tasks.urgency }}</td>
+                <td>Est: {{ tasks.est }}</td>
+            </tr>
+            <tr>
+                <td>Completed: {{ tasks.completed }}</td>
+                <td>CompletedAt: {{ tasks.completedAt|date }}</td>
+                <td>CreatedAt: {{ tasks.createdAt|date }}</td>
+            </tr>
+            <tr>
+                <td>TaskList: {{ tasks.taskList.name }}</td>
+                <td>Costs: {{tasks.costs|length }}</td>
+            </tr>
+        </table>
+    </div>
+{% endblock %}
