@@ -20,7 +20,7 @@ class DefaultController extends Controller
      $message = \Swift_Message::newInstance()
         ->setSubject('Hello Email')
          ->setFrom('me@alexseif.com')
-        ->setTo('alex.seif@gmail.com')
+        ->setTo('me@alexseif.com')
         ->setBody("Trying something new no auth, tls & set from",
             'text/html'
         );
