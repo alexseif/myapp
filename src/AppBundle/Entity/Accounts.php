@@ -36,11 +36,23 @@ class Accounts
   private $transactions;
 
   /**
+   * @ORM\ManyToOne(targetEntity="Client", inversedBy="accounts")
+   * @ORM\JoinColumn(name="client_id", referencedColumnName="id", nullable=true)
+   */
+  private $client;
+
+  /**
+   * @ORM\OneToMany(targetEntity="TaskLists", mappedBy="account")
+   */
+  private $taskLists;
+
+  /**
    * Constructor
    */
   public function __construct()
   {
     $this->transactions = new \Doctrine\Common\Collections\ArrayCollection();
+    $this->taskLists = new \Doctrine\Common\Collections\ArrayCollection();
   }
 
   /**
@@ -117,6 +129,64 @@ class Accounts
       $balance += $transaction->getAmount();
     }
     return $balance;
+  }
+
+  /**
+   * Set client
+   *
+   * @param \AppBundle\Entity\Client $client
+   *
+   * @return Accounts
+   */
+  public function setClient(\AppBundle\Entity\Client $client = null)
+  {
+    $this->client = $client;
+
+    return $this;
+  }
+
+  /**
+   * Get client
+   *
+   * @return \AppBundle\Entity\Client
+   */
+  public function getClient()
+  {
+    return $this->client;
+  }
+
+  /**
+   * Add taskList
+   *
+   * @param \AppBundle\Entity\TaskLists $taskList
+   *
+   * @return Accounts
+   */
+  public function addTaskList(\AppBundle\Entity\TaskLists $taskList)
+  {
+    $this->taskList[] = $taskList;
+
+    return $this;
+  }
+
+  /**
+   * Remove taskList
+   *
+   * @param \AppBundle\Entity\TaskLists $taskList
+   */
+  public function removeTaskList(\AppBundle\Entity\TaskLists $taskList)
+  {
+    $this->taskList->removeElement($taskList);
+  }
+
+  /**
+   * Get taskLists
+   *
+   * @return \Doctrine\Common\Collections\Collection
+   */
+  public function getTaskLists()
+  {
+    return $this->taskLists;
   }
 
 }

@@ -42,6 +42,16 @@
       <a class="label label-default task-list-name" 
          data-tasklist="{{ task.taskList.name }}" 
          href="{{ path("focus_tasklist", {'name':task.taskList.name}) }}">{{ task.taskList.name }}</a>
+      <span class="visible-lg-inline-block visible-md-inline-block">
+        {% if (task.taskList.account) %}
+          <a href="{{ path('accounts_show', {'id': task.taskList.account.id}) }}"
+             class="label label-info">{{ task.taskList.account.name }}</a>
+          {% if (task.taskList.account.client) %}
+            <a href="{{ path('client_show', {'id': task.taskList.account.client.id}) }}"
+               class="label label-primary">{{ task.taskList.account.client.name }}</a>
+          {% endif %}
+        {% endif %}
+      </span>
     {% endif %}
     <small class="text-info">{{ task.est ? task.est ~ "m"}}</small>
     <a href="{{ path('tasks_edit', { 'id': task.id }) }}" 
