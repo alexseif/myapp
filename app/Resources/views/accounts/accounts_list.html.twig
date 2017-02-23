@@ -9,6 +9,9 @@
             <div class="btn-group btn-group-justified btn-group-sm">
               <a href="{{ path('accounts_show', { 'id': account.id }) }}" 
                  class="btn btn-default" style="text-align: left;">
+                {% if (account.client) %}
+                  <span class="label label-primary">{{ account.client.name }}</span>
+                {% endif %}
                 {{ account.name }}
               </a>
               <a href="{{ path('accounts_show', { 'id': account.id }) }}" 

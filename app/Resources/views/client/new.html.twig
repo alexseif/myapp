@@ -1,0 +1,5 @@
+{% extends 'base.html.twig' %}
+
+{% block panelTitle %}New Client{% endblock %}
+{% block panelBack %}{{ a.back('client_index') }}{% endblock %}
+{% block panelBody %}{{ forms.panel(form) }}{% endblock %}

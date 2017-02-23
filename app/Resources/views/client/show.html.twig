@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+{% block panelBack %}{{ a.back('client_index') }}{% endblock %}
+
+{% block panelTitle %}{{ client.name }}{% endblock %}
+{% block panelHeadingRight %}
+  {{ a.edit('client_edit', {'id':client.id}) }}
+  {{ forms.delete(delete_form) }}
+
+{% endblock %}
+{% block panelBody %}
+  {% set accounts = client.accounts %}
+  {% set hideEmpty = false %}
+  {% include 'accounts/accounts_list.html.twig' %}
+{% endblock %}
+
