@@ -1,29 +1,29 @@
 <div class="btn btn-default btn-xs btn-block">{{ interval|date("%d %H:%I") }}</div>
 <div class="panel-group">
-    {% if tasks|length %}
-        <div class="panel panel-primary">
-            <div class="panel-heading">UnListed</div>
-            {{ tasks_view.ul(tasks) }}
+  {% if tasks|length %}
+    <div class="panel panel-primary">
+      <div class="panel-heading">UnListed</div>
+      {{ tasks_view.ul(tasks) }}
+    </div>
+  {% endif %}
+  {% for taskList in taskLists %}
+    {% if taskList.tasks|length %}
+      {% set tasks = taskList.tasks %}
+      <div class="panel panel-primary">
+        <div class="panel-heading clearfix">
+          <span class="panel-title">
+            <a href="{{ path('tasklists_show', {"id":taskList.id}) }}">{{ taskList.name }}</a>
+          </span>
+          <div class="pull-right">
+            <span class="label label-default">{{ taskList.tasks.count }}</span>
+            <span class="label label-info">{{ taskList.estTotal|date("%d %H:%I") }}</span>
+            <button data-toggle="collapse" href="#taskList-{{ taskList.id }}" class="btn btn-primary btn-xs collapsed"><span class="glyphicon glyphicon-collapse"></span></button>
+          </div>
         </div>
+        <div id="taskList-{{ taskList.id }}" class="panel-collapse collapse">
+          {{ tasks_view.ul(tasks, '',false) }}
+        </div>
+      </div>
     {% endif %}
-    {% for taskList in taskLists %}
-        {% if taskList.tasks|length %}
-            {% set tasks = taskList.tasks %}
-            <div class="panel panel-primary">
-                <div class="panel-heading clearfix">
-                    <span class="panel-title">
-                        <a href="{{ path('tasklists_show', {"id":taskList.id}) }}">{{ taskList.name }}</a>
-                    </span>
-                    <div class="pull-right">
-                        <span class="label label-default">{{ taskList.tasks.count }}</span>
-                        <span class="label label-info">{{ taskList.estTotal|date("%d %H:%I") }}</span>
-                        <button data-toggle="collapse" href="#taskList-{{ taskList.id }}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-plus"></span></button>
-                    </div>
-                </div>
-                <div id="taskList-{{ taskList.id }}" class="panel-collapse collapse">
-                    {{ tasks_view.ul(tasks, '',false) }}
-                </div>
-            </div>
-        {% endif %}
-    {% endfor %}
+  {% endfor %}
 </div>
