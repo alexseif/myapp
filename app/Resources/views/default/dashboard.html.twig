@@ -3,57 +3,57 @@
 {% block title %}Dashboard{% endblock %}
 {# TODO: http://bootsnipp.com/user/favorites #}
 {% block container %}
-    <div class="floating-action dropup">
-        <a class="btn btn-info dropdown-toggle" type="button" id="dahboardMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <span class="glyphicon glyphicon-plus"></span>
-        </a>
-        <ul class="dropdown-menu floating-actions" aria-labelledby="dahboardMenuButton">
-            <li><a href="{{ path('tasks_new') }}" class="btn btn-info"><span class="glyphicon glyphicon-check"></span></a></li>
-            <li><a href="{{ path('tasklists_new') }}" class="btn btn-info"><span class="glyphicon glyphicon-list-alt"></span></a></li>
-            <li><a href="{{ path('days_new') }}" class="btn btn-info"><span class="glyphicon glyphicon-th-large"></span></a></li>
-            <li><a href="{{ path('accounts_new') }}" class="btn btn-info"><span class="glyphicon glyphicon-piggy-bank"></span></a></li>
-            <li><a href="{{ path('accounttransactions_new') }}" class="btn btn-info"><span class="glyphicon glyphicon-transfer"></span></a></li>
-        </ul>
+  <div class="floating-action dropup">
+    <a class="btn btn-info dropdown-toggle" type="button" id="dahboardMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <span class="glyphicon glyphicon-plus"></span>
+    </a>
+    <ul class="dropdown-menu floating-actions" aria-labelledby="dahboardMenuButton">
+      <li><a href="{{ path('tasks_new') }}" class="btn btn-info"><span class="glyphicon glyphicon-check"></span></a></li>
+      <li><a href="{{ path('tasklists_new') }}" class="btn btn-info"><span class="glyphicon glyphicon-list-alt"></span></a></li>
+      <li><a href="{{ path('days_new') }}" class="btn btn-info"><span class="glyphicon glyphicon-th-large"></span></a></li>
+      <li><a href="{{ path('accounts_new') }}" class="btn btn-info"><span class="glyphicon glyphicon-piggy-bank"></span></a></li>
+      <li><a href="{{ path('accounttransactions_new') }}" class="btn btn-info"><span class="glyphicon glyphicon-transfer"></span></a></li>
+    </ul>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+      {% include 'default/taskLists.html.twig' %}
     </div>
-    <div class="row">
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-            {% include 'default/taskLists.html.twig' %}
-        </div>
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-            {% include 'default/accounts.html.twig' %}
-        </div>
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-            {% if days|length %}
-                {% include 'days/days_list.html.twig' %}
-            {% endif %}
-        </div>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+      {% include 'default/accounts.html.twig' %}
     </div>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+      {% if days|length %}
+        {% include 'days/days_list.html.twig' %}
+      {% endif %}
+    </div>
+  </div>
 {% endblock %}
 {% block javascripts %}
-    {{ parent() }}
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
-        google.charts.load("current", {packages: ["corechart"]});
-        google.charts.setOnLoadCallback(drawChart);
-        function drawChart() {
-            var data = google.visualization.arrayToDataTable([
-                ['Day', 'Tasks'],
-        {% for t ,i in tskCnt %}
-                    ['{{t|slice(0, 3)|upper}}', {{i}}],
-        {% endfor %}
-                ]);
-                var options = {
-                    legend: 'none',
-                    pieSliceText: 'label',
-                    pieHole: 0.4,
-                    backgroundColor: 'transparent',
-                    pieSliceBorderColor: '#222222',
-                };
-                var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
-                chart.draw(data, options);
-            }
-            $(window).resize(function () {
-                drawChart();
-            });
-    </script>
+  {{ parent() }}
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    google.charts.load("current", {packages: ["corechart"]});
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+      var data = google.visualization.arrayToDataTable([
+        ['Day', 'Tasks'],
+    {% for t ,i in tskCnt %}
+            ['{{t|slice(0, 3)|upper}}', {{i}}],
+    {% endfor %}
+          ]);
+          var options = {
+            legend: 'none',
+            pieSliceText: 'label',
+            pieHole: 0.4,
+            backgroundColor: 'transparent',
+            pieSliceBorderColor: '#222222',
+          };
+          var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+          chart.draw(data, options);
+        }
+        $(window).resize(function () {
+          drawChart();
+        });
+  </script>
 {% endblock %}

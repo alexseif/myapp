@@ -51,3 +51,11 @@ li:hover .edit-link{display: inline;}
 
 .completed{color: #777}
 .completed, .completed *{text-decoration:line-through;background-image:none;}
+
+/* Changes button for collapsed panels */
+.glyphicon-collapse:before { content: "\2212";}
+.collapsed .glyphicon-collapse:before { content: "\2b";}
+
+/*span.glyphicon.glyphicon-collapse:before { content: "yes";}*/
+/*span.glyphicon.glyphicon-collapse:before { content: "\2212";}*/
+/*.collapsed span.glyphicon.glyphicon-collapse:before { content: "\2b";}*/
