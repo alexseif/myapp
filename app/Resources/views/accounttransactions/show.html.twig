@@ -23,7 +23,7 @@
       # {{ accountTransaction.id }} 
     </li>
     <li class="list-group-item"><span class="badge">EGP</span>{{ accountTransaction.amount|number_format }}</li>
-    <li class="list-group-item"><span class="badge">Paid</span> {% if accountTransaction.paidAt %}{{ accountTransaction.paidAt|date('Y-m-d') }}{% endif %}</li>
+    <li class="list-group-item"><span class="badge">Issued</span> {% if accountTransaction.issuedAt %}{{ accountTransaction.issuedAt|date('Y-m-d') }}{% endif %}</li>
     <li class="list-group-item"><span class="badge">Note</span> {{ accountTransaction.note }}</li>
     <li class="list-group-item"><span class="badge">Created</span> {% if accountTransaction.createdAt %}{{ accountTransaction.createdAt|date('Y-m-d H:i:s') }}{% endif %}</li>
   </ul>

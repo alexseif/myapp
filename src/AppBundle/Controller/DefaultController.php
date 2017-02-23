@@ -23,7 +23,7 @@ class DefaultController extends Controller
     $tasks = $em->getRepository('AppBundle:Tasks')->findUnlisted();
     $days = $em->getRepository('AppBundle:Days')->getActiveCards();
     $accounts = $em->getRepository('AppBundle:Accounts')->findAll();
-    $paidThisMonth = $em->getRepository('AppBundle:AccountTransactions')->paidThisMonth();
+    $issuedThisMonth = $em->getRepository('AppBundle:AccountTransactions')->issuedThisMonth();
     $tsksCntDay = $em->getRepository('AppBundle:Tasks')->findTasksCountByDay();
     $estSum = $em->getRepository('AppBundle:Tasks')->sumEst()["est"];
     $today = new \DateTime();
@@ -43,9 +43,9 @@ class DefaultController extends Controller
     foreach ($tsksCntDay as $t) {
       $tskCnt[$t['day_name']] = $t['cnt'];
     }
-    $paid = 0;
-    foreach ($paidThisMonth as $tm) {
-      $paid += abs($tm->getAmount());
+    $issued = 0;
+    foreach ($issuedThisMonth as $tm) {
+      $issued += abs($tm->getAmount());
     }
 
 
@@ -54,7 +54,7 @@ class DefaultController extends Controller
           'tasks' => $tasks,
           'days' => $days,
           'accounts' => $accounts,
-          'paid' => $paid,
+          'issued' => $issued,
           'tskCnt' => $tskCnt,
           'interval' => $interval,
           'costOfLife' => $costOfLife,
