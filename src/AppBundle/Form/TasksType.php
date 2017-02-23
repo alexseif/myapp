@@ -48,6 +48,11 @@ class TasksType extends AbstractType
           'required'=>false
         ))
         ->add('completed')
+        ->add('completedAt', DateTimeType::class, array(
+          'date_widget' => 'single_text',
+          'time_widget' => 'single_text',
+          'required'=>false
+        ))
     ;
   }
 
