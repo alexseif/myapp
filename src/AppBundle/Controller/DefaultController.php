@@ -17,15 +17,6 @@ class DefaultController extends Controller
    */
   public function dashboardAction(Request $request)
   {
-     $message = \Swift_Message::newInstance()
-        ->setSubject('Hello Email')
-         ->setFrom('me@alexseif.com')
-        ->setTo('me@alexseif.com')
-        ->setBody("Trying something new no auth, tls & set from",
-            'text/html'
-        );
-    $this->get('mailer')->send($message);
-//    throw new \Symfony\Component\HttpKernel\Exception\HttpException(rand(100, 600), "Some description");
     $em = $this->getDoctrine()->getManager();
 
     $taskLists = $em->getRepository('AppBundle:TaskLists')->findAllWithActiveTasks();
