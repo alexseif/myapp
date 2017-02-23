@@ -39,9 +39,9 @@ class AccountTransactions
   /**
    * @var \DateTime
    *
-   * @ORM\Column(name="paidAt", type="date")
+   * @ORM\Column(name="issuedAt", type="date")
    */
-  private $paidAt;
+  private $issuedAt;
 
   /**
    * @var \DateTime
@@ -61,7 +61,7 @@ class AccountTransactions
    */
   public function __construct()
   {
-    $this->paidAt = $this->createdAt = new \DateTime();
+    $this->issuedAt = $this->createdAt = new \DateTime();
   }
 
   /**
@@ -167,26 +167,26 @@ class AccountTransactions
   }
 
   /**
-   * Set paidAt
+   * Set issuedAt
    *
-   * @param \DateTime $paidAt
+   * @param \DateTime $issuedAt
    * @return AccountTransactions
    */
-  public function setPaidAt($paidAt)
+  public function setIssuedAt($issuedAt)
   {
-    $this->paidAt = $paidAt;
+    $this->issuedAt = $issuedAt;
 
     return $this;
   }
 
   /**
-   * Get paidAt
+   * Get issuedAt
    *
    * @return \DateTime 
    */
-  public function getPaidAt()
+  public function getIssuedAt()
   {
-    return $this->paidAt;
+    return $this->issuedAt;
   }
 
 }

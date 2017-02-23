@@ -3,15 +3,15 @@
     {% if costOfLife.monthly > 0 %}
         {% set plan = costOfLife.monthly %}
         <div class="progress">
-            {% set per = (paid/plan)*100 %}
+            {% set per = (issued/plan)*100 %}
             {% if per < 100 %}
-                <div class="progress-bar progress-bar-success" role="progressbar" style="width:{{ per }}%">EGP {{ paid }}</div>
-                <div class="progress-bar progress-bar-{{ (19 - "now"|date("d")) > 10 ?"warning":"danger" }}" role="progressbar" style="width:{{ 100 - ((paid/plan)*100) }}%">EGP {{ plan - paid }}</div>
+                <div class="progress-bar progress-bar-success" role="progressbar" style="width:{{ per }}%">EGP {{ issued }}</div>
+                <div class="progress-bar progress-bar-{{ (19 - "now"|date("d")) > 10 ?"warning":"danger" }}" role="progressbar" style="width:{{ 100 - ((issued/plan)*100) }}%">EGP {{ plan - issued }}</div>
             {% else %}
                 {% set per = (100/per)*100%}
                 <div class="progress-bar progress-bar-success" role="progressbar" style="width:{{ per }}%">EGP {{ plan }}</div>
-                <div class="progress-bar progress-bar-info" role="progressbar" style="width:{{ 100 - per }}%">EGP {{ paid - plan }}</div>
-                <div class="progress-bar progress-bar-{{ (19 - "now"|date("d")) > 10 ?"warning":"danger" }}" role="progressbar" style="width:{{ 100 - ((paid/plan)*100) }}%">EGP {{ plan - paid }}</div>
+                <div class="progress-bar progress-bar-info" role="progressbar" style="width:{{ 100 - per }}%">EGP {{ issued - plan }}</div>
+                <div class="progress-bar progress-bar-{{ (19 - "now"|date("d")) > 10 ?"warning":"danger" }}" role="progressbar" style="width:{{ 100 - ((issued/plan)*100) }}%">EGP {{ plan - issued }}</div>
             {% endif %}
         </div>
     {% endif %}
