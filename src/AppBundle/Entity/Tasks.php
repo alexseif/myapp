@@ -98,16 +98,6 @@ class Tasks
   private $taskList;
 
   /**
-   * Many Tasks have Many Costs.
-   * @ORM\ManyToMany(targetEntity="Cost")
-   * @ORM\JoinTable(name="tasks_costs",
-   *      joinColumns={@ORM\JoinColumn(name="task_id", referencedColumnName="id")},
-   *      inverseJoinColumns={@ORM\JoinColumn(name="cost_id", referencedColumnName="id", unique=true)}
-   *      )
-   */
-  private $costs;
-
-  /**
    * Constructor
    */
   public function __construct()
@@ -336,40 +326,6 @@ class Tasks
   public function getEst()
   {
     return $this->est;
-  }
-
-  /**
-   * Add cost
-   *
-   * @param \AppBundle\Entity\Cost $cost
-   *
-   * @return Tasks
-   */
-  public function addCost(\AppBundle\Entity\Cost $cost)
-  {
-    $this->costs[] = $cost;
-
-    return $this;
-  }
-
-  /**
-   * Remove cost
-   *
-   * @param \AppBundle\Entity\Cost $cost
-   */
-  public function removeCost(\AppBundle\Entity\Cost $cost)
-  {
-    $this->costs->removeElement($cost);
-  }
-
-  /**
-   * Get costs
-   *
-   * @return \Doctrine\Common\Collections\Collection
-   */
-  public function getCosts()
-  {
-    return $this->costs;
   }
 
 

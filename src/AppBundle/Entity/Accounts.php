@@ -36,22 +36,11 @@ class Accounts
   private $transactions;
 
   /**
-   * Many Accounts have Many Costs.
-   * @ORM\ManyToMany(targetEntity="Cost", cascade={"persist"})
-   * @ORM\JoinTable(name="account_costs",
-   *      joinColumns={@ORM\JoinColumn(name="account_id", referencedColumnName="id")},
-   *      inverseJoinColumns={@ORM\JoinColumn(name="cost_id", referencedColumnName="id", unique=true)}
-   *      )
-   */
-  private $costs;
-
-  /**
    * Constructor
    */
   public function __construct()
   {
     $this->transactions = new \Doctrine\Common\Collections\ArrayCollection();
-    $this->costs = new \Doctrine\Common\Collections\ArrayCollection();
   }
 
   /**
@@ -128,40 +117,6 @@ class Accounts
       $balance += $transaction->getAmount();
     }
     return $balance;
-  }
-
-  /**
-   * Add cost
-   *
-   * @param \AppBundle\Entity\Cost $cost
-   *
-   * @return Accounts
-   */
-  public function addCost(\AppBundle\Entity\Cost $cost)
-  {
-    $this->costs[] = $cost;
-
-    return $this;
-  }
-
-  /**
-   * Remove cost
-   *
-   * @param \AppBundle\Entity\Cost $cost
-   */
-  public function removeCost(\AppBundle\Entity\Cost $cost)
-  {
-    $this->costs->removeElement($cost);
-  }
-
-  /**
-   * Get costs
-   *
-   * @return \Doctrine\Common\Collections\Collection
-   */
-  public function getCosts()
-  {
-    return $this->costs;
   }
 
 }

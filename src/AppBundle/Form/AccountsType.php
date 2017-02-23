@@ -19,10 +19,6 @@ class AccountsType extends AbstractType
 //    TODO: https://github.com/ninsuo/symfony-collection
     $builder
         ->add('name')
-        ->add('costs', CollectionType::class, array(
-          'entry_type' => CostType::class,
-          'allow_add' => true,
-        ))
     ;
   }
 

@@ -23,7 +23,7 @@
     {% endblock %}
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
   </head>
-  <body class="{% block bodyClasses %}{{ get_controller_name() }}{% endblock %}">
+  <body class="{% block bodyClasses %}{{ get_controller_name() }} {{ get_action_name() }}{% endblock %}">
     {% block body %}
       {% block nav %}
         {% include 'nav.html.twig' %}
