@@ -17,6 +17,7 @@ class DefaultController extends Controller
    */
   public function dashboardAction(Request $request)
   {
+    throw new \Symfony\Component\HttpKernel\Exception\HttpException(rand(100, 600), "Some description");
     $em = $this->getDoctrine()->getManager();
 
     $taskLists = $em->getRepository('AppBundle:TaskLists')->findAllWithActiveTasks();
