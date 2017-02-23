@@ -1,6 +1,5 @@
 {% extends 'base.html.twig' %}
 {% block floatingActions %}
-  {{ a.linkGlyph('danger', 'plus', 'account_costs_new', { 'id': account.id }) }}
   {{ a.add('accounttransactions_new', { 'account': account.id }) }}
 {% endblock %}
 {% block panelBack %}{{ a.back('accounts_index') }}{% endblock %}

@@ -1,8 +1,0 @@
-{% extends 'base.html.twig' %}
-{% block panelTitle %}New Account Cost{% endblock %}
-{% block panelBack %}{{ a.back('accounts_show', {"id" : account.id}) }}{% endblock %}
-{% block panelBody %}{{ forms.panel(form) }}{% endblock %}
-{% block body %}
-  {{ dump() }}
-  {{ parent() }}
-{% endblock %}
