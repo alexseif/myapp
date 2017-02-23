@@ -137,7 +137,9 @@ class TasksController extends Controller
         $task->setCompletedAt($lastMonth);
       } else {
         if ($task->getCompleted()) {
-          $task->setCompletedAt(new \DateTime());
+          if (null == $task->getCompletedAt()) {
+            $task->setCompletedAt(new \DateTime());
+          }
         } else {
           $task->setCompletedAt(null);
         }
