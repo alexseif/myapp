@@ -19,6 +19,7 @@ class AccountsType extends AbstractType
 
     $builder
         ->add('name')
+        ->add('conceal')
         ->add('client', EntityType::class, array(
           'required' => false,
           'class' => 'AppBundle:Client',

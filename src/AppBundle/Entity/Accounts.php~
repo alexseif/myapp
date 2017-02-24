@@ -35,7 +35,7 @@ class Accounts
    *
    * @ORM\Column(name="conceal", type="boolean")
    */
-  private $conceal = false;
+  private $conceal;
 
 
   /**
@@ -197,28 +197,4 @@ class Accounts
     return $this->taskLists;
   }
 
-
-    /**
-     * Set conceal
-     *
-     * @param boolean $conceal
-     *
-     * @return Accounts
-     */
-    public function setConceal($conceal)
-    {
-        $this->conceal = $conceal;
-
-        return $this;
-    }
-
-    /**
-     * Get conceal
-     *
-     * @return boolean
-     */
-    public function getConceal()
-    {
-        return $this->conceal;
-    }
 }
