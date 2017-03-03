@@ -193,28 +193,28 @@ class TaskLists
     return $interval;
   }
 
+  /**
+   * Set account
+   *
+   * @param \AppBundle\Entity\Accounts $account
+   *
+   * @return TaskLists
+   */
+  public function setAccount(\AppBundle\Entity\Accounts $account = null)
+  {
+    $this->account = $account;
 
-    /**
-     * Set account
-     *
-     * @param \AppBundle\Entity\Accounts $account
-     *
-     * @return TaskLists
-     */
-    public function setAccount(\AppBundle\Entity\Accounts $account = null)
-    {
-        $this->account = $account;
+    return $this;
+  }
 
-        return $this;
-    }
+  /**
+   * Get account
+   *
+   * @return \AppBundle\Entity\Accounts
+   */
+  public function getAccount()
+  {
+    return $this->account;
+  }
 
-    /**
-     * Get account
-     *
-     * @return \AppBundle\Entity\Accounts
-     */
-    public function getAccount()
-    {
-        return $this->account;
-    }
 }

@@ -8,6 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class TasksType extends AbstractType
 {
@@ -23,35 +24,42 @@ class TasksType extends AbstractType
         ->add('est')
         ->add('priority', ChoiceType::class, array(
           'choices' => array(
-            0 => 'Not Important',
-            1 => 'Important',
+            'Not Important' => 0,
+            'Important' => 1,
           ),
+          'choices_as_values' => true,
           'expanded' => true,
           'label_attr' => array('class' => 'radio-inline')
         ))
         ->add('urgency', ChoiceType::class, array(
           'choices' => array(
-            0 => 'Not Urgent',
-            1 => 'Urgent',
+            'Not Urgent' => 0,
+            'Urgent' => 1
           ),
+          'choices_as_values' => true,
           'expanded' => true,
           'label_attr' => array('class' => 'radio-inline')
         ))
-        ->add('taskList', 'entity', array(
-          'class' => \AppBundle\Entity\TaskLists::class,
+        ->add('taskList', EntityType::class, array(
+          'class' => 'AppBundle:TaskLists',
+          'group_by' => function($taskList) {
+            if ($taskList->getAccount()) {
+              return $taskList->getAccount()->getClient()->getName();
+            }
+          },
           'choice_label' => 'name'
         ))
         ->add('order', HiddenType::class)
         ->add('eta', DateTimeType::class, array(
           'date_widget' => 'single_text',
           'time_widget' => 'single_text',
-          'required'=>false
+          'required' => false
         ))
         ->add('completed')
         ->add('completedAt', DateTimeType::class, array(
           'date_widget' => 'single_text',
           'time_widget' => 'single_text',
-          'required'=>false
+          'required' => false
         ))
     ;
   }
