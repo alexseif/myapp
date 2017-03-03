@@ -14,66 +14,61 @@
         data-time="{{ task.est }}"
         data-order-no="{{ task.order }}"
         >
-      <label class="btn btn-default btn-{{ task.completed ? "xs":"sm" }} task">
-        <input type="checkbox" data-taskid="{{task.id}}" class="checkbox-inline" 
-               {{ task.completed ? "checked" : "" }}/>
-        {{ task.task|truncate(50) }}
-        <span class="badge">
-          {% if task.urgency %}
-            <span class="glyphicon glyphicon-flash text-warning"></span>
-          {% endif %}
-          {% if task.priority %}
-            <span class="glyphicon glyphicon-menu-up text-danger"></span>
-          {% else %}
-            <span class="glyphicon glyphicon-menu-right text-primary"></span>
-          {% endif %}
-        </span>
-      </label>
-      <button
-        class="btn btn-link btn-xs info-link"
-        data-toggle="popover"
-        data-trigger="focus"
-        title="{{ task.taskList.name}}"
-        data-content='<p>{{ task.task|converturls }}</p>
-        <div class="text-info small">
-        <span class="label label-default">Est:</span>&nbsp;
-        {{ task.est }}m</div>
-        <div class="text-info small">
-        <span class="label label-default">Created At:</span>&nbsp;
-        {{ task.createdAt|date }}</div>'
-        ><i class="glyphicon glyphicon-info-sign"></i></button>
+      <div class="clearfix">
+        <a href="{{ path('tasks_edit', { 'id': task.id }) }}" 
+           class="btn btn-primary edit-fixed-link btn-{{ task.completed ? "xs":"sm" }}">
+          <span class="glyphicon glyphicon-pencil"></span></a>
 
-      <a class="label label-default task-list-name" 
-         data-tasklist="{{ task.taskList.name }}" 
-         href="{{ path("focus_tasklist", {'name':task.taskList.name}) }}">{{ task.taskList.name }}</a>
-      <small class="text-info">{{ task.est ? task.est ~ "m"}}</small>
-      <a href="{{ path('tasks_edit', { 'id': task.id }) }}" 
-         class="btn btn-primary edit-fixed-link btn-{{ task.completed ? "xs":"sm" }}">
-        <span class="glyphicon glyphicon-pencil"></span></a>
+        <label class="btn btn-default btn-{{ task.completed ? "xs":"sm" }} task">
+          <input type="checkbox" data-taskid="{{task.id}}" class="checkbox-inline" 
+                 {{ task.completed ? "checked" : "" }}/>
+          <p>{{ task.task|converturls }}</p>
+          <span class="badge">
+            {% if task.urgency %}
+              <span class="glyphicon glyphicon-flash text-warning"></span>
+            {% endif %}
+            {% if task.priority %}
+              <span class="glyphicon glyphicon-menu-up text-danger"></span>
+            {% else %}
+              <span class="glyphicon glyphicon-menu-right text-primary"></span>
+            {% endif %}
+          </span>
+        </label>
+        <a class="label label-default task-list-name" 
+           data-tasklist="{{ task.taskList.name }}" 
+           href="{{ path("tasklists_show", {'id':task.taskList.id}) }}">
+          {{ task.taskList.name }}</a>
+          {% if task.taskList.account %}
+          <a class="label label-info" 
+             data-tasklist="{{ task.taskList.account.name }}" 
+             href="{{ path("accounts_show", {'id':task.taskList.account.id }) }}">
+            {{ task.taskList.account.name }}</a>
+          <a class="label label-primary" 
+             data-tasklist="{{ task.taskList.account.client.name }}" 
+             href="{{ path("client_show", {'id':task.taskList.account.client.id }) }}">
+            {{ task.taskList.account.client.name }}</a>
+          {% endif %}
+        <table class="text-info">
+          <tbody>
+            <tr>
+              <td><span class="label label-default">Est:</span></td>
+              <td>{{ task.est ? task.est ~ "m"}}</td>
+            </tr>
+            <tr>
+              <td><span class="label label-default">Created At:</span></td>
+              <td>{{ task.createdAt|date }}</td>
+            </tr>
+            <tr>
+              <td><span class="label label-default">ETA:</span></td>
+              <td>{{ (task.eta) ?task.eta|date }}</td>
+            </tr>
+            <tr>
+              <td><span class="label label-default">Completed At:</span></td>
+              <td>{{ (task.completedAt) ? task.completedAt|date }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </li>
   </ul>
-{# TODO: Task Show
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <label class="btn btn-default btn-{{ task.completed ? "xs":"sm" }} task">
-        <input type="checkbox" data-taskid="{{task.id}}" class="checkbox-inline" 
-               {{ task.completed ? "checked" : "" }}/>
-        {{ task.task|truncate(50) }}
-        <span class="badge">
-          {% if task.urgency %}
-            <span class="glyphicon glyphicon-flash text-warning"></span>
-          {% endif %}
-          {% if task.priority %}
-            <span class="glyphicon glyphicon-menu-up text-danger"></span>
-          {% else %}
-            <span class="glyphicon glyphicon-menu-right text-primary"></span>
-          {% endif %}
-        </span>
-      </label>
-    </div>
-    <div class="panel-body">
-      task details
-    </div>
-  </div>
-#}
 {% endblock %}
