@@ -8,7 +8,7 @@
       <li class="list-group-item">
         <a class="btn btn-default" href="{{ path('tasklists_show', { 'id': taskList.id }) }}">
           {{ taskList.name }}
-          <span class="badge">{{ taskList.tasks|length }}</span>
+          <span class="badge">{{ taskList.tasks(false)|length }}</span>
           <span class="label label-default">{{ taskList.status|capitalize }}</span>
           <span class="label label-default">{{ taskList.createdAt ? taskList.createdAt|date('Y-m-d H:i') }}</span>
         </a>
