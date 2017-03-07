@@ -45,6 +45,8 @@ class TasksType extends AbstractType
           'group_by' => function($taskList) {
             if ($taskList->getAccount()) {
               return $taskList->getAccount()->getClient()->getName();
+            } else{
+              return "N/A";
             }
           },
           'choice_label' => 'name'
