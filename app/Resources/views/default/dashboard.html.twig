@@ -39,21 +39,21 @@
       var data = google.visualization.arrayToDataTable([
         ['Day', 'Tasks'],
     {% for t ,i in tskCnt %}
-            ['{{t|slice(0, 3)|upper}}', {{i}}],
+          ['{{t|slice(0, 3)|upper}}', {{i}}],
     {% endfor %}
-          ]);
-          var options = {
-            legend: 'none',
-            pieSliceText: 'label',
-            pieHole: 0.4,
-            backgroundColor: 'transparent',
-            pieSliceBorderColor: '#222222',
-          };
-          var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
-          chart.draw(data, options);
-        }
-        $(window).resize(function () {
-          drawChart();
-        });
+        ]);
+        var options = {
+          legend: 'none',
+          pieSliceText: 'label',
+          pieHole: 0.4,
+          backgroundColor: 'transparent',
+          pieSliceBorderColor: '#222222',
+        };
+        var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+        chart.draw(data, options);
+      }
+      $(window).resize(function () {
+        drawChart();
+      });
   </script>
 {% endblock %}
