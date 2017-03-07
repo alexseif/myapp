@@ -22,7 +22,7 @@ class DefaultController extends Controller
     $taskLists = $em->getRepository('AppBundle:TaskLists')->findAllWithActiveTasks();
     $tasks = $em->getRepository('AppBundle:Tasks')->findUnlisted();
     $days = $em->getRepository('AppBundle:Days')->getActiveCards();
-    $accounts = $em->getRepository('AppBundle:Accounts')->findBy(array('conceal'=>false));
+    $accounts = $em->getRepository('AppBundle:Accounts')->findBy(array('conceal' => false));
     $issuedThisMonth = $em->getRepository('AppBundle:AccountTransactions')->issuedThisMonth();
     $tsksCntDay = $em->getRepository('AppBundle:Tasks')->findTasksCountByDay();
     $estSum = $em->getRepository('AppBundle:Tasks')->sumEst()["est"];
@@ -58,6 +58,19 @@ class DefaultController extends Controller
           'tskCnt' => $tskCnt,
           'interval' => $interval,
           'costOfLife' => $costOfLife,
+    ));
+  }
+
+  /**
+   * @Route("/beta", name="beta")
+   */
+  public function betaAction(Request $request)
+  {
+    $em = $this->getDoctrine()->getManager();
+    $today = new \DateTime();
+
+    return $this->render('default/beta.html.twig', array(
+          'today' => $today,
     ));
   }
 
