@@ -52,6 +52,11 @@ class TasksController extends Controller
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
+      if ($task->getCompleted()) {
+        $task->setCompletedAt(new \DateTime());
+      } else {
+        $task->setCompletedAt(null);
+      }
       $em->persist($task);
       $em->flush();
 
