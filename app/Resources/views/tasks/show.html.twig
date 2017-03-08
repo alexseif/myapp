@@ -43,10 +43,12 @@
              data-tasklist="{{ task.taskList.account.name }}" 
              href="{{ path("accounts_show", {'id':task.taskList.account.id }) }}">
             {{ task.taskList.account.name }}</a>
-          <a class="label label-primary" 
-             data-tasklist="{{ task.taskList.account.client.name }}" 
-             href="{{ path("client_show", {'id':task.taskList.account.client.id }) }}">
-            {{ task.taskList.account.client.name }}</a>
+            {% if task.taskList.account.client %}
+            <a class="label label-primary" 
+               data-tasklist="{{ task.taskList.account.client.name }}" 
+               href="{{ path("client_show", {'id':task.taskList.account.client.id }) }}">
+              {{ task.taskList.account.client.name }}</a>
+            {% endif %}
           {% endif %}
         <table class="text-info">
           <tbody>
