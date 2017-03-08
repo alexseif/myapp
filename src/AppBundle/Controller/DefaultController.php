@@ -22,7 +22,7 @@ class DefaultController extends Controller
     $taskLists = $em->getRepository('AppBundle:TaskLists')->findAllWithActiveTasks();
     $tasks = $em->getRepository('AppBundle:Tasks')->findUnlisted();
     $days = $em->getRepository('AppBundle:Days')->getActiveCards();
-    $accounts = $em->getRepository('AppBundle:Accounts')->findBy(array('conceal'=>false));
+    $accounts = $em->getRepository('AppBundle:Accounts')->findBy(array('conceal' => false));
     $issuedThisMonth = $em->getRepository('AppBundle:AccountTransactions')->issuedThisMonth();
     $tsksCntDay = $em->getRepository('AppBundle:Tasks')->findTasksCountByDay();
     $estSum = $em->getRepository('AppBundle:Tasks')->sumEst()["est"];
@@ -71,13 +71,10 @@ class DefaultController extends Controller
     $tasks = $em->getRepository('AppBundle:Tasks')->focusList();
     $completedToday = $em->getRepository('AppBundle:Tasks')->getCompletedToday();
     $task = new Tasks();
-    $form = $this->createForm(TasksType::class, $task, array(
-      'action' => $this->generateUrl('tasks_new')
-    ));
+
     return $this->render('default/focus.html.twig', array(
           'tasks' => $tasks,
           'completed' => $completedToday,
-          'task_form' => $form->createView(),
     ));
   }
 
