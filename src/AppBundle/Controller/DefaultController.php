@@ -104,4 +104,32 @@ class DefaultController extends Controller
     ));
   }
 
+  /**
+   * @ROUTE("/roadmap", name="roadmap")
+   */
+  public function roadmapAction()
+  {
+    $roadmap = new \AppBundle\Logic\Roadmap();
+
+    $em = $this->getDoctrine()->getManager();
+    $today = new \DateTime();
+
+    $tasks = $em->getRepository('AppBundle:Tasks')->findBy(
+        array('completed' => false), array(
+      'urgency' => 'desc',
+      'priority' => 'desc',
+      'order' => 'asc'
+        )
+    );
+    $days = $em->getRepository('AppBundle:Days')->getActiveCards();
+
+    $roadmap->setDays($days);
+    $roadmap->setTasks($tasks);
+    $roadmap->populateDots();
+
+    return $this->render('default/roadmap.html.twig', array(
+          'roadmap' => $roadmap,
+    ));
+  }
+
 }
