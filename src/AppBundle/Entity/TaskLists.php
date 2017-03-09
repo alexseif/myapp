@@ -180,7 +180,11 @@ class TaskLists
     if ($showComplete !== true) {
       $criteria->where(Criteria::expr()->eq('completed', false));
     }
-    $criteria->orderBy(array('completed' => 'asc'));
+    $criteria->orderBy(array(
+      'completed' => 'asc',
+      'urgency' => 'desc',
+      'priority' => 'desc'
+    ));
     return $this->tasks->matching($criteria);
   }
 
