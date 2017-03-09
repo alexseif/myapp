@@ -37,6 +37,8 @@ class DefaultController extends Controller
 
     $costOfLife = new \AppBundle\Logic\CostOfLifeLogic($cost, $currencies);
 
+    $tasksUrgencyAndPriority = $em->getRepository('AppBundle:Tasks')->countByUrgenctAndPriority();
+    $tasksUrgencyAndPriority = $em->getRepository('AppBundle:Tasks')->sumByUrgenctAndPriority();
 
 
     $tskCnt = array();
@@ -48,7 +50,6 @@ class DefaultController extends Controller
       $issued += abs($tm->getAmount());
     }
 
-
     return $this->render('default/dashboard.html.twig', array(
           'taskLists' => $taskLists,
           'tasks' => $tasks,
@@ -58,6 +59,7 @@ class DefaultController extends Controller
           'tskCnt' => $tskCnt,
           'interval' => $interval,
           'costOfLife' => $costOfLife,
+          'tasksUrgencyAndPriority' => $tasksUrgencyAndPriority
     ));
   }
 

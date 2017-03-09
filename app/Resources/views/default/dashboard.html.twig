@@ -35,25 +35,52 @@
   <script type="text/javascript">
     google.charts.load("current", {packages: ["corechart"]});
     google.charts.setOnLoadCallback(drawChart);
-    function drawChart() {
+    function taskCompletionByDay() {
       var data = google.visualization.arrayToDataTable([
-        ['Day', 'Tasks'],
-    {% for t ,i in tskCnt %}
+        ['Day', 'Tasks'],{% for t ,i in tskCnt %}
+    {% if(t) %}
           ['{{t|slice(0, 3)|upper}}', {{i}}],
+    {% endif %}
     {% endfor %}
         ]);
         var options = {
-          legend: 'none',
-          pieSliceText: 'label',
-          pieHole: 0.4,
-          backgroundColor: 'transparent',
-          pieSliceBorderColor: '#222222',
-        };
-        var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
-        chart.draw(data, options);
-      }
-      $(window).resize(function () {
-        drawChart();
-      });
-  </script>
-{% endblock %}
+      {#          legend: {position: 'right', textStyle: {color: 'white'}},#}
+            legend: 'none',
+            pieSliceText: 'label',
+            pieHole: 0.4,
+            backgroundColor: 'transparent',
+            pieSliceBorderColor: '#222222',
+          };
+          var chart = new google.visualization.PieChart(document.getElementById('taskCompletionGraph'));
+          chart.draw(data, options);
+        }
+        function tasksByPriority() {
+          var data = google.visualization.arrayToDataTable([
+            ['TaskType', 'TaskCount'],{% for i in tasksUrgencyAndPriority %}
+            ['{{ (i.urgency and i.priority) ? 'Urgent & Important' : 
+(i.urgency) ? 'Urgent' : 
+(i.priority) ? 'Importnat' :
+ 'Normal' }}', {{ i[1] }}],
+      {% endfor %}
+          ]);
+          var options = {
+        {#            legend: {position: 'right', textStyle: {color: 'white'}},#}
+              legend: 'none',
+              pieSliceText: 'value',
+              backgroundColor: 'transparent',
+              pieSliceBorderColor: '#222222',
+              slices: [{color: '#f39c12'}, {color: '#e74c3c'}, {color: '#375a7f'}]
+            };
+            var chart = new google.visualization.PieChart(document.getElementById('tasksByPriority'));
+            chart.draw(data, options);
+          }
+          function drawChart() {
+            taskCompletionByDay();
+            tasksByPriority();
+
+          }
+          $(window).resize(function () {
+            drawChart();
+          });
+      </script>
+      {% endblock %}
