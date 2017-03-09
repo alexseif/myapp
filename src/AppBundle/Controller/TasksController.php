@@ -84,7 +84,9 @@ class TasksController extends Controller
       $tasks = $request->get('tasks');
       foreach ($tasks as $order => $taskId) {
         $task = $em->find(Tasks::class, $taskId);
-        $task->setOrder($order);
+        if ($task) {
+          $task->setOrder($order);
+        }
       }
       $em->flush();
       return new \Symfony\Component\HttpFoundation\JsonResponse();
