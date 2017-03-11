@@ -62,9 +62,11 @@
       </span>
     {% endif %}
     <small class="text-info">{{ task.est ? task.est ~ "m"}}</small>
-    {#<a href="{{ path('tasks_edit', { 'id': task.id }) }}" 
-       class="btn btn-primary edit-fixed-link btn-{{ task.completed ? "xs":"sm" }}">
-      <span class="glyphicon glyphicon-pencil"></span></a>#}
+    <span class="visible-lg-inline visible-md-inline">
+      <a href="{{ path('tasks_edit', { 'id': task.id }) }}" 
+         class="btn btn-primary edit-fixed-link btn-{{ task.completed ? "xs":"sm" }}">
+        <span class="glyphicon glyphicon-pencil"></span></a>
+    </span>
   </li>
 {% endmacro %}
 
