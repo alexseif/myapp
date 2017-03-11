@@ -205,36 +205,47 @@
     }
   </style>
   <h1>Road Map</h1>
-  {{ dump(roadmap) }}
   <ul class="timeline">
-    {% for title, day in roadmap.dots %}
-      <li><div class="tldate">{{ title }}</div></li>
-          {% for dot in day %}
-        <li class="{{ cycle(['', 'timeline-inverted'], loop.index0) }}">
-          <div class="tl-circ">{{ dot.timestamp|date('H:i') }}</div>
-          <div class="timeline-panel">
-            <div class="tl-heading">
-              <h4>{{ dot.title }}
-                <div class="pull-right">
-                  {% if dot.urgency %}
-                    <span class="glyphicon glyphicon-flash text-warning"></span>
-                  {% endif %}
-                  {% if dot.priority %}
-                    <span class="glyphicon glyphicon-menu-up text-danger"></span>
-                  {% else %}
-                    <span class="glyphicon glyphicon-menu-right text-primary"></span>
-                  {% endif %}
-                </div>
-              </h4>
-              <small class="text-muted"><i class="glyphicon glyphicon-time"></i> {{ dot.timestamp|date('D, M d Y') }}</small>
-            </div>
-            <div class="tl-body">
-              <p>{{dot.description}}m</p>
-            </div>
+    {#    {% for title, day in roadmap.dots %}#}
+    {#    <li><div class="tldate">{{ title }}</div></li>#}
+    {% set curDate = roadmap.dots|first.start %}
+    <li><div class="tldate">{{ curDate|date('D, M d Y')}}</div></li>
+    {% for dot in roadmap.dots %}
+      {% set difference = date(dot.start).diff(date(curDate)) %}
+      {% if(difference.days >= 1) %}
+        {% set curDate = dot.start %}
+        <li><div class="tldate">{{ curDate|date('D, M d Y')}}</div></li>
+        {% endif %}
+      <li class="{{ cycle(['', 'timeline-inverted'], loop.index0) }}">
+        <div class="tl-circ">{{ dot.start|date('H:i') }}</div>
+        <div class="timeline-panel">
+          <div class="tl-heading">
+            <h4>{{ dot.title }}
+              <div class="pull-right">
+                {% if dot.urgency %}
+                  <span class="glyphicon glyphicon-flash text-warning"></span>
+                {% endif %}
+                {% if dot.priority %}
+                  <span class="glyphicon glyphicon-menu-up text-danger"></span>
+                {% else %}
+                  <span class="glyphicon glyphicon-menu-right text-primary"></span>
+                {% endif %}
+              </div>
+            </h4>
+            <small class="text-muted"><i class="glyphicon glyphicon-time"></i> {{ dot.start|date('D, M d Y') }}</small>
           </div>
-        </li>
-      {% endfor %}
+          <div class="tl-body">
+            <p>{{dot.description}}</p>
+            <p>
+              Start: {{ dot.start|date('D, M d Y H:i')}}<br/>
+              End: {{ dot.end|date('D, M d Y H:i')}}<br/>
+              Duration: {{ dot.duration|date('%h hrs & %i mins')}}
+            </p>
+          </div>
+        </div>
+      </li>
     {% endfor %}
+    {#    {% endfor %}#}
     {#{% for day in roadmap.days %}
       {% set diff = date(day.deadline).diff(date()) %}
   <li class="{{ cycle(['', 'timeline-inverted'], loop.index0) }}">

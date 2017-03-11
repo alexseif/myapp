@@ -24,7 +24,19 @@ class Dot
    *
    * @var \DateTime
    */
-  protected $timestamp;
+  protected $start;
+
+  /**
+   *
+   * @var \DateTime
+   */
+  protected $end;
+
+  /**
+   *
+   * @var \DateInterval
+   */
+  protected $duration;
 
   /**
    *
@@ -36,13 +48,13 @@ class Dot
    *
    * @var int
    */
-  protected $urgency;
+  protected $urgency = 0;
 
   /**
    *
    * @var int
    */
-  protected $priority;
+  protected $priority = 0;
 
   /**
    *
@@ -50,22 +62,10 @@ class Dot
    */
   protected $type;
 
-  /**
-   * 
-   * @param string $title
-   * @param \DateTime $timestamp
-   * @param string $description
-   * @param int $urgency
-   * @param int $priority
-   * @param string $type
-   */
-  public function __construct($title, \DateTime $timestamp, $description, $urgency, $priority, $type)
+  public function __construct($title, $type, \DateInterval $duration)
   {
     $this->title = $title;
-    $this->timestamp = $timestamp;
-    $this->description = $description;
-    $this->urgency = $urgency;
-    $this->priority = $priority;
+    $this->duration = $duration;
     $this->type = $type;
   }
 
@@ -82,9 +82,18 @@ class Dot
    * 
    * @return \DateTime
    */
-  public function getTimestamp()
+  public function getStart()
   {
-    return $this->timestamp;
+    return $this->start;
+  }
+
+  /**
+   * 
+   * @return \DateTime
+   */
+  public function getEnd()
+  {
+    return $this->end;
   }
 
   /**
@@ -134,11 +143,24 @@ class Dot
 
   /**
    * 
-   * @param \DateTime $timestamp
+   * @param \DateTime $start
    */
-  public function setTimestamp(\DateTime $timestamp)
+  public function setStart(\DateTime $start)
   {
-    $this->timestamp = $timestamp;
+    $this->start = $start;
+  }
+
+  /**
+   * 
+   * @param \DateTime $end
+   */
+  public function setEnd(\DateTime $end)
+  {
+    //TODO: needs to be greater than $start
+    if ($end < $this->getStart()) {
+      throw new \Exception("End cannot be before Start");
+    }
+    $this->end = $end;
   }
 
   /**
@@ -175,6 +197,30 @@ class Dot
   public function setType($type)
   {
     $this->type = $type;
+  }
+
+  /**
+   * 
+   * @return \DateInterval
+   */
+  public function getDuration()
+  {
+    return $this->duration;
+  }
+
+  /**
+   * 
+   * @param \DateInterval $duration
+   */
+  public function setDuration(\DateInterval $duration)
+  {
+    $this->duration = $duration;
+  }
+
+  public function calculateEnd()
+  {
+    $this->end = clone $this->start;
+    $this->end->add($this->duration);
   }
 
 }
