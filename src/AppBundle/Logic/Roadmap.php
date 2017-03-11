@@ -298,12 +298,14 @@ class Roadmap
     }
   }
 
-//FIXME: buggy if you're between 0:00 and 7:00 sleep from previous day doesn't appear
+  //FIXME: buggy if you're between 0:00 and 7:00 sleep from previous day doesn't appear
+  //TODO: maybe add working hours and make it easier to assign tasks
   public function routineSetup()
   {
     $interval = new \DateInterval('P1D');
     $daterange = new \DatePeriod($this->start, $interval, $this->end);
     $type = 'Routine';
+    $eatDescription = "Don't eat infornt of the computer / On your desk / where you work";
     foreach ($daterange as $date) {
       $time = clone $date;
       $time->setTimezone($this->getTimezone());
@@ -311,6 +313,7 @@ class Roadmap
 
       $dot = new Dot('Breakfast', $type, \DateInterval::createFromDateString("20 minutes"));
       $dot->setStart(clone $time->setTime(7, 00));
+      $dot->setDescription($eatDescription);
       $this->addDot($dot);
 
       $dot = new Dot('Read', $type, \DateInterval::createFromDateString("40 minutes"));
@@ -319,6 +322,7 @@ class Roadmap
 
       $dot = new Dot('Break/Snack', $type, \DateInterval::createFromDateString("20 minutes"));
       $dot->setStart(clone $time->setTime(10, 00));
+      $dot->setDescription($eatDescription);
       $this->addDot($dot);
 
       $dot = new Dot('Lunch', $type, \DateInterval::createFromDateString("20 minutes"));
@@ -327,10 +331,12 @@ class Roadmap
 
       $dot = new Dot('Break/Snack', $type, \DateInterval::createFromDateString("20 minutes"));
       $dot->setStart(clone $time->setTime(16, 00));
+      $dot->setDescription($eatDescription);
       $this->addDot($dot);
 
       $dot = new Dot('Dinner', $type, \DateInterval::createFromDateString("20 minutes"));
       $dot->setStart(clone $time->setTime(19, 00));
+      $dot->setDescription($eatDescription);
       $this->addDot($dot);
 
       $dot = new Dot('Sleep', $type, \DateInterval::createFromDateString("8 hours"));
