@@ -67,12 +67,11 @@ class Roadmap
     $this->setTimezone(new \DateTimeZone("Africa/Cairo"));
     $this->setStart(new \DateTime());
     $this->getStart()->setTimezone($this->getTimezone());
-    $this->getStart()->setDate(2017, 3, 10);
-    $this->getStart()->setTime(8, 00);
+//    $this->getStart()->setDate(2017, 3, 10);
+//    $this->getStart()->setTime(8, 00);
     $this->setEnd(new \DateTime());
     $this->getEnd()->setTimezone($this->getTimezone());
-    $this->getEnd()->setDate(2017, 3, 15);
-    $this->getEnd()->setTime(20, 00);
+    $this->getEnd()->add(\DateInterval::createFromDateString("5 days"));
   }
 
   /**
@@ -299,13 +298,14 @@ class Roadmap
     }
   }
 
+//FIXME: buggy if you're between 0:00 and 7:00 sleep from previous day doesn't appear
   public function routineSetup()
   {
     $interval = new \DateInterval('P1D');
     $daterange = new \DatePeriod($this->start, $interval, $this->end);
     $type = 'Routine';
     foreach ($daterange as $date) {
-      $time =clone $date;
+      $time = clone $date;
       $time->setTimezone($this->getTimezone());
 //      $time->setDate(2017, 3, 10);
 
