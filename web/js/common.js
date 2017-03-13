@@ -18,7 +18,7 @@ $(document).ready(function () {
   if (Modernizr.touch) {
     touch = true;
   }
-  $('.datepicker').datepicker({
+  $('input[type=date]').datepicker({
     dateFormat: $('.datepicker').data('date-format')
   });
 
