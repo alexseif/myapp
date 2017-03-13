@@ -37,6 +37,8 @@ class DefaultController extends Controller
 
     $costOfLife = new \AppBundle\Logic\CostOfLifeLogic($cost, $currencies);
 
+    $tasksUrgencyAndPriority = $em->getRepository('AppBundle:Tasks')->countByUrgenctAndPriority();
+    $tasksUrgencyAndPriority = $em->getRepository('AppBundle:Tasks')->sumByUrgenctAndPriority();
 
 
     $tskCnt = array();
@@ -48,7 +50,6 @@ class DefaultController extends Controller
       $issued += abs($tm->getAmount());
     }
 
-
     return $this->render('default/dashboard.html.twig', array(
           'taskLists' => $taskLists,
           'tasks' => $tasks,
@@ -58,6 +59,7 @@ class DefaultController extends Controller
           'tskCnt' => $tskCnt,
           'interval' => $interval,
           'costOfLife' => $costOfLife,
+          'tasksUrgencyAndPriority' => $tasksUrgencyAndPriority
     ));
   }
 
@@ -84,13 +86,10 @@ class DefaultController extends Controller
     $tasks = $em->getRepository('AppBundle:Tasks')->focusList();
     $completedToday = $em->getRepository('AppBundle:Tasks')->getCompletedToday();
     $task = new Tasks();
-    $form = $this->createForm(TasksType::class, $task, array(
-      'action' => $this->generateUrl('tasks_new')
-    ));
+
     return $this->render('default/focus.html.twig', array(
           'tasks' => $tasks,
           'completed' => $completedToday,
-          'task_form' => $form->createView(),
     ));
   }
 
@@ -115,6 +114,34 @@ class DefaultController extends Controller
           'tasks' => $tasks,
           'completed' => $completedToday,
           'task_form' => $form->createView(),
+    ));
+  }
+
+  /**
+   * @ROUTE("/roadmap", name="roadmap")
+   */
+  public function roadmapAction()
+  {
+    $roadmap = new \AppBundle\Logic\Roadmap();
+
+    $em = $this->getDoctrine()->getManager();
+    $today = new \DateTime();
+
+    $tasks = $em->getRepository('AppBundle:Tasks')->findBy(
+        array('completed' => false), array(
+      'urgency' => 'desc',
+      'priority' => 'desc',
+      'order' => 'asc'
+        )
+    );
+    $days = $em->getRepository('AppBundle:Days')->getActiveCards();
+
+    $roadmap->setDays($days);
+    $roadmap->setTasks($tasks);
+    $roadmap->populateDots();
+
+    return $this->render('default/roadmap.html.twig', array(
+          'roadmap' => $roadmap,
     ));
   }
 

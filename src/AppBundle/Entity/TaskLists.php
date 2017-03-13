@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Criteria;
 
 /**
  * TaskLists
@@ -173,9 +174,18 @@ class TaskLists
    *
    * @return \Doctrine\Common\Collections\Collection 
    */
-  public function getTasks()
+  public function getTasks($showComplete = true)
   {
-    return $this->tasks;
+    $criteria = Criteria::create();
+    if ($showComplete !== true) {
+      $criteria->where(Criteria::expr()->eq('completed', false));
+    }
+    $criteria->orderBy(array(
+      'completed' => 'asc',
+      'urgency' => 'desc',
+      'priority' => 'desc'
+    ));
+    return $this->tasks->matching($criteria);
   }
 
   public function getEstTotal()

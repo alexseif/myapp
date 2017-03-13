@@ -49,7 +49,7 @@
               <a href="{{ path('tasklists_show', {"id":taskList.id}) }}">{{ taskList.name }}</a>
             </span>
             <div class="pull-right">
-              <span class="label label-default">{{ taskList.tasks.count }}</span>
+              <span class="label label-default">{{ taskList.tasks(false).count }}</span>
               <span class="label label-info">{{ taskList.estTotal|date("%d %H:%I") }}</span>
               <button data-toggle="collapse" href="#taskList-{{ taskList.id }}" class="btn btn-primary btn-xs collapsed"><span class="glyphicon glyphicon-collapse"></span></button>
             </div>

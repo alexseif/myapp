@@ -99,4 +99,32 @@ class TasksRepository extends EntityRepository
             ->getSingleResult();
   }
 
+  public function countByUrgenctAndPriority()
+  {
+    return $this
+            ->createQueryBuilder('t')
+            ->select('COUNT(t.id), t.urgency, t.priority')
+            ->where('t.completed <> true')
+            ->orderBy("t.urgency", "DESC")
+            ->addOrderBy("t.priority", "DESC")
+            ->groupBy('t.urgency')
+            ->addGroupBy('t.priority')
+            ->getQuery()
+            ->getResult();
+  }
+
+  public function sumByUrgenctAndPriority()
+  {
+    return $this
+            ->createQueryBuilder('t')
+            ->select('SUM(t.est), t.urgency, t.priority')
+            ->where('t.completed <> true')
+            ->orderBy("t.urgency", "DESC")
+            ->addOrderBy("t.priority", "DESC")
+            ->groupBy('t.urgency')
+            ->addGroupBy('t.priority')
+            ->getQuery()
+            ->getResult();
+  }
+
 }

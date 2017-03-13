@@ -44,10 +44,12 @@ class TasksType extends AbstractType
           'class' => 'AppBundle:TaskLists',
           'group_by' => function($taskList) {
             if ($taskList->getAccount()) {
-              return $taskList->getAccount()->getClient()->getName();
-            } else{
-              return "N/A";
+              if ($taskList->getAccount()->getClient()) {
+                return $taskList->getAccount()->getClient()->getName();
+              }
+              return $taskList->getAccount()->getName();
             }
+            return "N/A";
           },
           'choice_label' => 'name'
         ))

@@ -72,6 +72,7 @@ class Roadmap
     $this->setEnd(new \DateTime());
     $this->getEnd()->setTimezone($this->getTimezone());
     $this->getEnd()->add(\DateInterval::createFromDateString("5 days"));
+    $this->routineSetup();
   }
 
   /**
@@ -280,7 +281,6 @@ class Roadmap
 
   public function populateDots()
   {
-    $this->routineSetup();
     $this->setCurrent(clone $this->getStart());
     $index = 0;
     while (($this->getCurrent() < $this->getEnd()) && ($index < count($this->tasks))) {
