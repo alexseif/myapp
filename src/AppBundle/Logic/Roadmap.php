@@ -271,12 +271,13 @@ class Roadmap
    */
   public function addDot($dot)
   {
+    if (($dot->getStart() > $this->getStart()) && ($dot->getEnd() < $this->getEnd())) {
+      if (is_null($dot->getEnd())) {
+        $dot->calculateEnd();
+      }
 
-    if (is_null($dot->getEnd())) {
-      $dot->calculateEnd();
+      $this->dots[] = $dot;
     }
-
-    $this->dots[] = $dot;
   }
 
   public function populateDots()
@@ -300,8 +301,8 @@ class Roadmap
     }
   }
 
-  //FIXME: buggy if you're between 0:00 and 7:00 sleep from previous day doesn't appear
-  //TODO: maybe add working hours and make it easier to assign tasks
+//FIXME: buggy if you're between 0:00 and 7:00 sleep from previous day doesn't appear
+//TODO: maybe add working hours and make it easier to assign tasks
   public function routineSetup()
   {
     $interval = new \DateInterval('P1D');
