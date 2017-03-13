@@ -210,17 +210,18 @@
     {#    <li><div class="tldate">{{ title }}</div></li>#}
     {% set curDate = roadmap.dots|first.start %}
     <li><div class="tldate">{{ curDate|date('D, M d Y')}}</div></li>
-    {% for dot in roadmap.dots %}
-      {% set difference = date(dot.start).diff(date(curDate)) %}
-      {% if(difference.days >= 1) %}
-        {% set curDate = dot.start %}
+      {% for dot in roadmap.dots %}
+        {% set difference = date(dot.start).diff(date(curDate)) %}
+        {% if(difference.days >= 1) %}
+          {% set curDate = dot.start %}
         <li><div class="tldate">{{ curDate|date('D, M d Y')}}</div></li>
         {% endif %}
-      <li class="{{ cycle(['', 'timeline-inverted'], loop.index0) }}">
+        {#      <li class="{{ cycle(['', 'timeline-inverted'], loop.index0) }}">#}
+      <li class="{{ (dot.type == 'Task')?'timeline-inverted'}}">
         <div class="tl-circ">{{ dot.start|date('H:i') }}</div>
         <div class="timeline-panel">
           <div class="tl-heading">
-            <h4>{{ dot.title }}
+            <h4>{{ dot.name }}
               <div class="pull-right">
                 {% if dot.urgency %}
                   <span class="glyphicon glyphicon-flash text-warning"></span>
@@ -232,15 +233,19 @@
                 {% endif %}
               </div>
             </h4>
-            <small class="text-muted"><i class="glyphicon glyphicon-time"></i> {{ dot.start|date('D, M d Y') }}</small>
+            <small class="text-muted"><i class="glyphicon glyphicon-calendar"></i> 
+              {% if(date(curDate).diff(date(dot.end)).days >= 1) %}
+                {{ dot.start|date('D H:i M d Y')}} - {{ dot.end|date('D H:i M d Y')}}
+              {% else%}
+                {{ dot.start|date('D H:i')}} - {{ dot.end|date('H:i')}}
+                {{ dot.start|date('M d Y') }}
+              {% endif %}
+              <span class="pull-right"><span class="glyphicon glyphicon-time"></span> {{ dot.duration|date('%i mins')}}</span>
+            </small>
           </div>
           <div class="tl-body">
-            <p>{{dot.description}}</p>
-            <p>
-              Start: {{ dot.start|date('D, M d Y H:i')}}<br/>
-              End: {{ dot.end|date('D, M d Y H:i')}}<br/>
-              Duration: {{ dot.duration|date('%h hrs & %i mins')}}
-            </p>
+            <p>{{ dot.name }}</p>
+            <p>{{ dot.description }}</p>
           </div>
         </div>
       </li>

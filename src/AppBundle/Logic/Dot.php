@@ -18,7 +18,13 @@ class Dot
    *
    * @var string
    */
-  protected $title;
+  protected $name;
+
+  /**
+   *
+   * @var string
+   */
+  protected $type;
 
   /**
    *
@@ -58,24 +64,61 @@ class Dot
 
   /**
    *
-   * @var string
+   * @var bool defines if a dot is movable
    */
-  protected $type;
+  protected $strict = false;
 
-  public function __construct($title, $type, \DateInterval $duration)
+  /**
+   *
+   * @var bool marks a dot as busy
+   */
+  protected $busy = true;
+
+  /**
+   * 
+   * @param string $name
+   * @param string $type
+   * @param int $duration
+   * @param \DateTime $start [optional]
+   * @param string $description [optional]
+   * @param int $urgency [optional]
+   * @param int $priority [optional]
+   * @param bool $strict [optional]
+   * @param bool $busy [optional]
+   */
+  function __construct($name, $type, $duration, \DateTime $start = null, $description = null, $urgency = 0, $priority = 0, $strict = false, $busy = true)
   {
-    $this->title = $title;
-    $this->duration = $duration;
-    $this->type = $type;
+    $this->setName($name);
+    $this->setType($type);
+    $this->setStart($start);
+    $this->setDuration($duration);
+    $this->setDescription($description);
+    $this->setUrgency($urgency);
+    $this->setPriority($priority);
+    $this->setStrict($strict);
+    $this->setBusy($busy);
   }
+
+  /**
+   * 
+   * @param string $title
+   * @param string $type
+   * @param int $duration the number of minutes
+    public function __construct($title, $type, $duration)
+    {
+    $this->setName($title);
+    $this->setDuration($duration);
+    $this->setType($type);
+    }
+   */
 
   /**
    * 
    * @return string
    */
-  public function getTitle()
+  public function getName()
   {
-    return $this->title;
+    return $this->name;
   }
 
   /**
@@ -134,18 +177,18 @@ class Dot
 
   /**
    * 
-   * @param string $title
+   * @param string $name
    */
-  public function setTitle($title)
+  public function setName($name)
   {
-    $this->title = $title;
+    $this->name = $name;
   }
 
   /**
    * 
    * @param \DateTime $start
    */
-  public function setStart(\DateTime $start)
+  public function setStart(\DateTime $start =null)
   {
     $this->start = $start;
   }
@@ -210,11 +253,48 @@ class Dot
 
   /**
    * 
-   * @param \DateInterval $duration
+   * @return bool
    */
-  public function setDuration(\DateInterval $duration)
+  function getStrict()
   {
-    $this->duration = $duration;
+    return $this->strict;
+  }
+
+  /**
+   * 
+   * @return bool
+   */
+  function getBusy()
+  {
+    return $this->busy;
+  }
+
+  /**
+   * 
+   * @param bool $strict
+   */
+  function setStrict($strict)
+  {
+    $this->strict = $strict;
+  }
+
+  /**
+   * 
+   * @param bool $busy
+   */
+  function setBusy($busy)
+  {
+    $this->busy = $busy;
+  }
+
+  /**
+   * 
+   * @param int $duration
+   */
+  public function setDuration($duration)
+  {
+    $this->duration = \DateInterval::createFromDateString("$duration minutes");
+    ;
   }
 
   public function calculateEnd()

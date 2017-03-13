@@ -270,9 +270,11 @@ class Roadmap
    */
   public function addDot($dot)
   {
+
     if (is_null($dot->getEnd())) {
       $dot->calculateEnd();
     }
+
     $this->dots[] = $dot;
   }
 
@@ -283,7 +285,7 @@ class Roadmap
     $index = 0;
     while (($this->getCurrent() < $this->getEnd()) && ($index < count($this->tasks))) {
       if ($this->tasks[$index]->getEst()) {
-        $dot = new Dot($this->tasks[$index]->getTask(), 'Task', \DateInterval::createFromDateString($this->tasks[$index]->getEst() . " minutes"));
+        $dot = new Dot($this->tasks[$index]->getTask(), 'Task', $this->tasks[$index]->getEst());
         $dot->setUrgency($this->tasks[$index]->getUrgency());
         $dot->setPriority($this->tasks[$index]->getPriority());
         $start = new \DateTime();
@@ -305,41 +307,41 @@ class Roadmap
     $interval = new \DateInterval('P1D');
     $daterange = new \DatePeriod($this->start, $interval, $this->end);
     $type = 'Routine';
-    $eatDescription = "Don't eat infornt of the computer / On your desk / where you work";
+    $foodDescription = "Don't eat infornt of the computer / On your desk / where you work";
     foreach ($daterange as $date) {
       $time = clone $date;
       $time->setTimezone($this->getTimezone());
-//      $time->setDate(2017, 3, 10);
 
-      $dot = new Dot('Breakfast', $type, \DateInterval::createFromDateString("20 minutes"));
+      $dot = new Dot('Breakfast', $type, 20);
       $dot->setStart(clone $time->setTime(7, 00));
-      $dot->setDescription($eatDescription);
+      $dot->setDescription($foodDescription);
       $this->addDot($dot);
 
-      $dot = new Dot('Read', $type, \DateInterval::createFromDateString("40 minutes"));
+      $dot = new Dot('Read', $type, 40);
       $dot->setStart(clone $time->setTime(7, 20));
       $this->addDot($dot);
 
-      $dot = new Dot('Break/Snack', $type, \DateInterval::createFromDateString("20 minutes"));
+      $dot = new Dot('Break/Snack', $type, 20);
       $dot->setStart(clone $time->setTime(10, 00));
-      $dot->setDescription($eatDescription);
+      $dot->setDescription($foodDescription);
       $this->addDot($dot);
 
-      $dot = new Dot('Lunch', $type, \DateInterval::createFromDateString("20 minutes"));
+      $dot = new Dot('Lunch', $type, 20);
       $dot->setStart(clone $time->setTime(13, 00));
+      $dot->setDescription($foodDescription);
       $this->addDot($dot);
 
-      $dot = new Dot('Break/Snack', $type, \DateInterval::createFromDateString("20 minutes"));
+      $dot = new Dot('Break/Snack', $type, 20);
       $dot->setStart(clone $time->setTime(16, 00));
-      $dot->setDescription($eatDescription);
+      $dot->setDescription($foodDescription);
       $this->addDot($dot);
 
-      $dot = new Dot('Dinner', $type, \DateInterval::createFromDateString("20 minutes"));
+      $dot = new Dot('Dinner', $type, 20);
       $dot->setStart(clone $time->setTime(19, 00));
-      $dot->setDescription($eatDescription);
+      $dot->setDescription($foodDescription);
       $this->addDot($dot);
 
-      $dot = new Dot('Sleep', $type, \DateInterval::createFromDateString("8 hours"));
+      $dot = new Dot('Sleep', $type, 8 * 60);
       $dot->setStart(clone $time->setTime(23, 00));
       $this->addDot($dot);
     }
