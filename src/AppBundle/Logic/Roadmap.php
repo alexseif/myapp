@@ -45,6 +45,12 @@ class Roadmap
 
   /**
    *
+   * @var \DateTime
+   */
+  protected $dayStart;
+
+  /**
+   *
    * @var \DateTime 
    */
   protected $current;
@@ -67,11 +73,11 @@ class Roadmap
     $this->setTimezone(new \DateTimeZone("Africa/Cairo"));
     $this->setStart(new \DateTime());
     $this->getStart()->setTimezone($this->getTimezone());
-//    $this->getStart()->setDate(2017, 3, 10);
-//    $this->getStart()->setTime(8, 00);
+    $this->setDayStart(new \DateTime());
+    $this->getDayStart()->setTime(0, 00);
     $this->setEnd(new \DateTime());
     $this->getEnd()->setTimezone($this->getTimezone());
-    $this->getEnd()->add(\DateInterval::createFromDateString("5 days"));
+    $this->getEnd()->add(\DateInterval::createFromDateString("2 days"));
     $this->routineSetup();
   }
 
@@ -201,6 +207,24 @@ class Roadmap
     $this->current = $current;
   }
 
+  /**
+   * 
+   * @return \DateTime
+   */
+  public function getDayStart()
+  {
+    return $this->dayStart;
+  }
+
+  /**
+   * 
+   * @param \DateTime $dayStart
+   */
+  public function setDayStart(\DateTime $dayStart)
+  {
+    $this->dayStart = $dayStart;
+  }
+
   public function checkDateTimeInDot($dot, $start, $end)
   {
     if (($start >= $dot->getStart() && $start < $dot->getEnd()) ||
@@ -237,6 +261,9 @@ class Roadmap
     $end = clone $start;
     $end->add($proposedDot->getDuration());
     foreach ($this->getDots() as $dot) {
+      if ($dot->getStart() < $this->getStart()) {
+        continue;
+      }
       if ($start >= $dot->getEnd()) {
         continue;
       }

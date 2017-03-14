@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 {% block content %}
   <style type="text/css">
+    .navbar{margin-bottom: 0px;}
     /** timeline box structure **/
     .timeline {
       list-style: none;
@@ -35,7 +36,7 @@
     }
 
     .timeline li {
-      margin-bottom: 25px;
+      margin-bottom: 5px;
       position: relative;
     }
 
@@ -204,14 +205,14 @@
       }
     }
   </style>
-  <h1>Road Map</h1>
+  {#  <h1>Road Map</h1>#}
   <ul class="timeline">
     {#    {% for title, day in roadmap.dots %}#}
     {#    <li><div class="tldate">{{ title }}</div></li>#}
-    {% set curDate = roadmap.dots|first.start %}
+    {% set curDate = roadmap.dayStart %}
     <li><div class="tldate">{{ curDate|date('D, M d Y')}}</div></li>
       {% for dot in roadmap.dots %}
-        {% set difference = date(dot.start).diff(date(curDate)) %}
+        {% set difference = date(dot.start).diff(curDate) %}
         {% if(difference.days >= 1) %}
           {% set curDate = dot.start %}
         <li><div class="tldate">{{ curDate|date('D, M d Y')}}</div></li>
@@ -244,7 +245,7 @@
             </small>
           </div>
           <div class="tl-body">
-            <p>{{ dot.name }}</p>
+            {#            <p>{{ dot.name }}</p>#}
             <p>{{ dot.description }}</p>
           </div>
         </div>
