@@ -51,7 +51,7 @@ class TasksRepository extends EntityRepository
             ->createQueryBuilder('t')
             ->select('t')
             ->where('t.completed <> true')
-            ->andWhere('DATE(t.eta) <= :today OR t.eta IS NULL')
+            ->andWhere('t.eta <= :today OR t.eta IS NULL')
             ->orderBy("t.urgency", "DESC")
             ->addOrderBy("t.priority", "DESC")
             ->addOrderBy("t.order", "ASC")
