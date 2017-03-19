@@ -54,30 +54,30 @@
                   <div class="pull-right">{% block panelHeadingRight %}{% endblock %}</div>
                 </div>
               {% endblock %}
-            {% block panelBody %}{% endblock %}
-          </div>
+              {% block panelBody %} {% endblock %}
+            </div>
+          {% endblock %}
         {% endblock %}
+        {% block formEnd %} {% endblock %}
       {% endblock %}
-    {% block formEnd %}{% endblock %}
+    </div>
+    <footer>
+      {% block footer %} {% endblock %}
+    </footer>
   {% endblock %}
-</div>
-<footer>
-{% block footer %}{% endblock %}
-</footer>
-{% endblock %}
-{% block javascripts %}
-  <script type="text/javascript">
-    var tasks_path = '{{ path('tasks_index') }}';
-    var tasks_order = '{{ path('tasks_order') }}';
-  </script>
-  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-  <script src="/js/jquery.min.js"></script>
-  <!-- Latest compiled and minified JavaScript -->
-  <script src="/js/bootstrap.min.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
-  <script type="text/javascript" src="/js/jquery-ui.min.js"></script>
-  <script type="text/javascript" src="/js/common.js"></script>
-  <script type="text/javascript" src="/js/tasks.js"></script>
-{% endblock %}
+  {% block javascripts %}
+    <script type="text/javascript">
+      var tasks_path = '{{ path('tasks_index') }}';
+      var tasks_order = '{{ path('tasks_order') }}';
+    </script>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="/js/jquery.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+    <script type="text/javascript" src="/js/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+    <script type="text/javascript" src="/js/tasks.js"></script>
+  {% endblock %}
 </body>
 </html>
