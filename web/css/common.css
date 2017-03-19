@@ -30,9 +30,12 @@ a.navbar-brand{background-color: #222222;}
 
 .bg-embed{background-color: #222222;color: #303030 !important;}
 .bg-embed:hover{background-color: #303030;color: #222222 !important;}
-.edit-link{display: none;}
+.edit-link{display: none;position: absolute;
+top: 10px;
+right: 10px;}
 tr:hover .edit-link{display: inline;}
 li:hover .edit-link{display: inline;}
+.panel:hover .edit-link{display: inline;}
 .edit-fixed-link{position: absolute;right: 5px;}
 
 .delete-form{display:inline-block;}

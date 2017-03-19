@@ -2,25 +2,19 @@
   {% set status = ['danger', 'warning', 'info', 'primary'] %}
   {% for day in days %}
     {% set diff = date(day.deadline).diff(date()) %}
-    {% set curStatus = day.complete ? "success" : (diff.days < 15 ) ? 'danger' :  (diff.days < 30 ) ? 'warning' :(diff.days < 60 ) ? 'info' : 'primary' %}
-    <div class="panel panel-{{ curStatus }}">
-      <table class="table {{ day.complete ? "completed" }} days-table">
-        <tbody>
-          <tr>
-            <td class="h3 name" style="vertical-align: middle;">
-              {{ day.name }}
-              <span class="edit-link pull-right">
-                {{ a.edit('days_edit', { 'id': day.id }) }}
-              </span>
-            </td>
-            <td  style="width: 25%;" class="h1 bg-{{ curStatus }} text-center days">{{ diff.days }}</td>
-          </tr>
-          <tr>
-            <td style="vertical-align: bottom;"><sup>{{ day.deadline|date('D M d, Y') }}</sup></td>
-            <td class="bg-{{ curStatus }} text-center days-line"><sup>days<br/>{{ diff.invert ? "left" : "passed"}}</sup></td>
-          </tr>
-        </tbody>
-      </table>
+    {% set curStatus = day.complete ? "success" : (diff.days < 15 or not diff.invert ) ? 'danger' :  (diff.days < 30 ) ? 'warning' :(diff.days < 60 ) ? 'info' : 'primary' %}
+    <div class="panel panel-{{ curStatus }} row {{ day.complete ? "completed" }} days-table">
+      <div class="col-md-9">
+        <h3 class="name">{{ day.name }}</h3>
+        <sup class="days-line">{{ day.deadline|date('D M d, Y') }}</sup>
+        <span class="edit-link pull-right">
+          {{ a.edit('days_edit', { 'id': day.id }) }}
+        </span>
+      </div>
+      <div class="bg-{{ curStatus }} text-center days col-md-3">
+        <h2>{{ diff.days }}</h2>
+        <sup>days<br/>{{ diff.invert ? "left" : "passed"}}</sup>
+      </div>
     </div>
   {% endfor %}
 </div>
