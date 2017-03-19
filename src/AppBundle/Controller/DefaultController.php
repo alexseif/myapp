@@ -94,6 +94,21 @@ class DefaultController extends Controller
   }
 
   /**
+   * @Route("/singleTask", name="singleTask")
+   */
+  public function singleTaskAction()
+  {
+    $em = $this->getDoctrine()->getManager();
+
+    $tasks = $em->getRepository('AppBundle:Tasks')->focusList();
+    $task = new Tasks();
+
+    return $this->render('default/singleTask.html.twig', array(
+          'tasks' => $tasks,
+    ));
+  }
+
+  /**
    * 
    * @ROUTE("/focus/{name}", name="focus_tasklist")
    */
