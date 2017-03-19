@@ -5,6 +5,7 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class DaysType extends AbstractType
 {
@@ -17,14 +18,9 @@ class DaysType extends AbstractType
   {
     $builder
         ->add('name')
-        ->add('deadline', 'date', array(
+        ->add('deadline', DateType::class, array(
           'widget' => 'single_text',
-          'format' => 'dd/MM/yyyy',
-          'attr' => array(
-            'class' => 'form-control input-inline datepicker',
-            'data-provide' => 'datepicker',
-            'data-date-format' => 'dd/mm/yy',
-          )
+          'format' => 'yyyy-MM-dd',
         ))
         ->add('complete')
     ;

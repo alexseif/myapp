@@ -57,12 +57,19 @@ class TasksType extends AbstractType
         ->add('eta', DateTimeType::class, array(
           'date_widget' => 'single_text',
           'time_widget' => 'single_text',
-          'required' => false
+          'date_format' => 'yyyy-MM-dd',
+          'required' => false,
+          'attr' => array(
+            'class' => 'datepicker',
+            'data-provide' => 'datepicker',
+            'data-date-format' => 'yyyy-MM-dd',
+          )
         ))
         ->add('completed')
         ->add('completedAt', DateTimeType::class, array(
           'date_widget' => 'single_text',
           'time_widget' => 'single_text',
+          'date_format' => 'yyyy-MM-dd',
           'required' => false
         ))
     ;

@@ -19,11 +19,11 @@ $(document).ready(function () {
     touch = true;
   }
   $('input[type=date]').datepicker({
-    dateFormat: $('.datepicker').data('date-format')
+    dateFormat: 'yy-mm-dd'
   });
-  $('.datepicker').datepicker({
-    dateFormat: $('.datepicker').data('date-format')
-  });
+//  $('.datepicker').datepicker({
+//    dateFormat: 'dd/mm/yy'
+//  });
 
   $('.btn-confirm').click(function () {
     return confirm('Are you sure you want to perform this action?');

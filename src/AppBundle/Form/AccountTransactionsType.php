@@ -5,6 +5,7 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class AccountTransactionsType extends AbstractType
 {
@@ -18,7 +19,10 @@ class AccountTransactionsType extends AbstractType
     $builder
         ->add('account', 'entity', array('class' => 'AppBundle:Accounts', 'choice_label' => 'name'))
         ->add('amount', 'money')
-        ->add('issuedAt')
+        ->add('issuedAt', DateType::class, array(
+          'widget' => 'single_text',
+          'format' => 'yyyy-MM-dd',
+        ))
         ->add('note')
     ;
   }
