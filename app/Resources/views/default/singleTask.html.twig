@@ -25,14 +25,12 @@
     <div class="task-list" id="tasks">
       <div class="section"> 
         <h1>Good luck :)</h1>
-
         {% set section = "" %}
         {% for task in tasks %}
           {% if section != task.taskList.name %}
             {% set section = task.taskList.name %}
           </div>
           <div class="section" data-anchor="{{task.taskList.name}}" data-tooltip="{{task.taskList.name}}"> 
-            <h4>{{ task.taskList.name }}</h4>
           {% endif %}
           <div class="slide {{ task.completed ? "completed" }}" 
                id="task_{{task.id}}" 
@@ -66,6 +64,7 @@
                 <input type="checkbox" data-taskid="{{task.id}}" class="checkbox-inline" 
                        {{ task.completed ? "checked" : "" }}/>
                 {{ task.task|converturls }} 
+                <small>{{ task.taskList.name }}</small>
               </h2>
             </div>
           </div>
