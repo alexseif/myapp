@@ -1,0 +1,87 @@
+{% extends 'base.html.twig' %}
+{% import "tasks/tasks_macros.html.twig" as tasks_view %}
+
+{% block title %}Single Task{% endblock %}
+{% block stylesheets %}
+  {{ parent() }}
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fullPage.js/2.9.2/jquery.fullPage.min.css" />
+{% endblock %}
+{% block nav %}{% endblock %}
+{% block container %}
+  <div class="floating-action">
+    <a href="{{ path('dashboard') }}" class="bg-embed">
+      <span class="glyphicon glyphicon-home"></span>
+    </a>
+    <a href="{{ (taskList is defined) ? path('focus_tasklist', {'name': taskList.name}) : path('singleTask') }}" 
+       class="bg-embed">
+      <span class="glyphicon glyphicon-refresh"></span>
+    </a>
+    <a class="bg-embed" href="{{ path('tasks_new')}}">
+      <span class="glyphicon glyphicon-plus"></span>
+    </a>
+  </div>
+
+  <div class="container-fluid">
+    <div class="task-list" id="tasks">
+      <div class="section"> 
+        <h1>Good luck :)</h1>
+        {% set section = "" %}
+        {% for task in tasks %}
+          {% if section != task.taskList.name %}
+            {% set section = task.taskList.name %}
+          </div>
+          <div class="section" data-anchor="{{task.taskList.name}}" data-tooltip="{{task.taskList.name}}"> 
+          {% endif %}
+          <div class="slide {{ task.completed ? "completed" }}" 
+               id="task_{{task.id}}" 
+               data-id="{{task.id}}"
+               data-anchor="{{task.id}}"
+               >
+            <div class="container">
+              <div class="pull-right text-right">
+                <span class="badge">
+                  {% if task.urgency %}
+                    <span class="glyphicon glyphicon-flash text-warning"></span>
+                  {% endif %}
+                  {% if task.priority %}
+                    <span class="glyphicon glyphicon-menu-up text-danger"></span>
+                  {% else %}
+                    <span class="glyphicon glyphicon-menu-right text-primary"></span>
+                  {% endif %}
+                </span>
+                <h3 class="text-info">{{ task.est ? task.est ~ "m"}}</h3>
+                {% if (task.taskList.account) %}
+                  <p>{{ task.taskList.account.name }}</p>
+                  {% if (task.taskList.account.client) %}
+                    <p>{{ task.taskList.account.client.name }}</p>
+                  {% endif %}
+                {% endif %}
+                <a href="{{ path('tasks_edit', { 'id': task.id }) }}" 
+                   class="btn btn-primary btn-{{ task.completed ? "xs":"sm" }}">
+                  <span class="glyphicon glyphicon-pencil"></span></a>
+              </div>
+              <h2 class="task">
+                <input type="checkbox" data-taskid="{{task.id}}" class="checkbox-inline" 
+                       {{ task.completed ? "checked" : "" }}/>
+                {{ task.task|converturls }} 
+                <small>{{ task.taskList.name }}</small>
+              </h2>
+            </div>
+          </div>
+        {% endfor %}
+      </div>   
+    </div>   
+  </div>
+
+{% endblock %}
+{% block javascripts %}
+  {{ parent() }}
+  <script src="//cdnjs.cloudflare.com/ajax/libs/fullPage.js/2.9.2/jquery.fullPage.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/fullPage.js/2.9.4/jquery.fullpage.extensions.min.js"></script>
+  <script type="text/javascript">
+    $('#tasks').fullpage({
+      navigation: true,
+      slidesNavigation: true,
+    });
+  </script>
+{% endblock %}
