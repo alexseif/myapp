@@ -17,7 +17,10 @@ class AccountTransactionsType extends AbstractType
   public function buildForm(FormBuilderInterface $builder, array $options)
   {
     $builder
-        ->add('account', 'entity', array('class' => 'AppBundle:Accounts', 'choice_label' => 'name'))
+        ->add('account', 'entity', array(
+          'class' => 'AppBundle:Accounts',
+          'choice_label' => 'name'
+        ))
         ->add('amount', 'money')
         ->add('issuedAt', DateType::class, array(
           'widget' => 'single_text',
