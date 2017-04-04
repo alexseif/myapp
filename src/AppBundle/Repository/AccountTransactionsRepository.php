@@ -20,7 +20,8 @@ class AccountTransactionsRepository extends EntityRepository
             ->createQueryBuilder('at')
             ->select('at')
             ->where('MONTH(at.issuedAt) = MONTH(:today)')
-            ->andWhere('at.amount < 0')
+            ->andWhere('YEAR(at.issuedAt) = YEAR(:today)')
+            ->andWhere('at.amount > 0')
             ->setParameter(':today', $today->format('Y-m-d'))
             ->getQuery()
             ->getResult();
