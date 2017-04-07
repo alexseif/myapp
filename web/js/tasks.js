@@ -79,7 +79,7 @@ var Tasks = {
     while (this.day.remaining > 0) {
       task = $('#tasks li:first');
       if (task.length) {
-        this.day.remaining -= (task.data("time")) ? task.data("time") * 2 : 0;
+        this.day.remaining -= (task.data("time")) ? task.data("time") * 1.5 : 0;
         if ((this.day.remaining >= 0)) {
           $('#focus').append(task);
         }
