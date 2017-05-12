@@ -82,6 +82,16 @@ var Tasks = {
         this.day.remaining -= (task.data("time")) ? task.data("time") * 1.5 : 0;
         if ((this.day.remaining >= 0)) {
           $('#focus').append(task);
+        } else {
+          this.day.remaining += (task.data("time")) ? task.data("time") * 1.5 : 0;
+          //TODO: Break Task
+          var taskDuplicate = task.clone();
+          taskDuplicate.data("time", this.day.remaining);
+          taskDuplicate.children('small.text-info').text(this.day.remaining + "m");
+          taskDuplicate.data("id", null);
+          this.day.remaining -= (taskDuplicate.data("time"));
+          //TODO: disable task check or handle task completion
+          $('#focus').append(taskDuplicate);
         }
       } else {
         break;
