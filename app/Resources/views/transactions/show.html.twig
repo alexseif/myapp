@@ -12,10 +12,6 @@
   <table class="table">
     <tbody>
       <tr>
-        <th>Id</th>
-        <td>{{ transaction.id }}</td>
-      </tr>
-      <tr>
         <th>Name</th>
         <td>{{ transaction.name }}</td>
       </tr>
@@ -25,7 +21,7 @@
       </tr>
       <tr>
         <th>Value</th>
-        <td>{{ transaction.currency }} {{ transaction.value }}</td>
+        <td>{{ transaction.currency }} {{ transaction.value|number_format }}</td>
       </tr>
     </tbody>
   </table>
