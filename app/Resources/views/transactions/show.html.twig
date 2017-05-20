@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
+{% block floatingActions %}{{ a.add('transactions_new') }}{% endblock %}
 {% block panelBack %}{{ a.back('transactions_index') }}{% endblock %}
-
 {% block panelTitle %}{{ transaction.name }}{% endblock %}
 {% block panelHeadingRight %}
   {{ a.edit('transactions_edit', {'id':transaction.id}) }}
