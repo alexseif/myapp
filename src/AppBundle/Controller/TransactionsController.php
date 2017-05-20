@@ -27,13 +27,60 @@ class TransactionsController extends Controller
     $em = $this->getDoctrine()->getManager();
 
     $transactions = $em->getRepository('AppBundle:Transactions')->findBy(array(), array("date" => "ASC"));
-    $budgeting = new \AppBundle\Logic\Budgeting($this->get('myApp.currency'));
-    
-    $budgeting->process($transactions);
+    $currency = $this->get('myApp.currency')->get();
+
+    $balance = 0;
+    $today = new \DateTime("NOW");
+    foreach ($transactions as $key => $transaction) {
+      $diff = $today->diff($transaction->getDate());
+      $transaction->diff = $diff;
+      $transaction->past = (0 == $transaction->diff->days);
+      $balance -= $transaction->getValue() / $currency[$transaction->getCurrency()->getCode()];
+      $transaction->balance = $balance;
+    }
 
     return $this->render('transactions/index.html.twig', array(
           'transactions' => $transactions,
     ));
+  }
+
+  /**
+   * Lists all transaction entities.
+   *
+   * @Route("/process", name="transactions_process")
+   * @Method("GET")
+   */
+  public function process()
+  {
+    $em = $this->getDoctrine()->getManager();
+    $transactionsRepo = $em->getRepository('AppBundle:Transactions');
+    $lastDate = $transactionsRepo->findLast();
+    $lastDailyDate = $transactionsRepo->findLastDaily();
+
+    if ("Daily" != $lastDate->getName()) {
+
+      $avg = $transactionsRepo->findDailyAverage()['value'];
+      $egp = $this->get('myApp.currency')->getEgp();
+
+      $today = new \DateTime("NOW");
+      $diff = $lastDate->getDate()->diff($lastDailyDate->getDate())->days;
+      $save = false;
+
+      for ($i = 0; $i < $diff; $i++) {
+        $today = new \DateTime("NOW");
+        $txn = new \AppBundle\Entity\Transactions();
+        $txn->setCurrency($egp);
+        $txn->setDate($today->add(new \DateInterval('P' . $i . 'D')));
+        $txn->setName("Daily");
+        $txn->setValue($avg);
+        $em->persist($txn);
+        $save = true;
+      }
+      if ($save) {
+        $em->flush($txn);
+      }
+    }
+    return $this->redirectToRoute('transactions_index');
   }
 
   /**

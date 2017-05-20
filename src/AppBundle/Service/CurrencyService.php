@@ -18,13 +18,13 @@ class CurrencyService
 
   protected $em;
   protected $currency;
+  protected $EGP;
 
   public function __construct(EntityManager $em)
   {
     $this->em = $em;
-//    $em = $this->getDoctrine()->getManager();
-
     $currencies = $this->em->getRepository('AppBundle:Currency')->findAll();
+    $this->EGP = reset($currencies);
     foreach ($currencies as $currency) {
       $this->currency[$currency->getCode()] = $currency->getEgp() / 100;
     }
@@ -33,6 +33,11 @@ class CurrencyService
   public function get()
   {
     return $this->currency;
+  }
+
+  public function getEgp()
+  {
+    return $this->EGP;
   }
 
 }
