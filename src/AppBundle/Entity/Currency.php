@@ -125,4 +125,9 @@ class Currency
     return $this->EGP;
   }
 
+  public function __toString()
+  {
+    return $this->code;
+  }
+
 }
