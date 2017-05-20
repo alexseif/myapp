@@ -9,6 +9,7 @@
         <th>Name</th>
         <th>Date</th>
         <th>Value</th>
+        <th>Balance</th>
         <th>Actions</th>
       </tr>
     </thead>
@@ -17,7 +18,14 @@
         <tr>
           <td>{{ transaction.name }}</td>
           <td>{% if transaction.date %}{{ transaction.date|date('Y-m-d') }}{% endif %}</td>
-          <td class="text-right"><span class="pull-left">{{ transaction.currency }}</span> {{ transaction.value|number_format }}</td>
+          <td class="text-right {{(transaction.value <= 0) ? "bg-success" }}">
+            <span class="pull-left">{{ transaction.currency }}</span> 
+            {{ transaction.value|number_format }}
+          </td>
+          <td class="text-right {{(transaction.balance <= 0) ? "bg-danger" }}">
+            <span class="pull-left">{{ transaction.currency }}</span> 
+            {{ transaction.balance|number_format }}
+          </td>
           <td>
             <div class="btn-group">
               {{ a.show('transactions_show', { 'id': transaction.id }) }}

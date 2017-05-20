@@ -26,7 +26,10 @@ class TransactionsController extends Controller
   {
     $em = $this->getDoctrine()->getManager();
 
-    $transactions = $em->getRepository('AppBundle:Transactions')->findAll();
+    $transactions = $em->getRepository('AppBundle:Transactions')->findBy(array(), array("date" => "ASC"));
+    $budgeting = new \AppBundle\Logic\Budgeting($this->get('myApp.currency'));
+    
+    $budgeting->process($transactions);
 
     return $this->render('transactions/index.html.twig', array(
           'transactions' => $transactions,
