@@ -12,5 +12,36 @@ use Doctrine\ORM\EntityRepository;
  */
 class TransactionsRepository extends EntityRepository
 {
-  
+
+  public function findDailyAverage()
+  {
+    return $this
+            ->createQueryBuilder('txn')
+            ->select('AVG(txn.value) as value')
+            ->where('txn.name = \'Daily\'')
+            ->getQuery()
+            ->getOneOrNullResult();
+  }
+
+  public function findLastDaily()
+  {
+    return $this
+            ->createQueryBuilder('txn')
+            ->where('txn.name = \'Daily\'')
+            ->orderBy("txn.date", "DESC")
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+  }
+
+  public function findLast()
+  {
+    return $this
+            ->createQueryBuilder('txn')
+            ->orderBy("txn.date", "DESC")
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+  }
+
 }
