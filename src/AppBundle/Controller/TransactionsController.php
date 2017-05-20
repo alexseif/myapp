@@ -90,7 +90,7 @@ class TransactionsController extends Controller
     if ($editForm->isSubmitted() && $editForm->isValid()) {
       $this->getDoctrine()->getManager()->flush();
 
-      return $this->redirectToRoute('transactions_edit', array('id' => $transaction->getId()));
+      return $this->redirectToRoute('transactions_show', array('id' => $transaction->getId()));
     }
 
     return $this->render('transactions/edit.html.twig', array(

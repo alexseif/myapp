@@ -37,9 +37,9 @@ class Transactions
   private $date;
 
   /**
-   * @var string
+   * @var integer
    *
-   * @ORM\Column(name="value", type="string", length=255)
+   * @ORM\Column(name="value", type="integer")
    */
   private $value;
 

@@ -17,7 +17,7 @@
         <tr>
           <td>{{ transaction.name }}</td>
           <td>{% if transaction.date %}{{ transaction.date|date('Y-m-d') }}{% endif %}</td>
-          <td>{{ transaction.currency }} {{ transaction.value }}</td>
+          <td class="text-right"><span class="pull-left">{{ transaction.currency }}</span> {{ transaction.value|number_format }}</td>
           <td>
             <div class="btn-group">
               {{ a.show('transactions_show', { 'id': transaction.id }) }}

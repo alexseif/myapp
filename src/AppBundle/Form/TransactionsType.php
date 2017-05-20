@@ -8,6 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 
 class TransactionsType extends AbstractType
 {
@@ -29,7 +30,7 @@ class TransactionsType extends AbstractType
             'data-date-format' => 'yyyy-MM-dd',
           )
         ))
-        ->add('value')
+        ->add('value', MoneyType::class)
         ->add('currency', EntityType::class, array(
           'class' => 'AppBundle:Currency',
     ));
