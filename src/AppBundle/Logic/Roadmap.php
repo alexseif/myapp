@@ -314,6 +314,7 @@ class Roadmap
     while (($this->getCurrent() < $this->getEnd()) && ($index < count($this->tasks))) {
       if ($this->tasks[$index]->getEst()) {
         $dot = new Dot($this->tasks[$index]->getTask(), 'Task', $this->tasks[$index]->getEst());
+        $dot->setId($this->tasks[$index]->getId());
         $dot->setUrgency($this->tasks[$index]->getUrgency());
         $dot->setPriority($this->tasks[$index]->getPriority());
         $start = new \DateTime();

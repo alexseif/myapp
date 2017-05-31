@@ -142,19 +142,12 @@ class DefaultController extends Controller
     $em = $this->getDoctrine()->getManager();
     $today = new \DateTime();
 
-    $tasks = $em->getRepository('AppBundle:Tasks')->findBy(
-        array('completed' => false), array(
-      'urgency' => 'desc',
-      'priority' => 'desc',
-      'order' => 'asc'
-        )
-    );
+    $tasks = $em->getRepository('AppBundle:Tasks')->focusList();
     $days = $em->getRepository('AppBundle:Days')->getActiveCards();
 
     $roadmap->setDays($days);
     $roadmap->setTasks($tasks);
     $roadmap->populateDots();
-
     return $this->render('default/roadmap.html.twig', array(
           'roadmap' => $roadmap,
     ));
