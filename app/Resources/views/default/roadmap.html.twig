@@ -205,10 +205,7 @@
       }
     }
   </style>
-  {#  <h1>Road Map</h1>#}
   <ul class="timeline">
-    {#    {% for title, day in roadmap.dots %}#}
-    {#    <li><div class="tldate">{{ title }}</div></li>#}
     {% set curDate = roadmap.dayStart %}
     <li><div class="tldate">{{ curDate|date('D, M d Y')}}</div></li>
       {% for dot in roadmap.dots %}
@@ -217,12 +214,21 @@
           {% set curDate = dot.start %}
         <li><div class="tldate">{{ curDate|date('D, M d Y')}}</div></li>
         {% endif %}
-        {#      <li class="{{ cycle(['', 'timeline-inverted'], loop.index0) }}">#}
-      <li class="{{ (dot.type == 'Task')?'timeline-inverted'}}">
+      <li class="{{ ('Task' == dot.type)?'timeline-inverted'}}">
         <div class="tl-circ">{{ dot.start|date('H:i') }}</div>
         <div class="timeline-panel">
           <div class="tl-heading">
-            <h4>{{ dot.name }}
+            <h4>
+              {% if('Task' == dot.type)%}
+                <a href="{{ path('tasks_edit', { 'id': dot.id }) }}" class="h4">
+                  {{ dot.name }}
+                </a>
+                <a href="{{ path('tasks_postpone', { 'id': dot.id }) }}" 
+                   class="small">
+                  <span class="glyphicon glyphicon-repeat"></span></a>
+                {% else %}
+                  {{ dot.name }}
+                {% endif %}
               <div class="pull-right">
                 {% if dot.urgency %}
                   <span class="glyphicon glyphicon-flash text-warning"></span>
@@ -245,60 +251,10 @@
             </small>
           </div>
           <div class="tl-body">
-            {#            <p>{{ dot.name }}</p>#}
             <p>{{ dot.description }}</p>
           </div>
         </div>
       </li>
     {% endfor %}
-    {#    {% endfor %}#}
-    {#{% for day in roadmap.days %}
-      {% set diff = date(day.deadline).diff(date()) %}
-  <li class="{{ cycle(['', 'timeline-inverted'], loop.index0) }}">
-    <div class="tl-circ">{{ day.deadline|date('d') }}</div>
-    <div class="timeline-panel">
-      <div class="tl-heading">
-        <h4>{{ day.name }}</h4>
-        <small class="text-muted"><i class="glyphicon glyphicon-time"></i> {{ day.deadline|date('D, M d Y') }}</small>
-      </div>
-      <div class="tl-body">
-        <p>Lorem Ipsum and such.</p>
-      </div>
-    </div>
-  </li>
-{% endfor %}#}
-    {#{% for task in roadmap.tasks %}
-  <li class="{{ cycle(['', 'timeline-inverted'], loop.index0) }}">
-    <div class="tl-circ">{{task.est}}m</div>
-    <div class="timeline-panel">
-      <div class="tl-heading">
-        <h4>{{ task.task }}
-          <div class="pull-right">
-            {% if task.urgency %}
-              <span class="glyphicon glyphicon-flash text-warning"></span>
-            {% endif %}
-            {% if task.priority %}
-              <span class="glyphicon glyphicon-menu-up text-danger"></span>
-            {% else %}
-              <span class="glyphicon glyphicon-menu-right text-primary"></span>
-            {% endif %}
-          </div>
-        </h4>
-        <small class="text-muted"><i class="glyphicon glyphicon-time"></i> {{ 'NOW'|date('D, M d Y') }}</small>
-      </div>
-      <div class="tl-body">
-        <p>
-          <a class="btn btn-default" href="{{ path('tasklists_show', {'id': task.taskList.id}) }}" target="_blank">{{ task.taskList.name }}</a>
-          {% if (task.taskList.account) %}
-            <a class="btn btn-info" href="{{ path('accounts_show', {'id': task.taskList.account.id}) }}" target="_blank">{{ task.taskList.account.name }}</a>
-            {% if (task.taskList.account.client) %}
-              <a class="btn btn-primary" href="{{ path('client_show', {'id': task.taskList.account.client.id}) }}" target="_blank">{{ task.taskList.account.client.name }}</a>
-            {% endif %}
-          {% endif %}
-        </p>
-      </div>
-    </div>
-  </li>
-{% endfor %}#}
   </ul>
 {% endblock %}

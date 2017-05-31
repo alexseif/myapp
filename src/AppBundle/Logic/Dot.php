@@ -16,6 +16,12 @@ class Dot
 
   /**
    *
+   * @var int
+   */
+  protected $id;
+
+  /**
+   *
    * @var string
    */
   protected $name;
@@ -101,16 +107,21 @@ class Dot
 
   /**
    * 
-   * @param string $title
-   * @param string $type
-   * @param int $duration the number of minutes
-    public function __construct($title, $type, $duration)
-    {
-    $this->setName($title);
-    $this->setDuration($duration);
-    $this->setType($type);
-    }
+   * @return int
    */
+  function getId()
+  {
+    return $this->id;
+  }
+
+  /**
+   * 
+   * @param int $id
+   */
+  function setId($id)
+  {
+    $this->id = $id;
+  }
 
   /**
    * 
@@ -188,7 +199,7 @@ class Dot
    * 
    * @param \DateTime $start
    */
-  public function setStart(\DateTime $start =null)
+  public function setStart(\DateTime $start = null)
   {
     $this->start = $start;
   }
