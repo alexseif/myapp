@@ -12,8 +12,7 @@
     <a href="{{ path('dashboard') }}" class="bg-embed">
       <span class="glyphicon glyphicon-home"></span>
     </a>
-    <a href="{{ (taskList is defined) ? path('focus_tasklist', {'name': taskList.name}) : path('singleTask') }}" 
-       class="bg-embed">
+    <a href="{{ path('singleTask') }}" class="bg-embed">
       <span class="glyphicon glyphicon-refresh"></span>
     </a>
     <a class="bg-embed" href="{{ path('tasks_new')}}">

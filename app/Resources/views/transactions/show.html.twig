@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block floatingActions %}{{ a.add('transactions_new') }}{% endblock %}
+{% block panelBack %}{{ a.back('transactions_index') }}{% endblock %}
+{% block panelTitle %}{{ transaction.name }}{% endblock %}
+{% block panelHeadingRight %}
+  {{ a.edit('transactions_edit', {'id':transaction.id}) }}
+  {{ forms.delete(delete_form) }}
+
+{% endblock %}
+{% block panelBody %}
+  <table class="table">
+    <tbody>
+      <tr>
+        <th>Name</th>
+        <td>{{ transaction.name }}</td>
+      </tr>
+      <tr>
+        <th>Date</th>
+        <td>{% if transaction.date %}{{ transaction.date|date('Y-m-d') }}{% endif %}</td>
+      </tr>
+      <tr>
+        <th>Value</th>
+        <td>{{ transaction.currency }} {{ transaction.value|number_format }}</td>
+      </tr>
+    </tbody>
+  </table>
+{% endblock %}
+

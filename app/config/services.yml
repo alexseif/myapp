@@ -17,3 +17,7 @@ services:
         - [setRequest, ["@?request="]]
     tags:
         - { name: twig.extension }
+        
+  myApp.currency:
+    class:  AppBundle\Service\CurrencyService
+    arguments: [ '@doctrine.orm.entity_manager' ]

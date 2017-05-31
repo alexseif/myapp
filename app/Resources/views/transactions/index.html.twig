@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block floatingActions %}{{ a.add('transactions_new') }}{% endblock %}
+{% block panelTitle %}Transactions{% endblock %}
+{% block panelBody %}
+  <table class="table table-condensed table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Date</th>
+        <th>Value</th>
+        <th>Balance</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for transaction in transactions %}
+        {% set isPast = transaction.diff.invert and transaction.diff.days %}
+        {% set isFuture = not transaction.diff.invert and transaction.diff.days %}
+        {% set isToday = (0 == transaction.diff.days) %}
+        {% set isNegative = (transaction.balance <= 0) %}
+        {% set isIncome = (transaction.value <= 0) %}
+        <tr class="{{ isPast ? "text-muted" }} {{ isToday ? "h4 text-info" }} {{ isNegative and not isPast ? "text-danger" }} {{ isIncome and not isPast ? "text-success" }}">
+          <td>
+            {% if(isFuture and "Daily" == transaction.name) %}
+              <span class="badge">EST</span>
+            {% endif %}
+            {{ transaction.name }}
+          </td>
+          <td>{% if transaction.date %}{{ transaction.date|date('Y-m-d') }}{% endif %}</td>
+          <td class="text-right {{ isIncome ? "text-success" }}">
+            <span class="pull-left">{{ transaction.currency }}</span> 
+            {{ transaction.value|number_format }}
+          </td>
+          <td class="text-right {{ isNegative ? "text-danger" }}">
+            <span class="pull-left">{{ transaction.currency }}</span> 
+            {{ transaction.balance|number_format }}
+          </td>
+          <td>
+            <div class="btn-group">
+              <a role="button" class="btn btn-xs btn-info"
+                 href="{{ path('transactions_show', { 'id': transaction.id }) }}">
+                <span class="glyphicon glyphicon-open"></span>
+              </a>
+              <a role="button" class="btn btn-xs btn-primary"
+                 href="{{ path('transactions_edit', { 'id': transaction.id }) }}">
+                <span class="glyphicon glyphicon-pencil"></span>
+              </a>
+            </div>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+    <tfoot class="panel-footer">
+      <tr>
+        <th colspan="2">Sum</th>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </tfoot>
+  </table>
+{% endblock %}
+

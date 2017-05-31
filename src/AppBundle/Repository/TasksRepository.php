@@ -39,7 +39,7 @@ class TasksRepository extends EntityRepository
             ->addOrderBy("t.priority", "DESC")
             ->addOrderBy("t.completedAt", "ASC")
             ->addOrderBy("t.order", "ASC")
-            ->setParameter(':today', $today->format('Y-m-d'))
+            ->setParameter(':today', $today->format('Y-m-d H:i'))
             ->getQuery()
             ->getResult();
   }
@@ -55,7 +55,7 @@ class TasksRepository extends EntityRepository
             ->orderBy("t.urgency", "DESC")
             ->addOrderBy("t.priority", "DESC")
             ->addOrderBy("t.order", "ASC")
-            ->setParameter(':today', $today->format('Y-m-d'))
+            ->setParameter(':today', $today->format('Y-m-d H:i'))
             ->getQuery()
             ->getResult();
   }
