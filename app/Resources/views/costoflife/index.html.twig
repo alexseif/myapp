@@ -19,10 +19,12 @@
       </tr>
     </thead>
     <tbody>
+      {% set sum = 0 %}
       {% for costOfLife in costOfLives %}
+        {% set sum = sum + costOfLife.value %}
         <tr>
           <td>{{ costOfLife.name }}</td>
-          <td class="text-right"><span class="pull-left">{{ costOfLife.currency.code }}</span> {{ costOfLife.value/100 }}</td>
+          <td class="text-right"><span class="pull-left">{{ costOfLife.currency.code }}</span> {{ (costOfLife.value/100)|number_format }}</td>
           <td>
             <div class="btn-group">
               {{ a.show('costoflife_show', { 'id': costOfLife.id }) }}
@@ -32,5 +34,12 @@
         </tr>
       {% endfor %}
     </tbody>
+    <tfoot>
+      <tr>
+        <td>Sum</td>
+        <td class="text-right"><span class="pull-left">EGP</span> {{ (sum/100)|number_format }}</td>
+        <td></td>
+      </tr>
+    </tfoot>
   </table>
 {% endblock %}

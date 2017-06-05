@@ -154,7 +154,6 @@ class TasksController extends Controller
       $em->persist($task);
       $em->flush();
       return $this->redirectToRoute('tasks_show', array('id' => $task->getId()));
-//            return $this->redirect($this->generateUrl('focus') . '#task_' . $task->getId());
     }
 
     return $this->render('tasks/edit.html.twig', array(
@@ -162,6 +161,27 @@ class TasksController extends Controller
           'task_form' => $editForm->createView(),
           'delete_form' => $deleteForm->createView(),
     ));
+  }
+
+  /**
+   * Postpone a task eta to tomorrow
+   *
+   * @Route("/{id}/postpone", name="tasks_postpone")
+   * @Method("GET")
+   */
+  public function postponeAction(Request $request, Tasks $task)
+  {
+    $em = $this->getDoctrine()->getManager();
+    $tomorrow = new \DateTime();
+    $tomorrow->add(\DateInterval::createFromDateString("+8 hours"));
+    $task->setEta($tomorrow);
+    $em->persist($task);
+    $em->flush();
+    $referer = $request->headers->get('referer');
+    if (is_null($referer) || strpos($request->headers->get('referer'), "postpone")) {
+      return $this->redirectToRoute('focus');
+    }
+    return $this->redirect($referer);
   }
 
   /**
