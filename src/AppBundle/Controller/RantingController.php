@@ -73,8 +73,8 @@ class RantingController extends Controller
       $console = 'php ' . $this->container->getParameter('kernel.root_dir') .
           '/console';
 
-//      exec($console . ' cache:clear --env=prod');
-//      exec($console . ' cache:warmup --env=prod');
+      exec($console . ' cache:clear --env=' . $this->getParameter('kernel.environment'));
+      exec($console . ' cache:warmup --env=' . $this->getParameter('kernel.environment'));
 
       $this->get('session')->getFlashBag()->add('notice', 'Content saved succesfully.');
 
