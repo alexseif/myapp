@@ -1,0 +1,7 @@
+{% extends 'base.html.twig' %}
+{% block content %}{{ form(form) }}{% endblock %}
+{% block javascripts %}
+  {{ parent() }}
+  <script src="/js/tinymce/tinymce.min.js"></script>
+  <script>tinymce.init({selector: '.tinymce', plugins: "code"});</script>
+{% endblock %}
