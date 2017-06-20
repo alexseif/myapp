@@ -35,6 +35,30 @@ class TasksController extends Controller
   }
 
   /**
+   * Advanced Lists all Tasks entities.
+   *
+   * @Route("/advanced", name="tasks_advanced")
+   * @Method({"GET", "POST"})
+   */
+  public function advancedAction(Request $request)
+  {
+    $em = $this->getDoctrine()->getManager();
+
+    $tasks = $em->getRepository('AppBundle:Tasks')->findBy(array(
+      "completed" => false
+        ), array(
+      "priority" => "DESC",
+      "urgency" => "DESC",
+      "order" => "ASC",
+      "est" => "ASC"
+    ));
+
+    return $this->render('tasks/advanced.html.twig', array(
+          'tasks' => $tasks,
+    ));
+  }
+
+  /**
    * Creates a new Tasks entity.
    *
    * @Route("/new", name="tasks_new")
