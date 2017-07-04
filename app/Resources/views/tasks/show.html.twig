@@ -65,10 +65,6 @@
               <td>{{ (task.eta) ?task.eta|date }}</td>
             </tr>
             <tr>
-              <td><span class="label label-default">ETA:</span></td>
-              <td>{{ (task.eta) ?task.eta|date("d.m.Y, H:i:s e", false) }}</td>
-            </tr>
-            <tr>
               <td><span class="label label-default">Completed At:</span></td>
               <td>{{ (task.completedAt) ? task.completedAt|date }}</td>
             </tr>
