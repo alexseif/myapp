@@ -1,0 +1,6 @@
+{% extends ':scratchpad:base.html.twig' %}
+{% block floatingActions %}{{ a.add('scratchpad_new') }}{% endblock %}
+{% block panelBack %}{{ a.back('scratchpad_index') }}{% endblock %}
+{% block panelTitle %}Scratch Pad{% endblock %}
+{% block panelHeadingRight %}{{ forms.delete(delete_form) }}{% endblock %}
+{% block panelBody %}{{ forms.panel(edit_form, false) }}{% endblock %}

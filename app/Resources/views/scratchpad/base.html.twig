@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+  {{ parent() }}
+  <!-- Shadows Into Light -->
+  <link href="https://fonts.googleapis.com/css?family=Shadows+Into+Light" rel="stylesheet">
+  <style type="text/css">
+    .content{
+      font-family: 'Shadows Into Light', cursive;
+    }
+  </style>
+{% endblock %}
+{% block content %}
+  <div class="content">
+    {{ parent() }}
+  </div>
+{% endblock %}

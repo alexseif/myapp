@@ -1,0 +1,28 @@
+{% extends ':scratchpad:base.html.twig' %}
+
+{% block floatingActions %}{{ a.add('scratchpad_new') }}{% endblock %}
+{% block panelTitle %}Scratch Pad{% endblock %}
+{% block panelBody %}
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Content</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for scratchPad in scratchPads %}
+        <tr>
+          <td><a href="{{ path('scratchpad_show', { 'id': scratchPad.id }) }}">{{ scratchPad.content }}</a></td>
+          <td>
+            <div class="btn-group">
+              {{ a.show('scratchpad_show', { 'id': scratchPad.id }) }}
+              {{ a.edit('scratchpad_edit', { 'id': scratchPad.id }) }}
+            </div>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+{% endblock %}

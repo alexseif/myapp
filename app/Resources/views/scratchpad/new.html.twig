@@ -1,0 +1,4 @@
+{% extends ':scratchpad:base.html.twig' %}
+{% block panelBack %}{{ a.back('scratchpad_index') }}{% endblock %}
+{% block panelTitle %}New Scratch Pad{% endblock %}
+{% block panelBody %}{{ forms.panel(form) }}{% endblock %}
