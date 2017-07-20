@@ -5,6 +5,7 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class ScratchPadType extends AbstractType
 {
@@ -14,7 +15,14 @@ class ScratchPadType extends AbstractType
    */
   public function buildForm(FormBuilderInterface $builder, array $options)
   {
-    $builder->add('content');
+//    $today = new \DateTime();
+//    $builder->add('content', TextareaType::class, array(
+//      'attr' => array(
+//        'class' => 'scratchpad',
+//        'placeholder' => $today->format('d/m/y'),
+//        'rows' => 10
+//      )
+//    ));
   }
 
   /**

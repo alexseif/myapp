@@ -7,7 +7,7 @@
   {{ forms.delete(delete_form) }}
 {% endblock %}
 {% block panelBody %}
-  <div class="panel-body">
-    {{ scratchPad.content }}
+  <div id="scratchpad-content" class="panel-body list-group">
+    {{ scratchPad.content|raw }}
   </div>
 {% endblock %}

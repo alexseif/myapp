@@ -1,4 +1,14 @@
 {% extends ':scratchpad:base.html.twig' %}
 {% block panelBack %}{{ a.back('scratchpad_index') }}{% endblock %}
 {% block panelTitle %}New Scratch Pad{% endblock %}
-{% block panelBody %}{{ forms.panel(form) }}{% endblock %}
+{% block panelBody %}
+  {{ form_start(form) }}
+  <div id="scratchpad-content" class="panel-body list-group">
+    {{scratchPad.content|raw}}
+  </div>
+  <div class="panel-footer text-right">
+    <button type="submit" value="Save" class="btn btn-success">
+      <span class="glyphicon glyphicon-floppy-disk"></span></button>
+  </div>
+  {{ form_end(form) }}
+{% endblock %}

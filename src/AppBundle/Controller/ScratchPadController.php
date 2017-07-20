@@ -46,6 +46,7 @@ class ScratchPadController extends Controller
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
+      $scratchPad->setContent($request->get('scratchpad-content'));
       $em = $this->getDoctrine()->getManager();
       $em->persist($scratchPad);
       $em->flush($scratchPad);
@@ -88,6 +89,7 @@ class ScratchPadController extends Controller
     $editForm->handleRequest($request);
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
+      $scratchPad->setContent($request->get('scratchpad-content'));
       $this->getDoctrine()->getManager()->flush();
 
       return $this->redirectToRoute('scratchpad_edit', array('id' => $scratchPad->getId()));

@@ -3,4 +3,14 @@
 {% block panelBack %}{{ a.back('scratchpad_index') }}{% endblock %}
 {% block panelTitle %}Scratch Pad{% endblock %}
 {% block panelHeadingRight %}{{ forms.delete(delete_form) }}{% endblock %}
-{% block panelBody %}{{ forms.panel(edit_form, false) }}{% endblock %}
+{% block panelBody %}
+  {{ form_start(edit_form) }}
+  <div id="scratchpad-content" class="panel-body list-group">
+    {{scratchPad.content|raw}}
+  </div>
+  <div class="panel-footer text-right">
+    <button type="submit" value="Save" class="btn btn-success">
+      <span class="glyphicon glyphicon-floppy-disk"></span></button>
+  </div>
+  {{ form_end(edit_form) }}
+{% endblock %}

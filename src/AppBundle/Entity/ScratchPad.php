@@ -12,55 +12,93 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class ScratchPad
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
 
-    /**
-     * @var array
-     *
-     * @ORM\Column(name="content", type="json_array")
-     */
-    private $content;
+  /**
+   * @var int
+   *
+   * @ORM\Column(name="id", type="integer")
+   * @ORM\Id
+   * @ORM\GeneratedValue(strategy="AUTO")
+   */
+  private $id;
 
+  /**
+   * @var array
+   *
+   * @ORM\Column(name="content", type="text")
+   */
+  private $content;
 
-    /**
-     * Get id
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+  /**
+   * @var datetime
+   *
+   * @ORM\Column(name="createdAt", type="datetime")
+   */
+  private $createdAt;
 
-    /**
-     * Set content
-     *
-     * @param array $content
-     *
-     * @return ScratchPad
-     */
-    public function setContent($content)
-    {
-        $this->content = $content;
+  /**
+   * Constructor
+   */
+  public function __construct()
+  {
+    $this->createdAt = new \DateTime();
+  }
 
-        return $this;
-    }
+  /**
+   * Get id
+   *
+   * @return int
+   */
+  public function getId()
+  {
+    return $this->id;
+  }
 
-    /**
-     * Get content
-     *
-     * @return array
-     */
-    public function getContent()
-    {
-        return $this->content;
-    }
+  /**
+   * Set content
+   *
+   * @param array $content
+   *
+   * @return ScratchPad
+   */
+  public function setContent($content)
+  {
+    $this->content = $content;
+
+    return $this;
+  }
+
+  /**
+   * Get content
+   *
+   * @return array
+   */
+  public function getContent()
+  {
+    return $this->content;
+  }
+
+  /**
+   * Set createdAt
+   *
+   * @param \DateTime $createdAt
+   * @return ScratchPad
+   */
+  public function setCreatedAt($createdAt)
+  {
+    $this->createdAt = $createdAt;
+
+    return $this;
+  }
+
+  /**
+   * Get createdAt
+   *
+   * @return \DateTime 
+   */
+  public function getCreatedAt()
+  {
+    return $this->createdAt;
+  }
+
 }
-

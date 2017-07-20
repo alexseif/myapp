@@ -1,16 +1,23 @@
 {% extends 'base.html.twig' %}
 {% block stylesheets %}
   {{ parent() }}
-  <!-- Shadows Into Light -->
-  <link href="https://fonts.googleapis.com/css?family=Shadows+Into+Light" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">
   <style type="text/css">
-    .content{
-      font-family: 'Shadows Into Light', cursive;
+    #scratchpad-widget{
+      position: fixed;
+      bottom: 0;
+      right: 10%;
+      width: 30%;
+      margin: 0;
+    }
+    #scratchpad-content{
+      font-family: 'Indie Flower', cursive;
+      font-size: 20px;
     }
   </style>
 {% endblock %}
-{% block content %}
-  <div class="content">
-    {{ parent() }}
-  </div>
+{% block javascripts %}
+  {{ parent() }}
+  <script src="/js/tinymce/tinymce.min.js"></script>
+  <script type="text/javascript" src="/js/scratchpad.js"></script>
 {% endblock %}
