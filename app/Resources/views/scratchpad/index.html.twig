@@ -1,0 +1,10 @@
+{% extends ':scratchpad:base.html.twig' %}
+{% block scratchPad %}
+  <div id="scratchpads" class="list-group">
+    {% for scratchPad in scratchPads %}
+      <div class="list-group-item">
+        <a href="{{ path('scratchpad_edit', { 'id': scratchPad.id }) }}">{{ scratchPad.createdAt|date('H:i D, M d, y') }}</a>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

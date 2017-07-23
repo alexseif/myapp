@@ -1,0 +1,39 @@
+{#{% extends 'base.html.twig' %}#}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <!-- Bootswatch Darkly theme-->
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.darkly.min.css"/>
+    <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">
+    <style type="text/css">
+      body{font-family: 'Indie Flower', cursive;
+           font-size: 18px;}
+      #scratchpad-widget .panel-heading,
+      #scratchpad-widget .panel-body,
+      #scratchpad-widget .panel-footer
+      {padding:0;}
+      #scratchpad-widget .list-group-item{padding:5px 0 0 5px;}
+    </style>
+  </head>
+  <body>
+    <div class="clearfix">
+      <div class="btn-group btn-group-xs">
+        <a href="{{ path('scratchpad_index')}}" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span></a>
+        <a href="{{ path('scratchpad_new')}}" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span></a>
+      </div>
+      <div class="pull-right">
+      {% block padDelete %}{% endblock %}
+    </div>
+  </div>
+  {% block scratchPad %}
+  {% endblock %}
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script src="/js/jquery.min.js"></script>
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="/js/bootstrap.min.js"></script>
+  <script src="/js/tinymce/tinymce.min.js"></script>
+  <script src="/js/scratchpad.js"></script>
+</body>
+</html>
