@@ -3,7 +3,7 @@ var Tasks = {
   isFocus: (window.location.pathname.indexOf('focus') !== -1) ? true : false,
   day: {
     completed: 0,
-    time: 480,
+    time: 300,
     remaining: 0
   },
 
@@ -79,16 +79,19 @@ var Tasks = {
     while (this.day.remaining > 0) {
       task = $('#tasks li:first');
       if (task.length) {
-        this.day.remaining -= (task.data("time")) ? task.data("time") * 1.5 : 0;
-        if ((this.day.remaining >= 0)) {
+        $taskTime = (task.data("time")) ? task.data("time") : 0;
+        $remainingTime = this.day.remaining - $taskTime;
+        if (($remainingTime >= 0)) {
+          this.day.remaining = $remainingTime;
           $('#focus').append(task);
         } else {
-          this.day.remaining += (task.data("time")) ? task.data("time") * 1.5 : 0;
-          //TODO: Break Task
+          //Break Task
+          $taskTime = $remainingTime + $taskTime;
           var taskDuplicate = task.clone();
-          taskDuplicate.data("time", this.day.remaining);
-          taskDuplicate.children('small.text-info').text(this.day.remaining + "m");
+          taskDuplicate.data("time", $taskTime);
+          taskDuplicate.children('small.text-info').text($taskTime + "m");
           taskDuplicate.data("id", null);
+          task.children('small.text-info').text(task.data('time')+"-"+$taskTime + "m");
           this.day.remaining -= (taskDuplicate.data("time"));
           //TODO: disable task check or handle task completion
           $('#focus').append(taskDuplicate);
