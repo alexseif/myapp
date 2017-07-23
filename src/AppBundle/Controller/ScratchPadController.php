@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Scratchpad controller.
@@ -45,34 +46,20 @@ class ScratchPadController extends Controller
     $form = $this->createForm('AppBundle\Form\ScratchPadType', $scratchPad);
     $form->handleRequest($request);
 
-    if ($form->isSubmitted() && $form->isValid()) {
-      $scratchPad->setContent($request->get('scratchpad-content'));
+    if ($request->isXmlHttpRequest() & "POST" == $request->getMethod()) {
+      $scratchPad->setContent($request->get('content'));
       $em = $this->getDoctrine()->getManager();
       $em->persist($scratchPad);
       $em->flush($scratchPad);
 
-      return $this->redirectToRoute('scratchpad_show', array('id' => $scratchPad->getId()));
+      $responseData = array("redirect" => $this->generateUrl('scratchpad_edit', array('id' => $scratchPad->getId())));
+      $response = new Response(json_encode($responseData));
+      return $response;
     }
 
     return $this->render('scratchpad/new.html.twig', array(
           'scratchPad' => $scratchPad,
           'form' => $form->createView(),
-    ));
-  }
-
-  /**
-   * Finds and displays a scratchPad entity.
-   *
-   * @Route("/{id}", name="scratchpad_show")
-   * @Method("GET")
-   */
-  public function showAction(ScratchPad $scratchPad)
-  {
-    $deleteForm = $this->createDeleteForm($scratchPad);
-
-    return $this->render('scratchpad/show.html.twig', array(
-          'scratchPad' => $scratchPad,
-          'delete_form' => $deleteForm->createView(),
     ));
   }
 
@@ -88,11 +75,13 @@ class ScratchPadController extends Controller
     $editForm = $this->createForm('AppBundle\Form\ScratchPadType', $scratchPad);
     $editForm->handleRequest($request);
 
-    if ($editForm->isSubmitted() && $editForm->isValid()) {
-      $scratchPad->setContent($request->get('scratchpad-content'));
+
+    if ($request->isXmlHttpRequest() & "POST" == $request->getMethod()) {
+      dump($request);
+      $scratchPad->setContent($request->get('content'));
       $this->getDoctrine()->getManager()->flush();
 
-      return $this->redirectToRoute('scratchpad_edit', array('id' => $scratchPad->getId()));
+      return new Response();
     }
 
     return $this->render('scratchpad/edit.html.twig', array(

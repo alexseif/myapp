@@ -15,7 +15,19 @@
       <!-- Custom Styling -->
       <link rel="stylesheet" href="/css/common.css"/>
       <link rel="stylesheet" href="/css/custom.css"/>
-
+      <style>
+        #scratchpad-widget{
+          position: fixed;
+          bottom: 0;
+          right: 10% ;
+          width: 30% ;
+          margin: 0;
+        }
+        #scratchpad-widget .panel-heading,
+        #scratchpad-widget .panel-body,
+        #scratchpad-widget .panel-footer
+        {padding:0;}
+      </style>
     {% endblock %}
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
   </head>
@@ -58,7 +70,20 @@
       {% endblock %}
     </div>
     <footer>
-      {% block footer %} {% endblock %}
+      {% block footer %}
+        <div id="scratchpad-widget" class="panel panel-default">
+          <div class="panel-heading clearfix">
+            <button data-toggle="collapse" href="#scratchpad-collapse" class="btn btn-default btn-block btn-xs collapsed">
+              <span class="glyphicon glyphicon-pencil"></span>
+            </button>
+          </div>
+          <div id="scratchpad-collapse" class="panel-collapse collapse">
+            <div class="embed-responsive embed-responsive-16by9">
+              <iframe class="embed-responsive-item" src="{{ path('scratchpad_index')}}"></iframe>
+            </div>
+          </div>
+        </div>
+      {% endblock %}
     </footer>
   {% endblock %}
   {% block javascripts %}
