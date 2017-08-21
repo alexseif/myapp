@@ -31,6 +31,8 @@ class TasksRepository extends EntityRepository
   public function getCompletedToday()
   {
     $today = new \DateTime();
+//    $today->sub(new \DateInterval("P1D"));
+    $today->setTime(00, 00, 00);
     return $this
             ->createQueryBuilder('t')
             ->select('t')
