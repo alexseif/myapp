@@ -1,0 +1,7 @@
+{% extends 'base.html.twig' %}
+{% block title %}Edit {{ worklog.name }}{% endblock %}
+{% block floatingActions %}{{ a.add('worklog_new') }}{% endblock %}
+{% block panelBack %}{{ a.back('worklog_index') }}{% endblock %}
+{% block panelTitle %}{{ worklog.name }}{% endblock %}
+{% block panelHeadingRight %}{{ forms.delete(delete_form) }}{% endblock %}
+{% block panelBody %}{{ forms.panel(edit_form, false) }}{% endblock %}
