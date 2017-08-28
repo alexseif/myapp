@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block panelTitle %}New Work Log{% endblock %}
+{% block panelBack %}{{ a.back('worklog_index') }}{% endblock %}
+{% block panelBody %}
+  {{ forms.panel(form) }}
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+  <script>
+    $('#appbundle_worklog_task').change(function () {
+      $('#appbundle_worklog_name').val($("#appbundle_worklog_task :selected").text());
+      $('#appbundle_worklog_duration').val($("#appbundle_worklog_task :selected").data("est"));
+      $('#appbundle_worklog_total').val($('#appbundle_worklog_duration').val() * $('#appbundle_worklog_pricePerUnit').val() / 60);
+    });
+  </script>
+{% endblock %}
