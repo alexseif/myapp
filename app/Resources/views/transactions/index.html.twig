@@ -9,6 +9,7 @@
         <th>Name</th>
         <th>Date</th>
         <th>Value</th>
+        <th>EGP</th>
         <th>Balance</th>
         <th></th>
       </tr>
@@ -30,10 +31,11 @@
           <td>{% if transaction.date %}{{ transaction.date|date('Y-m-d') }}{% endif %}</td>
           <td class="text-right {{ isIncome ? "text-success" }}">
             <span class="pull-left">{{ transaction.currency }}</span> 
-            {{ transaction.value|number_format }}
+            {{ transaction.value/100|number_format }}
           </td>
+          <td class="text-right {{ isIncome ? "text-success" }}"><span class="pull-left">EGP</span> {{ transaction.Egp/100|number_format }}</td>
           <td class="text-right {{ isNegative ? "text-danger" }}">
-            <span class="pull-left">{{ transaction.currency }}</span> 
+            <span class="pull-left">EGP</span> 
             {{ transaction.balance|number_format }}
           </td>
           <td>
@@ -60,5 +62,14 @@
       </tr>
     </tfoot>
   </table>
+  <div class="panel-footer">
+    <div class="btn-group">
+      <a href="{{ path('transactions_permute')}}"
+         class="btn btn-primary">Permute</a>
+      <a href="{{ path('transactions_new', {'calibrate':true} )}}"
+         class="btn btn-primary">Calibrate</a>
+    </div>
+  </div>
 {% endblock %}
+
 
