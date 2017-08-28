@@ -98,6 +98,12 @@ class Tasks
   private $taskList;
 
   /**
+   * One Task has One WorkLog.
+   * @ORM\OneToOne(targetEntity="WorkLog", mappedBy="task")
+   */
+  private $workLog;
+
+  /**
    * Constructor
    */
   public function __construct()
@@ -328,28 +334,64 @@ class Tasks
     return $this->est;
   }
 
+  /**
+   * Set eta
+   *
+   * @param \DateTime $eta
+   *
+   * @return Tasks
+   */
+  public function setEta($eta)
+  {
+    $this->eta = $eta;
 
-    /**
-     * Set eta
-     *
-     * @param \DateTime $eta
-     *
-     * @return Tasks
-     */
-    public function setEta($eta)
-    {
-        $this->eta = $eta;
+    return $this;
+  }
 
-        return $this;
-    }
+  /**
+   * Get eta
+   *
+   * @return \DateTime
+   */
+  public function getEta()
+  {
+    return $this->eta;
+  }
 
-    /**
-     * Get eta
-     *
-     * @return \DateTime
-     */
-    public function getEta()
-    {
-        return $this->eta;
-    }
+  /**
+   * Set workLog
+   *
+   * @param \AppBundle\Entity\WorkLog $workLog
+   *
+   * @return Tasks
+   */
+  public function setWorkLog(\AppBundle\Entity\WorkLog $workLog = null)
+  {
+    $this->workLog = $workLog;
+
+    return $this;
+  }
+
+  /**
+   * Get workLog
+   *
+   * @return \AppBundle\Entity\WorkLog
+   */
+  public function getWorkLog()
+  {
+    return $this->workLog;
+  }
+
+  public function getTaskString()
+  {
+
+    return $this->getTask();
+//    return ($this->getCompleted() ? "x " : "") . $this->getTask() . ' | ' . $this->getTaskList()->getName();
+  }
+
+  public function __toString()
+  {
+    return $this->getTaskString();
+  }
+
 }
