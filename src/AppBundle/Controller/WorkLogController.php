@@ -24,6 +24,7 @@ class WorkLogController extends Controller
    */
   public function indexAction()
   {
+    $em = $this->getDoctrine()->getManager();
 
     $workLogs = $em->getRepository('AppBundle:WorkLog')->findAll();
 
@@ -49,7 +50,9 @@ class WorkLogController extends Controller
 
     $costOfLife = new \AppBundle\Logic\CostOfLifeLogic($cost, $currencies);
 
+    
     $workLog = new Worklog();
+    $workLog->setPricePerUnit($costOfLife->getHourly());
     $form = $this->createForm('AppBundle\Form\WorkLogType', $workLog);
     $form->handleRequest($request);
 
