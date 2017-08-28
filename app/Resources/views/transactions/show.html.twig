@@ -20,8 +20,12 @@
         <td>{% if transaction.date %}{{ transaction.date|date('Y-m-d') }}{% endif %}</td>
       </tr>
       <tr>
+        <td>EGP</td>
+        <td>{{ transaction.Egp/100|number_format }}</td>
+      </tr>
+      <tr>
         <th>Value</th>
-        <td>{{ transaction.currency }} {{ transaction.value|number_format }}</td>
+        <td>{{ transaction.currency }} {{ transaction.value/100|number_format }}</td>
       </tr>
     </tbody>
   </table>
