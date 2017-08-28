@@ -2,6 +2,7 @@
 
 {% block floatingActions %}{{ a.add('worklog_new') }}{% endblock %}
 {% block panelTitle %}Work Logs{% endblock %}
+{% block panelHeadingRight %}<a href="{{ path('completed_tasks') }}">Completed Tasks</a>{% endblock %}
 {% block panelBody %}
   <table class="table table-condensed table-bordered table-striped">
     <thead>

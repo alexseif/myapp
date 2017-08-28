@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 
 class WorkLogType extends AbstractType
 {
@@ -30,8 +31,8 @@ class WorkLogType extends AbstractType
         ))
         ->add('name')
         ->add('duration')
-        ->add('pricePerUnit')
-        ->add('total')
+        ->add('pricePerUnit', MoneyType::class)
+        ->add('total', MoneyType::class)
     ;
   }
 

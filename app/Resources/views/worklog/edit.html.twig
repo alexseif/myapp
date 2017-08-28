@@ -1,7 +1,18 @@
 {% extends 'base.html.twig' %}
-{% block title %}Edit {{ worklog.name }}{% endblock %}
+{% block title %}Edit {{ workLog.name }}{% endblock %}
 {% block floatingActions %}{{ a.add('worklog_new') }}{% endblock %}
 {% block panelBack %}{{ a.back('worklog_index') }}{% endblock %}
-{% block panelTitle %}{{ worklog.name }}{% endblock %}
+{% block panelTitle %}{{ workLog.name }}{% endblock %}
 {% block panelHeadingRight %}{{ forms.delete(delete_form) }}{% endblock %}
 {% block panelBody %}{{ forms.panel(edit_form, false) }}{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+  <script>
+    $('#appbundle_worklog_task').change(function () {
+      $('#appbundle_worklog_name').val($("#appbundle_worklog_task :selected").text());
+      $('#appbundle_worklog_duration').val($("#appbundle_worklog_task :selected").data("est"));
+      $('#appbundle_worklog_total').val($('#appbundle_worklog_duration').val() * $('#appbundle_worklog_pricePerUnit').val() / 60);
+    });
+  </script>
+{% endblock %}
