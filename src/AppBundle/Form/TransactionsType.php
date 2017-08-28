@@ -30,10 +30,22 @@ class TransactionsType extends AbstractType
             'data-date-format' => 'yyyy-MM-dd',
           )
         ))
-        ->add('value', MoneyType::class)
         ->add('currency', EntityType::class, array(
           'class' => 'AppBundle:Currency',
-    ));
+          'choice_attr' => function($currency, $key, $index) {
+            return ['data-egp' => $currency->getEgp() / 100];
+          },
+        ))
+        ->add('EGP', MoneyType::class, array('currency' => 'EGP',
+          'divisor' => 100,
+          'scale' => 3,
+          'label' => 'EGP'
+        ))
+        ->add('value', MoneyType::class, array(
+          'divisor' => 100,
+          'scale' => 3
+        ))
+    ;
   }
 
   /**

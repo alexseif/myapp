@@ -24,33 +24,18 @@ class TransactionsController extends Controller
    */
   public function indexAction()
   {
-    $em = $this->getDoctrine()->getManager();
-
-    $transactions = $em->getRepository('AppBundle:Transactions')->findBy(array(), array("date" => "ASC"));
-    $currency = $this->get('myApp.currency')->get();
-
-    $balance = 0;
-    $today = new \DateTime("NOW");
-    foreach ($transactions as $key => $transaction) {
-      $diff = $today->diff($transaction->getDate());
-      $transaction->diff = $diff;
-      $transaction->past = (0 == $transaction->diff->days);
-      $balance -= $transaction->getValue() / $currency[$transaction->getCurrency()->getCode()];
-      $transaction->balance = $balance;
-    }
-
     return $this->render('transactions/index.html.twig', array(
-          'transactions' => $transactions,
+          'transactions' => $this->generateBalance(),
     ));
   }
 
   /**
    * Lists all transaction entities.
    *
-   * @Route("/process", name="transactions_process")
+   * @Route("/permute", name="transactions_permute")
    * @Method("GET")
    */
-  public function process()
+  public function permuteAction()
   {
     $em = $this->getDoctrine()->getManager();
     $transactionsRepo = $em->getRepository('AppBundle:Transactions');
@@ -73,6 +58,7 @@ class TransactionsController extends Controller
         $txn->setDate($today->add(new \DateInterval('P' . $i . 'D')));
         $txn->setName("Daily");
         $txn->setValue($avg);
+        $txn->setEgp($avg);
         $em->persist($txn);
         $save = true;
       }
@@ -84,6 +70,30 @@ class TransactionsController extends Controller
   }
 
   /**
+   * Lists all transaction entities.
+   *
+   * @Route("/fix", name="transactions_fix")
+   * @Method("GET")
+   */
+  public function fixAction()
+  {
+    $em = $this->getDoctrine()->getManager();
+
+    $transactions = $em->getRepository('AppBundle:Transactions')->findBy(array(), array("date" => "ASC"));
+    $currency = $this->get('myApp.currency')->get();
+    foreach ($transactions as $key => $transaction) {
+      $transaction->setValue($transaction->getValue() * 100);
+      if (!$transaction->getEgp()) {
+        $transaction->setEgp($transaction->getValue() / $currency[$transaction->getCurrency()->getCode()]);
+      }
+    }
+    $em->flush();
+
+
+    return $this->redirectToRoute('transactions_index');
+  }
+
+  /**
    * Creates a new transaction entity.
    *
    * @Route("/new", name="transactions_new")
@@ -91,7 +101,15 @@ class TransactionsController extends Controller
    */
   public function newAction(Request $request)
   {
+
     $transaction = new Transactions();
+    if ($request->get('calibrate')) {
+      $balance = $this->generateTodaysBalance();
+      $transaction->setName('Calibration');
+      $transaction->setEgp($balance);
+      $transaction->setValue($balance);
+    }
+
     $form = $this->createForm('AppBundle\Form\TransactionsType', $transaction);
     $form->handleRequest($request);
 
@@ -136,7 +154,6 @@ class TransactionsController extends Controller
     $deleteForm = $this->createDeleteForm($transaction);
     $editForm = $this->createForm('AppBundle\Form\TransactionsType', $transaction);
     $editForm->handleRequest($request);
-
     if ($editForm->isSubmitted() && $editForm->isValid()) {
       $this->getDoctrine()->getManager()->flush();
 
@@ -184,6 +201,59 @@ class TransactionsController extends Controller
             ->setMethod('DELETE')
             ->getForm()
     ;
+  }
+
+  /**
+   * 
+   * @return float
+   */
+  public function generateTodaysBalance()
+  {
+    $em = $this->getDoctrine()->getManager();
+    $today = new \DateTime("NOW");
+
+    $transactions = $em->getRepository('AppBundle:Transactions')->createQueryBuilder('tns')
+        ->select('tns')
+        ->where('tns.date <= :today')
+        ->setParameter('today', $today->format('Y-m-d'))
+        ->orderBy('tns.date', 'ASC')
+        ->getQuery()
+        ->getResult();
+    $currency = $this->get('myApp.currency')->get();
+    $balance = 0;
+    foreach ($transactions as $key => $transaction) {
+      $diff = $today->diff($transaction->getDate());
+      $transaction->diff = $diff;
+      $transaction->past = (0 == $transaction->diff->days);
+      $balance -= $transaction->getEgp();
+      $transaction->balance = $balance;
+    }
+
+    return $balance;
+  }
+
+  /**
+   * 
+   * @return array
+   */
+  public function generateBalance()
+  {
+    $em = $this->getDoctrine()->getManager();
+
+    $transactions = $em->getRepository('AppBundle:Transactions')->findBy(array(), array("date" => "ASC"));
+    $currency = $this->get('myApp.currency')->get();
+    $balance = 0;
+    $today = new \DateTime("NOW");
+    foreach ($transactions as $key => $transaction) {
+      $diff = $today->diff($transaction->getDate());
+      $transaction->diff = $diff;
+      $transaction->past = (0 == $transaction->diff->days);
+      $balance -= $transaction->getEgp() / 100;
+      $transaction->balance = $balance;
+    }
+    $em->flush();
+
+    return $transactions;
   }
 
 }
