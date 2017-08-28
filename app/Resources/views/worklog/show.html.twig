@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+{% block panelBack %}{{ a.back('worklog_index') }}{% endblock %}
+
+{% block panelTitle %}{{ workLog.name }}{% endblock %}
+{% block panelHeadingRight %}
+  {{ a.edit('worklog_edit', {'id':workLog.id}) }}
+  {{ forms.delete(delete_form) }}
+
+{% endblock %}
+{% block panelBody %}
+  <table class="table table-bordered table-responsive">
+    <tbody>
+      <tr>
+        <th>Id</th>
+        <td>{{ workLog.id }}</td>
+      </tr>
+      <tr>
+        <th>Name</th>
+        <td>{{ workLog.name }}</td>
+      </tr>
+      <tr>
+        <th>Duration</th>
+        <td>{{ workLog.duration }}</td>
+      </tr>
+      <tr>
+        <th>Price per unit</th>
+        <td>{{ workLog.pricePerUnit }}</td>
+      </tr>
+      <tr>
+        <th>Total</th>
+        <td>{{ workLog.total }}</td>
+      </tr>
+    </tbody>
+  </table>
+{% endblock %}
+

@@ -50,4 +50,9 @@ class CostOfLifeLogic
     return $this->col['monthly']['EGP'];
   }
 
+  public function getHourly()
+  {
+    return $this->col['hour']['EGP'];
+  }
+
 }
