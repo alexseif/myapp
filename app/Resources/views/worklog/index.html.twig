@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block floatingActions %}{{ a.add('worklog_new') }}{% endblock %}
+{% block panelTitle %}Work Logs{% endblock %}
+{% block panelHeadingRight %}<a href="{{ path('completed_tasks') }}">Completed Tasks</a>{% endblock %}
+{% block panelBody %}
+  <table class="table table-condensed table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Duration</th>
+        <th>Price per unit</th>
+        <th>Total</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for workLog in workLogs %}
+        <tr>
+          <td>{{ workLog.name }}</td>
+          <td>{{ workLog.duration }}</td>
+          <td>{{ workLog.pricePerUnit }}</td>
+          <td>{{ workLog.total }}</td>
+          <td>
+            <ul>
+              <li>
+                <a href="{{ path('worklog_show', { 'id': workLog.id }) }}">show</a>
+              </li>
+              <li>
+                <a href="{{ path('worklog_edit', { 'id': workLog.id }) }}">edit</a>
+              </li>
+            </ul>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
