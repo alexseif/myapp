@@ -58,6 +58,21 @@ class WorkLog
   private $task;
 
   /**
+   * @var datetime
+   *
+   * @ORM\Column(name="createdAt", type="datetime")
+   */
+  private $createdAt;
+
+  /**
+   * Constructor
+   */
+  public function __construct()
+  {
+    $this->createdAt = new \DateTime();
+  }
+
+  /**
    * Get id
    *
    * @return int
@@ -185,6 +200,29 @@ class WorkLog
   public function getName()
   {
     return $this->name;
+  }
+
+  /**
+   * Set createdAt
+   *
+   * @param \DateTime $createdAt
+   * @return Tasks
+   */
+  public function setCreatedAt($createdAt)
+  {
+    $this->createdAt = $createdAt;
+
+    return $this;
+  }
+
+  /**
+   * Get createdAt
+   *
+   * @return \DateTime 
+   */
+  public function getCreatedAt()
+  {
+    return $this->createdAt;
   }
 
 }
