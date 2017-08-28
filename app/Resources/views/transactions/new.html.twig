@@ -6,14 +6,17 @@
   {{ form_start(form) }}
   <div class="panel-body">
     <div class="row">
-      <div class="col-md-3">
+      <div class="col-md-2">
         {{ form_widget(form.name, {'attr': {'placeholder':'Name'} }) }}
       </div>
-      <div class="col-md-3">
+      <div class="col-md-2">
         {{ form_widget(form.date) }}
       </div>
       <div class="col-xs-4 col-sm-2">
         {{ form_widget(form.currency) }}
+      </div>
+      <div class="col-xs-8 col-sm-2">
+        {{ form_widget(form.EGP) }}
       </div>
       <div class="col-xs-8 col-sm-4">
         {{ form_widget(form.value, {'attr': {'placeholder':'Value'} }) }}
@@ -25,4 +28,16 @@
       <span class="glyphicon glyphicon-floppy-disk"></span></button>
   </div>
   {{ form_end(form) }}
+{% endblock %}
+{% block javascripts %}
+  {{ parent() }}
+  <script>
+    function updateEgp() {
+      $('#appbundle_transactions_EGP').val(
+              $('#appbundle_transactions_value').val() / $('#appbundle_transactions_currency :selected').data("egp")
+              );
+    }
+    $('#appbundle_transactions_currency').change(updateEgp);
+    $('#appbundle_transactions_value').change(updateEgp);
+  </script>
 {% endblock %}

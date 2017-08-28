@@ -49,9 +49,24 @@ class Transactions
    */
   private $currency;
 
+  /**
+   * @var float
+   *
+   * @ORM\Column(name="egp", type="float")
+   */
+  private $EGP;
+
+  /**
+   * @var datetime
+   *
+   * @ORM\Column(name="createdAt", type="datetime")
+   */
+  private $createdAt;
+
   public function __construct()
   {
     $this->date = new \DateTime("NOW");
+    $this->createdAt = new \DateTime();
   }
 
   /**
@@ -158,6 +173,53 @@ class Transactions
   public function getCurrency()
   {
     return $this->currency;
+  }
+
+  /**
+   * Set usd
+   *
+   * @param float $egp
+   *
+   * @return Currency
+   */
+  public function setEgp($egp)
+  {
+    $this->EGP = $egp;
+
+    return $this;
+  }
+
+  /**
+   * Get usd
+   *
+   * @return float
+   */
+  public function getEgp()
+  {
+    return $this->EGP;
+  }
+
+  /**
+   * Set createdAt
+   *
+   * @param \DateTime $createdAt
+   * @return Tasks
+   */
+  public function setCreatedAt($createdAt)
+  {
+    $this->createdAt = $createdAt;
+
+    return $this;
+  }
+
+  /**
+   * Get createdAt
+   *
+   * @return \DateTime 
+   */
+  public function getCreatedAt()
+  {
+    return $this->createdAt;
   }
 
 }
