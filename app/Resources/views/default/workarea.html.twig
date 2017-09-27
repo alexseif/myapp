@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+{% import "tasks/tasks_macros.html.twig" as tasks_view %}
+{% block title %}Dashboard{% endblock %}
+{# TODO: http://bootsnipp.com/user/favorites #}
+{% block container %}
+  <style>
+    .workarea{
+      max-height: 90vh;
+      overflow: scroll;
+    }
+  </style>
+  <div class="floating-action dropup">
+    <a class="btn btn-info dropdown-toggle" type="button" id="dahboardMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <span class="glyphicon glyphicon-plus"></span>
+    </a>
+    <ul class="dropdown-menu floating-actions" aria-labelledby="dahboardMenuButton">
+      <li><a href="{{ path('tasks_new') }}" class="btn btn-info"><span class="glyphicon glyphicon-check"></span></a></li>
+      <li><a href="{{ path('tasklists_new') }}" class="btn btn-info"><span class="glyphicon glyphicon-list-alt"></span></a></li>
+      <li><a href="{{ path('days_new') }}" class="btn btn-info"><span class="glyphicon glyphicon-th-large"></span></a></li>
+      <li><a href="{{ path('accounts_new') }}" class="btn btn-info"><span class="glyphicon glyphicon-piggy-bank"></span></a></li>
+      <li><a href="{{ path('accounttransactions_new') }}" class="btn btn-info"><span class="glyphicon glyphicon-transfer"></span></a></li>
+    </ul>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 col-sm-6 col-md-8 col-lg-8 workarea">
+      {{ tasks_view.ul(focus, 'focus', false) }}
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 workarea">
+      {% if days|length %}
+        {% include 'days/days_list.html.twig' %}
+      {% endif %}
+
+      <!-- END OF ACCOUNTS -->
+      {% if accounts|length %}
+        {% set hideEmpty = true %}
+        {% if costOfLife.monthly > 0 %}
+          {% set plan = costOfLife.monthly %}
+          <div class="progress">
+            {% set per = (issued/plan)*100 %}
+            {% if per < 100 %}
+              <div class="progress-bar progress-bar-success" role="progressbar" style="width:{{ per }}%">EGP {{ issued }}</div>
+              <div class="progress-bar progress-bar-{{ (19 - "now"|date("d")) > 10 ?"warning":"danger" }}" role="progressbar" style="width:{{ 100 - ((issued/plan)*100) }}%">EGP {{ plan - issued }}</div>
+            {% else %}
+              {% set per = (100/per)*100%}
+              <div class="progress-bar progress-bar-success" role="progressbar" style="width:{{ per }}%">EGP {{ plan }}</div>
+              <div class="progress-bar progress-bar-info" role="progressbar" style="width:{{ 100 - per }}%">EGP {{ issued - plan }}</div>
+              <div class="progress-bar progress-bar-{{ (19 - "now"|date("d")) > 10 ?"warning":"danger" }}" role="progressbar" style="width:{{ 100 - ((issued/plan)*100) }}%">EGP {{ plan - issued }}</div>
+            {% endif %}
+          </div>
+        {% endif %}
+        {% include 'accounts/accounts_list.html.twig' %}
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th></th>
+                {% for currency in costOfLife.currencies %}
+                <th>{{ currency.code }}</th>
+                {% endfor %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for key,col in costOfLife.col %}
+              <tr>
+                <td>{{ key|capitalize }}</td>
+                {% for code, value in col %}
+                  <td class="text-right"><span class="pull-left">{{ code|upper }} </span> {{ value|number_format }}</td>
+                {% endfor %}
+              </tr>
+            {% endfor %}
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="4" class="text-center">USD 50 Per Day</td>
+            </tr>
+          </tfoot>
+        </table>
+      {% endif %}
+      <!-- END OF ACCOUNTS -->
+
+    </div>
+  </div>
+{% endblock %}

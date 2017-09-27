@@ -62,6 +62,23 @@ class TasksRepository extends EntityRepository
             ->getResult();
   }
 
+  public function focusLimitList()
+  {
+    $today = new \DateTime();
+    return $this
+            ->createQueryBuilder('t')
+            ->select('t')
+            ->where('t.completed <> true')
+            ->andWhere('t.eta <= :today OR t.eta IS NULL')
+            ->orderBy("t.urgency", "DESC")
+            ->addOrderBy("t.priority", "DESC")
+            ->addOrderBy("t.order", "ASC")
+            ->setMaxResults(30)
+            ->setParameter(':today', $today->format('Y-m-d H:i'))
+            ->getQuery()
+            ->getResult();
+  }
+
   public function focusByTasklist($taskList)
   {
     $today = new \DateTime();
