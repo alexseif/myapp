@@ -64,6 +64,35 @@ class DefaultController extends Controller
   }
 
   /**
+   * @Route("/workarea", name="workarea")
+   */
+  public function workareaAction()
+  {
+    $em = $this->getDoctrine()->getManager();
+    $focusTasks = $em->getRepository('AppBundle:Tasks')->focusLimitList();
+    $days = $em->getRepository('AppBundle:Days')->getImportantCards();
+    $accounts = $em->getRepository('AppBundle:Accounts')->findBy(array('conceal' => false));
+    /** Cost Of Life * */
+    $currencies = $em->getRepository('AppBundle:Currency')->findAll();
+    $cost = $em->getRepository('AppBundle:CostOfLife')->sumCostOfLife()["cost"];
+
+    $costOfLife = new \AppBundle\Logic\CostOfLifeLogic($cost, $currencies);
+
+    $issuedThisMonth = $em->getRepository('AppBundle:AccountTransactions')->issuedThisMonth();
+    $issued = 0;
+    foreach ($issuedThisMonth as $tm) {
+      $issued += abs($tm->getAmount());
+    }
+    return $this->render('default/workarea.html.twig', array(
+          'focus' => $focusTasks,
+          'days' => $days,
+          'accounts' => $accounts,
+          'costOfLife' => $costOfLife,
+          'issued' => $issued,
+    ));
+  }
+
+  /**
    * @Route("/beta", name="beta")
    */
   public function betaAction(Request $request)

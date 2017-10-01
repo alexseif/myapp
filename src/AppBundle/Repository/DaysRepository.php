@@ -13,24 +13,34 @@ use Doctrine\ORM\EntityRepository;
 class DaysRepository extends EntityRepository
 {
 
-    public function getActiveCards()
-    {
-        return $this->createQueryBuilder('d')
-                        ->where('d.complete = 0')
-                        ->orWhere('d.deadline >= CURRENT_TIMESTAMP()')
-                        ->orderBy('d.deadline', 'ASC')
-                        ->getQuery()
-                        ->getResult();
-    }
+  public function getActiveCards()
+  {
+    return $this->createQueryBuilder('d')
+            ->where('d.complete = 0')
+            ->orWhere('d.deadline >= CURRENT_TIMESTAMP()')
+            ->orderBy('d.deadline', 'ASC')
+            ->getQuery()
+            ->getResult();
+  }
 
-    public function getArchiveCards()
-    {
-        return $this->createQueryBuilder('d')
-                        ->where('d.complete = 1')
-                        ->andWhere('d.deadline < CURRENT_TIMESTAMP()')
-                        ->orderBy('d.deadline', 'ASC')
-                        ->getQuery()
-                        ->getResult();
-    }
+  public function getImportantCards()
+  {
+    return $this->createQueryBuilder('d')
+            ->where('d.complete = 0')
+            ->andWhere('DATEDIFF(d.deadline, CURRENT_TIMESTAMP() ) <= 30')
+            ->orderBy('d.deadline', 'ASC')
+            ->getQuery()
+            ->getResult();
+  }
+
+  public function getArchiveCards()
+  {
+    return $this->createQueryBuilder('d')
+            ->where('d.complete = 1')
+            ->andWhere('d.deadline < CURRENT_TIMESTAMP()')
+            ->orderBy('d.deadline', 'ASC')
+            ->getQuery()
+            ->getResult();
+  }
 
 }
