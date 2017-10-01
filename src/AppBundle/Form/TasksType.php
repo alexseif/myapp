@@ -24,7 +24,8 @@ class TasksType extends AbstractType
         ->add('est')
         ->add('priority', ChoiceType::class, array(
           'choices' => array(
-            'Not Important' => 0,
+            'Low' => -1,
+            'Normal' => 0,
             'Important' => 1,
           ),
           'choices_as_values' => true,
@@ -33,7 +34,7 @@ class TasksType extends AbstractType
         ))
         ->add('urgency', ChoiceType::class, array(
           'choices' => array(
-            'Not Urgent' => 0,
+            'Normal' => 0,
             'Urgent' => 1
           ),
           'choices_as_values' => true,

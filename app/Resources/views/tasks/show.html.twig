@@ -27,8 +27,10 @@
             {% if task.urgency %}
               <span class="glyphicon glyphicon-flash text-warning"></span>
             {% endif %}
-            {% if task.priority %}
+            {% if task.priority > 0 %}
               <span class="glyphicon glyphicon-menu-up text-danger"></span>
+            {% elseif task.priority < 0 %}
+              <span class="glyphicon glyphicon-menu-down text-primary"></span>
             {% else %}
               <span class="glyphicon glyphicon-menu-right text-primary"></span>
             {% endif %}
