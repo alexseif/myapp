@@ -113,8 +113,15 @@ class Tasks
     $this->order = 0;
     $this->priority = Tasks::NORMAL_PRIORITY;
     $this->urgency = Tasks::NORMAL_URGENCY;
-    $this->priorityName = array(0 => "Not Important", 1 => "Important");
-    $this->urgencyName = array(0 => "Not Urgent", 1 => "Urgent");
+    $this->priorityName = array(
+      -1 => "Low",
+      0 => "Normal",
+      1 => "Important"
+    );
+    $this->urgencyName = array(
+      0 => "Normal",
+      1 => "Urgent"
+    );
   }
 
   /**
