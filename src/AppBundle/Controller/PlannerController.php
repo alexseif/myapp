@@ -91,7 +91,7 @@ class PlannerController extends Controller
     $editForm->handleRequest($request);
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
-      if (!$this->processPlannerTasks($planner, $override)) {
+      if (!$this->processPlannerTasks($planner)) {
         $this->getDoctrine()->getManager()->flush();
 
         return $this->redirectToRoute('planner_edit', array('id' => $planner->getId()));
@@ -105,7 +105,7 @@ class PlannerController extends Controller
     ));
   }
 
-  public function processPlannerTasks($planner, $override)
+  public function processPlannerTasks($planner)
   {
     $duplicates = new \Doctrine\Common\Collections\ArrayCollection();
     $duplicatesFound = false;

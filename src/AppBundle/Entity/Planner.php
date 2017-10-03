@@ -166,11 +166,11 @@ class Planner
   /**
    * Add task
    *
-   * @param \AppBundle\Entity\PlannerTasks $task
+   * @param \AppBundle\Entity\Tasks $task
    *
    * @return Planner
    */
-  public function addTask(\AppBundle\Entity\PlannerTasks $task)
+  public function addTask(\AppBundle\Entity\Tasks $task)
   {
     $this->tasks[] = $task;
 
@@ -180,9 +180,9 @@ class Planner
   /**
    * Remove task
    *
-   * @param \AppBundle\Entity\PlannerTasks $task
+   * @param \AppBundle\Entity\Tasks $task
    */
-  public function removeTask(\AppBundle\Entity\PlannerTasks $task)
+  public function removeTask(\AppBundle\Entity\Tasks $task)
   {
     $this->tasks->removeElement($task);
   }
