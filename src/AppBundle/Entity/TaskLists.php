@@ -227,4 +227,9 @@ class TaskLists
     return $this->account;
   }
 
+  public function __toString()
+  {
+    return $this->getName();
+  }
+
 }

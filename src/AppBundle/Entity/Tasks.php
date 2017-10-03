@@ -160,7 +160,7 @@ class Tasks
   /**
    * Set completed
    *
-   * @param \DateTime $completed
+   * @param bool $completed
    * @return Tasks
    */
   public function setCompleted($completed)
@@ -173,7 +173,7 @@ class Tasks
   /**
    * Get completed
    *
-   * @return \DateTime 
+   * @return bool
    */
   public function getCompleted()
   {

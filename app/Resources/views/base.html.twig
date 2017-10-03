@@ -34,48 +34,69 @@
           {% endblock %}
         {% block formStart %}{% endblock %}
         {% block content %}
-          {% block panel %}
-            <div class="panel panel-{% block panelClass %}default{% endblock %}">
-              {% block panelHeading %}
-                <div class="panel-heading clearfix">
-                  {% block panelBack %}
-                    <a href="{{ path('dashboard') }}" 
-                       class="btn btn-default btn-sm">
-                      <span class="glyphicon glyphicon-dashboard"></span>
-                    </a>
-                  {% endblock %}
-                  <span class="panel-title">{% block panelTitle %}{% endblock %}</span>
-                  <small class="panel-title-small">{% block panelTitleSmall %}{% endblock %}</small>
-                  <span class="panel-title-labels">{% block panelTitleLabels %}{% endblock %}</span>
-                  <div class="pull-right">{% block panelHeadingRight %}{% endblock %}</div>
+          {% if app.session.flashbag.peekAll|length > 0 %}
+            {% set typeCheck = '' %}
+            {% for type, flashMessages in app.session.flashbag.all %}
+              {% if(typeCheck != type and typeCheck != '' ) %}</div>{% endif %}
+              {% if(typeCheck != type ) %}
+              <div class="flash_{{ type }}">
+                {% set typeCheck = type %}
+              {% endif %}
+              {% for message in flashMessages %}
+                <div class="alert alert-dismissible alert-{{ type == "error"? 'danger':'info' }}">
+                  <button type="button" class="close" data-dismiss="alert">×</button>
+                  {% if type in ['error_raw', 'success_raw', 'warning_raw'] %}
+                    {{ message|raw }}
+                  {% else %}
+                    {{ message }}
+                  {% endif %}
                 </div>
-              {% endblock %}
-              {% block panelBody %} {% endblock %}
-            </div>
-          {% endblock %}
+              {% endfor %}
+            {% endfor %}
+          </div>
+        {% endif %}
+        {% block panel %}
+          <div class="panel panel-{% block panelClass %}default{% endblock %}">
+            {% block panelHeading %}
+              <div class="panel-heading clearfix">
+                {% block panelBack %}
+                  <a href="{{ path('dashboard') }}" 
+                     class="btn btn-default btn-sm">
+                    <span class="glyphicon glyphicon-dashboard"></span>
+                  </a>
+                {% endblock %}
+                <span class="panel-title">{% block panelTitle %}{% endblock %}</span>
+                <small class="panel-title-small">{% block panelTitleSmall %}{% endblock %}</small>
+                <span class="panel-title-labels">{% block panelTitleLabels %}{% endblock %}</span>
+                <div class="pull-right">{% block panelHeadingRight %}{% endblock %}</div>
+              </div>
+            {% endblock %}
+            {% block panelBody %} {% endblock %}
+          </div>
         {% endblock %}
-        {% block formEnd %} {% endblock %}
       {% endblock %}
-    </div>
-    <footer>
-      {% block footer %}
-      {% endblock %}
-    </footer>
-  {% endblock %}
-  {% block javascripts %}
-    <script type="text/javascript">
-      var tasks_path = '{{ path('tasks_index') }}';
-      var tasks_order = '{{ path('tasks_order') }}';
-    </script>
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="/js/jquery.min.js"></script>
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="/js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
-    <script type="text/javascript" src="/js/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="/js/chosen.jquery.min.js"></script>
-    <script type="text/javascript" src="/js/common.js"></script>
-    <script type="text/javascript" src="/js/tasks.js"></script>
-  {% endblock %}
+      {% block formEnd %} {% endblock %}
+    {% endblock %}
+  </div>
+  <footer>
+    {% block footer %}
+    {% endblock %}
+  </footer>
+{% endblock %}
+{% block javascripts %}
+  <script type="text/javascript">
+    var tasks_path = '{{ path('tasks_index') }}';
+    var tasks_order = '{{ path('tasks_order') }}';
+  </script>
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script src="/js/jquery.min.js"></script>
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="/js/bootstrap.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+  <script type="text/javascript" src="/js/jquery-ui.min.js"></script>
+  <script type="text/javascript" src="/js/chosen.jquery.min.js"></script>
+  <script type="text/javascript" src="/js/common.js"></script>
+  <script type="text/javascript" src="/js/tasks.js"></script>
+{% endblock %}
 </body>
 </html>

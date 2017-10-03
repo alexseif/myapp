@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+{% block floatingActions %}{{ a.add('planner_new') }}{% endblock %}
+{% block panelTitle %}Planners{% endblock %}
+{#{% block panelHeadingRight %}<a href="{{ path('planner_tasks') }}">Completed Tasks</a>{% endblock %}#}
+{% block panelBody %}
+  <table class="table table-condensed table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Due</th>
+        <th>Tasks</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for planner in planners %}
+        <tr>
+          <td><a href="{{ path('planner_show', { 'id': planner.id }) }}">{{ planner.id }}</a></td>
+          <td>{{ planner.name }}</td>
+          <td>
+            <span class="label label-{{(planner.due|date('Y-m-d') >= "now"|date('Y-m-d') )? 'success':'warning'  }}">
+              {% if planner.due %}{{ planner.due|date('Y-m-d') }}{% endif %}
+            </span>
+          </td>
+          <td>
+            {% if planner.tasks|length %}
+              {% set completedTasks = planner.completedTasks %} 
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" aria-valuenow="{{ (completedTasks|length/planner.tasks|length)*100}}"
+                     aria-valuemin="0" aria-valuemax="100" style="width:{{ (completedTasks|length/planner.tasks|length)*100}}%">
+                  {{ (completedTasks|length/planner.tasks|length)*100}}% 
+                </div>
+              </div>
+            {% endif %}
+          </td>
+          <td>
+            <ul>
+              <li>
+                <a href="{{ path('planner_show', { 'id': planner.id }) }}">show</a>
+              </li>
+              <li>
+                <a href="{{ path('planner_edit', { 'id': planner.id }) }}">edit</a>
+              </li>
+            </ul>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
