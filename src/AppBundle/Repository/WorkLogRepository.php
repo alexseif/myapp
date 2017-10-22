@@ -10,4 +10,16 @@ namespace AppBundle\Repository;
  */
 class WorkLogRepository extends \Doctrine\ORM\EntityRepository
 {
+
+  public function orderByTaskList()
+  {
+    return $this
+            ->createQueryBuilder('wl')
+            ->select('wl, t')
+            ->join('wl.task', 't')
+            ->orderBy('t.taskList')
+            ->getQuery()
+            ->getResult();
+  }
+
 }
