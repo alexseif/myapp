@@ -146,4 +146,20 @@ class TasksRepository extends EntityRepository
             ->getResult();
   }
 
+  public function randomTasks()
+  {
+    $today = new \DateTime();
+    return $this
+            ->createQueryBuilder('t')
+            ->select('t')
+            ->addSelect('RAND() as HIDDEN rand')
+            ->where('t.completed <> true')
+            ->andWhere('t.eta <= :today OR t.eta IS NULL')
+            ->addOrderBy("rand", "ASC")
+            ->setMaxResults(5)
+            ->setParameter(':today', $today->format('Y-m-d H:i'))
+            ->getQuery()
+            ->getResult();
+  }
+
 }
