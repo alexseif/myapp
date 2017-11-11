@@ -58,10 +58,12 @@
         function tasksByPriority() {
           var data = google.visualization.arrayToDataTable([
             ['TaskType', 'TaskCount'],{% for i in tasksUrgencyAndPriority %}
+            {%if(i[1])%}
             ['{{ (i.urgency and i.priority) ? 'Urgent & Important' : 
 (i.urgency) ? 'Urgent' : 
-(i.priority) ? 'Importnat' :
+(i.priority < 0) ?'low':(i.priority) ? 'Important' :
  'Normal' }}', {{ i[1] }}],
+         {% endif %}
       {% endfor %}
           ]);
           var options = {
