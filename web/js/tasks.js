@@ -13,6 +13,7 @@ var Tasks = {
 
   bindEvents: function () {
     $('.task-list input[type="checkbox"]').change(this.updateTask);
+    $('.task-list a.postpone').click(this.postponeTask);
     $('[data-toggle="popover"]').popover({html: true, container: "body"});
     if (!touch) {
       $("#tasks").sortable({
@@ -32,6 +33,65 @@ var Tasks = {
         });
       }
     }
+  },
+
+  postponeTask: function () {
+    var taskEl = this;
+    //TODO: handle errors
+    var postpone = true;
+    var taskId = $(taskEl).data('taskid');
+    $.ajax({
+      type: "POST",
+      url: tasks_path + $(taskEl).data('taskid') + "/edit",
+      dataType: "json",
+      data: {
+        "id": $(taskEl).data('taskid'),
+        "postpone": postpone
+      }
+    }).done(function () {
+
+      var undoLink = $('<a class="undo"><strong>Undo</strong></a>')
+              .data('taskid', taskId);
+
+      var div = $('<div/>')
+              .addClass("alert alert-success alert-dismissable")
+              .css("margin-bottom", 0)
+              .append('<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Postponed!</strong>&nbsp;')
+              .append(undoLink);
+
+      var li = $('<li/>')
+              .addClass("list-group-item")
+              .append(div);
+
+      $(taskEl).parent().parent().after(li);
+
+      $('a.undo').click(Tasks.undoPostponeTask);
+
+      $(taskEl).parent().parent().remove();
+
+      if (self.isFocus) {
+        self.drawFocus();
+      }
+    });
+  },
+
+  undoPostponeTask: function () {
+    var taskEl = this;
+    //TODO: handle errors
+    $.ajax({
+      type: "POST",
+      url: tasks_path + $(taskEl).data('taskid') + "/edit",
+      dataType: "json",
+      data: {
+        "id": $(taskEl).data('taskid'),
+        "undo": true
+      }
+    }).done(function () {
+      location.reload();
+      if (self.isFocus) {
+        self.drawFocus();
+      }
+    });
   },
 
   updateTask: function () {
@@ -91,7 +151,7 @@ var Tasks = {
           taskDuplicate.data("time", $taskTime);
           taskDuplicate.children('small.text-info').text($taskTime + "m");
           taskDuplicate.data("id", null);
-          task.children('small.text-info').text(task.data('time')+"-"+$taskTime + "m");
+          task.children('small.text-info').text(task.data('time') + "-" + $taskTime + "m");
           this.day.remaining -= (taskDuplicate.data("time"));
           //TODO: disable task check or handle task completion
           $('#focus').append(taskDuplicate);

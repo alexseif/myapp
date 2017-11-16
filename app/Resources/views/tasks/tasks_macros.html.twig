@@ -65,6 +65,14 @@
     {% endif %}
     <small class="text-info">{{ task.est ? task.est ~ "m"}}</small>
     <span class="visible-lg-inline visible-md-inline">
+      {% if(not task.completed) %}
+        <a  data-taskid="{{task.id}}"
+            class="btn btn-default edit-fixed-link postpone btn-sm"
+            style="right: 50px;">
+          <span class="glyphicon glyphicon-repeat"></span></a>
+
+      {% endif %}
+
       <a href="{{ path('tasks_edit', { 'id': task.id }) }}" 
          class="btn btn-primary edit-fixed-link btn-{{ task.completed ? "xs":"sm" }}">
         <span class="glyphicon glyphicon-pencil"></span></a>

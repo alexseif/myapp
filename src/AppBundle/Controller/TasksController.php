@@ -145,6 +145,17 @@ class TasksController extends Controller
 
 
     if ($request->isXMLHttpRequest()) {
+
+      if ($request->get('postpone')) {
+        $task->setEta(new \DateTime('tomorrow'));
+      }
+
+      if ($request->get('undo')) {
+        $task->setEta(null);
+      }
+
+      dump($task->getEta());
+
       $task->setCompleted($request->get('completed'));
       if ($task->getCompleted()) {
         $task->setCompletedAt(new \DateTime());
