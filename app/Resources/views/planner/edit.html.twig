@@ -1,7 +1,0 @@
-{% extends 'base.html.twig' %}
-{% block title %}Edit {{ planner.name }}{% endblock %}
-{% block floatingActions %}{{ a.add('planner_new') }}{% endblock %}
-{% block panelBack %}{{ a.back('planner_index') }}{% endblock %}
-{% block panelTitle %}{{ planner.name }}{% endblock %}
-{% block panelHeadingRight %}{{ forms.delete(delete_form) }}{% endblock %}
-{% block panelBody %}{{ forms.panel(edit_form, false) }}{% endblock %}
