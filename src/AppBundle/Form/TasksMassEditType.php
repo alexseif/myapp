@@ -20,7 +20,8 @@ class TasksMassEditType extends AbstractType
     $builder
         ->add('priority', ChoiceType::class, array(
           'choices' => array(
-            0 => 'Not Important',
+            -1 => 'Low',
+            0 => 'Normal',
             1 => 'Important',
           ),
           'expanded' => true,
