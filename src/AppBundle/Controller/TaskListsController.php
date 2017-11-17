@@ -121,6 +121,44 @@ class TaskListsController extends Controller
   }
 
   /**
+   * Displays a form to edit an existing TaskLists entity.
+   *
+   * @Route("/{id}/archive", name="tasklists_archive")
+   * @Method({"GET", "POST"})
+   */
+  public function archiveAction(Request $request, TaskLists $taskList)
+  {
+    $taskList->setStatus("archive");
+
+    $em = $this->getDoctrine()->getManager();
+    $em->persist($taskList);
+    $em->flush();
+
+    $this->addFlash('success', 'TaskList ' . $taskList->getName() . ' Archived');
+
+    return $this->redirectToRoute('tasklists_index');
+  }
+
+  /**
+   * Displays a form to edit an existing TaskLists entity.
+   *
+   * @Route("/{id}/unarchive", name="tasklists_unarchive")
+   * @Method({"GET", "POST"})
+   */
+  public function unarchiveAction(Request $request, TaskLists $taskList)
+  {
+    $taskList->setStatus("start");
+
+    $em = $this->getDoctrine()->getManager();
+    $em->persist($taskList);
+    $em->flush();
+
+    $this->addFlash('success', 'TaskList ' . $taskList->getName() . ' UnArchived');
+
+    return $this->redirectToRoute('tasklists_index');
+  }
+
+  /**
    * Deletes a TaskLists entity.
    *
    * @Route("/{id}", name="tasklists_delete")

@@ -43,6 +43,10 @@ class TasksType extends AbstractType
         ))
         ->add('taskList', EntityType::class, array(
           'class' => 'AppBundle:TaskLists',
+          'query_builder' => function (\AppBundle\Repository\TaskListsRepository $er) {
+            return $er->createQueryBuilder('tl')
+                ->where('tl.status <> \'archive\'');
+          },
           'group_by' => function($taskList) {
             if ($taskList->getAccount()) {
               if ($taskList->getAccount()->getClient()) {

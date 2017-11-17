@@ -24,7 +24,26 @@
         </span>
         <div class="btn-group btn-group-sm edit-fixed-link">
           {{ a.add('tasks_new', {"tasklist": taskList.id}) }}
-          <button type="button" class="btn btn-primary me" data-tasklistid="{{ taskList.id }}" data-tasklist="{{ taskList.name }}"><span class="glyphicon glyphicon-list-alt"></span></button>
+          <button type="button" class="btn btn-primary me" 
+                  data-tasklistid="{{ taskList.id }}" 
+                  data-tasklist="{{ taskList.name }}">
+            <span class="glyphicon glyphicon-list-alt"></span></button>
+
+          {% if(taskList.status == 'archive') %}
+            <a type="button" class="btn btn-default" 
+               data-tasklistid="{{ taskList.id }}" 
+               data-tasklist="{{ taskList.name }}"
+               href="{{ path('tasklists_unarchive', { 'id': taskList.id }) }}">
+              <span class="glyphicon glyphicon-folder-open"></span></a>
+
+          {% else %}
+            <a type="button" class="btn btn-default" 
+               data-tasklistid="{{ taskList.id }}" 
+               data-tasklist="{{ taskList.name }}"
+               href="{{ path('tasklists_archive', { 'id': taskList.id }) }}">
+              <span class="glyphicon glyphicon-folder-close"></span></a>
+
+          {% endif %}
 
           {{ a.edit('tasklists_edit', { 'id': taskList.id }) }}
         </div>
