@@ -154,8 +154,6 @@ class TasksController extends Controller
         $task->setEta(null);
       }
 
-      dump($task->getEta());
-
       $task->setCompleted($request->get('completed'));
       if ($task->getCompleted()) {
         $task->setCompletedAt(new \DateTime());
