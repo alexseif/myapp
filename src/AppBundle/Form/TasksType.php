@@ -56,7 +56,10 @@ class TasksType extends AbstractType
             }
             return "N/A";
           },
-          'choice_label' => 'name'
+          'choice_label' => 'name',
+          'attr' => array(
+            'class' => 'chosen',
+          )
         ))
         ->add('order', HiddenType::class)
         ->add('eta', DateTimeType::class, array(
