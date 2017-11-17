@@ -30,7 +30,7 @@
         </span>
         <div class="pull-right">
           <span class="label label-default">{{ accountTransactions.count }}</span>
-          <span class="label label-{{ (account.balance < 0)?'danger':'success' }}">EGP {{ account.balance|number_format }}</span>
+          <span class="label label-{{ (account.balance < 0)? "success": "danger" }}">EGP {{ account.balance|number_format }}</span>
 
           <button data-toggle="collapse" href="#txn-{{ account.id }}" class="btn btn-primary btn-xs collapsed"><span class="glyphicon glyphicon-collapse"></span></button>
         </div>
