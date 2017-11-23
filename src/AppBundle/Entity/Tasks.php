@@ -296,6 +296,21 @@ class Tasks
   }
 
   /**
+   * Get priority
+   *
+   * @return string
+   */
+  public function getPriorityName()
+  {
+    $priorityName = array(
+      -1 => "Low",
+      0 => "Normal",
+      1 => "Important"
+    );
+    return $priorityName[$this->priority];
+  }
+
+  /**
    * Set urgency
    *
    * @param integer $urgency
@@ -316,6 +331,20 @@ class Tasks
   public function getUrgency()
   {
     return $this->urgency;
+  }
+
+  /**
+   * Get urgency
+   *
+   * @return string 
+   */
+  public function getUrgencyName()
+  {
+    $urgencyName = array(
+      0 => "Normal",
+      1 => "Urgent"
+    );
+    return $urgencyName[$this->urgency];
   }
 
   /**

@@ -30,7 +30,52 @@ class TasksController extends Controller
     $tasks = $em->getRepository('AppBundle:Tasks')->findAll();
 
     return $this->render('tasks/index.html.twig', array(
+//          'tasks' => $tasks,
+    ));
+  }
+
+  /**
+   * Search all Tasks entities.
+   *
+   * @Route("/search", name="tasks_search")
+   * @Method("GET")
+   */
+  public function searchAction(Request $request)
+  {
+    $em = $this->getDoctrine()->getManager();
+    $form = $this->createForm(\AppBundle\Form\TasksFilterType::class, $request->get('tasks_filter'), array(
+      'method' => 'GET',
+    ));
+    $filters = $tasks = array();
+    if ($request->query->has($form->getName())) {
+      $filters = $request->get('tasks_filter');
+      $tasksQuery = $em->getRepository('AppBundle:Tasks')->createQueryBuilder('t')
+          ->select('t, tl, acc, c, w')
+          ->join('t.taskList', 'tl')
+          ->leftJoin('tl.account', 'acc')
+          ->leftJoin('acc.client', 'c')
+          ->leftJoin('t.workLog', 'w');
+
+      $firstWhere = true;
+      foreach ($filters as $key => $value) {
+        if ($firstWhere) {
+          $firstWhere = false;
+          $tasksQuery->where($tasksQuery->expr()->in('t.' . $key, ':' . $key));
+        } else {
+          $tasksQuery->andWhere($tasksQuery->expr()->in('t.' . $key, ':' . $key));
+        }
+        $tasksQuery->setParameter($key, $value);
+      }
+
+      $tasks = $tasksQuery->getQuery()->getResult();
+    }
+
+
+
+    return $this->render('tasks/search.html.twig', array(
+          'filters' => $filters,
           'tasks' => $tasks,
+          'task_filter_form' => $form->createView(),
     ));
   }
 

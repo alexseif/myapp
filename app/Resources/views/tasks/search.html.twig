@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+{% import "tasks/tasks_macros.html.twig" as tasks_view %}
+
+{% block stylesheets %}
+  {{ parent('tasks_new') }}
+  <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />
+  <style>
+    table.dataTable tbody tr{background-color: transparent;}
+    .table-hover > tbody > tr:hover{background-color: black;}
+  </style>
+{% endblock %}
+
+{% block container %}
+  <div class="row">
+    <div class="col-md-8 col-md-push-2">
+      <div class="panel panel-default">
+        {{ form_start(task_filter_form) }}
+        <div class="panel-body">
+          {{ form_widget(task_filter_form) }}
+        </div>
+        <div class="panel-footer text-right">
+          <button type="submit" value="Filter" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></button>
+          <a href="{{ path('tasks_search') }}" class="btn btn-warning"><span class="glyphicon glyphicon-erase"></span></a>
+            {{ form_end(task_filter_form) }}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    Tasks filtered by
+    {% for key, filter in filters %}
+      {{ key }}: {{ filter|join(', ') }}
+    {% endfor %}
+  </div>
+  <table class="table table-bordered table-condensed table-hover table-striped" id="tasks">
+    <thead>
+      <tr>
+        <td>Task</td>
+        <td>Completed</td>
+        <td>Priority</td>
+        <td>Urgency</td>
+        <td>TaskList</td>
+      </tr>
+    </thead>
+    <tbody>
+      {% for task in tasks %}
+        <tr>
+          <td>
+            <a class="btn btn-link btn-xs" target="_blank"
+               href="{{path('tasks_show', {id: task.id})}}" >
+              <span class="glyphicon glyphicon-open"></span></a>
+              {{ task.task|converturls }} 
+          </td>
+          <td>{{ task.completed ? "Completed": "Open"}}</td>
+          <td>{{ task.priorityName }}</td>
+          <td>{{ task.urgencyName }}</td>
+          <td>{{ task.taskList }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
+{% block javascripts %}
+  {{ parent() }}
+  <script type="text/javascript" src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('#tasks').DataTable();
+    });
+  </script>
+{% endblock %}
