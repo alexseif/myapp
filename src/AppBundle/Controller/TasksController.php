@@ -30,7 +30,7 @@ class TasksController extends Controller
     $tasks = $em->getRepository('AppBundle:Tasks')->findAll();
 
     return $this->render('tasks/index.html.twig', array(
-//          'tasks' => $tasks,
+          'tasks' => $tasks,
     ));
   }
 

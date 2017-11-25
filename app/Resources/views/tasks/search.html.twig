@@ -65,7 +65,12 @@
   <script type="text/javascript" src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js" ></script>
   <script>
     $(document).ready(function () {
-      $('#tasks').DataTable();
+      var tasksTable = $('#tasks').DataTable({
+        "stateSave": true,
+      });
+      $('#tasks tbody').on('dblclick', 'tr', function () {
+        $(this).children('td').first().children('a')[0].click();
+      });
     });
   </script>
 {% endblock %}
