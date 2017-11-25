@@ -39,6 +39,7 @@
         <td>Completed</td>
         <td>Priority</td>
         <td>Urgency</td>
+        <td>EST</td>
         <td>TaskList</td>
       </tr>
     </thead>
@@ -54,6 +55,7 @@
           <td>{{ task.completed ? "Completed": "Open"}}</td>
           <td>{{ task.priorityName }}</td>
           <td>{{ task.urgencyName }}</td>
+          <td>{{ task.est }}</td>
           <td>{{ task.taskList }}</td>
         </tr>
       {% endfor %}
