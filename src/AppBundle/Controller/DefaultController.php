@@ -216,4 +216,20 @@ class DefaultController extends Controller
     ));
   }
 
+  /**
+   * 
+   * @ROUTE("/lists", name="lists_view")
+   */
+  public function listsAction()
+  {
+    $em = $this->getDoctrine()->getManager();
+    $today = new \DateTime();
+
+    $lists = $em->getRepository('AppBundle:TaskLists')->findBy(array('status' => 'start'));
+    return $this->render('default/lists.html.twig', array(
+          'today' => $today,
+          'lists' => $lists,
+    ));
+  }
+
 }
