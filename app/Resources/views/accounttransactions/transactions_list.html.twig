@@ -1,9 +1,10 @@
-<table class="table table-condensed table-bordered table-striped table-txn">
+<table class="table table-condensed table-bordered table-striped table-hover table-txn" id="txns">
   <thead>
     <tr>
       <th>#</th>
       <th>Amount</th>
       <th>Account</th>
+      <th>Client</th>
       <th>Issued At</th>
       <th>Note</th>
       <th>Created At</th>
@@ -14,10 +15,11 @@
     {% set total=0 %}
     {% for accountTransaction in accountTransactions %}
       {% set total = total + accountTransaction.amount %}
-      <tr>
+      <tr class="{{ accountTransaction.account.conceal ? "conceal" }}">
         <td><a href="{{ path('accounttransactions_show', { 'id': accountTransaction.id }) }}">{{ accountTransaction.id }}</a></td>
-        <td class="text-right">{{ accountTransaction.amount|number_format }} <span class="pull-left">EGP</span></td>
+        <td class="text-right" class="{{ accountTransaction.account.conceal ? "conceal" }}">{{ accountTransaction.amount|number_format }} <span class="pull-left">EGP</span></td>
         <td>{{ accountTransaction.account.name }}</td>
+        <td>{{ accountTransaction.account.client ? accountTransaction.account.client.name }}</td>
         <td>{% if accountTransaction.issuedAt %}{{ accountTransaction.issuedAt|date('Y-m-d') }}{% endif %}</td>
         <td>{{ accountTransaction.note }}</td>
         <td>{% if accountTransaction.createdAt %}{{ accountTransaction.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
