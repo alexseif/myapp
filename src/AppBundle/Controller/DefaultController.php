@@ -147,8 +147,8 @@ class DefaultController extends Controller
           ), array(
         'urgency' => 'DESC',
         'priority' => 'DESC',
-        'order' => 'ASC',
-        'est' => 'ASC'
+        'est' => 'ASC',
+        'order' => 'ASC'
           ), 10
       );
       $tasks = array_merge($tasks, $reorderTasks);
