@@ -41,7 +41,6 @@
         ['{{t|slice(0, 3)|upper}}', {{i}}],{% endif %}{% endfor %}
       ]);
       var options = {
-    {#          legend: {position: 'right', textStyle: {color: 'white'}},#}
           legend: 'none',
           pieSliceText: 'label',
           pieHole: 0.4,
@@ -52,17 +51,19 @@
         chart.draw(data, options);
       }
       function tasksByPriority() {
-        var data = google.visualization.arrayToDataTable([
-          ['TaskType', 'TaskCount'],{% for i in tasksUrgencyAndPriority %}{%if(i[1])%}
-          ['{{ (i.urgency and i.priority) ? 'Urgent & Important' : (i.urgency) ? 'Urgent' : (i.priority < 0) ?'low':(i.priority) ? 'Important' : 'Normal' }}', {{ i[1] }}],{% endif %}{% endfor %}
-        ]);
+        var data = google.visualization.arrayToDataTable([['TaskType', 'TaskCount'],{% for key,i in piechart %} ['{{ key }}', {{ i }}],{% endfor %} ]);
         var options = {
-    {#            legend: {position: 'right', textStyle: {color: 'white'}},#}
           legend: 'none',
           pieSliceText: 'value',
           backgroundColor: 'transparent',
           pieSliceBorderColor: '#222222',
-          slices: [{color: '#f39c12'}, {color: '#e74c3c'}, {color: '#375a7f'}]
+          slices: {
+            0: {color: '#f39c12'},
+            1: {color: '#f39c12'},
+            2: {color: '#e74c3c'},
+            3: {color: '#375a7f'}, 
+            4: {color: '#464545'}
+          }
         };
         var chart = new google.visualization.PieChart(document.getElementById('tasksByPriority'));
         chart.draw(data, options);

@@ -38,9 +38,30 @@ class DefaultController extends Controller
 
     $costOfLife = new \AppBundle\Logic\CostOfLifeLogic($cost, $currencies);
 
-    $tasksUrgencyAndPriority = $em->getRepository('AppBundle:Tasks')->countByUrgenctAndPriority();
-    $tasksUrgencyAndPriority = $em->getRepository('AppBundle:Tasks')->sumByUrgenctAndPriority();
+    $countByUrgenctAndPriority = $em->getRepository('AppBundle:Tasks')->countByUrgenctAndPriority();
+    $piechart = [];
+    $piechart['Urgent & Important'] = 0;
+    $piechart['Urgent'] = 0;
+    $piechart['Important'] = 0;
+    $piechart['Normal'] = 0;
+    $piechart['Low'] = 0;
 
+    foreach ($countByUrgenctAndPriority as $key => $row) {
+      $row['est'] = (int) $row['est'];
+      if ($row['urgency']) {
+        if ($row['priority']) {
+          $piechart['Urgent & Important'] = $row['est'];
+        } else {
+          $piechart['Urgent'] = $row['est'];
+        }
+      } elseif ($row['priority'] > 0) {
+        $piechart['Important'] = $row['est'];
+      } elseif ($row['priority'] < 0) {
+        $piechart['Low'] = $row['est'];
+      } else {
+        $piechart['Normal'] = $row['est'];
+      }
+    }
 
     $tskCnt = array();
     foreach ($tsksCntDay as $t) {
@@ -61,7 +82,7 @@ class DefaultController extends Controller
           'tskCnt' => $tskCnt,
           'interval' => $interval,
           'costOfLife' => $costOfLife,
-          'tasksUrgencyAndPriority' => $tasksUrgencyAndPriority
+          'piechart' => $piechart,
     ));
   }
 

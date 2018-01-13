@@ -122,7 +122,7 @@ class TasksRepository extends EntityRepository
   {
     return $this
             ->createQueryBuilder('t')
-            ->select('COUNT(t.id), t.urgency, t.priority')
+            ->select('COUNT(t.id) as cnt, SUM(t.est) as est, t.urgency, t.priority')
             ->where('t.completed <> true')
             ->orderBy("t.urgency", "DESC")
             ->addOrderBy("t.priority", "DESC")
