@@ -35,6 +35,42 @@ class TasksController extends Controller
   }
 
   /**
+   * Reorders Tasks entity.
+   *
+   * @Route("/reorder", name="tasks_reorder")
+   * @Method("GET")
+   */
+  public function reorderAction(Request $request)
+  {
+    $em = $this->getDoctrine()->getManager();
+    $tasksRepo = $em->getRepository('AppBundle:Tasks');
+    $weightedList = $tasksRepo->weightedList();
+    $taskListsOrder = [];
+    foreach ($weightedList as $key => $row) {
+      if (!in_array($row['id'], $taskListsOrder)) {
+        $taskListsOrder[] = $row['id'];
+      }
+    }
+    $tasks = new \Doctrine\Common\Collections\ArrayCollection();
+    foreach ($taskListsOrder as $taskListId) {
+      $reorderTasks = $tasksRepo->findBy(
+          array(
+        'taskList' => $taskListId
+          ), array(
+        'urgency' => 'DESC',
+        'priority' => 'DESC',
+        'order' => 'ASC',
+        'est' => 'ASC'
+          )
+      );
+
+      $tasks->add($reorderTasks);
+    }
+
+    return new \Symfony\Component\HttpFoundation\JsonResponse($tasks);
+  }
+
+  /**
    * Search all Tasks entities.
    *
    * @Route("/search", name="tasks_search")

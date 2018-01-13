@@ -130,10 +130,29 @@ class DefaultController extends Controller
   public function singleTaskAction()
   {
     $em = $this->getDoctrine()->getManager();
-
-    $tasks = $em->getRepository('AppBundle:Tasks')->focusList();
-    $task = new Tasks();
-
+    $tasksRepo = $em->getRepository('AppBundle:Tasks');
+    $weightedList = $tasksRepo->weightedList();
+    $taskListsOrder = [];
+    foreach ($weightedList as $key => $row) {
+      if (!in_array($row['id'], $taskListsOrder)) {
+        $taskListsOrder[] = $row['id'];
+      }
+    }
+    $tasks = [];
+    foreach ($taskListsOrder as $taskListId) {
+      $reorderTasks = $tasksRepo->findBy(
+          array(
+        'taskList' => $taskListId,
+        'completed' => false
+          ), array(
+        'urgency' => 'DESC',
+        'priority' => 'DESC',
+        'order' => 'ASC',
+        'est' => 'ASC'
+          ), 10
+      );
+      $tasks = array_merge($tasks, $reorderTasks);
+    }
     return $this->render('default/singleTask.html.twig', array(
           'tasks' => $tasks,
     ));
