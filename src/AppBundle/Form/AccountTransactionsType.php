@@ -19,7 +19,10 @@ class AccountTransactionsType extends AbstractType
     $builder
         ->add('account', 'entity', array(
           'class' => 'AppBundle:Accounts',
-          'choice_label' => 'name'
+          'choice_label' => 'name',
+          'attr' => array(
+            'class' => 'chosen',
+          )
         ))
         ->add('amount', 'money')
         ->add('issuedAt', DateType::class, array(

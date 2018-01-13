@@ -23,7 +23,10 @@ class AccountsType extends AbstractType
         ->add('client', EntityType::class, array(
           'required' => false,
           'class' => 'AppBundle:Client',
-          'choice_label' => 'name')
+          'choice_label' => 'name',
+          'attr' => array(
+            'class' => 'chosen',
+          ))
         )
     ;
   }

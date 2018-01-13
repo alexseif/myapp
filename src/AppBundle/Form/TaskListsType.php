@@ -21,7 +21,10 @@ class TaskListsType extends AbstractType
         ->add('account', EntityType::class, array(
           'required' => false,
           'class' => 'AppBundle:Accounts',
-          'choice_label' => 'name')
+          'choice_label' => 'name',
+          'attr' => array(
+            'class' => 'chosen',
+          ))
         )
     ;
   }
