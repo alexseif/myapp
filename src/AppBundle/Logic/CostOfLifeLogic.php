@@ -21,10 +21,10 @@ class CostOfLifeLogic
     "cost" => ["factor" => 1, "precision" => 0],
     "profit" => ["factor" => 0.2, "precision" => 0],
     "monthly" => ["factor" => 1.2, "precision" => 0],
-    "hour" => ["factor" => 1.2 / 122, "precision" => 0],
-    "day" => ["factor" => 1.2 / 122 * 6, "precision" => 0],
-    "week" => ["factor" => 1.2 / 122 * 31, "precision" => -1],
-    "month" => ["factor" => 1.2, "precision" => -1],
+    "hour" => ["factor" => 1.2 / 122, "precision" => -1],
+    "day" => ["factor" => 1.2 / 122 * 6, "precision" => -1],
+    "week" => ["factor" => 1.2 / 122 * 31, "precision" => -2],
+    "month" => ["factor" => 1.2, "precision" => -2],
     "annually" => ["factor" => 1.2 * 12, "precision" => -2]
   ];
 
@@ -39,8 +39,9 @@ class CostOfLifeLogic
   {
     foreach ($this->currencies as $currency) {
       foreach ($this->units as $unit => $factor) {
-        $this->col[$unit][$currency->getCode()] = round(
-            $this->cost * $factor["factor"] * ($currency->getEgp() / 100), $factor["precision"]);
+        $raw = $this->cost * $factor["factor"] * ($currency->getEgp() / 100);
+        $round = (round($raw, $factor["precision"])) ? round($raw, $factor["precision"]) : round($raw, $factor["precision"] + 1);
+        $this->col[$unit][$currency->getCode()] = ($round) ? $round : $raw;
       }
     }
   }
