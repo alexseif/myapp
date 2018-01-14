@@ -189,7 +189,6 @@ class WorkLogController extends Controller
 
 
     $taskIds = $request->get('task_ids');
-    dump($taskIds);
     foreach ($taskIds as $taskId) {
       $task = $em->getRepository('AppBundle:Tasks')->find($taskId);
       if (!$task) {
