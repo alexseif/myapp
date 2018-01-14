@@ -102,7 +102,14 @@ class Tasks
    * @ORM\OneToOne(targetEntity="WorkLog", mappedBy="task")
    */
   private $workLog;
+  
+  /**
+   * If task is available for WorkLog.
+   * @ORM\Column(name="work_loggable", type="boolean", options={"default": TRUE})
+   */
+  private $workLoggable;
 
+  
   /**
    * Constructor
    */

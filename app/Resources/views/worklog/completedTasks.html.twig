@@ -1,13 +1,28 @@
 {% extends 'base.html.twig' %}
-
-{% block content %}
-  <table class="table table-bordered table-striped table-responsive">
+{% block stylesheets %}
+  {{ parent('tasks_new') }}
+  <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />
+  <style>
+    table.dataTable tbody tr{background-color: transparent;}
+    .table-hover > tbody > tr:hover{background-color: black;}
+  </style>
+{% endblock %}
+{% block container %}
+  <div class="text-center">
+    <div class="btn-group">
+      <button class="btn btn-primary" id="log">Log</button>
+      <button class="btn btn-warning" id="unlog">Unloggable</button>
+      <button class="btn btn-danger" id="delete">Delete</button>
+    </div>
+  </div>
+  <table class="table table-bordered table-striped table-responsive" id="tasks">
     <thead>
       <tr>
+        <th></th>
         <th>Task</th>
-        <th>Created At</th>
         <th>TaskList - Account - Client</th>
         <th>EST</th>
+        <th>Created At</th>
         <th>Completed At</th>
         <th>Logged</th>
       </tr>
@@ -16,13 +31,16 @@
       {% for task in tasks %}
         <tr>
           <td>
+            <input type="checkbox" name="tasks[]" value="{{ task.id }}"/>
+          </td>
+          <td>
             <a href="{{ path('tasks_show', { 'id' : task.id }) }}"
-               class="btn btn-default btn-xs">
+               class="btn btn-default btn-xs"
+               target="_new">
               <span class="glyphicon glyphicon-open"></span>
             </a>
             {{ task.task|truncate(100) }}
           </td>
-          <td>{{ (task.createdAt) ? task.createdAt|date }}</td>
           <td>
             <a href="{{ path('completed_tasks',{'taskList':task.taskList.name})}}" class="label label-primary">
               {{ task.taskList.name }}
@@ -40,18 +58,19 @@
               {% endif %}
             {% endif %}
           </td>
-          <td class="text-right">{{ task.est }}</td>
+          <td class="text-right">{{ task.est }}m</td>
+          <td>{{ (task.createdAt) ? task.createdAt|date }}</td>
           <td>{{ (task.completedAt) ? task.completedAt|date }}</td>
           <td>
             {% if (task.workLog) %}
               <a href="{{ path('worklog_show', {'id': task.workLog.id })}}"
                  class="btn btn-success btn-xs">
-                <span class="glyphicon glyphicon-open"></span>
+                Edit
               </a>
             {% else %}
               <a href="{{ path('worklog_new', {'task':task.id}) }}"
                  class="btn btn-primary btn-xs">
-                <span class="glyphicon glyphicon-plus"></span>
+                Log
               </a>
             {% endif %}
           </td>
@@ -59,4 +78,26 @@
       {% endfor %}
     </tbody>
   </table>
+{% endblock %}
+{% block javascripts %}
+  {{ parent() }}
+  <script type="text/javascript" src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var tasksTable = $('#tasks').DataTable({
+        "stateSave": true,
+      });
+      $('#tasks tbody').on('dblclick', 'tr', function () {
+        $(this).children('td').first().children('input')[0].click();
+      });
+      $('#log').click(function () {
+        var data = [];
+        $('input[name="tasks[]"]:checked').each(
+                function (i) {
+                  data[i] = $(this).val();
+                });
+        $.post('{{ path('worklog_autolog') }}', {"task_ids": data});
+      });
+    });
+  </script>
 {% endblock %}

@@ -204,59 +204,6 @@ class DefaultController extends Controller
   }
 
   /**
-   * @ROUTE("/completedTasks", name="completed_tasks")
-   */
-  public function completedTasksAction(Request $request)
-  {
-    $em = $this->getDoctrine()->getManager();
-    $tasksRepo = $em->getRepository('AppBundle:Tasks');
-
-    $taskListName = $request->get('taskList');
-    $accountName = $request->get('account');
-    $clientName = $request->get('client');
-
-    $criteria = array('completed' => TRUE);
-    $orderBy = array('completedAt' => 'DESC');
-
-    if ($taskListName) {
-      $taskList = $em->getRepository('AppBundle:TaskLists')->findBy(array('name' => $taskListName));
-      $criteria['taskList'] = $taskList;
-      $tasks = $tasksRepo->findBy($criteria, $orderBy);
-    } elseif ($accountName) {
-      $tasks = $tasksRepo->createQueryBuilder('t')
-          ->select('t')
-          ->leftJoin('t.taskList', 'tl')
-          ->leftJoin('tl.account', 'a')
-          ->where('t.completed = TRUE')
-          ->andWhere('a.name = :account')
-          ->setParameter('account', $accountName)
-          ->orderBy("t.completedAt", "DESC")
-          ->getQuery()
-          ->getResult();
-    } elseif ($clientName) {
-      $tasks = $tasksRepo->createQueryBuilder('t')
-          ->select('t')
-          ->leftJoin('t.taskList', 'tl')
-          ->leftJoin('tl.account', 'a')
-          ->leftJoin('a.client', 'c')
-          ->where('t.completed = TRUE')
-          ->andWhere('c.name = :client')
-          ->setParameter('client', $clientName)
-          ->orderBy("t.completedAt", "DESC")
-          ->getQuery()
-          ->getResult();
-    } else {
-      $tasks = $tasksRepo->findBy($criteria, $orderBy);
-    }
-
-
-
-    return $this->render('default/completedTasks.html.twig', array(
-          'tasks' => $tasks,
-    ));
-  }
-
-  /**
    * 
    * @ROUTE("/lists", name="lists_view")
    */

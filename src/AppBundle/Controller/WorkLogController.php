@@ -27,9 +27,62 @@ class WorkLogController extends Controller
     $em = $this->getDoctrine()->getManager();
 
     $workLogs = $em->getRepository('AppBundle:WorkLog')->orderByTaskList();
-    
+
     return $this->render('worklog/index.html.twig', array(
           'workLogs' => $workLogs,
+    ));
+  }
+
+  /**
+   * @ROUTE("/completedTasks", name="completed_tasks")
+   */
+  public function completedTasksAction(Request $request)
+  {
+    $em = $this->getDoctrine()->getManager();
+    $tasksRepo = $em->getRepository('AppBundle:Tasks');
+
+    $taskListName = $request->get('taskList');
+    $accountName = $request->get('account');
+    $clientName = $request->get('client');
+
+    $criteria = array('completed' => TRUE);
+    $orderBy = array('completedAt' => 'DESC');
+
+    if ($taskListName) {
+      $taskList = $em->getRepository('AppBundle:TaskLists')->findBy(array('name' => $taskListName));
+      $criteria['taskList'] = $taskList;
+      $tasks = $tasksRepo->findBy($criteria, $orderBy);
+    } elseif ($accountName) {
+      $tasks = $tasksRepo->createQueryBuilder('t')
+          ->select('t')
+          ->leftJoin('t.taskList', 'tl')
+          ->leftJoin('tl.account', 'a')
+          ->where('t.completed = TRUE')
+          ->andWhere('a.name = :account')
+          ->setParameter('account', $accountName)
+          ->orderBy("t.completedAt", "DESC")
+          ->getQuery()
+          ->getResult();
+    } elseif ($clientName) {
+      $tasks = $tasksRepo->createQueryBuilder('t')
+          ->select('t')
+          ->leftJoin('t.taskList', 'tl')
+          ->leftJoin('tl.account', 'a')
+          ->leftJoin('a.client', 'c')
+          ->where('t.completed = TRUE')
+          ->andWhere('c.name = :client')
+          ->setParameter('client', $clientName)
+          ->orderBy("t.completedAt", "DESC")
+          ->getQuery()
+          ->getResult();
+    } else {
+      $tasks = $tasksRepo->findBy($criteria, $orderBy);
+    }
+
+
+
+    return $this->render('worklog/completedTasks.html.twig', array(
+          'tasks' => $tasks,
     ));
   }
 
@@ -79,6 +132,44 @@ class WorkLogController extends Controller
           'costOfLife' => $costOfLife,
           'form' => $form->createView(),
     ));
+  }
+
+  /**
+   * Auto reates a new workLog entity.
+   *
+   * @Route("/autolog", name="worklog_autolog")
+   * @Method({"GET", "POST"})
+   */
+  public function autologAction(Request $request)
+  {
+    $em = $this->getDoctrine()->getManager();
+
+
+    /** Cost Of Life * */
+    $currencies = $em->getRepository('AppBundle:Currency')->findAll();
+    $cost = $em->getRepository('AppBundle:CostOfLife')->sumCostOfLife()["cost"];
+
+    $costOfLife = new \AppBundle\Logic\CostOfLifeLogic($cost, $currencies);
+
+
+    $taskIds = $request->get('task_ids');
+    foreach ($taskIds as $taskId) {
+      $task = $em->getRepository('AppBundle:Tasks')->find($taskId);
+      if (!$task) {
+        throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
+      }
+      if (is_null($task->getWorkLog())) {
+        $task->setWorkLog(new WorkLog());
+        $task->getWorklog()->setTask($task);
+        $task->getWorklog()->setPricePerUnit($costOfLife->getHourly());
+        $task->getWorklog()->setName($task->getTask());
+        $task->getWorklog()->setDuration($task->getEst());
+        $task->getWorklog()->setTotal($task->getWorklog()->getPricePerUnit() / 60 * $task->getWorklog()->getDuration());
+        $em->persist($task->getWorklog());
+      }
+      $em->flush($task->getWorklog());
+    }
+    return new \Symfony\Component\HttpFoundation\Response();
   }
 
   /**
