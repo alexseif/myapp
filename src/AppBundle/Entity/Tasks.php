@@ -437,4 +437,28 @@ class Tasks
     return $this->getTaskString();
   }
 
+
+    /**
+     * Set workLoggable
+     *
+     * @param boolean $workLoggable
+     *
+     * @return Tasks
+     */
+    public function setWorkLoggable($workLoggable)
+    {
+        $this->workLoggable = $workLoggable;
+
+        return $this;
+    }
+
+    /**
+     * Get workLoggable
+     *
+     * @return boolean
+     */
+    public function getWorkLoggable()
+    {
+        return $this->workLoggable;
+    }
 }

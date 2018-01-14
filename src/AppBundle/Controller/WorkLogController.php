@@ -44,8 +44,9 @@ class WorkLogController extends Controller
     $taskListName = $request->get('taskList');
     $accountName = $request->get('account');
     $clientName = $request->get('client');
+    $log = (is_null($request->get('loggable'))) ? TRUE : FALSE;
 
-    $criteria = array('completed' => TRUE);
+    $criteria = array('completed' => TRUE, 'workLoggable' => $log);
     $orderBy = array('completedAt' => 'DESC');
 
     if ($taskListName) {
@@ -58,7 +59,9 @@ class WorkLogController extends Controller
           ->leftJoin('t.taskList', 'tl')
           ->leftJoin('tl.account', 'a')
           ->where('t.completed = TRUE')
+          ->andWhere('t.workLoggable = :log')
           ->andWhere('a.name = :account')
+          ->setParameter('log', $log)
           ->setParameter('account', $accountName)
           ->orderBy("t.completedAt", "DESC")
           ->getQuery()
@@ -70,7 +73,9 @@ class WorkLogController extends Controller
           ->leftJoin('tl.account', 'a')
           ->leftJoin('a.client', 'c')
           ->where('t.completed = TRUE')
+          ->andWhere('t.workLoggable = :log')
           ->andWhere('c.name = :client')
+          ->setParameter('log', $log)
           ->setParameter('client', $clientName)
           ->orderBy("t.completedAt", "DESC")
           ->getQuery()
@@ -135,7 +140,7 @@ class WorkLogController extends Controller
   }
 
   /**
-   * Auto reates a new workLog entity.
+   * Auto Creates a new workLog entity.
    *
    * @Route("/autolog", name="worklog_autolog")
    * @Method({"GET", "POST"})
@@ -168,6 +173,33 @@ class WorkLogController extends Controller
         $em->persist($task->getWorklog());
       }
       $em->flush($task->getWorklog());
+    }
+    return new \Symfony\Component\HttpFoundation\Response();
+  }
+
+  /**
+   * Marks tasks as unloggale
+   *
+   * @Route("/unlog", name="worklog_unlog")
+   * @Method({"GET", "POST"})
+   */
+  public function unlogAction(Request $request)
+  {
+    $em = $this->getDoctrine()->getManager();
+
+
+    $taskIds = $request->get('task_ids');
+    dump($taskIds);
+    foreach ($taskIds as $taskId) {
+      $task = $em->getRepository('AppBundle:Tasks')->find($taskId);
+      if (!$task) {
+        throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
+      }
+      if ($task->getWorklog()) {
+        $em->remove($task->getWorklog());
+      }
+      $task->setWorkLoggable(FALSE);
+      $em->flush($task);
     }
     return new \Symfony\Component\HttpFoundation\Response();
   }
