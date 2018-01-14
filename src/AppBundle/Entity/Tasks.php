@@ -120,6 +120,7 @@ class Tasks
     $this->order = 0;
     $this->priority = Tasks::NORMAL_PRIORITY;
     $this->urgency = Tasks::NORMAL_URGENCY;
+    $this->workLoggable = TRUE;
     $this->priorityName = array(
       -1 => "Low",
       0 => "Normal",
