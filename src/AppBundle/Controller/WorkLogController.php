@@ -44,7 +44,7 @@ class WorkLogController extends Controller
     $taskListName = $request->get('taskList');
     $accountName = $request->get('account');
     $clientName = $request->get('client');
-    $log = (is_null($request->get('loggable'))) ? TRUE : FALSE;
+    $log = (is_null($request->get('unlog'))) ? TRUE : FALSE;
 
     $criteria = array('completed' => TRUE, 'workLoggable' => $log);
     $orderBy = array('completedAt' => 'DESC');
@@ -84,9 +84,8 @@ class WorkLogController extends Controller
       $tasks = $tasksRepo->findBy($criteria, $orderBy);
     }
 
-
-
     return $this->render('worklog/completedTasks.html.twig', array(
+          'unlog' => $log,
           'tasks' => $tasks,
     ));
   }
@@ -149,13 +148,11 @@ class WorkLogController extends Controller
   {
     $em = $this->getDoctrine()->getManager();
 
-
     /** Cost Of Life * */
     $currencies = $em->getRepository('AppBundle:Currency')->findAll();
     $cost = $em->getRepository('AppBundle:CostOfLife')->sumCostOfLife()["cost"];
 
     $costOfLife = new \AppBundle\Logic\CostOfLifeLogic($cost, $currencies);
-
 
     $taskIds = $request->get('task_ids');
     foreach ($taskIds as $taskId) {
@@ -163,16 +160,21 @@ class WorkLogController extends Controller
       if (!$task) {
         throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
       }
-      if (is_null($task->getWorkLog())) {
-        $task->setWorkLog(new WorkLog());
+      if ($task->getEst() > 0) {
+        if (is_null($task->getWorkLog())) {
+          $task->setWorkLog(new WorkLog());
+        }
+        $task->setWorkLoggable(true);
         $task->getWorklog()->setTask($task);
         $task->getWorklog()->setPricePerUnit($costOfLife->getHourly());
         $task->getWorklog()->setName($task->getTask());
         $task->getWorklog()->setDuration($task->getEst());
         $task->getWorklog()->setTotal($task->getWorklog()->getPricePerUnit() / 60 * $task->getWorklog()->getDuration());
         $em->persist($task->getWorklog());
+      } else {
+        $this->addFlash('warning_raw', 'Task  <a href="' . $this->generateUrl('tasks_show', array("id" => $taskId)) . '" target="_new">' . $taskId . '</a> has 0 est');
       }
-      $em->flush($task->getWorklog());
+      $em->flush();
     }
     return new \Symfony\Component\HttpFoundation\Response();
   }
@@ -180,16 +182,43 @@ class WorkLogController extends Controller
   /**
    * Marks tasks as unloggale
    *
-   * @Route("/unlog", name="worklog_unlog")
+   * @Route("/unloggable", name="worklog_unloggable")
    * @Method({"GET", "POST"})
    */
-  public function unlogAction(Request $request)
+  public function unloggableAction(Request $request)
   {
     $em = $this->getDoctrine()->getManager();
 
+    $taskIds = $request->get('task_ids');
+    foreach ($taskIds as $taskId) {
+      $task = $em->getRepository('AppBundle:Tasks')->find($taskId);
+      if (!$task) {
+        throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
+      }
+
+      if ($task->getWorklog()) {
+        $worklog = $task->getWorklog();
+        $em->remove($worklog);
+      }
+
+      $task->setWorklog(NULL);
+      $task->setWorkLoggable(FALSE);
+      $em->flush();
+    }
+    return new \Symfony\Component\HttpFoundation\Response();
+  }
+
+  /**
+   * Deletes a workLog entity.
+   *
+   * @Route("/autodelete", name="worklog_autodelete")
+   * @Method({"GET", "POST"})
+   */
+  public function autodeleteAction(Request $request)
+  {
+    $em = $this->getDoctrine()->getManager();
 
     $taskIds = $request->get('task_ids');
-    dump($taskIds);
     foreach ($taskIds as $taskId) {
       $task = $em->getRepository('AppBundle:Tasks')->find($taskId);
       if (!$task) {
@@ -198,7 +227,6 @@ class WorkLogController extends Controller
       if ($task->getWorklog()) {
         $em->remove($task->getWorklog());
       }
-      $task->setWorkLoggable(FALSE);
       $em->flush($task);
     }
     return new \Symfony\Component\HttpFoundation\Response();

@@ -4,118 +4,149 @@
   <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />
   <style>
     table.dataTable tbody tr{background-color: transparent;}
-    .table-hover > tbody > tr:hover{background-color: black;}
+    .table-hover tbody tr:hover{background-color: black;}
+    table tbody tr td{text-align: left;}
   </style>
 {% endblock %}
 {% block container %}
+  {% include 'flash.html.twig' %}
+  {% set btn='btn btn-sm' %}
   <div class="text-center">
-    <div class="btn-group">
-      <button class="btn btn-primary" id="log">Log</button>
-      <button class="btn btn-warning" id="unlog">Unloggable</button>
-      <button class="btn btn-danger" id="delete">Delete</button>
-    </div>
-    <div class="pull-right">
-      <a href="{{ path('completed_tasks', {'unlog':true}) }}" class="btn btn-primary">Hidden</a>
-      <a href="{{ path('completed_tasks') }}" class="btn btn-primary">Reset View</a>
-    </div>
-    <table class="table table-bordered table-striped table-responsive" id="tasks">
-      <thead>
+    <a class="{{ btn }} btn-default" id="select">
+      <span class="glyphicon glyphicon-asterisk"></span></a>
+    <a class="{{ btn }} btn-primary" id="log">Log</a>
+    <a class="{{ btn }} btn-warning"  id="unloggable">Unloggable</a>
+    <a class="{{ btn }} btn-danger" id="delete">Delete</a>
+    <a class="{{ btn }} btn-default" 
+       href="{{ path('completed_tasks', {'unlog':true}) }}">Hidden</a>
+    <a class="{{ btn }} btn-default" id="reset"
+       href="{{ path('completed_tasks') }}">Reset View</a>
+  </div>
+  <table class="table table-bordered table-striped table-responsive" id="tasks">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Task</th>
+        <th>TaskList - Account - Client</th>
+        <th>EST</th>
+        <th>Created At</th>
+        <th>Completed At</th>
+        <th>Logged</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for task in tasks %}
         <tr>
-          <th></th>
-          <th>Task</th>
-          <th>TaskList - Account - Client</th>
-          <th>EST</th>
-          <th>Created At</th>
-          <th>Completed At</th>
-          <th>Logged</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for task in tasks %}
-          <tr>
-            <td>
-              <input type="checkbox" name="tasks[]" value="{{ task.id }}"/>
-            </td>
-            <td>
-              <a href="{{ path('tasks_show', { 'id' : task.id }) }}"
-                 class="btn btn-default btn-xs"
-                 target="_new">
-                <span class="glyphicon glyphicon-open"></span>
-              </a>
-              {{ task.task|truncate(100) }}
-            </td>
-            <td>
-              <a href="{{ path('completed_tasks',{'taskList':task.taskList.name})}}" class="label label-primary">
-                {{ task.taskList.name }}
+          <td>
+            <input type="checkbox" name="tasks[]" value="{{ task.id }}"/>
+          </td>
+          <td>
+            <a href="{{ path('tasks_show', { 'id' : task.id }) }}"
+               class="btn btn-default btn-xs"
+               target="_new">
+              <span class="glyphicon glyphicon-open"></span>
+            </a>
+            {{ task.task|truncate(100) }}
+          </td>
+          <td>
+            <a href="{{ path('completed_tasks',{'taskList':task.taskList.name})}}" class="label label-primary">
+              {{ task.taskList.name }}
+            </a>
+            - 
+            {% if(task.taskList.account) %}
+              <a href="{{ path('completed_tasks',{'account':task.taskList.account.name})}}" class="label label-info">
+                {{ task.taskList.account.name }} 
               </a>
               - 
-              {% if(task.taskList.account) %}
-                <a href="{{ path('completed_tasks',{'account':task.taskList.account.name})}}" class="label label-info">
-                  {{ task.taskList.account.name }} 
-                </a>
-                - 
-                {% if(task.taskList.account.client) %}
-                  <a href="{{ path('completed_tasks',{'client': task.taskList.account.client.name})}}" class="label label-primary">
-                    {{task.taskList.account.client.name }}
-                  </a>
-                {% endif %}
-              {% endif %}
-            </td>
-            <td class="text-right">{{ task.est }}m</td>
-            <td>{{ (task.createdAt) ? task.createdAt|date }}</td>
-            <td>{{ (task.completedAt) ? task.completedAt|date }}</td>
-            <td>
-              {% if (task.workLog) %}
-                <a href="{{ path('worklog_show', {'id': task.workLog.id })}}"
-                   class="btn btn-success btn-xs">
-                  Edit
-                </a>
-              {% else %}
-                <a href="{{ path('worklog_new', {'task':task.id}) }}"
-                   class="btn btn-primary btn-xs">
-                  Log
+              {% if(task.taskList.account.client) %}
+                <a href="{{ path('completed_tasks',{'client': task.taskList.account.client.name})}}" class="label label-primary">
+                  {{task.taskList.account.client.name }}
                 </a>
               {% endif %}
-            </td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  {% endblock %}
-  {% block javascripts %}
-    {{ parent() }}
-    <script type="text/javascript" src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js" ></script>
-    <script>
-      $(document).ready(function () {
-        var tasksTable = $('#tasks').DataTable({
-          "stateSave": true,
-        });
-        $('#tasks tbody').on('dblclick', 'tr', function () {
-          $(this).children('td').first().children('input')[0].click();
-        });
+            {% endif %}
+          </td>
+          <td class="text-right">{{ task.est }}m</td>
+          <td>{{ (task.createdAt) ? task.createdAt|date }}</td>
+          <td>{{ (task.completedAt) ? task.completedAt|date }}</td>
+          <td>
+            {% if (task.workLog) %}
+              <a href="{{ path('worklog_show', {'id': task.workLog.id })}}"
+                 class="btn btn-success btn-xs">
+                Edit
+              </a>
+            {% else %}
+              <a href="{{ path('worklog_new', {'task':task.id}) }}"
+                 class="btn btn-primary btn-xs">
+                Log
+              </a>
+            {% endif %}
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
+{% block javascripts %}
+  {{ parent() }}
+  <script type="text/javascript" src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var tasksTable = $('#tasks').DataTable({
+        "stateSave": true,
+      });
+      $('#tasks tbody').on('dblclick', 'tr', function () {
+        $(this).children('td').first().children('input')[0].click();
+      });
 
-        //Autolog
-        $('#log').click(function () {
-          var data = [];
-          $('input[name="tasks[]"]:checked').each(
-                  function (i) {
-                    data[i] = $(this).val();
-                  });
-          $.post('{{ path('worklog_autolog') }}', {"task_ids": data}, function () {
-            location.reload();
-          });
-        });
-        //unlog
-        $('#unlog').click(function () {
-          var data = [];
-          $('input[name="tasks[]"]:checked').each(
-                  function (i) {
-                    data[i] = $(this).val();
-                  });
-          $.post('{{ path('worklog_unlog') }}', {"task_ids": data}, function () {
-            location.reload();
-          });
+      // Select all
+      $('#select').click(function () {
+        console.log('checking');
+        $('input[name="tasks[]"]').each(function () {
+          $(this).attr('checked', true);
         });
       });
-    </script>
-  {% endblock %}
+
+      //Autolog
+      $('#log').click(function () {
+        var data = [];
+        $('input[name="tasks[]"]:checked').each(
+                function (i) {
+                  data[i] = $(this).val();
+                });
+        $.post('{{ path('worklog_autolog') }}', {"task_ids": data}, function () {
+          location.reload();
+        });
+      });
+
+      //unloggable
+      $('#unloggable').click(function () {
+        var data = [];
+        $('input[name="tasks[]"]:checked').each(
+                function (i) {
+                  data[i] = $(this).val();
+                });
+        $.post('{{ path('worklog_unloggable') }}', {"task_ids": data}, function () {
+          location.reload();
+        });
+      });
+
+      // Delete worklog
+      $('#delete').click(function () {
+        var data = [];
+        $('input[name="tasks[]"]:checked').each(
+                function (i) {
+                  data[i] = $(this).val();
+                });
+        $.post('{{ path('worklog_autodelete') }}', {"task_ids": data}, function () {
+          location.reload();
+        });
+      });
+
+      //reset view
+      $('#reset').click(function () {
+        tasksTable.state.clear();
+        return true;
+      });
+    });
+  </script>
+{% endblock %}
