@@ -1,6 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block floatingActions %}{{ a.add('notes_new') }}{% endblock %}
+{% block floatingActions %}
+  <a href="{{ path('notes_new') }}" role="button"
+     title="note"
+     class="btn btn-sm btn-primary">
+    <span class="glyphicon glyphicon-plus"></span></a>
+
+{% endblock %}
 
 {% block content %}
   <div class="notes-container">

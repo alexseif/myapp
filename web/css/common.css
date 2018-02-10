@@ -17,6 +17,7 @@ a.navbar-brand{background-color: #222222;}
   padding: 0px;
 }
 .floating-action a{
+  padding: 0px;
   color: white;
   border-radius: 50px;
   display: table-cell;
