@@ -23,32 +23,14 @@
         {% endif %}
       </span>
     </label>
-    <button
-      class="btn btn-link btn-xs info-link"
-      data-toggle="popover"
-      data-trigger="focus"
-      title="<a href=''>{{ task.taskList.name}}</a>"
-      data-content='<p>{{ task.task|converturls }}</p>
-      <div class="btn-group btn-group-justified">
-      <a href="{{ path ('tasks_show', {"id":task.id})}}" 
-      class="btn btn-info btn-xs">
-      <span class="glyphicon glyphicon-open"></span></a>
-      <a href="{{ path ('tasks_edit', {"id":task.id})}}"
-      class="btn btn-primary btn-xs">
-      <span class="glyphicon glyphicon-pencil"></span></a>
-      </div>
-      <div class="text-info small">
-      <span class="label label-default">Est:</span>&nbsp;
-      {{ task.est }}m</div>
-      <div class="text-info small">
-      <span class="label label-default">ETA:</span>&nbsp;
-      {{ (task.eta)?task.eta|date:"-" }}
-      </div>
-      <div class="text-info small">
-      <span class="label label-default">Created At:</span>&nbsp;
-      {{ task.createdAt|date }}</div>'
-      ><i class="glyphicon glyphicon-info-sign"></i></button>
-      {% if displayListName %}
+    <a
+      class="btn-xs"
+      data-toggle="modal"
+      data-target="#"
+      href="{{ path('task_show_modal', {"id":task.id}) }}"
+      ><i class="glyphicon glyphicon-modal-window"></i></a>
+
+    {% if displayListName %}
       <span class="visible-lg-inline-block visible-md-inline-block">
         <a class="label label-default task-list-name" 
            data-tasklist="{{ task.taskList.name }}" 

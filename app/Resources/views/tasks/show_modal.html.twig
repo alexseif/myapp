@@ -1,10 +1,10 @@
-{% extends 'base.html.twig' %}
+{% extends "modal.html.twig" %}
 
-{% block floatingActions %}{{ a.add('tasks_new') }}{% endblock %}
-{% block panelBack %}{{ a.back('tasks_index') }}{% endblock %}
-{% block panelTitle %}{{ task.task }}{% endblock %}
-{% block panelHeadingRight %}{{ forms.delete(delete_form) }}{% endblock %}
-{% block panelBody %}
+{% block modal_header %}
+  <h3>{{ task.task|converturls }}</h3>
+{% endblock %}
+
+{% block modal_body %}
   <ul class="list-group task-list">
     <li class="list-group-item {{ task.completed ? "completed" }}" 
         data-order="id_{{task.id}}" 
@@ -78,3 +78,4 @@
     </li>
   </ul>
 {% endblock %}
+

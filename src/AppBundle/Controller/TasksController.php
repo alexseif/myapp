@@ -215,6 +215,20 @@ class TasksController extends Controller
   }
 
   /**
+   * Finds and displays a Tasks entity.
+   *
+   * @Route("/{id}/modal", name="task_show_modal")
+   * @Method("GET")
+   */
+  public function showModalAction(Tasks $tasks)
+  {
+
+    return $this->render('tasks/show_modal.html.twig', array(
+          'task' => $tasks,
+    ));
+  }
+
+  /**
    * Displays a form to edit an existing Tasks entity.
    *
    * @Route("/{id}/edit", name="tasks_edit")

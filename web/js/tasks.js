@@ -6,22 +6,8 @@ var Tasks = {
     time: 300,
     remaining: 0
   },
-
   init: function () {
     this.bindEvents();
-  },
-
-  bindEvents: function () {
-    $('.task-list input[type="checkbox"]').change(this.updateTask);
-    $('.task-list a.postpone').click(this.postponeTask);
-    $('[data-toggle="popover"]').popover({html: true, container: "body"});
-    if (!touch) {
-      $("#tasks").sortable({
-        connectWith: ".task-list",
-        items: "li:not(.completed)",
-        update: this.updateOrder
-      });
-    }
     if (this.isFocus) {
       $('<ul class="list-group task-list" id="focus"></ul>').prependTo('.container');
       this.drawFocus();
@@ -34,7 +20,20 @@ var Tasks = {
       }
     }
   },
+  bindEvents: function () {
+    $('.task-list input[type="checkbox"]').change(this.updateTask);
+    $('.task-list a.postpone').click(this.postponeTask);
+    $('[data-toggle="popover"]').popover({html: true, container: "body"});
+    $('[data-toggle="modal"]').click(this.showModal);
 
+    if (!touch) {
+      $("#tasks").sortable({
+        connectWith: ".task-list",
+        items: "li:not(.completed)",
+        update: this.updateOrder
+      });
+    }
+  },
   postponeTask: function () {
     var taskEl = this;
     //TODO: handle errors
@@ -52,29 +51,22 @@ var Tasks = {
 
       var undoLink = $('<a class="undo"><strong>Undo</strong></a>')
               .data('taskid', taskId);
-
       var div = $('<div/>')
               .addClass("alert alert-success alert-dismissable")
               .css("margin-bottom", 0)
               .append('<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Postponed!</strong>&nbsp;')
               .append(undoLink);
-
       var li = $('<li/>')
               .addClass("list-group-item")
               .append(div);
-
       $(taskEl).parent().parent().after(li);
-
       $('a.undo').click(Tasks.undoPostponeTask);
-
       $(taskEl).parent().parent().remove();
-
       if (self.isFocus) {
         self.drawFocus();
       }
     });
   },
-
   undoPostponeTask: function () {
     var taskEl = this;
     //TODO: handle errors
@@ -93,7 +85,6 @@ var Tasks = {
       }
     });
   },
-
   updateTask: function () {
     var taskEl = this;
     var isCompleted = $(taskEl).is(':checked') ? 1 : 0;
@@ -123,18 +114,15 @@ var Tasks = {
       }
     });
   },
-
   drawFocus: function () {
     self = this;
     completed = $('.completed');
     $('#completed').append(completed);
     $('li:not(.completed)').prependTo('#tasks');
-
     this.day.completed = 0;
     completed.each(function () {
       self.day.completed += ($(this).data("time")) ? $(this).data("time") : 0;
     });
-
     this.day.remaining = this.day.time - this.day.completed;
     while (this.day.remaining > 0) {
       task = $('#tasks li:first');
@@ -163,18 +151,15 @@ var Tasks = {
     this.setFocusTaskHeight();
     this.focusTitle();
   },
-
   focusTitle: function () {
     $('title').text($('#focus li:first label').text().trim() + "| myApp");
   },
-
 //Update Tasks size to fit screen
   setFocusTaskHeight: function () {
     $('#focus li').css('height', ((1 - ($('#completed').height() / $(window).height())) * 100 / $('#focus li').length + 'vh'));
     $('#completed li').css('height', 'auto');
     $('#tasks li').css('height', 'auto');
   },
-
 //Update order of tasks based on sorting
   updateOrder: function () {
     var dataString = "";
@@ -191,6 +176,26 @@ var Tasks = {
         self.drawFocus();
       }
     });
+  },
+
+//Open task modal
+  showModal: function (e) {
+
+// Support for AJAX loaded modal window.
+// Focuses on first input textbox after it loads the window.
+    e.preventDefault();
+    var url = $(this).attr('href');
+    if (url.indexOf('#') == 0) {
+      $(url).modal('open');
+    } else {
+      $.get(url, function (data) {
+        $('<div class="modal fade">' + data + '</div>').modal().on('hidden', function () {
+          $(this).remove();
+        });
+      }).success(function () {
+        $('input:text:visible:first').focus();
+      });
+    }
   }
 }
 Tasks.init();
