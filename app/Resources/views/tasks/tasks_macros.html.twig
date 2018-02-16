@@ -49,9 +49,19 @@
     <span class="visible-lg-inline visible-md-inline">
       {% if(not task.completed) %}
         <a  data-taskid="{{task.id}}"
+            data-postpone="+5 minutes"
+            title="5 mins"
+            class="btn btn-default edit-fixed-link postpone btn-sm"
+            style="right: 95px;">
+          <img src="/images/snooze_white_18x18.png" width="18px" />
+        </a>
+        <a  data-taskid="{{task.id}}"
+            data-postpone="tomorrow"
+            title="tomorrow"
             class="btn btn-default edit-fixed-link postpone btn-sm"
             style="right: 50px;">
-          <span class="glyphicon glyphicon-repeat"></span></a>
+          <img src="/images/zzz.png" width="18px"/>
+        </a>
 
       {% endif %}
 
