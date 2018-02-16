@@ -37,8 +37,8 @@ var Tasks = {
   postponeTask: function () {
     var taskEl = this;
     //TODO: handle errors
-    var postpone = true;
     var taskId = $(taskEl).data('taskid');
+    var postpone = $(taskEl).data('postpone');
     $.ajax({
       type: "POST",
       url: tasks_path + $(taskEl).data('taskid') + "/edit",

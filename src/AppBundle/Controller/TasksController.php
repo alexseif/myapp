@@ -242,18 +242,19 @@ class TasksController extends Controller
     if ($request->isXMLHttpRequest()) {
 
       if ($request->get('postpone')) {
-        $task->setEta(new \DateTime('tomorrow'));
+        $task->setEta(new \DateTime($request->get('postpone')));
       }
 
       if ($request->get('undo')) {
         $task->setEta(null);
       }
-
-      $task->setCompleted($request->get('completed'));
-      if ($task->getCompleted()) {
-        $task->setCompletedAt(new \DateTime());
-      } else {
-        $task->setCompletedAt(null);
+      if ($request->get('completed')) {
+        $task->setCompleted($request->get('completed'));
+        if ($task->getCompleted()) {
+          $task->setCompletedAt(new \DateTime());
+        } else {
+          $task->setCompletedAt(null);
+        }
       }
       $em->flush();
       return new \Symfony\Component\HttpFoundation\JsonResponse();
