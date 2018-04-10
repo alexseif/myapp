@@ -1,15 +1,15 @@
 git checkout beta
 git merge master
-ggp
+git push
 git checkout budgeting
 git merge master
-ggp
+git push
 git checkout focus
 git merge master
-ggp
+git push
 git checkout google-api
 git merge master
-ggp
+git push
 git checkout symfony_upgrade
 git merge master
-ggp
+git push
