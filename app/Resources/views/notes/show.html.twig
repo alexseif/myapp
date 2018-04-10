@@ -1,4 +1,6 @@
 {% extends 'base.html.twig' %}
+{% import "macros/forms.html.twig" as forms %}
+{% import "macros/a.html.twig" as a %}
 {% block floatingActions %}{{ a.add('notes_new') }}{% endblock %}
 {% block panelBack %}{{ a.back('notes_index') }}{% endblock %}
 {% block panelTitle %}{{ note.note|striptags|truncate(50)|title }}{% endblock %}

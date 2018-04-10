@@ -11,61 +11,70 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @author alexseif
  */
-class ControllerActionExtension extends \Twig_Extension {
+class ControllerActionExtension extends \Twig_Extension
+{
 
-    /**
-     * @var Request 
-     */
-    protected $request;
+  /**
+   * @var Request 
+   */
+  protected $request;
 
-    /**
-     * @var \Twig_Environment
-     */
-    protected $environment;
+  /**
+   * @var \Twig_Environment
+   */
+  protected $environment;
 
-    public function setRequest(Request $request = null) {
-        $this->request = $request;
+  public function setRequest(Request $request = null)
+  {
+    $this->request = $request;
+  }
+
+  public function initRuntime(\Twig_Environment $environment)
+  {
+    $this->environment = $environment;
+  }
+
+  public function getFunctions()
+  {
+    return array(
+//      'get_controller_name' => new \Twig_Function_Method($this, 'getControllerName'),
+      new \Twig_SimpleFunction('get_controller_name', array($this, 'getControllerName')),
+//      'get_action_name' => new \Twig_Function_Method($this, 'getActionName'),
+      new \Twig_SimpleFunction('get_action_name', array($this, 'getActionName')),
+    );
+  }
+
+  /**
+   * Get current controller name
+   */
+  public function getControllerName()
+  {
+    if (null !== $this->request) {
+      $pattern = "#Controller\\\([a-zA-Z]*)Controller#";
+      $matches = array();
+      preg_match($pattern, $this->request->get('_controller'), $matches);
+
+      return strtolower($matches[1]);
     }
+  }
 
-    public function initRuntime(\Twig_Environment $environment) {
-        $this->environment = $environment;
+  /**
+   * Get current action name
+   */
+  public function getActionName()
+  {
+    if (null !== $this->request) {
+      $pattern = "#::([a-zA-Z]*)Action#";
+      $matches = array();
+      preg_match($pattern, $this->request->get('_controller'), $matches);
+
+      return $matches[1];
     }
+  }
 
-    public function getFunctions() {
-        return array(
-            'get_controller_name' => new \Twig_Function_Method($this, 'getControllerName'),
-            'get_action_name' => new \Twig_Function_Method($this, 'getActionName'),
-        );
-    }
-
-    /**
-     * Get current controller name
-     */
-    public function getControllerName() {
-        if (null !== $this->request) {
-            $pattern = "#Controller\\\([a-zA-Z]*)Controller#";
-            $matches = array();
-            preg_match($pattern, $this->request->get('_controller'), $matches);
-
-            return strtolower($matches[1]);
-        }
-    }
-
-    /**
-     * Get current action name
-     */
-    public function getActionName() {
-        if (null !== $this->request) {
-            $pattern = "#::([a-zA-Z]*)Action#";
-            $matches = array();
-            preg_match($pattern, $this->request->get('_controller'), $matches);
-
-            return $matches[1];
-        }
-    }
-
-    public function getName() {
-        return 'controller_action_twig_extension';
-    }
+  public function getName()
+  {
+    return 'controller_action_twig_extension';
+  }
 
 }

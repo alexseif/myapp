@@ -1,4 +1,6 @@
 {% extends 'base.html.twig' %}
+{% import "macros/forms.html.twig" as forms %}
+{% import "macros/a.html.twig" as a %}
 {% block title %}Edit {{ workLog.name }}{% endblock %}
 {% block floatingActions %}{{ a.add('worklog_new') }}{% endblock %}
 {% block panelBack %}{{ a.back('worklog_index') }}{% endblock %}

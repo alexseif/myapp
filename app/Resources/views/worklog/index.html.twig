@@ -1,5 +1,6 @@
 {% extends 'base.html.twig' %}
-
+{% import "macros/forms.html.twig" as forms %}
+{% import "macros/a.html.twig" as a %}
 {% block floatingActions %}{{ a.add('worklog_new') }}{% endblock %}
 {% block panelTitle %}Work Logs{% endblock %}
 {% block panelHeadingRight %}<a href="{{ path('completed_tasks') }}" class="btn btn-primary btn-sm">Completed Tasks</a>{% endblock %}

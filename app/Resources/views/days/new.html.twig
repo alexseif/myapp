@@ -1,4 +1,6 @@
 {% extends 'base.html.twig' %}
+{% import "macros/forms.html.twig" as forms %}
+{% import "macros/a.html.twig" as a %}
 {% block panelBack %}{{ a.back('days_index') }}{% endblock %}
 {% block panelTitle %}New Day Card{% endblock %}
 {% block panelBody %}{{ forms.panel(day_form) }}{% endblock %}

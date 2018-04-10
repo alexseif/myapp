@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-
+{% import "macros/a.html.twig" as a %}
 {% block floatingActions %}{{ a.add('accounts_new') }}{% endblock %}
 {% block panelTitle %}Accounts{% endblock %}
 {% block panelBody %}

@@ -1,4 +1,6 @@
 {% extends 'base.html.twig' %}
+{% import "macros/forms.html.twig" as forms %}
+{% import "macros/a.html.twig" as a %}
 {% block panelBack %}{{ a.back('tasklists_show', {'id':taskList.id}) }}{% endblock %}
 {% block panelTitle %}Edit Task List{% endblock %}
 {% block panelTitleSmall %}{{taskList.name}}{% endblock %}

@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-
+{% import "macros/a.html.twig" as a %}
 {% block floatingActions %}{{ a.add('days_new') }}{% endblock %}
 {% block content %}
   <div class="row">

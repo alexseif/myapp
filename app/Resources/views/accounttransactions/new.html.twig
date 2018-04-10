@@ -1,5 +1,6 @@
 {% extends 'base.html.twig' %}
-
+{% import "macros/forms.html.twig" as forms %}
+{% import "macros/a.html.twig" as a %}
 {% block panelTitle %}New Transaction{% endblock %}
 {% block panelBack %}{{ a.back('accounttransactions_index') }}{% endblock %}
 {% block panelBody %}{{ forms.panel(transaction_form) }}{% endblock %}

@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 {% import "tasks/tasks_macros.html.twig" as tasks_view %}
-
+{% import "macros/forms.html.twig" as forms %}
+{% import "macros/a.html.twig" as a %}
 {% block floatingActions %}{{ a.add('tasks_new', {"tasklist": taskList.id}) }}{% endblock %}
 {% block panelBack %}{{ a.back('tasklists_index') }}{% endblock %}
 {% block panelTitle %}{{ taskList.name }} Tasks{% endblock %}
