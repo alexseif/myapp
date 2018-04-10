@@ -4,9 +4,9 @@
 {# TODO: http://bootsnipp.com/user/favorites #}
 {% block container %}
   <style>
-    .workarea{
-      max-height: 90vh;
-      overflow: scroll;
+    .scrollable{
+      max-height: calc(100vh  - 82px);
+      overflow-y: scroll;
     }
   </style>
   <div class="floating-action dropup">
@@ -22,10 +22,10 @@
     </ul>
   </div>
   <div class="row">
-    <div class="col-xs-12 col-sm-6 col-md-8 col-lg-8 workarea">
+    <div class="col-xs-12 col-sm-6 col-md-8 col-lg-8 scrollable">
       {{ tasks_view.ul(focus, 'workarea') }}
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 workarea">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 scrollable">
       {% if days|length %}
         {% include 'days/days_list.html.twig' %}
       {% endif %}
