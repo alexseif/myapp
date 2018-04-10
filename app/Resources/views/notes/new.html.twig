@@ -1,4 +1,6 @@
 {% extends 'base.html.twig' %}
+{% import "macros/forms.html.twig" as forms %}
+{% import "macros/a.html.twig" as a %}
 {% block panelBack %}{{ a.back('notes_index') }}{% endblock %}
 {% block panelTitle %}New note{% endblock %}
 {% block panelBody %}{{ forms.panel(notes_form) }}{% endblock %}

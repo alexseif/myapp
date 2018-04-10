@@ -1,5 +1,6 @@
 {% extends 'base.html.twig' %}
-
+{% import "macros/forms.html.twig" as forms %}
+{% import "macros/a.html.twig" as a %}
 {% block floatingActions %}
   <a href="{{ path('notes_new') }}" role="button"
      title="note"

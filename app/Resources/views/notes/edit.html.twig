@@ -1,4 +1,6 @@
 {% extends 'base.html.twig' %}
+{% import "macros/forms.html.twig" as forms %}
+{% import "macros/a.html.twig" as a %}
 {% block panelBack %}{{ a.back('notes_show', {'id':note.id}) }}{% endblock %}
 {% block panelTitle %}Edit note{% endblock %}
 {% block panelTitleSmall %}{{ note.note|truncate(10) }}{% endblock %}

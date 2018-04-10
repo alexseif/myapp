@@ -1,5 +1,5 @@
 {% extends "::base.html.twig" %}
-
+{% import "macros/a.html.twig" as a %}
 {% block title %}Backups{% endblock %}
 {% block floatingActions %}{{ a.add('backups_generate') }}{% endblock %}
 {% block panelTitle %}Backups{% endblock %}

@@ -1,4 +1,6 @@
 {% extends 'base.html.twig' %}
+{% import "macros/forms.html.twig" as forms %}
+{% import "macros/a.html.twig" as a %}
 {% block title %}Edit {{ client.name }}{% endblock %}
 {% block floatingActions %}{{ a.add('client_new') }}{% endblock %}
 {% block panelBack %}{{ a.back('client_index') }}{% endblock %}
