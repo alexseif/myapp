@@ -1,4 +1,18 @@
+{% macro taskIcons(urgency = 0, priority = 0) %}
+  {% if urgency %}
+    <span class="glyphicon glyphicon-flash text-warning"></span>
+  {% endif %}
+  {% if priority > 0 %}
+    <span class="glyphicon glyphicon-menu-up text-danger"></span>
+  {% elseif priority < 0 %}
+    <span class="glyphicon glyphicon-menu-down text-primary"></span>
+  {% else %}
+    <span class="glyphicon glyphicon-menu-right"></span>
+  {% endif %}
+{% endmacro %}
+
 {% macro li(task, displayListName = true) %}
+  {% import _self as taskUI %}
   <li class="list-group-item {{ task.completed ? "completed" }}" 
       data-order="id_{{task.id}}" 
       id="task_{{task.id}}" 
@@ -11,16 +25,7 @@
              {{ task.completed ? "checked" : "" }}/>
       {{ task.task|truncate(50) }}
       <span class="badge">
-        {% if task.urgency %}
-          <span class="glyphicon glyphicon-flash text-warning"></span>
-        {% endif %}
-        {% if task.priority > 0 %}
-          <span class="glyphicon glyphicon-menu-up text-danger"></span>
-        {% elseif task.priority < 0 %}
-          <span class="glyphicon glyphicon-menu-down text-primary"></span>
-        {% else %}
-          <span class="glyphicon glyphicon-menu-right text-primary"></span>
-        {% endif %}
+        {{ taskUI.taskIcons(task.urgency, task.priority) }}
       </span>
     </label>
     <a
@@ -73,11 +78,11 @@
 {% endmacro %}
 
 {% macro ul(tasks, id, displayListName = true) %}
-  {% import _self as ul %}
+  {% import _self as taskUI %}
 
   <ul class="list-group task-list" {{ (id) ? 'id='~id }}>
     {% for task in tasks %}
-      {{ ul.li(task, displayListName) }}
+      {{ taskUI.li(task, displayListName) }}
     {% endfor %}
   </ul>   
 {% endmacro %}

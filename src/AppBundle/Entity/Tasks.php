@@ -102,14 +102,13 @@ class Tasks
    * @ORM\OneToOne(targetEntity="WorkLog", mappedBy="task")
    */
   private $workLog;
-  
+
   /**
    * If task is available for WorkLog.
    * @ORM\Column(name="work_loggable", type="boolean", options={"default": TRUE})
    */
   private $workLoggable;
 
-  
   /**
    * Constructor
    */
@@ -433,33 +432,33 @@ class Tasks
 //    return ($this->getCompleted() ? "x " : "") . $this->getTask() . ' | ' . $this->getTaskList()->getName();
   }
 
+  /**
+   * Set workLoggable
+   *
+   * @param boolean $workLoggable
+   *
+   * @return Tasks
+   */
+  public function setWorkLoggable($workLoggable)
+  {
+    $this->workLoggable = $workLoggable;
+
+    return $this;
+  }
+
+  /**
+   * Get workLoggable
+   *
+   * @return boolean
+   */
+  public function getWorkLoggable()
+  {
+    return $this->workLoggable;
+  }
+
   public function __toString()
   {
     return $this->getTaskString();
   }
 
-
-    /**
-     * Set workLoggable
-     *
-     * @param boolean $workLoggable
-     *
-     * @return Tasks
-     */
-    public function setWorkLoggable($workLoggable)
-    {
-        $this->workLoggable = $workLoggable;
-
-        return $this;
-    }
-
-    /**
-     * Get workLoggable
-     *
-     * @return boolean
-     */
-    public function getWorkLoggable()
-    {
-        return $this->workLoggable;
-    }
 }

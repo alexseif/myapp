@@ -122,8 +122,14 @@ class DefaultController extends Controller
   {
     $em = $this->getDoctrine()->getManager();
     $today = new \DateTime();
+    $tasksRepo = $em->getRepository('AppBundle:Tasks');
+    $tasks = $tasksRepo->getIncopmleteTasks();
+    $tasksCompletedToday = $tasksRepo->getCompletedToday();
+    $days = $em->getRepository('AppBundle:Days')->getImportantCards();
 
     return $this->render('default/beta.html.twig', array(
+          'tasks' => $tasks,
+          'days' => $days,
           'today' => $today,
     ));
   }

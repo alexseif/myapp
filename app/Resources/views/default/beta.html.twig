@@ -1,10 +1,24 @@
 {% extends 'base.html.twig' %}
-{% import "tasks/tasks_macros.html.twig" as tasks_view %}
+{% import "tasks/tasks_macros.html.twig" as taskUI %}
 {% block title %}Dashboard{% endblock %}
-{% block nav %}
-  {% include 'nav.html.twig' %}
-{% endblock %}
 {% block container %}
+  <style>
+    .text-lg{
+      font-size: 2em;
+      overflow-wrap: break-word;
+      white-space: normal;
+      text-align: center;
+    }
+    .task-list{
+      font-size: 100%;
+    }
+    .active{ 
+      height: calc(100vh);
+    }
+    .task-item:first-child .action-prev{display: none;}
+    .task-item:last-child .action-next{display: none;}
+    a.list-group-item, button.list-group-item{color: white;}
+  </style>
   <div class="floating-action dropup">
     <a class="btn btn-info dropdown-toggle" type="button" id="dahboardMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       <span class="glyphicon glyphicon-plus"></span>
@@ -17,52 +31,149 @@
       <li><a href="{{ path('accounttransactions_new') }}" class="btn btn-info"><span class="glyphicon glyphicon-transfer"></span></a></li>
     </ul>
   </div>
-  <style type="text/css">
-    .row-1{height: 500px;overflow: auto;}
-    .nopadding{padding: 0 !important; margin: 0 !important;}
-    .pad-me{padding: 10px;}
-    .table-bottom-border tbody tr{border-bottom: 1px solid black;}
-  </style>
-  <div class="row">
-    <section>
-      <div class="col-lg-4">
-        <div class="row-1 bg-info pad-me">
-          <header>
-            <div class="pull-right text-right">
-              <h2 class="nopadding">{{ today|date("G:i:s") }}</h2>
-              <h3 class="nopadding">{{ today|date("jS F") }}</h3>
-              <h4 class="nopadding"> {{ today|date("Y") }}</h4>
-            </div>
-          </header>
+  <ul class="list-group task-list">
+    {% for day in days %}
+      <li class="list-group-item task-item" id="day-{{ day.id }}">
+        <div class="row">
+          <div class="text-lg col-md-2">
+          </div>
+          <div class="text-lg col-md-8">
+            {{ day }}
+          </div>
         </div>
-      </div>
-    </section>
-    <div class="col-lg-2">
-      <div class="row-1 bg-success pad-me">
-        <table class="table table-bottom-border">
-          <thead><tr><th>Heading</th></tr></thead>
-          <tbody><tr><td>This is something</td></tr></tbody>
-        </table>
-      </div>
-    </div>
-    <div class="col-lg-6">
-      <div class="row-1 bg-warning pad-me">
-        Block 3
-      </div>
-    </div>
-  </div>
+        <div class="row btns" style="display: none;">
+          <div class="col-md-4 col-md-push-4">
+            <div class="btn-group btn-group-justified" role="group">
+              <a type="button" class="btn btn-default action-prev">Prev</a>
+              <a type="button" class="btn btn-default action-start">Start</a>
+              <a type="button" class="btn btn-default action-hide">Hide</a>
+              <a type="button" class="btn btn-default action-next">Next</a>
+            </div>
+          </div>
+        </div>
+      </li>
+    {% endfor %}
+    {% for task in tasks %}
+      <li class="list-group-item task-item" data-id="{{ task.id }}" id="task-{{ task.id }}">
+        <div class="row">
+          <div class="text-lg col-md-2">
+            {{ task.est ? : 0 }} m
+            {{ taskUI.taskIcons(task.urgency, task.priority) }}
+          </div>
+          <div class="text-lg col-md-8">
+            {{ task }} 
+          </div>
+          <div class="col-md-2">
+            <span class="label label-default task-list">
+              {{ task.taskList }}
+            </span>
+          </div>
+        </div>
+        <div class="row btns" style="display: none;">
+          <div class="col-md-4 col-md-push-4">
+            <div class="btn-group btn-group-justified" role="group">
+              <a type="button" class="btn btn-default action-prev">Prev</a>
+              <a type="button" class="btn btn-default action-start">Start</a>
+              <a type="button" class="btn btn-default action-hide">Hide</a>
+              <a type="button" class="btn btn-default action-next">Next</a>
+            </div>
+          </div>
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
 {% endblock %}
 {% block javascripts %}
   {{ parent() }}
-  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-  <script type="text/javascript">
-    google.charts.load("current", {packages: ["corechart"]});
-    google.charts.setOnLoadCallback(drawChart);
-    function drawChart() {
+  <script>
+    var BetaTasks = {
+      init: function () {
+        $('.task-list .task-item').click(this.expandTask);
+        $('.action-prev').click(this.prevTask);
+        $('.action-next').click(this.nextTask);
+        $('.action-start').click(this.startTask);
+        $('.action-hide').click(this.hideTask);
+        if (!touch) {
+          $('.task-list').sortable({
+    {#            items: ".task-item",#}
+              update: this.updateOrder
+            });
+          }
+        },
+        updateOrder: function () {
+          var dataString = "";
+          $('.task-list .task-item').each(function () {
+            dataString += "tasks[][id]=" + $(this).data('id') + "&";
+          });
+          $.ajax({
+            data: dataString,
+            dataType: "json",
+            type: 'POST',
+            url: tasks_order
+          }).done(function () {
+            if (self.isFocus) {
+              self.drawFocus();
+            }
+          });
+        },
+        expandTask: function () {
+          var lastActiveTaskLi = $('.task-list .task-item.active');
+          var activeTaskLi = $(this);
+          if (!activeTaskLi.hasClass('active')) {
+            lastActiveTaskLi.children('.btns').hide();
+            lastActiveTaskLi.removeClass('active');
+            activeTaskLi.children('.btns').show();
+            activeTaskLi.addClass('active');
+          }
+          window.location.hash = $(this).attr('id');
+        },
+        prevTask: function (event) {
+          event.stopPropagation();
+          $('.task-item.active').prev()[0].click(function () {
+          });
+        },
+        nextTask: function (event) {
+          event.stopPropagation();
+          $('.task-item.active').next()[0].click();
+        },
+        startTask: function (event) {
+          event.stopPropagation();
+          //TODO: start timer and log time
+        },
+        hideTask: function (event) {
+          event.stopPropagation();
+          $('.task-item.active').remove();
+          //TODO: store hidden items to keep hidden for 5 mins
+        }
 
-    }
-    $(window).resize(function () {
-      drawChart();
-    });
+      }
+      BetaTasks.init();
+      window.addEventListener("keydown", function (event) {
+        if (event.defaultPrevented) {
+          return; // Do nothing if the event was already processed
+        }
+
+        switch (event.key) {
+          case "ArrowRight":
+          case "ArrowDown":
+            BetaTasks.nextTask(event);
+            break;
+          case "ArrowLeft":
+          case "ArrowUp":
+            BetaTasks.prevTask(event);
+            break;
+          case "Enter":
+            // Do something for "enter" or "return" key press.
+            break;
+          case "Escape":
+            // Do something for "esc" key press.
+            break;
+          default:
+            return; // Quit when this doesn't handle the key event.
+        }
+
+        // Cancel the default action to avoid it being handled twice
+        event.preventDefault();
+      }, true);
   </script>
 {% endblock %}
