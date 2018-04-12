@@ -3,11 +3,13 @@
  */
 
 var BetaItems = {
+  timer: null,
   init: function () {
     $('.action-list .action-item').click(this.expandItem);
     $('.action-prev').click(this.prevItem);
     $('.action-next').click(this.nextItem);
     $('.action-start').click(this.startItem);
+    $('.action-stop').click(this.stopItem);
     $('.action-hide').click(this.hideItem);
     window.addEventListener("keydown", this.keyboardNavigation, true);
     $(window.location.hash).click();
@@ -16,6 +18,7 @@ var BetaItems = {
         update: this.updateOrder
       });
     }
+    this.startIterateItems();
   },
   updateOrder: function () {
     var dataString = "";
@@ -33,7 +36,7 @@ var BetaItems = {
       }
     });
   },
-  expandItem: function () {
+  expandItem: function (event) {
     var lastActiveItemLi = $('.action-list .action-item.active');
     var activeItemLi = $(this);
     if (!activeItemLi.hasClass('active')) {
@@ -48,17 +51,43 @@ var BetaItems = {
     event.stopPropagation();
     if ($('.action-item.active').prev().length) {
       $('.action-item.active').prev()[0].click();
+    } else {
+      $('.action-item').first().click();
     }
   },
   nextItem: function (event) {
-    event.stopPropagation();
+    if (event) {
+      event.stopPropagation();
+    }
     if ($('.action-item.active').next().length) {
       $('.action-item.active').next()[0].click();
+    } else {
+      $('.action-item').first().click();
     }
   },
   startItem: function (event) {
-    event.stopPropagation();
+    if (event) {
+      event.stopPropagation();
+    }
+    $startBtn = $('.action-item.active .btns .action-start');
+    $startBtn.text('Stop')
+            .removeClass('action-start')
+            .addClass('action-stop');
+
+    $('.action-stop').click(BetaItems.stopItem);
+    BetaItems.stopIterateItems();
     //TODO: start timer and log time
+  },
+  stopItem: function (event) {
+    if (event) {
+      event.stopPropagation();
+    }
+    $stopBtn = $('.action-item.active .btns .action-stop');
+    $stopBtn.text('Start')
+            .removeClass('action-stop')
+            .addClass('action-start');
+    $('.action-start').click(this.startItem);
+    BetaItems.startIterateItems();
   },
   hideItem: function (event) {
     event.stopPropagation();
@@ -67,6 +96,12 @@ var BetaItems = {
     $('#' + $thisID).remove();
     $('#' + $nextID).click();
     //TODO: store hidden items to keep hidden for 5 mins
+  },
+  startIterateItems: function () {
+    this.timer = setInterval(this.nextItem, 5000);
+  },
+  stopIterateItems: function () {
+    clearInterval(this.timer);
   },
   keyboardNavigation(event) {
     if (event.defaultPrevented) {
@@ -83,9 +118,11 @@ var BetaItems = {
         break;
       case "Enter":
         // Do something for "enter" or "return" key press.
+        BetaItems.startItem();
         break;
       case "Escape":
         // Do something for "esc" key press.
+        BetaItems.stopItem();
         break;
       default:
         return; // Quit when this doesn't handle the key event.
