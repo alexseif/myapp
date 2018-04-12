@@ -41,8 +41,5 @@ $(document).ready(function () {
     }
   });
 //  console.log(request);
-});
-
-$(document).ready(function () {
   $('.chosen').chosen();
 });

@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Tasks;
 use AppBundle\Entity\TaskLists;
 use AppBundle\Form\TasksType;
+use AppBundle\Model\ActionItem;
 
 class DefaultController extends Controller
 {
@@ -121,13 +122,22 @@ class DefaultController extends Controller
   public function betaAction(Request $request)
   {
     $em = $this->getDoctrine()->getManager();
-    $today = new \DateTime();
     $tasksRepo = $em->getRepository('AppBundle:Tasks');
     $tasks = $tasksRepo->getIncopmleteTasks();
-    $tasksCompletedToday = $tasksRepo->getCompletedToday();
+//    $tasksCompletedToday = $tasksRepo->getCompletedToday();
     $days = $em->getRepository('AppBundle:Days')->getImportantCards();
 
+    $today = new \DateTime();
+    $actionItems = array();
+    foreach ($days as $day) {
+      $actionItems[] = new ActionItem($day->getId(), 'day', $day->getName(), $day->getDeadline()->diff($today)->format('%R%a days'));
+    }
+    foreach ($tasks as $task) {
+      $actionItems[] = new ActionItem($task->getId(), 'task', $task->getTask(), $task->getEst() . "m", $task->getTaskList()->getName(), $task->getPriority(), $task->getUrgency());
+    }
+
     return $this->render('default/beta.html.twig', array(
+          'actionItems' => $actionItems,
           'tasks' => $tasks,
           'days' => $days,
           'today' => $today,

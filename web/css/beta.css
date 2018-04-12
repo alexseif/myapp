@@ -1,0 +1,28 @@
+/*
+The following content was designed & implemented under AlexSeif.com
+*/
+/* 
+    Created on : Apr 12, 2018, 3:54:00 PM
+    Author     : Alex Seif <me@alexseif.com>
+*/
+
+.text-lg{
+  font-size: 2em;
+  overflow-wrap: break-word;
+  white-space: normal;
+  text-align: center;
+}
+.action-list{
+  font-size: 100%;
+}
+.active{ 
+  height: calc(100vh);
+  padding-top: 20%;
+}
+.btns {
+  position: absolute;
+  bottom: 10%;
+}
+.action-item:first-child .action-prev{display: none;}
+.action-item:last-child .action-next{display: none;}
+a.list-group-item, button.list-group-item{color: white;}

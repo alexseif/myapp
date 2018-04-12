@@ -1,81 +1,41 @@
 {% extends 'base.html.twig' %}
 {% import "tasks/tasks_macros.html.twig" as taskUI %}
 {% block title %}Dashboard{% endblock %}
+{% block stylesheets %}
+  {{ parent() }}
+  <link rel="stylesheet" type="text/css" href="/css/beta.css" />
+{% endblock %}
 {% block container %}
-  <style>
-    .text-lg{
-      font-size: 2em;
-      overflow-wrap: break-word;
-      white-space: normal;
-      text-align: center;
-    }
-    .task-list{
-      font-size: 100%;
-    }
-    .active{ 
-      height: calc(100vh);
-    }
-    .task-item:first-child .action-prev{display: none;}
-    .task-item:last-child .action-next{display: none;}
-    a.list-group-item, button.list-group-item{color: white;}
-  </style>
   <div class="floating-action dropup">
-    <a class="btn btn-info dropdown-toggle" type="button" id="dahboardMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <span class="glyphicon glyphicon-plus"></span>
-    </a>
+    <a class="btn btn-info dropdown-toggle" id="dahboardMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-plus"></span></a>
     <ul class="dropdown-menu floating-actions" aria-labelledby="dahboardMenuButton">
-      <li><a href="{{ path('tasks_new') }}" class="btn btn-info"><span class="glyphicon glyphicon-check"></span></a></li>
-      <li><a href="{{ path('tasklists_new') }}" class="btn btn-info"><span class="glyphicon glyphicon-list-alt"></span></a></li>
-      <li><a href="{{ path('days_new') }}" class="btn btn-info"><span class="glyphicon glyphicon-th-large"></span></a></li>
-      <li><a href="{{ path('accounts_new') }}" class="btn btn-info"><span class="glyphicon glyphicon-piggy-bank"></span></a></li>
-      <li><a href="{{ path('accounttransactions_new') }}" class="btn btn-info"><span class="glyphicon glyphicon-transfer"></span></a></li>
+      <li><a target="_blank" class="btn btn-info" href="{{ path('tasks_new') }}"><span class="glyphicon glyphicon-check"></span></a></li>
+      <li><a target="_blank" class="btn btn-info" href="{{ path('tasklists_new') }}"><span class="glyphicon glyphicon-list-alt"></span></a></li>
+      <li><a target="_blank" class="btn btn-info" href="{{ path('days_new') }}"><span class="glyphicon glyphicon-th-large"></span></a></li>
+      <li><a target="_blank" class="btn btn-info" href="{{ path('accounts_new') }}"><span class="glyphicon glyphicon-piggy-bank"></span></a></li>
+      <li><a target="_blank" class="btn btn-info" href="{{ path('accounttransactions_new') }}"><span class="glyphicon glyphicon-transfer"></span></a></li>
     </ul>
   </div>
-  <ul class="list-group task-list">
-    {% for day in days %}
-      <li class="list-group-item task-item" id="day-{{ day.id }}">
+  <ul class="list-group action-list">
+    {% for item in actionItems %}
+      <li class="list-group-item action-item" id="{{ item.type }}-{{ item.id }}">
         <div class="row">
-          <div class="text-lg col-md-2">
-          </div>
-          <div class="text-lg col-md-8">
-            {{ day }}
-          </div>
-        </div>
-        <div class="row btns" style="display: none;">
-          <div class="col-md-4 col-md-push-4">
-            <div class="btn-group btn-group-justified" role="group">
-              <a type="button" class="btn btn-default action-prev">Prev</a>
-              <a type="button" class="btn btn-default action-start">Start</a>
-              <a type="button" class="btn btn-default action-hide">Hide</a>
-              <a type="button" class="btn btn-default action-next">Next</a>
-            </div>
-          </div>
-        </div>
-      </li>
-    {% endfor %}
-    {% for task in tasks %}
-      <li class="list-group-item task-item" data-id="{{ task.id }}" id="task-{{ task.id }}">
-        <div class="row">
-          <div class="text-lg col-md-2">
-            {{ task.est ? : 0 }} m
-            {{ taskUI.taskIcons(task.urgency, task.priority) }}
-          </div>
-          <div class="text-lg col-md-8">
-            {{ task }} 
-          </div>
           <div class="col-md-2">
-            <span class="label label-default task-list">
-              {{ task.taskList }}
-            </span>
+            {{ taskUI.taskIcons(item.urgency, item.priority) }}
+            <span class="label label-default action-list">{{ item.label}}</span>
           </div>
+          <div class="text-lg col-md-8">{{ item.title }}</div>
+          <div class="text-lg col-md-2">{{ item.duration }}</div>
         </div>
         <div class="row btns" style="display: none;">
           <div class="col-md-4 col-md-push-4">
             <div class="btn-group btn-group-justified" role="group">
-              <a type="button" class="btn btn-default action-prev">Prev</a>
-              <a type="button" class="btn btn-default action-start">Start</a>
-              <a type="button" class="btn btn-default action-hide">Hide</a>
-              <a type="button" class="btn btn-default action-next">Next</a>
+              <a class="btn btn-default action-prev">Prev</a>
+              <a class="btn btn-default action-start">Start</a>
+              <a class="btn btn-default action-hide">Hide</a>
+              <a class="btn btn-default" target="_blank"
+                 href="{{ (item.type == 'day') ? path('days_edit', {'id':item.id}): path('tasks_edit', {'id':item.id})}}">Edit</a>
+              <a class="btn btn-default action-next">Next</a>
             </div>
           </div>
         </div>
@@ -85,95 +45,5 @@
 {% endblock %}
 {% block javascripts %}
   {{ parent() }}
-  <script>
-    var BetaTasks = {
-      init: function () {
-        $('.task-list .task-item').click(this.expandTask);
-        $('.action-prev').click(this.prevTask);
-        $('.action-next').click(this.nextTask);
-        $('.action-start').click(this.startTask);
-        $('.action-hide').click(this.hideTask);
-        if (!touch) {
-          $('.task-list').sortable({
-    {#            items: ".task-item",#}
-              update: this.updateOrder
-            });
-          }
-        },
-        updateOrder: function () {
-          var dataString = "";
-          $('.task-list .task-item').each(function () {
-            dataString += "tasks[][id]=" + $(this).data('id') + "&";
-          });
-          $.ajax({
-            data: dataString,
-            dataType: "json",
-            type: 'POST',
-            url: tasks_order
-          }).done(function () {
-            if (self.isFocus) {
-              self.drawFocus();
-            }
-          });
-        },
-        expandTask: function () {
-          var lastActiveTaskLi = $('.task-list .task-item.active');
-          var activeTaskLi = $(this);
-          if (!activeTaskLi.hasClass('active')) {
-            lastActiveTaskLi.children('.btns').hide();
-            lastActiveTaskLi.removeClass('active');
-            activeTaskLi.children('.btns').show();
-            activeTaskLi.addClass('active');
-          }
-          window.location.hash = $(this).attr('id');
-        },
-        prevTask: function (event) {
-          event.stopPropagation();
-          $('.task-item.active').prev()[0].click(function () {
-          });
-        },
-        nextTask: function (event) {
-          event.stopPropagation();
-          $('.task-item.active').next()[0].click();
-        },
-        startTask: function (event) {
-          event.stopPropagation();
-          //TODO: start timer and log time
-        },
-        hideTask: function (event) {
-          event.stopPropagation();
-          $('.task-item.active').remove();
-          //TODO: store hidden items to keep hidden for 5 mins
-        }
-
-      }
-      BetaTasks.init();
-      window.addEventListener("keydown", function (event) {
-        if (event.defaultPrevented) {
-          return; // Do nothing if the event was already processed
-        }
-
-        switch (event.key) {
-          case "ArrowRight":
-          case "ArrowDown":
-            BetaTasks.nextTask(event);
-            break;
-          case "ArrowLeft":
-          case "ArrowUp":
-            BetaTasks.prevTask(event);
-            break;
-          case "Enter":
-            // Do something for "enter" or "return" key press.
-            break;
-          case "Escape":
-            // Do something for "esc" key press.
-            break;
-          default:
-            return; // Quit when this doesn't handle the key event.
-        }
-
-        // Cancel the default action to avoid it being handled twice
-        event.preventDefault();
-      }, true);
-  </script>
+  <script src="/js/beta.js"></script>
 {% endblock %}
