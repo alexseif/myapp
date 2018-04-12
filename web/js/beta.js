@@ -98,7 +98,7 @@ var BetaItems = {
     //TODO: store hidden items to keep hidden for 5 mins
   },
   startIterateItems: function () {
-    this.timer = setInterval(this.nextItem, 5000);
+    this.timer = setInterval(this.nextItem, 10000);
   },
   stopIterateItems: function () {
     clearInterval(this.timer);
