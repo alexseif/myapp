@@ -17,8 +17,8 @@ class WorkLogRepository extends \Doctrine\ORM\EntityRepository
             ->createQueryBuilder('wl')
             ->select('wl, t')
             ->join('wl.task', 't')
-            ->orderBy('t.completedAt', 'DESC')
             ->orderBy('t.taskList')
+            ->addOrderBy('wl.createdAt', 'DESC')
             ->getQuery()
             ->getResult();
   }

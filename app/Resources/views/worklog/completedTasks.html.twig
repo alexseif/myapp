@@ -69,7 +69,7 @@
           </td>
           <td class="text-right">{{ task.est }}m</td>
           <td>{{ (task.createdAt) ? task.createdAt|date }}</td>
-          <td>{{ (task.completedAt) ? task.completedAt|date }}</td>
+          <td data-order="{{ (task.completedAt) ? task.completedAt.timestamp }}">{{ (task.completedAt) ? task.completedAt|date }}</td>
           <td>
             {% if (task.workLog) %}
               <a href="{{ path('worklog_show', {'id': task.workLog.id })}}"
