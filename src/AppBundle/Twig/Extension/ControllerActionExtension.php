@@ -52,9 +52,10 @@ class ControllerActionExtension extends \Twig_Extension
     if (null !== $this->request) {
       $pattern = "#Controller\\\([a-zA-Z]*)Controller#";
       $matches = array();
-      preg_match($pattern, $this->request->get('_controller'), $matches);
-
-      return strtolower($matches[1]);
+      $result = preg_match($pattern, $this->request->get('_controller'), $matches);
+      if ($result)
+        return strtolower($matches[1]);
+      return null;
     }
   }
 
@@ -66,9 +67,10 @@ class ControllerActionExtension extends \Twig_Extension
     if (null !== $this->request) {
       $pattern = "#::([a-zA-Z]*)Action#";
       $matches = array();
-      preg_match($pattern, $this->request->get('_controller'), $matches);
-
-      return $matches[1];
+      $result = preg_match($pattern, $this->request->get('_controller'), $matches);
+      if ($result)
+        return $matches[1];
+      return null;
     }
   }
 
