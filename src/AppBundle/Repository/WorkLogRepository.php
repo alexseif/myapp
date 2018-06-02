@@ -23,4 +23,17 @@ class WorkLogRepository extends \Doctrine\ORM\EntityRepository
             ->getResult();
   }
 
+  public function getByTaskList($taskList)
+  {
+    return $this
+            ->createQueryBuilder('wl')
+            ->select('wl, t')
+            ->join('wl.task', 't')
+            ->where('t.taskList = :tasklist')
+            ->setParameter(':tasklist', $taskList)
+            ->addOrderBy('wl.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+  }
+
 }

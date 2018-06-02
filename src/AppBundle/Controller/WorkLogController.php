@@ -34,6 +34,23 @@ class WorkLogController extends Controller
   }
 
   /**
+   * Lists all workLog entities.
+   *
+   * @Route("/tasklist/{tasklist}", name="worklog_tasklist")
+   * @Method("GET")
+   */
+  public function tasklistAction(\AppBundle\Entity\TaskLists $tasklist)
+  {
+    $em = $this->getDoctrine()->getManager();
+
+    $workLogs = $em->getRepository('AppBundle:WorkLog')->getByTaskList($tasklist);
+
+    return $this->render('worklog/tasklist.html.twig', array(
+          'workLogs' => $workLogs,
+    ));
+  }
+
+  /**
    * @ROUTE("/completedTasks", name="completed_tasks")
    */
   public function completedTasksAction(Request $request)
