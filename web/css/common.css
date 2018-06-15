@@ -31,10 +31,6 @@ a.navbar-brand{background-color: #222222;}
 
 .bg-embed{background-color: #222222;color: #303030 !important;}
 .bg-embed:hover{background-color: #303030;color: #222222 !important;}
-.edit-link{display: none;}
-tr:hover .edit-link{display: inline;}
-li:hover .edit-link{display: inline;}
-.edit-fixed-link{position: absolute;right: 5px;}
 
 .delete-form{display:inline-block;}
 .panel-title-small:before, .panel-title-labels:before{content: ""; margin: 0 5px;}

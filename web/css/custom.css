@@ -4,7 +4,7 @@
 .days-table tr:last-child td:first-child sup{border-bottom: 1px dotted #ccc;}
 .days-cell{width: 25%;}
 .days-table { 
-/* These are technically the same, but use both */
+  /* These are technically the same, but use both */
   overflow-wrap: break-word;
   word-wrap: break-word;
 
@@ -21,6 +21,12 @@
   hyphens: auto;
 
 }
+@media (min-width: 768px) {
+  .edit-link{display: none;}
+}
+tr:hover .edit-link{display: inline;}
+li:hover .edit-link{display: inline;}
+.edit-fixed-link{position: absolute;right: 5px;}
 
 .days-table td{position: relative;}
 .days-table h2{ font-size: 2em;}
