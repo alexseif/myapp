@@ -234,6 +234,16 @@ class Tasks
   }
 
   /**
+   * Get Account
+   *
+   * @return \AppBundle\Entity\Accounts
+   */
+  public function getAccount()
+  {
+    return $this->getTaskList()->getAccount();
+  }
+
+  /**
    * Set createdAt
    *
    * @param \DateTime $createdAt

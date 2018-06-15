@@ -142,8 +142,14 @@ class WorkLogController extends Controller
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
+      $task = $workLog->getTask();
+      $AccountTransaction = new \AppBundle\Entity\AccountTransactions();
+      $AccountTransaction->setNote($workLog->getTask());
+      $AccountTransaction->setAmount($workLog->getTotal());
+      $AccountTransaction->setAccount($task->getAccount());
       $em->persist($workLog);
-      $em->flush($workLog);
+      $em->persist($AccountTransaction);
+      $em->flush();
 
       return $this->redirectToRoute('worklog_show', array('id' => $workLog->getId()));
     }
