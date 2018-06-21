@@ -145,7 +145,7 @@ class WorkLogController extends Controller
       $task = $workLog->getTask();
       $AccountTransaction = new \AppBundle\Entity\AccountTransactions();
       $AccountTransaction->setNote($workLog->getTask());
-      $AccountTransaction->setAmount($workLog->getTotal());
+      $AccountTransaction->setAmount($workLog->getTotal() * -1);
       $AccountTransaction->setAccount($task->getAccount());
       $em->persist($workLog);
       $em->persist($AccountTransaction);
