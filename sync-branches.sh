@@ -13,3 +13,9 @@ git push origin google-api
 git checkout symfony_upgrade
 git merge master
 git push origin symfony_upgrade
+git checkout refactor
+git merge master
+git push origin refactor
+git checkout client-feature
+git merge master
+git push origin client-feature
