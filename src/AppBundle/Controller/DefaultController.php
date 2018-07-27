@@ -21,7 +21,7 @@ class DefaultController extends Controller
     $em = $this->getDoctrine()->getManager();
 
     $taskLists = $em->getRepository('AppBundle:TaskLists')->findAllWithActiveTasks();
-    $tasks = $em->getRepository('AppBundle:Tasks')->findUnlisted();
+    $unlistedTasks = $em->getRepository('AppBundle:Tasks')->findUnlisted();
     $randomTasks = $em->getRepository('AppBundle:Tasks')->randomTasks();
     $days = $em->getRepository('AppBundle:Days')->getActiveCards();
     $accounts = $em->getRepository('AppBundle:Accounts')->findBy(array('conceal' => false));
@@ -76,7 +76,7 @@ class DefaultController extends Controller
     return $this->render('default/dashboard.html.twig', array(
           'taskLists' => $taskLists,
           'randomTasks' => $randomTasks,
-          'tasks' => $tasks,
+          'unlistedTasks' => $unlistedTasks,
           'days' => $days,
           'accounts' => $accounts,
           'issued' => $issued,

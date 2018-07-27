@@ -1,10 +1,10 @@
 {% import "tasks/tasks_macros.html.twig" as tasks_view %}
 <div class="btn btn-default btn-xs btn-block">{{ interval|date("%d %H:%I") }}</div>
 <div class="panel-group">
-  {% if tasks|length %}
+  {% if unlistedTasks|length %}
     <div class="panel panel-primary">
       <div class="panel-heading">UnListed</div>
-      {{ tasks_view.ul(tasks) }}
+      {{ tasks_view.ul(unlistedTasks) }}
     </div>
   {% endif %}
   {% for taskList in taskLists %}
