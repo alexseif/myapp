@@ -241,7 +241,7 @@ class TasksController extends Controller
 
     if ($request->isXMLHttpRequest()) {
 
-      if ($request->get('postpone')) {
+      if (!is_null($request->get('postpone'))) {
         $postpone = $request->get('postpone');
         $eta = new \DateTime($request->get('postpone'));
         if ("tomorrow" == $postpone) {
@@ -250,10 +250,10 @@ class TasksController extends Controller
         $task->setEta($eta);
       }
 
-      if ($request->get('undo')) {
+      if (!is_null($request->get('undo'))) {
         $task->setEta(null);
       }
-      if ($request->get('completed')) {
+      if (!is_null($request->get('completed'))) {
         $task->setCompleted($request->get('completed'));
         if ($task->getCompleted()) {
           $task->setCompletedAt(new \DateTime());
