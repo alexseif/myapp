@@ -1,7 +1,0 @@
-{# app/Resources/account/new.html #}
-{% extends 'base.html.twig' %}
-{% import "macros/forms.html.twig" as forms %}
-{% import "macros/a.html.twig" as a %}
-{% block panelTitle %}New Account{% endblock %}
-{% block panelBack %}{{ a.back('account_index') }}{% endblock %}
-{% block panelBody %}{{ forms.panel(account_form) }}{% endblock %}
