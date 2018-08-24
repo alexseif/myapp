@@ -1,0 +1,28 @@
+{# app/Resources/account/index.html #}
+{% extends 'base.html.twig' %}
+{% import "macros/forms.html.twig" as forms %}
+{% import "macros/a.html.twig" as a %}
+{% block panelTitle %} Tasks {% endblock %}
+{% block floatingActions %}{{ a.add('task_new') }}{% endblock %}
+{% block panelBody %}
+  <table class="table table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for task in tasks %}
+        <tr>
+          <td><a href="{{ path('task_show', { 'id': task.id }) }}">{{ task.name }}</a></td>
+          <td>
+            <a href="{{ path('task_show', { 'id': task.id }) }}">show</a>
+            <a href="{{ path('task_edit', { 'id': task.id }) }}">edit</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+{% endblock %}
