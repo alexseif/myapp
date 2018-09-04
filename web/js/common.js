@@ -30,7 +30,7 @@ $(document).ready(function () {
   });
 //TODO: timer
   var request = $.ajax({
-    url: "http://api.sunrise-sunset.org/json",
+    url: "https://api.sunrise-sunset.org/json",
     method: "GET",
     dataType: "jsonp",
     data: {
