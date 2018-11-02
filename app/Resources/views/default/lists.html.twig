@@ -23,7 +23,8 @@
     .nopadding{padding: 0 !important; margin: 0 !important;}
     .pad-me{padding: 10px;}
     .table-bottom-border tbody tr{border-bottom: 1px solid black;}
-    .cards .list-group-item{width: 23%;margin: 1%;float: left;}
+    {#    .cards .list-group-item{width: 23%;margin: 1%;float: left;}#}
+    .cards .list-group-item{margin: 1%;}
     .cards a.list-group-item h4{color: white;}
     .cards a.list-group-item p{color: white;}
     .cards a.list-group-item h4 small{float: right;}
@@ -33,20 +34,22 @@
 
   <div class="row">
     <div class="col-md-12">
-      <div class="list-group cards">
+      <div class="list-group cards row">
         {% for list in lists if list.tasks(false)|length %}
-          <a href="#" class="list-group-item task-list" data-id="{{list.id}}">
-            <h4 class="list-group-item-heading">{{ list.name }} <small>{{list.tasks(false)|length}} tasks</small></h4>
-            <p class="list-group-item-text">
-              {{ list.estTotal|date("%d %H:%I")}}
-            </p>
-            {% set progress = ((list.tasks(true)|length-list.tasks(false)|length) / list.tasks(true)|length * 100) |round%}
-            <div class="progress">
-              <div class="progress-bar" role="progressbar" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em;width: {{ progress }}%;">
-                {{ progress }}%
+          <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+            <a href="#" class="list-group-item task-list" data-id="{{list.id}}">
+              <h4 class="list-group-item-heading">{{ list.name }} <small>{{list.tasks(false)|length}} tasks</small></h4>
+              <p class="list-group-item-text">
+                {{ list.estTotal|date("%d %H:%I")}}
+              </p>
+              {% set progress = ((list.tasks(true)|length-list.tasks(false)|length) / list.tasks(true)|length * 100) |round%}
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em;width: {{ progress }}%;">
+                  {{ progress }}%
+                </div>
               </div>
-            </div>
-          </a>
+            </a>
+          </div>
         {% endfor %}
       </div>
     </div>
