@@ -5,7 +5,6 @@
   {% include 'nav.html.twig' %}
 {% endblock %}
 {% block container %}
-
   <div class="floating-action dropup">
     <a class="btn btn-info dropdown-toggle" type="button" id="dahboardMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       <span class="glyphicon glyphicon-plus"></span>
@@ -28,6 +27,7 @@
     .cards a.list-group-item h4{color: white;}
     .cards a.list-group-item p{color: white;}
     .cards a.list-group-item h4 small{float: right;}
+    .progress{margin: auto;}
   </style>
 
 
@@ -37,14 +37,22 @@
         {% for list in lists if list.tasks(false)|length %}
           <a href="#" class="list-group-item task-list" data-id="{{list.id}}">
             <h4 class="list-group-item-heading">{{ list.name }} <small>{{list.tasks(false)|length}} tasks</small></h4>
-            <p class="list-group-item-text">...</p>
+            <p class="list-group-item-text">
+              {{ list.estTotal|date("%d %H:%I")}}
+            </p>
+            {% set progress = ((list.tasks(true)|length-list.tasks(false)|length) / list.tasks(true)|length * 100) |round%}
+            <div class="progress">
+              <div class="progress-bar" role="progressbar" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em;width: {{ progress }}%;">
+                {{ progress }}%
+              </div>
+            </div>
           </a>
         {% endfor %}
       </div>
     </div>
   </div>
 
-  <div class="row">
+  <div class="row hide">
     <section>
       <div class="col-lg-4">
         <div class="row-1 bg-info pad-me">
@@ -76,8 +84,20 @@
 {% block javascripts %}
   {{ parent() }}
   <script type="text/javascript">
-    $('a.task-list').click(function () {
-      alert($(this).data('id'));
+    $('a.task-list').click(function (e) {
+      $(this).data('id');
+      e.preventDefault();
+      var url = 'lists/' + $(this).data('id') + '/modal';
+
+
+      $.get(url, function (data) {
+        $('<div class="modal fade">' + data + '</div>').modal().on('hidden', function () {
+          $(this).remove();
+        });
+      }).success(function () {
+        $('input:text:visible:first').focus();
+      });
+      Tasks.init();
     });
   </script>
 {% endblock %}

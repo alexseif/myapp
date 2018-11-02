@@ -4,6 +4,8 @@ namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Tasks;
 use AppBundle\Entity\TaskLists;
@@ -14,7 +16,9 @@ class DefaultController extends Controller
 {
 
   /**
+   * 
    * @Route("/", name="dashboard")
+   * @Template("default/dashboard.html.twig")
    */
   public function dashboardAction(Request $request)
   {
@@ -73,22 +77,24 @@ class DefaultController extends Controller
       $issued += abs($tm->getAmount());
     }
 
-    return $this->render('default/dashboard.html.twig', array(
-          'taskLists' => $taskLists,
-          'randomTasks' => $randomTasks,
-          'unlistedTasks' => $unlistedTasks,
-          'days' => $days,
-          'accounts' => $accounts,
-          'issued' => $issued,
-          'tskCnt' => $tskCnt,
-          'interval' => $interval,
-          'costOfLife' => $costOfLife,
-          'piechart' => $piechart,
-    ));
+    return array(
+      'taskLists' => $taskLists,
+      'randomTasks' => $randomTasks,
+      'unlistedTasks' => $unlistedTasks,
+      'days' => $days,
+      'accounts' => $accounts,
+      'issued' => $issued,
+      'tskCnt' => $tskCnt,
+      'interval' => $interval,
+      'costOfLife' => $costOfLife,
+      'piechart' => $piechart,
+    );
   }
 
   /**
+   * 
    * @Route("/workarea", name="workarea")
+   * @Template("default/workarea.html.twig")
    */
   public function workareaAction()
   {
@@ -107,17 +113,19 @@ class DefaultController extends Controller
     foreach ($issuedThisMonth as $tm) {
       $issued += abs($tm->getAmount());
     }
-    return $this->render('default/workarea.html.twig', array(
-          'focus' => $focusTasks,
-          'days' => $days,
-          'accounts' => $accounts,
-          'costOfLife' => $costOfLife,
-          'issued' => $issued,
-    ));
+    return array(
+      'focus' => $focusTasks,
+      'days' => $days,
+      'accounts' => $accounts,
+      'costOfLife' => $costOfLife,
+      'issued' => $issued,
+    );
   }
 
   /**
+   * 
    * @Route("/beta", name="beta")
+   * @Template("default/beta.html.twig")
    */
   public function betaAction(Request $request)
   {
@@ -136,16 +144,18 @@ class DefaultController extends Controller
       $actionItems[] = new ActionItem($task->getId(), 'task', $task->getTask(), $task->getEst() . "m", $task->getTaskList()->getName(), $task->getPriority(), $task->getUrgency());
     }
 
-    return $this->render('default/beta.html.twig', array(
-          'actionItems' => $actionItems,
-          'tasks' => $tasks,
-          'days' => $days,
-          'today' => $today,
-    ));
+    return array(
+      'actionItems' => $actionItems,
+      'tasks' => $tasks,
+      'days' => $days,
+      'today' => $today,
+    );
   }
 
   /**
+   * 
    * @Route("/focus", name="focus")
+   * @Template("default/focus.html.twig")
    */
   public function focusAction()
   {
@@ -155,14 +165,16 @@ class DefaultController extends Controller
     $completedToday = $em->getRepository('AppBundle:Tasks')->getCompletedToday();
     $task = new Tasks();
 
-    return $this->render('default/focus.html.twig', array(
-          'tasks' => $tasks,
-          'completed' => $completedToday,
-    ));
+    return array(
+      'tasks' => $tasks,
+      'completed' => $completedToday,
+    );
   }
 
   /**
+   * 
    * @Route("/singleTask", name="singleTask")
+   * @Template("default/singleTask.html.twig")
    */
   public function singleTaskAction()
   {
@@ -190,14 +202,15 @@ class DefaultController extends Controller
       );
       $tasks = array_merge($tasks, $reorderTasks);
     }
-    return $this->render('default/singleTask.html.twig', array(
-          'tasks' => $tasks,
-    ));
+    return array(
+      'tasks' => $tasks,
+    );
   }
 
   /**
    * 
-   * @ROUTE("/focus/{name}", name="focus_tasklist")
+   * @Route("/focus/{name}", name="focus_tasklist")
+   * @Template("default/focus.html.twig")
    */
   public function focusByTaskListAction(TaskLists $taskList)
   {
@@ -211,17 +224,18 @@ class DefaultController extends Controller
     $form = $this->createForm(TasksType::class, $task, array(
       'action' => $this->generateUrl('tasks_new')
     ));
-    return $this->render('default/focus.html.twig', array(
-          'taskList' => $taskList,
-          'tasks' => $tasks,
-          'completed' => $completedToday,
-          'task_form' => $form->createView(),
-    ));
+    return array(
+      'taskList' => $taskList,
+      'tasks' => $tasks,
+      'completed' => $completedToday,
+      'task_form' => $form->createView(),
+    );
   }
 
   /**
    * 
-   * @ROUTE("/lists", name="lists_view")
+   * @Route("/lists", name="lists_view")
+   * @Template("default/lists.html.twig")
    */
   public function listsAction()
   {
@@ -229,10 +243,25 @@ class DefaultController extends Controller
     $today = new \DateTime();
 
     $lists = $em->getRepository('AppBundle:TaskLists')->findBy(array('status' => 'start'));
-    return $this->render('default/lists.html.twig', array(
-          'today' => $today,
-          'lists' => $lists,
-    ));
+    return array(
+      'today' => $today,
+      'lists' => $lists,
+    );
+  }
+
+  /**
+   * 
+   * @Route("/lists/{id}/modal", name="list_show_modal")
+   * @Method("GET")
+   * @Template("tasks/show_modal.html.twig")
+   */
+  public function listModalAction(TaskLists $taskList)
+  {
+    $tasks = $taskList->getTasks(false);
+    $random = rand(0, $tasks->count() - 1);
+    return array(
+      'task' => $tasks->get($random),
+    );
   }
 
 }
