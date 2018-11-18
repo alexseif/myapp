@@ -1,11 +1,21 @@
 {% extends "::base.html.twig" %}
 {% import "macros/forms.html.twig" as forms %}
 {% import "macros/a.html.twig" as a %}
-{% block floatingActions %}
-  {{ a.add('balance_new') }}
+
+{% block floatingActions %}{{ a.add('balance_new') }}{% endblock %}
+
+{% block panelBack %}
+  <a href="{{ path('budget_index') }}" 
+     class="btn btn-default btn-sm">
+    <span class="glyphicon glyphicon-piggy-bank"></span>
+  </a>
 {% endblock %}
 
 {% block panelTitle %}Budgeting{% endblock %}
+
+{% block panelHeadingRight %}
+  <a href="{{ path('balance_index') }}">Balance</a>
+{% endblock %}
 
 {% block panelBody %}
   <div class="table-responsive">
@@ -25,8 +35,8 @@
             <td>{{ row.item }}</td>
             <td>{{ row.dateIndex|date('d/m/Y') }}</td>
             <td>{{ row.days.invert ? "-"}} {{ row.days|date  }}</td>
-            <td class="{{ (row.value <= 0) ? "text-success"}}">{{ row.value }}</td>
-            <td class="{{ (row.balance <= 0) ? "text-danger"}}">{{ row.balance }}</td>
+            <td class="text-right {{ (row.value <= 0) ? "text-success"}}">{{ row.value|number_format }} <span class="pull-left">EGP</span></td>
+            <td class="text-right {{ (row.balance <= 0) ? "text-danger"}}">{{ row.balance|number_format }} <span class="pull-left">EGP</span></td>
           </tr>
         {% endfor %}
       </tbody>

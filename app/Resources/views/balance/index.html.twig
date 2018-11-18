@@ -1,8 +1,17 @@
 {% extends 'base.html.twig' %}
 {% import "macros/a.html.twig" as a %}
+
 {% block floatingActions %}{{ a.add('balance_new') }}{% endblock %}
 
+{% block panelBack %}
+  <a href="{{ path('budget_index') }}" 
+     class="btn btn-default btn-sm">
+    <span class="glyphicon glyphicon-piggy-bank"></span>
+  </a>
+{% endblock %}
+
 {% block panelTitle %}Balance{% endblock %}
+
 {% block panelBody %}
   <div class="table-responsive">
     <table class="table table-bordered table-condensed table-hover table-striped">
@@ -19,7 +28,7 @@
         {% for balance in balances %}
           <tr>
             <td><a href="{{ path('balance_show', { 'id': balance.id }) }}">{{ balance.title }}</a></td>
-            <td>{{ balance.amount }}</td>
+            <td class="text-right">{{ balance.amount |number_format }} <span class="pull-left">EGP</span></td>
             <td>{% if balance.balanceAt %}{{ balance.balanceAt|date('Y-m-d') }}{% endif %}</td>
             <td>{% if balance.createdAt %}{{ balance.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
             <td>
@@ -34,4 +43,3 @@
     </table>
   </div>
 {% endblock %}
-
