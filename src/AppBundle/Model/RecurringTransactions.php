@@ -23,7 +23,7 @@ class RecurringTransactions
 
   /**
    *
-   * @var integer amount 
+   * @var int amount 
    */
   private $amount;
 
@@ -33,27 +33,27 @@ class RecurringTransactions
    */
   private $date;
 
-  function __construct($title, $amount, \DateTime $date)
+  public function __construct($title, $amount, \DateTime $date)
   {
-    $this->title = $title;
-    $this->amount = $amount;
-    $this->date = $date;
+    $this->setTitle($title);
+    $this->setAmount($amount);
+    $this->setDate($date);
   }
 
   /**
    * 
    * @return string
    */
-  function getTitle()
+  public function getTitle()
   {
     return $this->title;
   }
 
   /**
    * 
-   * @return integer
+   * @return int
    */
-  function getAmount()
+  public function getAmount()
   {
     return $this->amount;
   }
@@ -62,7 +62,7 @@ class RecurringTransactions
    * 
    * @return \DateTime 
    */
-  function getDate()
+  public function getDate()
   {
     return $this->date;
   }
@@ -71,16 +71,16 @@ class RecurringTransactions
    * 
    * @param string $title
    */
-  function setTitle($title)
+  public function setTitle($title)
   {
     $this->title = $title;
   }
 
   /**
    * 
-   * @param integer $amount
+   * @param int $amount
    */
-  function setAmount($amount)
+  public function setAmount($amount)
   {
     $this->amount = $amount;
   }
@@ -89,7 +89,7 @@ class RecurringTransactions
    * 
    * @param \DateTime $date
    */
-  function setDate(\DateTime $date)
+  public function setDate(\DateTime $date)
   {
     $this->date = $date;
   }

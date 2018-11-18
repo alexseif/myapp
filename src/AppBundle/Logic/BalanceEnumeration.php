@@ -8,6 +8,7 @@ namespace AppBundle\Logic;
 
 use AppBundle\Entity\Balance;
 use AppBundle\Model\RecurringTransactions;
+use AppBundle\Model\Sheet;
 
 /**
  * Description of BalanceEnumeration
@@ -55,19 +56,19 @@ class BalanceEnumeration
 
   /**
    *
-   * @var integer initial
+   * @var int initial
    */
   private $initial = 0;
 
   /**
    *
-   * @var integer dailyAverage
+   * @var int dailyAverage
    */
   private $dailyAverage = 200;
 
   /**
    *
-   * @var integer total
+   * @var int total
    */
   private $total = 0;
 
@@ -84,41 +85,36 @@ class BalanceEnumeration
     // Begining of month
     $this->startDate = new \DateTime();
     $this->endDate = new \DateTime();
-    $this->startDate->setDate($this->today->format('Y'), $this->today->format('n'), 1);
-    $this->endDate->setDate($this->today->format('Y'), $this->today->format('n'), 1);
+    $this->startDate->setDate($this->today->format('Y'), $this->today->format('m'), 1);
+    $this->endDate->setDate($this->today->format('Y'), $this->today->format('m'), 1);
     // End of month
     $this->endDate->add(new \DateInterval('P1M'));
 
-    $this->enumerateRecurringTransactions();
+    $this->populateRecurringTransactions();
     $this->calculateInitial();
-    $this->calculateRecurrences();
     $this->enumerateSheet();
   }
 
-  public function enumerateRecurringTransactions()
+  public function populateRecurringTransactions()
   {
-    $this->recurringTransactions[] = new RecurringTransactions('Mediatemple', '400', \DateTime::createFromFormat('Y-m-d', '2018-11-18'));
-    $this->recurringTransactions[] = new RecurringTransactions('Vodafone', '250', \DateTime::createFromFormat('Y-m-d', '2018-11-1'));
-    $this->recurringTransactions[] = new RecurringTransactions('EKA', '-2000', \DateTime::createFromFormat('Y-m-d', '2018-11-1'));
+    $this->addRecurringTransaction('Mediatemple', '400', \DateTime::createFromFormat('Y-m-d', '2018-11-18'));
+    $this->addRecurringTransaction('Vodafone', '250', \DateTime::createFromFormat('Y-m-d', '2018-11-1'));
+    $this->addRecurringTransaction('EKA', '-2000', \DateTime::createFromFormat('Y-m-d', '2018-11-1'));
   }
 
   public function calculateInitial()
   {
     $balanceAt = $this->balance->getBalanceAt();
     $days = $balanceAt->diff($this->startDate);
-    $this->initial -= $this->dailyAverage * $days->days;
-    $this->initial -= $this->balance->getAmount();
+    //If last balance is before the start date, calculate the initial balance
+    if (!$days->invert) {
+      $this->initial -= $this->dailyAverage * $days->days;
+      $this->initial -= $this->balance->getAmount();
 
-    $this->total = $this->initial;
-  }
-
-  public function calculateRecurrences()
-  {
-    $balanceAt = $this->balance->getBalanceAt();
-
-    foreach ($this->recurringTransactions as $txn) {
-      $recurrences = $balanceAt->diff($this->startDate)->m + $balanceAt->diff($this->startDate)->y * 12;
-      $this->initial -= $recurrences * $txn->getAmount();
+      foreach ($this->recurringTransactions as $txn) {
+        $recurrences = $balanceAt->diff($this->startDate)->m + $balanceAt->diff($this->startDate)->y * 12;
+        $this->initial -= $recurrences * $txn->getAmount();
+      }
     }
 
     $this->total = $this->initial;
@@ -126,140 +122,233 @@ class BalanceEnumeration
 
   public function enumerateSheet()
   {
-    $interval = new \DateInterval('P1D');
-    $dateRange = new \DatePeriod($this->startDate, $interval, $this->endDate);
+    //TODO: add transactions in the mix
+
+    $dateRange = new \DatePeriod($this->startDate, new \DateInterval('P1D'), $this->endDate);
 
     $index = 0;
-    foreach ($dateRange as $dateIndex) {
+    foreach ($dateRange as $currentDate) {
 
-      $dateDiff = $this->today->diff($dateIndex);
-      $this->sheet[$index]['item'] = "Daily";
-      $this->sheet[$index]['dateIndex'] = $dateIndex;
-      $this->sheet[$index]['days'] = $dateDiff;
-      $this->sheet[$index]['value'] = $this->dailyAverage;
-      $this->total -= $this->sheet[$index]['value'];
-      $this->sheet[$index]['balance'] = $this->total;
-      $index++;
+      //Check if balance is within the sheet
+      $balanceDate = $this->balance->getBalanceAt();
+      $balanceDateDiff = $balanceDate->diff($currentDate);
+      if (0 == $balanceDateDiff->days && !$balanceDateDiff->invert) {
+        $this->total = $this->balance->getAmount();
+        $this->addSheetRow("Balance", $balanceDate, $balanceDateDiff, $this->balance->getAmount(), $this->total, $index++);
+      }
 
+      //Daily additions
+      $this->total -= $this->dailyAverage;
+      $this->addSheetRow("Daily", $currentDate, $this->today->diff($currentDate), $this->dailyAverage, $this->total, $index++);
+
+
+      //Recurring Transactions additions
       foreach ($this->recurringTransactions as $txn) {
 
         $txnDate = $txn->getDate();
         $txnDate->setDate($this->startDate->format('Y'), $this->startDate->format('m'), $txnDate->format('d'));
 
-        $dateDiff = $txnDate->diff($dateIndex);
+        $dateDiff = $txnDate->diff($currentDate);
         if (0 == $dateDiff->d) {
-
-          $this->sheet[$index]['item'] = $txn->getTitle();
-          $this->sheet[$index]['dateIndex'] = $txnDate;
-          $this->sheet[$index]['days'] = $this->today->diff($dateIndex);
-          $this->sheet[$index]['value'] = $txn->getAmount();
-          $this->total -= $this->sheet[$index]['value'];
-          $this->sheet[$index]['balance'] = $this->total;
-
-          $index++;
+          $this->total -= $txn->getAmount();
+          $this->addSheetRow($txn->getTitle(), $txnDate, $this->today->diff($currentDate), $txn->getAmount(), $this->total, $index++);
         }
       }
     }
   }
 
-  function getSheet()
+  /**
+   * 
+   * @return array
+   */
+  public function getSheet()
   {
     return $this->sheet;
   }
 
-  function getToday()
+  /**
+   * 
+   * @return \DateTime 
+   */
+  public function getToday()
   {
     return $this->today;
   }
 
-  function getStartDate()
+  /**
+   * 
+   * @return \DateTime 
+   */
+  public function getStartDate()
   {
     return $this->startDate;
   }
 
-  function getEndDate()
+  /**
+   * 
+   * @return \DateTime 
+   */
+  public function getEndDate()
   {
     return $this->endDate;
   }
 
-  function getBalance()
+  /**
+   * 
+   * @return Balance
+   */
+  public function getBalance()
   {
     return $this->balance;
   }
 
-  function getDateRange()
+  /**
+   * 
+   * @return \DatePeriod
+   */
+  public function getDateRange()
   {
     return $this->dateRange;
   }
 
-  function getRecurringTransactions()
+  /**
+   * 
+   * @return array
+   */
+  public function getRecurringTransactions()
   {
     return $this->recurringTransactions;
   }
 
-  function getInitial()
+  /**
+   * 
+   * @return int
+   */
+  public function getInitial()
   {
     return $this->initial;
   }
 
-  function getDailyAverage()
+  /**
+   * 
+   * @return int
+   */
+  public function getDailyAverage()
   {
     return $this->dailyAverage;
   }
 
-  function getTotal()
+  /**
+   * 
+   * @return int
+   */
+  public function getTotal()
   {
     return $this->total;
   }
 
-  function setSheet($sheet)
+  /**
+   * 
+   * @param array $sheet
+   */
+  public function setSheet($sheet)
   {
     $this->sheet = $sheet;
   }
 
-  function setToday(\DateTime $today)
+  /**
+   * 
+   * @param \DateTime $today
+   */
+  public function setToday(\DateTime $today)
   {
     $this->today = $today;
   }
 
-  function setStartDate(\DateTime $startDate)
+  /**
+   * 
+   * @param \DateTime $startDate
+   */
+  public function setStartDate(\DateTime $startDate)
   {
     $this->startDate = $startDate;
   }
 
-  function setEndDate(\DateTime $endDate)
+  /**
+   * 
+   * @param \DateTime $endDate
+   */
+  public function setEndDate(\DateTime $endDate)
   {
     $this->endDate = $endDate;
   }
 
-  function setBalance(Balance $balance)
+  /**
+   * 
+   * @param Balance $balance
+   */
+  public function setBalance(Balance $balance)
   {
     $this->balance = $balance;
   }
 
-  function setDateRange(\DatePeriod $dateRange)
+  /**
+   * 
+   * @param \DatePeriod $dateRange
+   */
+  public function setDateRange(\DatePeriod $dateRange)
   {
     $this->dateRange = $dateRange;
   }
 
-  function setRecurringTransactions($recurringTransactions)
+  /**
+   * 
+   * @param array $recurringTransactions
+   */
+  public function setRecurringTransactions($recurringTransactions)
   {
     $this->recurringTransactions = $recurringTransactions;
   }
 
-  function setInitial($initial)
+  /**
+   * 
+   * @param int $initial
+   */
+  public function setInitial($initial)
   {
     $this->initial = $initial;
   }
 
-  function setDailyAverage($dailyAverage)
+  /**
+   * 
+   * @param int $dailyAverage
+   */
+  public function setDailyAverage($dailyAverage)
   {
     $this->dailyAverage = $dailyAverage;
   }
 
-  function setTotal($total)
+  /**
+   * 
+   * @param int $total
+   */
+  public function setTotal($total)
   {
     $this->total = $total;
+  }
+
+  public function addSheetRow($title, $date, $days, $amount, $balance, $index = false)
+  {
+    if (false === $index) {
+      $this->sheet[] = new Sheet($title, $date, $days, $amount, $balance);
+    } else {
+      $this->sheet[$index] = new Sheet($title, $date, $days, $amount, $balance);
+    }
+  }
+
+  public function addRecurringTransaction($title, $amount, $date)
+  {
+    $this->recurringTransactions[] = new RecurringTransactions($title, $amount, $date);
   }
 
 }

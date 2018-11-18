@@ -29,8 +29,6 @@ class BudgetController extends Controller
 
     $balanceEnumeration = new BalanceEnumeration($balance);
 
-    dump($balanceEnumeration);
-
     return array(
       'balance' => $balanceEnumeration
     );
