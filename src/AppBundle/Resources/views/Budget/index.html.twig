@@ -1,6 +1,8 @@
 {% extends "::base.html.twig" %}
+{% import "macros/forms.html.twig" as forms %}
+{% import "macros/a.html.twig" as a %}
 {% block floatingActions %}
-  New action
+  {{ a.add('tasks_new') }}
 {% endblock %}
 
 {% block panelTitle %}Budgeting{% endblock %}
@@ -23,8 +25,8 @@
             <td>{{ row.item }}</td>
             <td>{{ row.dateIndex|date('d/m/Y') }}</td>
             <td>{{ row.days.invert ? "-"}} {{ row.days|date  }}</td>
-            <td>{{ row.value }}</td>
-            <td>{{ row.balance }}</td>
+            <td class="{{ (row.value <= 0) ? "text-success"}}">{{ row.value }}</td>
+            <td class="{{ (row.balance <= 0) ? "text-danger"}}">{{ row.balance }}</td>
           </tr>
         {% endfor %}
       </tbody>
