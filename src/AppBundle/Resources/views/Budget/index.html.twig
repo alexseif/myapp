@@ -34,7 +34,7 @@
       <tbody>
         {% for row in balance.sheet %}
           <tr data-timestamp="{{ row.date.timestamp }}"
-              class="{{ (balance.today.diff(row.date).d == 0) ? "text-bold active text-primary" }}">
+              class="{{ (balance.today.diff(row.date).invert == 1) ? "text-muted" : (balance.today.diff(row.date).d == 0) ? "text-bold active text-primary" }} ">
             <td>{{ row.title }}</td>
             <td>{{ row.date|date('d/m/Y') }}</td>
             <td>{{ row.days.invert ? "-"}} {{ row.days|date  }}</td>
@@ -51,5 +51,5 @@
       </tbody>
     </table>
   </div>
-        <div style="height: 100px;"></div>
+  <div style="height: 100px;"></div>
 {% endblock %}
