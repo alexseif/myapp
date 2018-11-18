@@ -21,11 +21,11 @@ class CostOfLifeLogic
     "cost" => ["factor" => 1, "precision" => 0],
     "profit" => ["factor" => 0.2, "precision" => 0],
     "monthly" => ["factor" => 1.2, "precision" => 0],
-    "hour" => ["factor" => 1.2 / 122, "precision" => -1],
-    "day" => ["factor" => 1.2 / 122 * 6, "precision" => -1],
-    "week" => ["factor" => 1.2 / 122 * 31, "precision" => -2],
-    "month" => ["factor" => 1.2, "precision" => -2],
-    "annually" => ["factor" => 1.2 * 12, "precision" => -2]
+    "hour" => ["factor" => 1.2 / 122, "precision" => 0],
+    "day" => ["factor" => 1.2 / 122 * 6, "precision" => 0],
+    "week" => ["factor" => 1.2 / 122 * 31, "precision" => 0],
+    "month" => ["factor" => 1.2, "precision" => 0],
+    "annually" => ["factor" => 1.2 * 12, "precision" => 0]
   ];
 
   public function __construct($cost, $currencies)
