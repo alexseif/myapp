@@ -4,6 +4,8 @@
  * The following content was designed & implemented under AlexSeif.com
  */
 
+//TODO: blank balance throws an issue
+
 namespace AppBundle\Logic;
 
 use AppBundle\Entity\Balance;
