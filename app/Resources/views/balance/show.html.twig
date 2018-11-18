@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+{% import "macros/forms.html.twig" as forms %}
+{% import "macros/a.html.twig" as a %}
+{% block title %}Balance Entry{% endblock %}
+{% block floatingActions %}{{ a.add('balance_new') }}{% endblock %}
+{% block panelBack %}
+  <a href="{{ path('balance_index') }}" 
+     class="btn btn-default btn-sm">
+    <span class="glyphicon glyphicon-dashboard"></span>
+  </a>
+{% endblock %}
+{% block panelTitle %}Balance Entry{% endblock %}
+{% block panelTitleSmall %}# {{ balance.id }} - {{ balance.title }}{% endblock %}
+{% block panelHeadingRight %}
+  {{ a.edit('balance_edit', { 'id': balance.id }) }}
+  {{ forms.delete(delete_form) }}
+{% endblock %}
+{% block panelBody %}
+  <ul class="list-group">
+    <li class="list-group-item">
+      <a href="{{ path('balance_show', {'id': balance.id}) }}">{{ balance.title }}</a>
+    </li>
+    <li class="list-group-item"><span class="badge">EGP</span>{{ balance.amount|number_format }}</li>
+    <li class="list-group-item"><span class="badge">Date</span> {% if balance.balanceAt %}{{ balance.balanceAt|date('Y-m-d') }}{% endif %}</li>
+    <li class="list-group-item"><span class="badge">Created</span> {% if balance.createdAt %}{{ balance.createdAt|date('Y-m-d H:i:s') }}{% endif %}</li>
+  </ul>
+{% endblock %}

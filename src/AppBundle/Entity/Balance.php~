@@ -1,0 +1,159 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Balance
+ *
+ * @ORM\Table(name="balance")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\BalanceRepository")
+ */
+class Balance
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="item", type="string", length=255)
+     */
+    private $item;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="balanceDate", type="datetime")
+     */
+    private $balanceDate;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="balance", type="integer")
+     */
+    private $balance;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="createdAt", type="datetime")
+     */
+    private $createdAt;
+
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set item
+     *
+     * @param string $item
+     *
+     * @return Balance
+     */
+    public function setItem($item)
+    {
+        $this->item = $item;
+
+        return $this;
+    }
+
+    /**
+     * Get item
+     *
+     * @return string
+     */
+    public function getItem()
+    {
+        return $this->item;
+    }
+
+    /**
+     * Set balanceDate
+     *
+     * @param \DateTime $balanceDate
+     *
+     * @return Balance
+     */
+    public function setBalanceDate($balanceDate)
+    {
+        $this->balanceDate = $balanceDate;
+
+        return $this;
+    }
+
+    /**
+     * Get balanceDate
+     *
+     * @return \DateTime
+     */
+    public function getBalanceDate()
+    {
+        return $this->balanceDate;
+    }
+
+    /**
+     * Set balance
+     *
+     * @param integer $balance
+     *
+     * @return Balance
+     */
+    public function setBalance($balance)
+    {
+        $this->balance = $balance;
+
+        return $this;
+    }
+
+    /**
+     * Get balance
+     *
+     * @return int
+     */
+    public function getBalance()
+    {
+        return $this->balance;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return Balance
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+}
+
