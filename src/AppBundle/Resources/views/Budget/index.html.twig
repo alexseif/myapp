@@ -26,17 +26,24 @@
           <th>Date</th>
           <th>Days</th>
           <th>Value</th>
-          <th>Balance</th>
+          <th class="text-right"><span class="pull-left">EGP</span> {{ balance.initial|number_format }}</th>
         </tr>
       </thead>
       <tbody>
-        {% for row in sheet %}
-          <tr data-timestamp="{{ row.dateIndex.timestamp }}">
+        {% for row in balance.sheet %}
+          <tr data-timestamp="{{ row.dateIndex.timestamp }}"
+              class="{{ (balance.today.diff(row.dateIndex).d == 0) ? "text-bold active text-primary" }}">
             <td>{{ row.item }}</td>
             <td>{{ row.dateIndex|date('d/m/Y') }}</td>
             <td>{{ row.days.invert ? "-"}} {{ row.days|date  }}</td>
-            <td class="text-right {{ (row.value <= 0) ? "text-success"}}">{{ row.value|number_format }} <span class="pull-left">EGP</span></td>
-            <td class="text-right {{ (row.balance <= 0) ? "text-danger"}}">{{ row.balance|number_format }} <span class="pull-left">EGP</span></td>
+            <td class="text-right {{ (row.value <= 0) ? "text-success"}}">
+              <span class="pull-left">EGP</span>
+              {{ row.value|number_format }}
+            </td>
+            <td class="text-right {{ (row.balance <= 0) ? "text-danger"}}">
+              <span class="pull-left">EGP</span>
+              {{ row.balance|number_format }} 
+            </td>
           </tr>
         {% endfor %}
       </tbody>

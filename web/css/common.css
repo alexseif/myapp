@@ -52,3 +52,5 @@ a.navbar-brand{background-color: #222222;}
 /* Changes button for collapsed panels */
 .glyphicon-collapse:before { content: "\2212";}
 .collapsed .glyphicon-collapse:before { content: "\2b";}
+
+.text-bold{font-weight: bold;}

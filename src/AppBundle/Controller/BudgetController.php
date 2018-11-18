@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use AppBundle\Logic\BalanceEnumeration;
 
 /**
  * Budget controller.
@@ -21,37 +22,17 @@ class BudgetController extends Controller
    */
   public function indexAction()
   {
-    $today = new \DateTime();
-    // Begining of month
-    $startDate = new \DateTime();
-    $endDate = new \DateTime();
-    $startDate->setDate($today->format('Y'), $today->format('n'), 1);
-    $endDate->setDate($today->format('Y'), $today->format('n'), 1);
-    // End of month
-    $endDate->add(new \DateInterval('P1M'));
 
-    $interval = new \DateInterval('P1D');
-    $dateRange = new \DatePeriod($startDate, $interval, $endDate);
+    $em = $this->getDoctrine()->getManager();
 
-    $sheet = array();
+    $balance = $em->getRepository('AppBundle:Balance')->findLast();
 
-    $value = 200;
-    $balance = 0;
+    $balanceEnumeration = new BalanceEnumeration($balance);
 
-    foreach ($dateRange as $key => $dateIndex) {
-      $dateDiff = $today->diff($dateIndex);
-      $sheet[$key]['item'] = "Daily";
-      $sheet[$key]['dateIndex'] = $dateIndex;
-      $sheet[$key]['days'] = $dateDiff;
-      $sheet[$key]['value'] = $value;
-      $balance -= $value;
-      $sheet[$key]['balance'] = $balance;
-    }
+    dump($balanceEnumeration);
 
     return array(
-      'today' => $today,
-      'dateRange' => $dateRange,
-      'sheet' => $sheet
+      'balance' => $balanceEnumeration
     );
   }
 

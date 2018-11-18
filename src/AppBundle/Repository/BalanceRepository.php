@@ -10,4 +10,17 @@ namespace AppBundle\Repository;
  */
 class BalanceRepository extends \Doctrine\ORM\EntityRepository
 {
+
+  public function findLast()
+  {
+    return $this
+            ->createQueryBuilder('b')
+            ->select('b')
+            ->orderBy('b.balanceAt', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult()
+    ;
+  }
+
 }

@@ -18,11 +18,11 @@ class BalanceType extends AbstractType
   {
     $builder
         ->add('title')
+        ->add('amount', MoneyType::class)
         ->add('balanceAt', DateType::class, array(
           'widget' => 'single_text',
           'format' => 'yyyy-MM-dd',
         ))
-        ->add('amount', MoneyType::class)
     ;
   }
 
