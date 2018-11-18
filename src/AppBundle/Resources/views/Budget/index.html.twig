@@ -1,0 +1,33 @@
+{% extends "::base.html.twig" %}
+{% block floatingActions %}
+  New action
+{% endblock %}
+
+{% block panelTitle %}Budgeting{% endblock %}
+
+{% block panelBody %}
+  <div class="table-responsive">
+    <table class="table table-bordered table-condensed table-hover table-striped">
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Date</th>
+          <th>Days</th>
+          <th>Value</th>
+          <th>Balance</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in sheet %}
+          <tr data-timestamp="{{ row.dateIndex.timestamp }}">
+            <td>{{ row.item }}</td>
+            <td>{{ row.dateIndex|date('d/m/Y') }}</td>
+            <td>{{ row.days.invert ? "-"}} {{ row.days|date  }}</td>
+            <td>{{ row.value }}</td>
+            <td>{{ row.balance }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}
