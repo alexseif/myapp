@@ -1,0 +1,23 @@
+{% import "macros/forms.html.twig" as forms %}
+{% import "macros/a.html.twig" as a %}
+<table class="table table-condensed table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for client in clients %}
+      <tr>
+        <td>{{ client.name }}</td>
+        <td>
+          <div class="btn-group">
+            {{ a.show('client_show', { 'id': client.id }) }}
+            {{ a.edit('client_edit', { 'id': client.id }) }}
+          </div>
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>

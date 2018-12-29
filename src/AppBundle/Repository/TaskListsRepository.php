@@ -41,4 +41,15 @@ class TaskListsRepository extends EntityRepository
             ->getResult();
   }
 
+  public function search($searchTerm)
+  {
+    return $this
+            ->createQueryBuilder('tl')
+            ->select()
+            ->where('tl.name LIKE :searchTerm')
+            ->setParameter(":searchTerm", '%' . $searchTerm . '%')
+            ->getQuery()
+            ->getResult();
+  }
+
 }

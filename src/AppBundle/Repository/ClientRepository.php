@@ -10,4 +10,16 @@ namespace AppBundle\Repository;
  */
 class ClientRepository extends \Doctrine\ORM\EntityRepository
 {
+
+  public function search($searchTerm)
+  {
+    return $this
+            ->createQueryBuilder('c')
+            ->select()
+            ->where('c.name LIKE :searchTerm')
+            ->setParameter(":searchTerm", '%' . $searchTerm . '%')
+            ->getQuery()
+            ->getResult();
+  }
+
 }

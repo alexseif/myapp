@@ -1,0 +1,69 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}AppBundle:Management:index{% endblock %}
+
+{% block content %}
+  <style>
+    ol{border: 1px dotted #444; border-radius: 4px; list-style-type: none; padding: 0px;}
+    ol li{margin: 10px; background: #444; padding: 5px; border: 1px solid gray; word-wrap: break-word; position: relative;}
+    span:not(.glyphicon){border-right: 1px dotted #CCC;margin-right: 5px;padding-right: 5px;}
+    .task-list-name{display: inline-block; width: 210px;}
+    .task-icons, .task-est{display: inline-block; width: 40px;text-align: right;}
+    .task-wrapper{display: inline-block; width: 100%;}
+    .task-actions{display: inline-block;}
+  </style>
+  <div class="well">
+    {{ form_start(management_search_form) }}
+    <div class="panel-body">
+      {{ form_widget(management_search_form) }}
+    </div>
+    <div class="panel-footer text-right">
+      <button type="submit" value="Filter" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></button>
+      <a href="{{ path('management_index') }}" class="btn btn-warning"><span class="glyphicon glyphicon-erase"></span></a>
+        {{ form_end(management_search_form) }}
+    </div>
+  </div>
+  <div class="mangement-panel">
+    <ol id="tasks" class="simple_with_animation">
+      {% for task in tasks %}
+        <li 
+          data-id="{{task.id}}" 
+          data-priority="{{task.priority}}" 
+          data-urgency="{{task.urgency}}"
+          title="{{task.taskList.name }}"
+          data-task-url="{{ path('tasks_edit', {'id':task.id}) }}"
+          > 
+          <div class="task-wrapper">
+            <span class="task-icons">
+              {% if task.urgency %}
+                <span class="glyphicon glyphicon-flash"></span>
+              {% endif %}
+              {% if task.priority > 0 %}
+                <span class="glyphicon glyphicon-menu-up"></span>
+              {% elseif task.priority < 0 %}
+                <span class="glyphicon glyphicon-menu-down"></span>
+              {% else %}
+                <span class="glyphicon glyphicon-menu-right"></span>
+              {% endif %}
+            </span>
+            <span class="task-est">{{ task.est? task.est ~ "m":"~" }} </span>
+            <span class="task-list-name">{{ task.taskList.name }} </span>
+            {{ task.task }} 
+            <div class="task-actions pull-right">
+              <a class="btn btn-xs btn-primary" href="{{ path('tasks_edit', {"id":task.id})}}" target="_blank">Edit</a>
+              <button  data-taskid="{{task.id}}"
+                       data-postpone="tomorrow"
+                       title="Tomorrow"
+                       class="btn btn-warning btn-xs postpone">Snooze</button>
+            </div>
+          </div>
+        </li>
+      {% endfor %}
+    </ol>
+  </div>
+{% endblock %}
+{% block javascripts %}
+  {{ parent() }}
+  <script type="text/javascript" src="/js/management.js"></script>
+
+{% endblock %}

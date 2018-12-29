@@ -12,4 +12,16 @@ use Doctrine\ORM\EntityRepository;
  */
 class AccountsRepository extends EntityRepository
 {
+
+  public function search($searchTerm)
+  {
+    return $this
+            ->createQueryBuilder('a')
+            ->select()
+            ->where('a.name LIKE :searchTerm')
+            ->setParameter(":searchTerm", '%' . $searchTerm . '%')
+            ->getQuery()
+            ->getResult();
+  }
+
 }

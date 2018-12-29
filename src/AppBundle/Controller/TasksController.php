@@ -105,9 +105,7 @@ class TasksController extends Controller
 
       $tasks = $tasksQuery->getQuery()->getResult();
     }
-
-
-
+    
     return $this->render('tasks/search.html.twig', array(
           'filters' => $filters,
           'tasks' => $tasks,

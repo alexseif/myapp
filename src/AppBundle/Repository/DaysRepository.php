@@ -43,4 +43,15 @@ class DaysRepository extends EntityRepository
             ->getResult();
   }
 
+  public function search($searchTerm)
+  {
+    return $this
+            ->createQueryBuilder('d')
+            ->select()
+            ->where('d.name LIKE :searchTerm')
+            ->setParameter(":searchTerm", '%' . $searchTerm . '%')
+            ->getQuery()
+            ->getResult();
+  }
+
 }

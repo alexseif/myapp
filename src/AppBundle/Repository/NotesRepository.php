@@ -12,4 +12,16 @@ use Doctrine\ORM\EntityRepository;
  */
 class NotesRepository extends EntityRepository
 {
+
+  public function search($searchTerm)
+  {
+    return $this
+            ->createQueryBuilder('n')
+            ->select()
+            ->where('n.note LIKE :searchTerm')
+            ->setParameter(":searchTerm", '%' . $searchTerm . '%')
+            ->getQuery()
+            ->getResult();
+  }
+
 }
