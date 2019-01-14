@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
+{% import "macros/a.html.twig" as a %}
 {% block floatingActions %}{{ a.add('client_new') }}{% endblock %}
 {% block panelTitle %}Clients{% endblock %}
 {% block panelBody %}
-  {% include 'client/clients_lists.html.twig' %}
+  {% include 'client/clients_list.html.twig' %}
 {% endblock %}
