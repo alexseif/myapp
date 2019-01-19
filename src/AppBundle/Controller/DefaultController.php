@@ -2,10 +2,9 @@
 
 namespace AppBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Tasks;
 use AppBundle\Entity\TaskLists;
@@ -251,8 +250,7 @@ class DefaultController extends Controller
 
   /**
    * 
-   * @Route("/lists/{id}/modal", name="list_show_modal")
-   * @Method("GET")
+   * @Route("/lists/{id}/modal", name="list_show_modal", methods={"GET"})
    * @Template("tasks/show_modal.html.twig")
    */
   public function listModalAction(TaskLists $taskList)

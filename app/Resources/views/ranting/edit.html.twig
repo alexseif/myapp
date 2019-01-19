@@ -1,9 +1,0 @@
-{% extends 'base.html.twig' %}
-{% import "macros/forms.html.twig" as forms %}
-{% import "macros/a.html.twig" as a %}
-{% block content %}{{ form(form) }}{% endblock %}
-{% block javascripts %}
-  {{ parent() }}
-  <script src="/js/tinymce/tinymce.min.js"></script>
-  <script>tinymce.init({selector: '.tinymce', plugins: "code"});</script>
-{% endblock %}

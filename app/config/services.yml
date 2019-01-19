@@ -38,10 +38,11 @@ services:
       class: Twig_Extensions_Extension_Text
       tags:
           - { name: twig.extension }
+          
     twig.controller_action_extension:
       class: AppBundle\Twig\Extension\ControllerActionExtension
       calls:
-          - [setRequest, ["@?request="]]
+          - [setRequest, ["@?request"]]
       tags:
           - { name: twig.extension }
 

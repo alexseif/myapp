@@ -28,7 +28,6 @@ class TasksType extends AbstractType
             'Normal' => 0,
             'Important' => 1,
           ),
-          'choices_as_values' => true,
           'expanded' => true,
           'label_attr' => array('class' => 'radio-inline')
         ))
@@ -37,7 +36,6 @@ class TasksType extends AbstractType
             'Normal' => 0,
             'Urgent' => 1
           ),
-          'choices_as_values' => true,
           'expanded' => true,
           'label_attr' => array('class' => 'radio-inline')
         ))

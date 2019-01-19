@@ -26,7 +26,6 @@ class TasksFilterType extends AbstractType
             'Normal' => 0,
             'Important' => 1,
           ),
-          'choices_as_values' => true,
           'expanded' => true,
           'multiple' => true,
           'required' => false,
@@ -37,7 +36,6 @@ class TasksFilterType extends AbstractType
             'Normal' => 0,
             'Urgent' => 1
           ),
-          'choices_as_values' => true,
           'expanded' => true,
           'multiple' => true,
           'required' => false,
@@ -48,7 +46,6 @@ class TasksFilterType extends AbstractType
             'Completed' => 1,
             'Not Completed' => 0,
           ),
-          'choices_as_values' => true,
           'expanded' => true,
           'multiple' => true,
           'required' => false,

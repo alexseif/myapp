@@ -4,8 +4,8 @@ namespace AppBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Entity\TaskLists;
 use AppBundle\Entity\Tasks;
 use AppBundle\Form\TaskListsType;
@@ -22,8 +22,8 @@ class TaskListsController extends Controller
   /**
    * Lists all TaskLists entities.
    *
-   * @Route("/", name="tasklists_index")
-   * @Method({"GET", "POST"})
+   * @Route("/", name="tasklists_index", methods={"GET", "POST"})
+   * @Template("tasklists/index.html.twig")
    */
   public function indexAction(Request $request)
   {
@@ -45,17 +45,17 @@ class TaskListsController extends Controller
       return $this->redirectToRoute('tasklists_index');
     }
 
-    return $this->render('tasklists/index.html.twig', array(
-          'taskLists' => $taskLists,
-          'tasksMassEdit_form' => $form->createView(),
-    ));
+    return array(
+      'taskLists' => $taskLists,
+      'tasksMassEdit_form' => $form->createView(),
+    );
   }
 
   /**
    * Creates a new TaskLists entity.
    *
-   * @Route("/new", name="tasklists_new")
-   * @Method({"GET", "POST"})
+   * @Route("/new", name="tasklists_new", methods={"GET","POST"})
+   * @Template("tasklists/new.html.twig")
    */
   public function newAction(Request $request)
   {
@@ -71,33 +71,33 @@ class TaskListsController extends Controller
       return $this->redirectToRoute('tasklists_index');
     }
 
-    return $this->render('tasklists/new.html.twig', array(
-          'taskList' => $taskList,
-          'tasklist_form' => $form->createView(),
-    ));
+    return array(
+      'taskList' => $taskList,
+      'tasklist_form' => $form->createView(),
+    );
   }
 
   /**
    * Finds and displays a TaskLists entity.
    *
-   * @Route("/{id}", name="tasklists_show")
-   * @Method("GET")
+   * @Route("/{id}", name="tasklists_show", methods={"GET"})
+   * @Template("tasklists/show.html.twig")
    */
   public function showAction(TaskLists $taskList)
   {
     $deleteForm = $this->createDeleteForm($taskList);
 
-    return $this->render('tasklists/show.html.twig', array(
-          'taskList' => $taskList,
-          'delete_form' => $deleteForm->createView(),
-    ));
+    return array(
+      'taskList' => $taskList,
+      'delete_form' => $deleteForm->createView(),
+    );
   }
 
   /**
    * Displays a form to edit an existing TaskLists entity.
    *
-   * @Route("/{id}/edit", name="tasklists_edit")
-   * @Method({"GET", "POST"})
+   * @Route("/{id}/edit", name="tasklists_edit", methods={"GET", "POST"})
+   * @Template("tasklists/edit.html.twig")
    */
   public function editAction(Request $request, TaskLists $taskList)
   {
@@ -113,18 +113,17 @@ class TaskListsController extends Controller
       return $this->redirectToRoute('tasklists_index');
     }
 
-    return $this->render('tasklists/edit.html.twig', array(
-          'taskList' => $taskList,
-          'tasklist_form' => $editForm->createView(),
-          'delete_form' => $deleteForm->createView(),
-    ));
+    return array(
+      'taskList' => $taskList,
+      'tasklist_form' => $editForm->createView(),
+      'delete_form' => $deleteForm->createView(),
+    );
   }
 
   /**
    * Displays a form to edit an existing TaskLists entity.
    *
-   * @Route("/{id}/archive", name="tasklists_archive")
-   * @Method({"GET", "POST"})
+   * @Route("/{id}/archive", name="tasklists_archive", methods={"GET", "POST"})
    */
   public function archiveAction(Request $request, TaskLists $taskList)
   {
@@ -142,8 +141,7 @@ class TaskListsController extends Controller
   /**
    * Displays a form to edit an existing TaskLists entity.
    *
-   * @Route("/{id}/unarchive", name="tasklists_unarchive")
-   * @Method({"GET", "POST"})
+   * @Route("/{id}/unarchive", name="tasklists_unarchive", methods={"GET", "POST"})
    */
   public function unarchiveAction(Request $request, TaskLists $taskList)
   {
@@ -161,8 +159,7 @@ class TaskListsController extends Controller
   /**
    * Deletes a TaskLists entity.
    *
-   * @Route("/{id}", name="tasklists_delete")
-   * @Method("DELETE")
+   * @Route("/{id}", name="tasklists_delete", methods={"DELETE"})
    */
   public function deleteAction(Request $request, TaskLists $taskList)
   {

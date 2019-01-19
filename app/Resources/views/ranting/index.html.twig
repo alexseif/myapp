@@ -1,7 +1,0 @@
-{% extends 'base.html.twig' %}
-{% import "macros/forms.html.twig" as forms %}
-{% import "macros/a.html.twig" as a %}
-{% block floatingActions %}{{ a.edit('ranting_edit', {}) }}{% endblock %}
-{% block content %}
-  {% include('ranting/ranting.html.twig') %}
-{% endblock %}

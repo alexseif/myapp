@@ -4,8 +4,8 @@ namespace AppBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Entity\Notes;
 use AppBundle\Form\NotesType;
 
@@ -20,8 +20,8 @@ class NotesController extends Controller
   /**
    * Lists all Notes entities.
    *
-   * @Route("/", name="notes_index")
-   * @Method("GET")
+   * @Route("/", name="notes_index", methods={"GET"})
+   * @Template("notes/index.html.twig")
    */
   public function indexAction()
   {
@@ -29,16 +29,16 @@ class NotesController extends Controller
 
     $notes = $em->getRepository('AppBundle:Notes')->findAll();
 
-    return $this->render('notes/index.html.twig', array(
-          'notes' => $notes,
-    ));
+    return array(
+      'notes' => $notes,
+    );
   }
 
   /**
    * Creates a new Notes entity.
    *
-   * @Route("/new", name="notes_new")
-   * @Method({"GET", "POST"})
+   * @Route("/new", name="notes_new", methods={"GET", "POST"})
+   * @Template("notes/new.html.twig")
    */
   public function newAction(Request $request)
   {
@@ -54,33 +54,33 @@ class NotesController extends Controller
       return $this->redirectToRoute('notes_show', array('id' => $note->getId()));
     }
 
-    return $this->render('notes/new.html.twig', array(
-          'note' => $note,
-          'notes_form' => $form->createView(),
-    ));
+    return array(
+      'note' => $note,
+      'notes_form' => $form->createView(),
+    );
   }
 
   /**
    * Finds and displays a Notes entity.
    *
-   * @Route("/{id}", name="notes_show")
-   * @Method("GET")
+   * @Route("/{id}", name="notes_show", methods={"GET"})
+   * @Template("notes/show.html.twig")
    */
   public function showAction(Notes $note)
   {
     $deleteForm = $this->createDeleteForm($note);
 
-    return $this->render('notes/show.html.twig', array(
-          'note' => $note,
-          'delete_form' => $deleteForm->createView(),
-    ));
+    return array(
+      'note' => $note,
+      'delete_form' => $deleteForm->createView(),
+    );
   }
 
   /**
    * Displays a form to edit an existing Notes entity.
    *
-   * @Route("/{id}/edit", name="notes_edit")
-   * @Method({"GET", "POST"})
+   * @Route("/{id}/edit", name="notes_edit", methods={"GET", "POST"})
+   * @Template("notes/edit.html.twig")
    */
   public function editAction(Request $request, Notes $note)
   {
@@ -96,18 +96,17 @@ class NotesController extends Controller
       return $this->redirectToRoute('notes_show', array('id' => $note->getId()));
     }
 
-    return $this->render('notes/edit.html.twig', array(
-          'note' => $note,
-          'notes_form' => $editForm->createView(),
-          'delete_form' => $deleteForm->createView(),
-    ));
+    return array(
+      'note' => $note,
+      'notes_form' => $editForm->createView(),
+      'delete_form' => $deleteForm->createView(),
+    );
   }
 
   /**
    * Deletes a Notes entity.
    *
-   * @Route("/{id}", name="notes_delete")
-   * @Method("DELETE")
+   * @Route("/{id}", name="notes_delete", methods={"DELETE"})
    */
   public function deleteAction(Request $request, Notes $note)
   {

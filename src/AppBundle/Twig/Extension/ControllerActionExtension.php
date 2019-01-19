@@ -29,10 +29,6 @@ class ControllerActionExtension extends \Twig_Extension
     $this->request = $request;
   }
 
-  public function initRuntime(\Twig_Environment $environment)
-  {
-    $this->environment = $environment;
-  }
 
   public function getFunctions()
   {
@@ -72,11 +68,6 @@ class ControllerActionExtension extends \Twig_Extension
         return $matches[1];
       return null;
     }
-  }
-
-  public function getName()
-  {
-    return 'controller_action_twig_extension';
   }
 
 }
