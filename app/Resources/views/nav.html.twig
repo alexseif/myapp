@@ -12,33 +12,63 @@
     {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
         <ul class="nav navbar-nav">
-          <li>
-            <a href="{{ path('beta') }}">Beta</a>
-          </li>
-          <li>
-            <a href="{{ path('workarea') }}">
-              <span class="glyphicon glyphicon-lamp"></span>
-            </a>
-          </li>
-          <li>
-            <a href="{{ path('singleTask') }}"><span class="glyphicon glyphicon-blackboard"></span></a>
-          </li>
-          <li>
-            <a href="{{ path('focus') }}"><span class="glyphicon glyphicon-screenshot"></span></a>
-          </li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-              <span class="glyphicon glyphicon-check"></span>
-              <span class="caret"></span></a>
+              Views
+              <span class="caret"></span>
+            </a>
             <ul class="dropdown-menu" role="menu">
-              <li><a href="{{ path('tasklists_index') }}" title="Task Lists"><span class="glyphicon glyphicon-list-alt"></span> Lists</a></li>
-              <li><a href="{{ path('tasks_index') }}" title="Tasks"><span class="glyphicon glyphicon-th-list"></span> Tasks</a></li>
-              <li><a href="{{ path('tasks_new') }}" title="New Task"><span class="glyphicon glyphicon-check"></span> Add Task</a></li>
+              <li>
+                <a href="{{ path('beta') }}">Beta</a>
+              </li>
+              <li>
+                <a href="{{ path('workarea') }}">
+                  <span class="glyphicon glyphicon-lamp"></span> 
+                  Workarea
+                </a>
+              </li>
+              <li>
+                <a href="{{ path('singleTask') }}">
+                  <span class="glyphicon glyphicon-blackboard"></span>
+                  Single Task
+                </a>
+              </li>
+              <li>
+                <a href="{{ path('focus') }}">
+                  <span class="glyphicon glyphicon-screenshot"></span>
+                  Focus 
+                </a>
+              </li>
             </ul>
           </li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-              <span class="glyphicon glyphicon-th-large"></span> <span class="caret"></span></a>
+              <span class="glyphicon glyphicon-check"></span>
+              Tasks <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu" role="menu">
+              <li>
+                <a href="{{ path('tasklists_index') }}" title="Task Lists">
+                  <span class="glyphicon glyphicon-list-alt"></span> Lists
+                </a>
+              </li>
+              <li>
+                <a href="{{ path('tasks_index') }}" title="Tasks">
+                  <span class="glyphicon glyphicon-th-list"></span> Tasks
+                </a>
+              </li>
+              <li>
+                <a href="{{ path('tasks_new') }}" title="New Task">
+                  <span class="glyphicon glyphicon-check"></span> Add Task
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+              <span class="glyphicon glyphicon-th-large"></span> 
+              Days <span class="caret"></span>
+            </a>
             <ul class="dropdown-menu" role="menu">
               <li><a href="{{ path('days_index') }}">Days</a></li>
               <li><a href="{{ path('days_new') }}"><span class="glyphicon glyphicon-th-large"></span> Add Day</a></li>
@@ -50,10 +80,22 @@
               <span class="glyphicon glyphicon-briefcase"></span>
               <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
-              <li><a href="{{ path('client_index') }}">Clients</a></li>
-              <li><a href="{{ path('accounts_index') }}">Accounts</a></li>
-              <li><a href="{{ path('accounts_new') }}"><span class="glyphicon glyphicon-piggy-bank"></span> Add Account</a></li>
-              <li><a href="{{ path('accounttransactions_new') }}"><span class="glyphicon glyphicon-transfer"></span> Add Transaction</a></li>
+              <li>
+                <a href="{{ path('client_index') }}">Clients</a>
+              </li>
+              <li>
+                <a href="{{ path('accounts_index') }}">Accounts</a>
+              </li>
+              <li>
+                <a href="{{ path('accounts_new') }}">
+                  <span class="glyphicon glyphicon-piggy-bank"></span> Add Account
+                </a>
+              </li>
+              <li>
+                <a href="{{ path('accounttransactions_new') }}">
+                  <span class="glyphicon glyphicon-transfer"></span> Add Transaction
+                </a>
+              </li>
             </ul>
           </li>
           <li><a href="{{ path('worklog_index') }}">
