@@ -4,7 +4,6 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Client;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -19,8 +18,7 @@ class ClientController extends Controller
   /**
    * Lists all client entities.
    *
-   * @Route("/", name="client_index")
-   * @Method("GET")
+   * @Route("/", name="client_index", methods={"GET"})
    */
   public function indexAction()
   {
@@ -36,8 +34,7 @@ class ClientController extends Controller
   /**
    * Creates a new client entity.
    *
-   * @Route("/new", name="client_new")
-   * @Method({"GET", "POST"})
+   * @Route("/new", name="client_new", methods={"GET", "POST"})
    */
   public function newAction(Request $request)
   {
@@ -62,8 +59,7 @@ class ClientController extends Controller
   /**
    * Finds and displays a client entity.
    *
-   * @Route("/{id}", name="client_show")
-   * @Method("GET")
+   * @Route("/{id}", name="client_show", methods={"GET"})
    */
   public function showAction(Client $client)
   {
@@ -78,8 +74,7 @@ class ClientController extends Controller
   /**
    * Displays a form to edit an existing client entity.
    *
-   * @Route("/{id}/edit", name="client_edit")
-   * @Method({"GET", "POST"})
+   * @Route("/{id}/edit", name="client_edit", methods={"GET", "POST"})
    */
   public function editAction(Request $request, Client $client)
   {
@@ -103,8 +98,7 @@ class ClientController extends Controller
   /**
    * Deletes a client entity.
    *
-   * @Route("/{id}", name="client_delete")
-   * @Method("DELETE")
+   * @Route("/{id}", name="client_delete", methods={"DELETE"})
    */
   public function deleteAction(Request $request, Client $client)
   {

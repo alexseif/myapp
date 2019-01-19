@@ -4,7 +4,6 @@ namespace AppBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Entity\Days;
 use AppBundle\Form\DaysType;
@@ -20,8 +19,7 @@ class DaysController extends Controller
   /**
    * Lists all Days entities.
    *
-   * @Route("/", name="days_index")
-   * @Method("GET")
+   * @Route("/", name="days_index", methods={"GET"})
    */
   public function indexAction()
   {
@@ -37,8 +35,7 @@ class DaysController extends Controller
   /**
    * Lists all Archived Days entities.
    *
-   * @Route("/archive", name="days_archive")
-   * @Method("GET")
+   * @Route("/archive", name="days_archive", methods={"GET"})
    */
   public function archiveAction()
   {
@@ -54,8 +51,7 @@ class DaysController extends Controller
   /**
    * Creates a new Days entity.
    *
-   * @Route("/new", name="days_new")
-   * @Method({"GET", "POST"})
+   * @Route("/new", name="days_new", methods={"GET", "POST"})
    */
   public function newAction(Request $request)
   {
@@ -80,8 +76,7 @@ class DaysController extends Controller
   /**
    * Displays a form to edit an existing Days entity.
    *
-   * @Route("/{id}/edit", name="days_edit")
-   * @Method({"GET", "POST"})
+   * @Route("/{id}/edit", name="days_edit", methods={"GET", "POST"})
    */
   public function editAction(Request $request, Days $day)
   {
@@ -107,8 +102,7 @@ class DaysController extends Controller
   /**
    * Deletes a Days entity.
    *
-   * @Route("/{id}", name="days_delete")
-   * @Method("DELETE")
+   * @Route("/{id}", name="days_delete", methods={"DELETE"})
    */
   public function deleteAction(Request $request, Days $day)
   {

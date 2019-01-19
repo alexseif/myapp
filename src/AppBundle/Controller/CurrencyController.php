@@ -4,7 +4,6 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Currency;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -19,8 +18,7 @@ class CurrencyController extends Controller
   /**
    * Lists all currency entities.
    *
-   * @Route("/", name="currency_index")
-   * @Method("GET")
+   * @Route("/", name="currency_index", methods={"GET"})
    */
   public function indexAction()
   {
@@ -36,8 +34,7 @@ class CurrencyController extends Controller
   /**
    * Creates a new currency entity.
    *
-   * @Route("/new", name="currency_new")
-   * @Method({"GET", "POST"})
+   * @Route("/new", name="currency_new", methods={"GET", "POST"})
    */
   public function newAction(Request $request)
   {
@@ -62,8 +59,7 @@ class CurrencyController extends Controller
   /**
    * Finds and displays a currency entity.
    *
-   * @Route("/{id}", name="currency_show")
-   * @Method("GET")
+   * @Route("/{id}", name="currency_show", methods={"GET"})
    */
   public function showAction(Currency $currency)
   {
@@ -78,8 +74,7 @@ class CurrencyController extends Controller
   /**
    * Displays a form to edit an existing currency entity.
    *
-   * @Route("/{id}/edit", name="currency_edit")
-   * @Method({"GET", "POST"})
+   * @Route("/{id}/edit", name="currency_edit", methods={"GET", "POST"})
    */
   public function editAction(Request $request, Currency $currency)
   {
@@ -103,8 +98,7 @@ class CurrencyController extends Controller
   /**
    * Deletes a currency entity.
    *
-   * @Route("/{id}", name="currency_delete")
-   * @Method("DELETE")
+   * @Route("/{id}", name="currency_delete", methods={"DELETE"})
    */
   public function deleteAction(Request $request, Currency $currency)
   {

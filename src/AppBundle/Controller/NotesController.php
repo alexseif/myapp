@@ -4,7 +4,6 @@ namespace AppBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Entity\Notes;
 use AppBundle\Form\NotesType;
@@ -20,8 +19,7 @@ class NotesController extends Controller
   /**
    * Lists all Notes entities.
    *
-   * @Route("/", name="notes_index")
-   * @Method("GET")
+   * @Route("/", name="notes_index", methods={"GET"})
    */
   public function indexAction()
   {
@@ -37,8 +35,7 @@ class NotesController extends Controller
   /**
    * Creates a new Notes entity.
    *
-   * @Route("/new", name="notes_new")
-   * @Method({"GET", "POST"})
+   * @Route("/new", name="notes_new", methods={"GET", "POST"})
    */
   public function newAction(Request $request)
   {
@@ -63,8 +60,7 @@ class NotesController extends Controller
   /**
    * Finds and displays a Notes entity.
    *
-   * @Route("/{id}", name="notes_show")
-   * @Method("GET")
+   * @Route("/{id}", name="notes_show", methods={"GET"})
    */
   public function showAction(Notes $note)
   {
@@ -79,8 +75,7 @@ class NotesController extends Controller
   /**
    * Displays a form to edit an existing Notes entity.
    *
-   * @Route("/{id}/edit", name="notes_edit")
-   * @Method({"GET", "POST"})
+   * @Route("/{id}/edit", name="notes_edit", methods={"GET", "POST"})
    */
   public function editAction(Request $request, Notes $note)
   {
@@ -106,8 +101,7 @@ class NotesController extends Controller
   /**
    * Deletes a Notes entity.
    *
-   * @Route("/{id}", name="notes_delete")
-   * @Method("DELETE")
+   * @Route("/{id}", name="notes_delete", methods={"DELETE"})
    */
   public function deleteAction(Request $request, Notes $note)
   {

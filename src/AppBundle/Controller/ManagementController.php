@@ -5,7 +5,6 @@ namespace AppBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use AppBundle\Entity\Tasks;
 
 /**
@@ -51,8 +50,7 @@ class ManagementController extends Controller
   /**
    * Search all entities.
    *
-   * @Route("/search", name="management_search_page")
-   * @Method("GET")
+   * @Route("/search", name="management_search_page", methods={"GET"})
    */
   public function searchAction(Request $request)
   {

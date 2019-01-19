@@ -4,7 +4,6 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Balance;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -19,8 +18,7 @@ class BalanceController extends Controller
   /**
    * Lists all balance entities.
    *
-   * @Route("/", name="balance_index")
-   * @Method("GET")
+   * @Route("/", name="balance_index", methods={"GET"})
    */
   public function indexAction()
   {
@@ -36,8 +34,7 @@ class BalanceController extends Controller
   /**
    * Creates a new balance entity.
    *
-   * @Route("/new", name="balance_new")
-   * @Method({"GET", "POST"})
+   * @Route("/new", name="balance_new", methods={"GET", "POST"})
    */
   public function newAction(Request $request)
   {
@@ -62,8 +59,7 @@ class BalanceController extends Controller
   /**
    * Finds and displays a balance entity.
    *
-   * @Route("/{id}", name="balance_show")
-   * @Method("GET")
+   * @Route("/{id}", name="balance_show", methods={"GET"})
    */
   public function showAction(Balance $balance)
   {
@@ -78,8 +74,7 @@ class BalanceController extends Controller
   /**
    * Displays a form to edit an existing balance entity.
    *
-   * @Route("/{id}/edit", name="balance_edit")
-   * @Method({"GET", "POST"})
+   * @Route("/{id}/edit", name="balance_edit", methods={"GET", "POST"})
    */
   public function editAction(Request $request, Balance $balance)
   {
@@ -103,8 +98,7 @@ class BalanceController extends Controller
   /**
    * Deletes a balance entity.
    *
-   * @Route("/{id}", name="balance_delete")
-   * @Method("DELETE")
+   * @Route("/{id}", name="balance_delete", methods={"DELETE"})
    */
   public function deleteAction(Request $request, Balance $balance)
   {

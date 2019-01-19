@@ -4,7 +4,6 @@ namespace AppBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Entity\AccountTransactions;
 use AppBundle\Form\AccountTransactionsType;
@@ -20,8 +19,7 @@ class AccountTransactionsController extends Controller
   /**
    * Lists all AccountTransactions entities.
    *
-   * @Route("/", name="accounttransactions_index")
-   * @Method("GET")
+   * @Route("/", name="accounttransactions_index", methods={"GET"})
    */
   public function indexAction()
   {
@@ -37,8 +35,7 @@ class AccountTransactionsController extends Controller
   /**
    * Creates a new AccountTransactions entity.
    *
-   * @Route("/new", name="accounttransactions_new")
-   * @Method({"GET", "POST"})
+   * @Route("/new", name="accounttransactions_new", methods={"GET", "POST"})
    */
   public function newAction(Request $request)
   {
@@ -67,8 +64,7 @@ class AccountTransactionsController extends Controller
   /**
    * Finds and displays a AccountTransactions entity.
    *
-   * @Route("/{id}", name="accounttransactions_show")
-   * @Method("GET")
+   * @Route("/{id}", name="accounttransactions_show", methods={"GET"})
    */
   public function showAction(AccountTransactions $accountTransaction)
   {
@@ -83,8 +79,7 @@ class AccountTransactionsController extends Controller
   /**
    * Displays a form to edit an existing AccountTransactions entity.
    *
-   * @Route("/{id}/edit", name="accounttransactions_edit")
-   * @Method({"GET", "POST"})
+   * @Route("/{id}/edit", name="accounttransactions_edit", methods={"GET", "POST"})
    */
   public function editAction(Request $request, AccountTransactions $accountTransaction)
   {
@@ -111,8 +106,7 @@ class AccountTransactionsController extends Controller
   /**
    * Deletes a AccountTransactions entity.
    *
-   * @Route("/{id}", name="accounttransactions_delete")
-   * @Method("DELETE")
+   * @Route("/{id}", name="accounttransactions_delete", methods={"DELETE"})
    */
   public function deleteAction(Request $request, AccountTransactions $accountTransaction)
   {

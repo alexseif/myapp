@@ -4,7 +4,6 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\CostOfLife;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -19,8 +18,7 @@ class CostOfLifeController extends Controller
   /**
    * Lists all costOfLife entities.
    *
-   * @Route("/", name="costoflife_index")
-   * @Method("GET")
+   * @Route("/", name="costoflife_index", methods={"GET"})
    */
   public function indexAction()
   {
@@ -36,8 +34,7 @@ class CostOfLifeController extends Controller
   /**
    * Creates a new costOfLife entity.
    *
-   * @Route("/new", name="costoflife_new")
-   * @Method({"GET", "POST"})
+   * @Route("/new", name="costoflife_new", methods={"GET", "POST"})
    */
   public function newAction(Request $request)
   {
@@ -62,8 +59,7 @@ class CostOfLifeController extends Controller
   /**
    * Finds and displays a costOfLife entity.
    *
-   * @Route("/{id}", name="costoflife_show")
-   * @Method("GET")
+   * @Route("/{id}", name="costoflife_show", methods={"GET"})
    */
   public function showAction(CostOfLife $costOfLife)
   {
@@ -78,8 +74,7 @@ class CostOfLifeController extends Controller
   /**
    * Displays a form to edit an existing costOfLife entity.
    *
-   * @Route("/{id}/edit", name="costoflife_edit")
-   * @Method({"GET", "POST"})
+   * @Route("/{id}/edit", name="costoflife_edit", methods={"GET", "POST"})
    */
   public function editAction(Request $request, CostOfLife $costOfLife)
   {
@@ -103,8 +98,7 @@ class CostOfLifeController extends Controller
   /**
    * Deletes a costOfLife entity.
    *
-   * @Route("/{id}", name="costoflife_delete")
-   * @Method("DELETE")
+   * @Route("/{id}", name="costoflife_delete", methods={"DELETE"})
    */
   public function deleteAction(Request $request, CostOfLife $costOfLife)
   {

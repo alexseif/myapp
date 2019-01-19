@@ -4,7 +4,6 @@ namespace AppBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Entity\Accounts;
 use AppBundle\Form\AccountsType;
@@ -20,8 +19,7 @@ class AccountsController extends Controller
   /**
    * Lists all Accounts entities.
    *
-   * @Route("/", name="accounts_index")
-   * @Method("GET")
+   * @Route("/", name="accounts_index", methods={"GET"})
    */
   public function indexAction()
   {
@@ -37,8 +35,7 @@ class AccountsController extends Controller
   /**
    * Creates a new Accounts entity.
    *
-   * @Route("/new", name="accounts_new")
-   * @Method({"GET", "POST"})
+   * @Route("/new", name="accounts_new", methods={"GET", "POST"})
    */
   public function newAction(Request $request)
   {
@@ -63,8 +60,7 @@ class AccountsController extends Controller
   /**
    * Finds and displays a Accounts entity.
    *
-   * @Route("/{id}", name="accounts_show")
-   * @Method("GET")
+   * @Route("/{id}", name="accounts_show", methods={"GET"})
    */
   public function showAction(Accounts $account)
   {
@@ -79,8 +75,7 @@ class AccountsController extends Controller
   /**
    * Displays a form to edit an existing Accounts entity.
    *
-   * @Route("/{id}/edit", name="accounts_edit")
-   * @Method({"GET", "POST"})
+   * @Route("/{id}/edit", name="accounts_edit", methods={"GET"})
    */
   public function editAction(Request $request, Accounts $account)
   {
@@ -106,8 +101,7 @@ class AccountsController extends Controller
   /**
    * Deletes a Accounts entity.
    *
-   * @Route("/{id}", name="accounts_delete")
-   * @Method("DELETE")
+   * @Route("/{id}", name="accounts_delete", methods={"DELETE"})
    */
   public function deleteAction(Request $request, Accounts $account)
   {

@@ -4,7 +4,6 @@ namespace AppBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Entity\Tasks;
 use AppBundle\Form\TasksType;
@@ -20,8 +19,7 @@ class TasksController extends Controller
   /**
    * Lists all Tasks entities.
    *
-   * @Route("/", name="tasks_index")
-   * @Method("GET")
+   * @Route("/", name="tasks_index", methods={"GET"})
    */
   public function indexAction()
   {
@@ -37,8 +35,7 @@ class TasksController extends Controller
   /**
    * Reorders Tasks entity.
    *
-   * @Route("/reorder", name="tasks_reorder")
-   * @Method("GET")
+   * @Route("/reorder", name="tasks_reorder", methods={"GET"})
    */
   public function reorderAction(Request $request)
   {
@@ -73,8 +70,7 @@ class TasksController extends Controller
   /**
    * Search all Tasks entities.
    *
-   * @Route("/search", name="tasks_search")
-   * @Method("GET")
+   * @Route("/search", name="tasks_search", methods={"GET"})
    */
   public function searchAction(Request $request)
   {
@@ -116,8 +112,7 @@ class TasksController extends Controller
   /**
    * Advanced Lists all Tasks entities.
    *
-   * @Route("/advanced", name="tasks_advanced")
-   * @Method({"GET", "POST"})
+   * @Route("/advanced", name="tasks_advanced", methods={"GET", "POST"})
    */
   public function advancedAction(Request $request)
   {
@@ -140,8 +135,7 @@ class TasksController extends Controller
   /**
    * Creates a new Tasks entity.
    *
-   * @Route("/new", name="tasks_new")
-   * @Method({"GET", "POST"})
+   * @Route("/new", name="tasks_new", methods={"GET", "POST"})
    */
   public function newAction(Request $request)
   {
@@ -176,8 +170,7 @@ class TasksController extends Controller
   /**
    * Displays a form to edit an existing Tasks entity.
    *
-   * @Route("/order", name="tasks_order")
-   * @Method("POST")
+   * @Route("/order", name="tasks_order", methods={"POST"})
    */
   public function orderAction(Request $request)
   {
@@ -199,8 +192,7 @@ class TasksController extends Controller
   /**
    * Finds and displays a Tasks entity.
    *
-   * @Route("/{id}", name="tasks_show")
-   * @Method("GET")
+   * @Route("/{id}", name="tasks_show", methods={"GET"})
    */
   public function showAction(Tasks $tasks)
   {
@@ -215,8 +207,7 @@ class TasksController extends Controller
   /**
    * Finds and displays a Tasks entity.
    *
-   * @Route("/{id}/modal", name="task_show_modal")
-   * @Method("GET")
+   * @Route("/{id}/modal", name="task_show_modal", methods={"GET"})
    */
   public function showModalAction(Tasks $tasks)
   {
@@ -229,8 +220,7 @@ class TasksController extends Controller
   /**
    * Displays a form to edit an existing Tasks entity.
    *
-   * @Route("/{id}/edit", name="tasks_edit")
-   * @Method({"GET", "POST"})
+   * @Route("/{id}/edit", name="tasks_edit", methods={"GET", "POST"})
    */
   public function editAction(Request $request, Tasks $task)
   {
@@ -298,8 +288,7 @@ class TasksController extends Controller
   /**
    * Postpone a task eta to tomorrow
    *
-   * @Route("/{id}/postpone", name="tasks_postpone")
-   * @Method("GET")
+   * @Route("/{id}/postpone", name="tasks_postpone", methods={"GET"})
    */
   public function postponeAction(Request $request, Tasks $task)
   {
@@ -319,8 +308,7 @@ class TasksController extends Controller
   /**
    * Deletes a Tasks entity.
    *
-   * @Route("/{id}", name="tasks_delete")
-   * @Method("DELETE")
+   * @Route("/{id}", name="tasks_delete", methods={"DELETE"})
    */
   public function deleteAction(Request $request, Tasks $task)
   {
