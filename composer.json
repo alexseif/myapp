@@ -60,6 +60,7 @@
     ]
   },
   "config": {
+    "disable-tls": true,
     "platform": {
       "php": "5.6"
     },
