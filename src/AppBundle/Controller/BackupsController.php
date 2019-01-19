@@ -12,6 +12,7 @@ use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
  * Backups controller.
@@ -23,7 +24,7 @@ class BackupsController extends Controller
 
   /**
    * @Route("/", name="backups")
-   * 
+   * @Template("backups/index.html.twig")
    */
   public function indexAction()
   {
@@ -35,9 +36,9 @@ class BackupsController extends Controller
       $finder = null;
     }
 
-    return $this->render('backups/index.html.twig', array(
-          'finder' => $finder
-    ));
+    return array(
+      'finder' => $finder
+    );
   }
 
   /**

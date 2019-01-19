@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Entity\Tasks;
 
 /**
@@ -17,6 +18,7 @@ class ManagementController extends Controller
 
   /**
    * @Route("/", name="management_index")
+   * @Template("AppBundle:Management:index.html.twig")
    */
   public function indexAction(Request $request)
   {
@@ -27,14 +29,15 @@ class ManagementController extends Controller
       'method' => 'GET',
       'action' => $this->generateUrl('management_search_page')
     ));
-    return $this->render('AppBundle:Management:index.html.twig', array(
-          'tasks' => $tasks,
-          'management_search_form' => $form->createView()
-    ));
+    return array(
+      'tasks' => $tasks,
+      'management_search_form' => $form->createView()
+    );
   }
 
   /**
    * @Route("/priority", name="management_priority")
+   * @Template("AppBundle:Management:priority.html.twig")
    */
   public function priorityAction()
   {
@@ -42,15 +45,16 @@ class ManagementController extends Controller
 
     $tasks = $em->getRepository('AppBundle:Tasks')->getIncomplete();
 
-    return $this->render('AppBundle:Management:priority.html.twig', array(
-          'tasks' => $tasks,
-    ));
+    return array(
+      'tasks' => $tasks,
+    );
   }
 
   /**
    * Search all entities.
    *
    * @Route("/search", name="management_search_page", methods={"GET"})
+   * @Template("AppBundle:Management:search.html.twig")
    */
   public function searchAction(Request $request)
   {
@@ -59,6 +63,7 @@ class ManagementController extends Controller
       'method' => 'GET',
       'action' => $this->generateUrl('management_search_page')
     ));
+    $results = array();
     $filters = array();
     if ($request->query->has($form->getName())) {
       $filters = $request->get('management_search');
@@ -70,12 +75,11 @@ class ManagementController extends Controller
       $results['notes'] = $em->getRepository('AppBundle:Notes')->search($filters['search']);
     }
 
-
-    return $this->render('AppBundle:Management:search.html.twig', array(
-          'filters' => $filters,
-          'results' => $results,
-          'management_search_form' => $form->createView(),
-    ));
+    return array(
+      'filters' => $filters,
+      'results' => $results,
+      'management_search_form' => $form->createView(),
+    );
   }
 
 }

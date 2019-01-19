@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Entity\Accounts;
 use AppBundle\Form\AccountsType;
 
@@ -20,6 +21,7 @@ class AccountsController extends Controller
    * Lists all Accounts entities.
    *
    * @Route("/", name="accounts_index", methods={"GET"})
+   * @Template("accounts/index.html.twig")
    */
   public function indexAction()
   {
@@ -27,15 +29,16 @@ class AccountsController extends Controller
 
     $accounts = $em->getRepository('AppBundle:Accounts')->findAll();
 
-    return $this->render('accounts/index.html.twig', array(
-          'accounts' => $accounts,
-    ));
+    return array(
+      'accounts' => $accounts,
+    );
   }
 
   /**
    * Creates a new Accounts entity.
    *
    * @Route("/new", name="accounts_new", methods={"GET", "POST"})
+   * @Template("accounts/new.html.twig")
    */
   public function newAction(Request $request)
   {
@@ -51,31 +54,33 @@ class AccountsController extends Controller
       return $this->redirectToRoute('accounts_show', array('id' => $account->getId()));
     }
 
-    return $this->render('accounts/new.html.twig', array(
-          'account' => $account,
-          'account_form' => $form->createView(),
-    ));
+    return array(
+      'account' => $account,
+      'account_form' => $form->createView(),
+    );
   }
 
   /**
    * Finds and displays a Accounts entity.
    *
    * @Route("/{id}", name="accounts_show", methods={"GET"})
+   * @Template("accounts/show.html.twig")
    */
   public function showAction(Accounts $account)
   {
     $deleteForm = $this->createDeleteForm($account);
 
-    return $this->render('accounts/show.html.twig', array(
-          'account' => $account,
-          'delete_form' => $deleteForm->createView(),
-    ));
+    return array(
+      'account' => $account,
+      'delete_form' => $deleteForm->createView(),
+    );
   }
 
   /**
    * Displays a form to edit an existing Accounts entity.
    *
-   * @Route("/{id}/edit", name="accounts_edit", methods={"GET"})
+   * @Route("/{id}/edit", name="accounts_edit", methods={"GET", "POST"})
+   * @Template("accounts/edit.html.twig")
    */
   public function editAction(Request $request, Accounts $account)
   {
@@ -91,11 +96,11 @@ class AccountsController extends Controller
       return $this->redirectToRoute('accounts_edit', array('id' => $account->getId()));
     }
 
-    return $this->render('accounts/edit.html.twig', array(
-          'account' => $account,
-          'account_form' => $editForm->createView(),
-          'delete_form' => $deleteForm->createView(),
-    ));
+    return array(
+      'account' => $account,
+      'account_form' => $editForm->createView(),
+      'delete_form' => $deleteForm->createView(),
+    );
   }
 
   /**

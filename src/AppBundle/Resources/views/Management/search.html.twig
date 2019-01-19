@@ -19,7 +19,7 @@
     <a href="{{ path('management_index') }}" class="btn btn-warning"><span class="glyphicon glyphicon-erase"></span></a>
       {{ form_end(management_search_form) }}
   </div>
-  <h2>{{ filters.search }}</h2>
+  <h2>{{ (filters.search is defined) ? filters.search }}</h2>
 
   {% for type,result in results %}
     <h3>{{ type }} | {{ result|length }}</h3>
@@ -39,13 +39,13 @@
       {% set taskLists = result %}
       {% include 'tasklists/taskLists_list.html.twig' %}
     {% endif %}
-      {% if type == 'tasks' %}
-      {% endif %}
-      {% if type == 'notes' %}
-      {% endif %}
-    {% endfor %}
-  {% endblock %}
-  {% block javascripts %}
-    {{ parent() }}
-    <script type="text/javascript" src="/js/management.js"></script>
-  {% endblock %}
+    {% if type == 'tasks' %}
+    {% endif %}
+    {% if type == 'notes' %}
+    {% endif %}
+  {% endfor %}
+{% endblock %}
+{% block javascripts %}
+  {{ parent() }}
+  <script type="text/javascript" src="/js/management.js"></script>
+{% endblock %}
