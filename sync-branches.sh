@@ -26,3 +26,7 @@ git checkout client-feature
 git pull --all
 git merge master
 git push origin client-feature
+git checkout timesheet
+git pull --all
+git merge master
+git push origin timesheet
