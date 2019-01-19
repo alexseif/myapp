@@ -16,7 +16,7 @@ class WeeklyController extends Controller
 
   /**
    * @Route("/", name="default")
-   * @Template("weekly/index.html.twig")
+   * @Template("AppBundle:weekly:index.html.twig")
    */
   public function defaultAction()
   {

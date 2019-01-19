@@ -21,7 +21,7 @@ class AccountsController extends Controller
    * Lists all Accounts entities.
    *
    * @Route("/", name="accounts_index", methods={"GET"})
-   * @Template("accounts/index.html.twig")
+   * @Template("AppBundle:accounts:index.html.twig")
    */
   public function indexAction()
   {
@@ -38,7 +38,7 @@ class AccountsController extends Controller
    * Creates a new Accounts entity.
    *
    * @Route("/new", name="accounts_new", methods={"GET", "POST"})
-   * @Template("accounts/new.html.twig")
+   * @Template("AppBundle:accounts:new.html.twig")
    */
   public function newAction(Request $request)
   {
@@ -64,7 +64,7 @@ class AccountsController extends Controller
    * Finds and displays a Accounts entity.
    *
    * @Route("/{id}", name="accounts_show", methods={"GET"})
-   * @Template("accounts/show.html.twig")
+   * @Template("AppBundle:accounts:show.html.twig")
    */
   public function showAction(Accounts $account)
   {
@@ -80,7 +80,7 @@ class AccountsController extends Controller
    * Displays a form to edit an existing Accounts entity.
    *
    * @Route("/{id}/edit", name="accounts_edit", methods={"GET", "POST"})
-   * @Template("accounts/edit.html.twig")
+   * @Template("AppBundle:accounts:edit.html.twig")
    */
   public function editAction(Request $request, Accounts $account)
   {

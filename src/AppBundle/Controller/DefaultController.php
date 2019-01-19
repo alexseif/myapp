@@ -17,7 +17,7 @@ class DefaultController extends Controller
   /**
    * 
    * @Route("/", name="dashboard")
-   * @Template("default/dashboard.html.twig")
+   * @Template("AppBundle:default:dashboard.html.twig")
    */
   public function dashboardAction(Request $request)
   {
@@ -93,7 +93,7 @@ class DefaultController extends Controller
   /**
    * 
    * @Route("/workarea", name="workarea")
-   * @Template("default/workarea.html.twig")
+   * @Template("AppBundle:default:workarea.html.twig")
    */
   public function workareaAction()
   {
@@ -124,7 +124,7 @@ class DefaultController extends Controller
   /**
    * 
    * @Route("/beta", name="beta")
-   * @Template("default/beta.html.twig")
+   * @Template("AppBundle:default:beta.html.twig")
    */
   public function betaAction(Request $request)
   {
@@ -154,7 +154,7 @@ class DefaultController extends Controller
   /**
    * 
    * @Route("/focus", name="focus")
-   * @Template("default/focus.html.twig")
+   * @Template("AppBundle:default:focus.html.twig")
    */
   public function focusAction()
   {
@@ -173,7 +173,7 @@ class DefaultController extends Controller
   /**
    * 
    * @Route("/singleTask", name="singleTask")
-   * @Template("default/singleTask.html.twig")
+   * @Template("AppBundle:default:singleTask.html.twig")
    */
   public function singleTaskAction()
   {
@@ -209,7 +209,7 @@ class DefaultController extends Controller
   /**
    * 
    * @Route("/focus/{name}", name="focus_tasklist")
-   * @Template("default/focus.html.twig")
+   * @Template("AppBundle:default:focus.html.twig")
    */
   public function focusByTaskListAction(TaskLists $taskList)
   {
@@ -234,7 +234,7 @@ class DefaultController extends Controller
   /**
    * 
    * @Route("/lists", name="lists_view")
-   * @Template("default/lists.html.twig")
+   * @Template("AppBundle:default:lists.html.twig")
    */
   public function listsAction()
   {

@@ -18,7 +18,7 @@ class ManagementController extends Controller
 
   /**
    * @Route("/", name="management_index")
-   * @Template("AppBundle:Management:index.html.twig")
+   * @Template("AppBundle:management:index.html.twig")
    */
   public function indexAction(Request $request)
   {

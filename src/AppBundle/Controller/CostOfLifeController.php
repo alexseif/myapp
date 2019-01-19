@@ -20,7 +20,7 @@ class CostOfLifeController extends Controller
    * Lists all costOfLife entities.
    *
    * @Route("/", name="costoflife_index", methods={"GET"})
-   * @Template("costoflife/index.html.twig")
+   * @Template("AppBundle:costoflife:index.html.twig")
    */
   public function indexAction()
   {
@@ -37,7 +37,7 @@ class CostOfLifeController extends Controller
    * Creates a new costOfLife entity.
    *
    * @Route("/new", name="costoflife_new", methods={"GET", "POST"})
-   * @Template("costoflife/new.html.twig")
+   * @Template("AppBundle:costoflife:new.html.twig")
    */
   public function newAction(Request $request)
   {
@@ -63,7 +63,7 @@ class CostOfLifeController extends Controller
    * Finds and displays a costOfLife entity.
    *
    * @Route("/{id}", name="costoflife_show", methods={"GET"})
-   * @Template("costoflife/show.html.twig")
+   * @Template("AppBundle:costoflife:show.html.twig")
    */
   public function showAction(CostOfLife $costOfLife)
   {
@@ -79,7 +79,7 @@ class CostOfLifeController extends Controller
    * Displays a form to edit an existing costOfLife entity.
    *
    * @Route("/{id}/edit", name="costoflife_edit", methods={"GET", "POST"})
-   * @Template("costoflife/edit.html.twig")
+   * @Template("AppBundle:costoflife:edit.html.twig")
    */
   public function editAction(Request $request, CostOfLife $costOfLife)
   {

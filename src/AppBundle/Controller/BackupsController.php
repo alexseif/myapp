@@ -24,7 +24,7 @@ class BackupsController extends Controller
 
   /**
    * @Route("/", name="backups")
-   * @Template("backups/index.html.twig")
+   * @Template("AppBundle:backups:index.html.twig")
    */
   public function indexAction()
   {
@@ -92,7 +92,7 @@ class BackupsController extends Controller
    */
   public function downloadAction($file)
   {
-    $content = file_get_contents($this->get('kernel')->getRootDir() . '/../backups/' . $file);
+    $content = file_get_contents($this->get('kernel')->getRootDir() . '/../AppBundle:backups:' . $file);
 
     $response = new Response();
 

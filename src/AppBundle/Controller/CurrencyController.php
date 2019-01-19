@@ -20,7 +20,7 @@ class CurrencyController extends Controller
    * Lists all currency entities.
    *
    * @Route("/", name="currency_index", methods={"GET"})
-   * @Template("currency/index.html.twig")
+   * @Template("AppBundle:currency:index.html.twig")
    */
   public function indexAction()
   {
@@ -37,7 +37,7 @@ class CurrencyController extends Controller
    * Creates a new currency entity.
    *
    * @Route("/new", name="currency_new", methods={"GET", "POST"})
-   * @Template("currency/new.html.twig")
+   * @Template("AppBundle:currency:new.html.twig")
    */
   public function newAction(Request $request)
   {
@@ -63,7 +63,7 @@ class CurrencyController extends Controller
    * Finds and displays a currency entity.
    *
    * @Route("/{id}", name="currency_show", methods={"GET"})
-   * @Template("currency/show.html.twig")
+   * @Template("AppBundle:currency:show.html.twig")
    */
   public function showAction(Currency $currency)
   {
@@ -79,7 +79,7 @@ class CurrencyController extends Controller
    * Displays a form to edit an existing currency entity.
    *
    * @Route("/{id}/edit", name="currency_edit", methods={"GET", "POST"})
-   * @Template("currency/edit.html.twig")
+   * @Template("AppBundle:currency:edit.html.twig")
    */
   public function editAction(Request $request, Currency $currency)
   {

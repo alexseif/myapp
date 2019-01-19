@@ -21,7 +21,7 @@ class TasksController extends Controller
    * Lists all Tasks entities.
    *
    * @Route("/", name="tasks_index", methods={"GET"})
-   * @Template("tasks/index.html.twig")
+   * @Template("AppBundle:tasks:index.html.twig")
    */
   public function indexAction()
   {
@@ -73,7 +73,7 @@ class TasksController extends Controller
    * Search all Tasks entities.
    *
    * @Route("/search", name="tasks_search", methods={"GET"})
-   * @Template("tasks/search.html.twig")
+   * @Template("AppBundle:tasks:search.html.twig")
    */
   public function searchAction(Request $request)
   {
@@ -116,7 +116,7 @@ class TasksController extends Controller
    * Advanced Lists all Tasks entities.
    *
    * @Route("/advanced", name="tasks_advanced", methods={"GET", "POST"})
-   * @Template("tasks/advanced.html.twig")
+   * @Template("AppBundle:tasks:advanced.html.twig")
    */
   public function advancedAction(Request $request)
   {
@@ -140,7 +140,7 @@ class TasksController extends Controller
    * Creates a new Tasks entity.
    *
    * @Route("/new", name="tasks_new", methods={"GET", "POST"})
-   * @Template("tasks/new.html.twig")
+   * @Template("AppBundle:tasks:new.html.twig")
    */
   public function newAction(Request $request)
   {
@@ -198,7 +198,7 @@ class TasksController extends Controller
    * Finds and displays a Tasks entity.
    *
    * @Route("/{id}", name="tasks_show", methods={"GET"})
-   * @Template("tasks/show.html.twig")
+   * @Template("AppBundle:tasks:show.html.twig")
    */
   public function showAction(Tasks $tasks)
   {
@@ -214,7 +214,7 @@ class TasksController extends Controller
    * Finds and displays a Tasks entity.
    *
    * @Route("/{id}/modal", name="task_show_modal", methods={"GET"})
-   * @Template("tasks/show_modal.html.twig")
+   * @Template("AppBundle:tasks:show_modal.html.twig")
    */
   public function showModalAction(Tasks $tasks)
   {
@@ -228,7 +228,7 @@ class TasksController extends Controller
    * Displays a form to edit an existing Tasks entity.
    *
    * @Route("/{id}/edit", name="tasks_edit", methods={"GET", "POST"})
-   * @Template("tasks/edit.html.twig")
+   * @Template("AppBundle:tasks:edit.html.twig")
    */
   public function editAction(Request $request, Tasks $task)
   {

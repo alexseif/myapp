@@ -20,7 +20,7 @@ class WorkLogController extends Controller
    * Lists all workLog entities.
    *
    * @Route("/", name="worklog_index", methods={"GET"})
-   * @Template("worklog/index.html.twig")
+   * @Template("AppBundle:worklog:index.html.twig")
    */
   public function indexAction()
   {
@@ -37,7 +37,7 @@ class WorkLogController extends Controller
    * Lists all workLog entities.
    *
    * @Route("/tasklist/{tasklist}", name="worklog_tasklist", methods={"GET"})
-   * @Template("worklog/tasklist.html.twig")
+   * @Template("AppBundle:worklog:tasklist.html.twig")
    */
   public function tasklistAction(\AppBundle\Entity\TaskLists $tasklist)
   {
@@ -52,7 +52,7 @@ class WorkLogController extends Controller
 
   /**
    * @ROUTE("/completedTasks", name="completed_tasks")
-   * @Template("worklog/completedTasks.html.twig")
+   * @Template("AppBundle:worklog:completedTasks.html.twig")
    */
   public function completedTasksAction(Request $request)
   {
@@ -112,7 +112,7 @@ class WorkLogController extends Controller
    * Creates a new workLog entity.
    *
    * @Route("/new", name="worklog_new", methods={"GET", "POST"})
-   * @Template("worklog/new.html.twig")
+   * @Template("AppBundle:worklog:new.html.twig")
    */
   public function newAction(Request $request)
   {
@@ -257,7 +257,7 @@ class WorkLogController extends Controller
    * Finds and displays a workLog entity.
    *
    * @Route("/{id}", name="worklog_show", methods={"GET"})
-   * @Template("worklog/show.html.twig")
+   * @Template("AppBundle:worklog:show.html.twig")
    */
   public function showAction(WorkLog $workLog)
   {
@@ -273,7 +273,7 @@ class WorkLogController extends Controller
    * Displays a form to edit an existing workLog entity.
    *
    * @Route("/{id}/edit", name="worklog_edit", methods={"GET", "POST"})
-   * @Template("worklog/edit.html.twig")
+   * @Template("AppBundle:worklog:edit.html.twig")
    */
   public function editAction(Request $request, WorkLog $workLog)
   {

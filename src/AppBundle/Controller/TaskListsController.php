@@ -23,7 +23,7 @@ class TaskListsController extends Controller
    * Lists all TaskLists entities.
    *
    * @Route("/", name="tasklists_index", methods={"GET", "POST"})
-   * @Template("tasklists/index.html.twig")
+   * @Template("AppBundle:tasklists:index.html.twig")
    */
   public function indexAction(Request $request)
   {
@@ -55,7 +55,7 @@ class TaskListsController extends Controller
    * Creates a new TaskLists entity.
    *
    * @Route("/new", name="tasklists_new", methods={"GET","POST"})
-   * @Template("tasklists/new.html.twig")
+   * @Template("AppBundle:tasklists:new.html.twig")
    */
   public function newAction(Request $request)
   {
@@ -81,7 +81,7 @@ class TaskListsController extends Controller
    * Finds and displays a TaskLists entity.
    *
    * @Route("/{id}", name="tasklists_show", methods={"GET"})
-   * @Template("tasklists/show.html.twig")
+   * @Template("AppBundle:tasklists:show.html.twig")
    */
   public function showAction(TaskLists $taskList)
   {
@@ -97,7 +97,7 @@ class TaskListsController extends Controller
    * Displays a form to edit an existing TaskLists entity.
    *
    * @Route("/{id}/edit", name="tasklists_edit", methods={"GET", "POST"})
-   * @Template("tasklists/edit.html.twig")
+   * @Template("AppBundle:tasklists:edit.html.twig")
    */
   public function editAction(Request $request, TaskLists $taskList)
   {

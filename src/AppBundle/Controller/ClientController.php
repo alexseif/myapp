@@ -20,7 +20,7 @@ class ClientController extends Controller
    * Lists all client entities.
    *
    * @Route("/", name="client_index", methods={"GET"})
-   * @Template("client/index.html.twig")
+   * @Template("AppBundle:client:index.html.twig")
    */
   public function indexAction()
   {
@@ -37,7 +37,7 @@ class ClientController extends Controller
    * Creates a new client entity.
    *
    * @Route("/new", name="client_new", methods={"GET", "POST"})
-   * @Template("client/new.html.twig")
+   * @Template("AppBundle:client:new.html.twig")
    */
   public function newAction(Request $request)
   {
@@ -63,7 +63,7 @@ class ClientController extends Controller
    * Finds and displays a client entity.
    *
    * @Route("/{id}", name="client_show", methods={"GET"})
-   * @Template("client/show.html.twig")
+   * @Template("AppBundle:client:show.html.twig")
    */
   public function showAction(Client $client)
   {
@@ -79,7 +79,7 @@ class ClientController extends Controller
    * Displays a form to edit an existing client entity.
    *
    * @Route("/{id}/edit", name="client_edit", methods={"GET", "POST"})
-   * @Template("client/edit.html.twig")
+   * @Template("AppBundle:client:edit.html.twig")
    */
   public function editAction(Request $request, Client $client)
   {
