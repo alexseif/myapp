@@ -9,7 +9,7 @@ imports:
 
 
 parameters:
-    httpProtocol: https
+    httpprotocol: https
     
 monolog:
     handlers:
