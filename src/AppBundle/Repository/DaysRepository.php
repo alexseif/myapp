@@ -38,7 +38,7 @@ class DaysRepository extends EntityRepository
     return $this->createQueryBuilder('d')
             ->where('d.complete = 1')
             ->andWhere('d.deadline < CURRENT_TIMESTAMP()')
-            ->orderBy('d.deadline', 'ASC')
+            ->orderBy('d.deadline', 'DESC')
             ->getQuery()
             ->getResult();
   }
