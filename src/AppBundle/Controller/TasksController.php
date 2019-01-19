@@ -5,7 +5,7 @@ namespace AppBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Entity\Tasks;
 use AppBundle\Form\TasksType;
 
@@ -105,7 +105,7 @@ class TasksController extends Controller
 
       $tasks = $tasksQuery->getQuery()->getResult();
     }
-    
+
     return $this->render('tasks/search.html.twig', array(
           'filters' => $filters,
           'tasks' => $tasks,
