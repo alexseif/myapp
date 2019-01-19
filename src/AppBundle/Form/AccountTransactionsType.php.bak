@@ -6,8 +6,6 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 
 class AccountTransactionsType extends AbstractType
 {
@@ -19,14 +17,14 @@ class AccountTransactionsType extends AbstractType
   public function buildForm(FormBuilderInterface $builder, array $options)
   {
     $builder
-        ->add('account', EntityType::class, array(
+        ->add('account', 'entity', array(
           'class' => 'AppBundle:Accounts',
           'choice_label' => 'name',
           'attr' => array(
             'class' => 'chosen',
           )
         ))
-        ->add('amount', MoneyType::class)
+        ->add('amount', 'money')
         ->add('issuedAt', DateType::class, array(
           'widget' => 'single_text',
           'format' => 'yyyy-MM-dd',

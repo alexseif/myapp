@@ -1,5 +1,4 @@
-# To get started with security, check out the documentation:
-# https://symfony.com/doc/current/security.html
+# app/config/security.yml
 security:
     encoders:
         FOS\UserBundle\Model\UserInterface: bcrypt
