@@ -189,7 +189,7 @@ zenstruck_backup:
                 user:       "%database_user%"
                 password:   "%database_password%"
     processors:
-        gzip: { gzip:~ }
+        gzip: { 'gzip':~ }
     destinations:
         dir: 
             stream: 
