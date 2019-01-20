@@ -70,12 +70,8 @@
         <td>{{ workLog.createdAt|date }}</td>
         <td class="text-right"><span class="pull-left">EGP</span> {{ workLog.total }}</td>
         <td>
-          <a href="{{ path('worklog_show', { 'id': workLog.id }) }}"
-             class="btn btn-sm btn-primary">
-            <span class="glyphicon glyphicon-open"></span></a>
-          <a href="{{ path('worklog_edit', { 'id': workLog.id }) }}"
-             class="btn btn-sm btn-primary">
-            <span class="glyphicon glyphicon-edit"></span></a>
+          {{ a.show('worklog_show', { 'id': workLog.id }) }}
+          {{ a.edit('worklog_edit', { 'id': workLog.id }) }}
         </td>
       </tr>
     {% endfor %}
