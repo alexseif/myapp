@@ -92,7 +92,7 @@ class BackupsController extends Controller
    */
   public function downloadAction($file)
   {
-    $content = file_get_contents($this->get('kernel')->getRootDir() . '/../AppBundle:backups:' . $file);
+    $content = file_get_contents($this->get('kernel')->getRootDir() . '/../backups/' . $file);
 
     $response = new Response();
 
