@@ -195,7 +195,6 @@ class DefaultController extends Controller
           ), array(
         'urgency' => 'DESC',
         'priority' => 'DESC',
-        'est' => 'ASC',
         'order' => 'ASC'
           ), 10
       );
