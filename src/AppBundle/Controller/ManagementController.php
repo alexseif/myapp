@@ -37,7 +37,7 @@ class ManagementController extends Controller
 
   /**
    * @Route("/priority", name="management_priority")
-   * @Template("AppBundle:Management:priority.html.twig")
+   * @Template("AppBundle:management:priority.html.twig")
    */
   public function priorityAction()
   {
@@ -54,7 +54,7 @@ class ManagementController extends Controller
    * Search all entities.
    *
    * @Route("/search", name="management_search_page", methods={"GET"})
-   * @Template("AppBundle:Management:search.html.twig")
+   * @Template("AppBundle:management:search.html.twig")
    */
   public function searchAction(Request $request)
   {
