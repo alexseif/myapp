@@ -119,11 +119,12 @@ class TasksRepository extends EntityRepository
             ->select('t')
             ->where('t.completed <> true')
             ->andWhere('t.taskList = :tasklist')
+            ->andWhere('t.eta <= :today OR t.eta IS NULL')
             ->orderBy("t.urgency", "DESC")
             ->addOrderBy("t.priority", "DESC")
-            ->addOrderBy("t.completedAt", "ASC")
             ->addOrderBy("t.order", "ASC")
             ->setParameter(':tasklist', $taskList)
+            ->setParameter(':today', $today->format('Y-m-d H:i'))
             ->getQuery()
             ->getResult();
   }
