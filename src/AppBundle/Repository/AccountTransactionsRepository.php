@@ -27,4 +27,16 @@ class AccountTransactionsRepository extends EntityRepository
             ->getResult();
   }
 
+  public function queryAccountRange($account)
+  {
+    return $this
+            ->createQueryBuilder('at')
+            ->select('MIN(at.issuedAt) as rangeStart, MAX(at.issuedAt) as rangeEnd')
+            ->where('at.account = :account')
+            ->groupBy('at.account')
+            ->setParameter(':account', $account)
+            ->getQuery()
+            ->getOneOrNullResult();
+  }
+
 }
