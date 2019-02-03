@@ -1,0 +1,61 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}Accounting{% endblock %}
+
+{% block content %}
+  <style>
+    table.txn td:nth-child(2){
+      width: 60%; 
+    }
+    table.txn td:nth-child(4){
+      text-align: right;
+    }
+    @media print {
+      a[href]:after {
+        content: none
+      }
+    }
+  </style>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4">
+        <h1>{{ account}} <small> Account</small></h1>
+      </div>
+      <div class="col-md-4">
+        <h3>{{ account.client }} <small>Client</small></h3>
+      </div>
+      <div class="col-md-4">
+        <h3>{{ from }} - {{ to }} <small>Coverage Period</small></h3>
+      </div>
+    </div>
+    <h3>Transactions</h3>
+    <table class="table table-bordered table-condensed table-hover table-responsive table-striped txn">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Note</th>
+          <th>Issued</th>
+          <th>Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for txn in txns %}
+          <tr>
+            <td><a href="txn_link">#{{ txn.id }}</a></td>
+            <td>{{ txn.note }}</td>
+            <td>{{ txn.issuedAt|date('Y-m-d')}}</td>
+            <td><span class="pull-left">EGP</span> {{ txn.amount|number_format }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+      <tfoot>
+        <tr>
+          <td></td>
+          <td></td>
+          <td>Total</td>
+          <td><span class="pull-left">EGP</span> {{ total|number_format }}</td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+{% endblock %}

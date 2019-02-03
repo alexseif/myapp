@@ -110,4 +110,9 @@ class Client
     return $this->accounts;
   }
 
+  public function __toString()
+  {
+    return $this->getName();
+  }
+
 }

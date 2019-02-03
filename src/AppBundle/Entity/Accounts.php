@@ -37,7 +37,6 @@ class Accounts
    */
   private $conceal = false;
 
-
   /**
    * @ORM\OneToMany(targetEntity="AccountTransactions", mappedBy="account", cascade="remove")
    */
@@ -197,28 +196,33 @@ class Accounts
     return $this->taskLists;
   }
 
+  /**
+   * Set conceal
+   *
+   * @param boolean $conceal
+   *
+   * @return Accounts
+   */
+  public function setConceal($conceal)
+  {
+    $this->conceal = $conceal;
 
-    /**
-     * Set conceal
-     *
-     * @param boolean $conceal
-     *
-     * @return Accounts
-     */
-    public function setConceal($conceal)
-    {
-        $this->conceal = $conceal;
+    return $this;
+  }
 
-        return $this;
-    }
+  /**
+   * Get conceal
+   *
+   * @return boolean
+   */
+  public function getConceal()
+  {
+    return $this->conceal;
+  }
 
-    /**
-     * Get conceal
-     *
-     * @return boolean
-     */
-    public function getConceal()
-    {
-        return $this->conceal;
-    }
+  public function __toString()
+  {
+    return $this->getName();
+  }
+
 }

@@ -1,0 +1,15 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}Accounting{% endblock %}
+
+{% block content %}
+  <div class="container">
+    {{ form_start(accounting_filter_form) }}
+    {{ form_widget(accounting_filter_form) }}
+    <div class="pull-right">
+      <a href="{{ path('accounting_index') }}" class="btn btn-link">Reset</a>
+      <button type="submit" value="Filter" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-search"></span></button>
+    </div>
+    {{ form_end(accounting_filter_form) }}
+  </div>
+{% endblock %}
