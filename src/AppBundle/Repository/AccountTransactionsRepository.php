@@ -39,4 +39,18 @@ class AccountTransactionsRepository extends EntityRepository
             ->getOneOrNullResult();
   }
 
+  public function queryAccountFromTo($account, $from, $to)
+  {
+    return $this
+            ->createQueryBuilder('at')
+            ->where('at.account = :account')
+            ->andWhere('at.issuedAt  >= :from')
+            ->andWhere('at.issuedAt <= :to')
+            ->setParameter(':account', $account)
+            ->setParameter(':from', $from)
+            ->setParameter(':to', $to)
+            ->getQuery()
+            ->getResult();
+  }
+
 }

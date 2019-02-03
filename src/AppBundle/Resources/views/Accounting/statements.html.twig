@@ -47,6 +47,7 @@
     <table class="table table-bordered table-condensed table-responsive table-striped">
       <thead>
         <tr>
+          <th>Statement number</th>
           <th>Coverage period</th>
           <th>Forward Balance</th>
           <th>Ending Balance</th>
@@ -55,15 +56,8 @@
       <tbody>
         {% for item in monthsArray %}
           <tr>
-            <td>
-              {# TODO: Provide Date range #}
-              {# TODO: Respct provided date range #}
-              <a href="{{ path('accounting_balance_page', {
- "accountId" : account.id, "from": item|date('Y-m-d'),
- "to":item|date('Y-m-t') }) }}">
-                {{ item|date('Y-m-t') }} - {{ item|date('Y-m-t') }}
-              </a>
-            </td>
+            <td>#333</td>
+            <td>01/{{ item|date('m/Y') }} - 30/{{ item|date('m/Y') }}</td>
             <td>EGP 00.00</td>
             <td>EGP 00.00</td>
           </tr>

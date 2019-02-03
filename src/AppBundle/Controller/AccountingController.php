@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Form\AccountingMainFilterType;
+use AppBundle\Entity\Accounts;
 
 /**
  * Accounting controller.
@@ -43,7 +44,58 @@ class AccountingController extends Controller
       $em = $this->getDoctrine()->getManager();
       $txnRepo = $em->getRepository('AppBundle:AccountTransactions');
       $txnPeriod = $txnRepo->queryAccountRange($account);
-      $noMonths = $this->nb_mois($txnPeriod['rangeStart'], $txnPeriod['rangeEnd']);
+
+      $monthsArray = \AppBundle\Util\DateRanges::populateMonths($txnPeriod['rangeStart'], $txnPeriod['rangeEnd'], 1);
+    }
+
+    return $this->render('AppBundle:Accounting:account.html.twig', array(
+          'accounting_filter_form' => $accountingFilterForm->createView(),
+          'account' => $account,
+          'txnPeriod' => $txnPeriod,
+          'monthsArray' => $monthsArray
+    ));
+  }
+
+  /**
+   * @Route("/balance/{accountId}/{from}/{to}", name="accounting_balance_page", methods={"GET"})
+   */
+  public function balanceAction(Request $request, $accountId, $from, $to)
+  {
+    $em = $this->getDoctrine()->getManager();
+    $account = $em->getRepository('AppBundle:Accounts')->find($accountId);
+    $txns = $em->getRepository('AppBundle:AccountTransactions')->queryAccountFromTo($account, $from, $to);
+    $total = 0;
+
+    foreach ($txns as $txn) {
+      $total += $txn->getAmount();
+    }
+
+    return $this->render('AppBundle:Accounting:balance.html.twig', array(
+          "account" => $account,
+          "from" => $from,
+          "to" => $to,
+          "txns" => $txns,
+          "total" => $total
+    ));
+  }
+
+  /**
+   * @Route("/statements", name="accounting_statements_page", methods={"GET"})
+   */
+  public function statementAction(Request $request)
+  {
+    $accountingFilterForm = $this->getFilterFunction($request);
+
+    $accountingFilterForm->handleRequest($request);
+
+    if ($accountingFilterForm->isSubmitted() && $accountingFilterForm->isValid()) {
+      // TODO: create statements
+      $accountingFilterData = $accountingFilterForm->getData();
+      $account = $accountingFilterData['account'];
+
+      $em = $this->getDoctrine()->getManager();
+      $txnRepo = $em->getRepository('AppBundle:AccountTransactions');
+      $txnPeriod = $txnRepo->queryAccountRange($account);
 
       $begin = new \DateTime($txnPeriod['rangeStart']);
       $begin->setDate($begin->format("Y"), $begin->format("m"), 1);
