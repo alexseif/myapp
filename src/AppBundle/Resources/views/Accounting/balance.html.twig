@@ -16,6 +16,7 @@
       }
     }
   </style>
+
   <div class="container">
     <div class="row">
       <div class="col-md-4">
@@ -28,6 +29,22 @@
         <h3>{{ from }} - {{ to }} <small>Coverage Period</small></h3>
       </div>
     </div>
+    <hr/>
+    <div class="row current-balance">
+      <div class="col-md-4">
+        <h4>Current Balance</h4>
+        <h5>EGP {{ currentBalance.amount|number_format  }}</h5>
+      </div>
+      <div class="col-md-4">
+        <h4>Overdue</h4>
+        <h5>EGP {{ overdue.amount|number_format  }}</h5>
+      </div>
+      <div class="col-md-4">
+        <h4>Credits</h4>
+        <h5>EGP 00.00</h5>
+      </div>
+    </div>
+    <hr>
     <h3>Transactions</h3>
     <table class="table table-bordered table-condensed table-hover table-responsive table-striped txn">
       <thead>

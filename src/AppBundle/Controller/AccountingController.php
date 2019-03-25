@@ -63,7 +63,11 @@ class AccountingController extends Controller
   {
     $em = $this->getDoctrine()->getManager();
     $account = $em->getRepository('AppBundle:Accounts')->find($accountId);
-    $txns = $em->getRepository('AppBundle:AccountTransactions')->queryAccountFromTo($account, $from, $to);
+    $txnRepo = $em->getRepository('AppBundle:AccountTransactions');
+    $txns = $txnRepo->queryAccountFromTo($account, $from, $to);
+    $currentBalance = $txnRepo->queryCurrentBalanceByAccount($account);
+    $overdue = $txnRepo->queryOverdueAccountTo($account, $from);
+
     $total = 0;
 
     foreach ($txns as $txn) {
@@ -75,7 +79,9 @@ class AccountingController extends Controller
           "from" => $from,
           "to" => $to,
           "txns" => $txns,
-          "total" => $total
+          "total" => $total,
+          "currentBalance" => $currentBalance,
+          "overdue" => $overdue
     ));
   }
 

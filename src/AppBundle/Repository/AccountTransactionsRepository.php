@@ -22,6 +22,7 @@ class AccountTransactionsRepository extends EntityRepository
             ->where('MONTH(at.issuedAt) = MONTH(:today)')
             ->andWhere('YEAR(at.issuedAt) = YEAR(:today)')
             ->andWhere('at.amount > 0')
+            ->orderBy('at.issuedAt')
             ->setParameter(':today', $today->format('Y-m-d'))
             ->getQuery()
             ->getResult();
@@ -46,11 +47,38 @@ class AccountTransactionsRepository extends EntityRepository
             ->where('at.account = :account')
             ->andWhere('at.issuedAt  >= :from')
             ->andWhere('at.issuedAt <= :to')
+            ->orderBy('at.issuedAt')
             ->setParameter(':account', $account)
             ->setParameter(':from', $from)
             ->setParameter(':to', $to)
             ->getQuery()
             ->getResult();
+  }
+
+  public function queryCurrentBalanceByAccount($account)
+  {
+    return $this
+            ->createQueryBuilder('at')
+            ->select('SUM(at.amount) as amount')
+            ->where('at.account = :account')
+            ->orderBy('at.issuedAt')
+            ->setParameter(':account', $account)
+            ->getQuery()
+            ->getSingleResult();
+  }
+
+  public function queryOverdueAccountTo($account, $to)
+  {
+    return $this
+            ->createQueryBuilder('at')
+            ->select('SUM(at.amount) as amount')
+            ->where('at.account = :account')
+            ->andWhere('at.issuedAt < :to')
+            ->orderBy('at.issuedAt')
+            ->setParameter(':account', $account)
+            ->setParameter(':to', $to)
+            ->getQuery()
+            ->getSingleResult();
   }
 
 }
