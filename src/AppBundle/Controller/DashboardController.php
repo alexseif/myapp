@@ -13,7 +13,7 @@ class DashboardController extends Controller
   /**
    * 
    * @Route("/", name="dashboard")
-   * @Template("AppBundle:default:dashboard.html.twig")
+   * @Template("AppBundle:Dashboard:dashboard.html.twig")
    */
   public function dashboardAction(Request $request)
   {
@@ -89,7 +89,7 @@ class DashboardController extends Controller
   /**
    * 
    * @Route("/workarea", name="workarea")
-   * @Template("AppBundle:default:workarea.html.twig")
+   * @Template("AppBundle:Dashboard:workarea.html.twig")
    */
   public function workareaAction()
   {
