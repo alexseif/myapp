@@ -19,7 +19,7 @@ class DashboardController extends Controller
   {
     $em = $this->getDoctrine()->getManager();
 
-    $taskLists = $em->getRepository('AppBundle:TaskLists')->findAllWithActiveTasks();
+    $taskLists = $em->getRepository('AppBundle:DashboardTaskLists')->findAll();
     $unlistedTasks = $em->getRepository('AppBundle:Tasks')->findUnlisted();
     $randomTasks = $em->getRepository('AppBundle:Tasks')->randomTasks();
     $days = $em->getRepository('AppBundle:Days')->getActiveCards();

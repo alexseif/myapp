@@ -8,6 +8,7 @@
     </div>
   {% endif %}
   {% for taskList in taskLists %}
+  {% set taskList =taskList.taskList %}
     {% if taskList.status != 'archive' %}
       {% if taskList.tasks|length %}
         {% set tasks = taskList.tasks %}

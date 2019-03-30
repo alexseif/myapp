@@ -42,4 +42,22 @@ $(document).ready(function () {
   });
 //  console.log(request);
   $('.chosen').chosen();
+
+  //btn-app-post
+  $('.btn-app-post').click(function () {
+    $url = $(this).data('action');
+    $post = $(this).data('post');
+    $.ajax({
+      url: $url,
+      method: "POST",
+      data: {'data': $post},
+      success: function () {
+        console.log('success');
+      },
+      error: function (e) {
+        console.log('error');
+      }
+    });
+
+  });
 });

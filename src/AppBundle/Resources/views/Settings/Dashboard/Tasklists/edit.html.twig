@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+{% import "macros/forms.html.twig" as forms %}
+{% import "macros/a.html.twig" as a %}
+{% block title %}Edit {{ dashboardTaskList.tasklist.name }}{% endblock %}
+{% block floatingActions %}{{ a.add('dashboardtasklists_new') }}{% endblock %}
+{% block panelBack %}{{ a.back('dashboardtasklists_index') }}{% endblock %}
+{% block panelTitle %}{{ dashboardTaskList.tasklist.name }}{% endblock %}
+{% block panelHeadingRight %}{{ forms.delete(delete_form) }}{% endblock %}
+{% block panelBody %}{{ forms.panel(edit_form, false) }}{% endblock %}
+
