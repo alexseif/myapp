@@ -1,5 +1,5 @@
 {% import "macros/a.html.twig" as a %}
-<div class="panel-group">
+<div class="panel-group days-list">
   {% set status = ['danger', 'warning', 'info', 'primary'] %}
   {% for day in days %}
     {% set diff = date(day.deadline).diff(date()) %}

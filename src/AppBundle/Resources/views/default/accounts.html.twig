@@ -9,8 +9,8 @@
         <div class="progress-bar progress-bar-{{ (19 - "now"|date("d")) > 10 ?"warning":"danger" }}" role="progressbar" style="width:{{ 100 - ((issued/plan)*100) }}%">EGP {{ plan - issued }}</div>
       {% else %}
         {% set per = (100/per)*100%}
-        <div class="progress-bar progress-bar-success" role="progressbar" style="width:{{ per }}%">EGP {{ plan }}</div>
-        <div class="progress-bar progress-bar-info" role="progressbar" style="width:{{ 100 - per }}%">EGP {{ issued - plan }}</div>
+        <div class="progress-bar progress-bar-success" role="progressbar" style="width:{{ per }}%" title='EGP {{ plan }}'>EGP {{ plan }}</div>
+        <div class="progress-bar progress-bar-info" role="progressbar" style="width:{{ 100 - per }}%" title='EGP {{ issued - plan }}'>EGP {{ issued - plan }}</div>
         <div class="progress-bar progress-bar-{{ (19 - "now"|date("d")) > 10 ?"warning":"danger" }}" role="progressbar" style="width:{{ 100 - ((issued/plan)*100) }}%">EGP {{ plan - issued }}</div>
       {% endif %}
     </div>
