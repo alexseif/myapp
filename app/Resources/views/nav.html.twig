@@ -80,23 +80,16 @@
               <span class="glyphicon glyphicon-briefcase"></span>
               <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
-              <li><a href="{{ path('client_index') }}">Clients</a></li>
-              <li><a href="{{ path('accounts_index') }}">Accounts</a></li>
-              <li><a href="{{ path('accounting_index') }}">Accounting</a></li>
-              <li>
-                <a href="{{ path('accounts_new') }}">
-                  <span class="glyphicon glyphicon-piggy-bank"></span> Add Account
-                </a>
-              </li>
-              <li>
-                <a href="{{ path('accounttransactions_new') }}">
-                  <span class="glyphicon glyphicon-transfer"></span> Add Transaction
-                </a>
-              </li>
+              <li><a href="{{ path('client_index') }}">
+                  <span class="glyphicon glyphicon-user"></span> Clients</a></li>
+              <li><a href="{{ path('accounts_index') }}">
+                  <span class="glyphicon glyphicon-briefcase"></span> Accounts</a></li>
+              <li><a href="{{ path('accounting_index') }}">
+                  <span class="glyphicon glyphicon-list-alt"></span> Accounting</a></li>
+              <li><a href="{{ path('worklog_index') }}">
+                  <span class="glyphicon glyphicon-hourglass"></span> Worklog</a></li>
             </ul>
           </li>
-          <li><a href="{{ path('worklog_index') }}">
-              <span class="glyphicon glyphicon-hourglass"></span></a></li>
           <li>
             <a href="{{ path('notes_index') }}">
               <span class="glyphicon glyphicon-pushpin"></span>
@@ -107,6 +100,11 @@
               <span class="glyphicon glyphicon-search"></span>
             </a>
           </li>
+          {% if ("dashboard" == app.request.get('_route')) %}
+            <li><a href="{{ path('dashboardtasklists_index') }}">
+                <span class="glyphicon glyphicon-wrench"></span></a></li>
+
+          {% endif %}
           <li class="navbar-text">{{ "now"|date('d.m H:i') }}</li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
