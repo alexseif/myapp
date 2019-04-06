@@ -24,17 +24,19 @@ class DateRanges
    */
   public static function populateMonths($startDate, $endDate, $setDayTo = 0)
   {
-    $begin = new \DateTime($startDate);
+    $start = new \DateTime($startDate);
     if ($setDayTo > 0 && $setDayTo < 32) {
-      $begin->setDate($begin->format("Y"), $begin->format("m"), 1);
+      $start->setDate($start->format("Y"), $start->format("m"), $setDayTo);
     }
     $end = new \DateTime($endDate);
     $interval = \DateInterval::createFromDateString('1 month');
-    $period = new \DatePeriod($begin, $interval, $end);
+    $period = new \DatePeriod($start, $interval, $end);
     $dateArray = array();
 
+    $index = 0;
     foreach ($period as $dt) {
-      $dateArray[] = $dt;
+      $dateArray[$index]['start'] = $dt->format('Y-m-d');
+      $dateArray[$index++]['end'] = $dt->format('Y-m-t');
     }
     return $dateArray;
   }
