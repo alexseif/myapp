@@ -58,10 +58,8 @@
             <td>
               {# TODO: Provide Date range #}
               {# TODO: Respct provided date range #}
-              <a href="{{ path('accounting_balance_page', {
- "accountId" : account.id, "from": item|date('Y-m-d'),
- "to":item|date('Y-m-t') }) }}">
-                {{ item|date('Y-m-d') }} - {{ item|date('Y-m-t') }}
+              <a href="{{ path('accounting_balance_page', {"accountId" : account.id, "from": item.start, "to":item.end }) }}">
+                {{ item.start }} - {{ item.end }}
               </a>
             </td>
             <td>EGP 00.00</td>
