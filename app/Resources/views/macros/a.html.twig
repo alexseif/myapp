@@ -25,7 +25,7 @@
 {# Generic render for link with glyphicon #}
 {% macro linkGlyph(btnClass = 'default', glyph, path, parameters = {}) %}
   <a href="{{ path(path, parameters) }}" role="button"
-     class="btn btn-sm btn-{{btnClass}}">
+     class="hidden-print btn btn-sm btn-{{btnClass}}">
     <span class="glyphicon glyphicon-{{glyph}}"></span></a>
 
 {% endmacro %}

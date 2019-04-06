@@ -60,8 +60,9 @@ class AccountingController extends Controller
 
   /**
    * @Route("/balance/{accountId}/{from}/{to}", name="accounting_balance_page", methods={"GET"})
+   * @Template("AppBundle:Accounting:balance.html.twig")
    */
-  public function balanceAction(Request $request, $accountId, $from, $to)
+  public function balanceAction(Request $request, $accountId, $from, $to, $taxes = false)
   {
     $em = $this->getDoctrine()->getManager();
     $account = $em->getRepository('AppBundle:Accounts')->find($accountId);
@@ -69,22 +70,23 @@ class AccountingController extends Controller
     $txns = $txnRepo->queryAccountFromTo($account, $from, $to);
     $currentBalance = $txnRepo->queryCurrentBalanceByAccount($account);
     $overdue = $txnRepo->queryOverdueAccountTo($account, $from);
-
+    $taxes = null;
     $total = 0;
 
     foreach ($txns as $txn) {
       $total += $txn->getAmount();
     }
 
-    return $this->render('AppBundle:Accounting:balance.html.twig', array(
-          "account" => $account,
-          "from" => $from,
-          "to" => $to,
-          "txns" => $txns,
-          "total" => $total,
-          "currentBalance" => $currentBalance,
-          "overdue" => $overdue
-    ));
+    return array(
+    "account" => $account,
+    "from" => $from,
+    "to" => $to,
+    "txns" => $txns,
+    "total" => $total,
+    "currentBalance" => $currentBalance,
+    "overdue" => $overdue,
+    "taxes" => $taxes
+    );
   }
 
   /**

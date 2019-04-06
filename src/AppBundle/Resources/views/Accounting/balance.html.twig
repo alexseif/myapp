@@ -1,26 +1,35 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}Accounting{% endblock %}
+{% block title %}{{ account }}_{{ date()|date('Y-m-d') }} {% endblock %}
+{% block floatingActions %}
+  <a class="btn btn-default btn-sm hidden-print" role="button"
+     href="javascript:window.print();">
+    <span class="glyphicon glyphicon-print" aria-hidden="true"></span></a>
+  {% endblock %}
 
 {% block content %}
   <style>
-    table.txn td:nth-child(2){
+    table tfoot{display:table-row-group;}
+
+    table.txn tbody td:nth-child(2){
       width: 60%; 
     }
-    table.txn td:nth-child(4){
+
+    table.txn td:last-child,
+    table.txn th:last-child{
       text-align: right;
     }
+
     @media print {
       a[href]:after {
         content: none
       }
     }
   </style>
-
   <div class="container">
     <div class="row">
       <div class="col-md-4">
-        <h1>{{ account}} <small>Account</small></h1>
+        <h1>{{ account }} <small>Account</small></h1>
       </div>
       <div class="col-md-4">
         <h3>{{ account.client }} <small>Client</small></h3>
@@ -37,14 +46,22 @@
       </div>
       <div class="col-md-4">
         <h4>Overdue</h4>
-        <h5>EGP {{ overdue.amount|number_format  }}</h5>
+        <h5>EGP {{ overdue.amount < 0 ? overdue.amount|number_format  : 0|number_format }}</h5>
       </div>
       <div class="col-md-4">
         <h4>Credits</h4>
-        <h5>EGP 00.00</h5>
+        <h5>EGP {{ overdue.amount > 0 ? overdue.amount|number_format  : 0|number_format }}</h5>
       </div>
     </div>
     <hr>
+    {% set route_params = app.request.attributes.get('_route_params') %}
+    {% if(app.request.get('taxes')) %}
+      <a type="button" class="btn btn-default btn-sm hidden-print pull-right" 
+         href="{{ path('accounting_balance_page', route_params) }}">Remove Taxes</a>
+    {% else %}
+      <a type="button" class="btn btn-default btn-sm hidden-print pull-right" 
+         href="{{ path('accounting_balance_page', route_params| merge({ 'taxes': true })) }}">Add Taxes</a>
+    {% endif %}
     <h3>Transactions</h3>
     <table class="table table-bordered table-condensed table-hover table-responsive table-striped txn">
       <thead>
@@ -61,18 +78,33 @@
             <td><a href="{{ path('accounttransactions_show', { "id":txn.id }) }}">#{{ txn.id }}</a></td>
             <td>{{ txn.note }}</td>
             <td>{{ txn.issuedAt|date('Y-m-d')}}</td>
-            <td><span class="pull-left">EGP</span> {{ txn.amount|number_format }}</td>
+            <td><span class="pull-left">EGP</span>{{ txn.amount|number_format }}</td>
           </tr>
         {% endfor %}
       </tbody>
-      <tfoot>
+      <tfoot >
+        {% if app.request.get('taxes') %}
+          <tr>
+            <td colspan="3" class="text-right">Pre TAX</td>
+            <td><span class="pull-left">EGP</span> {{ total|number_format }}</td>
+          </tr>
+          <tr class="text-muted">
+            <td colspan="3" class="text-right">TAX 14%</td>
+            <td><span class="pull-left">EGP</span> {{ total*0.14|number_format }}</td>
+          </tr>
+        {% endif %}
         <tr>
-          <td></td>
-          <td></td>
-          <td>Total</td>
-          <td><span class="pull-left">EGP</span> {{ total|number_format }}</td>
+          <td colspan="3" class="text-right">Total</td>
+          <th><span class="pull-left">EGP</span> {{ total*1.14|number_format }}</th>
         </tr>
       </tfoot>
     </table>
   </div>
 {% endblock %}
+{% if(app.request.get('taxes')) %}
+  {% block footer %}
+    <div class="container">
+      <small>This is an invoice not a TAX receipt</small>
+    </div>
+  {% endblock %}
+{% endif %}
