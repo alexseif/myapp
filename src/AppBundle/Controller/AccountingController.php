@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Form\AccountingMainFilterType;
 use AppBundle\Entity\Accounts;
 
@@ -30,6 +31,7 @@ class AccountingController extends Controller
 
   /**
    * @Route("/account", name="accounting_account_page", methods={"GET"})
+   * @Template("AppBundle:Accounting:account.html.twig")
    */
   public function accountAction(Request $request)
   {
@@ -48,12 +50,12 @@ class AccountingController extends Controller
       $monthsArray = \AppBundle\Util\DateRanges::populateMonths($txnPeriod['rangeStart'], $txnPeriod['rangeEnd'], 1);
     }
 
-    return $this->render('AppBundle:Accounting:account.html.twig', array(
-          'accounting_filter_form' => $accountingFilterForm->createView(),
-          'account' => $account,
-          'txnPeriod' => $txnPeriod,
-          'monthsArray' => $monthsArray
-    ));
+    return array(
+      'accounting_filter_form' => $accountingFilterForm->createView(),
+      'account' => $account,
+      'txnPeriod' => $txnPeriod,
+      'monthsArray' => $monthsArray
+    );
   }
 
   /**
