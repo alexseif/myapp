@@ -1,6 +1,6 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}Accounting{% endblock %}
+{% block title %}{{ account }}_{{ date()|date('Y-m-d') }} {% endblock %}
 {% block floatingActions %}
   <a class="btn btn-default btn-sm hidden-print" role="button"
      href="javascript:window.print();">
@@ -29,7 +29,7 @@
   <div class="container">
     <div class="row">
       <div class="col-md-4">
-        <h1>{{ account}} <small>Account</small></h1>
+        <h1>{{ account }} <small>Account</small></h1>
       </div>
       <div class="col-md-4">
         <h3>{{ account.client }} <small>Client</small></h3>
@@ -101,3 +101,10 @@
     </table>
   </div>
 {% endblock %}
+{% if(app.request.get('taxes')) %}
+  {% block footer %}
+    <div class="container">
+      <small>This is an invoice not a TAX receipt</small>
+    </div>
+  {% endblock %}
+{% endif %}
