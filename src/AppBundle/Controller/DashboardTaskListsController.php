@@ -30,9 +30,7 @@ class DashboardTaskListsController extends Controller
 
     $dashboardTaskLists = $em->getRepository('AppBundle:DashboardTaskLists')->findAllTaskLists();
     $taskLists = $em->getRepository('AppBundle:TaskLists')->findAll();
-    dump($dashboardTaskLists);
     return array(
-//      'taskLists' => $taskLists,
       'dashboardTaskLists' => $dashboardTaskLists,
     );
   }
