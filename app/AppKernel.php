@@ -19,7 +19,6 @@ class AppKernel extends Kernel
       new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
       new FOS\UserBundle\FOSUserBundle(),
       new Zenstruck\BackupBundle\ZenstruckBackupBundle(),
-      new Liip\UrlAutoConverterBundle\LiipUrlAutoConverterBundle(),
       new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
       new AppBundle\AppBundle(),
     ];
