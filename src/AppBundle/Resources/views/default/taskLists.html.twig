@@ -8,10 +8,10 @@
     </div>
   {% endif %}
   {% for taskList in taskLists %}
-  {% set taskList =taskList.taskList %}
+  {% set taskList = taskList.taskList %}
     {% if taskList.status != 'archive' %}
       {% if taskList.tasks|length %}
-        {% set tasks = taskList.tasks %}
+        {% set tasks = taskList.tasks(false) %}
         <div class="panel panel-primary">
           <div class="panel-heading clearfix">
             <span class="panel-title">
@@ -28,8 +28,8 @@
               {% endif %}
             </span>
             <div class="pull-right">
-              <span class="label label-default">{{ taskList.tasks.count }}</span>
-              <span class="label label-info">{{ taskList.estTotal|date("%d %H:%I") }}</span>
+              <span class="label label-default">{{ tasks.count }}</span>
+              <span class="label label-info">{{ taskList.estTotal(false)|date("%d %H:%I") }}</span>
               <button data-toggle="collapse" href="#taskList-{{ taskList.id }}" class="btn btn-primary btn-xs collapsed"><span class="glyphicon glyphicon-collapse"></span></button>
             </div>
           </div>

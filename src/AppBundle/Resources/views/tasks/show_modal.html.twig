@@ -1,7 +1,7 @@
 {% extends "modal.html.twig" %}
 
 {% block modal_header %}
-  <h3>{{ task.task|converturls }}</h3>
+  <h3>{{ task.task }}</h3>
 {% endblock %}
 
 {% block modal_body %}
@@ -21,7 +21,7 @@
         <label class="btn btn-default btn-{{ task.completed ? "xs":"sm" }} task">
           <input type="checkbox" data-taskid="{{task.id}}" class="checkbox-inline" 
                  {{ task.completed ? "checked" : "" }}/>
-          <p>{{ task.task|converturls }}</p>
+          <p>{{ task.task }}</p>
           <span class="badge">
             {% if task.urgency %}
               <span class="glyphicon glyphicon-flash text-warning"></span>

@@ -188,10 +188,10 @@ class TaskLists
     return $this->tasks->matching($criteria);
   }
 
-  public function getEstTotal()
+  public function getEstTotal($showComplete = true)
   {
     $estTotal = 0;
-    $tasks = $this->getTasks();
+    $tasks = $this->getTasks($showComplete);
     foreach ($tasks as $task) {
       $estTotal += $task->getEst();
     }
