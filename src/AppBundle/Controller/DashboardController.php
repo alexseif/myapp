@@ -24,7 +24,6 @@ class DashboardController extends Controller
     $randomTasks = $em->getRepository('AppBundle:Tasks')->randomTasks();
     $days = $em->getRepository('AppBundle:Days')->getActiveCards();
     $accounts = $em->getRepository('AppBundle:Accounts')->findBy(array('conceal' => false));
-    $issuedThisMonth = $em->getRepository('AppBundle:AccountTransactions')->issuedThisMonth();
     $tsksCntDay = $em->getRepository('AppBundle:Tasks')->findTasksCountByDay();
     $estSum = $em->getRepository('AppBundle:Tasks')->sumEst()["est"];
     $today = new \DateTime();
@@ -67,24 +66,9 @@ class DashboardController extends Controller
     foreach ($tsksCntDay as $t) {
       $tskCnt[$t['day_name']] = $t['cnt'];
     }
-    $issued = 0;
-    foreach ($issuedThisMonth as $tm) {
-      $issued += abs($tm->getAmount());
-    }
-    $earned['monthly'] = $issued;
-    $taskscompletedToday = $em->getRepository('AppBundle:Tasks')->getCompletedToday();
-    $completedToday = 0;
-    foreach ($taskscompletedToday as $task) {
-      $completedToday += $task->getEst();
-    }
-    $earned['daily'] = ($completedToday / 60) * $costOfLife->getHourly();
-    $taskscompletedThisWeek = $em->getRepository('AppBundle:Tasks')->getCompletedThisWeek();
-    $completedThisWeek = 0;
-    foreach ($taskscompletedThisWeek as $task) {
-      $completedThisWeek += $task->getEst();
-    }
-    $earned['weekly'] = ($completedThisWeek / 60) * $costOfLife->getHourly();
 
+    $earnedLogic = new \AppBundle\Logic\EarnedLogic($em, $costOfLife);
+    $earned = $earnedLogic->getEarned();
     return array(
       'taskLists' => $taskLists,
       'randomTasks' => $randomTasks,
@@ -92,7 +76,7 @@ class DashboardController extends Controller
       'days' => $days,
       'accounts' => $accounts,
       'earned' => $earned,
-      'completedToday' => $completedToday,
+      'issuedThisMonth' => $earnedLogic->getIssuedThisMonth(),
       'tskCnt' => $tskCnt,
       'interval' => $interval,
       'costOfLife' => $costOfLife,

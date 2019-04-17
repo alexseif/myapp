@@ -60,44 +60,123 @@ class TasksRepository extends EntityRepository
             ->getResult();
   }
 
-  public function getCompletedToday()
+  /**
+   * List of completed tasks after date
+   * 
+   * @param \DateTime $date
+   * @return type
+   */
+  public function getCompletedAfter(\DateTime $date)
   {
-    $today = new \DateTime();
-    $today->setTime(00, 00, 00);
     return $this
             ->createQueryBuilder('t')
             ->select('t')
-            ->where('t.completedAt > :today')
+            ->where('t.completedAt > :date')
             ->orderBy("t.urgency", "DESC")
             ->addOrderBy("t.priority", "DESC")
             ->addOrderBy("t.completedAt", "ASC")
             ->addOrderBy("t.order", "ASC")
-            ->setParameter(':today', $today->format('Y-m-d H:i'))
+            ->setParameter(':date', $date->format('Y-m-d H:i'))
             ->getQuery()
             ->getResult();
   }
 
+  /**
+   * List of completed tasks today
+   * 
+   * @return type
+   */
+  public function getCompletedToday()
+  {
+    $date = new \DateTime();
+    $date->setTime(00, 00, 00);
+
+    return $this->getCompletedAfter($date);
+  }
+
+  /**
+   * List of completed tasks this week
+   * 
+   * @return type
+   */
   public function getCompletedThisWeek()
   {
 //    https://stackoverflow.com/a/11905818/1030170
     $day = date('w');
-    $week_start = date('Y-m-d H:i', strtotime('-' . $day . ' days'));
-    $week_end = date('Y-m-d H:i', strtotime('+' . (6 - $day) . ' days'));
+//    $week_start = date('Y-m-d H:i', strtotime('-' . $day . ' days'));
+//    $week_end = date('Y-m-d H:i', strtotime('+' . (6 - $day) . ' days'));
 
-    $today = new \DateTime();
-    $today->sub(new \DateInterval("P7D"));
-    $today->setTime(00, 00, 00);
+    $date = new \DateTime();
+    $date->sub(new \DateInterval("P" . $day . "D"));
+    $date->setTime(00, 00, 00);
+    return $this->getCompletedAfter($date);
+  }
+
+  /**
+   * Sums the est of completed tasks after date
+   * 
+   * @param type $date
+   * @return type
+   */
+  public function sumCompletedEstAfter($date)
+  {
     return $this
             ->createQueryBuilder('t')
-            ->select('t')
-            ->where('t.completedAt > :today')
-            ->orderBy("t.urgency", "DESC")
-            ->addOrderBy("t.priority", "DESC")
-            ->addOrderBy("t.completedAt", "ASC")
+            ->select('sum(t.est) as est')
+            ->where('t.completedAt > :date')
             ->addOrderBy("t.order", "ASC")
-            ->setParameter(':today', $week_start)
+            ->setParameter(':date', $date->format('Y-m-d H:i'))
             ->getQuery()
-            ->getResult();
+            ->getSingleResult();
+  }
+
+  /**
+   * List of completed tasks today
+   * 
+   * @return type
+   */
+  public function sumCompletedEstToday()
+  {
+    $date = new \DateTime();
+    $date->setTime(00, 00, 00);
+
+    return $this->sumCompletedEstAfter($date);
+  }
+
+  /**
+   * List of completed tasks this week
+   * 
+   * @return type
+   */
+  public function sumCompletedEstThisWeek()
+  {
+//    https://stackoverflow.com/a/11905818/1030170
+    $day = date('w');
+//    $week_start = date('Y-m-d H:i', strtotime('-' . $day . ' days'));
+//    $week_end = date('Y-m-d H:i', strtotime('+' . (6 - $day) . ' days'));
+
+    $date = new \DateTime();
+    $date->sub(new \DateInterval("P" . $day . "D"));
+    $date->setTime(00, 00, 00);
+    return $this->sumCompletedEstAfter($date);
+  }
+
+  /**
+   * List of completed tasks this week
+   * 
+   * @return type
+   */
+  public function sumCompletedEstThisMonth()
+  {
+//    https://stackoverflow.com/a/11905818/1030170
+//    $day = date('d');
+//    $week_start = date('Y-m-d H:i', strtotime('-' . $day . ' days'));
+//    $week_end = date('Y-m-d H:i', strtotime('+' . (6 - $day) . ' days'));
+
+    $date = new \DateTime();
+    $date->setDate($date->format('Y'), $date->format('m'), 1);
+    $date->setTime(00, 00, 00);
+    return $this->sumCompletedEstAfter($date);
   }
 
   public function focusList()
