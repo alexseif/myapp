@@ -31,8 +31,8 @@ class DashboardController extends Controller
     $endDay = new \DateTime();
     $endDay->add(\DateInterval::createFromDateString($estSum . " minutes"));
     $interval = $endDay->diff($today, true);
-
     /** Cost Of Life * */
+    $earned = ['daily' => 0, 'weekly' => 0, 'monthly' => 0];
     $currencies = $em->getRepository('AppBundle:Currency')->findAll();
     $cost = $em->getRepository('AppBundle:CostOfLife')->sumCostOfLife()["cost"];
 
@@ -71,6 +71,19 @@ class DashboardController extends Controller
     foreach ($issuedThisMonth as $tm) {
       $issued += abs($tm->getAmount());
     }
+    $earned['monthly'] = $issued;
+    $taskscompletedToday = $em->getRepository('AppBundle:Tasks')->getCompletedToday();
+    $completedToday = 0;
+    foreach ($taskscompletedToday as $task) {
+      $completedToday += $task->getEst();
+    }
+    $earned['daily'] = ($completedToday / 60) * $costOfLife->getHourly();
+    $taskscompletedThisWeek = $em->getRepository('AppBundle:Tasks')->getCompletedThisWeek();
+    $completedThisWeek = 0;
+    foreach ($taskscompletedThisWeek as $task) {
+      $completedThisWeek += $task->getEst();
+    }
+    $earned['weekly'] = ($completedThisWeek / 60) * $costOfLife->getHourly();
 
     return array(
       'taskLists' => $taskLists,
@@ -78,7 +91,8 @@ class DashboardController extends Controller
       'unlistedTasks' => $unlistedTasks,
       'days' => $days,
       'accounts' => $accounts,
-      'issued' => $issued,
+      'earned' => $earned,
+      'completedToday' => $completedToday,
       'tskCnt' => $tskCnt,
       'interval' => $interval,
       'costOfLife' => $costOfLife,
