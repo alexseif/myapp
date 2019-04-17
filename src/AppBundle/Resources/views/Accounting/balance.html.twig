@@ -92,11 +92,16 @@
             <td colspan="3" class="text-right">TAX 14%</td>
             <td><span class="pull-left">EGP</span> {{ total*0.14|number_format }}</td>
           </tr>
+          <tr>
+            <td colspan="3" class="text-right">Total</td>
+            <th><span class="pull-left">EGP</span> {{ total*1.14|number_format }}</th>
+          </tr>
+        {% else %}
+          <tr>
+            <td colspan="3" class="text-right">Total</td>
+            <th><span class="pull-left">EGP</span> {{ total|number_format }}</th>
+          </tr>
         {% endif %}
-        <tr>
-          <td colspan="3" class="text-right">Total</td>
-          <th><span class="pull-left">EGP</span> {{ total*1.14|number_format }}</th>
-        </tr>
       </tfoot>
     </table>
   </div>
