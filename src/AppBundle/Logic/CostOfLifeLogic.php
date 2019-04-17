@@ -51,6 +51,16 @@ class CostOfLifeLogic
     return $this->col['monthly']['EGP'];
   }
 
+  public function getWeekly()
+  {
+    return $this->col['week']['EGP'];
+  }
+
+  public function getDaily()
+  {
+    return $this->col['day']['EGP'];
+  }
+
   public function getHourly()
   {
     return $this->col['hour']['EGP'];

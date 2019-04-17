@@ -42,8 +42,8 @@ a.navbar-brand{background-color: #222222;}
 .panel-transparent>.panel-footer+.panel-collapse>.panel-body{border-bottom-color:#464545}
 .panel-transparent>.panel-heading{background-color:#464545}
 
-.progress{height: 40px;margin: 0 5px 21px 5px;}
-.progress .progress-bar{line-height: 40px;font-size: 14px;}
+.progress{height: 20px;margin: 10px 5px;}
+.progress .progress-bar{line-height: inherit;font-size: 100%;}
 .label-muted{background: #e8e8e8;color: #999999;font-weight: normal;}
 
 .completed{color: #777}

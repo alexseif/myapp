@@ -63,7 +63,6 @@ class TasksRepository extends EntityRepository
   public function getCompletedToday()
   {
     $today = new \DateTime();
-//    $today->sub(new \DateInterval("P1D"));
     $today->setTime(00, 00, 00);
     return $this
             ->createQueryBuilder('t')
@@ -74,6 +73,29 @@ class TasksRepository extends EntityRepository
             ->addOrderBy("t.completedAt", "ASC")
             ->addOrderBy("t.order", "ASC")
             ->setParameter(':today', $today->format('Y-m-d H:i'))
+            ->getQuery()
+            ->getResult();
+  }
+
+  public function getCompletedThisWeek()
+  {
+//    https://stackoverflow.com/a/11905818/1030170
+    $day = date('w');
+    $week_start = date('Y-m-d H:i', strtotime('-' . $day . ' days'));
+    $week_end = date('Y-m-d H:i', strtotime('+' . (6 - $day) . ' days'));
+
+    $today = new \DateTime();
+    $today->sub(new \DateInterval("P7D"));
+    $today->setTime(00, 00, 00);
+    return $this
+            ->createQueryBuilder('t')
+            ->select('t')
+            ->where('t.completedAt > :today')
+            ->orderBy("t.urgency", "DESC")
+            ->addOrderBy("t.priority", "DESC")
+            ->addOrderBy("t.completedAt", "ASC")
+            ->addOrderBy("t.order", "ASC")
+            ->setParameter(':today', $week_start)
             ->getQuery()
             ->getResult();
   }

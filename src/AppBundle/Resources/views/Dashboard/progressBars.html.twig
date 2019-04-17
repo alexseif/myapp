@@ -1,0 +1,15 @@
+{# Daily #}
+{% if total > 0 %}
+  <div class="progress">
+    {% set percentage = (progress/total)*100 %}
+    {% if percentage < 100 %}
+      <div class="progress-bar progress-bar-success" role="progressbar" style="width:{{ percentage }}%">EGP {{ progress }}</div>
+      <div class="progress-bar progress-bar-{{ (19 - "now"|date("d")) > 10 ?"warning":"danger" }}" role="progressbar" style="width:{{ 100 - ((progress/total)*100) }}%">EGP {{ total - progress }}</div>
+    {% else %}
+      {% set percentage = (100/per)*100%}
+      <div class="progress-bar progress-bar-success" role="progressbar" style="width:{{ percentage }}%" title='EGP {{ total }}'>EGP {{ total }}</div>
+      <div class="progress-bar progress-bar-info" role="progressbar" style="width:{{ 100 - percentage }}%" title='EGP {{ progress - total }}'>EGP {{ progress - total }}</div>
+      <div class="progress-bar progress-bar-{{ (19 - "now"|date("d")) > 10 ?"warning":"danger" }}" role="progressbar" style="width:{{ 100 - ((progress/total)*100) }}%">EGP {{ total - progress }}</div>
+    {% endif %}
+  </div>
+{% endif %}
