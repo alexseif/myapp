@@ -116,16 +116,21 @@ class DashboardController extends Controller
     $cost = $em->getRepository('AppBundle:CostOfLife')->sumCostOfLife()["cost"];
 
     $costOfLife = new \AppBundle\Logic\CostOfLifeLogic($cost, $currencies);
+    $earnedLogic = new \AppBundle\Logic\EarnedLogic($em, $costOfLife);
+    $earned = $earnedLogic->getEarned();
 
     $issuedThisMonth = $em->getRepository('AppBundle:AccountTransactions')->issuedThisMonth();
     $issued = 0;
     foreach ($issuedThisMonth as $tm) {
       $issued += abs($tm->getAmount());
     }
+
     return array(
       'focus' => $focusTasks,
       'days' => $days,
       'accounts' => $accounts,
+      'earned' => $earned,
+      'issuedThisMonth' => $earnedLogic->getIssuedThisMonth(),
       'costOfLife' => $costOfLife,
       'issued' => $issued,
     );
