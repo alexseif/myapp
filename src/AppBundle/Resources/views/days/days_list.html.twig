@@ -2,26 +2,6 @@
 <div class="panel-group days-list">
   {% set status = ['danger', 'warning', 'info', 'primary'] %}
   {% for day in days %}
-    {% set diff = date(day.deadline).diff(date()) %}
-    {% set curStatus = day.complete ? "success" : (diff.days < 15 or not diff.invert ) ? 'danger' :  (diff.days < 30 ) ? 'warning' :(diff.days < 60 ) ? 'info' : 'primary' %}
-    <div class="panel panel-{{ curStatus }} {{ day.complete ? "completed" }} days-table">
-      <table class="table">
-        <tbody>
-          <tr>
-            <td>
-              <h3>{{ day.name }}</h3>
-              <sup class="days-line">{{ day.deadline|date('D M d, Y') }}</sup>
-              <span class="edit-link pull-right">
-                {{ a.edit('days_edit', { 'id': day.id }) }}
-              </span>
-            </td>
-            <td class="bg-{{ curStatus }} text-center days-cell">
-              <h2>{{ diff.days }}</h2>
-              <sup>days {{ diff.invert ? "left" : "passed"}}</sup>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    {% include 'AppBundle:days:day_card.html.twig' with {'day': day} %}
   {% endfor %}
 </div>
