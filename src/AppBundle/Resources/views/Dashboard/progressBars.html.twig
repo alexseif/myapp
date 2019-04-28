@@ -2,9 +2,14 @@
 {% if total > 0 %}
   <div class="progress">
     {% set percentage = (progress/total)*100 %}
+    {% set remaining = 100 - ((progress/total)*100) %}
     {% if percentage < 100 %}
+      {% if issued is defined and issued > 0 %}
+        {% set remaining = 100 - (((progress+issued)/total)*100) %}
+        <div class="progress-bar progress-bar-info" role="progressbar" style="width:{{ ((issued)/total)*100}}%">EGP {{ issued }}</div>
+      {% endif %}
       <div class="progress-bar progress-bar-success" role="progressbar" style="width:{{ percentage }}%">EGP {{ progress }}</div>
-      <div class="progress-bar progress-bar-{{ (19 - "now"|date("d")) > 10 ?"warning":"danger" }}" role="progressbar" style="width:{{ 100 - ((progress/total)*100) }}%">EGP {{ total - progress }}</div>
+      <div class="progress-bar progress-bar-{{ (19 - "now"|date("d")) > 10 ?"warning":"danger" }}" role="progressbar" style="width:{{ remaining }}%">EGP {{ total - progress }}</div>
     {% else %}
       {% set percentage = (100/per)*100%}
       <div class="progress-bar progress-bar-success" role="progressbar" style="width:{{ percentage }}%" title='EGP {{ total }}'>EGP {{ total }}</div>
