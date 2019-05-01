@@ -3,8 +3,7 @@
 namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 class DashboardController extends Controller
@@ -13,7 +12,6 @@ class DashboardController extends Controller
   /**
    * 
    * @Route("/", name="dashboard")
-   * @Template("AppBundle:Dashboard:dashboard.html.twig")
    */
   public function dashboardAction(Request $request)
   {
@@ -69,25 +67,24 @@ class DashboardController extends Controller
 
     $earnedLogic = new \AppBundle\Logic\EarnedLogic($em, $costOfLife);
     $earned = $earnedLogic->getEarned();
-    return array(
-      'taskLists' => $taskLists,
-      'randomTasks' => $randomTasks,
-      'unlistedTasks' => $unlistedTasks,
-      'days' => $days,
-      'accounts' => $accounts,
-      'earned' => $earned,
-      'issuedThisMonth' => $earnedLogic->getIssuedThisMonth(),
-      'tskCnt' => $tskCnt,
-      'interval' => $interval,
-      'costOfLife' => $costOfLife,
-      'piechart' => $piechart,
-    );
+    return $this->render("AppBundle:Dashboard:dashboard.html.twig", array(
+          'taskLists' => $taskLists,
+          'randomTasks' => $randomTasks,
+          'unlistedTasks' => $unlistedTasks,
+          'days' => $days,
+          'accounts' => $accounts,
+          'earned' => $earned,
+          'issuedThisMonth' => $earnedLogic->getIssuedThisMonth(),
+          'tskCnt' => $tskCnt,
+          'interval' => $interval,
+          'costOfLife' => $costOfLife,
+          'piechart' => $piechart,
+    ));
   }
 
   /**
    * 
    * @Route("/workarea", name="workarea")
-   * @Template("AppBundle:Dashboard:workarea.html.twig")
    */
   public function workareaAction()
   {
@@ -109,15 +106,15 @@ class DashboardController extends Controller
       $issued += abs($tm->getAmount());
     }
 
-    return array(
-      'focus' => $focusTasks,
-      'days' => $days,
-      'accounts' => $accounts,
-      'earned' => $earned,
-      'issuedThisMonth' => $earnedLogic->getIssuedThisMonth(),
-      'costOfLife' => $costOfLife,
-      'issued' => $issued,
-    );
+    return $this->render("AppBundle:Dashboard:workarea.html.twig", array(
+          'focus' => $focusTasks,
+          'days' => $days,
+          'accounts' => $accounts,
+          'earned' => $earned,
+          'issuedThisMonth' => $earnedLogic->getIssuedThisMonth(),
+          'costOfLife' => $costOfLife,
+          'issued' => $issued,
+    ));
   }
 
 }

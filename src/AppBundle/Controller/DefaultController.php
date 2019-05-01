@@ -4,7 +4,6 @@ namespace AppBundle\Controller;
 
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Tasks;
 use AppBundle\Entity\TaskLists;
@@ -17,7 +16,6 @@ class DefaultController extends Controller
   /**
    * 
    * @Route("/beta", name="beta")
-   * @Template("AppBundle:default:beta.html.twig")
    */
   public function betaAction(Request $request)
   {
@@ -36,18 +34,17 @@ class DefaultController extends Controller
       $actionItems[] = new ActionItem($task->getId(), 'task', $task->getTask(), $task->getEst() . "m", $task->getTaskList()->getName(), $task->getPriority(), $task->getUrgency());
     }
 
-    return array(
-      'actionItems' => $actionItems,
-      'tasks' => $tasks,
-      'days' => $days,
-      'today' => $today,
-    );
+    return $this->render("AppBundle:default:beta.html.twig", array(
+          'actionItems' => $actionItems,
+          'tasks' => $tasks,
+          'days' => $days,
+          'today' => $today,
+    ));
   }
 
   /**
    * 
    * @Route("/focus", name="focus")
-   * @Template("AppBundle:default:focus.html.twig")
    */
   public function focusAction()
   {
@@ -57,16 +54,15 @@ class DefaultController extends Controller
     $completedToday = $em->getRepository('AppBundle:Tasks')->getCompletedToday();
     $task = new Tasks();
 
-    return array(
-      'tasks' => $tasks,
-      'completed' => $completedToday,
-    );
+    return $this->render("AppBundle:default:focus.html.twig", array(
+          'tasks' => $tasks,
+          'completed' => $completedToday,
+    ));
   }
 
   /**
    * 
    * @Route("/singleTask", name="singleTask")
-   * @Template("AppBundle:default:singleTask.html.twig")
    */
   public function singleTaskAction()
   {
@@ -93,15 +89,14 @@ class DefaultController extends Controller
       );
       $tasks = array_merge($tasks, $reorderTasks);
     }
-    return array(
-      'tasks' => $tasks,
-    );
+    return $this->render("AppBundle:default:singleTask.html.twig", array(
+          'tasks' => $tasks,
+    ));
   }
 
   /**
    * 
    * @Route("/focus/{name}", name="focus_tasklist")
-   * @Template("AppBundle:default:focus.html.twig")
    */
   public function focusByTaskListAction(TaskLists $taskList)
   {
@@ -115,18 +110,17 @@ class DefaultController extends Controller
     $form = $this->createForm(TasksType::class, $task, array(
       'action' => $this->generateUrl('tasks_new')
     ));
-    return array(
-      'taskList' => $taskList,
-      'tasks' => $tasks,
-      'completed' => $completedToday,
-      'task_form' => $form->createView(),
-    );
+    return $this->rendre("AppBundle:default:focus.html.twig", array(
+          'taskList' => $taskList,
+          'tasks' => $tasks,
+          'completed' => $completedToday,
+          'task_form' => $form->createView(),
+    ));
   }
 
   /**
    * 
    * @Route("/lists", name="lists_view")
-   * @Template("AppBundle:default:lists.html.twig")
    */
   public function listsAction()
   {
@@ -134,24 +128,23 @@ class DefaultController extends Controller
     $today = new \DateTime();
 
     $lists = $em->getRepository('AppBundle:TaskLists')->findBy(array('status' => 'start'));
-    return array(
-      'today' => $today,
-      'lists' => $lists,
-    );
+    return $this->render("AppBundle:default:lists.html.twig", array(
+          'today' => $today,
+          'lists' => $lists,
+    ));
   }
 
   /**
    * 
    * @Route("/lists/{id}/modal", name="list_show_modal", methods={"GET"})
-   * @Template("tasks/show_modal.html.twig")
    */
   public function listModalAction(TaskLists $taskList)
   {
     $tasks = $taskList->getTasks(false);
     $random = rand(0, $tasks->count() - 1);
-    return array(
-      'task' => $tasks->get($random),
-    );
+    return $this->render("tasks/show_modal.html.twig", array(
+          'task' => $tasks->get($random),
+    ));
   }
 
 }

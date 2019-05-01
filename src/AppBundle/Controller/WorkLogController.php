@@ -5,7 +5,6 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\WorkLog;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -20,7 +19,6 @@ class WorkLogController extends Controller
    * Lists all workLog entities.
    *
    * @Route("/", name="worklog_index", methods={"GET"})
-   * @Template("AppBundle:worklog:index.html.twig")
    */
   public function indexAction()
   {
@@ -28,16 +26,15 @@ class WorkLogController extends Controller
 
     $workLogs = $em->getRepository('AppBundle:WorkLog')->orderByTaskList();
 
-    return array(
-      'workLogs' => $workLogs,
-    );
+    return $this->render("AppBundle:worklog:index.html.twig", array(
+          'workLogs' => $workLogs,
+    ));
   }
 
   /**
    * Lists all workLog entities.
    *
    * @Route("/tasklist/{tasklist}", name="worklog_tasklist", methods={"GET"})
-   * @Template("AppBundle:worklog:tasklist.html.twig")
    */
   public function tasklistAction(\AppBundle\Entity\TaskLists $tasklist)
   {
@@ -45,14 +42,13 @@ class WorkLogController extends Controller
 
     $workLogs = $em->getRepository('AppBundle:WorkLog')->getByTaskList($tasklist);
 
-    return array(
-      'workLogs' => $workLogs,
-    );
+    return $this->render("AppBundle:worklog:tasklist.html.twig", array(
+          'workLogs' => $workLogs,
+    ));
   }
 
   /**
-   * @ROUTE("/completedTasks", name="completed_tasks")
-   * @Template("AppBundle:worklog:completedTasks.html.twig")
+   * @Route("/completedTasks", name="completed_tasks")
    */
   public function completedTasksAction(Request $request)
   {
@@ -102,17 +98,16 @@ class WorkLogController extends Controller
       $tasks = $tasksRepo->findBy($criteria, $orderBy);
     }
 
-    return array(
-      'unlog' => $log,
-      'tasks' => $tasks,
-    );
+    return $this->render("AppBundle:worklog:completedTasks.html.twig", array(
+          'unlog' => $log,
+          'tasks' => $tasks,
+    ));
   }
 
   /**
    * Creates a new workLog entity.
    *
    * @Route("/new", name="worklog_new", methods={"GET", "POST"})
-   * @Template("AppBundle:worklog:new.html.twig")
    */
   public function newAction(Request $request)
   {
@@ -155,11 +150,11 @@ class WorkLogController extends Controller
       return $this->redirectToRoute('worklog_show', array('id' => $workLog->getId()));
     }
 
-    return array(
-      'workLog' => $workLog,
-      'costOfLife' => $costOfLife,
-      'form' => $form->createView(),
-    );
+    return $this->render("AppBundle:worklog:new.html.twig", array(
+          'workLog' => $workLog,
+          'costOfLife' => $costOfLife,
+          'form' => $form->createView(),
+    ));
   }
 
   /**
@@ -257,23 +252,21 @@ class WorkLogController extends Controller
    * Finds and displays a workLog entity.
    *
    * @Route("/{id}", name="worklog_show", methods={"GET"})
-   * @Template("AppBundle:worklog:show.html.twig")
    */
   public function showAction(WorkLog $workLog)
   {
     $deleteForm = $this->createDeleteForm($workLog);
 
-    return array(
-      'workLog' => $workLog,
-      'delete_form' => $deleteForm->createView(),
-    );
+    return $this->render("AppBundle:worklog:show.html.twig", array(
+          'workLog' => $workLog,
+          'delete_form' => $deleteForm->createView(),
+    ));
   }
 
   /**
    * Displays a form to edit an existing workLog entity.
    *
    * @Route("/{id}/edit", name="worklog_edit", methods={"GET", "POST"})
-   * @Template("AppBundle:worklog:edit.html.twig")
    */
   public function editAction(Request $request, WorkLog $workLog)
   {
@@ -287,11 +280,11 @@ class WorkLogController extends Controller
       return $this->redirectToRoute('worklog_edit', array('id' => $workLog->getId()));
     }
 
-    return array(
-      'workLog' => $workLog,
-      'edit_form' => $editForm->createView(),
-      'delete_form' => $deleteForm->createView(),
-    );
+    return $this->render("AppBundle:worklog:edit.html.twig", array(
+          'workLog' => $workLog,
+          'edit_form' => $editForm->createView(),
+          'delete_form' => $deleteForm->createView(),
+    ));
   }
 
   /**

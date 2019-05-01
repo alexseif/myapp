@@ -5,7 +5,6 @@ namespace AppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Form\AccountingMainFilterType;
 use AppBundle\Entity\Accounts;
 
@@ -31,7 +30,6 @@ class AccountingController extends Controller
 
   /**
    * @Route("/account", name="accounting_account_page", methods={"GET"})
-   * @Template("AppBundle:Accounting:account.html.twig")
    */
   public function accountAction(Request $request)
   {
@@ -50,17 +48,16 @@ class AccountingController extends Controller
       $monthsArray = \AppBundle\Util\DateRanges::populateMonths($txnPeriod['rangeStart'], $txnPeriod['rangeEnd'], 1);
     }
 
-    return array(
-      'accounting_filter_form' => $accountingFilterForm->createView(),
-      'account' => $account,
-      'txnPeriod' => $txnPeriod,
-      'monthsArray' => $monthsArray
-    );
+    return $this->render("AppBundle:Accounting:account.html.twig", array(
+          'accounting_filter_form' => $accountingFilterForm->createView(),
+          'account' => $account,
+          'txnPeriod' => $txnPeriod,
+          'monthsArray' => $monthsArray
+    ));
   }
 
   /**
    * @Route("/balance/{accountId}/{from}/{to}", name="accounting_balance_page", methods={"GET"})
-   * @Template("AppBundle:Accounting:balance.html.twig")
    */
   public function balanceAction(Request $request, $accountId, $from, $to, $taxes = false)
   {
@@ -77,16 +74,16 @@ class AccountingController extends Controller
       $total += $txn->getAmount();
     }
 
-    return array(
-    "account" => $account,
-    "from" => $from,
-    "to" => $to,
-    "txns" => $txns,
-    "total" => $total,
-    "currentBalance" => $currentBalance,
-    "overdue" => $overdue,
-    "taxes" => $taxes
-    );
+    return $this->render("AppBundle:Accounting:balance.html.twig", array(
+          "account" => $account,
+          "from" => $from,
+          "to" => $to,
+          "txns" => $txns,
+          "total" => $total,
+          "currentBalance" => $currentBalance,
+          "overdue" => $overdue,
+          "taxes" => $taxes
+    ));
   }
 
   /**

@@ -5,9 +5,8 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\DashboardTaskLists;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
  * Dashboardtasklist controller.
@@ -21,8 +20,6 @@ class DashboardTaskListsController extends Controller
    * Lists all dashboardTaskList entities.
    *
    * @Route("/", name="dashboardtasklists_index", methods={"GET"})
-   * @Template("AppBundle:Settings:Dashboard/Tasklists/index.html.twig")
-
    */
   public function indexAction()
   {
@@ -30,16 +27,15 @@ class DashboardTaskListsController extends Controller
 
     $dashboardTaskLists = $em->getRepository('AppBundle:DashboardTaskLists')->findAllTaskLists();
     $taskLists = $em->getRepository('AppBundle:TaskLists')->findAll();
-    return array(
-      'dashboardTaskLists' => $dashboardTaskLists,
-    );
+    return $this->render("AppBundle:Settings:Dashboard/Tasklists/index.html.twig", array(
+          'dashboardTaskLists' => $dashboardTaskLists,
+    ));
   }
 
   /**
    * Creates a new dashboardTaskList entity.
    *
    * @Route("/new", name="dashboardtasklists_new", methods={"GET", "POST"})
-   * @Template("AppBundle:Settings:Dashboard/Tasklists/new.html.twig")
    */
   public function newAction(Request $request)
   {
@@ -55,17 +51,16 @@ class DashboardTaskListsController extends Controller
       return $this->redirectToRoute('dashboardtasklists_index');
     }
 
-    return array(
-      'dashboardTaskList' => $dashboardTaskList,
-      'form' => $form->createView(),
-    );
+    return $this->render("AppBundle:Settings:Dashboard/Tasklists/new.html.twig", array(
+          'dashboardTaskList' => $dashboardTaskList,
+          'form' => $form->createView(),
+    ));
   }
 
   /**
    * Displays a form to edit an existing dashboardTaskList entity.
    *
    * @Route("/{id}/edit", name="dashboardtasklists_edit", methods={"GET", "POST"})
-   * @Template("AppBundle:Settings:Dashboard/Tasklists/edit.html.twig")
    */
   public function editAction(Request $request, DashboardTaskLists $dashboardTaskList)
   {
@@ -79,11 +74,11 @@ class DashboardTaskListsController extends Controller
       return $this->redirectToRoute('dashboardtasklists_edit', array('id' => $dashboardTaskList->getId()));
     }
 
-    return array(
-      'dashboardTaskList' => $dashboardTaskList,
-      'edit_form' => $editForm->createView(),
-      'delete_form' => $deleteForm->createView(),
-    );
+    return $this->render("AppBundle:Settings:Dashboard/Tasklists/edit.html.twig", array(
+          'dashboardTaskList' => $dashboardTaskList,
+          'edit_form' => $editForm->createView(),
+          'delete_form' => $deleteForm->createView(),
+    ));
   }
 
   /**
