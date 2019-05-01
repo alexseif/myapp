@@ -30,3 +30,7 @@ git checkout accounting
 git pull --all
 git merge master
 git push origin accounting
+git checkout dashboard
+git pull --all
+git merge master
+git push origin dashboard
