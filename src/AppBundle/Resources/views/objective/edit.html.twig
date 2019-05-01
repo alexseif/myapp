@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+{% import "macros/forms.html.twig" as forms %}
+{% import "macros/a.html.twig" as a %}
+{% block title %}Edit {{ objective.name }}{% endblock %}
+{% block content %}
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      {{ parent() }}
+    </div>
+  </div>
+{% endblock %}
+{% block floatingActions %}{{ a.add('objective_new') }}{% endblock %}
+{% block panelBack %}{{ a.back('objective_index') }}{% endblock %}
+{% block panelTitle %}{{ objective.name }}{% endblock %}
+{% block panelHeadingRight %}{{ forms.delete(delete_form) }}{% endblock %}
+{% block panelBody %}{{ forms.panel(edit_form, false) }}{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+{% import "macros/forms.html.twig" as forms %}
+{% import "macros/a.html.twig" as a %}
+{% block title %}New Objective{% endblock %}
+{% block content %}
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      {{ parent() }}
+    </div>
+  </div>
+{% endblock %}
+{% block panelBack %}{{ a.back('objective_index') }}{% endblock %}
+{% block panelTitle %}New Objective{% endblock %}
+{% block panelBody %}{{ forms.panel(form) }}{% endblock %}
