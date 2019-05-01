@@ -2,13 +2,11 @@
 {% import "AppBundle:tasks:tasks_macros.html.twig" as tasks_view %}
 {% block title %}Dashboard{% endblock %}
 {# TODO: http://bootsnipp.com/user/favorites #}
+{% block stylesheets %}
+  {{ parent() }}
+  <link rel="stylesheet" type="text/css" href="{{asset('/css/dashboard.css')}}"/>
+{% endblock %}
 {% block container %}
-  <style>
-    .scrollable{
-      max-height: calc(100vh  - 82px);
-      overflow-y: scroll;
-    }
-  </style>
   <div class="floating-action dropup">
     <a class="btn btn-info dropdown-toggle" type="button" id="dahboardMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       <span class="glyphicon glyphicon-plus"></span>
@@ -33,21 +31,13 @@
       <!-- END OF ACCOUNTS -->
       {% if accounts|length %}
         {% set hideEmpty = true %}
-        {% if costOfLife.monthly > 0 %}
-          {% set plan = costOfLife.monthly %}
-          <div class="progress">
-            {% set per = (issued/plan)*100 %}
-            {% if per < 100 %}
-              <div class="progress-bar progress-bar-success" role="progressbar" style="width:{{ per }}%">EGP {{ issued }}</div>
-              <div class="progress-bar progress-bar-{{ (19 - "now"|date("d")) > 10 ?"warning":"danger" }}" role="progressbar" style="width:{{ 100 - ((issued/plan)*100) }}%">EGP {{ plan - issued }}</div>
-            {% else %}
-              {% set per = (100/per)*100%}
-              <div class="progress-bar progress-bar-success" role="progressbar" style="width:{{ per }}%">EGP {{ plan }}</div>
-              <div class="progress-bar progress-bar-info" role="progressbar" style="width:{{ 100 - per }}%">EGP {{ issued - plan }}</div>
-              <div class="progress-bar progress-bar-{{ (19 - "now"|date("d")) > 10 ?"warning":"danger" }}" role="progressbar" style="width:{{ 100 - ((issued/plan)*100) }}%">EGP {{ plan - issued }}</div>
-            {% endif %}
-          </div>
-        {% endif %}
+        {% for key, progress in earned %}
+          {% if 'monthly' == key %}
+            {% include 'AppBundle:Dashboard:progressBars.html.twig' with {'total': attribute(costOfLife, key), 'progress': progress, 'issued': issuedThisMonth} %}
+          {% else %}
+            {% include 'AppBundle:Dashboard:progressBars.html.twig' with {'total': attribute(costOfLife, key), 'progress': progress} %}
+          {% endif %}
+        {% endfor %}
         {% include 'AppBundle:accounts:accounts_list.html.twig' %}
         <table class="table table-bordered">
           <thead>

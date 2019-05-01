@@ -5,7 +5,6 @@ namespace AppBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Entity\Tasks;
 
 /**
@@ -18,7 +17,6 @@ class ManagementController extends Controller
 
   /**
    * @Route("/", name="management_index")
-   * @Template("AppBundle:management:index.html.twig")
    */
   public function indexAction(Request $request)
   {
@@ -29,15 +27,14 @@ class ManagementController extends Controller
       'method' => 'GET',
       'action' => $this->generateUrl('management_search_page')
     ));
-    return array(
-      'tasks' => $tasks,
-      'management_search_form' => $form->createView()
-    );
+    return $this->render("AppBundle:management:index.html.twig", array(
+          'tasks' => $tasks,
+          'management_search_form' => $form->createView()
+    ));
   }
 
   /**
    * @Route("/priority", name="management_priority")
-   * @Template("AppBundle:management:priority.html.twig")
    */
   public function priorityAction()
   {
@@ -45,16 +42,15 @@ class ManagementController extends Controller
 
     $tasks = $em->getRepository('AppBundle:Tasks')->getIncomplete();
 
-    return array(
-      'tasks' => $tasks,
-    );
+    return $this->render("AppBundle:management:priority.html.twig", array(
+          'tasks' => $tasks,
+    ));
   }
 
   /**
    * Search all entities.
    *
    * @Route("/search", name="management_search_page", methods={"GET"})
-   * @Template("AppBundle:management:search.html.twig")
    */
   public function searchAction(Request $request)
   {
@@ -75,11 +71,11 @@ class ManagementController extends Controller
       $results['notes'] = $em->getRepository('AppBundle:Notes')->search($filters['search']);
     }
 
-    return array(
-      'filters' => $filters,
-      'results' => $results,
-      'management_search_form' => $form->createView(),
-    );
+    return $this->render("AppBundle:management:search.html.twig", array(
+          'filters' => $filters,
+          'results' => $results,
+          'management_search_form' => $form->createView(),
+    ));
   }
 
 }

@@ -3,3 +3,9 @@
   margin-bottom: 5px;
   font-size: 100%;
 }
+
+/* Workarea scroll */
+.scrollable{
+  max-height: calc(100vh  - 82px);
+  overflow-y: scroll;
+}

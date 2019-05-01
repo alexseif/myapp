@@ -5,7 +5,6 @@ namespace AppBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Entity\Days;
 use AppBundle\Form\DaysType;
 
@@ -21,7 +20,6 @@ class DaysController extends Controller
    * Lists all Days entities.
    *
    * @Route("/", name="days_index", methods={"GET"})
-   * @Template("AppBundle:days:index.html.twig")
    */
   public function indexAction()
   {
@@ -29,16 +27,15 @@ class DaysController extends Controller
 
     $days = $em->getRepository('AppBundle:Days')->getActiveCards();
 
-    return array(
-      'days' => $days,
-    );
+    return $this->render("AppBundle:days:index.html.twig", array(
+          'days' => $days,
+    ));
   }
 
   /**
    * Lists all Archived Days entities.
    *
    * @Route("/archive", name="days_archive", methods={"GET"})
-   * @Template("AppBundle:days:index.html.twig")
    */
   public function archiveAction()
   {
@@ -46,16 +43,15 @@ class DaysController extends Controller
 
     $days = $em->getRepository('AppBundle:Days')->getArchiveCards();
 
-    return array(
-      'days' => $days,
-    );
+    return $this->render("AppBundle:days:index.html.twig", array(
+          'days' => $days,
+    ));
   }
 
   /**
    * Creates a new Days entity.
    *
    * @Route("/new", name="days_new", methods={"GET", "POST"})
-   * @Template("AppBundle:days:new.html.twig")
    */
   public function newAction(Request $request)
   {
@@ -71,17 +67,16 @@ class DaysController extends Controller
       return $this->redirectToRoute('days_index');
     }
 
-    return array(
-      'day' => $day,
-      'day_form' => $form->createView(),
-    );
+    return $this->render("AppBundle:days:new.html.twig", array(
+          'day' => $day,
+          'day_form' => $form->createView(),
+    ));
   }
 
   /**
    * Displays a form to edit an existing Days entity.
    *
    * @Route("/{id}/edit", name="days_edit", methods={"GET", "POST"})
-   * @Template("AppBundle:days:edit.html.twig")
    */
   public function editAction(Request $request, Days $day)
   {
@@ -97,11 +92,11 @@ class DaysController extends Controller
       return $this->redirectToRoute('days_index');
     }
 
-    return array(
-      'day' => $day,
-      'day_form' => $editForm->createView(),
-      'delete_form' => $deleteForm->createView(),
-    );
+    return $this->render("AppBundle:days:edit.html.twig", array(
+          'day' => $day,
+          'day_form' => $editForm->createView(),
+          'delete_form' => $deleteForm->createView(),
+    ));
   }
 
   /**

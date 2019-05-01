@@ -5,7 +5,6 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Currency;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -20,7 +19,6 @@ class CurrencyController extends Controller
    * Lists all currency entities.
    *
    * @Route("/", name="currency_index", methods={"GET"})
-   * @Template("AppBundle:currency:index.html.twig")
    */
   public function indexAction()
   {
@@ -28,16 +26,15 @@ class CurrencyController extends Controller
 
     $currencies = $em->getRepository('AppBundle:Currency')->findAll();
 
-    return array(
-      'currencies' => $currencies,
-    );
+    return $this->render("AppBundle:currency:index.html.twig", array(
+          'currencies' => $currencies,
+    ));
   }
 
   /**
    * Creates a new currency entity.
    *
    * @Route("/new", name="currency_new", methods={"GET", "POST"})
-   * @Template("AppBundle:currency:new.html.twig")
    */
   public function newAction(Request $request)
   {
@@ -53,33 +50,31 @@ class CurrencyController extends Controller
       return $this->redirectToRoute('currency_show', array('id' => $currency->getId()));
     }
 
-    return array(
-      'currency' => $currency,
-      'form' => $form->createView(),
-    );
+    return $this->render("AppBundle:currency:new.html.twig", array(
+          'currency' => $currency,
+          'form' => $form->createView(),
+    ));
   }
 
   /**
    * Finds and displays a currency entity.
    *
    * @Route("/{id}", name="currency_show", methods={"GET"})
-   * @Template("AppBundle:currency:show.html.twig")
    */
   public function showAction(Currency $currency)
   {
     $deleteForm = $this->createDeleteForm($currency);
 
-    return array(
-      'currency' => $currency,
-      'delete_form' => $deleteForm->createView(),
-    );
+    return $this->render("AppBundle:currency:show.html.twig", array(
+          'currency' => $currency,
+          'delete_form' => $deleteForm->createView(),
+    ));
   }
 
   /**
    * Displays a form to edit an existing currency entity.
    *
    * @Route("/{id}/edit", name="currency_edit", methods={"GET", "POST"})
-   * @Template("AppBundle:currency:edit.html.twig")
    */
   public function editAction(Request $request, Currency $currency)
   {
@@ -93,11 +88,11 @@ class CurrencyController extends Controller
       return $this->redirectToRoute('currency_edit', array('id' => $currency->getId()));
     }
 
-    return array(
-      'currency' => $currency,
-      'edit_form' => $editForm->createView(),
-      'delete_form' => $deleteForm->createView(),
-    );
+    return $this->render("AppBundle:currency:edit.html.twig", array(
+          'currency' => $currency,
+          'edit_form' => $editForm->createView(),
+          'delete_form' => $deleteForm->createView(),
+    ));
   }
 
   /**
