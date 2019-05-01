@@ -4,7 +4,6 @@ namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
  * Weekly controller.
@@ -16,7 +15,6 @@ class WeeklyController extends Controller
 
   /**
    * @Route("/", name="default")
-   * @Template("AppBundle:weekly:index.html.twig")
    */
   public function defaultAction()
   {
@@ -26,11 +24,11 @@ class WeeklyController extends Controller
     $EOL->setDate(1982, 10, 29)
         ->add(new \DateInterval('P90Y'));
     $weeksLived = $BOL->diff(new \DateTime())->days / 7;
-    return array(
-      'BOL' => $BOL,
-      'EOL' => $EOL,
-      'weeksLived' => $weeksLived
-    );
+    return $this->render("AppBundle:weekly:index.html.twig", array(
+          'BOL' => $BOL,
+          'EOL' => $EOL,
+          'weeksLived' => $weeksLived
+    ));
   }
 
 }

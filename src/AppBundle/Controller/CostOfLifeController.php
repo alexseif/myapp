@@ -6,7 +6,6 @@ use AppBundle\Entity\CostOfLife;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
  * Costoflife controller.
@@ -20,7 +19,6 @@ class CostOfLifeController extends Controller
    * Lists all costOfLife entities.
    *
    * @Route("/", name="costoflife_index", methods={"GET"})
-   * @Template("AppBundle:costoflife:index.html.twig")
    */
   public function indexAction()
   {
@@ -28,16 +26,15 @@ class CostOfLifeController extends Controller
 
     $costOfLives = $em->getRepository('AppBundle:CostOfLife')->findAll();
 
-    return array(
-      'costOfLives' => $costOfLives,
-    );
+    return $this->render("AppBundle:costoflife:index.html.twig", array(
+          'costOfLives' => $costOfLives,
+    ));
   }
 
   /**
    * Creates a new costOfLife entity.
    *
    * @Route("/new", name="costoflife_new", methods={"GET", "POST"})
-   * @Template("AppBundle:costoflife:new.html.twig")
    */
   public function newAction(Request $request)
   {
@@ -53,33 +50,31 @@ class CostOfLifeController extends Controller
       return $this->redirectToRoute('costoflife_show', array('id' => $costOfLife->getId()));
     }
 
-    return array(
-      'costOfLife' => $costOfLife,
-      'form' => $form->createView(),
-    );
+    return $this->render("AppBundle:costoflife:new.html.twig", array(
+          'costOfLife' => $costOfLife,
+          'form' => $form->createView(),
+    ));
   }
 
   /**
    * Finds and displays a costOfLife entity.
    *
    * @Route("/{id}", name="costoflife_show", methods={"GET"})
-   * @Template("AppBundle:costoflife:show.html.twig")
    */
   public function showAction(CostOfLife $costOfLife)
   {
     $deleteForm = $this->createDeleteForm($costOfLife);
 
-    return array(
-      'costOfLife' => $costOfLife,
-      'delete_form' => $deleteForm->createView(),
-    );
+    return $this->render("AppBundle:costoflife:show.html.twig", array(
+          'costOfLife' => $costOfLife,
+          'delete_form' => $deleteForm->createView(),
+    ));
   }
 
   /**
    * Displays a form to edit an existing costOfLife entity.
    *
    * @Route("/{id}/edit", name="costoflife_edit", methods={"GET", "POST"})
-   * @Template("AppBundle:costoflife:edit.html.twig")
    */
   public function editAction(Request $request, CostOfLife $costOfLife)
   {
@@ -93,11 +88,11 @@ class CostOfLifeController extends Controller
       return $this->redirectToRoute('costoflife_edit', array('id' => $costOfLife->getId()));
     }
 
-    return array(
-      'costOfLife' => $costOfLife,
-      'edit_form' => $editForm->createView(),
-      'delete_form' => $deleteForm->createView(),
-    );
+    return $this->render("AppBundle:costoflife:edit.html.twig", array(
+          'costOfLife' => $costOfLife,
+          'edit_form' => $editForm->createView(),
+          'delete_form' => $deleteForm->createView(),
+    ));
   }
 
   /**
