@@ -1,11 +1,11 @@
 {% import "macros/a.html.twig" as a %}
 <div class="panel-group days-list">
   {% set status = ['danger', 'warning', 'info', 'primary'] %}
-  <div class="row">
+{#  <div class="row">#}
     {% for day in days %}
-      <div class="col-md-3">
-        {% include 'AppBundle:days:day_card_vertical.html.twig' with {'day': day} %}
-      </div>
+{#      <div class="col-md-12">#}
+        {% include 'AppBundle:days:day_card_horizontal.html.twig' with {'day': day} %}
+{#      </div>#}
     {% endfor %}
-  </div>
+{#  </div>#}
 </div>
