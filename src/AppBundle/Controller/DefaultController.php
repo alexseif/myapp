@@ -110,7 +110,7 @@ class DefaultController extends Controller
     $form = $this->createForm(TasksType::class, $task, array(
       'action' => $this->generateUrl('tasks_new')
     ));
-    return $this->rendre("AppBundle:default:focus.html.twig", array(
+    return $this->render("AppBundle:default:focus.html.twig", array(
           'taskList' => $taskList,
           'tasks' => $tasks,
           'completed' => $completedToday,
