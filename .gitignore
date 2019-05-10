@@ -36,3 +36,7 @@
 /nbproject/configs/DEV.properties
 /backups/*
 !backups/.gitkeep
+
+.buildpath
+.project
+.settings/
