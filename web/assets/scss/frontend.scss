@@ -1,0 +1,22 @@
+/*
+The following content was designed & implemented under AlexSeif.com
+*/
+/* 
+    Created on : May 12, 2019, 5:55:58 AM
+    Author     : Alex Seif <me@alexseif.com>
+*/
+a{color:#ebebeb;}
+
+.list-group{
+  .list-group-item{
+    margin-bottom: 10px;
+    .list-group-item-actions{
+      display: inline-block;
+      float: right;
+      a{
+        margin: 0 5px;
+      }
+    }
+  }
+
+}

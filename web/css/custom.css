@@ -22,7 +22,7 @@
 
 }
 @media (min-width: 768px) {
-  .edit-link{display: none;}
+  /*.edit-link{display: none;}*/
 }
 tr:hover .edit-link{display: inline;}
 li:hover .edit-link{display: inline;}

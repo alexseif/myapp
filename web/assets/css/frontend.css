@@ -1,0 +1,29 @@
+/*
+The following content was designed & implemented under AlexSeif.com
+*/
+/* 
+    Created on : May 12, 2019, 5:55:58 AM
+    Author     : Alex Seif <me@alexseif.com>
+*/
+/* line 8, /srv/www/myapp.alexseif.com/web/assets/scss/frontend.scss */
+a {
+  color: #ebebeb;
+}
+
+/* line 11, /srv/www/myapp.alexseif.com/web/assets/scss/frontend.scss */
+.list-group .list-group-item {
+  margin-bottom: 10px;
+}
+
+/* line 13, /srv/www/myapp.alexseif.com/web/assets/scss/frontend.scss */
+.list-group .list-group-item .list-group-item-actions {
+  display: inline-block;
+  float: right;
+}
+
+/* line 16, /srv/www/myapp.alexseif.com/web/assets/scss/frontend.scss */
+.list-group .list-group-item .list-group-item-actions a {
+  margin: 0 5px;
+}
+
+/*# sourceMappingURL=../css/frontend.map */
