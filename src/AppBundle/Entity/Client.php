@@ -35,6 +35,11 @@ class Client
   private $accounts;
 
   /**
+   * @ORM\OneToMany(targetEntity="Rate", mappedBy="client", cascade="remove")
+   */
+  private $rates;
+
+  /**
    * Constructor
    */
   public function __construct()
@@ -113,6 +118,42 @@ class Client
   public function __toString()
   {
     return $this->getName();
+  }
+
+  /**
+   * Add rate.
+   *
+   * @param \AppBundle\Entity\Rate $rate
+   *
+   * @return Client
+   */
+  public function addRate(\AppBundle\Entity\Rate $rate)
+  {
+    $this->rates[] = $rate;
+
+    return $this;
+  }
+
+  /**
+   * Remove rate.
+   *
+   * @param \AppBundle\Entity\Rate $rate
+   *
+   * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+   */
+  public function removeRate(\AppBundle\Entity\Rate $rate)
+  {
+    return $this->rates->removeElement($rate);
+  }
+
+  /**
+   * Get rates.
+   *
+   * @return \Doctrine\Common\Collections\Collection
+   */
+  public function getRates()
+  {
+    return $this->rates;
   }
 
 }
