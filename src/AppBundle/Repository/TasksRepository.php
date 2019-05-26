@@ -314,15 +314,18 @@ class TasksRepository extends EntityRepository
 
   public function weightedList()
   {
+    $today = new \DateTime();
     return $this
             ->createQueryBuilder('t')
             ->select('COUNT(t.urgency) as cnt, t.urgency, t.priority, tl.id')
             ->where('t.completed <> true')
+            ->andWhere('t.eta <= :today OR t.eta IS NULL')
             ->leftJoin('t.taskList', 'tl')
             ->groupBy('t.urgency, t.priority, tl.id')
             ->orderBy('t.urgency', 'DESC')
             ->addOrderBy('t.priority', 'DESC')
             ->addOrderBy('cnt', 'DESC')
+            ->setParameter(':today', $today->format('Y-m-d H:i'))
             ->getQuery()
             ->getResult();
   }
