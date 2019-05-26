@@ -21,14 +21,10 @@
           <td>{% if rate.active %}Yes{% else %}No{% endif %}</td>
           <td>{% if rate.createdAt %}{{ rate.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
           <td>
-            <ul>
-              <li>
-                <a href="{{ path('rate_show', { 'id': rate.id }) }}">show</a>
-              </li>
-              <li>
-                <a href="{{ path('rate_edit', { 'id': rate.id }) }}">edit</a>
-              </li>
-            </ul>
+            <div class="btn-group">
+              {{ a.show('rate_show', { 'id': rate.id }) }}
+              {#              {{ a.edit('rate_edit', { 'id': client.id }) }}#}
+            </div>
           </td>
         </tr>
       {% endfor %}
