@@ -8,7 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 
-class WorkLogType extends AbstractType
+class RateType extends AbstractType
 {
 
   /**
@@ -17,23 +17,14 @@ class WorkLogType extends AbstractType
   public function buildForm(FormBuilderInterface $builder, array $options)
   {
     $builder
-        ->add('task', EntityType::class, array(
-          'class' => 'AppBundle:Tasks',
-          'group_by' => function($tasks) {
-            return $tasks->getTaskList()->getName();
-          },
-          'choice_attr' => function($tasks, $key, $index) {
-            return ['data-est' => $tasks->getEst(), 'data-client' => $tasks->getClient()];
-          },
+        ->add('rate', MoneyType::class)
+        ->add('client', EntityType::class, array(
+          'class' => 'AppBundle:Client',
+          'choice_label' => 'name',
           'attr' => array(
-            'class' => 'chosen'
+            'class' => 'chosen',
           )
-        ))
-        ->add('name')
-        ->add('duration')
-        ->add('pricePerUnit', MoneyType::class)
-        ->add('total', MoneyType::class)
-    ;
+    ));
   }
 
   /**
@@ -42,7 +33,7 @@ class WorkLogType extends AbstractType
   public function configureOptions(OptionsResolver $resolver)
   {
     $resolver->setDefaults(array(
-      'data_class' => 'AppBundle\Entity\WorkLog'
+      'data_class' => \AppBundle\Entity\Rate::class
     ));
   }
 
@@ -51,7 +42,7 @@ class WorkLogType extends AbstractType
    */
   public function getBlockPrefix()
   {
-    return 'appbundle_worklog';
+    return 'appbundle_rate';
   }
 
 }

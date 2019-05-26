@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+{% import "macros/forms.html.twig" as forms %}
+{% import "macros/a.html.twig" as a %}
+{% block panelBack %}{{ a.back('rate_index') }}{% endblock %}
+
+{% block panelTitle %}{{ rate.client.name }}{% endblock %}
+{% block panelHeadingRight %}
+{#  {{ a.edit('rate_edit', {'id':rate.id}) }}#}
+{#  {{ forms.delete(delete_form) }}#}
+
+{% endblock %}
+{% block panelBody %}
+  <table>
+    <tbody>
+      <tr>
+        <th>Id</th>
+        <td>{{ rate.id }}</td>
+      </tr>
+      <tr>
+        <th>Rate</th>
+        <td>{{ rate.rate }}</td>
+      </tr>
+      <tr>
+        <th>Active</th>
+        <td>{% if rate.active %}Yes{% else %}No{% endif %}</td>
+      </tr>
+      <tr>
+        <th>Createdat</th>
+        <td>{% if rate.createdAt %}{{ rate.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+      </tr>
+    </tbody>
+  </table>
+{% endblock %}
