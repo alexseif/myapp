@@ -48,7 +48,7 @@ class RateController extends Controller
     $cost = $em->getRepository('AppBundle:CostOfLife')->sumCostOfLife()["cost"];
 
     $costOfLife = new \AppBundle\Logic\CostOfLifeLogic($cost, $currencies);
-    $rate->setRate($costOfLife->col["hour"]["EGP"]);
+    $rate->setRate($costOfLife->getHourly());
 
 
     $form = $this->createForm('AppBundle\Form\RateType', $rate);
