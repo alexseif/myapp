@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+{% import "macros/forms.html.twig" as forms %}
+{% import "macros/a.html.twig" as a %}
+{% block title %}Edit {{ rate.client.name }}{% endblock %}
+{% block floatingActions %}{{ a.add('rate_new') }}{% endblock %}
+{% block panelBack %}{{ a.back('rate_index') }}{% endblock %}
+{% block panelTitle %}{{ rate.client.name }}{% endblock %}
+{% block panelHeadingRight %}{{ forms.delete(delete_form) }}{% endblock %}
+{% block panelBody %}{{ forms.panel(edit_form, false) }}{% endblock %}

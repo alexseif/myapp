@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+{% import "macros/a.html.twig" as a %}
+{% block floatingActions %}{{ a.add('rate_new') }}{% endblock %}
+{% block panelTitle %}Rates{% endblock %}
+{% block panelBody %}
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Client</th>
+        <th>Rate</th>
+        <th>Active</th>
+        <th>Createdat</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for rate in rates %}
+        <tr>
+          <td>{{ rate.client.name }}</td>
+          <td>{{ rate.rate }}</td>
+          <td>{% if rate.active %}Yes{% else %}No{% endif %}</td>
+          <td>{% if rate.createdAt %}{{ rate.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+          <td>
+            <div class="btn-group">
+              {{ a.show('rate_show', { 'id': rate.id }) }}
+              {#              {{ a.edit('rate_edit', { 'id': client.id }) }}#}
+            </div>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

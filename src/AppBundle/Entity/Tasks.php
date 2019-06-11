@@ -244,6 +244,16 @@ class Tasks
   }
 
   /**
+   * Get Client
+   *
+   * @return \AppBundle\Entity\Client
+   */
+  public function getClient()
+  {
+    return ($this->getTaskList()->getAccount()) ? $this->getTaskList()->getAccount()->getClient() : null;
+  }
+
+  /**
    * Set createdAt
    *
    * @param \DateTime $createdAt

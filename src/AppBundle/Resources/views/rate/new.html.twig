@@ -1,0 +1,6 @@
+{% extends 'base.html.twig' %}
+{% import "macros/forms.html.twig" as forms %}
+{% import "macros/a.html.twig" as a %}
+{% block panelTitle %}New Rate{% endblock %}
+{% block panelBack %}{{ a.back('rate_index') }}{% endblock %}
+{% block panelBody %}{{ forms.panel(form) }}{% endblock %}

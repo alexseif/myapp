@@ -120,20 +120,27 @@ class WorkLogController extends Controller
 
     $costOfLife = new \AppBundle\Logic\CostOfLifeLogic($cost, $currencies);
 
-
     $workLog = new Worklog();
     $workLog->setPricePerUnit($costOfLife->getHourly());
+
 
     if ($request->get('task')) {
       $task = $em->getRepository('AppBundle:Tasks')->find($request->get('task'));
       if (!$task) {
         throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
       }
+
+      $thisRates = $em->getRepository("AppBundle:Rate")->findOneBy(array("active" => true, "client" => $task->getTaskList()->getAccount()->getClient()));
+      if ($thisRates) {
+        $workLog->setPricePerUnit($thisRates->getRate());
+      }
+
       $workLog->setTask($task);
       $workLog->setName($task->getTask());
       $workLog->setDuration($task->getEst());
       $workLog->setTotal($workLog->getPricePerUnit() / 60 * $workLog->getDuration());
     }
+
     $form = $this->createForm('AppBundle\Form\WorkLogType', $workLog);
     $form->handleRequest($request);
 
@@ -149,11 +156,13 @@ class WorkLogController extends Controller
 
       return $this->redirectToRoute('worklog_show', array('id' => $workLog->getId()));
     }
-
+    $clientRates = $em->getRepository("AppBundle:Rate")->findBy(array("active" => true));
+    
     return $this->render("AppBundle:worklog:new.html.twig", array(
           'workLog' => $workLog,
           'costOfLife' => $costOfLife,
           'form' => $form->createView(),
+          'clientRates' => $clientRates
     ));
   }
 
