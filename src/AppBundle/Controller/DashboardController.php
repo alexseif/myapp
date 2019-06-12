@@ -30,10 +30,8 @@ class DashboardController extends Controller
     $interval = $endDay->diff($today, true);
     /** Cost Of Life * */
     $earned = ['daily' => 0, 'weekly' => 0, 'monthly' => 0];
-    $currencies = $em->getRepository('AppBundle:Currency')->findAll();
-    $cost = $em->getRepository('AppBundle:CostOfLife')->sumCostOfLife()["cost"];
 
-    $costOfLife = new \AppBundle\Logic\CostOfLifeLogic($cost, $currencies);
+    $costOfLife = $this->get('myApp.cost');
 
     $countByUrgenctAndPriority = $em->getRepository('AppBundle:Tasks')->countByUrgenctAndPriority();
     $piechart = [];
@@ -93,10 +91,7 @@ class DashboardController extends Controller
     $days = $em->getRepository('AppBundle:Days')->getImportantCards();
     $accounts = $em->getRepository('AppBundle:Accounts')->findBy(array('conceal' => false));
     /** Cost Of Life * */
-    $currencies = $em->getRepository('AppBundle:Currency')->findAll();
-    $cost = $em->getRepository('AppBundle:CostOfLife')->sumCostOfLife()["cost"];
-
-    $costOfLife = new \AppBundle\Logic\CostOfLifeLogic($cost, $currencies);
+    $costOfLife = $this->get('myApp.cost');
     $earnedLogic = new \AppBundle\Logic\EarnedLogic($em, $costOfLife);
     $earned = $earnedLogic->getEarned();
 

@@ -42,3 +42,9 @@ services:
     myApp.currency:
       class:  AppBundle\Service\CurrencyService
       arguments: [ '@doctrine.orm.entity_manager' ]
+      public: true
+    
+    myApp.cost:
+      class:  AppBundle\Service\CostService
+      arguments: [ '@doctrine.orm.entity_manager', '@myApp.currency' ]
+      public: true
