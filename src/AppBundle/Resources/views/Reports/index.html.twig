@@ -1,0 +1,11 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}AppBundle:Reports:index{% endblock %}
+
+{% block content %}
+  <h1>Welcome to the Reports:index page</h1>
+  <div class="nav">
+    <a href="{{ path('reports_index') }}" class="nav-link">Reports</a>
+    <a href="{{ path('reports_clients') }}" class="nav-link">Clients List</a>
+  </div>
+{% endblock %}

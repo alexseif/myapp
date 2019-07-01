@@ -1,0 +1,40 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}AppBundle:Reports:Hourly{% endblock %}
+
+{% block content %}
+  <style>
+    .list-group{margin-bottom: 0;}
+  </style>
+  <h1>Welcome to the Reports:hourly page</h1>
+  <div class="nav">
+    <a href="{{ path('reports_index') }}" class="nav-link">Reports</a>
+  </div>
+  <div class="well">
+    {{ client.name }}
+  </div>
+  {{ dump(hourly) }}
+  <div class="table-responsive">
+    <table class="table table-bottom-border table-condensed table-striped">
+      <thead>
+        <tr>
+          <th>Month - Year</th>
+          <th>Minutes</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for year, rows in hourly %}
+          <tr>
+            <th colspan="2">{{ year }}</th>
+          </tr>
+          {% for month, minutes in rows %}
+            <tr>
+              <td>{{ month }}</td>
+              <td>{{ minutes / 60 }}</td>
+            </tr>
+          {% endfor %}
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

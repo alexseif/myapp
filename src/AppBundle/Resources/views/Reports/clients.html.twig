@@ -1,0 +1,43 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}AppBundle:Reports:clients{% endblock %}
+
+{% block content %}
+  <style>
+    .list-group{margin-bottom: 0;}
+  </style>
+  <h1>Welcome to the Reports:Clients page</h1>
+  <div class="nav">
+    <a href="{{ path('reports_index') }}" class="nav-link">Reports</a>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-bottom-border table-condensed table-striped">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Accounts</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for client in clients %}
+          <tr>
+            <td>
+              <a href="{{ path('reports_client_hourly', {'client': client.id}) }}">
+                {{ client.name }}
+              </a>
+            </td>
+            <td>
+              <ul class="list-group">
+                {% for account in client.accounts %}
+                  <li class="list-group-item">
+                      {{ account.name }}
+                  </li>
+                {% endfor %}
+              </ul>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}
