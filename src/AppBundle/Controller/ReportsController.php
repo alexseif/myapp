@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Client;
+use AppBundle\Entity\TaskLists;
 
 /**
  * Rate controller.
@@ -40,6 +41,9 @@ class ReportsController extends Controller
 
   /**
    * @Route("/hourly/{client}", name="reports_client_hourly")
+
+   * @param Client $client
+   * @return type
    */
   public function hourlyAction(Client $client)
   {
@@ -65,6 +69,23 @@ class ReportsController extends Controller
     return $this->render('AppBundle:Reports:hourly.html.twig', array(
           "client" => $client,
           'hourly' => $hourly
+    ));
+  }
+
+  /**
+   * @Route("/tasklist/{tasklist}", name="reports_tasklist")
+   */
+  public function tasklistAction(TaskLists $tasklist)
+  {
+    $em = $this->getDoctrine()->getManager();
+    $tasks = $em->getRepository('AppBundle:Tasks')->findBy(array(
+      "taskList" => $tasklist,
+      "completed" => true
+    ));
+
+    return $this->render('AppBundle:Reports:tasks.html.twig', array(
+          "tasklist" => $tasklist,
+          "tasks" => $tasks
     ));
   }
 

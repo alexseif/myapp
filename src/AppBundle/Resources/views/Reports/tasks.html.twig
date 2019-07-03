@@ -1,0 +1,35 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}AppBundle:Reports:Hourly{% endblock %}
+
+{% block content %}
+  <style>
+{#    #reports_tasks tr td:first-child{width: 75%;}#}
+  </style>
+  <div class="nav hidden-print">
+    <a href="{{ path('reports_index') }}" class="nav-link">Reports</a>
+  </div>
+  <div class="well">
+    <h1>Tasks for {{ tasklist.name }}</h1>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-bordered table-condensed " id="reports_tasks">
+      <thead>
+        <tr>
+          <th>Task</th>
+          <th>CreatedAt</th>
+          <th>CompletedAt</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for task in tasks %}
+          <tr>
+            <td>{{ task }}</td>
+            <td>{{ task.createdAt|date('d/m/y')}}</td>
+            <td>{{ task.completedAt|date('d/m/y') }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}
