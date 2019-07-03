@@ -22,16 +22,33 @@
         {% for client in clients %}
           <tr>
             <td>
-              <a href="{{ path('reports_client_hourly', {'client': client.id}) }}">
-                {{ client.name }}
+              {{ client.name }} 
+              <a class="btn btn-primary btn-sm pull-right"
+                 href="{{ path('reports_client_hourly', {'client': client.id}) }}">
+                Hourly report
               </a>
             </td>
             <td>
               <ul class="list-group">
                 {% for account in client.accounts %}
                   <li class="list-group-item">
-                      {{ account.name }}
+                    {{ account.name }}
                   </li>
+                {% endfor %}
+              </ul>
+            </td>
+            <td>
+              <ul class="list-group">
+                {% for account in client.accounts %}
+                  {% for tasklist in account.taskLists %}
+                    <li class="list-group-item">
+                      {{ tasklist.name }}
+                      <a class="btn btn-primary btn-sm pull-right"
+                         href="{{ path('reports_tasklist', {'tasklist': tasklist.id}) }}">
+                        Tasks report
+                      </a>
+                    </li>
+                  {% endfor %}
                 {% endfor %}
               </ul>
             </td>
