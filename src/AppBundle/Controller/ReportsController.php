@@ -81,7 +81,7 @@ class ReportsController extends Controller
     $tasks = $em->getRepository('AppBundle:Tasks')->findBy(array(
       "taskList" => $tasklist,
       "completed" => true
-    ));
+    ), array("completedAt"=>"DESC"));
 
     return $this->render('AppBundle:Reports:tasks.html.twig', array(
           "tasklist" => $tasklist,
