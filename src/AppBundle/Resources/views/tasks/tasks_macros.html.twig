@@ -1,13 +1,13 @@
 {% macro taskIcons(urgency = 0, priority = 0) %}
   {% if urgency %}
-    <span class="glyphicon glyphicon-flash text-warning"></span>
+    U
   {% endif %}
   {% if priority > 0 %}
-    <span class="glyphicon glyphicon-menu-up text-danger"></span>
+    H
   {% elseif priority < 0 %}
-    <span class="glyphicon glyphicon-menu-down text-primary"></span>
+    L
   {% else %}
-    <span class="glyphicon glyphicon-menu-right"></span>
+    ?
   {% endif %}
 {% endmacro %}
 
@@ -33,7 +33,7 @@
       data-toggle="modal"
       data-target="#"
       href="{{ path('task_show_modal', {"id":task.id}) }}"
-      ><i class="glyphicon glyphicon-modal-window"></i></a>
+      >Open</a>
 
     {% if displayListName %}
       <span class="visible-lg-inline-block visible-md-inline-block">
@@ -72,7 +72,7 @@
 
       <a href="{{ path('tasks_edit', { 'id': task.id }) }}" 
          class="btn btn-primary edit-fixed-link btn-{{ task.completed ? "xs":"sm" }}">
-        <span class="glyphicon glyphicon-pencil"></span></a>
+        Edit</a>
     </span>
   </li>
 {% endmacro %}

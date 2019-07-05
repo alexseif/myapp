@@ -174,7 +174,7 @@
               data-task-list="{{task.taskList.name}}">
             <td>
               {{ task.task }} <span class="label label-default">{{ task.taskList.name }}</span>
-              <a style="display:none;" href="{{path('tasks_edit',{id:task.id})}}" class="btn btn-primary btn-xs" target="_blank"><span class="glyphicon glyphicon-pencil"></span></a>
+              <a style="display:none;" href="{{path('tasks_edit',{id:task.id})}}" class="btn btn-primary btn-xs" target="_blank">Edit</a>
             </td>
             <td>{{ task.priority ? "Important" : "Normal" }}</td>
             <td>{{ task.urgency ? "Urgent" : "Slow" }}</td>
@@ -223,7 +223,7 @@
             }
           },
           {
-            text: '<span class="glyphicon glyphicon-refresh"></span>',
+            text: 'Refresh',
             action: function () {
               tblTasks.state.clear();
               window.location.reload();

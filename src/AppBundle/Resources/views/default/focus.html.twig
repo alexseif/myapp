@@ -6,12 +6,12 @@
 {% block container %}
   <div class="floating-action">
     <a href="{{ path('dashboard') }}" class="bg-embed">
-      <span class="glyphicon glyphicon-home"></span></a>
+      Dashboard</a>
     <a href="{{ (taskList is defined) ? path('focus_tasklist', {'name': taskList.name}) : path('focus') }}" 
        class="bg-embed">
-      <span class="glyphicon glyphicon-refresh"></span></a>
+      Refresh</a>
     <a class="btn btn-primary" href="{{ path('tasks_new')}}">
-      <span class="glyphicon glyphicon-plus"></span></a>
+      +</a>
   </div>
 
   <div class="container">

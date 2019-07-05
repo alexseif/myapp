@@ -15,8 +15,8 @@
   <div class="well">
     {{ form_start(management_search_form) }}
     {{ form_widget(management_search_form) }}
-    <button type="submit" value="Filter" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></button>
-    <a href="{{ path('management_index') }}" class="btn btn-warning"><span class="glyphicon glyphicon-erase"></span></a>
+    <button type="submit" value="Filter" class="btn btn-primary">Search</button>
+    <a href="{{ path('management_index') }}" class="btn btn-warning">Del</a>
       {{ form_end(management_search_form) }}
   </div>
   <h2>{{ (filters.search is defined) ? filters.search }}</h2>

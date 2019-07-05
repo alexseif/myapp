@@ -30,7 +30,7 @@
             <div class="pull-right">
               <span class="label label-default">{{ tasks.count }}</span>
               <span class="label label-info">{{ taskList.estTotal(false)|date("%d %H:%I") }}</span>
-              <button data-toggle="collapse" href="#taskList-{{ taskList.id }}" class="btn btn-primary btn-xs collapsed"><span class="glyphicon glyphicon-collapse"></span></button>
+              <button data-toggle="collapse" href="#taskList-{{ taskList.id }}" class="btn btn-primary btn-xs collapsed">-</button>
             </div>
           </div>
           <div id="taskList-{{ taskList.id }}" class="panel-collapse collapse">

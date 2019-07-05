@@ -10,13 +10,13 @@
 {% block container %}
   <div class="floating-action">
     <a href="{{ path('dashboard') }}" class="bg-embed">
-      <span class="glyphicon glyphicon-home"></span>
+      Home
     </a>
     <a href="{{ path('singleTask') }}" class="bg-embed">
-      <span class="glyphicon glyphicon-refresh"></span>
+      Refresh
     </a>
     <a class="bg-embed" href="{{ path('tasks_new')}}">
-      <span class="glyphicon glyphicon-plus"></span>
+      +
     </a>
   </div>
 
@@ -40,12 +40,12 @@
               <div class="pull-right text-right">
                 <span class="badge">
                   {% if task.urgency %}
-                    <span class="glyphicon glyphicon-flash text-warning"></span>
+                    U
                   {% endif %}
                   {% if task.priority %}
-                    <span class="glyphicon glyphicon-menu-up text-danger"></span>
+                    H
                   {% else %}
-                    <span class="glyphicon glyphicon-menu-right text-primary"></span>
+                    ?
                   {% endif %}
                 </span>
                 <h3 class="text-info">{{ task.est ? task.est ~ "m"}}</h3>
@@ -57,7 +57,7 @@
                 {% endif %}
                 <a href="{{ path('tasks_edit', { 'id': task.id }) }}" 
                    class="btn btn-primary btn-{{ task.completed ? "xs":"sm" }}">
-                  <span class="glyphicon glyphicon-pencil"></span></a>
+                  Edit</a>
               </div>
               <h2 class="task">
                 <input type="checkbox" data-taskid="{{task.id}}" class="checkbox-inline" 

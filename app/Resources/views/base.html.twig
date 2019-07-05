@@ -40,7 +40,7 @@
         {% block content %}
           {% include 'flash.html.twig' %}
           <div class="row">
-            <div class="col-sm-12 {% block panelWrapperClass %}{% endblock %}">
+            <div class="col {% block panelWrapperClass %}{% endblock %}">
               {% block panel %}
                 <div class="panel panel-{% block panelClass %}default{% endblock %}">
                   {% block panelHeading %}
@@ -48,7 +48,7 @@
                       {% block panelBack %}
                         <a href="{{ path('dashboard') }}" 
                            class="btn btn-default btn-sm">
-                          <span class="glyphicon glyphicon-dashboard"></span>
+                          Dashboard
                         </a>
                       {% endblock %}
                       <span class="panel-title">{% block panelTitle %}{% endblock %}</span>

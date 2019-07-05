@@ -24,21 +24,21 @@
         <button type="button" class="btn btn-primary me" 
                 data-tasklistid="{{ taskList.id }}" 
                 data-tasklist="{{ taskList.name }}">
-          <span class="glyphicon glyphicon-list-alt"></span></button>
+          List</button>
 
         {% if(taskList.status == 'archive') %}
           <a type="button" class="btn btn-default" 
              data-tasklistid="{{ taskList.id }}" 
              data-tasklist="{{ taskList.name }}"
              href="{{ path('tasklists_unarchive', { 'id': taskList.id }) }}">
-            <span class="glyphicon glyphicon-folder-open"></span></a>
+            Open</a>
 
         {% else %}
           <a type="button" class="btn btn-default" 
              data-tasklistid="{{ taskList.id }}" 
              data-tasklist="{{ taskList.name }}"
              href="{{ path('tasklists_archive', { 'id': taskList.id }) }}">
-            <span class="glyphicon glyphicon-folder-close"></span></a>
+            Close</a>
 
         {% endif %}
 

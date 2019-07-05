@@ -19,8 +19,8 @@
           {{ form_widget(task_filter_form) }}
         </div>
         <div class="panel-footer text-right">
-          <button type="submit" value="Filter" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></button>
-          <a href="{{ path('tasks_search') }}" class="btn btn-warning"><span class="glyphicon glyphicon-erase"></span></a>
+          <button type="submit" value="Filter" class="btn btn-primary">Search</button>
+          <a href="{{ path('tasks_search') }}" class="btn btn-warning">Del</a>
             {{ form_end(task_filter_form) }}
         </div>
       </div>
@@ -50,7 +50,7 @@
           <td>
             <a class="btn btn-link btn-xs" target="_blank"
                href="{{path('tasks_show', {id: task.id})}}" >
-              <span class="glyphicon glyphicon-open"></span></a>
+              Open</a>
               {{ task.task }} 
           </td>
           <td>{{ task.completed ? "Completed": "Open"}}</td>

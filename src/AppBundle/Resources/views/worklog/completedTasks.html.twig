@@ -15,7 +15,7 @@
   {% set btn='btn btn-sm' %}
   <div class="text-center">
     <a class="{{ btn }} btn-default" id="select">
-      <span class="glyphicon glyphicon-asterisk"></span></a>
+      *</a>
     <a class="{{ btn }} btn-primary" id="log">Log</a>
     <a class="{{ btn }} btn-warning"  id="unloggable">Unloggable</a>
     <a class="{{ btn }} btn-danger" id="delete">Delete</a>
@@ -46,7 +46,7 @@
             <a href="{{ path('tasks_show', { 'id' : task.id }) }}"
                class="btn btn-default btn-xs"
                target="_new">
-              <span class="glyphicon glyphicon-open"></span>
+              Open
             </a>
             {{ task.task|truncate(100) }}
           </td>

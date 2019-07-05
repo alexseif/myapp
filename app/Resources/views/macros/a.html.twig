@@ -26,6 +26,6 @@
 {% macro linkGlyph(btnClass = 'default', glyph, path, parameters = {}) %}
   <a href="{{ path(path, parameters) }}" role="button"
      class="hidden-print btn btn-sm btn-{{btnClass}}">
-    <span class="glyphicon glyphicon-{{glyph}}"></span></a>
+  </a>
 
 {% endmacro %}

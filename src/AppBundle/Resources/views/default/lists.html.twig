@@ -7,14 +7,13 @@
 {% block container %}
   <div class="floating-action dropup">
     <a class="btn btn-info dropdown-toggle" type="button" id="dahboardMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <span class="glyphicon glyphicon-plus"></span>
+      Add
     </a>
     <ul class="dropdown-menu floating-actions" aria-labelledby="dahboardMenuButton">
-      <li><a href="{{ path('tasks_new') }}" class="btn btn-info"><span class="glyphicon glyphicon-check"></span></a></li>
-      <li><a href="{{ path('tasklists_new') }}" class="btn btn-info"><span class="glyphicon glyphicon-list-alt"></span></a></li>
-      <li><a href="{{ path('days_new') }}" class="btn btn-info"><span class="glyphicon glyphicon-th-large"></span></a></li>
-      <li><a href="{{ path('accounts_new') }}" class="btn btn-info"><span class="glyphicon glyphicon-piggy-bank"></span></a></li>
-      <li><a href="{{ path('accounttransactions_new') }}" class="btn btn-info"><span class="glyphicon glyphicon-transfer"></span></a></li>
+      <li><a href="{{ path('tasks_new') }}" class="btn btn-info">Task</a></li>
+      <li><a href="{{ path('tasklists_new') }}" class="btn btn-info">List</a></li>
+      <li><a href="{{ path('days_new') }}" class="btn btn-info">Day</a></li>
+      <li><a href="{{ path('notes_new') }}" class="btn btn-info">Note</a></li>
     </ul>
   </div>
 

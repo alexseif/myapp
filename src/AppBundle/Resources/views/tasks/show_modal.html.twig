@@ -16,7 +16,7 @@
       <div class="clearfix">
         <a href="{{ path('tasks_edit', { 'id': task.id }) }}" 
            class="btn btn-primary edit-fixed-link btn-{{ task.completed ? "xs":"sm" }}" target="_blank">
-          <span class="glyphicon glyphicon-pencil"></span></a>
+          Edit</a>
 
         <label class="btn btn-default btn-{{ task.completed ? "xs":"sm" }} task">
           <input type="checkbox" data-taskid="{{task.id}}" class="checkbox-inline" 
@@ -24,14 +24,14 @@
           <p>{{ task.task }}</p>
           <span class="badge">
             {% if task.urgency %}
-              <span class="glyphicon glyphicon-flash text-warning"></span>
+              U
             {% endif %}
             {% if task.priority > 0 %}
-              <span class="glyphicon glyphicon-menu-up text-danger"></span>
+              H
             {% elseif task.priority < 0 %}
-              <span class="glyphicon glyphicon-menu-down text-primary"></span>
+              L
             {% else %}
-              <span class="glyphicon glyphicon-menu-right text-primary"></span>
+              ?
             {% endif %}
           </span>
         </label>
