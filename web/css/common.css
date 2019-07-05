@@ -33,14 +33,14 @@ a.navbar-brand{background-color: #222222;}
 .bg-embed:hover{background-color: #303030;color: #222222 !important;}
 
 .delete-form{display:inline-block;}
-.panel-title-small:before, .panel-title-labels:before{content: ""; margin: 0 5px;}
-.panel-transparent{border-color:#464545; margin-bottom: 0px;}
-.panel-transparent>.panel-group{margin-bottom: 0px;}
-.panel-transparent>.panel-heading{color:#ffffff;background-color:#303030;border-color:#464545}
-.panel-transparent>.panel-heading+.panel-collapse>.panel-body{border-top-color:#464545}
-.panel-transparent>.panel-heading .badge{color:#303030;background-color:#ffffff}
-.panel-transparent>.panel-footer+.panel-collapse>.panel-body{border-bottom-color:#464545}
-.panel-transparent>.panel-heading{background-color:#464545}
+.card-title-small:before, .card-title-labels:before{content: ""; margin: 0 5px;}
+.card-transparent{border-color:#464545; margin-bottom: 0px;}
+.card-transparent>.card-group{margin-bottom: 0px;}
+.card-transparent>.card-heading{color:#ffffff;background-color:#303030;border-color:#464545}
+.card-transparent>.card-heading+.card-collapse>.card-body{border-top-color:#464545}
+.card-transparent>.card-heading .badge{color:#303030;background-color:#ffffff}
+.card-transparent>.card-footer+.card-collapse>.card-body{border-bottom-color:#464545}
+.card-transparent>.card-heading{background-color:#464545}
 
 .progress{height: 20px;margin: 10px 5px;}
 .progress .progress-bar{font-size: 13px;}
@@ -49,12 +49,12 @@ a.navbar-brand{background-color: #222222;}
 .completed{color: #777}
 .completed, .completed *{text-decoration:line-through;background-image:none;}
 
-/* Changes button for collapsed panels */
-.glyphicon-collapse:before { content: "\2212";}
-.collapsed .glyphicon-collapse:before { content: "\2b";}
+/* Changes button for collapsed cards */
 
 .text-bold{font-weight: bold;}
 .table th, .table td{padding: 0.25rem;}
 .card-body{padding: 0.25rem;}
 .input-group-addon{text-align: center; padding: 6px;}
 .chosen-container-single .chosen-single span{color: black;}
+
+.border-transparent{border-color: transparent;}
