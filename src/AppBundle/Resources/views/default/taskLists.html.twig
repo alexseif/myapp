@@ -11,28 +11,31 @@
   {% if taskList.status != 'archive' %}
     {% if taskList.tasks|length %}
       {% set tasks = taskList.tasks(false) %}
-      <div class="card bg-primary">
-        <div class="card-header bg-dark">
-          <span class="card-title mr-2">
-            <a href="{{ path('tasklists_show', {"id":taskList.id}) }}">{{ taskList.name }}</a>
-          </span>
-          <span class="card-title-labels">
-            {% if (taskList.account) %}
-              <a href="{{ path('accounts_show', {'id': taskList.account.id}) }}"
-                 class="badge badge-info">{{ taskList.account.name }}</a>
-              {% if (taskList.account.client) %}
-                <a href="{{ path('client_show', {'id': taskList.account.client.id}) }}"
-                   class="badge badge-primary">{{ taskList.account.client.name }}</a>
+      <div class="card">
+        <button class="text-left bg-transparent border-0 p-0" type="button" data-toggle="collapse" 
+                data-target="#taskList-{{ taskList.id }}" aria-expanded="false" 
+                aria-controls="taskList-{{ taskList.id }}">
+          <div class="card-header px-3 py-2">
+            <span class="card-title mr-2">
+              <a href="{{ path('tasklists_show', {"id":taskList.id}) }}">{{ taskList.name }}</a>
+            </span>
+            <span class="card-title-labels">
+              {% if (taskList.account) %}
+                <a href="{{ path('accounts_show', {'id': taskList.account.id}) }}"
+                   class="badge badge-info">{{ taskList.account.name }}</a>
+                {% if (taskList.account.client) %}
+                  <a href="{{ path('client_show', {'id': taskList.account.client.id}) }}"
+                     class="badge badge-primary">{{ taskList.account.client.name }}</a>
+                {% endif %}
               {% endif %}
-            {% endif %}
-          </span>
-          <div class="float-right">
-            <span class="badge badge-dark">{{ tasks.count }}</span>
-            <span class="badge badge-info">{{ taskList.estTotal(false)|date("%d %H:%I") }}</span>
-            <button data-toggle="collapse" href="#taskList-{{ taskList.id }}" class="btn btn-secondary btn-sm collapsed">-</button>
+            </span>
+            <div class="float-right">
+              <span class="badge badge-dark">{{ tasks.count }}</span>
+              <span class="badge badge-info">{{ taskList.estTotal(false)|date("%d %H:%I") }}</span>
+            </div>
           </div>
-        </div>
-        <div id="taskList-{{ taskList.id }}" class="card-collapse collapse">
+        </button>
+        <div class="collapse" id="taskList-{{ taskList.id }}">
           {{ tasks_view.ul(tasks, '',false) }}
         </div>
       </div>
