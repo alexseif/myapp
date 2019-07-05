@@ -95,7 +95,7 @@ class WorkLogController extends Controller
           ->getQuery()
           ->getResult();
     } else {
-      $tasks = $tasksRepo->findBy($criteria, $orderBy);
+      $tasks = $tasksRepo->findByWithJoins($criteria, $orderBy);
     }
 
     return $this->render("AppBundle:worklog:completedTasks.html.twig", array(
@@ -157,7 +157,7 @@ class WorkLogController extends Controller
       return $this->redirectToRoute('worklog_show', array('id' => $workLog->getId()));
     }
     $clientRates = $em->getRepository("AppBundle:Rate")->findBy(array("active" => true));
-    
+
     return $this->render("AppBundle:worklog:new.html.twig", array(
           'workLog' => $workLog,
           'costOfLife' => $costOfLife,

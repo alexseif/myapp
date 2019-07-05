@@ -18,7 +18,7 @@
       data-time="{{ task.est }}"
       data-order-no="{{ task.order }}"
       >
-    <label class="btn btn-secondary btn-{{ task.completed ? "xs":"sm" }} task">
+    <label class="btn btn-secondary btn-{{ task.completed ? "xs":"sm" }} task mr-1 mb-0">
       <input type="checkbox" data-taskid="{{task.id}}" class="checkbox-inline" 
              {{ task.completed ? "checked" : "" }}/>
       {{ task.task|truncate(50) }}

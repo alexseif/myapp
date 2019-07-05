@@ -356,4 +356,41 @@ class TasksRepository extends EntityRepository
             ->getResult();
   }
 
+  public function findByWithJoins(array $criteria, array $orderBy = null)
+  {
+    $queryBuilder = $this
+        ->createQueryBuilder('t')
+        ->select('t, tl, a, c, w')
+        ->leftJoin('t.taskList', 'tl')
+        ->leftJoin('tl.account', 'a')
+        ->leftJoin('a.client', 'c')
+        ->leftJoin('t.workLog', 'w');
+
+    $first = true;
+    foreach ($criteria as $column => $value) {
+      if ($first) {
+        $queryBuilder->where("t.$column = :$column")
+            ->setParameter(":$column", $value);
+        $first = false;
+      } else {
+        $queryBuilder->andWhere("t.$column = :$column")
+            ->setParameter(":$column", $value);
+      }
+    }
+    $first = true;
+
+    foreach ($orderBy as $column => $value) {
+      if ($first) {
+        $queryBuilder->orderBy("t.$column", $value);
+        $first = false;
+      } else {
+        $queryBuilder->addOrderBy("t.$column", $value);
+      }
+    }
+
+    return $queryBuilder
+            ->getQuery()
+            ->getResult();
+  }
+
 }
