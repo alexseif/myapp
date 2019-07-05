@@ -1,31 +1,32 @@
 {# Default render for add link #}
 {% macro add(path, parameters = {}) %}
   {% import _self as a %}
-  {{ a.linkGlyph('primary', 'plus', path, parameters) }}  
+  {{ a.linkGlyph('primary', 'Add', path, parameters) }}  
 {% endmacro %}
 
 {# Default render for show link #}
 {% macro show(path, parameters = {}) %}
   {% import _self as a %}
-  {{ a.linkGlyph('info', 'open', path, parameters) }}
+  {{ a.linkGlyph('info', 'Open', path, parameters) }}
 {% endmacro %}
 
 {# Default render for edit link #}
 {% macro edit(path, parameters) %}
   {% import _self as a %}
-  {{ a.linkGlyph('primary', 'pencil', path, parameters) }}
+  {{ a.linkGlyph('primary', 'Edit', path, parameters) }}
 {% endmacro %}
 
 {# Default render for back link #}
 {% macro back(path, parameters = {}) %}
   {% import _self as a %}
-  {{ a.linkGlyph('default', 'arrow-left', path, parameters) }}
+  {{ a.linkGlyph('default', '<-', path, parameters) }}
 {% endmacro %}
 
 {# Generic render for link with glyphicon #}
-{% macro linkGlyph(btnClass = 'default', glyph, path, parameters = {}) %}
+{% macro linkGlyph(btnClass = 'default', text, path, parameters = {}) %}
   <a href="{{ path(path, parameters) }}" role="button"
      class="hidden-print btn btn-sm btn-{{btnClass}}">
-    <span class="glyphicon glyphicon-{{glyph}}"></span></a>
+    {{ text }}
+  </a>
 
 {% endmacro %}

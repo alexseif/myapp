@@ -14,14 +14,14 @@
   {% include 'flash.html.twig' %}
   {% set btn='btn btn-sm' %}
   <div class="text-center">
-    <a class="{{ btn }} btn-default" id="select">
-      <span class="glyphicon glyphicon-asterisk"></span></a>
-    <a class="{{ btn }} btn-primary" id="log">Log</a>
+    <a class="{{ btn }} btn-secondary" id="select">
+      *</a>
+    <a class="{{ btn }} btn-secondary" id="log">Log</a>
     <a class="{{ btn }} btn-warning"  id="unloggable">Unloggable</a>
     <a class="{{ btn }} btn-danger" id="delete">Delete</a>
-    <a class="{{ btn }} btn-default" 
+    <a class="{{ btn }} btn-secondary" 
        href="{{ path('completed_tasks', {'unlog':true}) }}">Hidden</a>
-    <a class="{{ btn }} btn-default" id="reset"
+    <a class="{{ btn }} btn-secondary" id="reset"
        href="{{ path('completed_tasks') }}">Reset View</a>
   </div>
   <table class="table table-bordered table-striped table-responsive" id="tasks">
@@ -44,24 +44,24 @@
           </td>
           <td>
             <a href="{{ path('tasks_show', { 'id' : task.id }) }}"
-               class="btn btn-default btn-xs"
+               class="btn btn-secondary btn-sm"
                target="_new">
-              <span class="glyphicon glyphicon-open"></span>
+              Open
             </a>
             {{ task.task|truncate(100) }}
           </td>
           <td>
-            <a href="{{ path('completed_tasks',{'taskList':task.taskList.name})}}" class="label label-primary">
+            <a href="{{ path('completed_tasks',{'taskList':task.taskList.name})}}" class="badge badge-primary">
               {{ task.taskList.name }}
             </a>
             - 
             {% if(task.taskList.account) %}
-              <a href="{{ path('completed_tasks',{'account':task.taskList.account.name})}}" class="label label-info">
+              <a href="{{ path('completed_tasks',{'account':task.taskList.account.name})}}" class="badge badge-info">
                 {{ task.taskList.account.name }} 
               </a>
               - 
               {% if(task.taskList.account.client) %}
-                <a href="{{ path('completed_tasks',{'client': task.taskList.account.client.name})}}" class="label label-primary">
+                <a href="{{ path('completed_tasks',{'client': task.taskList.account.client.name})}}" class="badge badge-primary">
                   {{task.taskList.account.client.name }}
                 </a>
               {% endif %}
@@ -73,12 +73,12 @@
           <td>
             {% if (task.workLog) %}
               <a href="{{ path('worklog_show', {'id': task.workLog.id })}}"
-                 class="btn btn-success btn-xs">
+                 class="btn btn-success btn-sm">
                 Edit
               </a>
             {% else %}
               <a href="{{ path('worklog_new', {'task':task.id}) }}"
-                 class="btn btn-primary btn-xs">
+                 class="btn btn-secondary btn-sm">
                 Log
               </a>
             {% endif %}

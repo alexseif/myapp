@@ -2,9 +2,10 @@
 
 {% block title %}{{ account }}_{{ date()|date('Y-m-d') }} {% endblock %}
 {% block floatingActions %}
-  <a class="btn btn-default btn-sm hidden-print" role="button"
+  <a class="btn btn-secondary btn-sm hidden-print" role="button"
      href="javascript:window.print();">
-    <span class="glyphicon glyphicon-print" aria-hidden="true"></span></a>
+    Print
+  </a>
   {% endblock %}
 
 {% block content %}
@@ -56,10 +57,10 @@
     <hr>
     {% set route_params = app.request.attributes.get('_route_params') %}
     {% if(app.request.get('taxes')) %}
-      <a type="button" class="btn btn-default btn-sm hidden-print pull-right" 
+      <a type="button" class="btn btn-secondary btn-sm hidden-print float-right" 
          href="{{ path('accounting_balance_page', route_params) }}">Remove Taxes</a>
     {% else %}
-      <a type="button" class="btn btn-default btn-sm hidden-print pull-right" 
+      <a type="button" class="btn btn-secondary btn-sm hidden-print float-right" 
          href="{{ path('accounting_balance_page', route_params| merge({ 'taxes': true })) }}">Add Taxes</a>
     {% endif %}
     <h3>Transactions</h3>
@@ -78,7 +79,7 @@
             <td><a href="{{ path('accounttransactions_show', { "id":txn.id }) }}">#{{ txn.id }}</a></td>
             <td>{{ txn.note }}</td>
             <td>{{ txn.issuedAt|date('Y-m-d')}}</td>
-            <td><span class="pull-left">EGP</span>{{ txn.amount|number_format }}</td>
+            <td><span class="float-left">EGP</span>{{ txn.amount|number_format }}</td>
           </tr>
         {% endfor %}
       </tbody>
@@ -86,20 +87,20 @@
         {% if app.request.get('taxes') %}
           <tr>
             <td colspan="3" class="text-right">Pre TAX</td>
-            <td><span class="pull-left">EGP</span> {{ total|number_format }}</td>
+            <td><span class="float-left">EGP</span> {{ total|number_format }}</td>
           </tr>
           <tr class="text-muted">
             <td colspan="3" class="text-right">TAX 14%</td>
-            <td><span class="pull-left">EGP</span> {{ total*0.14|number_format }}</td>
+            <td><span class="float-left">EGP</span> {{ total*0.14|number_format }}</td>
           </tr>
           <tr>
             <td colspan="3" class="text-right">Total</td>
-            <th><span class="pull-left">EGP</span> {{ total*1.14|number_format }}</th>
+            <th><span class="float-left">EGP</span> {{ total*1.14|number_format }}</th>
           </tr>
         {% else %}
           <tr>
             <td colspan="3" class="text-right">Total</td>
-            <th><span class="pull-left">EGP</span> {{ total|number_format }}</th>
+            <th><span class="float-left">EGP</span> {{ total|number_format }}</th>
           </tr>
         {% endif %}
       </tfoot>

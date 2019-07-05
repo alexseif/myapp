@@ -15,7 +15,7 @@
         <tr>
           <td>{{ key|capitalize }}</td>
           {% for code, value in col %}
-            <td class="text-right"><span class="pull-left">{{ code|upper }} </span> {{ value|number_format }}</td>
+            <td class="text-right"><span class="float-left">{{ code|upper }} </span> {{ value|number_format }}</td>
           {% endfor %}
         </tr>
       {% endfor %}

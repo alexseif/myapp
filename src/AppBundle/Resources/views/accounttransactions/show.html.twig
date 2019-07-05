@@ -20,12 +20,27 @@
 {% block panelBody %}
   <ul class="list-group">
     <li class="list-group-item">
-      <span class="badge"><a href="{{ path('accounts_show', {'id': accountTransaction.account.id}) }}">{{ accountTransaction.account.name }}</a></span>
       # {{ accountTransaction.id }} 
+      <a class="badge badge-primary float-right" 
+         href="{{ path('accounts_show', {'id': accountTransaction.account.id}) }}">
+        {{ accountTransaction.account.name }}
+      </a>
     </li>
-    <li class="list-group-item"><span class="badge">EGP</span>{{ accountTransaction.amount|number_format }}</li>
-    <li class="list-group-item"><span class="badge">Issued</span> {% if accountTransaction.issuedAt %}{{ accountTransaction.issuedAt|date('Y-m-d') }}{% endif %}</li>
-    <li class="list-group-item"><span class="badge">Note</span> {{ accountTransaction.note }}</li>
-    <li class="list-group-item"><span class="badge">Created</span> {% if accountTransaction.createdAt %}{{ accountTransaction.createdAt|date('Y-m-d H:i:s') }}{% endif %}</li>
+    <li class="list-group-item">
+      {{ accountTransaction.amount|number_format }}
+      <span class="badge badge-light float-right">EGP</span>
+    </li>
+    <li class="list-group-item">
+      {% if accountTransaction.issuedAt %}{{ accountTransaction.issuedAt|date('Y-m-d') }}{% endif %}
+      <span class="badge badge-light float-right">Issued</span> 
+    </li>
+    <li class="list-group-item">
+      {{ accountTransaction.note }}
+      <span class="badge badge-light float-right">Note</span>
+    </li>
+    <li class="list-group-item">
+      {% if accountTransaction.createdAt %}{{ accountTransaction.createdAt|date('Y-m-d H:i:s') }}{% endif %}
+      <span class="badge badge-light float-right">Created</span> 
+    </li>
   </ul>
 {% endblock %}

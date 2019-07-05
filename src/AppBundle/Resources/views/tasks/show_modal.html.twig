@@ -15,39 +15,37 @@
         >
       <div class="clearfix">
         <a href="{{ path('tasks_edit', { 'id': task.id }) }}" 
-           class="btn btn-primary edit-fixed-link btn-{{ task.completed ? "xs":"sm" }}" target="_blank">
-          <span class="glyphicon glyphicon-pencil"></span></a>
+           class="btn btn-secondary edit-fixed-link btn-{{ task.completed ? "xs":"sm" }}" target="_blank">
+          Edit</a>
 
-        <label class="btn btn-default btn-{{ task.completed ? "xs":"sm" }} task">
+        <label class="btn btn-secondary btn-{{ task.completed ? "xs":"sm" }} task">
           <input type="checkbox" data-taskid="{{task.id}}" class="checkbox-inline" 
                  {{ task.completed ? "checked" : "" }}/>
           <p>{{ task.task }}</p>
-          <span class="badge">
-            {% if task.urgency %}
-              <span class="glyphicon glyphicon-flash text-warning"></span>
-            {% endif %}
-            {% if task.priority > 0 %}
-              <span class="glyphicon glyphicon-menu-up text-danger"></span>
-            {% elseif task.priority < 0 %}
-              <span class="glyphicon glyphicon-menu-down text-primary"></span>
-            {% else %}
-              <span class="glyphicon glyphicon-menu-right text-primary"></span>
-            {% endif %}
-          </span>
+          {% if task.urgency %}
+            <span class="badge badge-warning">U</span>
+          {% endif %}
+          {% if task.priority > 0 %}
+            <span class="badge badge-danger">H</span>
+          {% elseif task.priority < 0 %}
+            <span class="badge badge-default">L</span>
+          {% else %}
+            <span class="badge badge-secondary">?</span>
+          {% endif %}
         </label>
-        <a class="label label-default task-list-name" 
+        <a class="badge badge-default task-list-name" 
            data-tasklist="{{ task.taskList.name }}" 
            href="{{ path("tasklists_show", {'id':task.taskList.id}) }}">
           {{ task.taskList.name }}</a>
 
         {% if task.taskList.account %}
-          <a class="label label-info" 
+          <a class="badge badge-info" 
              data-tasklist="{{ task.taskList.account.name }}" 
              href="{{ path("accounts_show", {'id':task.taskList.account.id }) }}">
             {{ task.taskList.account.name }}</a>
 
           {% if task.taskList.account.client %}
-            <a class="label label-primary" 
+            <a class="badge badge-primary" 
                data-tasklist="{{ task.taskList.account.client.name }}" 
                href="{{ path("client_show", {'id':task.taskList.account.client.id }) }}">
               {{ task.taskList.account.client.name }}</a>
@@ -57,19 +55,19 @@
         <table class="text-info">
           <tbody>
             <tr>
-              <td><span class="label label-default">Est:</span></td>
+              <td><span class="badge badge-default">Est:</span></td>
               <td>{{ task.est ? task.est ~ "m"}}</td>
             </tr>
             <tr>
-              <td><span class="label label-default">Created At:</span></td>
+              <td><span class="badge badge-default">Created At:</span></td>
               <td>{{ task.createdAt|date }}</td>
             </tr>
             <tr>
-              <td><span class="label label-default">ETA:</span></td>
+              <td><span class="badge badge-default">ETA:</span></td>
               <td>{{ (task.eta) ?task.eta|date }}</td>
             </tr>
             <tr>
-              <td><span class="label label-default">Completed At:</span></td>
+              <td><span class="badge badge-default">Completed At:</span></td>
               <td>{{ (task.completedAt) ? task.completedAt|date }}</td>
             </tr>
           </tbody>

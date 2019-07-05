@@ -1,5 +1,5 @@
 {% import "macros/a.html.twig" as a %}
-<table class="table table-condensed">
+<table class="table table-condensed table-bottom-border">
   <tbody>
     {% set total = 0 %}
     {% for account in accounts %}
@@ -7,21 +7,23 @@
         {% set total = total + account.balance %}
         <tr>
           <td>
-            <div class="btn-group btn-group-justified btn-group-sm">
-              <a href="{{ path('accounts_show', { 'id': account.id }) }}" 
-                 class="btn btn-default" style="text-align: left;">
-                {% if (account.client) %}
-                  <span class="label label-primary">{{ account.client.name }}</span>
-                {% endif %}
-                {{ account.name }}
-              </a>
-              <a href="{{ path('accounts_show', { 'id': account.id }) }}" 
-                 class="btn btn-{{ account.balance == 0 ? "default" : account.balance < 0 ? "success": "danger" }}" 
-                 style="text-align: right;">
-                <span class="pull-left">EGP</span> {{ account.balance|number_format }}
-              </a>
-              {{ a.add('accounttransactions_new', { 'account': account.id }) }}
-            </div>
+            <a href="{{ path('accounts_show', { 'id': account.id }) }}" 
+               class="btn btn-sm btn-secondary" style="text-align: left;">
+              {% if (account.client) %}
+                <span class="badge badge-primary">{{ account.client.name }}</span>
+              {% endif %}
+              {{ account.name }}
+            </a>
+          </td>
+          <td>
+            <a href="{{ path('accounts_show', { 'id': account.id }) }}" 
+               class="btn btn-sm btn-{{ account.balance == 0 ? "default" : account.balance < 0 ? "success": "danger" }}" 
+               style="text-align: right;">
+              EGP {{ account.balance|number_format }}
+            </a>
+          </td>
+          <td>
+            {{ a.add('accounttransactions_new', { 'account': account.id }) }}
           </td>
         </tr>
       {% endif %}
@@ -30,17 +32,19 @@
   <tfoot>
     <tr class="table-bordered">
       <td>
-        <div class="btn-group btn-group-justified btn-group-sm">
-          <span class="btn btn-primary" 
-                style="text-align: left;font-weight: bold;">
-            Total
-          </span>
-          <span class="btn btn-{{ total == 0 ? "default" : total < 0 ? "success": "danger" }}" 
-                style="text-align: right;font-weight: bold;">
-            <span class="pull-left">EGP</span> {{ total|number_format }}
-          </span>
-          {{ a.add('accounttransactions_new') }}
-        </div>
+        <span class="btn btn-secondary btn-sm" 
+              style="text-align: left;font-weight: bold;">
+          Total
+        </span>
+      </td>
+      <td>
+        <span class="btn btn-sm btn-{{ total == 0 ? "default" : total < 0 ? "success": "danger" }}" 
+              style="text-align: right;font-weight: bold;">
+          EGP {{ total|number_format }}
+        </span>
+      </td>
+      <td>
+        {{ a.add('accounttransactions_new') }}
       </td>
     </tr>
   </tfoot>

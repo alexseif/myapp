@@ -7,13 +7,12 @@
 {% endblock %}
 {% block container %}
   <div class="floating-action dropup">
-    <a class="btn btn-info dropdown-toggle" id="dahboardMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-plus"></span></a>
+    <a class="btn btn-info dropdown-toggle" id="dahboardMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Add</a>
     <ul class="dropdown-menu floating-actions" aria-labelledby="dahboardMenuButton">
-      <li><a target="_blank" class="btn btn-info" href="{{ path('tasks_new') }}"><span class="glyphicon glyphicon-check"></span></a></li>
-      <li><a target="_blank" class="btn btn-info" href="{{ path('tasklists_new') }}"><span class="glyphicon glyphicon-list-alt"></span></a></li>
-      <li><a target="_blank" class="btn btn-info" href="{{ path('days_new') }}"><span class="glyphicon glyphicon-th-large"></span></a></li>
-      <li><a target="_blank" class="btn btn-info" href="{{ path('accounts_new') }}"><span class="glyphicon glyphicon-piggy-bank"></span></a></li>
-      <li><a target="_blank" class="btn btn-info" href="{{ path('accounttransactions_new') }}"><span class="glyphicon glyphicon-transfer"></span></a></li>
+      <li><a href="{{ path('tasks_new') }}" class="btn btn-info">Task</a></li>
+      <li><a href="{{ path('tasklists_new') }}" class="btn btn-info">List</a></li>
+      <li><a href="{{ path('days_new') }}" class="btn btn-info">Day</a></li>
+      <li><a href="{{ path('notes_new') }}" class="btn btn-info">Note</a></li>
     </ul>
   </div>
   <ul class="list-group action-list">
@@ -22,7 +21,7 @@
         <div class="row">
           <div class="col-md-2">
             {{ taskUI.taskIcons(item.urgency, item.priority) }}
-            <span class="label label-default action-list">{{ item.label}}</span>
+            <span class="badge badge-default action-list">{{ item.label}}</span>
           </div>
           <div class="text-lg col-md-8">{{ item.title }}</div>
           <div class="text-lg col-md-2">{{ item.duration }}</div>
@@ -30,12 +29,12 @@
         <div class="row btns" style="display: none;">
           <div class="col-md-4 col-md-push-4">
             <div class="btn-group btn-group-justified" role="group">
-              <a class="btn btn-default action-prev">Prev</a>
-              <a class="btn btn-default action-start">Start</a>
-              <a class="btn btn-default action-hide">Hide</a>
-              <a class="btn btn-default" target="_blank"
+              <a class="btn btn-secondary action-prev">Prev</a>
+              <a class="btn btn-secondary action-start">Start</a>
+              <a class="btn btn-secondary action-hide">Hide</a>
+              <a class="btn btn-secondary" target="_blank"
                  href="{{ (item.type == 'day') ? path('days_edit', {'id':item.id}): path('tasks_edit', {'id':item.id})}}">Edit</a>
-              <a class="btn btn-default action-next">Next</a>
+              <a class="btn btn-secondary action-next">Next</a>
             </div>
           </div>
         </div>

@@ -16,19 +16,19 @@
           <td>
             <div class="btn-group">
               {#              {% if taskList.id is not null %}#}
-              <button class="btn btn-xs btn-success btn-app-post" 
+              <button class="btn btn-sm btn-success btn-app-post" 
                       title="Add to Dashboard"
                       {{ (taskList.id is not null) ? "disabled" }}
                       data-post='{"id": "{{ taskList[0].id }}"}'
                       data-action="{{ path('dashboardtasklists_add') }}">
-                <span class="glyphicon glyphicon-plus"></span></button>
+                Add</button>
                 {#              {% else %}#}
-              <button class="btn btn-xs btn-danger btn-app-post" 
+              <button class="btn btn-sm btn-danger btn-app-post" 
                       title="Remove From Dashboard"
                       {{ (taskList.id is null) ? "disabled" }}
                       data-post='{"id": "{{ taskList[0].id }}"}'
                       data-action="{{ path ('dashboardtasklists_remove') }}">
-                <span class="glyphicon glyphicon-minus"></span></button>
+                Delete</button>
                 {#              {% endif %}#}
                 {# {{ a.edit('dashboardtasklists_edit', { 'id': dashboardTaskList.id }) }} #}
             </div>

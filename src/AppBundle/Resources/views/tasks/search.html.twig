@@ -13,14 +13,14 @@
 {% block container %}
   <div class="row">
     <div class="col-md-8 col-md-push-2">
-      <div class="panel panel-default">
+      <div class="card bg-default">
         {{ form_start(task_filter_form) }}
-        <div class="panel-body">
+        <div class="card-body">
           {{ form_widget(task_filter_form) }}
         </div>
-        <div class="panel-footer text-right">
-          <button type="submit" value="Filter" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></button>
-          <a href="{{ path('tasks_search') }}" class="btn btn-warning"><span class="glyphicon glyphicon-erase"></span></a>
+        <div class="card-footer text-right">
+          <button type="submit" value="Filter" class="btn btn-secondary">Search</button>
+          <a href="{{ path('tasks_search') }}" class="btn btn-warning">Del</a>
             {{ form_end(task_filter_form) }}
         </div>
       </div>
@@ -48,9 +48,9 @@
       {% for task in tasks %}
         <tr>
           <td>
-            <a class="btn btn-link btn-xs" target="_blank"
+            <a class="btn btn-link btn-sm" target="_blank"
                href="{{path('tasks_show', {id: task.id})}}" >
-              <span class="glyphicon glyphicon-open"></span></a>
+              Open</a>
               {{ task.task }} 
           </td>
           <td>{{ task.completed ? "Completed": "Open"}}</td>

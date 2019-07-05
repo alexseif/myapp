@@ -1,17 +1,21 @@
 {% extends 'base.html.twig' %}
 {% import "macros/forms.html.twig" as forms %}
 {% import "macros/a.html.twig" as a %}
-{% block panelBack %}{{ a.back('client_index') }}{% endblock %}
+{% block title %}{{ client.name }}{% endblock %}
 
-{% block panelTitle %}{{ client.name }}{% endblock %}
+{% block panelBack %}{{ a.back('client_index') }}{% endblock %}
 {% block panelHeadingRight %}
   {{ a.edit('client_edit', {'id':client.id}) }}
   {{ forms.delete(delete_form) }}
 
 {% endblock %}
-{% block panelBody %}
-  {% set accounts = client.accounts %}
-  {% set hideEmpty = false %}
-  {% include 'AppBundle:accounts:accounts_list.html.twig' %}
+
+{% block content %}
+  <div class="container">
+    <h2><small>Client</small> {{ client.name}}</h2>
+    {% set accounts = client.accounts %}
+    {% set hideEmpty = false %}
+    {% include 'AppBundle:accounts:accounts_list.html.twig' %}
+  </div>
 {% endblock %}
 

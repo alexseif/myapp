@@ -4,12 +4,12 @@
 {% block floatingActions %}{{ a.add('worklog_new') }}{% endblock %}
 {% block panelBack %}
   <a href="{{ path('worklog_index') }}" 
-     class="btn btn-default btn-sm">
-    <span class="glyphicon glyphicon-dashboard"></span>
+     class="btn btn-secondary btn-sm">
+    Dashboard
   </a>
 {% endblock %}
 {% block panelTitle %}{{ workLogs|first.task.taskList }} | Work Logs{% endblock %}
-{% block panelHeadingRight %}<a href="{{ path('completed_tasks') }}" class="btn btn-primary btn-sm">Completed Tasks</a>{% endblock %}
+{% block panelHeadingRight %}<a href="{{ path('completed_tasks') }}" class="btn btn-secondary btn-sm">Completed Tasks</a>{% endblock %}
 {% block panelBody %}
   <style>
     table tbody tr td{text-align: right;}
@@ -35,20 +35,20 @@
         <tr>
           <td>{{ workLog.name }}
             <a href="{{path("tasks_show", {"id":workLog.task.id})}}"
-               target="_blank" class="pull-right">
-              <span class="glyphicon glyphicon-open"></span></a>
+               target="_blank" class="float-right">
+              Open</a>
           </td>
           <td>{{ workLog.duration }}</td>
           <td>{{ workLog.pricePerUnit }}</td>
           <td>{{ workLog.createdAt|date }}</td>
-          <td class="text-right"><span class="pull-left">EGP</span> {{ workLog.total }}</td>
+          <td class="text-right"><span class="float-left">EGP</span> {{ workLog.total }}</td>
           <td>
             <a href="{{ path('worklog_show', { 'id': workLog.id }) }}"
-               class="btn btn-sm btn-primary">
-              <span class="glyphicon glyphicon-open"></span></a>
+               class="btn btn-sm btn-secondary">
+              Open</a>
             <a href="{{ path('worklog_edit', { 'id': workLog.id }) }}"
-               class="btn btn-sm btn-primary">
-              <span class="glyphicon glyphicon-edit"></span></a>
+               class="btn btn-sm btn-secondary">
+              Edit</a>
           </td>
         </tr>
       {% endfor %}

@@ -4,7 +4,7 @@
 {% block content %}
   <div class="row">
     <div class="col-md-3">
-      <div class="panel panel-default">
+      <div class="card card-default">
         <ul class="list-group">
           <li class="list-group-item"><a href="{{ path('dashboardtasklists_index') }}">Dashboard TaskLists</a></li>
         </ul>
@@ -14,19 +14,19 @@
       {% include 'flash.html.twig' %}
 
       {% block panel %}
-        <div class="panel panel-{% block panelClass %}default{% endblock %}">
+        <div class="card bg-{% block panelClass %}default{% endblock %}">
           {% block panelHeading %}
-            <div class="panel-heading clearfix">
+            <div class="card-heading">
               {% block panelBack %}
                 <a href="{{ path('dashboard') }}" 
-                   class="btn btn-default btn-sm">
-                  <span class="glyphicon glyphicon-dashboard"></span>
+                   class="btn btn-secondary btn-sm">
+                  Dashboard
                 </a>
               {% endblock %}
-              <span class="panel-title">{% block panelTitle %}{% endblock %}</span>
-              <small class="panel-title-small">{% block panelTitleSmall %}{% endblock %}</small>
-              <span class="panel-title-labels">{% block panelTitleLabels %}{% endblock %}</span>
-              <div class="pull-right">{% block panelHeadingRight %}{% endblock %}</div>
+              <span class="card-title">{% block panelTitle %}{% endblock %}</span>
+              <small class="card-title-small">{% block panelTitleSmall %}{% endblock %}</small>
+              <span class="card-title-labels">{% block panelTitleLabels %}{% endblock %}</span>
+              <div class="float-right">{% block panelHeadingRight %}{% endblock %}</div>
             </div>
           {% endblock %}
           {% block panelBody %} {% endblock %}

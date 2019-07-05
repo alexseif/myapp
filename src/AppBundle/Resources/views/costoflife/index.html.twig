@@ -26,7 +26,7 @@
         {% set sum = sum + costOfLife.value %}
         <tr>
           <td>{{ costOfLife.name }}</td>
-          <td class="text-right"><span class="pull-left">{{ costOfLife.currency.code }}</span> {{ (costOfLife.value/100)|number_format }}</td>
+          <td class="text-right"><span class="float-left">{{ costOfLife.currency.code }}</span> {{ (costOfLife.value/100)|number_format }}</td>
           <td>
             <div class="btn-group">
               {{ a.show('costoflife_show', { 'id': costOfLife.id }) }}
@@ -39,7 +39,7 @@
     <tfoot>
       <tr>
         <td>Sum</td>
-        <td class="text-right"><span class="pull-left">EGP</span> {{ (sum/100)|number_format }}</td>
+        <td class="text-right"><span class="float-left">EGP</span> {{ (sum/100)|number_format }}</td>
         <td></td>
       </tr>
     </tfoot>

@@ -8,10 +8,10 @@
 {% block panelTitleLabels %}
   {% if (taskList.account) %}
     <a href="{{ path('accounts_show', {'id': taskList.account.id}) }}"
-       class="label label-info">{{ taskList.account.name }}</a>
+       class="badge badge-info">{{ taskList.account.name }}</a>
     {% if (taskList.account.client) %}
       <a href="{{ path('client_show', {'id': taskList.account.client.id}) }}"
-         class="label label-primary">{{ taskList.account.client.name }}</a>
+         class="badge badge-primary">{{ taskList.account.client.name }}</a>
     {% endif %}
   {% endif %}
 {% endblock %}

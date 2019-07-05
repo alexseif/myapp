@@ -6,9 +6,9 @@
   <div class="container">
     {{ form_start(accounting_filter_form) }}
     {{ form_widget(accounting_filter_form) }}
-    <div class="pull-right">
+    <div class="float-right">
       <a href="{{ path('accounting_index') }}" class="btn btn-link">Reset</a>
-      <button type="submit" value="Filter" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-search"></span></button>
+      <button type="submit" value="Filter" class="btn btn-secondary btn-sm">Search</button>
     </div>
     {{ form_end(accounting_filter_form) }}
   </div>

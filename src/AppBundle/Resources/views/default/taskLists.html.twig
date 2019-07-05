@@ -1,44 +1,42 @@
 {% import "AppBundle:tasks:tasks_macros.html.twig" as tasks_view %}
-<div class="btn btn-default btn-xs btn-block">{{ interval|date("%d %H:%I") }}</div>
-<div class="panel-group">
-  {% if unlistedTasks|length %}
-    <div class="panel panel-primary">
-      <div class="panel-heading">UnListed</div>
-      {{ tasks_view.ul(unlistedTasks) }}
-    </div>
-  {% endif %}
-  {% for taskList in taskLists %}
+<div class="btn btn-secondary border border-secondary btn-sm btn-block p-0">{{ interval|date("%d %H:%I") }}</div>
+{% if unlistedTasks|length %}
+  <div class="card">
+    <div class="card-header">UnListed</div>
+    {{ tasks_view.ul(unlistedTasks) }}
+  </div>
+{% endif %}
+{% for taskList in taskLists %}
   {% set taskList = taskList.taskList %}
-    {% if taskList.status != 'archive' %}
-      {% if taskList.tasks|length %}
-        {% set tasks = taskList.tasks(false) %}
-        <div class="panel panel-primary">
-          <div class="panel-heading clearfix">
-            <span class="panel-title">
-              <a href="{{ path('tasklists_show', {"id":taskList.id}) }}">{{ taskList.name }}</a>
-            </span>
-            <span class="panel-title-labels">
-              {% if (taskList.account) %}
-                <a href="{{ path('accounts_show', {'id': taskList.account.id}) }}"
-                   class="label label-info">{{ taskList.account.name }}</a>
-                {% if (taskList.account.client) %}
-                  <a href="{{ path('client_show', {'id': taskList.account.client.id}) }}"
-                     class="label label-primary">{{ taskList.account.client.name }}</a>
-                {% endif %}
+  {% if taskList.status != 'archive' %}
+    {% if taskList.tasks|length %}
+      {% set tasks = taskList.tasks(false) %}
+      <div class="card bg-primary">
+        <div class="card-header bg-dark">
+          <span class="card-title mr-2">
+            <a href="{{ path('tasklists_show', {"id":taskList.id}) }}">{{ taskList.name }}</a>
+          </span>
+          <span class="card-title-labels">
+            {% if (taskList.account) %}
+              <a href="{{ path('accounts_show', {'id': taskList.account.id}) }}"
+                 class="badge badge-info">{{ taskList.account.name }}</a>
+              {% if (taskList.account.client) %}
+                <a href="{{ path('client_show', {'id': taskList.account.client.id}) }}"
+                   class="badge badge-primary">{{ taskList.account.client.name }}</a>
               {% endif %}
-            </span>
-            <div class="pull-right">
-              <span class="label label-default">{{ tasks.count }}</span>
-              <span class="label label-info">{{ taskList.estTotal(false)|date("%d %H:%I") }}</span>
-              <button data-toggle="collapse" href="#taskList-{{ taskList.id }}" class="btn btn-primary btn-xs collapsed"><span class="glyphicon glyphicon-collapse"></span></button>
-            </div>
-          </div>
-          <div id="taskList-{{ taskList.id }}" class="panel-collapse collapse">
-            {{ tasks_view.ul(tasks, '',false) }}
+            {% endif %}
+          </span>
+          <div class="float-right">
+            <span class="badge badge-dark">{{ tasks.count }}</span>
+            <span class="badge badge-info">{{ taskList.estTotal(false)|date("%d %H:%I") }}</span>
+            <button data-toggle="collapse" href="#taskList-{{ taskList.id }}" class="btn btn-secondary btn-sm collapsed">-</button>
           </div>
         </div>
-      {% endif %}
+        <div id="taskList-{{ taskList.id }}" class="card-collapse collapse">
+          {{ tasks_view.ul(tasks, '',false) }}
+        </div>
+      </div>
     {% endif %}
-  {% endfor %}
-</div>
+  {% endif %}
+{% endfor %}
 {{ tasks_view.ul(randomTasks) }}
