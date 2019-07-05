@@ -18,7 +18,7 @@
       {% set total = total + accountTransaction.amount %}
       <tr class="{{ (accountTransaction.account) ? accountTransaction.account.conceal ? "conceal" }}">
         <td><a href="{{ path('accounttransactions_show', { 'id': accountTransaction.id }) }}">{{ accountTransaction.id }}</a></td>
-        <td class="text-right" class="{{ (accountTransaction.account) ? accountTransaction.account.conceal ? "conceal" }}">{{ accountTransaction.amount|number_format }} <span class="pull-left">EGP</span></td>
+        <td class="text-right" class="{{ (accountTransaction.account) ? accountTransaction.account.conceal ? "conceal" }}">{{ accountTransaction.amount|number_format }} <span class="float-left">EGP</span></td>
         <td>{{ (accountTransaction.account) ? accountTransaction.account.name }}</td>
         <td>{{ (accountTransaction.account) ? accountTransaction.account.client ? accountTransaction.account.client.name }}</td>
         <td>{% if accountTransaction.issuedAt %}{{ accountTransaction.issuedAt|date('Y-m-d') }}{% endif %}</td>

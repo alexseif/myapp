@@ -30,14 +30,12 @@ li:hover .edit-link{display: inline;}
 
 .days-table td{position: relative;}
 .days-table h2{ font-size: 2em;}
-.days-table:hover .edit-link{display: inline; position: absolute; top: 10px; right: 10px;}
 
 /** Tasks **/
 .task input[type="checkbox"] {margin:0px 5px 2px;}
 .task-list li{padding: 5px 15px;white-space: nowrap;min-height: 35px;}
 .task-list li .task{overflow: hidden; max-width: 60%;}
 .task-list > .completed{opacity: 0.35;}
-.task-list .badge{background: #464545;}
 .task, .task-list-name{margin-right: 5px;}
 
 /** Notes **/

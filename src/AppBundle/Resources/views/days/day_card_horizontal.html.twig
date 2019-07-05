@@ -1,22 +1,19 @@
 {% import "macros/a.html.twig" as a %}
 {% set diff = date(day.deadline).diff(date()) %}
 {% set curStatus = day.complete ? "success" : (diff.days < 15 or not diff.invert ) ? 'danger' :  (diff.days < 30 ) ? 'warning' :(diff.days < 60 ) ? 'info' : 'primary' %}
-<div class="panel panel-{{ curStatus }} {{ day.complete ? "completed" }} days-table">
-  <table class="table">
-    <tbody>
-      <tr>
-        <td>
-          <h3>{{ day.name }}</h3>
-          <sup class="days-line">{{ day.deadline|date('D M d, Y') }}</sup>
-          <span class="edit-link pull-right">
-            {{ a.edit('days_edit', { 'id': day.id }) }}
-          </span>
-        </td>
-        <td class="bg-{{ curStatus }} text-center days-cell">
-          <h2>{{ diff.days }}</h2>
-          <sup>days {{ diff.invert ? "left" : "passed"}}</sup>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+<div class="card bg-{{ curStatus }} {{ day.complete ? "completed" }} mb-2">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-9 text-center">
+        <h5>{{ day.name }}</h5>
+        <sup class="card-subtitle">{{ day.deadline|date('D M d, Y') }}</sup>
+      </div>
+      <div class="col text-center">
+        <a href="{{ path('days_edit', { 'id': day.id }) }}">
+          <h5>{{ diff.days }}</h5>
+          <sup class="card-subtitle">days {{ diff.invert ? "left" : "passed"}}</sup>
+        </a>
+      </div>
+    </div>
+  </div>
 </div>

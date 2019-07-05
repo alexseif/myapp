@@ -5,8 +5,8 @@
 {% block panelTitle %}Edit note{% endblock %}
 {% block panelTitleSmall %}{{ note.note|truncate(10) }}{% endblock %}
 {% block panelTitleLabels %}
-  <span class="label label-info">{{ note.type|title }}</span> 
-  <span class="label label-primary">
+  <span class="badge badge-info">{{ note.type|title }}</span> 
+  <span class="badge badge-primary">
     {% if note.createdAt %}{{ note.createdAt|date('Y-m-d H:i:s') }}{% endif %}
   </span>
 {% endblock %}

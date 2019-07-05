@@ -5,9 +5,9 @@
 {% block panelBack %}{{ a.back('notes_index') }}{% endblock %}
 {% block panelTitle %}{{ note.note|striptags|truncate(50)|title }}{% endblock %}
 {% block panelTitleLabels %}
-  <span class="label label-info">{{ note.type|title }}</span> 
+  <span class="badge badge-info">{{ note.type|title }}</span> 
   {% if note.createdAt %}
-    <span class="label label-primary">
+    <span class="badge badge-primary">
       {{ note.createdAt|date('Y-m-d H:i:s') }}
     </span>
   {% endif %}
@@ -17,6 +17,6 @@
   {{ forms.delete(delete_form) }}
 {% endblock %}
 {% block panelBody %}
-  <div class="panel-body note">{{ note.note|raw }}</div>
+  <div class="card-body note">{{ note.note|raw }}</div>
 
 {% endblock %}

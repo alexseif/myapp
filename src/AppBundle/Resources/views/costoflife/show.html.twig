@@ -17,10 +17,10 @@
   {{ forms.delete(delete_form) }}
 {% endblock %}
 {% block panelBody %}
-  <div class="panel-body">
+  <div class="card-body">
     <div class="row">
       <div class="col-sm-6">{{ costOfLife.name }}</div>
-      <div class="col-sm-6 text-right"><span class="pull-left">{{ costOfLife.currency.code }}</span> {{ (costOfLife.value/100) }}</div>
+      <div class="col-sm-6 text-right"><span class="float-left">{{ costOfLife.currency.code }}</span> {{ (costOfLife.value/100) }}</div>
     </div>
   </div>
 {% endblock %}

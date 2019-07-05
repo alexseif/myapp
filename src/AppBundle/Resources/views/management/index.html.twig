@@ -14,11 +14,11 @@
   </style>
   <div class="well">
     {{ form_start(management_search_form) }}
-    <div class="panel-body">
+    <div class="card-body">
       {{ form_widget(management_search_form) }}
     </div>
-    <div class="panel-footer text-right">
-      <button type="submit" value="Filter" class="btn btn-primary">Search</button>
+    <div class="card-footer text-right">
+      <button type="submit" value="Filter" class="btn btn-secondary">Search</button>
       <a href="{{ path('management_index') }}" class="btn btn-warning">Delete</a>
         {{ form_end(management_search_form) }}
     </div>
@@ -49,12 +49,12 @@
             <span class="task-est">{{ task.est? task.est ~ "m":"~" }} </span>
             <span class="task-list-name">{{ task.taskList.name }} </span>
             {{ task.task }} 
-            <div class="task-actions pull-right">
-              <a class="btn btn-xs btn-primary" href="{{ path('tasks_edit', {"id":task.id})}}" target="_blank">Edit</a>
+            <div class="task-actions float-right">
+              <a class="btn btn-sm btn-secondary" href="{{ path('tasks_edit', {"id":task.id})}}" target="_blank">Edit</a>
               <button  data-taskid="{{task.id}}"
                        data-postpone="tomorrow"
                        title="Tomorrow"
-                       class="btn btn-warning btn-xs postpone">Snooze</button>
+                       class="btn btn-warning btn-sm postpone">Snooze</button>
             </div>
           </div>
         </li>

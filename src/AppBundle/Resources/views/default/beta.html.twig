@@ -21,7 +21,7 @@
         <div class="row">
           <div class="col-md-2">
             {{ taskUI.taskIcons(item.urgency, item.priority) }}
-            <span class="label label-default action-list">{{ item.label}}</span>
+            <span class="badge badge-default action-list">{{ item.label}}</span>
           </div>
           <div class="text-lg col-md-8">{{ item.title }}</div>
           <div class="text-lg col-md-2">{{ item.duration }}</div>
@@ -29,12 +29,12 @@
         <div class="row btns" style="display: none;">
           <div class="col-md-4 col-md-push-4">
             <div class="btn-group btn-group-justified" role="group">
-              <a class="btn btn-default action-prev">Prev</a>
-              <a class="btn btn-default action-start">Start</a>
-              <a class="btn btn-default action-hide">Hide</a>
-              <a class="btn btn-default" target="_blank"
+              <a class="btn btn-secondary action-prev">Prev</a>
+              <a class="btn btn-secondary action-start">Start</a>
+              <a class="btn btn-secondary action-hide">Hide</a>
+              <a class="btn btn-secondary" target="_blank"
                  href="{{ (item.type == 'day') ? path('days_edit', {'id':item.id}): path('tasks_edit', {'id':item.id})}}">Edit</a>
-              <a class="btn btn-default action-next">Next</a>
+              <a class="btn btn-secondary action-next">Next</a>
             </div>
           </div>
         </div>

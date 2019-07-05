@@ -5,8 +5,8 @@
 		"../scss/frontend.scss"
 	],
 	"sourcesContent": [
-		"/*\nThe following content was designed & implemented under AlexSeif.com\n*/\n/* \n    Created on : May 12, 2019, 5:55:58 AM\n    Author     : Alex Seif <me@alexseif.com>\n*/\na{color:#ebebeb;}\n\n.list-group{\n  .list-group-item{\n    margin-bottom: 10px;\n    .list-group-item-actions{\n      display: inline-block;\n      float: right;\n      a{\n        margin: 0 5px;\n      }\n    }\n  }\n\n}"
+		"/*\nThe following content was designed & implemented under AlexSeif.com\n*/\n/* \n    Created on : May 12, 2019, 5:55:58 AM\n    Author     : Alex Seif <me@alexseif.com>\n*/\na{color:#ebebeb;}\n\n.list-group{\n  .list-group-item{\n    margin-bottom: 0px;\n    .list-group-item-actions{\n      display: inline-block;\n      float: right;\n      a{\n        margin: 0 5px;\n      }\n    }\n  }\n\n}"
 	],
-	"mappings": "AAAA;;EAEE;AACF;;;EAGE;;AACF,AAAA,CAAC,CAAA;EAAC,KAAK,EAAC,OAAQ;CAAG;;;AAEnB,AACE,WADS,CACT,gBAAgB,CAAA;EACd,aAAa,EAAE,IAAK;CAQrB;;;AAVH,AAGI,WAHO,CACT,gBAAgB,CAEd,wBAAwB,CAAA;EACtB,OAAO,EAAE,YAAa;EACtB,KAAK,EAAE,KAAM;CAId;;;AATL,AAMM,WANK,CACT,gBAAgB,CAEd,wBAAwB,CAGtB,CAAC,CAAA;EACC,MAAM,EAAE,KAAM;CACf",
+	"mappings": "AAAA;;EAEE;AACF;;;EAGE;;AACF,AAAA,CAAC,CAAA;EAAC,KAAK,EAAC,OAAQ;CAAG;;;AAEnB,AACE,WADS,CACT,gBAAgB,CAAA;EACd,aAAa,EAAE,GAAI;CAQpB;;;AAVH,AAGI,WAHO,CACT,gBAAgB,CAEd,wBAAwB,CAAA;EACtB,OAAO,EAAE,YAAa;EACtB,KAAK,EAAE,KAAM;CAId;;;AATL,AAMM,WANK,CACT,gBAAgB,CAEd,wBAAwB,CAGtB,CAAC,CAAA;EACC,MAAM,EAAE,KAAM;CACf",
 	"names": []
 }

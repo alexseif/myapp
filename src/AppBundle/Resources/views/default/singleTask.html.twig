@@ -37,16 +37,15 @@
                data-anchor="{{task.id}}"
                >
             <div class="container">
-              <div class="pull-right text-right">
-                <span class="badge">
-                  {% if task.urgency %}
-                    U
-                  {% endif %}
-                  {% if task.priority %}
-                    H
-                  {% else %}
-                    ?
-                  {% endif %}
+              <div class="float-right text-right">
+                {% if task.urgency %}
+                  <span class="badge badge-warning">U</span>
+                {% endif %}
+                {% if task.priority %}
+                  <span class="badge badge-danger">H</span>
+                {% else %}
+                  <span class="badge badge-secondary">?</span>
+                {% endif %}
                 </span>
                 <h3 class="text-info">{{ task.est ? task.est ~ "m"}}</h3>
                 {% if (task.taskList.account) %}
@@ -56,7 +55,7 @@
                   {% endif %}
                 {% endif %}
                 <a href="{{ path('tasks_edit', { 'id': task.id }) }}" 
-                   class="btn btn-primary btn-{{ task.completed ? "xs":"sm" }}">
+                   class="btn btn-secondary btn-{{ task.completed ? "xs":"sm" }}">
                   Edit</a>
               </div>
               <h2 class="task">

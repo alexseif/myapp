@@ -12,7 +12,7 @@
 {% block panelTitleLabels %}
   {% if (account.client) %}
     <a href="{{ path('client_show', {'id': account.client.id}) }}"
-       class="label label-primary">
+       class="badge badge-primary">
       {{ account.client.name }}
     </a>
   {% endif %}
@@ -24,19 +24,19 @@
 {% endblock %}
 {% set accountTransactions = account.transactions %}
 {% block panelBody %}
-  <div class="panel-body panel-group">
-    <div class="panel panel-primary">
-      <div class="panel-heading clearfix">
-        <span class="panel-title">Transactions
+  <div class="card-body">
+    <div class="card bg-primary">
+      <div class="card-heading">
+        <span class="card-title">Transactions
         </span>
-        <div class="pull-right">
-          <span class="label label-default">{{ accountTransactions.count }}</span>
-          <span class="label label-{{ (account.balance < 0)? "success": "danger" }}">EGP {{ account.balance|number_format }}</span>
+        <div class="float-right">
+          <span class="badge badge-default">{{ accountTransactions.count }}</span>
+          <span class="badge badge-{{ (account.balance < 0)? "success": "danger" }}">EGP {{ account.balance|number_format }}</span>
 
-          <button data-toggle="collapse" href="#txn-{{ account.id }}" class="btn btn-primary btn-xs collapsed">-</button>
+          <button data-toggle="collapse" href="#txn-{{ account.id }}" class="btn btn-secondary btn-sm collapsed">-</button>
         </div>
       </div>
-      <div id="txn-{{ account.id }}" class="panel-collapse collapse">
+      <div id="txn-{{ account.id }}" class="card-collapse collapse">
         {% include 'AppBundle:accounttransactions:transactions_list.html.twig' %}
       </div>
     </div>
@@ -44,18 +44,18 @@
     {% for taskList in account.taskLists %}
       {% if taskList.tasks|length %}
         {% set tasks = taskList.tasks %}
-        <div class="panel panel-primary">
-          <div class="panel-heading clearfix">
-            <span class="panel-title">
+        <div class="card bg-primary">
+          <div class="card-heading">
+            <span class="card-title">
               <a href="{{ path('tasklists_show', {"id":taskList.id}) }}">{{ taskList.name }}</a>
             </span>
-            <div class="pull-right">
-              <span class="label label-default">{{ taskList.tasks(false).count }}</span>
-              <span class="label label-info">{{ taskList.estTotal|date("%d %H:%I") }}</span>
-              <button data-toggle="collapse" href="#taskList-{{ taskList.id }}" class="btn btn-primary btn-xs collapsed">-</button>
+            <div class="float-right">
+              <span class="badge badge-default">{{ taskList.tasks(false).count }}</span>
+              <span class="badge badge-info">{{ taskList.estTotal|date("%d %H:%I") }}</span>
+              <button data-toggle="collapse" href="#taskList-{{ taskList.id }}" class="btn btn-secondary btn-sm collapsed">-</button>
             </div>
           </div>
-          <div id="taskList-{{ taskList.id }}" class="panel-collapse collapse">
+          <div id="taskList-{{ taskList.id }}" class="card-collapse collapse">
             {{ tasks_view.ul(tasks, '',false) }}
           </div>
         </div>

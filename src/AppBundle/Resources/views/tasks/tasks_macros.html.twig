@@ -1,13 +1,11 @@
 {% macro taskIcons(urgency = 0, priority = 0) %}
   {% if urgency %}
-    U
+    <span class="badge badge-warning">U</span>
   {% endif %}
   {% if priority > 0 %}
-    H
+    <span class="badge badge-danger">H</span>
   {% elseif priority < 0 %}
-    L
-  {% else %}
-    ?
+    <span class="badge badge-secondary">L</span>
   {% endif %}
 {% endmacro %}
 
@@ -20,16 +18,16 @@
       data-time="{{ task.est }}"
       data-order-no="{{ task.order }}"
       >
-    <label class="btn btn-default btn-{{ task.completed ? "xs":"sm" }} task">
+    <label class="btn btn-secondary btn-{{ task.completed ? "xs":"sm" }} task">
       <input type="checkbox" data-taskid="{{task.id}}" class="checkbox-inline" 
              {{ task.completed ? "checked" : "" }}/>
       {{ task.task|truncate(50) }}
-      <span class="badge">
+      <span class="ml-1">
         {{ taskUI.taskIcons(task.urgency, task.priority) }}
       </span>
     </label>
     <a
-      class="btn-xs"
+      class="btn-sm"
       data-toggle="modal"
       data-target="#"
       href="{{ path('task_show_modal', {"id":task.id}) }}"
@@ -37,15 +35,15 @@
 
     {% if displayListName %}
       <span class="visible-lg-inline-block visible-md-inline-block">
-        <a class="label label-default task-list-name" 
+        <a class="badge badge-default task-list-name" 
            data-tasklist="{{ task.taskList.name }}" 
            href="{{ path("focus_tasklist", {'name':task.taskList.name}) }}">{{ task.taskList.name }}</a>
         {% if (task.taskList.account) %}
           <a href="{{ path('accounts_show', {'id': task.taskList.account.id}) }}"
-             class="label label-info">{{ task.taskList.account.name }}</a>
+             class="badge badge-info">{{ task.taskList.account.name }}</a>
           {% if (task.taskList.account.client) %}
             <a href="{{ path('client_show', {'id': task.taskList.account.client.id}) }}"
-               class="label label-primary">{{ task.taskList.account.client.name }}</a>
+               class="badge badge-primary">{{ task.taskList.account.client.name }}</a>
           {% endif %}
         {% endif %}
       </span>
@@ -56,14 +54,14 @@
         <a  data-taskid="{{task.id}}"
             data-postpone="+1 hour"
             title="5 mins"
-            class="btn btn-default edit-fixed-link postpone btn-sm"
+            class="btn btn-secondary edit-fixed-link postpone btn-sm"
             style="right: 95px;">
           <img src="/images/snooze_white_18x18.png" width="18px" />
         </a>
         <a  data-taskid="{{task.id}}"
             data-postpone="tomorrow"
             title="tomorrow"
-            class="btn btn-default edit-fixed-link postpone btn-sm"
+            class="btn btn-secondary edit-fixed-link postpone btn-sm"
             style="right: 50px;">
           <img src="/images/zzz.png" width="18px"/>
         </a>
@@ -71,7 +69,7 @@
       {% endif %}
 
       <a href="{{ path('tasks_edit', { 'id': task.id }) }}" 
-         class="btn btn-primary edit-fixed-link btn-{{ task.completed ? "xs":"sm" }}">
+         class="btn btn-secondary edit-fixed-link btn-{{ task.completed ? "xs":"sm" }}">
         Edit</a>
     </span>
   </li>
