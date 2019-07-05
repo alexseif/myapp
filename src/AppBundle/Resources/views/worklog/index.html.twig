@@ -3,86 +3,20 @@
 {% import "macros/a.html.twig" as a %}
 {% block floatingActions %}{{ a.add('worklog_new') }}{% endblock %}
 {% block panelTitle %}Work Logs{% endblock %}
-{% block panelHeadingRight %}<a href="{{ path('completed_tasks') }}" class="btn btn-secondary btn-sm">Completed Tasks</a>{% endblock %}
+{% block panelHeadingRight %}<a href="{{ path('completed_tasks') }}" class="btn btn-dark btn-sm">Completed Tasks</a>{% endblock %}
 {% block panelBody %}
-  <style>
-    table tbody tr td{text-align: right;}
-    table tbody tr td:first-child{text-align: left;}
-  </style>
-  <div class="">
-    {% set taskList = null %}
-    {% set first = true %}
-    {% set taskListDuration = 0 %}
-    {% set taskListTotal = 0 %}
-    {% for workLog in workLogs %}
-      {% if taskList != workLog.task.taskList %}
-        {% set taskList = workLog.task.taskList %}
-        {% if first %}
-          {% set first = false %}
-        {% else %}
-        </tbody>
-        <tfoot>
-          <tr>
-            <th></th><th>{{ taskListDuration }}m</th><th></th>
-            <th class="text-right">
-              <span class="float-left">EGP</span>{{ taskListTotal }}</th>
-            <th></th>
-          </tr>
-        </tfoot>
-      </table>
-    </div>
-  </div>
-  {% set taskListDuration = 0 %}
-  {% set taskListTotal = 0 %}
-{% endif %}
+  <div class="card-body">
+    {% for tasklist in tasklists %}
+      <ul class="list-group">
+        <li class="list-group-item p-2">
+          {{ tasklist }}
+          <a class="btn btn-primary btn-sm float-right"
+             href="{{ path('worklog_tasklist', {"tasklist": tasklist.id}) }}">
+            Open
+          </a>
+        </li>
+      </ul>
 
-<div class="card">
-  <div class="card-header bg-primary">
-    <span class="card-title">
-      <a href="{{ path('worklog_tasklist', {"tasklist":taskList.id}) }}">
-        {{ taskList }}
-      </a>
-    </span>
-    <a data-toggle="collapse" href="#collapse-{{taskList.id}}"
-       class="float-right">Collapsible panel</a>
-  </div>
-  <div id="collapse-{{taskList.id}}" class="card-collapse collapse">
-    <table class="table table-condensed table-bordered table-striped">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Duration</th>
-          <th>Price per unit</th>
-          <th>Created At</th>
-          <th>Total</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-      {% endif %}
-      {% set taskListTotal = taskListTotal + workLog.total %}
-      {% set taskListDuration = taskListDuration + workLog.duration %}
-
-      <tr>
-        <td>{{ workLog.name }}</td>
-        <td>{{ workLog.duration }}</td>
-        <td>{{ workLog.pricePerUnit }}</td>
-        <td>{{ workLog.createdAt|date }}</td>
-        <td class="text-right"><span class="float-left">EGP</span> {{ workLog.total }}</td>
-        <td>
-          {{ a.show('worklog_show', { 'id': workLog.id }) }}
-          {{ a.edit('worklog_edit', { 'id': workLog.id }) }}
-        </td>
-      </tr>
     {% endfor %}
-  </tbody>
-  <tfoot>
-    <tr>
-      <td></td><td>{{ taskListDuration }}m</td><td></td><td>{{ taskListTotal }}</td><td></td>
-    </tr>
-  </tfoot>
-</table>
-</div>
-</div>
-</div>
+  </div>
 {% endblock %}

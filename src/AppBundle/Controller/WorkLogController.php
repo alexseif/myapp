@@ -24,10 +24,10 @@ class WorkLogController extends Controller
   {
     $em = $this->getDoctrine()->getManager();
 
-    $workLogs = $em->getRepository('AppBundle:WorkLog')->orderByTaskList();
+    $tasklists = $em->getRepository('AppBundle:TaskLists')->findAll();
 
     return $this->render("AppBundle:worklog:index.html.twig", array(
-          'workLogs' => $workLogs,
+          'tasklists' => $tasklists,
     ));
   }
 
