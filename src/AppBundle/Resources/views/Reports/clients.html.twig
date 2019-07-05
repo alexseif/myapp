@@ -1,0 +1,60 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}AppBundle:Reports:clients{% endblock %}
+
+{% block content %}
+  <style>
+    .list-group{margin-bottom: 0;}
+  </style>
+  <h1>Welcome to the Reports:Clients page</h1>
+  <div class="nav">
+    <a href="{{ path('reports_index') }}" class="nav-link">Reports</a>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-bottom-border table-condensed table-striped">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Accounts</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for client in clients %}
+          <tr>
+            <td>
+              {{ client.name }} 
+              <a class="btn btn-primary btn-sm pull-right"
+                 href="{{ path('reports_client_hourly', {'client': client.id}) }}">
+                Hourly report
+              </a>
+            </td>
+            <td>
+              <ul class="list-group">
+                {% for account in client.accounts %}
+                  <li class="list-group-item">
+                    {{ account.name }}
+                  </li>
+                {% endfor %}
+              </ul>
+            </td>
+            <td>
+              <ul class="list-group">
+                {% for account in client.accounts %}
+                  {% for tasklist in account.taskLists %}
+                    <li class="list-group-item">
+                      {{ tasklist.name }}
+                      <a class="btn btn-primary btn-sm pull-right"
+                         href="{{ path('reports_tasklist', {'tasklist': tasklist.id}) }}">
+                        Tasks report
+                      </a>
+                    </li>
+                  {% endfor %}
+                {% endfor %}
+              </ul>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}
