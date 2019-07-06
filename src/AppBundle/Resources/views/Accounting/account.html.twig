@@ -5,6 +5,8 @@
 {% block content %}
   <style>
     .current-balance{text-align: center;}
+    .table td{text-align: right;}
+    .table td:first-child{text-align: left;}
   </style>
   <div class="container">
     {{ form_start(accounting_filter_form) }}
@@ -62,8 +64,8 @@
                 {{ item.start }} - {{ item.end }}
               </a>
             </td>
-            <td>EGP 00.00</td>
-            <td>EGP 00.00</td>
+            <td><span class="float-left">EGP</span> {{ (item.sum ? item.sum : 0)|number_format}}</td>
+            <td><span class="float-left">EGP</span> 00.00</td>
           </tr>
         {% endfor %}
       </tbody>
