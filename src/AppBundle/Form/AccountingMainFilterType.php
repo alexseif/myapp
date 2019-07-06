@@ -19,7 +19,10 @@ class AccountingMainFilterType extends AbstractType
     $builder
         ->add('account', EntityType::class, array(
           'placeholder' => 'Choose an Account',
-          'class' => 'AppBundle:Accounts',
+          'class' => \AppBundle\Entity\Accounts::class,
+          'query_builder' => function (\AppBundle\Repository\AccountsRepository $er) {
+            return $er->findAllwithJoin();
+          },
           'group_by' => function($account) {
             return $account->getClient();
           },

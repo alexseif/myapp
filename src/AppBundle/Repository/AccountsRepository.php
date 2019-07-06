@@ -24,4 +24,13 @@ class AccountsRepository extends EntityRepository
             ->getResult();
   }
 
+  public function findAllwithJoin()
+  {
+
+    return $this
+            ->createQueryBuilder('a')
+            ->select('a, c')
+            ->leftJoin('a.client', 'c');
+  }
+
 }
