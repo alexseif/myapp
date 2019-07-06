@@ -46,6 +46,9 @@ class AccountingController extends Controller
       $txnPeriod = $txnRepo->queryAccountRange($account);
 
       $monthsArray = \AppBundle\Util\DateRanges::populateMonths($txnPeriod['rangeStart'], $txnPeriod['rangeEnd'], 1);
+      foreach ($monthsArray as $key => $range) {
+        $monthsArray[$key]['sum'] = $txnRepo->queryCurrentBalanceByAccountAndRange($account, $range)['amount'];
+      }
     }
 
     return $this->render("AppBundle:Accounting:account.html.twig", array(
@@ -109,10 +112,10 @@ class AccountingController extends Controller
       $end = new \DateTime($txnPeriod['rangeEnd']);
       $interval = \DateInterval::createFromDateString('1 month');
       $period = new \DatePeriod($begin, $interval, $end);
-      $dateArray = array();
+      $monthsArray = array();
 
       foreach ($period as $dt) {
-        $dateArray[] = $dt;
+        $monthsArray[] = $dt;
       }
     }
 
@@ -120,7 +123,7 @@ class AccountingController extends Controller
           'accounting_filter_form' => $accountingFilterForm->createView(),
           'account' => $account,
           'txnPeriod' => $txnPeriod,
-          'monthsArray' => $dateArray
+          'monthsArray' => $monthsArray
     ));
   }
 

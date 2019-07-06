@@ -52,7 +52,6 @@ a.navbar-brand{background-color: #222222;}
 /* Changes button for collapsed cards */
 
 .text-bold{font-weight: bold;}
-.table th, .table td{padding: 0.25rem;}
 .card-body{padding: 0.25rem;}
 .input-group-addon{text-align: center; padding: 6px;}
 .chosen-container-single .chosen-single span{color: black;}
