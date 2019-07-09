@@ -356,7 +356,15 @@ class TasksRepository extends EntityRepository
             ->getResult();
   }
 
-  public function findByWithJoins(array $criteria, array $orderBy = null)
+  /**
+   * Finds Tasks entities with joins to increase performance
+   *
+   * @param array      $criteria
+   * @param array|null $orderBy
+   *
+   * @return array The objects.
+   */
+  public function findByWithJoins(array $criteria, array $orderBy = [])
   {
     $queryBuilder = $this
         ->createQueryBuilder('t')
@@ -391,6 +399,16 @@ class TasksRepository extends EntityRepository
     return $queryBuilder
             ->getQuery()
             ->getResult();
+  }
+
+  /**
+   * Finds all Tasks entities in the repository with joins to increase performance
+   *
+   * @return array The entities.
+   */
+  public function findAllWithJoins()
+  {
+    return $this->findByWithJoins([], ["completed" => "ASC"]);
   }
 
 }
