@@ -48,3 +48,8 @@ services:
       class:  AppBundle\Service\CostService
       arguments: [ '@doctrine.orm.entity_manager', '@myApp.currency' ]
       public: true
+      
+    myapp.rate.calculator:
+      class:  AppBundle\Service\RateCalculator
+      arguments: [ '@doctrine.orm.entity_manager' ]
+      public: true

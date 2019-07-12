@@ -36,6 +36,7 @@ class Client
 
   /**
    * @ORM\OneToMany(targetEntity="Rate", mappedBy="client", cascade="remove")
+   * @ORM\OrderBy({"createdAt" = "ASC"})
    */
   private $rates;
 
@@ -154,6 +155,21 @@ class Client
   public function getRates()
   {
     return $this->rates;
+  }
+
+  /**
+   * Check rates 
+   * 
+   * @return int
+   */
+  public function hasRates()
+  {
+    return $this->getRates()->count();
+  }
+
+  public function getRate()
+  {
+    return $this->getRates()->last()->getRate();
   }
 
 }

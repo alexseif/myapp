@@ -57,3 +57,5 @@ a.navbar-brand{background-color: #222222;}
 .chosen-container-single .chosen-single span{color: black;}
 
 .border-transparent{border-color: transparent;}
+
+select{max-width: 100%;}
