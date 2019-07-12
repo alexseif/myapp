@@ -15,8 +15,10 @@ function timeOfDay(response) {
 
 var touch = false;
 $(document).ready(function () {
-  if (Modernizr.touch) {
-    touch = true;
+  if (typeof Modernizr == 'object') {
+    if (Modernizr.touch) {
+      touch = true;
+    }
   }
   $('input[type=date]').datepicker({
     dateFormat: 'yy-mm-dd'
