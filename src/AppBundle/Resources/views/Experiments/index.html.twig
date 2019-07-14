@@ -1,0 +1,20 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}AppBundle:Experiments:index{% endblock %}
+
+{% block container %}
+  <div class="row">
+    {% for title, path in experiments %}
+      <div class="col">
+        <div class="card">
+          <div class="card-body">
+            <div class="card-title">
+              <a class="btn btn-block"
+                 href="{{ path(path)}}">{{ title }}</a>
+            </div>
+          </div>
+        </div>
+      </div> 
+    {% endfor %}
+  </div>
+{% endblock %}

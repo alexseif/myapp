@@ -18,8 +18,11 @@ class TaskListsRepository extends EntityRepository
     $today = new \DateTime();
     return $this
             ->createQueryBuilder('tl')
-            ->select('tl, t')
+            ->select('tl, t, a, c, w')
             ->leftJoin('tl.tasks', 't')
+            ->leftJoin('tl.account', 'a')
+            ->leftJoin('a.client', 'c')
+            ->leftJoin('t.workLog', 'w')
             ->orderBy("tl.createdAt", "ASC")
             ->getQuery()
             ->getResult();

@@ -356,7 +356,15 @@ class TasksRepository extends EntityRepository
             ->getResult();
   }
 
-  public function findByWithJoins(array $criteria, array $orderBy = null)
+  /**
+   * Finds Tasks entities with joins to increase performance
+   *
+   * @param array      $criteria
+   * @param array|null $orderBy
+   *
+   * @return array The objects.
+   */
+  public function findByWithJoins(array $criteria, array $orderBy = [])
   {
     $queryBuilder = $this
         ->createQueryBuilder('t')
@@ -389,6 +397,32 @@ class TasksRepository extends EntityRepository
     }
 
     return $queryBuilder
+            ->getQuery()
+            ->getResult();
+  }
+
+  /**
+   * Finds all Tasks entities in the repository with joins to increase performance
+   *
+   * @return array The entities.
+   */
+  public function findAllWithJoins()
+  {
+    return $this->findByWithJoins([], ["completed" => "ASC"]);
+  }
+
+  public function findByAccountNoWorklog(\AppBundle\Entity\Accounts $account)
+  {
+    return $this->createQueryBuilder('t')
+            ->select('t, tl, a, c, r, wl')
+            ->leftJoin('t.workLog', 'wl')
+            ->leftJoin('t.taskList', 'tl')
+            ->leftJoin('tl.account', 'a')
+            ->leftJoin('a.client', 'c')
+            ->leftJoin('c.rates', 'r')
+            ->where('wl.id IS NULL')
+            ->andWhere('a.id = :account')
+            ->setParameter(':account', $account)
             ->getQuery()
             ->getResult();
   }
