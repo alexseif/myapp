@@ -4,8 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Rate;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -19,8 +18,7 @@ class RateController extends Controller
   /**
    * Lists all rate entities.
    *
-   * @Route("/", name="rate_index")
-   * @Method("GET")
+   * @Route("/", name="rate_index", methods={"GET"})
    */
   public function indexAction()
   {
@@ -36,8 +34,7 @@ class RateController extends Controller
   /**
    * Creates a new rate entity.
    *
-   * @Route("/new", name="rate_new")
-   * @Method({"GET", "POST"})
+   * @Route("/new", name="rate_new", methods={"GET", "POST"})
    */
   public function newAction(Request $request)
   {
@@ -75,8 +72,7 @@ class RateController extends Controller
   /**
    * Finds and displays a rate entity.
    *
-   * @Route("/{id}", name="rate_show")
-   * @Method("GET")
+   * @Route("/{id}", name="rate_show", methods={"GET"})
    */
   public function showAction(Rate $rate)
   {
@@ -91,8 +87,7 @@ class RateController extends Controller
   /**
    * Displays a form to edit an existing rate entity.
    *
-   * @Route("/{id}/edit", name="rate_edit")
-   * @Method({"GET", "POST"})
+   * @Route("/{id}/edit", name="rate_edit", methods={"GET", "POST"})
    */
   public function editAction(Request $request, Rate $rate)
   {
@@ -116,8 +111,7 @@ class RateController extends Controller
   /**
    * Deletes a rate entity.
    *
-   * @Route("/{id}", name="rate_delete")
-   * @Method("DELETE")
+   * @Route("/{id}", name="rate_delete", methods={"DELETE"})
    */
   public function deleteAction(Request $request, Rate $rate)
   {
