@@ -4,7 +4,6 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\DashboardTaskLists;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -126,8 +125,7 @@ class DashboardTaskListsController extends Controller
   /**
    * Deletes a dashboardTaskList entity.
    *
-   * @Route("/{id}", name="dashboardtasklists_delete")
-   * @Method("DELETE")
+   * @Route("/{id}", name="dashboardtasklists_delete", methods={"DELETE"})
    */
   public function deleteAction(Request $request, DashboardTaskLists $dashboardTaskList)
   {

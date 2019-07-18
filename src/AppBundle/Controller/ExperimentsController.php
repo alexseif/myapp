@@ -15,7 +15,7 @@ class ExperimentsController extends Controller
 {
 
   /**
-   * @Route("/index", name="experiments_index")
+   * @Route("/", name="experiments_index")
    */
   public function indexAction()
   {
