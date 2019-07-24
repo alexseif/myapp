@@ -9,7 +9,7 @@
       </div>
     {% endif %}
     {% set percentage = (progress/total)*100 %}
-    {% set remaining = 100 - (percentage) %}
+    {% set remaining = (100 - percentage)|abs %}
     {% if percentage < 100 %}
       <div class="progress-bar bg-success" role="progressbar" aria-valuenow="{{ percentage }}" aria-valuemin="0" aria-valuemax="100"
            style="width:{{ percentage }}%" title="EGP {{ progress }}">
@@ -27,7 +27,7 @@
         EGP {{ total }}
       </div>
       <div class="progress-bar bg-info" role="progressbar" aria-valuenow="{{ remaining }}" aria-valuemin="0" aria-valuemax="100"
-           style="width:{{ 100 - percentage }}%"
+           style="width:{{ remaining }}%"
            title='EGP {{ progress - total }}'>
         EGP {{ progress - total }}
       </div>
