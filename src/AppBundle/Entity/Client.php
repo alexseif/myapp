@@ -169,7 +169,7 @@ class Client
 
   public function getRate()
   {
-    return $this->getRates()->last()->getRate();
+    return ($this->getRates()->count()) ? $this->getRates()->last()->getRate() : null;
   }
 
 }

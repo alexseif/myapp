@@ -252,6 +252,15 @@ class Tasks
   {
     return ($this->getTaskList()->getAccount()) ? $this->getTaskList()->getAccount()->getClient() : null;
   }
+  /**
+   * Get Rate
+   *
+   * @return \AppBundle\Entity\Rate
+   */
+  public function getRate()
+  {
+    return ($this->getTaskList()->getAccount()) ? $this->getTaskList()->getAccount()->getClient()->getRate() : null;
+  }
 
   /**
    * Set createdAt
