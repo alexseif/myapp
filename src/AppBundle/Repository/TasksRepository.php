@@ -70,7 +70,12 @@ class TasksRepository extends EntityRepository
   {
     return $this
             ->createQueryBuilder('t')
-            ->select('t')
+            ->select('t, tl, a, c, r, wl')
+            ->leftJoin('t.workLog', 'wl')
+            ->leftJoin('t.taskList', 'tl')
+            ->leftJoin('tl.account', 'a')
+            ->leftJoin('a.client', 'c')
+            ->leftJoin('c.rates', 'r')
             ->where('t.completedAt > :date')
             ->orderBy("t.urgency", "DESC")
             ->addOrderBy("t.priority", "DESC")
@@ -108,6 +113,19 @@ class TasksRepository extends EntityRepository
 
     $date = new \DateTime();
     $date->sub(new \DateInterval("P" . $day . "D"));
+    $date->setTime(00, 00, 00);
+    return $this->getCompletedAfter($date);
+  }
+
+  /**
+   * List of completed tasks this Month
+   * 
+   * @return type
+   */
+  public function getCompletedThisMonth()
+  {
+    $date = new \DateTime();
+    $date->setDate($date->format('Y'), $date->format('m'), 1);
     $date->setTime(00, 00, 00);
     return $this->getCompletedAfter($date);
   }

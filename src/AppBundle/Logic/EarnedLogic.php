@@ -25,17 +25,19 @@ class EarnedLogic
     $this->calculateDaily();
     $this->calculateWeekly();
     $this->calculateMonthly();
+    $this->calculateIssued();
   }
 
   public function getEarned()
   {
-    return ['daily' => $this->getDaily(),
+    return [
+      'daily' => $this->getDaily(),
       'weekly' => $this->getWeekly(),
-      'monthly' => $this->getMonthly(),
+      'monthly' => $this->getMonthly()
     ];
   }
 
-  public function calculateMonthly()
+  public function calculateIssued()
   {
     $issuedThisMonth = $this->em->getRepository('AppBundle:AccountTransactions')->issuedThisMonth();
     $issued = 0;
@@ -43,17 +45,39 @@ class EarnedLogic
       $issued += abs($tm->getAmount());
     }
     $this->setIssuedThisMonth($issued);
-    $this->setMonthly(($this->em->getRepository('AppBundle:Tasks')->sumCompletedEstThisMonth()['est'] / 60) * $this->costOfLife->getHourly());
+  }
+
+  public function calculateMonthly()
+  {
+    $completedTasks = $this->em->getRepository('AppBundle:Tasks')->getCompletedThisMonth();
+    $total = 0;
+    foreach ($completedTasks as $task) {
+      $rate = ($task->getRate()) ? $task->getRate() : $this->costOfLife->getHourly();
+      $total += $task->getEst()/60 * $rate;
+    }
+    $this->setMonthly($total);
   }
 
   public function calculateWeekly()
   {
-    $this->setWeekly(($this->em->getRepository('AppBundle:Tasks')->sumCompletedEstThisWeek()['est'] / 60) * $this->costOfLife->getHourly());
+    $completedTasks = $this->em->getRepository('AppBundle:Tasks')->getCompletedThisWeek();
+    $total = 0;
+    foreach ($completedTasks as $task) {
+      $rate = ($task->getRate()) ? $task->getRate() : $this->costOfLife->getHourly();
+      $total += $task->getEst()/60 * $rate;
+    }
+    $this->setWeekly($total);
   }
 
   public function calculateDaily()
   {
-    $this->setDaily(($this->em->getRepository('AppBundle:Tasks')->sumCompletedEstToday()['est'] / 60) * $this->costOfLife->getHourly());
+    $completedTasks = $this->em->getRepository('AppBundle:Tasks')->getCompletedToday();
+    $total = 0;
+    foreach ($completedTasks as $task) {
+      $rate = ($task->getRate()) ? $task->getRate() : $this->costOfLife->getHourly();
+      $total += $task->getEst()/60 * $rate;
+    }
+    $this->setDaily($total);
   }
 
   function getMonthly()

@@ -29,7 +29,6 @@ class DashboardController extends Controller
     $endDay->add(\DateInterval::createFromDateString($estSum . " minutes"));
     $interval = $endDay->diff($today, true);
     /** Cost Of Life * */
-    $earned = ['daily' => 0, 'weekly' => 0, 'monthly' => 0];
 
     $costOfLife = $this->get('myApp.cost');
 
