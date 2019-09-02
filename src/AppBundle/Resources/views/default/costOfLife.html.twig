@@ -1,0 +1,27 @@
+<div class="big-table" style="max-width: 100%; overflow-x: scroll;">
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th></th>
+          {% for currency in costOfLife.currencies %}
+          <th>{{ currency.code }}</th>
+          {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for key,col in costOfLife.col %}
+        <tr>
+          <td>{{ key|capitalize }}</td>
+          {% for code, value in col %}
+            <td class="text-right"><span class="float-left">{{ code|upper }} </span> {{ value|number_format }}</td>
+          {% endfor %}
+        </tr>
+      {% endfor %}
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="4" class="text-center">USD {{ costOfLife.col['day']['USD'] }} Per Day</td>
+      </tr>
+    </tfoot>
+  </table>
+</div>
