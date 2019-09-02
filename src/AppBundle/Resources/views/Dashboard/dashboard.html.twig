@@ -23,20 +23,33 @@
 {% endblock %}
 {% block content %}
   <div class="row">
-    <div class="col">
+    <div class="col-lg-4 col-md-6 col-sm-12">
+      <div class="d-md-none">
+        {% for key, progress in earned %}
+          {% if 'monthly' == key %}
+            {% include 'AppBundle:Dashboard:progressBars.html.twig' with {'total': attribute(costOfLife, key), 'progress': progress, 'issued': issuedThisMonth} %}
+          {% else %}
+            {% include 'AppBundle:Dashboard:progressBars.html.twig' with {'total': attribute(costOfLife, key), 'progress': progress} %}
+          {% endif %}
+        {% endfor %}
+      </div>
       {% include 'AppBundle:default:taskLists.html.twig' %}
     </div>
-    <div class="col">
-      {% for key, progress in earned %}
-        {% if 'monthly' == key %}
-          {% include 'AppBundle:Dashboard:progressBars.html.twig' with {'total': attribute(costOfLife, key), 'progress': progress, 'issued': issuedThisMonth} %}
-        {% else %}
-          {% include 'AppBundle:Dashboard:progressBars.html.twig' with {'total': attribute(costOfLife, key), 'progress': progress} %}
-        {% endif %}
-      {% endfor %}
+    <div class="col-lg-4 col-md-6 col-sm-12">
+      <div class="d-md-block d-sm-none">
+        {% for key, progress in earned %}
+          {% if 'monthly' == key %}
+            {% include 'AppBundle:Dashboard:progressBars.html.twig' with {'total': attribute(costOfLife, key), 'progress': progress, 'issued': issuedThisMonth} %}
+          {% else %}
+            {% include 'AppBundle:Dashboard:progressBars.html.twig' with {'total': attribute(costOfLife, key), 'progress': progress} %}
+          {% endif %}
+        {% endfor %}
+      </div>
       {% include 'AppBundle:default:accounts.html.twig' %}
+      {% include 'AppBundle:default:costOfLife.html.twig' %}
+      {% include 'AppBundle:default:graphs.html.twig' %}
     </div>
-    <div class="col">
+    <div class="col-lg-4 col-md-6 col-sm-12">
       {% if days|length %}
         {% include 'AppBundle:days:days_list.html.twig' %}
       {% endif %}
