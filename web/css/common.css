@@ -73,3 +73,9 @@ select{max-width: 100%;}
     background-color: #fff;
   }
 }
+
+/* Bottom bar */
+#bottom-bar{position: fixed; bottom: 0px; right: 0px; z-index: 100; padding:0px; font-size: 100%;}
+#bottom-bar .nav {padding: 5px;}
+#bottom-bar-btn{background: #333; padding: 10px;position: relative; float: right;}
+#bottom-bar .nav-link {padding: 5px;}

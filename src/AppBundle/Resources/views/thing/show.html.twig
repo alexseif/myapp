@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+{% import "macros/forms.html.twig" as forms %}
+{% import "macros/a.html.twig" as a %}
+{% block title %}{{ thing.name }}{% endblock %}
+{% block floatingActions %}{{ a.add('thing_new') }}{% endblock %}
+{% block panelBack %}{{ a.back('thing_index') }}{% endblock %}
+{% block panelTitle %}{{ thing.name }}{% endblock %}
+{% block panelHeadingRight %}
+  {{ a.edit('thing_edit', { 'id': thing.id }) }}
+  {{ forms.delete(delete_form) }}
+{% endblock %}
+{% block panelBody %}
+  <div class="card-body">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">{{ thing.name }}</h5>
+      {% if thing.createdAt %}<small class="text-muted" title="{{ thing.createdAt|date }}">{{ thing.createdAt|time_diff }}</small>{% endif %}
+    </div>
+  </div>
+{% endblock %}
