@@ -1,36 +1,12 @@
-git checkout beta
+git checkout wip
 git pull --all
 git merge master
-git push origin beta
-git checkout budgeting
+git push origin wip
+git checkout things
 git pull --all
 git merge master
-git push origin budgeting
-git checkout focus
-git pull --all
-git merge master
-git push origin focus
-git checkout google-api
-git pull --all
-git merge master
-git push origin google-api
+git push origin things
 git checkout symfony_upgrade
 git pull --all
 git merge master
 git push origin symfony_upgrade
-git checkout refactor
-git pull --all
-git merge master
-git push origin refactor
-git checkout client-feature
-git pull --all
-git merge master
-git push origin client-feature
-git checkout accounting
-git pull --all
-git merge master
-git push origin accounting
-git checkout dashboard
-git pull --all
-git merge master
-git push origin dashboard
