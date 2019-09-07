@@ -13,6 +13,11 @@ use Doctrine\ORM\Mapping as ORM;
 class Thing
 {
 
+  function __construct()
+  {
+    $this->setCreatedAt(new \DateTime());
+  }
+
   /**
    * @var int
    *

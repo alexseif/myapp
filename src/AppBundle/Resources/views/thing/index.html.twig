@@ -1,41 +1,24 @@
 {% extends 'base.html.twig' %}
+{% block floatingActions %}
+  <a href="{{ path('thing_new') }}">New thing</a>
+{% endblock %}
 
-{% block body %}
+{% block content %}
   <h1>Things list</h1>
-
-  <table>
-    <thead>
-      <tr>
-        <th>Id</th>
-        <th>Name</th>
-        <th>Createdat</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for thing in things %}
-        <tr>
-          <td><a href="{{ path('thing_show', { 'id': thing.id }) }}">{{ thing.id }}</a></td>
-          <td>{{ thing.name }}</td>
-          <td>{% if thing.createdAt %}{{ thing.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
-          <td>
-            <ul>
-              <li>
-                <a href="{{ path('thing_show', { 'id': thing.id }) }}">show</a>
-              </li>
-              <li>
-                <a href="{{ path('thing_edit', { 'id': thing.id }) }}">edit</a>
-              </li>
-            </ul>
-          </td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-
-  <ul>
-    <li>
-      <a href="{{ path('thing_new') }}">Create a new thing</a>
-    </li>
-  </ul>
+  <div class="list-group">
+    {% for thing in things %}
+      <div href="#thing-{{ thing.id }}" id="thing-{{ thing.id }}" class="list-group-item list-group-item-action">
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1">{{ thing.name }}</h5>
+          {% if thing.createdAt %}<small class="text-muted" title="{{ thing.createdAt|date }}">{{ thing.createdAt|time_diff }}</small>{% endif %}
+        </div>
+        {#        <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>#}
+        <div class="float-right">
+          <a href="{{ path('thing_show', { 'id': thing.id }) }}">show</a>
+          <a href="{{ path('thing_edit', { 'id': thing.id }) }}">edit</a>
+        </div>
+        {#        <small class="text-muted">Donec id elit non mi porta.</small>#}
+      </div>
+    {% endfor %}
+  </div>
 {% endblock %}
