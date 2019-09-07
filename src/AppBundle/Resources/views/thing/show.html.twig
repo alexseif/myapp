@@ -1,36 +1,19 @@
 {% extends 'base.html.twig' %}
-
-{% block body %}
-  <h1>Thing</h1>
-
-  <table>
-    <tbody>
-      <tr>
-        <th>Id</th>
-        <td>{{ thing.id }}</td>
-      </tr>
-      <tr>
-        <th>Name</th>
-        <td>{{ thing.name }}</td>
-      </tr>
-      <tr>
-        <th>Createdat</th>
-        <td>{% if thing.createdAt %}{{ thing.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
-      </tr>
-    </tbody>
-  </table>
-
-  <ul>
-    <li>
-      <a href="{{ path('thing_index') }}">Back to the list</a>
-    </li>
-    <li>
-      <a href="{{ path('thing_edit', { 'id': thing.id }) }}">Edit</a>
-    </li>
-    <li>
-      {{ form_start(delete_form) }}
-      <input type="submit" value="Delete">
-      {{ form_end(delete_form) }}
-    </li>
-  </ul>
+{% import "macros/forms.html.twig" as forms %}
+{% import "macros/a.html.twig" as a %}
+{% block title %}{{ thing.name }}{% endblock %}
+{% block floatingActions %}{{ a.add('thing_new') }}{% endblock %}
+{% block panelBack %}{{ a.back('thing_index') }}{% endblock %}
+{% block panelTitle %}{{ thing.name }}{% endblock %}
+{% block panelHeadingRight %}
+  {{ a.edit('thing_edit', { 'id': thing.id }) }}
+  {{ forms.delete(delete_form) }}
+{% endblock %}
+{% block panelBody %}
+  <div class="card-body">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">{{ thing.name }}</h5>
+      {% if thing.createdAt %}<small class="text-muted" title="{{ thing.createdAt|date }}">{{ thing.createdAt|time_diff }}</small>{% endif %}
+    </div>
+  </div>
 {% endblock %}
