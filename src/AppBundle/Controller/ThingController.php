@@ -28,7 +28,7 @@ class ThingController extends Controller
 
     $things = $em->getRepository('AppBundle:Thing')->findAll();
 
-    return $this->render('thing/index.html.twig', array(
+    return $this->render('AppBundle:thing:index.html.twig', array(
           'things' => $things,
     ));
   }
@@ -53,7 +53,7 @@ class ThingController extends Controller
       return $this->redirectToRoute('thing_show', array('id' => $thing->getId()));
     }
 
-    return $this->render('thing/new.html.twig', array(
+    return $this->render('AppBundle:thing:new.html.twig', array(
           'thing' => $thing,
           'form' => $form->createView(),
     ));
@@ -69,7 +69,7 @@ class ThingController extends Controller
   {
     $deleteForm = $this->createDeleteForm($thing);
 
-    return $this->render('thing/show.html.twig', array(
+    return $this->render('AppBundle:thing:show.html.twig', array(
           'thing' => $thing,
           'delete_form' => $deleteForm->createView(),
     ));
@@ -93,7 +93,7 @@ class ThingController extends Controller
       return $this->redirectToRoute('thing_edit', array('id' => $thing->getId()));
     }
 
-    return $this->render('thing/edit.html.twig', array(
+    return $this->render('AppBundle:thing:edit.html.twig', array(
           'thing' => $thing,
           'edit_form' => $editForm->createView(),
           'delete_form' => $deleteForm->createView(),
