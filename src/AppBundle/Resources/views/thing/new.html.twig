@@ -1,16 +1,9 @@
 {% extends 'base.html.twig' %}
+{% import "macros/forms.html.twig" as forms %}
+{% import "macros/a.html.twig" as a %}
+{% block title %}New Thing{% endblock %}
+{% block panelBack %}{{ a.back('thing_index') }}{% endblock %}
+{% block panelTitle %}New Thing{% endblock %}
+{% block panelBody %}{{ forms.panel(form) }}{% endblock %}
 
-{% block body %}
-  <h1>Thing creation</h1>
 
-  {{ form_start(form) }}
-  {{ form_widget(form) }}
-  <input type="submit" value="Create" />
-  {{ form_end(form) }}
-
-  <ul>
-    <li>
-      <a href="{{ path('thing_index') }}">Back to the list</a>
-    </li>
-  </ul>
-{% endblock %}
