@@ -118,7 +118,7 @@ var Tasks = {
     self = this;
     completed = $('.completed');
     $('#completed').append(completed);
-    $('li:not(.completed)').prependTo('#tasks');
+    $('.task-list li:not(.completed)').prependTo('#tasks');
     this.day.completed = 0;
     completed.each(function () {
       self.day.completed += ($(this).data("time")) ? $(this).data("time") : 0;

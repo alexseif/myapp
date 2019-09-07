@@ -49,7 +49,8 @@ twig:
         decimals: 2
         decimal_point: '.'
         thousands_separator: ','
-
+    globals:
+        bottom_bar: '@myapp.bottomBar'
 # Doctrine Configuration
 doctrine:
     dbal:

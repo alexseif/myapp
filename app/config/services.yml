@@ -58,3 +58,8 @@ services:
       class:  AppBundle\Service\RateCalculator
       arguments: [ '@doctrine.orm.entity_manager' ]
       public: true
+      
+    myapp.bottomBar:
+      class:  AppBundle\Service\BottomBar
+      arguments: [ '@doctrine.orm.entity_manager' ]
+      public: true

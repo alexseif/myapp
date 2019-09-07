@@ -20,6 +20,11 @@ $(document).ready(function () {
       touch = true;
     }
   }
+
+  $('#bottom-bar-btn').click(function () {
+    $('#bottom-bar .nav').toggle();
+  });
+
   $('input[type=date]').datepicker({
     dateFormat: 'yy-mm-dd'
   });
