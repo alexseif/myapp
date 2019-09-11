@@ -19,8 +19,7 @@ class ThingController extends Controller
   /**
    * Lists all thing entities.
    *
-   * @Route("/", name="thing_index")
-   * @Method("GET")
+   * @Route("/", name="thing_index", methods={"GET"})
    */
   public function indexAction()
   {
@@ -36,8 +35,7 @@ class ThingController extends Controller
   /**
    * Creates a new thing entity.
    *
-   * @Route("/new", name="thing_new")
-   * @Method({"GET", "POST"})
+   * @Route("/new", name="thing_new", methods={"GET", "POST"})
    */
   public function newAction(Request $request)
   {
@@ -62,8 +60,7 @@ class ThingController extends Controller
   /**
    * Finds and displays a thing entity.
    *
-   * @Route("/{id}", name="thing_show")
-   * @Method("GET")
+   * @Route("/{id}", name="thing_show", methods={"GET"})
    */
   public function showAction(Thing $thing)
   {
@@ -78,8 +75,7 @@ class ThingController extends Controller
   /**
    * Displays a form to edit an existing thing entity.
    *
-   * @Route("/{id}/edit", name="thing_edit")
-   * @Method({"GET", "POST"})
+   * @Route("/{id}/edit", name="thing_edit", methods={"GET", "POST"})
    */
   public function editAction(Request $request, Thing $thing)
   {
@@ -100,11 +96,11 @@ class ThingController extends Controller
     ));
   }
 
+
   /**
    * Deletes a thing entity.
    *
-   * @Route("/{id}", name="thing_delete")
-   * @Method("DELETE")
+   * @Route("/{id}", name="thing_delete", methods={"DELETE"})
    */
   public function deleteAction(Request $request, Thing $thing)
   {
