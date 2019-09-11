@@ -6,7 +6,7 @@
     {% set things = bottom_bar.getThings() %}
     {% for thing in things %}
       <li class="nav-item">
-        <a class="nav-link active" href="#">{{ thing.name }}</a>
+        <a class="nav-link active" href="{{ path('thing_show', {'id': thing.id}) }}">{{ thing.name }}</a>
       </li>
     {% endfor %}
   </ul>
