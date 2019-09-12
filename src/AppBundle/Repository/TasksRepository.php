@@ -197,18 +197,29 @@ class TasksRepository extends EntityRepository
     return $this->sumCompletedEstAfter($date);
   }
 
-  public function focusList()
+  /**
+   * 
+   * @param int $limit
+   * @return Tasks[]
+   */
+  public function focusList($limit = 0)
   {
     $today = new \DateTime();
-    return $this
-            ->createQueryBuilder('t')
-            ->select('t')
-            ->where('t.completed <> true')
-            ->andWhere('t.eta <= :today OR t.eta IS NULL')
-            ->orderBy("t.urgency", "DESC")
-            ->addOrderBy("t.priority", "DESC")
-            ->addOrderBy("t.order", "ASC")
-            ->setParameter(':today', $today->format('Y-m-d H:i'))
+    $query = $this
+        ->createQueryBuilder('t')
+        ->select('t')
+        ->where('t.completed <> true')
+        ->andWhere('t.eta <= :today OR t.eta IS NULL')
+        ->orderBy("t.urgency", "DESC")
+        ->addOrderBy("t.priority", "DESC")
+        ->addOrderBy("t.order", "ASC")
+        ->setParameter(':today', $today->format('Y-m-d H:i'));
+
+    if ($limit > 0 && is_int($limit)) {
+      $query->setMaxResults($limit);
+    }
+
+    return $query
             ->getQuery()
             ->getResult();
   }
@@ -441,6 +452,22 @@ class TasksRepository extends EntityRepository
             ->where('wl.id IS NULL')
             ->andWhere('a.id = :account')
             ->setParameter(':account', $account)
+            ->getQuery()
+            ->getResult();
+  }
+
+  public function focusListLimit()
+  {
+    $today = new \DateTime();
+    return $this
+            ->createQueryBuilder('t')
+            ->select('t')
+            ->where('t.completed <> true')
+            ->andWhere('t.eta <= :today OR t.eta IS NULL')
+            ->orderBy("t.urgency", "DESC")
+            ->addOrderBy("t.priority", "DESC")
+            ->addOrderBy("t.order", "ASC")
+            ->setParameter(':today', $today->format('Y-m-d H:i'))
             ->getQuery()
             ->getResult();
   }

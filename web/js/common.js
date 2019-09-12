@@ -23,6 +23,11 @@ $(document).ready(function () {
 
   $('#bottom-bar-btn').click(function () {
     $('#bottom-bar .nav').toggle();
+    if ($('#bottom-bar .nav').is(':visible')) {
+      document.cookie = "bottom-bar-closed=0;";
+    } else {
+      document.cookie = "bottom-bar-closed=1;";
+    }
   });
 
   $('input[type=date]').datepicker({
