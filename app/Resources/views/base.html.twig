@@ -71,7 +71,7 @@
       {% block footer %}
       {% endblock %}
     </footer>
-    {% if is_granted('IS_AUTHENTICATED_FULLY') %} 
+    {% if app.user %}
       {% include 'bottom-bar.html.twig' %}
     {% endif %}
   {% endblock %}

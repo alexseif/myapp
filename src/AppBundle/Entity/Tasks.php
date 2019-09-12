@@ -252,6 +252,7 @@ class Tasks
   {
     return ($this->getTaskList()->getAccount()) ? $this->getTaskList()->getAccount()->getClient() : null;
   }
+
   /**
    * Get Rate
    *
@@ -483,6 +484,11 @@ class Tasks
   public function getWorkLoggable()
   {
     return $this->workLoggable;
+  }
+
+  public function getName()
+  {
+    return $this->getTask();
   }
 
   public function __toString()

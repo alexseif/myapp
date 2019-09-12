@@ -16,6 +16,10 @@ use Doctrine\ORM\EntityManager;
 class BottomBar
 {
 
+  /**
+   * 
+   * @var EntityManager $em
+   */
   protected $em;
 
   public function __construct(EntityManager $em)
@@ -23,9 +27,24 @@ class BottomBar
     $this->em = $em;
   }
 
+  /**
+   * 
+   * @return array Thing[]
+   */
   public function getThings()
   {
-    return $this->em->getRepository('AppBundle:Thing')->findBy([], ['createdAt' => 'asc'], 5);
+    $things = $this->em->getRepository('AppBundle:Thing')->findBy([], ['createdAt' => 'asc'], 5);
+    return $things;
+  }
+
+  /**
+   * 
+   * @return array Tasks[]
+   */
+  public function getTasks()
+  {
+    $tasks = $this->em->getRepository('AppBundle:Tasks')->focusList(5);
+    return $tasks;
   }
 
 }
