@@ -89,10 +89,22 @@ class AccountTransactionsRepository extends EntityRepository
             ->createQueryBuilder('at')
             ->select('SUM(at.amount) as amount')
             ->where('at.account = :account')
-            ->andWhere('at.issuedAt < :to')
+            ->andWhere('at.issuedAt <= :to')
             ->orderBy('at.issuedAt')
             ->setParameter(':account', $account)
             ->setParameter(':to', $to)
+            ->getQuery()
+            ->getSingleResult();
+  }
+
+  public function queryOverdueAccount($account)
+  {
+    return $this
+            ->createQueryBuilder('at')
+            ->select('SUM(at.amount) as amount')
+            ->where('at.account = :account')
+            ->orderBy('at.issuedAt')
+            ->setParameter(':account', $account)
             ->getQuery()
             ->getSingleResult();
   }

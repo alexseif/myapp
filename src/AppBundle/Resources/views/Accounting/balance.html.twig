@@ -1,6 +1,6 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}{{ account }}_{{ date()|date('Y-m-d') }} {% endblock %}
+{% block title %}{{ account }}_{{ from|date('Y-m-d') }}_{{ to|date('Y-m-d') }}{% endblock %}
 {% block floatingActions %}
   <a class="btn btn-secondary btn-sm d-print-none" role="button"
      href="javascript:window.print();">
@@ -27,7 +27,7 @@
 
     @media print {
       a[href]:after {
-        content: none
+        content: none !important;
       }
     }
   </style>

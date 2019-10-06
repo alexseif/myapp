@@ -45,15 +45,21 @@ class AccountingController extends Controller
       $txnRepo = $em->getRepository('AppBundle:AccountTransactions');
       $txnPeriod = $txnRepo->queryAccountRange($account);
 
+      $currentBalance = $txnRepo->queryCurrentBalanceByAccount($account);
+      $overdue = $txnRepo->queryOverdueAccount($account);
+
       $monthsArray = \AppBundle\Util\DateRanges::populateMonths($txnPeriod['rangeStart'], $txnPeriod['rangeEnd'], 1);
       foreach ($monthsArray as $key => $range) {
-        $monthsArray[$key]['sum'] = $txnRepo->queryCurrentBalanceByAccountAndRange($account, $range)['amount'];
+        $monthsArray[$key]['forward_balance'] = $txnRepo->queryCurrentBalanceByAccountAndRange($account, $range)['amount'];
+        $monthsArray[$key]['ending_balance'] = $txnRepo->queryOverdueAccountTo($account, $range['end'])['amount'];
       }
     }
 
     return $this->render("AppBundle:Accounting:account.html.twig", array(
           'accounting_filter_form' => $accountingFilterForm->createView(),
           'account' => $account,
+          'currentBalance' => $currentBalance,
+          "overdue" => $overdue,
           'txnPeriod' => $txnPeriod,
           'monthsArray' => $monthsArray
     ));
