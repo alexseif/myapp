@@ -1,6 +1,6 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}Accounting{% endblock %}
+{% block title %}Accounting - {{ account }}{% endblock %}
 
 {% block content %}
   <style>
@@ -31,15 +31,15 @@
     <div class="row current-balance">
       <div class="col-md-4">
         <h4>Current Balance</h4>
-        <h5>EGP 00.00</h5>
+        <h5>EGP {{ currentBalance.amount|number_format  }}</h5>
       </div>
       <div class="col-md-4">
         <h4>Overdue</h4>
-        <h5>EGP 00.00</h5>
+        <h5>EGP {{ overdue.amount < 0 ? overdue.amount|number_format  : 0|number_format }}</h5>
       </div>
       <div class="col-md-4">
         <h4>Credits</h4>
-        <h5>EGP 00.00</h5>
+        <h5>EGP {{ overdue.amount > 0 ? overdue.amount|number_format  : 0|number_format }}</h5>
       </div>
     </div>
   </div>
@@ -64,8 +64,8 @@
                 {{ item.start }} - {{ item.end }}
               </a>
             </td>
-            <td><span class="float-left">EGP</span> {{ (item.sum ? item.sum : 0)|number_format}}</td>
-            <td><span class="float-left">EGP</span> 00.00</td>
+            <td><span class="float-left">EGP</span> {{ (item.forward_balance ? item.forward_balance : 0)|number_format}}</td>
+            <td><span class="float-left">EGP</span> {{ (item.ending_balance ? item.ending_balance : 0)|number_format}}</td>
           </tr>
         {% endfor %}
       </tbody>
