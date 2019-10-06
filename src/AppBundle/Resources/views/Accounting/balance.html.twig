@@ -109,8 +109,16 @@
           </tr>
         {% else %}
           <tr>
-            <td colspan="3" class="text-right">Total</td>
+            <td colspan="3" class="text-right">Sub-total</td>
             <th> {{ total|number_format }}</th>
+          </tr>
+          <tr>
+            <td colspan="3" class="text-right">{{ (overdue.amount < 0) ? "Overdue": "Credit" }}</td>
+            <th> {{ overdue.amount|number_format }}</th>
+          </tr>
+          <tr>
+            <td colspan="3" class="text-right">Total</td>
+            <th>{{ (total + overdue.amount)|number_format }}</th>
           </tr>
         {% endif %}
       </tfoot>
