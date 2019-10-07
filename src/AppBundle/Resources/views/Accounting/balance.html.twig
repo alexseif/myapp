@@ -86,7 +86,11 @@
       <tbody>
         {% for txn in txns %}
           <tr>
-            <td><a href="{{ path('accounttransactions_show', { "id":txn.id }) }}">#{{ txn.id }}</a></td>
+            <td>
+              <a class="d-print-none" 
+                 href="{{ path('accounttransactions_show', { "id":txn.id }) }}">#{{ txn.id }}</a>
+              <span class="d-none d-print-block">#{{ txn.id }}</span>
+            </td>
             <td>{{ txn.note }}</td>
             <td>{{ txn.issuedAt|date('Y-m-d')}}</td>
             <td>{{ txn.amount|number_format }}</td>
@@ -109,8 +113,16 @@
           </tr>
         {% else %}
           <tr>
-            <td colspan="3" class="text-right">Total</td>
+            <td colspan="3" class="text-right">Sub-total</td>
             <th> {{ total|number_format }}</th>
+          </tr>
+          <tr>
+            <td colspan="3" class="text-right">{{ (overdue.amount < 0) ? "Overdue": "Credit" }}</td>
+            <th> {{ overdue.amount|number_format }}</th>
+          </tr>
+          <tr>
+            <td colspan="3" class="text-right">Total</td>
+            <th>{{ (total + overdue.amount)|number_format }}</th>
           </tr>
         {% endif %}
       </tfoot>
