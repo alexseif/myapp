@@ -86,7 +86,11 @@
       <tbody>
         {% for txn in txns %}
           <tr>
-            <td><a href="{{ path('accounttransactions_show', { "id":txn.id }) }}">#{{ txn.id }}</a></td>
+            <td>
+              <a class="d-print-none" 
+                 href="{{ path('accounttransactions_show', { "id":txn.id }) }}">#{{ txn.id }}</a>
+              <span class="d-none d-print-block">#{{ txn.id }}</span>
+            </td>
             <td>{{ txn.note }}</td>
             <td>{{ txn.issuedAt|date('Y-m-d')}}</td>
             <td>{{ txn.amount|number_format }}</td>
