@@ -81,11 +81,37 @@ class ReportsController extends Controller
     $tasks = $em->getRepository('AppBundle:Tasks')->findBy(array(
       "taskList" => $tasklist,
       "completed" => true
-    ), array("completedAt"=>"DESC"));
+        ), array("completedAt" => "DESC"));
 
     return $this->render('AppBundle:Reports:tasks.html.twig', array(
           "tasklist" => $tasklist,
           "tasks" => $tasks
+    ));
+  }
+
+  /**
+   * 
+   * @Route("/income", name="reports_income")
+   */
+  public function incomeAction()
+  {
+    $em = $this->getDoctrine()->getManager();
+    $txns = $em->getRepository('AppBundle:AccountTransactions')->queryIncome();
+
+    $income = [];
+    $months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
+    foreach ($txns as $txn) {
+      if (!key_exists($txn->getIssuedAt()->format('Y'), $income)) {
+        $income[$txn->getIssuedAt()->format('Y')] = [];
+        foreach ($months as $month) {
+          $income[$txn->getIssuedAt()->format('Y')][$month] = 0;
+        }
+      }
+      $income[$txn->getIssuedAt()->format('Y')][$txn->getIssuedAt()->format('m')] += $txn->getAmount();
+    }
+
+    return $this->render('AppBundle:Reports:income.html.twig', array(
+          "income" => $income
     ));
   }
 

@@ -109,4 +109,14 @@ class AccountTransactionsRepository extends EntityRepository
             ->getSingleResult();
   }
 
+  public function queryIncome()
+  {
+    return $this
+            ->createQueryBuilder('at')
+            ->where('at.amount > 0')
+            ->orderBy('at.issuedAt')
+            ->getQuery()
+            ->getResult();
+  }
+
 }

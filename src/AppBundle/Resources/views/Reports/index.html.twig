@@ -4,8 +4,15 @@
 
 {% block content %}
   <h1>Welcome to the Reports:index page</h1>
-  <div class="nav">
-    <a href="{{ path('reports_index') }}" class="nav-link">Reports</a>
-    <a href="{{ path('reports_clients') }}" class="nav-link">Clients List</a>
+  <div class="row">
+    <div class="col">
+      <a href="{{ path('reports_index') }}" class="btn btn-block btn-primary">Reports</a>
+    </div>
+    <div class="col">
+      <a href="{{ path('reports_clients') }}" class="btn btn-block btn-primary">Clients List</a>
+    </div>
+    <div class="col">
+      <a href="{{ path('reports_income') }}" class="btn btn-block btn-primary">Income</a>
+    </div>
   </div>
 {% endblock %}
