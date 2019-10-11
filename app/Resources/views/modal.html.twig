@@ -14,10 +14,10 @@
       {% block modal_body %}
       {% endblock %}
     </div>
-    <div class="modal-footer">
-      {% block modal_footer %}
-      {% endblock %}
-      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-    </div>
+    {% block modal_footer %}
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    {% endblock %}
   </div>
 </div>
