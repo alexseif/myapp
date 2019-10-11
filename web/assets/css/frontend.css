@@ -10,20 +10,4 @@ a {
   color: #ebebeb;
 }
 
-/* line 11, /srv/www/myapp.alexseif.com/web/assets/scss/frontend.scss */
-.list-group .list-group-item {
-  margin-bottom: 0px;
-}
-
-/* line 13, /srv/www/myapp.alexseif.com/web/assets/scss/frontend.scss */
-.list-group .list-group-item .list-group-item-actions {
-  display: inline-block;
-  float: right;
-}
-
-/* line 16, /srv/www/myapp.alexseif.com/web/assets/scss/frontend.scss */
-.list-group .list-group-item .list-group-item-actions a {
-  margin: 0 5px;
-}
-
 /*# sourceMappingURL=../css/frontend.map */

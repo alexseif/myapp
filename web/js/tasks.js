@@ -180,7 +180,6 @@ var Tasks = {
 
 //Open task modal
   showModal: function (e) {
-
 // Support for AJAX loaded modal window.
 // Focuses on first input textbox after it loads the window.
     e.preventDefault();
@@ -189,10 +188,10 @@ var Tasks = {
       $(url).modal('open');
     } else {
       $.get(url, function (data) {
-        $('<div class="modal fade">' + data + '</div>').modal().on('hidden', function () {
+        $('<div class="modal" tabindex="-1" role="dialog">' + data + '</div>').modal().on('hidden', function () {
           $(this).remove();
         });
-      }).success(function () {
+      }).done(function () {
         $('input:text:visible:first').focus();
       });
     }

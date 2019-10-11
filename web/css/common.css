@@ -1,4 +1,4 @@
-a.navbar-brand{background-color: #222222;}
+.navbar{padding: 0.5rem;}
 .navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus{color: #fff;background-color: #375a7f;}
 /* TODO: Fix this is not correct */
 /* .list-group{overflow: auto;} */
@@ -43,6 +43,7 @@ a.navbar-brand{background-color: #222222;}
 .card-transparent>.card-heading{background-color:#464545}
 
 .progress{height: 20px;margin: 10px 5px;}
+.progress-bars .progress:first-child{margin-top: 0px;}
 .progress .progress-bar{font-size: 13px;}
 .label-muted{background: #e8e8e8;color: #999999;font-weight: normal;}
 
@@ -81,3 +82,8 @@ select{max-width: 100%;}
 #bottom-bar .nav-link {padding: 5px;}
 #bottom-bar .btn{border-radius: 0px;}
 #bottom-bar .dropdown-toggle:after{display: none;}
+
+.costOfLife th,
+.costOfLife td{padding: 0.3rem;}
+.accounts th,
+.accounts td{padding: 0.3rem 0;}
