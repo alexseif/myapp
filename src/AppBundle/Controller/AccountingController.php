@@ -74,6 +74,7 @@ class AccountingController extends Controller
     $account = $em->getRepository('AppBundle:Accounts')->find($accountId);
     $txnRepo = $em->getRepository('AppBundle:AccountTransactions');
     $txns = $txnRepo->queryAccountFromTo($account, $from, $to);
+    $balanceTo = $txnRepo->queryCurrentBalanceByAccountTo($account, $to);
     $currentBalance = $txnRepo->queryCurrentBalanceByAccount($account);
     $overdue = $txnRepo->queryOverdueAccountTo($account, $from);
     $taxes = null;
@@ -89,6 +90,7 @@ class AccountingController extends Controller
           "to" => $to,
           "txns" => $txns,
           "total" => $total,
+          "balanceTo" => $balanceTo,
           "currentBalance" => $currentBalance,
           "overdue" => $overdue,
           "taxes" => $taxes
