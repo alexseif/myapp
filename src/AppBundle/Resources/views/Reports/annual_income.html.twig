@@ -1,0 +1,42 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}Income Reports{% endblock %}
+
+{% block content %}
+  <div id="chart_div" style="height: 83vh;"></div>
+{% endblock %}
+{% block javascripts %}
+  {{ parent() }}
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    google.charts.load('current', {packages: ['corechart', 'line']});
+    google.charts.setOnLoadCallback(drawTrendlines);
+
+    function drawTrendlines() {
+      var data = new google.visualization.DataTable();
+      data.addColumn('string', 'Year');
+      data.addColumn('number', 'amount');
+
+      data.addRows([{% for year, txns in income %}
+        ['{{ year }}',{{ income[year] }} ]
+    {% if not loop.last %}
+                  ,
+    {% endif %}
+    {% endfor %}
+        ]);
+
+        var options = {
+          legendTextStyle: {color: '#FFF'},
+          titleTextStyle: {color: '#FFF'},
+          backgroundColor: '#222',
+          hAxis: {title: 'Year', textStyle: {color: '#FFF'}, titleTextStyle: {color: '#FFF'}},
+          vAxis: {title: 'Income', textStyle: {color: '#FFF'}, titleTextStyle: {color: '#FFF'}, gridlines: {color: 'transparent'}},
+          crosshair: {color: 'pink', trigger: 'both'},
+          trendlines: {0: {type: 'linear', color: 'green', visibleInLegend: true, opacity: 1}}
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+    </script>
+    {% endblock %}
