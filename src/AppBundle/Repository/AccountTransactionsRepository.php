@@ -83,6 +83,20 @@ class AccountTransactionsRepository extends EntityRepository
             ->getSingleResult();
   }
 
+  public function queryCurrentBalanceByAccountTo($account, $to)
+  {
+    return $this
+            ->createQueryBuilder('at')
+            ->select('SUM(at.amount) as amount')
+            ->where('at.account = :account')
+            ->andWhere('at.issuedAt <= :to')
+            ->orderBy('at.issuedAt')
+            ->setParameter(':account', $account)
+            ->setParameter(':to', $to)
+            ->getQuery()
+            ->getSingleResult();
+  }
+
   public function queryOverdueAccountTo($account, $to)
   {
     return $this
