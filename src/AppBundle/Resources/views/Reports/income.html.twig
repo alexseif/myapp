@@ -14,43 +14,34 @@
 
     function drawTrendlines() {
       var data = new google.visualization.DataTable();
-      data.addColumn('string', 'IssuedAt');
+      data.addColumn('date', 'IssuedAt');
+      data.addColumn('number', 'amount');
 
-    {% for year, txns in income %}
-        data.addColumn('number', '{{ year }}');
-    {% endfor %}
-
-        data.addRows([{% for month in 1..12 %}{% for year, txns in income %}
-    {% if(loop.first) %} 
-          ['{{month}}',              {% endif %}
-      {{ income[year]["%02d"|format(month)] }}
+      data.addRows([{% for year, txns in income %}
+    {% for month, txn in txns%}
+          [new Date({{ year }}, {{ month }}, 1),{{ income[year][month] }} ]
       {% if not loop.last %}
-              ,
+                    ,
       {% endif %}
-      {% endfor %}
-        {% if not loop.last %}
-              ],
-        {% else %}
-            ]
-        {% endif %}
-        {% endfor %}
-            ]);
+    {% endfor %}
+    {% if not loop.last %}
+                  ,
+    {% endif %}
+    {% endfor %}
+        ]);
 
-            var options = {
-              legendTextStyle: {color: '#FFF'},
-              titleTextStyle: {color: '#FFF'},
-              hAxis: {title: 'Month', textStyle: {color: '#FFF'}, titleTextStyle: {color: '#FFF'}},
-              vAxis: {title: 'Income', textStyle: {color: '#FFF'}, titleTextStyle: {color: '#FFF'}},
-              backgroundColor: '#222',
-              crosshair: {
-                color: 'pink',
-                trigger: 'both'
-              }
+        var options = {
+          legendTextStyle: {color: '#FFF'},
+          titleTextStyle: {color: '#FFF'},
+          backgroundColor: '#222',
+          hAxis: {title: 'Date', textStyle: {color: '#FFF'}, titleTextStyle: {color: '#FFF'}},
+          vAxis: {title: 'Income', textStyle: {color: '#FFF'}, titleTextStyle: {color: '#FFF'}, gridlines: {color: 'transparent'}},
+          crosshair: {color: 'pink', trigger: 'both'},
+          trendlines: {0: {type: 'exponential', color: 'green', visibleInLegend: true, opacity: 1}}
+        };
 
-            };
-
-            var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
-            chart.draw(data, options);
-          }
-        </script>
-        {% endblock %}
+        var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+    </script>
+    {% endblock %}
