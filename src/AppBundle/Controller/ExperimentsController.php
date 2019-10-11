@@ -20,8 +20,9 @@ class ExperimentsController extends Controller
   public function indexAction()
   {
     $experiments = [
+      "Reports" => "reports_index",
       "Tasks" => "experiment_tasks",
-      "Accounts" => "experiment_accounts"
+      "Accounts" => "experiment_accounts",
     ];
     return $this->render('AppBundle:Experiments:index.html.twig', array(
           "experiments" => $experiments,
