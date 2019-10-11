@@ -140,4 +140,26 @@ class ReportsController extends Controller
     ));
   }
 
+  /**
+   * 
+   * @Route("/annual_income", name="reports_annual_income")
+   */
+  public function annualIncomeAction()
+  {
+    $em = $this->getDoctrine()->getManager();
+    $txns = $em->getRepository('AppBundle:AccountTransactions')->queryIncome();
+
+    $income = [];
+    foreach ($txns as $txn) {
+      if (!key_exists($txn->getIssuedAt()->format('Y'), $income)) {
+        $income[$txn->getIssuedAt()->format('Y')] = 0;
+      }
+      $income[$txn->getIssuedAt()->format('Y')] += $txn->getAmount();
+    }
+
+    return $this->render('AppBundle:Reports:annual_income.html.twig', array(
+          "income" => $income
+    ));
+  }
+
 }
