@@ -142,7 +142,7 @@ class DefaultController extends Controller
   {
     $tasks = $taskList->getTasks(false);
     $random = rand(0, $tasks->count() - 1);
-    return $this->render("tasks/show_modal.html.twig", array(
+    return $this->render("AppBundle:tasks:show_modal.html.twig", array(
           'task' => $tasks->get($random),
     ));
   }

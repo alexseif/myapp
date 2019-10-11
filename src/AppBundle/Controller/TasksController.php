@@ -211,7 +211,6 @@ class TasksController extends Controller
    */
   public function showModalAction(Tasks $tasks)
   {
-
     return $this->render("AppBundle:tasks:show_modal.html.twig", array(
           'task' => $tasks,
     ));

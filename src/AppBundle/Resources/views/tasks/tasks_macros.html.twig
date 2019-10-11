@@ -22,20 +22,14 @@
       <input type="checkbox" data-taskid="{{task.id}}" class="checkbox-inline" 
              {{ task.completed ? "checked" : "" }}/>
       {{ task.task|truncate(50) }}
-      <span class="ml-1">
-        {{ taskUI.taskIcons(task.urgency, task.priority) }}
-      </span>
+      {{ taskUI.taskIcons(task.urgency, task.priority) }}
     </label>
-    <a
-      class="btn-sm"
-      data-toggle="modal"
-      data-target="#"
-      href="{{ path('task_show_modal', {"id":task.id}) }}"
-      >Open</a>
-
+    {% if task.est %}
+      <small class="text-info">{{ task.est ~ "m"}}</small>
+    {% endif %}
     {% if displayListName %}
       <span class="visible-lg-inline-block visible-md-inline-block">
-        <a class="badge badge-default task-list-name" 
+        <a class="badge badge-default" 
            data-tasklist="{{ task.taskList.name }}" 
            href="{{ path("focus_tasklist", {'name':task.taskList.name}) }}">{{ task.taskList.name }}</a>
         {% if (task.taskList.account) %}
@@ -48,28 +42,26 @@
         {% endif %}
       </span>
     {% endif %}
-    <small class="text-info">{{ task.est ? task.est ~ "m"}}</small>
-    <span class="visible-lg-inline visible-md-inline">
+    <span class="visible-lg-inline visible-md-inline float-right">
       {% if(not task.completed) %}
+        <a class="btn btn-secondary postpone btn-sm" data-toggle="modal" data-target="#"
+           href="{{ path('task_show_modal', {"id":task.id}) }}">
+          <i class="fas fa-folder-open"></i></a>
         <a  data-taskid="{{task.id}}"
             data-postpone="+1 hour"
             title="5 mins"
-            class="btn btn-secondary edit-fixed-link postpone btn-sm"
-            style="right: 95px;">
+            class="btn btn-secondary postpone btn-sm">
           <img src="/images/snooze_white_18x18.png" width="18px" />
         </a>
         <a  data-taskid="{{task.id}}"
             data-postpone="tomorrow"
             title="tomorrow"
-            class="btn btn-secondary edit-fixed-link postpone btn-sm"
-            style="right: 50px;">
+            class="btn btn-secondary postpone btn-sm">
           <img src="/images/zzz.png" width="18px"/>
         </a>
-
       {% endif %}
-
       <a href="{{ path('tasks_edit', { 'id': task.id }) }}" 
-         class="btn btn-secondary edit-fixed-link btn-{{ task.completed ? "xs":"sm" }}">
+         class="btn btn-secondary btn-{{ task.completed ? "xs":"sm" }}">
         Edit</a>
     </span>
   </li>

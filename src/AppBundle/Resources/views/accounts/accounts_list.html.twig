@@ -1,5 +1,5 @@
 {% import "macros/a.html.twig" as a %}
-<table class="table table-condensed table-bottom-border">
+<table class="table table-condensed table-bottom-border accounts">
   <tbody>
     {% set total = 0 %}
     {% for account in accounts %}
@@ -8,7 +8,7 @@
         <tr>
           <td>
             <a href="{{ path('accounts_show', { 'id': account.id }) }}" 
-               class="btn btn-sm btn-secondary" style="text-align: left;">
+               class="btn btn-sm btn-link text-{{ account.balance == 0 ? "default" : account.balance < 0 ? "success": "danger" }}">
               {% if (account.client) %}
                 <span class="badge badge-primary">{{ account.client.name }}</span>
               {% endif %}
@@ -17,8 +17,7 @@
           </td>
           <td>
             <a href="{{ path('accounts_show', { 'id': account.id }) }}" 
-               class="btn btn-sm btn-{{ account.balance == 0 ? "default" : account.balance < 0 ? "success": "danger" }}" 
-               style="text-align: right;">
+               class="btn btn-sm btn-link text-{{ account.balance == 0 ? "default" : account.balance < 0 ? "success": "danger" }}">
               EGP {{ account.balance|number_format }}
             </a>
           </td>
