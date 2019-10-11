@@ -91,9 +91,9 @@ class ReportsController extends Controller
 
   /**
    * 
-   * @Route("/income", name="reports_income")
+   * @Route("/diff", name="reports_diff")
    */
-  public function incomeAction()
+  public function diffAction()
   {
     $em = $this->getDoctrine()->getManager();
     $txns = $em->getRepository('AppBundle:AccountTransactions')->queryIncome();
@@ -106,6 +106,31 @@ class ReportsController extends Controller
         foreach ($months as $month) {
           $income[$txn->getIssuedAt()->format('Y')][$month] = 0;
         }
+      }
+      $income[$txn->getIssuedAt()->format('Y')][$txn->getIssuedAt()->format('m')] += $txn->getAmount();
+    }
+
+    return $this->render('AppBundle:Reports:diff.html.twig', array(
+          "income" => $income
+    ));
+  }
+
+  /**
+   * 
+   * @Route("/income", name="reports_income")
+   */
+  public function incomeAction()
+  {
+    $em = $this->getDoctrine()->getManager();
+    $txns = $em->getRepository('AppBundle:AccountTransactions')->queryIncome();
+
+    $income = [];
+    foreach ($txns as $txn) {
+      if (!key_exists($txn->getIssuedAt()->format('Y'), $income)) {
+        $income[$txn->getIssuedAt()->format('Y')] = [];
+      }
+      if (!key_exists($txn->getIssuedAt()->format('m'), $income[$txn->getIssuedAt()->format('Y')])) {
+        $income[$txn->getIssuedAt()->format('Y')][$txn->getIssuedAt()->format('m')] = 0;
       }
       $income[$txn->getIssuedAt()->format('Y')][$txn->getIssuedAt()->format('m')] += $txn->getAmount();
     }
