@@ -28,7 +28,7 @@
       <small class="text-info">{{ task.est ~ "m"}}</small>
     {% endif %}
     {% if displayListName %}
-      <span class="visible-lg-inline-block visible-md-inline-block">
+      <span class="d-none d-lg-inline-block d-md-inline-block">
         <a class="badge badge-default" 
            data-tasklist="{{ task.taskList.name }}" 
            href="{{ path("focus_tasklist", {'name':task.taskList.name}) }}">{{ task.taskList.name }}</a>
@@ -43,25 +43,25 @@
       </span>
     {% endif %}
     <span class="visible-lg-inline visible-md-inline float-right">
-      {% if(not task.completed) %}
-        <a class="btn btn-secondary postpone btn-sm" data-toggle="modal" data-target="#"
-           href="{{ path('task_show_modal', {"id":task.id}) }}">
-          <i class="fas fa-folder-open"></i></a>
+      <a class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#"
+         href="{{ path('task_show_modal', {"id":task.id}) }}">
+        <i class="fas fa-folder-open"></i></a>
+        {% if(not task.completed) %}
         <a  data-taskid="{{task.id}}"
             data-postpone="+1 hour"
             title="5 mins"
-            class="btn btn-secondary postpone btn-sm">
+            class="btn btn-secondary postpone btn-sm d-none d-md-inline-block">
           <img src="/images/snooze_white_18x18.png" width="18px" />
         </a>
         <a  data-taskid="{{task.id}}"
             data-postpone="tomorrow"
             title="tomorrow"
-            class="btn btn-secondary postpone btn-sm">
+            class="btn btn-secondary postpone btn-sm d-none d-md-inline-block">
           <img src="/images/zzz.png" width="18px"/>
         </a>
       {% endif %}
       <a href="{{ path('tasks_edit', { 'id': task.id }) }}" 
-         class="btn btn-secondary btn-{{ task.completed ? "xs":"sm" }}">
+         class="btn btn-secondary btn-{{ task.completed ? "xs":"sm" }} d-none d-md-inline-block">
         Edit</a>
     </span>
   </li>
