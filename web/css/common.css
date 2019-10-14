@@ -88,7 +88,7 @@ select{max-width: 100%;}
 .accounts th,
 .accounts td{padding: 0.3rem 0;}
 
-label.task{max-width: 70vw; overflow: hidden;}
+label.task{max-width: 65vw; overflow: hidden;}
 @media (min-width: 768px) { 
   label.task{max-width: 35vw;}
 }
