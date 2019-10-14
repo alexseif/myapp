@@ -23,10 +23,10 @@
              {{ task.completed ? "checked" : "" }}/>
       {{ task.task|truncate(50) }}
       {{ taskUI.taskIcons(task.urgency, task.priority) }}
+      {% if task.est %}
+        <small class="text-info">{{ task.est ~ "m"}}</small>
+      {% endif %}
     </label>
-    {% if task.est %}
-      <small class="text-info">{{ task.est ~ "m"}}</small>
-    {% endif %}
     {% if displayListName %}
       <span class="d-none d-lg-inline-block d-md-inline-block">
         <a class="badge badge-default" 
