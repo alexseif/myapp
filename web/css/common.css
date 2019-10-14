@@ -87,3 +87,8 @@ select{max-width: 100%;}
 .costOfLife td{padding: 0.3rem;}
 .accounts th,
 .accounts td{padding: 0.3rem 0;}
+
+label.task{max-width: 70vw; overflow: hidden;}
+@media (min-width: 768px) { 
+  label.task{max-width: 35vw;}
+}
