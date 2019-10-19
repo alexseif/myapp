@@ -9,7 +9,7 @@ var Tasks = {
   init: function () {
     this.bindEvents();
     if (this.isFocus) {
-      $('<ul class="list-group task-list" id="focus"></ul>').prependTo('.container');
+      $('<ul class="list-group task-list mb-2" id="focus"></ul>').prependTo('.container');
       this.drawFocus();
       if (!touch) {
         $("#focus").sortable({
