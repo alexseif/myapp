@@ -124,7 +124,7 @@ class TasksController extends Controller
       "priority" => "DESC",
       "urgency" => "DESC",
       "order" => "ASC",
-      "est" => "ASC"
+      "duration" => "ASC"
     ));
 
     return $this->render("AppBundle:tasks:advanced.html.twig", array(

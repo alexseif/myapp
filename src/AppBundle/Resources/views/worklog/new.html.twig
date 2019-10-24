@@ -12,7 +12,7 @@
   <script>
     function updateCost(updatePricePerUnit = true) {
       $('#appbundle_worklog_name').val($("#appbundle_worklog_task :selected").text());
-      $('#appbundle_worklog_duration').val($("#appbundle_worklog_task :selected").data("est"));
+      $('#appbundle_worklog_duration').val($("#appbundle_worklog_task :selected").data("duration"));
       if (updatePricePerUnit) {
         $('#appbundle_worklog_pricePerUnit').val(ClientRates[$("#appbundle_worklog_task :selected").data("client")]);
       }

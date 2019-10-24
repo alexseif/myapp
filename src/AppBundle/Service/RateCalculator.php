@@ -46,8 +46,8 @@ class RateCalculator
 
     $client = $task->getTaskList()->getAccount()->getClient();
 
-    if ($task->getEst()) {
-      $this->getRate($client) * $task->getEst();
+    if ($task->getDuration()) {
+      $this->getRate($client) * $task->getDuration();
     }
     return null;
   }
@@ -57,7 +57,7 @@ class RateCalculator
     $total = 0;
     foreach ($tasks as $task) {
       $rate = $this->getRateByTask($task);
-      $total += $task->getEst()/60 * $rate;
+      $total += $task->getDuration()/60 * $rate;
     }
     return $total;
   }

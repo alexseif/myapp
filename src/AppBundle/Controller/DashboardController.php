@@ -23,10 +23,10 @@ class DashboardController extends Controller
     $days = $em->getRepository('AppBundle:Days')->getActiveCards();
     $accounts = $em->getRepository('AppBundle:Accounts')->findBy(array('conceal' => false));
     $tsksCntDay = $em->getRepository('AppBundle:Tasks')->findTasksCountByDay();
-    $estSum = $em->getRepository('AppBundle:Tasks')->sumEst()["est"];
+    $durationSum = $em->getRepository('AppBundle:Tasks')->sumDuration()["duration"];
     $today = new \DateTime();
     $endDay = new \DateTime();
-    $endDay->add(\DateInterval::createFromDateString($estSum . " minutes"));
+    $endDay->add(\DateInterval::createFromDateString($durationSum . " minutes"));
     $interval = $endDay->diff($today, true);
     /** Cost Of Life * */
 
@@ -41,19 +41,19 @@ class DashboardController extends Controller
     $piechart['Low'] = 0;
 
     foreach ($countByUrgenctAndPriority as $key => $row) {
-      $row['est'] = (int) $row['est'];
+      $row['duration'] = (int) $row['duration'];
       if ($row['urgency']) {
         if ($row['priority']) {
-          $piechart['Urgent & Important'] = $row['est'];
+          $piechart['Urgent & Important'] = $row['duration'];
         } else {
-          $piechart['Urgent'] = $row['est'];
+          $piechart['Urgent'] = $row['duration'];
         }
       } elseif ($row['priority'] > 0) {
-        $piechart['Important'] = $row['est'];
+        $piechart['Important'] = $row['duration'];
       } elseif ($row['priority'] < 0) {
-        $piechart['Low'] = $row['est'];
+        $piechart['Low'] = $row['duration'];
       } else {
-        $piechart['Normal'] = $row['est'];
+        $piechart['Normal'] = $row['duration'];
       }
     }
 

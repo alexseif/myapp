@@ -23,7 +23,7 @@ class WorkLogType extends AbstractType
             return $tasks->getTaskList()->getName();
           },
           'choice_attr' => function($tasks, $key, $index) {
-            return ['data-est' => $tasks->getEst(), 'data-client' => $tasks->getClient()];
+            return ['data-duration' => $tasks->getDuration(), 'data-client' => $tasks->getClient()];
           },
           'attr' => array(
             'class' => 'chosen'

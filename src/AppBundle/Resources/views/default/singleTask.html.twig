@@ -47,7 +47,7 @@
                   <span class="badge badge-secondary">?</span>
                 {% endif %}
                 </span>
-                <h3 class="text-info">{{ task.est ? task.est ~ "m"}}</h3>
+                <h3 class="text-info">{{ task.duration ? task.duration ~ "m"}}</h3>
                 {% if (task.taskList.account) %}
                   <p>{{ task.taskList.account.name }}</p>
                   {% if (task.taskList.account.client) %}

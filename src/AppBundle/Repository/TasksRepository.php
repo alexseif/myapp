@@ -131,16 +131,16 @@ class TasksRepository extends EntityRepository
   }
 
   /**
-   * Sums the est of completed tasks after date
+   * Sums the duration of completed tasks after date
    * 
    * @param type $date
    * @return type
    */
-  public function sumCompletedEstAfter($date)
+  public function sumCompletedDurationAfter($date)
   {
     return $this
             ->createQueryBuilder('t')
-            ->select('sum(t.est) as est')
+            ->select('sum(t.duration) as duration')
             ->where('t.completedAt > :date')
             ->addOrderBy("t.order", "ASC")
             ->setParameter(':date', $date->format('Y-m-d H:i'))
@@ -153,12 +153,12 @@ class TasksRepository extends EntityRepository
    * 
    * @return type
    */
-  public function sumCompletedEstToday()
+  public function sumCompletedDurationToday()
   {
     $date = new \DateTime();
     $date->setTime(00, 00, 00);
 
-    return $this->sumCompletedEstAfter($date);
+    return $this->sumCompletedDurationAfter($date);
   }
 
   /**
@@ -166,7 +166,7 @@ class TasksRepository extends EntityRepository
    * 
    * @return type
    */
-  public function sumCompletedEstThisWeek()
+  public function sumCompletedDurationThisWeek()
   {
 //    https://stackoverflow.com/a/11905818/1030170
     $day = date('w');
@@ -176,7 +176,7 @@ class TasksRepository extends EntityRepository
     $date = new \DateTime();
     $date->sub(new \DateInterval("P" . $day . "D"));
     $date->setTime(00, 00, 00);
-    return $this->sumCompletedEstAfter($date);
+    return $this->sumCompletedDurationAfter($date);
   }
 
   /**
@@ -184,7 +184,7 @@ class TasksRepository extends EntityRepository
    * 
    * @return type
    */
-  public function sumCompletedEstThisMonth()
+  public function sumCompletedDurationThisMonth()
   {
 //    https://stackoverflow.com/a/11905818/1030170
 //    $day = date('d');
@@ -194,7 +194,7 @@ class TasksRepository extends EntityRepository
     $date = new \DateTime();
     $date->setDate($date->format('Y'), $date->format('m'), 1);
     $date->setTime(00, 00, 00);
-    return $this->sumCompletedEstAfter($date);
+    return $this->sumCompletedDurationAfter($date);
   }
 
   /**
@@ -271,11 +271,11 @@ class TasksRepository extends EntityRepository
             ->getResult();
   }
 
-  public function sumEst()
+  public function sumDuration()
   {
     return $this
             ->createQueryBuilder('t')
-            ->select('SUM(t.est) as est')
+            ->select('SUM(t.duration) as duration')
             ->where('t.completed <> true')
             ->getQuery()
             ->getSingleResult();
@@ -285,7 +285,7 @@ class TasksRepository extends EntityRepository
   {
     return $this
             ->createQueryBuilder('t')
-            ->select('COUNT(t.id) as cnt, SUM(t.est) as est, t.urgency, t.priority')
+            ->select('COUNT(t.id) as cnt, SUM(t.duration) as duration, t.urgency, t.priority')
             ->where('t.completed <> true')
             ->orderBy("t.urgency", "DESC")
             ->addOrderBy("t.priority", "DESC")
@@ -299,7 +299,7 @@ class TasksRepository extends EntityRepository
   {
     return $this
             ->createQueryBuilder('t')
-            ->select('SUM(t.est), t.urgency, t.priority')
+            ->select('SUM(t.duration), t.urgency, t.priority')
             ->where('t.completed <> true')
             ->orderBy("t.urgency", "DESC")
             ->addOrderBy("t.priority", "DESC")
@@ -374,7 +374,7 @@ class TasksRepository extends EntityRepository
   {
     return $this
             ->createQueryBuilder('t')
-            ->select('t.est, MONTH(t.completedAt) as mnth, YEAR(t.completedAt) as yr')
+            ->select('t.duration, MONTH(t.completedAt) as mnth, YEAR(t.completedAt) as yr')
             ->leftJoin('t.taskList', 'tl')
             ->leftJoin('tl.account', 'a')
             ->where('a.client = :client')

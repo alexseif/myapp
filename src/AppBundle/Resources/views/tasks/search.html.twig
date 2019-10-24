@@ -56,7 +56,7 @@
           <td>{{ task.completed ? "Completed": "Open"}}</td>
           <td>{{ task.priorityName }}</td>
           <td>{{ task.urgencyName }}</td>
-          <td>{{ task.est }}</td>
+          <td>{{ task.duration }}</td>
           <td data-order="{{ task.createdAt|date('U')  }}">{{ task.createdAt|date  }}</td>
           <td>{{ task.taskList }}</td>
         </tr>

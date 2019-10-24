@@ -48,18 +48,18 @@ class ReportsController extends Controller
   public function hourlyAction(Client $client)
   {
     $em = $this->getDoctrine()->getManager();
-    $ests = $em->getRepository('AppBundle:Tasks')->findCompletedByClient($client);
+    $durations = $em->getRepository('AppBundle:Tasks')->findCompletedByClient($client);
     $hourly = array();
     $year = 0;
     $month = 0;
-    foreach ($ests as $est) {
-      if (!key_exists($est['yr'], $hourly)) {
-        $hourly[$est['yr']] = array();
+    foreach ($durations as $duration) {
+      if (!key_exists($duration['yr'], $hourly)) {
+        $hourly[$duration['yr']] = array();
       }
-      if (!key_exists($est['mnth'], $hourly[$est['yr']])) {
-        $hourly[$est['yr']][$est['mnth']] = 0;
+      if (!key_exists($duration['mnth'], $hourly[$duration['yr']])) {
+        $hourly[$duration['yr']][$duration['mnth']] = 0;
       }
-      $hourly[$est['yr']][$est['mnth']] += $est['est'];
+      $hourly[$duration['yr']][$duration['mnth']] += $duration['duration'];
     }
     $yearAverage = 0;
     foreach ($hourly as $year => $hour) {

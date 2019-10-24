@@ -188,16 +188,16 @@ class TaskLists
     return $this->tasks->matching($criteria);
   }
 
-  public function getEstTotal($showComplete = true)
+  public function getDurationTotal($showComplete = true)
   {
-    $estTotal = 0;
+    $durationTotal = 0;
     $tasks = $this->getTasks($showComplete);
     foreach ($tasks as $task) {
-      $estTotal += $task->getEst();
+      $durationTotal += $task->getDuration();
     }
     $today = new \DateTime();
     $endDay = new \DateTime();
-    $endDay->add(\DateInterval::createFromDateString($estTotal . " minutes"));
+    $endDay->add(\DateInterval::createFromDateString($durationTotal . " minutes"));
     $interval = $endDay->diff($today);
 
     return $interval;

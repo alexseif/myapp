@@ -137,7 +137,7 @@ class WorkLogController extends Controller
 
       $workLog->setTask($task);
       $workLog->setName($task->getTask());
-      $workLog->setDuration($task->getEst());
+      $workLog->setDuration($task->getDuration());
       $workLog->setTotal($workLog->getPricePerUnit() / 60 * $workLog->getDuration());
     }
 
@@ -187,7 +187,7 @@ class WorkLogController extends Controller
       if (!$task) {
         throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
       }
-      if ($task->getEst() > 0) {
+      if ($task->getDuration() > 0) {
         if (is_null($task->getWorkLog())) {
           $task->setWorkLog(new WorkLog());
         }
@@ -195,7 +195,7 @@ class WorkLogController extends Controller
         $task->getWorklog()->setTask($task);
         $task->getWorklog()->setPricePerUnit($costOfLife->getHourly());
         $task->getWorklog()->setName($task->getTask());
-        $task->getWorklog()->setDuration($task->getEst());
+        $task->getWorklog()->setDuration($task->getDuration());
         $task->getWorklog()->setTotal($task->getWorklog()->getPricePerUnit() / 60 * $task->getWorklog()->getDuration());
         $em->persist($task->getWorklog());
       } else {

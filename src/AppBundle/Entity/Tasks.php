@@ -57,7 +57,14 @@ class Tasks
   private $urgency;
 
   /**
-   * @var boolean
+   * @var integer
+   *
+   * @ORM\Column(name="duration", type="integer", nullable=true)
+   */
+  private $duration;
+
+  /**
+   * @var integer
    *
    * @ORM\Column(name="est", type="integer", nullable=true)
    */
@@ -385,26 +392,26 @@ class Tasks
   }
 
   /**
-   * Set est
+   * Set duration
    *
-   * @param integer $est
+   * @param integer $duration
    * @return Tasks
    */
-  public function setEst($est)
+  public function setDuration($duration)
   {
-    $this->est = $est;
+    $this->duration = $duration;
 
     return $this;
   }
 
   /**
-   * Get est
+   * Get duration
    *
    * @return integer 
    */
-  public function getEst()
+  public function getDuration()
   {
-    return $this->est;
+    return $this->duration;
   }
 
   /**
@@ -496,4 +503,28 @@ class Tasks
     return $this->getTaskString();
   }
 
+
+    /**
+     * Set est.
+     *
+     * @param int|null $est
+     *
+     * @return Tasks
+     */
+    public function setEst($est = null)
+    {
+        $this->est = $est;
+
+        return $this;
+    }
+
+    /**
+     * Get est.
+     *
+     * @return int|null
+     */
+    public function getEst()
+    {
+        return $this->est;
+    }
 }

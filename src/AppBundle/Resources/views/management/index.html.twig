@@ -46,7 +46,7 @@
                 ?
               {% endif %}
             </span>
-            <span class="task-est">{{ task.est? task.est ~ "m":"~" }} </span>
+            <span class="task-est">{{ task.duration? task.duration ~ "m":"~" }} </span>
             <span class="task-list-name">{{ task.taskList.name }} </span>
             {{ task.task }} 
             <div class="task-actions float-right">

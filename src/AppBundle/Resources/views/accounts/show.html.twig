@@ -51,7 +51,7 @@
             </span>
             <div class="float-right">
               <span class="badge badge-default">{{ taskList.tasks(false).count }}</span>
-              <span class="badge badge-info">{{ taskList.estTotal|date("%d %H:%I") }}</span>
+              <span class="badge badge-info">{{ taskList.durationTotal|date("%d %H:%I") }}</span>
               <button data-toggle="collapse" href="#taskList-{{ taskList.id }}" class="btn btn-secondary btn-sm collapsed">-</button>
             </div>
           </div>
