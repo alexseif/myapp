@@ -140,7 +140,7 @@ class TasksRepository extends EntityRepository
   {
     return $this
             ->createQueryBuilder('t')
-            ->select('sum(t.est) as est')
+            ->select('sum(t.duration) as est')
             ->where('t.completedAt > :date')
             ->addOrderBy("t.order", "ASC")
             ->setParameter(':date', $date->format('Y-m-d H:i'))
@@ -275,7 +275,7 @@ class TasksRepository extends EntityRepository
   {
     return $this
             ->createQueryBuilder('t')
-            ->select('SUM(t.est) as est')
+            ->select('SUM(t.duration) as est')
             ->where('t.completed <> true')
             ->getQuery()
             ->getSingleResult();
@@ -285,7 +285,7 @@ class TasksRepository extends EntityRepository
   {
     return $this
             ->createQueryBuilder('t')
-            ->select('COUNT(t.id) as cnt, SUM(t.est) as est, t.urgency, t.priority')
+            ->select('COUNT(t.id) as cnt, SUM(t.duration) as est, t.urgency, t.priority')
             ->where('t.completed <> true')
             ->orderBy("t.urgency", "DESC")
             ->addOrderBy("t.priority", "DESC")
@@ -299,7 +299,7 @@ class TasksRepository extends EntityRepository
   {
     return $this
             ->createQueryBuilder('t')
-            ->select('SUM(t.est), t.urgency, t.priority')
+            ->select('SUM(t.duration), t.urgency, t.priority')
             ->where('t.completed <> true')
             ->orderBy("t.urgency", "DESC")
             ->addOrderBy("t.priority", "DESC")
@@ -374,7 +374,7 @@ class TasksRepository extends EntityRepository
   {
     return $this
             ->createQueryBuilder('t')
-            ->select('t.est, MONTH(t.completedAt) as mnth, YEAR(t.completedAt) as yr')
+            ->select('t.duration, MONTH(t.completedAt) as mnth, YEAR(t.completedAt) as yr')
             ->leftJoin('t.taskList', 'tl')
             ->leftJoin('tl.account', 'a')
             ->where('a.client = :client')

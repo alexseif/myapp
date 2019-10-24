@@ -39,7 +39,7 @@
             <a href="#" class="list-group-item task-list" data-id="{{list.id}}">
               <h4 class="list-group-item-heading">{{ list.name }} <small>{{list.tasks(false)|length}} tasks</small></h4>
               <p class="list-group-item-text">
-                {{ list.estTotal|date("%d %H:%I")}}
+                {{ list.durationTotal|date("%d %H:%I")}}
               </p>
               {% set progress = ((list.tasks(true)|length-list.tasks(false)|length) / list.tasks(true)|length * 100) |round%}
               <div class="progress">

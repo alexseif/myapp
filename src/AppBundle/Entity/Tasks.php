@@ -59,9 +59,9 @@ class Tasks
   /**
    * @var boolean
    *
-   * @ORM\Column(name="est", type="integer", nullable=true)
+   * @ORM\Column(name="duration", type="integer", nullable=true)
    */
-  private $est;
+  private $duration;
 
   /**
    * @var datetime
@@ -385,26 +385,26 @@ class Tasks
   }
 
   /**
-   * Set est
+   * Set duration
    *
-   * @param integer $est
+   * @param integer $duration
    * @return Tasks
    */
-  public function setEst($est)
+  public function setDuration($duration)
   {
-    $this->est = $est;
+    $this->duration = $duration;
 
     return $this;
   }
 
   /**
-   * Get est
+   * Get duration
    *
    * @return integer 
    */
-  public function getEst()
+  public function getDuration()
   {
-    return $this->est;
+    return $this->duration;
   }
 
   /**

@@ -12,7 +12,7 @@
         data-order="id_{{task.id}}" 
         id="task_{{task.id}}" 
         data-id="{{task.id}}"
-        data-time="{{ task.est }}"
+        data-time="{{ task.duration }}"
         data-order-no="{{ task.order }}"
         >
       <div class="clearfix">
@@ -58,7 +58,7 @@
           <tbody>
             <tr>
               <td><span class="badge badge-default">Est:</span></td>
-              <td>{{ task.est ? task.est ~ "m"}}</td>
+              <td>{{ task.duration ? task.duration ~ "m"}}</td>
             </tr>
             <tr>
               <td><span class="badge badge-default">Created At:</span></td>

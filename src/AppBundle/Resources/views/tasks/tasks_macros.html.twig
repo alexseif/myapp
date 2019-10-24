@@ -15,7 +15,7 @@
       data-order="id_{{task.id}}" 
       id="task_{{task.id}}" 
       data-id="{{task.id}}"
-      data-time="{{ task.est }}"
+      data-time="{{ task.duration }}"
       data-order-no="{{ task.order }}"
       >
     <label class="btn btn-secondary btn-{{ task.completed ? "xs":"sm" }} task mr-1 mb-0">
@@ -23,8 +23,8 @@
              {{ task.completed ? "checked" : "" }}/>
       {{ task.task|truncate(50) }}
       {{ taskUI.taskIcons(task.urgency, task.priority) }}
-      {% if task.est %}
-        <small class="text-info">{{ task.est ~ "m"}}</small>
+      {% if task.duration %}
+        <small class="text-info">{{ task.duration ~ "m"}}</small>
       {% endif %}
     </label>
     {% if displayListName %}

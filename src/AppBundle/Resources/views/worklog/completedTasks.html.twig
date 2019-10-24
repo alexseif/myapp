@@ -68,7 +68,7 @@
               {% endif %}
             {% endif %}
           </td>
-          <td class="text-right">{{ task.est ? task.est : 0 }}m</td>
+          <td class="text-right">{{ task.duration ? task.duration : 0 }}m</td>
           <td>{{ (task.createdAt) ? task.createdAt|date }}</td>
           <td data-order="{{ (task.completedAt) ? task.completedAt.timestamp }}">{{ (task.completedAt) ? task.completedAt|date }}</td>
           <td>
