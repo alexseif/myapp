@@ -1,48 +1,18 @@
 {% extends "::base.html.twig" %}
 {% import "AppBundle:tasks:tasks_macros.html.twig" as tasks_view %}
+{% import "macros/a.html.twig" as a %}
 
 {% block title %}AppBundle:Planner:index{% endblock %}
+{% block floatingActions %}{{ a.add('planner_list') }}{% endblock %}
 
 {% block content %}
   <style>
     .planner-tasks{min-height: 50px;}
     .planner-tasks .list-group-item{min-height: 50px;}
   </style>
-  <h1>Welcome to the Planner:index page</h1>
-  <div class="row">
-    <div id="planner" class="col">
-      {% for key,planner in planners %}
-        <div class="card">
-          <button class="text-left bg-transparent border-0 p-0" type="button" data-toggle="collapse" 
-                  data-target="#planner-{{ key }}" aria-expanded="false" 
-                  aria-controls="planner-{{ key }}">
-            <div class="card-header px-3 py-2">
-              <span class="card-title mr-2">
-                {{ key }}
-              </span>
-            </div>
-          </button>
-          <div class="collapse" id="planner-{{ key }}">
-            {{ tasks_view.ul(planner, '',false) }}
-          </div>
-        </div>
-      {% endfor %}
-    </div>
+  <div class="container">
+    {% for key,planner in planners %}
+      {{ tasks_view.ul(planner, '',false) }}
+    {% endfor %}
   </div>
-
-{% endblock %}
-{% block javascripts %}
-  {{ parent() }}
-  <script>
-    var planner_update = '{{ path("planner_update") }}';
-    $(function () {
-      $(".task-list").sortable({
-        connectWith: "ul.planner-tasks, ul.task-list",
-        items: "li:not(.completed)",
-        update: function () {
-          return true;
-        }
-      });
-    })
-  </script>
 {% endblock %}

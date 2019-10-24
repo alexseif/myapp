@@ -18,7 +18,7 @@
                   aria-controls="planner-{{ key }}">
             <div class="card-header px-3 py-2">
               <span class="card-title mr-2">
-                {{ planner|date }}
+                {{ planner|date('Y-m-d') }}
               </span>
             </div>
           </button>
@@ -71,10 +71,9 @@
 {% block javascripts %}
   {{ parent() }}
   <script>
+    var planners = [];
     function updatePlanner(e) {
 
-      var dataString = "";
-      var planners = [];
       $('.planner-tasks').each(function () {
         $plannerId = $(this).data('planner');
         planners[$plannerId] = [];

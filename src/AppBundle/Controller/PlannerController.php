@@ -37,6 +37,7 @@ class PlannerController extends Controller
   public function updateAction(Request $request)
   {
     $planners = $request->get('planners');
+    dump($planners);
     $em = $this->getDoctrine()->getManager();
     foreach ($planners as $key => $planner) {
       foreach ($planner as $sortOrder => $taskId) {
