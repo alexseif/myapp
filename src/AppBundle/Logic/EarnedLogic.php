@@ -53,7 +53,7 @@ class EarnedLogic
     $total = 0;
     foreach ($completedTasks as $task) {
       $rate = ($task->getRate()) ? $task->getRate() : $this->costOfLife->getHourly();
-      $total += $task->getEst()/60 * $rate;
+      $total += $task->getDuration()/60 * $rate;
     }
     $this->setMonthly($total);
   }
@@ -64,7 +64,7 @@ class EarnedLogic
     $total = 0;
     foreach ($completedTasks as $task) {
       $rate = ($task->getRate()) ? $task->getRate() : $this->costOfLife->getHourly();
-      $total += $task->getEst()/60 * $rate;
+      $total += $task->getDuration()/60 * $rate;
     }
     $this->setWeekly($total);
   }
@@ -75,7 +75,7 @@ class EarnedLogic
     $total = 0;
     foreach ($completedTasks as $task) {
       $rate = ($task->getRate()) ? $task->getRate() : $this->costOfLife->getHourly();
-      $total += $task->getEst()/60 * $rate;
+      $total += $task->getDuration()/60 * $rate;
     }
     $this->setDaily($total);
   }

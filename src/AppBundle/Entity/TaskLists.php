@@ -188,12 +188,12 @@ class TaskLists
     return $this->tasks->matching($criteria);
   }
 
-  public function getEstTotal($showComplete = true)
+  public function getDurationTotal($showComplete = true)
   {
     $durationTotal = 0;
     $tasks = $this->getTasks($showComplete);
     foreach ($tasks as $task) {
-      $durationTotal += $task->getEst();
+      $durationTotal += $task->getDuration();
     }
     $today = new \DateTime();
     $endDay = new \DateTime();

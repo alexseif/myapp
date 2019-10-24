@@ -23,7 +23,7 @@ class DashboardController extends Controller
     $days = $em->getRepository('AppBundle:Days')->getActiveCards();
     $accounts = $em->getRepository('AppBundle:Accounts')->findBy(array('conceal' => false));
     $tsksCntDay = $em->getRepository('AppBundle:Tasks')->findTasksCountByDay();
-    $durationSum = $em->getRepository('AppBundle:Tasks')->sumEst()["duration"];
+    $durationSum = $em->getRepository('AppBundle:Tasks')->sumDuration()["duration"];
     $today = new \DateTime();
     $endDay = new \DateTime();
     $endDay->add(\DateInterval::createFromDateString($durationSum . " minutes"));

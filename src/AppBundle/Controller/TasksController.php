@@ -57,7 +57,7 @@ class TasksController extends Controller
         'urgency' => 'DESC',
         'priority' => 'DESC',
         'order' => 'ASC',
-        'duration' => 'ASC'
+        'est' => 'ASC'
           )
       );
 
