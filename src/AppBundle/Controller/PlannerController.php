@@ -21,12 +21,20 @@ class PlannerController extends Controller
     $em = $this->getDoctrine()->getManager();
 
     $taskLists = $em->getRepository('AppBundle:TaskLists')->findBy(["status" => "start"]);
+
+
+    $tasks = $em->getRepository('AppBundle:Tasks')->focusList();
+    $completedToday = $em->getRepository('AppBundle:Tasks')->getCompletedToday();
     $planners = [];
     $planners[] = new \DateTime();
     $planners[] = strtotime("+1 days");
     $planners[] = strtotime("+2 days");
+    $planners[] = strtotime("+3 days");
+    $planners[] = strtotime("+4 days");
     return $this->render('AppBundle:Planner:index.html.twig', array(
           "planners" => $planners,
+          "tasks" => $tasks,
+          'completed' => $completedToday,
           "taskLists" => $taskLists
     ));
   }

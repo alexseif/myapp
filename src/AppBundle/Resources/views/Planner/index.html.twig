@@ -5,14 +5,14 @@
 
 {% block content %}
   <style>
-    .planner-tasks{min-height: 50px;}
+    .planner-tasks{padding: 5px;}
     .planner-tasks .list-group-item{min-height: 50px;}
   </style>
   <h1>Welcome to the Planner:index page</h1>
   <div class="row">
     <div id="planner" class="col">
       {% for key,planner in planners %}
-        <div class="card">
+        <div class="card mb-2">
           <button class="text-left bg-transparent border-0 p-0" type="button" data-toggle="collapse" 
                   data-target="#planner-{{ key }}" aria-expanded="false" 
                   aria-controls="planner-{{ key }}">
@@ -30,41 +30,45 @@
       {% endfor %}
     </div>
     <div id="taskLists" class="col">
-      {% for taskList in taskLists %}
-        {% if taskList.tasks|length %}
-          {% set tasks = taskList.tasks(false) %}
-          <div class="card">
-            <button class="text-left bg-transparent border-0 p-0" type="button" data-toggle="collapse" 
-                    data-target="#taskList-{{ taskList.id }}" aria-expanded="false" 
-                    aria-controls="taskList-{{ taskList.id }}">
-              <div class="card-header px-3 py-2">
-                <span class="card-title mr-2">
-                  {{ taskList.name }}
-                </span>
-                <span class="card-title-labels">
-                  {% if (taskList.account) %}
-                    <span class="badge badge-info">
-                      {{ taskList.account.name }}
-                    </span>
-                    {% if (taskList.account.client) %}
-                      <span class="badge badge-primary">
-                        {{ taskList.account.client.name }}
+      <div class="container">
+        {{ tasks_view.ul(completed, 'completed') }}
+        {{ tasks_view.ul(tasks, 'tasks' ) }}
+        {% for taskList in taskLists %}
+          {% if taskList.tasks|length %}
+            {% set tasks = taskList.tasks(false) %}
+            <div class="card">
+              <button class="text-left bg-transparent border-0 p-0" type="button" data-toggle="collapse" 
+                      data-target="#taskList-{{ taskList.id }}" aria-expanded="false" 
+                      aria-controls="taskList-{{ taskList.id }}">
+                <div class="card-header px-3 py-2">
+                  <span class="card-title mr-2">
+                    {{ taskList.name }}
+                  </span>
+                  <span class="card-title-labels">
+                    {% if (taskList.account) %}
+                      <span class="badge badge-info">
+                        {{ taskList.account.name }}
                       </span>
+                      {% if (taskList.account.client) %}
+                        <span class="badge badge-primary">
+                          {{ taskList.account.client.name }}
+                        </span>
+                      {% endif %}
                     {% endif %}
-                  {% endif %}
-                </span>
-                <div class="float-right">
-                  <span class="badge badge-dark">{{ tasks.count }}</span>
-                  <span class="badge badge-info">{{ taskList.durationTotal(false)|date("%d %H:%I") }}</span>
+                  </span>
+                  <div class="float-right">
+                    <span class="badge badge-dark">{{ tasks.count }}</span>
+                    <span class="badge badge-info">{{ taskList.durationTotal(false)|date("%d %H:%I") }}</span>
+                  </div>
                 </div>
+              </button>
+              <div class="collapse" id="taskList-{{ taskList.id }}">
+                {{ tasks_view.ul(tasks, '',false) }}
               </div>
-            </button>
-            <div class="collapse" id="taskList-{{ taskList.id }}">
-              {{ tasks_view.ul(tasks, '',false) }}
             </div>
-          </div>
-        {% endif %}
-      {% endfor %}
+          {% endif %}
+        {% endfor %}
+      </div>
     </div>
   </div>
 {% endblock %}
@@ -72,23 +76,24 @@
   {{ parent() }}
   <script>
     var planners = [];
-    function updatePlanner(e) {
-
-      $('.planner-tasks').each(function () {
-        $plannerId = $(this).data('planner');
-        planners[$plannerId] = [];
-        $(this).children('li:not(.completed)').each(function () {
-          planners[$plannerId].push($(this).data('id'));
+    function updatePlanner(e, ui) {
+      if (this === ui.item.parent()[0]) {
+        $('.planner-tasks').each(function () {
+          $plannerId = $(this).data('planner');
+          planners[$plannerId] = [];
+          $(this).children('li:not(.completed)').each(function () {
+            planners[$plannerId].push($(this).data('id'));
+          });
         });
-      });
-      console.log(planners);
-      $.ajax({
-        data: {"planners": planners},
-        dataType: "json",
-        type: 'POST',
-        url: planner_update
-      }).done(function () {
-      });
+        console.log(planners);
+        $.ajax({
+          data: {"planners": planners},
+          dataType: "json",
+          type: 'POST',
+          url: planner_update
+        }).done(function () {
+        });
+      }
     }
   </script>
   <script>
