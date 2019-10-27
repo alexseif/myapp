@@ -207,7 +207,11 @@ class TasksRepository extends EntityRepository
     $today = new \DateTime();
     $query = $this
         ->createQueryBuilder('t')
-        ->select('t')
+        ->select('t, tl, a, c, wl')
+        ->leftJoin('t.taskList', 'tl')
+        ->leftJoin('tl.account', 'a')
+        ->leftJoin('a.client', 'c')
+        ->leftJoin('t.workLog', 'wl')
         ->where('t.completed <> true')
         ->andWhere('t.eta <= :today OR t.eta IS NULL')
         ->orderBy("t.urgency", "DESC")

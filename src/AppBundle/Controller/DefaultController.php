@@ -52,7 +52,6 @@ class DefaultController extends Controller
 
     $tasks = $em->getRepository('AppBundle:Tasks')->focusList();
     $completedToday = $em->getRepository('AppBundle:Tasks')->getCompletedToday();
-    $task = new Tasks();
 
     return $this->render("AppBundle:default:focus.html.twig", array(
           'tasks' => $tasks,
