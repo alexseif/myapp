@@ -17,6 +17,13 @@
       data-id="{{task.id}}"
       data-time="{{ task.duration }}"
       data-order-no="{{ task.order }}"
+      {% if (task.taskList.account) %}
+        data-account="{{task.taskList.account.id}}"
+        {% if (task.taskList.account.client) %}
+          data-client="{{task.taskList.account.client.id}}"
+        {% endif %}
+      {% endif %}
+      data-list="{{task.taskList.id}}"
       >
     <label class="btn btn-secondary btn-{{ task.completed ? "xs":"sm" }} task mr-1 mb-0">
       <input type="checkbox" data-taskid="{{task.id}}" class="checkbox-inline" 
