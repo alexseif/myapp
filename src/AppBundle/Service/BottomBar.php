@@ -47,4 +47,24 @@ class BottomBar
     return $tasks;
   }
 
+  /**
+   * 
+   * @return array Tasks[]
+   */
+  public function getContracts()
+  {
+    $contracts = $this->em->getRepository('AppBundle:Contract')->findAll();
+    foreach ($contracts as $contract) {
+      $tasks = $this->em->getRepository('AppBundle:Tasks')->getCompletedToday();
+      $duration = 0;
+      foreach ($tasks as $task) {
+        if ($contract->getClient() == $task->getClient()) {
+          $duration += $task->getDuration();
+        }
+      }
+      $contract->percentage = $duration / ($contract->getHoursPerDay() * 60) * 100;
+    }
+    return $contracts;
+  }
+
 }

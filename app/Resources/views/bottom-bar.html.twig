@@ -4,6 +4,28 @@
   </span>
   <ul class="nav" {{ 1 == app.request.cookies.get('bottom-bar-closed') ? 'style="display:none;"' }}>
     <li class="dropdown">
+      {% set contracts = bottom_bar.getContracts() %}
+      <a class="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button" 
+         id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" 
+         aria-expanded="false">
+        Contracts
+      </a>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+        {% for contract in contracts %}
+          <a class="dropdown-item" 
+             href="{{ path('contract_show', {'id': contract.id}) }}">
+            {{ contract.name }}
+          </a>
+          <div class="progress">
+            <div class="progress-bar" role="progressbar" aria-valuenow="{{ contract.percentage }}"
+                 aria-valuemin="0" aria-valuemax="100" style="width:{{ contract.percentage }}%">
+              {{ contract.percentage|number_format }}% 
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </li>
+    <li class="dropdown">
       {% set tasks = bottom_bar.getTasks() %}
       <a class="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button" 
          id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" 
