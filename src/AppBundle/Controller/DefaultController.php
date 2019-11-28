@@ -146,4 +146,13 @@ class DefaultController extends Controller
     ));
   }
 
+  /**
+   * 
+   * @Route("/getBottomBarDetails", name="get_bottom_bar_details", methods={"GET"})
+   */
+  public function getBottomBarDetails()
+  {
+    return $this->render("::bottom-bar-details.html.twig");
+  }
+
 }

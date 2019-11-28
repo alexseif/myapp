@@ -29,7 +29,6 @@ $(document).ready(function () {
       document.cookie = "bottom-bar-closed=1;";
     }
   });
-
   $('input[type=date]').datepicker({
     dateFormat: 'yy-mm-dd'
   });
@@ -54,7 +53,6 @@ $(document).ready(function () {
   });
 //  console.log(request);
   $('.chosen').chosen();
-
   //btn-app-post
   $('.btn-app-post').click(function () {
     $url = $(this).data('action');
@@ -70,6 +68,11 @@ $(document).ready(function () {
         console.log('error');
       }
     });
-
   });
 });
+function getBottomBarDetails() {
+  $url = $('#bottom-bar').data('url');
+  $.get($url, function (data, status) {
+    $('#bottom-bar').html(data);
+  });
+}
