@@ -113,6 +113,7 @@ var Tasks = {
         self.drawFocus();
       }
     });
+    getBottomBarDetails();
   },
   drawFocus: function () {
     self = this;
