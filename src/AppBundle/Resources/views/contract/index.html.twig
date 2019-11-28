@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+{% import "macros/a.html.twig" as a %}
+{% block floatingActions %}{{ a.add('contract_new') }}{% endblock %}
+{% block title %}Contracts{% endblock %}
+{% block content %}
+  <h1>Contracts list</h1>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Hoursperday</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for contract in contracts %}
+        <tr>
+          <td><a href="{{ path('contract_show', { 'id': contract.id }) }}">{{ contract.id }}</a></td>
+          <td>{{ contract.name }}</td>
+          <td>{{ contract.hoursPerDay }}</td>
+          <td>
+            <ul>
+              <li>
+                <a href="{{ path('contract_show', { 'id': contract.id }) }}">show</a>
+              </li>
+              <li>
+                <a href="{{ path('contract_edit', { 'id': contract.id }) }}">edit</a>
+              </li>
+            </ul>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <ul>
+    <li>
+      <a href="{{ path('contract_new') }}">Create a new contract</a>
+    </li>
+  </ul>
+{% endblock %}
