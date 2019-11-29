@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
  * WorkLog
@@ -12,6 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class WorkLog
 {
+
+  use TimestampableEntity;
 
   /**
    * @var int
@@ -56,21 +59,6 @@ class WorkLog
    * @ORM\JoinColumn(name="task_id", referencedColumnName="id")
    */
   private $task;
-
-  /**
-   * @var datetime
-   *
-   * @ORM\Column(name="createdAt", type="datetime")
-   */
-  private $createdAt;
-
-  /**
-   * Constructor
-   */
-  public function __construct()
-  {
-    $this->createdAt = new \DateTime();
-  }
 
   /**
    * Get id
@@ -200,29 +188,6 @@ class WorkLog
   public function getName()
   {
     return $this->name;
-  }
-
-  /**
-   * Set createdAt
-   *
-   * @param \DateTime $createdAt
-   * @return Tasks
-   */
-  public function setCreatedAt($createdAt)
-  {
-    $this->createdAt = $createdAt;
-
-    return $this;
-  }
-
-  /**
-   * Get createdAt
-   *
-   * @return \DateTime 
-   */
-  public function getCreatedAt()
-  {
-    return $this->createdAt;
   }
 
 }

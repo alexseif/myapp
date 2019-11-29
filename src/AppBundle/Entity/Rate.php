@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
  * Rate
@@ -12,6 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Rate
 {
+
+  use TimestampableEntity;
 
   /**
    * @var int
@@ -41,18 +44,6 @@ class Rate
    * @ORM\Column(name="active", type="boolean")
    */
   private $active;
-
-  /**
-   * @var \DateTime
-   *
-   * @ORM\Column(name="createdAt", type="datetime")
-   */
-  private $createdAt;
-
-  function __construct()
-  {
-    $this->createdAt = new \DateTime();
-  }
 
   /**
    * Get id.
@@ -86,30 +77,6 @@ class Rate
   public function getRate()
   {
     return $this->rate;
-  }
-
-  /**
-   * Set createdAt.
-   *
-   * @param \DateTime $createdAt
-   *
-   * @return Rate
-   */
-  public function setCreatedAt($createdAt)
-  {
-    $this->createdAt = $createdAt;
-
-    return $this;
-  }
-
-  /**
-   * Get createdAt.
-   *
-   * @return \DateTime
-   */
-  public function getCreatedAt()
-  {
-    return $this->createdAt;
   }
 
   /**

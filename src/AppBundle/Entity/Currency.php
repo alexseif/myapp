@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
  * Currency
@@ -12,6 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Currency
 {
+
+  use TimestampableEntity;
 
   /**
    * @var int

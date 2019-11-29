@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
  * Tasks
@@ -12,6 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Tasks
 {
+
+  use TimestampableEntity;
 
   const LOW_PRIORITY = -1;
   CONST NORMAL_PRIORITY = 0;
@@ -92,13 +95,6 @@ class Tasks
   private $completedAt;
 
   /**
-   * @var datetime
-   *
-   * @ORM\Column(name="createdAt", type="datetime")
-   */
-  private $createdAt;
-
-  /**
    * @ORM\ManyToOne(targetEntity="TaskLists", inversedBy="tasks")
    * @ORM\JoinColumn(name="task_list_id", referencedColumnName="id")
    */
@@ -122,7 +118,6 @@ class Tasks
   public function __construct()
   {
     $this->costs = new \Doctrine\Common\Collections\ArrayCollection();
-    $this->createdAt = new \DateTime();
     $this->order = 0;
     $this->priority = Tasks::NORMAL_PRIORITY;
     $this->urgency = Tasks::NORMAL_URGENCY;
@@ -268,29 +263,6 @@ class Tasks
   public function getRate()
   {
     return ($this->getTaskList()->getAccount()) ? $this->getTaskList()->getAccount()->getClient()->getRate() : null;
-  }
-
-  /**
-   * Set createdAt
-   *
-   * @param \DateTime $createdAt
-   * @return Tasks
-   */
-  public function setCreatedAt($createdAt)
-  {
-    $this->createdAt = $createdAt;
-
-    return $this;
-  }
-
-  /**
-   * Get createdAt
-   *
-   * @return \DateTime 
-   */
-  public function getCreatedAt()
-  {
-    return $this->createdAt;
   }
 
   /**
@@ -503,28 +475,28 @@ class Tasks
     return $this->getTaskString();
   }
 
+  /**
+   * Set est.
+   *
+   * @param int|null $est
+   *
+   * @return Tasks
+   */
+  public function setEst($est = null)
+  {
+    $this->est = $est;
 
-    /**
-     * Set est.
-     *
-     * @param int|null $est
-     *
-     * @return Tasks
-     */
-    public function setEst($est = null)
-    {
-        $this->est = $est;
+    return $this;
+  }
 
-        return $this;
-    }
+  /**
+   * Get est.
+   *
+   * @return int|null
+   */
+  public function getEst()
+  {
+    return $this->est;
+  }
 
-    /**
-     * Get est.
-     *
-     * @return int|null
-     */
-    public function getEst()
-    {
-        return $this->est;
-    }
 }

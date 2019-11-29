@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
  * Contract
@@ -12,6 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Contract
 {
+
+  use TimestampableEntity;
 
   /**
    * @var int
@@ -30,7 +33,7 @@ class Contract
   private $name;
 
   /**
-   * @ORM\ManyToOne(targetEntity="Client", inversedBy="contract")
+   * @ORM\ManyToOne(targetEntity="Client", inversedBy="contracts")
    * @ORM\JoinColumn(name="client_id", referencedColumnName="id", nullable=true)
    */
   private $client;
@@ -75,7 +78,6 @@ class Contract
   {
     return $this->name;
   }
-
 
   /**
    * Set account.
@@ -125,28 +127,28 @@ class Contract
     return $this->hoursPerDay;
   }
 
+  /**
+   * Set client.
+   *
+   * @param \AppBundle\Entity\Client|null $client
+   *
+   * @return Contract
+   */
+  public function setClient(\AppBundle\Entity\Client $client = null)
+  {
+    $this->client = $client;
 
-    /**
-     * Set client.
-     *
-     * @param \AppBundle\Entity\Client|null $client
-     *
-     * @return Contract
-     */
-    public function setClient(\AppBundle\Entity\Client $client = null)
-    {
-        $this->client = $client;
+    return $this;
+  }
 
-        return $this;
-    }
+  /**
+   * Get client.
+   *
+   * @return \AppBundle\Entity\Client|null
+   */
+  public function getClient()
+  {
+    return $this->client;
+  }
 
-    /**
-     * Get client.
-     *
-     * @return \AppBundle\Entity\Client|null
-     */
-    public function getClient()
-    {
-        return $this->client;
-    }
 }
