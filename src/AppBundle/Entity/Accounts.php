@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
  * Accounts
@@ -13,6 +14,8 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class Accounts
 {
+
+  use TimestampableEntity;
 
   /**
    * @var int

@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Criteria;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
  * TaskLists
@@ -13,6 +14,8 @@ use Doctrine\Common\Collections\Criteria;
  */
 class TaskLists
 {
+
+  use TimestampableEntity;
 
   /**
    * @var int
@@ -44,13 +47,6 @@ class TaskLists
   private $status;
 
   /**
-   * @var \DateTime
-   *
-   * @ORM\Column(name="createdAt", type="datetime")
-   */
-  private $createdAt;
-
-  /**
    * @ORM\OneToMany(targetEntity="Tasks", mappedBy="taskList", cascade="remove")
    * @ORM\OrderBy({"completed" = "ASC", "order" = "ASC"})
    */
@@ -62,7 +58,6 @@ class TaskLists
   public function __construct()
   {
     $this->tasks = new \Doctrine\Common\Collections\ArrayCollection();
-    $this->createdAt = new \DateTime();
     $this->status = "start";
   }
 
@@ -120,29 +115,6 @@ class TaskLists
   public function getStatus()
   {
     return $this->status;
-  }
-
-  /**
-   * Set createdAt
-   *
-   * @param \DateTime $createdAt
-   * @return TaskLists
-   */
-  public function setCreatedAt($createdAt)
-  {
-    $this->createdAt = $createdAt;
-
-    return $this;
-  }
-
-  /**
-   * Get createdAt
-   *
-   * @return \DateTime 
-   */
-  public function getCreatedAt()
-  {
-    return $this->createdAt;
   }
 
   /**

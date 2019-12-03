@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
  * AccountTransactions
@@ -12,6 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class AccountTransactions
 {
+
+  use TimestampableEntity;
 
   /**
    * @var int
@@ -44,25 +47,10 @@ class AccountTransactions
   private $issuedAt;
 
   /**
-   * @var \DateTime
-   *
-   * @ORM\Column(name="createdAt", type="datetime")
-   */
-  private $createdAt;
-
-  /**
    * @ORM\ManyToOne(targetEntity="Accounts", inversedBy="transactions")
    * @ORM\JoinColumn(name="account_id", referencedColumnName="id")
    */
   private $account;
-
-  /**
-   * Constructor
-   */
-  public function __construct()
-  {
-    $this->issuedAt = $this->createdAt = new \DateTime();
-  }
 
   /**
    * Get id
@@ -118,29 +106,6 @@ class AccountTransactions
   public function getNote()
   {
     return $this->note;
-  }
-
-  /**
-   * Set createdAt
-   *
-   * @param \DateTime $createdAt
-   * @return AccountTransactions
-   */
-  public function setCreatedAt($createdAt)
-  {
-    $this->createdAt = $createdAt;
-
-    return $this;
-  }
-
-  /**
-   * Get createdAt
-   *
-   * @return \DateTime 
-   */
-  public function getCreatedAt()
-  {
-    return $this->createdAt;
   }
 
   /**

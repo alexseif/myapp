@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
  * Thing
@@ -13,10 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Thing
 {
 
-  function __construct()
-  {
-    $this->setCreatedAt(new \DateTime());
-  }
+  use TimestampableEntity;
 
   /**
    * @var int
@@ -33,13 +31,6 @@ class Thing
    * @ORM\Column(name="name", type="string", length=255)
    */
   private $name;
-
-  /**
-   * @var \DateTime
-   *
-   * @ORM\Column(name="createdAt", type="datetime")
-   */
-  private $createdAt;
 
   /**
    * Get id.
@@ -73,30 +64,6 @@ class Thing
   public function getName()
   {
     return $this->name;
-  }
-
-  /**
-   * Set createdAt.
-   *
-   * @param \DateTime $createdAt
-   *
-   * @return Thing
-   */
-  public function setCreatedAt($createdAt)
-  {
-    $this->createdAt = $createdAt;
-
-    return $this;
-  }
-
-  /**
-   * Get createdAt.
-   *
-   * @return \DateTime
-   */
-  public function getCreatedAt()
-  {
-    return $this->createdAt;
   }
 
 }

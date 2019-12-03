@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
  * Objective
@@ -12,85 +13,88 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Objective
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=255)
-     */
-    private $name;
+  use TimestampableEntity;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="description", type="text", nullable=true)
-     */
-    private $description;
+  /**
+   * @var int
+   *
+   * @ORM\Column(name="id", type="integer")
+   * @ORM\Id
+   * @ORM\GeneratedValue(strategy="AUTO")
+   */
+  private $id;
 
+  /**
+   * @var string
+   *
+   * @ORM\Column(name="name", type="string", length=255)
+   */
+  private $name;
 
-    /**
-     * Get id.
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+  /**
+   * @var string|null
+   *
+   * @ORM\Column(name="description", type="text", nullable=true)
+   */
+  private $description;
 
-    /**
-     * Set name.
-     *
-     * @param string $name
-     *
-     * @return Objective
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
+  /**
+   * Get id.
+   *
+   * @return int
+   */
+  public function getId()
+  {
+    return $this->id;
+  }
 
-        return $this;
-    }
+  /**
+   * Set name.
+   *
+   * @param string $name
+   *
+   * @return Objective
+   */
+  public function setName($name)
+  {
+    $this->name = $name;
 
-    /**
-     * Get name.
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
+    return $this;
+  }
 
-    /**
-     * Set description.
-     *
-     * @param string|null $description
-     *
-     * @return Objective
-     */
-    public function setDescription($description = null)
-    {
-        $this->description = $description;
+  /**
+   * Get name.
+   *
+   * @return string
+   */
+  public function getName()
+  {
+    return $this->name;
+  }
 
-        return $this;
-    }
+  /**
+   * Set description.
+   *
+   * @param string|null $description
+   *
+   * @return Objective
+   */
+  public function setDescription($description = null)
+  {
+    $this->description = $description;
 
-    /**
-     * Get description.
-     *
-     * @return string|null
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
+    return $this;
+  }
+
+  /**
+   * Get description.
+   *
+   * @return string|null
+   */
+  public function getDescription()
+  {
+    return $this->description;
+  }
+
 }

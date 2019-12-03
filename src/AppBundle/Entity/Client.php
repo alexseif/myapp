@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
  * Client
@@ -12,6 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Client
 {
+
+  use TimestampableEntity;
 
   /**
    * @var int
@@ -33,6 +36,11 @@ class Client
    * @ORM\OneToMany(targetEntity="Accounts", mappedBy="client")
    */
   private $accounts;
+
+  /**
+   * @ORM\OneToMany(targetEntity="Contract", mappedBy="client")
+   */
+  private $contracts;
 
   /**
    * @ORM\OneToMany(targetEntity="Rate", mappedBy="client", cascade="remove")
