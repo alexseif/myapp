@@ -24,3 +24,9 @@
   </div>
 
 {% endblock %}
+{% block javascripts %}
+  <script>
+    var todayHours = {{ todayHours }};
+  </script>
+  {{ parent() }}
+{% endblock %}
