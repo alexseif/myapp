@@ -49,11 +49,11 @@ class DefaultController extends Controller
   public function focusAction()
   {
     $em = $this->getDoctrine()->getManager();
-
+    $todayHours = \AppBundle\Util\WorkWeek::getDayHours(date('l'));
     $tasks = $em->getRepository('AppBundle:Tasks')->focusList();
     $completedToday = $em->getRepository('AppBundle:Tasks')->getCompletedToday();
-
     return $this->render("AppBundle:default:focus.html.twig", array(
+          'todayHours' => $todayHours,
           'tasks' => $tasks,
           'completed' => $completedToday,
     ));

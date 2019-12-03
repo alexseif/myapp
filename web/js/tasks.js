@@ -120,6 +120,9 @@ var Tasks = {
     completed = $('.completed');
     $('#completed').append(completed);
     $('.task-list li:not(.completed)').prependTo('#tasks');
+    if (todayHours >= 0) {
+      this.day.time = todayHours * 60;
+    }
     this.day.completed = 0;
     completed.each(function () {
       self.day.completed += ($(this).data("time")) ? $(this).data("time") : 0;
