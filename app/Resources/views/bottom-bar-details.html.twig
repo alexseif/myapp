@@ -3,6 +3,28 @@
 </span>
 <ul class="nav" {{ 1 == app.request.cookies.get('bottom-bar-closed') ? 'style="display:none;"' }}>
   <li class="dropdown">
+    <a class="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button" 
+       id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" 
+       aria-expanded="false">
+      Progress
+    </a>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+      <div class="d-md-block d-sm-none progress-bars">
+        {% set progressBar = bottom_bar.getProgress() %}
+        {% set costOfLife = progressBar['costOfLife'] %}
+        {% set earned = progressBar['earned'] %}
+        {% set issuedThisMonth = progressBar['issuedThisMonth'] %}
+        {% for key, progress in progressBar['earned'] %}
+          {% if 'monthly' == key %}
+            {% include 'AppBundle:Dashboard:progressBars.html.twig' with {'total': attribute(costOfLife, key), 'progress': progress, 'issued': issuedThisMonth} %}
+          {% else %}
+            {% include 'AppBundle:Dashboard:progressBars.html.twig' with {'total': attribute(costOfLife, key), 'progress': progress} %}
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </li>
+  <li class="dropdown">
     {% set contracts = bottom_bar.getContracts() %}
     <a class="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button" 
        id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" 

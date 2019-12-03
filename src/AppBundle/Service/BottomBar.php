@@ -7,6 +7,7 @@
 namespace AppBundle\Service;
 
 use Doctrine\ORM\EntityManager;
+use AppBundle\Service\CostService;
 
 /**
  * Description of Bottom Bar Service
@@ -22,9 +23,16 @@ class BottomBar
    */
   protected $em;
 
-  public function __construct(EntityManager $em)
+  /**
+   * 
+   * @var CostService $cs
+   */
+  protected $cs;
+
+  public function __construct(EntityManager $em, CostService $cs)
   {
     $this->em = $em;
+    $this->cs = $cs;
   }
 
   /**
@@ -49,7 +57,7 @@ class BottomBar
 
   /**
    * 
-   * @return array Tasks[]
+   * @return array Contract[]
    */
   public function getContracts()
   {
@@ -65,6 +73,17 @@ class BottomBar
       $contract->percentage = $duration / ($contract->getHoursPerDay() * 60) * 100;
     }
     return $contracts;
+  }
+
+  public function getProgress()
+  {
+    $earnedLogic = new \AppBundle\Logic\EarnedLogic($this->em, $this->cs);
+    $earned = $earnedLogic->getEarned();
+    return [
+      'earned' => $earned,
+      'issuedThisMonth' => $earnedLogic->getIssuedThisMonth(),
+      'costOfLife' => $this->cs,
+    ];
   }
 
 }
