@@ -61,5 +61,5 @@ services:
       
     myapp.bottomBar:
       class:  AppBundle\Service\BottomBar
-      arguments: [ '@doctrine.orm.entity_manager' ]
+      arguments: [ '@doctrine.orm.entity_manager', '@myapp.cost' ]
       public: true
