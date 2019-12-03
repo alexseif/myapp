@@ -20,6 +20,7 @@ class AppKernel extends Kernel
       new FOS\UserBundle\FOSUserBundle(),
       new Zenstruck\BackupBundle\ZenstruckBackupBundle(),
       new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
+      new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
       new AppBundle\AppBundle(),
     ];
 
