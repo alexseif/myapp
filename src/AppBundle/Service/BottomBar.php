@@ -63,14 +63,22 @@ class BottomBar
   {
     $contracts = $this->em->getRepository('AppBundle:Contract')->findAll();
     foreach ($contracts as $contract) {
-      $tasks = $this->em->getRepository('AppBundle:Tasks')->getCompletedToday();
-      $duration = 0;
-      foreach ($tasks as $task) {
-        if ($contract->getClient() == $task->getClient()) {
-          $duration += $task->getDuration();
-        }
-      }
-      $contract->percentage = $duration / ($contract->getHoursPerDay() * 60) * 100;
+      $month = $contract->getHoursPerDay() * 20;
+      $completedByClientThisMonth = $this->em->getRepository('AppBundle:Tasks')->findCompletedByClientThisMonth($contract->getClient())['duration'];
+      $monthStart = new \DateTime();
+      $monthStart->setDate($monthStart->format('Y'), $monthStart->format('m'), 1);
+      $monthStart->setTime(00, 00, 00);
+      $monthEnd = new \DateTime();
+      $monthEnd->setDate($monthEnd->format('Y'), $monthEnd->format('m'), $monthEnd->format('t'));
+      $monthEnd->setTime(23, 59, 59);
+      $workingDaysSoFar = \AppBundle\Util\DateRanges::numberOfWorkingDays($monthStart, new \DateTime());
+      $workingDaysLeft = \AppBundle\Util\DateRanges::numberOfWorkingDays(new \DateTime(), $monthEnd);
+      $expctedByClientThisMonth = $contract->getHoursPerDay() * $workingDaysSoFar * 60;
+      $duration = $this->em->getRepository('AppBundle:Tasks')->findCompletedByClientToday($contract->getClient())['duration'];
+      $difference = $expctedByClientThisMonth - $completedByClientThisMonth;
+      $overMonth = $difference / $workingDaysLeft;
+      $minutesPerDay = ($contract->getHoursPerDay() * 60) + $overMonth;
+      $contract->percentage = $duration / $minutesPerDay * 100;
     }
     return $contracts;
   }

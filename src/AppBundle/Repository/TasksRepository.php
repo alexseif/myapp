@@ -389,6 +389,41 @@ class TasksRepository extends EntityRepository
             ->getResult();
   }
 
+  public function findCompletedByClientThisMonth($client)
+  {
+    $date = new \DateTime();
+    $date->setDate($date->format('Y'), $date->format('m'), 1);
+    $date->setTime(00, 00, 00);
+    return $this
+            ->createQueryBuilder('t')
+            ->select('SUM(t.duration) as duration')
+            ->leftJoin('t.taskList', 'tl')
+            ->leftJoin('tl.account', 'a')
+            ->where('a.client = :client')
+            ->andWhere('t.completedAt > :date')
+            ->setParameter(':client', $client)
+            ->setParameter(':date', $date->format('Y-m-d H:i'))
+            ->getQuery()
+            ->getSingleResult();
+  }
+
+  public function findCompletedByClientToday($client)
+  {
+    $date = new \DateTime();
+    $date->setTime(00, 00, 00);
+    return $this
+            ->createQueryBuilder('t')
+            ->select('SUM(t.duration) as duration')
+            ->leftJoin('t.taskList', 'tl')
+            ->leftJoin('tl.account', 'a')
+            ->where('a.client = :client')
+            ->andWhere('t.completedAt > :date')
+            ->setParameter(':client', $client)
+            ->setParameter(':date', $date->format('Y-m-d H:i'))
+            ->getQuery()
+            ->getSingleResult();
+  }
+
   /**
    * Finds Tasks entities with joins to increase performance
    *
