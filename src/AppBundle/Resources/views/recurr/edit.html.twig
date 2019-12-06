@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+{% import "macros/forms.html.twig" as forms %}
+{% import "macros/a.html.twig" as a %}
+{% block title %}Edit {{ recurr.name }}{% endblock %}
+{% block floatingActions %}{{ a.add('recurr_new') }}{% endblock %}
+{% block panelBack %}{{ a.back('recurr_index') }}{% endblock %}
+{% block panelTitle %}{{ recurr.name }}{% endblock %}
+{% block panelHeadingRight %}{{ forms.delete(delete_form) }}{% endblock %}
+{% block panelBody %}{{ forms.panel(edit_form, false) }}{% endblock %}

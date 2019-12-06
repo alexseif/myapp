@@ -92,3 +92,4 @@ label.task{max-width: 65vw; overflow: hidden;}
 @media (min-width: 768px) { 
   label.task{max-width: 35vw;}
 }
+label.checkbox-inline {margin-right: 1%;margin-left: 1%;}
