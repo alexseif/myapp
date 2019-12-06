@@ -7,6 +7,7 @@ use Recurr\Recurrence;
 use Recurr\Rule;
 use Recurr\Transformer\ArrayTransformer;
 use Recurr\Transformer\ArrayTransformerConfig;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
  * Recurr
@@ -16,6 +17,8 @@ use Recurr\Transformer\ArrayTransformerConfig;
  */
 class RecurrEntity
 {
+
+  use TimestampableEntity;
 
   private static $frequencyList = array(0 => 'DAILY', 1 => 'WEEKLY', 2 => 'MONTHLY', 3 => 'YEARLY');
   private static $weekDays = array(0 => 'SU', 1 => 'MO', 2 => 'TU', 3 => 'WE', 4 => 'TH', 5 => 'FR', 6 => 'SA');
@@ -339,7 +342,6 @@ class RecurrEntity
   {
     return $this->byMonth;
   }
-
 
   /**
    * @return null|\DateTime[]
