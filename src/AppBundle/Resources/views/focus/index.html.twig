@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+{% import "macros/a.html.twig" as a %}
+{% block floatingActions %}{{ a.add('focus_new') }}{% endblock %}
+{% block panelTitle %}Focus{% endblock %}
+{% block panelBody %}
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>TaskList</th>
+        <th>Duration</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for focus in foci %}
+        <tr>
+          <td><a href="{{ path('focus_show', { 'id': focus.id }) }}">{{ focus.name }}</a></td>
+          <td>{{ focus.taskList }}</td>
+          <td>{{ focus.duration }}</td>
+          <td>
+            <div class="btn-group">
+              {{ a.show('focus_show', { 'id': focus.id }) }}
+              {{ a.edit('focus_edit', { 'id': focus.id }) }}
+            </div>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

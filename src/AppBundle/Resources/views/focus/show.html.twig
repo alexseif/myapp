@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+{% import "macros/forms.html.twig" as forms %}
+{% import "macros/a.html.twig" as a %}
+{% block panelBack %}{{ a.back('focus_index') }}{% endblock %}
+
+{% block panelTitle %}{{ focus.name }}{% endblock %}
+{% block panelHeadingRight %}
+  {{ a.edit('focus_edit', {'id':focus.id}) }}
+  {{ forms.delete(delete_form) }}
+
+{% endblock %}
+{% block panelBody %}
+  <table>
+    <tbody>
+      <tr>
+        <th>Name</th>
+        <td>{{ focus.name }}</td>
+      </tr>
+      <tr>
+        <th>Duration</th>
+        <td>{{ focus.duration }}</td>
+      </tr>
+    </tbody>
+  </table>
+{% endblock %}
