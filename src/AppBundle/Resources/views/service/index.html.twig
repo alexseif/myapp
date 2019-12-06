@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+{% import "macros/a.html.twig" as a %}
+{% block floatingActions %}{{ a.add('service_new') }}{% endblock %}
+{% block panelTitle %}Services{% endblock %}
+{% block panelBody %}
+  <h1>Services list</h1>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for service in services %}
+        <tr>
+          <td><a href="{{ path('service_show', { 'id': service.id }) }}">{{ service.name }}</a></td>
+          <td>{{ service.currency }} {{ service.price }}</td>
+          <td>
+            {{ a.show('service_show', { 'id': service.id }) }}
+            {{ a.edit('service_edit', { 'id': service.id }) }}
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+{% endblock %}
