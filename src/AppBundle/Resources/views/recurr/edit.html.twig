@@ -6,4 +6,28 @@
 {% block panelBack %}{{ a.back('recurr_index') }}{% endblock %}
 {% block panelTitle %}{{ recurr.name }}{% endblock %}
 {% block panelHeadingRight %}{{ forms.delete(delete_form) }}{% endblock %}
-{% block panelBody %}{{ forms.panel(edit_form, false) }}{% endblock %}
+{% block panelBody %}
+  {{ form_start(edit_form) }}
+  <div class="card-body p-3">
+    {{ form_row(edit_form.name) }}
+    <div class="row">
+      <div class="col">{{ form_row(edit_form.dateStart) }}</div>
+      <div class="col">{{ form_row(edit_form.dateUntil) }}</div>
+    </div>
+    <div class="row">
+      <div class="col">{{ form_row(edit_form.count) }}</div>
+      <div class="col">{{ form_row(edit_form.interval) }}</div>
+      <div class="col">{{ form_row(edit_form.freq) }}</div>
+    </div>
+    {{ form_row(edit_form.byDay) }}
+    {{ form_row(edit_form.byMonthDay) }}
+    {{ form_row(edit_form.byYearDay) }}
+    {{ form_row(edit_form.byMonth) }}
+  </div>
+  <div class="card-footer text-right">
+    <button type="submit" value="Save" class="btn btn-success">
+      Save
+    </button>
+  </div>
+  {{ form_end(edit_form) }}
+{% endblock %}
