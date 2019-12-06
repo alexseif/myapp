@@ -94,4 +94,10 @@ class BottomBar
     ];
   }
 
+  public function getObjectives()
+  {
+    $objectives = $this->em->getRepository('AppBundle:Objective')->findBy([], ['createdAt' => 'asc'], 5);
+    return $objectives;
+  }
+
 }
