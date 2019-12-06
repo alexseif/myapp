@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+{% import "macros/forms.html.twig" as forms %}
+{% import "macros/a.html.twig" as a %}
+{% block panelBack %}{{ a.back('recurr_index') }}{% endblock %}
+
+{% block panelTitle %}{{ recurr.name }}{% endblock %}
+{% block panelHeadingRight %}
+  {{ a.edit('recurr_edit', {'id':recurr.id}) }}
+  {{ forms.delete(delete_form) }}
+{% endblock %}
+{% block panelBody %}
+  <h1>Recurr</h1>
+
+  <table class="table table-condensed">
+    <tbody>
+      <tr>
+        <th>Name</th>
+        <td>{{ recurr.name }}</td>
+      </tr>
+      <tr>
+        <th>Datestart</th>
+        <td>{% if recurr.dateStart %}{{ recurr.dateStart|date }}{% endif %}</td>
+      </tr>
+      <tr>
+        <th>Dateuntil</th>
+        <td>{% if recurr.dateUntil %}{{ recurr.dateUntil|date }}{% endif %}</td>
+      </tr>
+      <tr>
+        <th>Count</th>
+        <td>{{ recurr.count }}</td>
+      </tr>
+      <tr>
+        <th>Interval</th>
+        <td>{{ recurr.interval }}</td>
+      </tr>
+      <tr>
+        <th>Freq</th>
+        <td>{{ recurr.freq }}</td>
+      </tr>
+      <tr>
+        <th>Byday</th>
+        <td>{{ recurr.byDay|join(', ') }}</td>
+      </tr>
+      <tr>
+        <th>Bymonthday</th>
+        <td>{{ recurr.byMonthDay|join(', ') }}</td>
+      </tr>
+      <tr>
+        <th>Byyearday</th>
+        <td>{{ recurr.byYearDay|join(', ') }}</td>
+      </tr>
+      <tr>
+        <th>Bymonth</th>
+        <td>{{ recurr.byMonth|join(', ') }}</td>
+      </tr>
+      <tr>
+        <th>Get Recurrence Collection</th>
+        <td>
+          <div style="max-height: 200px;overflow-x: auto;overflow-y: auto;">
+            <ul class="list-group"> 
+              {% for recurrence in recurr.recurrenceCollection %}
+                <li class="list-group-item">{{ recurrence|date }}</li>
+
+              {% endfor %}
+            </ul>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+{% endblock %}

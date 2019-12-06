@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+{% import "macros/forms.html.twig" as forms %}
+{% import "macros/a.html.twig" as a %}
+{% block panelBack %}{{ a.back('service_index') }}{% endblock %}
+
+{% block panelTitle %}{{ service.name }}{% endblock %}
+{% block panelHeadingRight %}
+  {{ a.edit('service_edit', {'id':service.id}) }}
+  {{ forms.delete(delete_form) }}
+{% endblock %}
+{% block panelBody %}
+  <table>
+    <tbody>
+      <tr>
+        <th>Name</th>
+        <td>{{ service.name }}</td>
+      </tr>
+      <tr>
+        <th>Price</th>
+        <td>{{ service.currency }} {{ service.price }}</td>
+      </tr>
+    </tbody>
+  </table>
+{% endblock %}
