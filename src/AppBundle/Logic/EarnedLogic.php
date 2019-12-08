@@ -52,8 +52,8 @@ class EarnedLogic
     $completedTasks = $this->em->getRepository('AppBundle:Tasks')->getCompletedThisMonth();
     $total = 0;
     foreach ($completedTasks as $task) {
-      $rate = ($task->getRate()) ? $task->getRate() : $this->costOfLife->getHourly();
-      $total += $task->getDuration()/60 * $rate;
+      $rate = (null == $task->getRate()) ? $task->getRate() : $this->costOfLife->getHourly();
+      $total += $task->getDuration() / 60 * $rate;
     }
     $this->setMonthly($total);
   }
@@ -63,8 +63,8 @@ class EarnedLogic
     $completedTasks = $this->em->getRepository('AppBundle:Tasks')->getCompletedThisWeek();
     $total = 0;
     foreach ($completedTasks as $task) {
-      $rate = ($task->getRate()) ? $task->getRate() : $this->costOfLife->getHourly();
-      $total += $task->getDuration()/60 * $rate;
+      $rate = (null == $task->getRate()) ? $task->getRate() : $this->costOfLife->getHourly();
+      $total += $task->getDuration() / 60 * $rate;
     }
     $this->setWeekly($total);
   }
@@ -74,8 +74,8 @@ class EarnedLogic
     $completedTasks = $this->em->getRepository('AppBundle:Tasks')->getCompletedToday();
     $total = 0;
     foreach ($completedTasks as $task) {
-      $rate = ($task->getRate()) ? $task->getRate() : $this->costOfLife->getHourly();
-      $total += $task->getDuration()/60 * $rate;
+      $rate = (null == $task->getRate()) ? $task->getRate() : $this->costOfLife->getHourly();
+      $total += $task->getDuration() / 60 * $rate;
     }
     $this->setDaily($total);
   }
