@@ -150,6 +150,8 @@ class WorkLogController extends Controller
       $AccountTransaction->setNote($workLog->getTask());
       $AccountTransaction->setAmount($workLog->getTotal() * -1);
       $AccountTransaction->setAccount($task->getAccount());
+      $AccountTransaction->setIssuedAt($task->getCompletedAt());
+
       $em->persist($workLog);
       $em->persist($AccountTransaction);
       $em->flush();
@@ -189,6 +191,7 @@ class WorkLogController extends Controller
       }
       if ($task->getDuration() > 0) {
         if (is_null($task->getWorkLog())) {
+          $createNewTransaction = true;
           $task->setWorkLog(new WorkLog());
         }
         $task->setWorkLoggable(true);
@@ -197,6 +200,15 @@ class WorkLogController extends Controller
         $task->getWorklog()->setName($task->getTask());
         $task->getWorklog()->setDuration($task->getDuration());
         $task->getWorklog()->setTotal($task->getWorklog()->getPricePerUnit() / 60 * $task->getWorklog()->getDuration());
+        if ($createNewTransaction) {
+          $workLog = $task->getWorklog();
+          $AccountTransaction = new \AppBundle\Entity\AccountTransactions();
+          $AccountTransaction->setNote($workLog->getTask());
+          $AccountTransaction->setAmount($workLog->getTotal() * -1);
+          $AccountTransaction->setAccount($task->getAccount());
+          $AccountTransaction->setIssuedAt($task->getCompletedAt());
+          $em->persist($AccountTransaction);
+        }
         $em->persist($task->getWorklog());
       } else {
         $this->addFlash('warning_raw', 'Task  <a href="' . $this->generateUrl('tasks_show', array("id" => $taskId)) . '" target="_new">' . $taskId . '</a> has 0 est');
