@@ -33,4 +33,28 @@ class AccountsRepository extends EntityRepository
             ->leftJoin('a.client', 'c');
   }
 
+  /**
+   *
+   * @return array The objects.
+   */
+  public function findByYearAndClient($year, $client)
+  {
+    $queryBuilder = $this
+        ->createQueryBuilder('a')
+        ->select('t, tl, a, c')
+        ->leftJoin('a.taskLists', 'tl')
+        ->leftJoin('a.client', 'c')
+        ->leftJoin('tl.tasks', 't')
+        ->where('YEAR(t.completedAt) = :year')
+        ->andWhere('a.client = :client')
+        ->setParameter(':year', $year)
+        ->setParameter(':client', $client)
+        ->groupBy('tl.account')
+    ;
+
+    return $queryBuilder
+            ->getQuery()
+            ->getResult();
+  }
+
 }
