@@ -162,4 +162,41 @@ class ReportsController extends Controller
     ));
   }
 
+  /**
+   * @Route("/tasks_years", name="reports_tasks_years")
+   */
+  public function tasksYearsAction()
+  {
+    $em = $this->getDoctrine()->getManager();
+    $tasksYears = $em->getRepository('AppBundle:Tasks')->findTasksYears();
+    dump($tasksYears);
+    return $this->render('AppBundle:Reports:tasksYears.html.twig', array(
+          "tasksYears" => $tasksYears
+    ));
+  }
+
+  /**
+   * @Route("/clients_by_year/{year}", name="reports_clients_by_years")
+   */
+  public function clientsByYearAction($year)
+  {
+    $em = $this->getDoctrine()->getManager();
+    $clients = $em->getRepository('AppBundle:Client')->findByYear($year);
+    $reports = [];
+
+    foreach ($clients as $client) {
+      $accounts = $em->getRepository('AppBundle:Accounts')
+          ->findByYearAndClient($year, $client);
+      $report = [
+        "client" => $client,
+        "accounts" => $accounts,
+      ];
+      $reports[] = $report;
+    }
+
+    return $this->render('AppBundle:Reports:clientsByYear.html.twig', array(
+          "reports" => $reports
+    ));
+  }
+
 }

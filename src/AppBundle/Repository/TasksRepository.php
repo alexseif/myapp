@@ -511,4 +511,20 @@ class TasksRepository extends EntityRepository
             ->getResult();
   }
 
+  /**
+   *
+   * @return array The objects.
+   */
+  public function findTasksYears()
+  {
+    $queryBuilder = $this
+        ->createQueryBuilder('t')
+        ->select('YEAR(t.completedAt) as years')
+        ->groupBy('years');
+
+    return $queryBuilder
+            ->getQuery()
+            ->getResult();
+  }
+
 }

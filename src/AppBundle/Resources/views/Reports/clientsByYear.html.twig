@@ -1,0 +1,24 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}Income Reports{% endblock %}
+
+{% block content %}
+  <div class="card-columns">
+    {% for report in reports %}
+      <div class="card bg-primary text-white">
+        <div class="card-header">
+          <a href="#" class="btn btn-default btn-block">{{ report.client }}</a>
+        </div>
+        <ul class="list-group">
+          {% for account in report.accounts %}
+            <li class="list-group-item">
+              <a href="#" class="btn btn-default btn-block">
+                {{ account }} 
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}
