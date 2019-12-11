@@ -169,7 +169,6 @@ class ReportsController extends Controller
   {
     $em = $this->getDoctrine()->getManager();
     $tasksYears = $em->getRepository('AppBundle:Tasks')->findTasksYears();
-    dump($tasksYears);
     return $this->render('AppBundle:Reports:tasksYears.html.twig', array(
           "tasksYears" => $tasksYears
     ));
