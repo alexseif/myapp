@@ -74,7 +74,7 @@ class EarnedLogic
     $completedTasks = $this->em->getRepository('AppBundle:Tasks')->getCompletedToday();
     $total = 0;
     foreach ($completedTasks as $task) {
-      $rate = (null == $task->getRate()) ? $task->getRate() : $this->costOfLife->getHourly();
+      $rate = (null != $task->getRate()) ? $task->getRate() : $this->costOfLife->getHourly();
       $total += $task->getDuration() / 60 * $rate;
     }
     $this->setDaily($total);
