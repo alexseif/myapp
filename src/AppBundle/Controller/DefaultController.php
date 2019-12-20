@@ -167,6 +167,9 @@ class DefaultController extends Controller
       "Menu" => [
         "menu"
       ],
+      "Work Week" => [
+        "workweek_show"
+      ],
       "Account Transactions" => [
         "accounttransactions_index",
         "accounttransactions_new",
