@@ -306,6 +306,7 @@ class DefaultController extends Controller
         "fos_user_change_password",
       ],
     ];
+    ksort($menu);
     return $this->render("::menu.html.twig", [
           "menu" => $menu
     ]);
