@@ -164,6 +164,9 @@ class DefaultController extends Controller
   public function getMenuAction()
   {
     $menu = [
+      "Menu" => [
+        "menu"
+      ],
       "Account Transactions" => [
         "accounttransactions_index",
         "accounttransactions_new",
