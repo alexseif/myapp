@@ -19,7 +19,7 @@ class WorkWeek
     'Saturday' => 2,
     'Sunday' => 6,
     'Monday' => 6,
-    'Tuesday' => 0,
+    'Tuesday' => 6,
     'Wednesday' => 6,
     'Thursday' => 6,
   ];
