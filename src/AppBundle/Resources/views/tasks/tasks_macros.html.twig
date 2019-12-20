@@ -15,7 +15,8 @@
       data-order="id_{{task.id}}" 
       id="task_{{task.id}}" 
       data-id="{{task.id}}"
-      data-time="{{ task.duration }}"
+      data-est="{{ task.est }}"
+      data-duration="{{ task.duration }}"
       data-order-no="{{ task.order }}"
       {% if (task.taskList.account) %}
         data-account="{{task.taskList.account.id}}"
@@ -32,6 +33,9 @@
       {{ taskUI.taskIcons(task.urgency, task.priority) }}
       {% if task.duration %}
         <small class="text-info">{{ task.duration ~ "m"}}</small>
+      {% endif %}
+      {% if task.est %}
+        <small class="text-success">{{ task.est ~ "m"}}</small>
       {% endif %}
     </label>
     {% if displayListName %}
@@ -53,6 +57,9 @@
       <a class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#"
          href="{{ path('task_show_modal', {"id":task.id}) }}">
         <i class="fas fa-folder-open"></i></a>
+      <a class="btn btn-secondary btn-sm" data-target="#"
+         href="{{ path('tasks_show', {"id":task.id}) }}">
+        <i class="fas fa-file"></i></a>
         {% if(not task.completed) %}
         <a  data-taskid="{{task.id}}"
             data-postpone="+1 hour"
