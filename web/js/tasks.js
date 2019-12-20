@@ -125,13 +125,13 @@ var Tasks = {
     }
     this.day.completed = 0;
     completed.each(function () {
-      self.day.completed += ($(this).data("time")) ? $(this).data("time") : 0;
+      self.day.completed += ($(this).data("duration")) ? $(this).data("duration") : 0;
     });
     this.day.remaining = this.day.time - this.day.completed;
     while (this.day.remaining > 0) {
       task = $('#tasks li:first');
       if (task.length) {
-        $taskTime = (task.data("time")) ? task.data("time") : 0;
+        $taskTime = (task.data("est")) ? task.data("est") : 0;
         $remainingTime = this.day.remaining - $taskTime;
         if (($remainingTime >= 0)) {
           this.day.remaining = $remainingTime;
@@ -140,7 +140,7 @@ var Tasks = {
           //Break Task
           $taskTime = $remainingTime + $taskTime;
           var taskDuplicate = task.clone();
-          taskDuplicate.data("time", $taskTime);
+          taskDuplicate.data("est", $taskTime);
           taskDuplicate.children('small.text-info').text($taskTime + "m");
           taskDuplicate.data("id", null);
           task.children('small.text-info').text(task.data('time') + "-" + $taskTime + "m");
