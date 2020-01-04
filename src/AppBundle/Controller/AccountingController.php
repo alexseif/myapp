@@ -22,8 +22,11 @@ class AccountingController extends Controller
   public function indexAction(Request $request)
   {
     $accountingFilterForm = $this->getFilterFunction($request);
+    $em = $this->getDoctrine()->getManager();
+    $accounts = $em->getRepository('AppBundle:Accounts')->findBy(array('conceal' => false));
 
     return $this->render('AppBundle:Accounting:index.html.twig', array(
+          'accounts' => $accounts,
           'accounting_filter_form' => $accountingFilterForm->createView()
     ));
   }
