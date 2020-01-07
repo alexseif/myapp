@@ -26,9 +26,9 @@
        {% endif %}
        data-list="{{task.taskList.id}}"
        >
-    <div class="card-header" id="task-header-{{task.id}}">
-      <div class="form-check-inline">
-        <label class="form-check-label {{ task.completed ? "completed"}} task">
+    <div class="card-header py-1 bg-dark" id="task-header-{{task.id}}">
+      <div class="form-check-inline ">
+        <label class="form-check-label mr-2 {{ task.completed ? "completed"}} task">
           <input type="checkbox" data-taskid="{{task.id}}" class="form-check-input" 
                  {{ task.completed ? "checked" : "" }}/>
           {{ task.task|truncate(50) }}
@@ -46,7 +46,7 @@
         </button>
       </div>
     </div>
-    <div class="collapse" id="task-body-{{ task.id }}" aria-labelledby="task-header-{{task.id}}" data-parent="#accordion">
+    <div class="collapse" id="task-body-{{ task.id }}" aria-labelledby="task-header-{{task.id}}" data-parent=".accordion">
       <div class="card-body">
         {% if task.duration %}
           <small class="text-info">{{ task.duration ~ "m"}}</small>
@@ -102,7 +102,7 @@
 
 {% macro ul(tasks, id, displayListName = true) %}
   {% import _self as taskUI %}
-  <div id="accordion task-list" {{ (id) ? 'id='~id }}>
+  <div class="accordion task-list" {{ (id) ? 'id='~id }}>
     {#    <ul class="list-group task-list mb-2" >#}
     {% for task in tasks %}
       {{ taskUI.li(task, displayListName) }}
