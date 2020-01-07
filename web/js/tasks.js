@@ -9,12 +9,12 @@ var Tasks = {
   init: function () {
     this.bindEvents();
     if (this.isFocus) {
-      $('<ul class="list-group task-list mb-2" id="focus"></ul>').prependTo('.container');
+      $('<div class="accordion task-list" id="focus"></div>').prependTo('.container');
       this.drawFocus();
       if (!touch) {
         $("#focus").sortable({
           connectWith: ".task-list",
-          items: "li:not(.completed)",
+          items: ".task-item:not(.completed)",
           update: this.updateOrder
         });
       }
@@ -29,7 +29,7 @@ var Tasks = {
     if (!touch) {
       $("#tasks").sortable({
         connectWith: ".task-list",
-        items: "li:not(.completed)",
+        items: ".task-item:not(.completed)",
         update: this.updateOrder
       });
     }
@@ -56,8 +56,8 @@ var Tasks = {
               .css("margin-bottom", 0)
               .append('<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Postponed!</strong>&nbsp;')
               .append(undoLink);
-      var li = $('<li/>')
-              .addClass("list-group-item")
+      var li = $('<div/>')
+              .addClass("task-item")
               .append(div);
       $(taskEl).parent().parent().after(li);
       $('a.undo').click(Tasks.undoPostponeTask);
@@ -99,12 +99,12 @@ var Tasks = {
       }
     }).done(function () {
       if (isCompleted) {
-        $(taskEl).parent().parent()
+        $(taskEl).parents('.task-item')
                 .addClass('completed')
                 .children('.btn-sm:not(.info-link)')
                 .removeClass('btn-sm').addClass('btn-xs');
       } else {
-        $(taskEl).parent().parent()
+        $(taskEl).parents('.task-item')
                 .removeClass('completed')
                 .children('.btn-xs:not(.info-link)')
                 .removeClass('btn-xs').addClass('btn-sm');
@@ -117,9 +117,9 @@ var Tasks = {
   },
   drawFocus: function () {
     self = this;
-    completed = $('.completed');
+    completed = $('.completed.task-item');
     $('#completed').append(completed);
-    $('.task-list li:not(.completed)').prependTo('#tasks');
+    $('.task-item:not(.completed)').prependTo('#tasks');
     if (todayHours >= 0) {
       this.day.time = todayHours * 60;
     }
@@ -129,7 +129,7 @@ var Tasks = {
     });
     this.day.remaining = this.day.time - this.day.completed;
     while (this.day.remaining > 0) {
-      task = $('#tasks li:first');
+      task = $('#tasks .task-item:first-child');
       if (task.length) {
         $taskTime = (task.data("est")) ? task.data("est") : 0;
         $remainingTime = this.day.remaining - $taskTime;
@@ -156,18 +156,18 @@ var Tasks = {
     this.focusTitle();
   },
   focusTitle: function () {
-    $('title').text($('#focus li:first label').text().trim() + "| myApp");
+    $('title').text($('#focus .task-item:first-child label').text().trim() + "| myApp");
   },
 //Update Tasks size to fit screen
   setFocusTaskHeight: function () {
-    $('#focus li').css('height', ((1 - ($('#completed').height() / $(window).height())) * 100 / $('#focus li').length + 'vh'));
-    $('#completed li').css('height', 'auto');
-    $('#tasks li').css('height', 'auto');
+    $('#focus .task-item').css('height', ((1 - ($('#completed').height() / $(window).height())) * 100 / $('#focus .task-item').length + 'vh'));
+    $('#completed .task-item').css('height', 'auto');
+    $('#tasks .task-item').css('height', 'auto');
   },
 //Update order of tasks based on sorting
   updateOrder: function () {
     var dataString = "";
-    $('.task-list li:not(.completed)').each(function () {
+    $('.task-list .task-item:not(.completed)').each(function () {
       dataString += "tasks[][id]=" + $(this).data('id') + "&";
     });
     $.ajax({

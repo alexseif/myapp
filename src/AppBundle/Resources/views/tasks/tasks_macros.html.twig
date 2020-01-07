@@ -11,7 +11,7 @@
 
 {% macro li(task, displayListName = true) %}
   {% import _self as taskUI %}
-  <div class="card card-default {{ task.completed ? "completed" }}" 
+  <div class="card card-default task-item {{ task.completed ? "completed" }}" 
        data-order="id_{{task.id}}" 
        id="task_{{task.id}}" 
        data-id="{{task.id}}"
@@ -38,7 +38,7 @@
         {{ taskUI.taskIcons(task.urgency, task.priority) }}
       </div>
       <div class="card-tools">
-        <button class="btn btn-default btn-sm">
+        <button class="btn btn-default btn-sm sort-button">
           <i class="fa fa-grip-lines"></i>
         </button>
         <button class="btn btn-default btn-sm" type="button" data-toggle="collapse" data-target="#task-body-{{ task.id }}" aria-expanded="false" aria-controls="task-body-{{ task.id }}">
