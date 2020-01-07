@@ -11,82 +11,101 @@
 
 {% macro li(task, displayListName = true) %}
   {% import _self as taskUI %}
-  <li class="list-group-item {{ task.completed ? "completed" }}" 
-      data-order="id_{{task.id}}" 
-      id="task_{{task.id}}" 
-      data-id="{{task.id}}"
-      data-est="{{ task.est }}"
-      data-duration="{{ task.duration }}"
-      data-order-no="{{ task.order }}"
-      {% if (task.taskList.account) %}
-        data-account="{{task.taskList.account.id}}"
-        {% if (task.taskList.account.client) %}
-          data-client="{{task.taskList.account.client.id}}"
+  <div class="card card-default {{ task.completed ? "completed" }}" 
+       data-order="id_{{task.id}}" 
+       id="task_{{task.id}}" 
+       data-id="{{task.id}}"
+       data-est="{{ task.est }}"
+       data-duration="{{ task.duration }}"
+       data-order-no="{{ task.order }}"
+       {% if (task.taskList.account) %}
+         data-account="{{task.taskList.account.id}}"
+         {% if (task.taskList.account.client) %}
+           data-client="{{task.taskList.account.client.id}}"
+         {% endif %}
+       {% endif %}
+       data-list="{{task.taskList.id}}"
+       >
+    <div class="card-header" id="task-header-{{task.id}}">
+      <div class="form-check-inline">
+        <label class="form-check-label {{ task.completed ? "completed"}} task">
+          <input type="checkbox" data-taskid="{{task.id}}" class="form-check-input" 
+                 {{ task.completed ? "checked" : "" }}/>
+          {{ task.task|truncate(50) }}
+        </label>
+      </div>
+      <div class="card-info">
+        {{ taskUI.taskIcons(task.urgency, task.priority) }}
+      </div>
+      <div class="card-tools">
+        <button class="btn btn-default btn-sm">
+          <i class="fa fa-grip-lines"></i>
+        </button>
+        <button class="btn btn-default btn-sm" type="button" data-toggle="collapse" data-target="#task-body-{{ task.id }}" aria-expanded="false" aria-controls="task-body-{{ task.id }}">
+          <i class="fa fa-plus"></i>
+        </button>
+      </div>
+    </div>
+    <div class="collapse" id="task-body-{{ task.id }}" aria-labelledby="task-header-{{task.id}}" data-parent="#accordion">
+      <div class="card-body">
+        {% if task.duration %}
+          <small class="text-info">{{ task.duration ~ "m"}}</small>
         {% endif %}
-      {% endif %}
-      data-list="{{task.taskList.id}}"
-      >
-    <label class="btn btn-secondary btn-{{ task.completed ? "xs":"sm" }} task mr-1 mb-0">
-      <input type="checkbox" data-taskid="{{task.id}}" class="checkbox-inline" 
-             {{ task.completed ? "checked" : "" }}/>
-      {{ task.task|truncate(50) }}
-      {{ taskUI.taskIcons(task.urgency, task.priority) }}
-      {% if task.duration %}
-        <small class="text-info">{{ task.duration ~ "m"}}</small>
-      {% endif %}
-      {% if task.est %}
-        <small class="text-success">{{ task.est ~ "m"}}</small>
-      {% endif %}
-    </label>
-    {% if displayListName %}
-      <span class="d-none d-lg-inline-block d-md-inline-block">
-        <a class="badge badge-default" 
-           data-tasklist="{{ task.taskList.name }}" 
-           href="{{ path("focus_tasklist", {'name':task.taskList.name}) }}">{{ task.taskList.name }}</a>
-        {% if (task.taskList.account) %}
-          <a href="{{ path('accounts_show', {'id': task.taskList.account.id}) }}"
-             class="badge badge-info">{{ task.taskList.account.name }}</a>
-          {% if (task.taskList.account.client) %}
-            <a href="{{ path('client_show', {'id': task.taskList.account.client.id}) }}"
-               class="badge badge-primary">{{ task.taskList.account.client.name }}</a>
+        {% if task.est %}
+          <small class="text-success">{{ task.est ~ "m"}}</small>
+        {% endif %}
+
+        {% if displayListName %}
+          <span class="d-none d-lg-inline-block d-md-inline-block">
+            <a class="badge badge-default" 
+               data-tasklist="{{ task.taskList.name }}" 
+               href="{{ path("focus_tasklist", {'name':task.taskList.name}) }}">{{ task.taskList.name }}</a>
+            {% if (task.taskList.account) %}
+              <a href="{{ path('accounts_show', {'id': task.taskList.account.id}) }}"
+                 class="badge badge-info">{{ task.taskList.account.name }}</a>
+              {% if (task.taskList.account.client) %}
+                <a href="{{ path('client_show', {'id': task.taskList.account.client.id}) }}"
+                   class="badge badge-primary">{{ task.taskList.account.client.name }}</a>
+              {% endif %}
+            {% endif %}
+          </span>
+        {% endif %}
+        <span class="visible-lg-inline visible-md-inline float-right">
+          <a class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#"
+             href="{{ path('task_show_modal', {"id":task.id}) }}">
+            <i class="fas fa-folder-open"></i></a>
+          <a class="btn btn-secondary btn-sm" data-target="#"
+             href="{{ path('tasks_show', {"id":task.id}) }}">
+            <i class="fas fa-file"></i></a>
+            {% if(not task.completed) %}
+            <a  data-taskid="{{task.id}}"
+                data-postpone="+1 hour"
+                title="5 mins"
+                class="btn btn-secondary postpone btn-sm d-none d-md-inline-block">
+              <img src="/images/snooze_white_18x18.png" width="18px" />
+            </a>
+            <a  data-taskid="{{task.id}}"
+                data-postpone="tomorrow"
+                title="tomorrow"
+                class="btn btn-secondary postpone btn-sm d-none d-md-inline-block">
+              <img src="/images/zzz.png" width="18px"/>
+            </a>
           {% endif %}
-        {% endif %}
-      </span>
-    {% endif %}
-    <span class="visible-lg-inline visible-md-inline float-right">
-      <a class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#"
-         href="{{ path('task_show_modal', {"id":task.id}) }}">
-        <i class="fas fa-folder-open"></i></a>
-      <a class="btn btn-secondary btn-sm" data-target="#"
-         href="{{ path('tasks_show', {"id":task.id}) }}">
-        <i class="fas fa-file"></i></a>
-        {% if(not task.completed) %}
-        <a  data-taskid="{{task.id}}"
-            data-postpone="+1 hour"
-            title="5 mins"
-            class="btn btn-secondary postpone btn-sm d-none d-md-inline-block">
-          <img src="/images/snooze_white_18x18.png" width="18px" />
-        </a>
-        <a  data-taskid="{{task.id}}"
-            data-postpone="tomorrow"
-            title="tomorrow"
-            class="btn btn-secondary postpone btn-sm d-none d-md-inline-block">
-          <img src="/images/zzz.png" width="18px"/>
-        </a>
-      {% endif %}
-      <a href="{{ path('tasks_edit', { 'id': task.id }) }}" 
-         class="btn btn-secondary btn-{{ task.completed ? "xs":"sm" }} d-none d-md-inline-block">
-        Edit</a>
-    </span>
-  </li>
+          <a href="{{ path('tasks_edit', { 'id': task.id }) }}" 
+             class="btn btn-secondary btn-{{ task.completed ? "xs":"sm" }} d-none d-md-inline-block">
+            Edit</a>
+        </span>
+      </div>
+    </div>
+  </div>
 {% endmacro %}
 
 {% macro ul(tasks, id, displayListName = true) %}
   {% import _self as taskUI %}
-
-  <ul class="list-group task-list mb-2" {{ (id) ? 'id='~id }}>
+  <div id="accordion task-list" {{ (id) ? 'id='~id }}>
+    {#    <ul class="list-group task-list mb-2" >#}
     {% for task in tasks %}
       {{ taskUI.li(task, displayListName) }}
     {% endfor %}
-  </ul>   
+  </div>   
 {% endmacro %}

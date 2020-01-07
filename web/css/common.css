@@ -93,3 +93,5 @@ label.task{max-width: 65vw; overflow: hidden;}
   label.task{max-width: 35vw;}
 }
 label.checkbox-inline {margin-right: 1%;margin-left: 1%;}
+.card-info{display: inline-block;}
+.card-tools{float: right;}

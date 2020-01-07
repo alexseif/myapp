@@ -10,90 +10,84 @@
      class="btn btn-secondary btn-{{ task.completed ? "xs":"sm" }}">
     Edit</a>
     {{ forms.delete(delete_form) }}
-  {% endblock %}
-  {% block panelBody %}
-  <ul class="list-group task-list">
-    <li class="list-group-item {{ task.completed ? "completed" }}" 
-        data-order="id_{{task.id}}" 
-        id="task_{{task.id}}" 
-        data-id="{{task.id}}"
-        data-est="{{ task.duration }}"
-        data-duration="{{ task.duration }}"
-        data-order-no="{{ task.order }}"
-        {% if (task.taskList.account) %}
-          data-account="{{task.taskList.account.id}}"
-          {% if (task.taskList.account.client) %}
-            data-client="{{task.taskList.account.client.id}}"
+
+{% endblock %}
+{% block panelBody %}
+  <div class="card card-default {{ task.completed ? "completed" }}" 
+       data-order="id_{{task.id}}" 
+       id="task_{{task.id}}" 
+       data-id="{{task.id}}"
+       data-est="{{ task.est }}"
+       data-duration="{{ task.duration }}"
+       data-order-no="{{ task.order }}"
+       {% if (task.taskList.account) %}
+         data-account="{{task.taskList.account.id}}"
+         {% if (task.taskList.account.client) %}
+           data-client="{{task.taskList.account.client.id}}"
+         {% endif %}
+       {% endif %}
+       data-list="{{task.taskList.id}}"
+       >
+    <div class="card-header" id="task-header-{{task.id}}">
+      <div class="form-check-inline">
+        <label class="form-check-label {{ task.completed ? "completed" }} task">
+          <input type="checkbox" data-taskid="{{task.id}}" class="form-check-input" 
+                 {{ task.completed ? "checked" : "" }}/>
+          {{ task.task }}
+        </label>
+      </div>
+      <div class="card-info">
+        {% if task.urgency %}
+          <span class="badge badge-warning">U</span>
+        {% endif %}
+        {% if task.priority > 0 %}
+          <span class="badge badge-danger">H</span>
+        {% elseif task.priority < 0 %}
+          <span class="badge badge-default">L</span>
+        {% else %}
+          <span class="badge badge-secondary">?</span>
+        {% endif %}
+      </div>
+      <div class="card-tools">
+        <button class="btn btn-default btn-sm">
+          <i class="fa fa-grip-lines"></i>
+        </button>
+        <button class="btn btn-default btn-sm" type="button" data-toggle="collapse" data-target="#task-body-{{ task.id }}" aria-expanded="false" aria-controls="task-body-{{ task.id }}">
+          <i class="fa fa-plus"></i>
+        </button>
+      </div>
+    </div>
+    <div class="collapse" id="task-body-{{ task.id }}" aria-labelledby="task-header-{{task.id}}">
+      <div class="card-body">
+        <a class="badge badge-default task-list-name" 
+           data-tasklist="{{ task.taskList.name }}" 
+           href="{{ path("tasklists_show", {'id':task.taskList.id}) }}">
+          {{ task.taskList.name }}</a>
+          {% if task.taskList.account %}
+          <a class="badge badge-info" 
+             data-tasklist="{{ task.taskList.account.name }}" 
+             href="{{ path("accounts_show", {'id':task.taskList.account.id }) }}">
+            {{ task.taskList.account.name }}</a>
+
+          {% if task.taskList.account.client %}
+            <a class="badge badge-primary" 
+               data-tasklist="{{ task.taskList.account.client.name }}" 
+               href="{{ path("client_show", {'id':task.taskList.account.client.id }) }}">
+              {{ task.taskList.account.client.name }}</a>
+
           {% endif %}
         {% endif %}
-        data-list="{{task.taskList.id}}"
-        >
-      <div class="row">
-        <div class="col">
-          <label class="btn btn-secondary btn-{{ task.completed ? "xs":"sm" }} task">
-            <input type="checkbox" data-taskid="{{task.id}}" class="checkbox-inline" 
-                   {{ task.completed ? "checked" : "" }}/>
-            <p>{{ task.task }}</p>
-            {% if task.urgency %}
-              <span class="badge badge-warning">U</span>
-            {% endif %}
-            {% if task.priority > 0 %}
-              <span class="badge badge-danger">H</span>
-            {% elseif task.priority < 0 %}
-              <span class="badge badge-default">L</span>
-            {% else %}
-              <span class="badge badge-secondary">?</span>
-            {% endif %}
-          </label>
-          <div>
-            <a class="badge badge-default task-list-name" 
-               data-tasklist="{{ task.taskList.name }}" 
-               href="{{ path("tasklists_show", {'id':task.taskList.id}) }}">
-              {{ task.taskList.name }}</a>
-
-            {% if task.taskList.account %}
-              <a class="badge badge-info" 
-                 data-tasklist="{{ task.taskList.account.name }}" 
-                 href="{{ path("accounts_show", {'id':task.taskList.account.id }) }}">
-                {{ task.taskList.account.name }}</a>
-
-              {% if task.taskList.account.client %}
-                <a class="badge badge-primary" 
-                   data-tasklist="{{ task.taskList.account.client.name }}" 
-                   href="{{ path("client_show", {'id':task.taskList.account.client.id }) }}">
-                  {{ task.taskList.account.client.name }}</a>
-
-              {% endif %}
-            {% endif %}
-          </div>
-        </div>
-        <div class="col">
-          <table class="text-info">
-            <tbody>
-              <tr>
-                <td><span class="badge badge-default">Est:</span></td>
-                <td>{{ task.est ? task.est ~ "m"}}</td>
-              </tr>
-              <tr>
-                <td><span class="badge badge-default">Duration:</span></td>
-                <td>{{ task.duration ? task.duration ~ "m"}}</td>
-              </tr>
-              <tr>
-                <td><span class="badge badge-default">Created At:</span></td>
-                <td>{{ task.createdAt|date }}</td>
-              </tr>
-              <tr>
-                <td><span class="badge badge-default">ETA:</span></td>
-                <td>{{ (task.eta) ?task.eta|date }}</td>
-              </tr>
-              <tr>
-                <td><span class="badge badge-default">Completed At:</span></td>
-                <td>{{ (task.completedAt) ? task.completedAt|date }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <span class="badge badge-default">Est:</span>
+        {{ task.est ? task.est ~ "m"}}
+        <span class="badge badge-default">Duration:</span>
+        {{ task.duration ? task.duration ~ "m"}}
+        <span class="badge badge-default">Created At:</span>
+        {{ task.createdAt|date }}
+        <span class="badge badge-default">ETA:</span>
+        {{ (task.eta) ?task.eta|date }}
+        <span class="badge badge-default">Completed At:</span>
+        {{ (task.completedAt) ? task.completedAt|date }}
       </div>
-    </li>
-  </ul>
+    </div>
+  </div>
 {% endblock %}
