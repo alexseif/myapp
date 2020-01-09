@@ -79,18 +79,18 @@
             <a  data-taskid="{{task.id}}"
                 data-postpone="+1 hour"
                 title="5 mins"
-                class="btn btn-secondary postpone btn-sm d-none d-md-inline-block">
+                class="btn btn-secondary postpone btn-sm">
               <img src="/images/snooze_white_18x18.png" width="18px" />
             </a>
             <a  data-taskid="{{task.id}}"
                 data-postpone="tomorrow"
                 title="tomorrow"
-                class="btn btn-secondary postpone btn-sm d-none d-md-inline-block">
+                class="btn btn-secondary postpone btn-sm">
               <img src="/images/zzz.png" width="18px"/>
             </a>
           {% endif %}
           <a href="{{ path('tasks_edit', { 'id': task.id }) }}" 
-             class="btn btn-secondary btn-{{ task.completed ? "xs":"sm" }} d-none d-md-inline-block">
+             class="btn btn-secondary btn-{{ task.completed ? "xs":"sm" }}">
             Edit</a>
         </span>
       </div>
