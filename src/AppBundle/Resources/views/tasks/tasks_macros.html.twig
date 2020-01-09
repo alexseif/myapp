@@ -11,7 +11,7 @@
 
 {% macro li(task, displayListName = true) %}
   {% import _self as taskUI %}
-  <div class="card card-default task-item {{ task.completed ? "completed" }}" 
+  <div class="card card-default task-item p-0 {{ task.completed ? "completed" }}" 
        data-order="id_{{task.id}}" 
        id="task_{{task.id}}" 
        data-id="{{task.id}}"
@@ -26,7 +26,7 @@
        {% endif %}
        data-list="{{task.taskList.id}}"
        >
-    <div class="card-header py-1 bg-dark" id="task-header-{{task.id}}">
+    <div class="card-header py-1" id="task-header-{{task.id}}">
       <div class="form-check-inline ">
         <label class="form-check-label mr-2 {{ task.completed ? "completed"}} task">
           <input type="checkbox" data-taskid="{{task.id}}" class="form-check-input" 
@@ -56,21 +56,19 @@
         {% endif %}
 
         {% if displayListName %}
-          <span class="d-none d-lg-inline-block d-md-inline-block">
-            <a class="badge badge-default" 
-               data-tasklist="{{ task.taskList.name }}" 
-               href="{{ path("focus_tasklist", {'name':task.taskList.name}) }}">{{ task.taskList.name }}</a>
-            {% if (task.taskList.account) %}
-              <a href="{{ path('accounts_show', {'id': task.taskList.account.id}) }}"
-                 class="badge badge-info">{{ task.taskList.account.name }}</a>
-              {% if (task.taskList.account.client) %}
-                <a href="{{ path('client_show', {'id': task.taskList.account.client.id}) }}"
-                   class="badge badge-primary">{{ task.taskList.account.client.name }}</a>
-              {% endif %}
+          <a class="badge badge-default" 
+             data-tasklist="{{ task.taskList.name }}" 
+             href="{{ path("focus_tasklist", {'name':task.taskList.name}) }}">{{ task.taskList.name }}</a>
+          {% if (task.taskList.account) %}
+            <a href="{{ path('accounts_show', {'id': task.taskList.account.id}) }}"
+               class="badge badge-info">{{ task.taskList.account.name }}</a>
+            {% if (task.taskList.account.client) %}
+              <a href="{{ path('client_show', {'id': task.taskList.account.client.id}) }}"
+                 class="badge badge-primary">{{ task.taskList.account.client.name }}</a>
             {% endif %}
-          </span>
+          {% endif %}
         {% endif %}
-        <span class="visible-lg-inline visible-md-inline float-right">
+        <span class="float-right">
           <a class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#"
              href="{{ path('task_show_modal', {"id":task.id}) }}">
             <i class="fas fa-folder-open"></i></a>

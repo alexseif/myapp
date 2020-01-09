@@ -160,9 +160,9 @@ var Tasks = {
   },
 //Update Tasks size to fit screen
   setFocusTaskHeight: function () {
-    $('#focus .task-item').css('height', ((1 - ($('#completed').height() / $(window).height())) * 100 / $('#focus .task-item').length + 'vh'));
-    $('#completed .task-item').css('height', 'auto');
-    $('#tasks .task-item').css('height', 'auto');
+    $('#focus .task-item').css('min-height', ((1 - ($('#completed').height() / $(window).height())) * 100 / $('#focus .task-item').length + 'vh'));
+    $('#completed .task-item').css('min-height', 'auto');
+    $('#tasks .task-item').css('min-height', 'auto');
   },
 //Update order of tasks based on sorting
   updateOrder: function () {
