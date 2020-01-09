@@ -57,11 +57,11 @@ var Tasks = {
               .append('<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Postponed!</strong>&nbsp;')
               .append(undoLink);
       var li = $('<div/>')
-              .addClass("task-item")
               .append(div);
-      $(taskEl).parent().parent().after(li);
+      console.log($(taskEl).parents('.task-item'));
+      $(taskEl).parents('.task-item').after(li);
       $('a.undo').click(Tasks.undoPostponeTask);
-      $(taskEl).parent().parent().remove();
+      $(taskEl).parents('.task-item').remove();
       if (self.isFocus) {
         self.drawFocus();
       }
