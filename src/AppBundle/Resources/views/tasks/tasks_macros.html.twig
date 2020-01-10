@@ -101,7 +101,6 @@
 {% macro ul(tasks, id, displayListName = true) %}
   {% import _self as taskUI %}
   <div class="accordion task-list" {{ (id) ? 'id='~id }}>
-    {#    <ul class="list-group task-list mb-2" >#}
     {% for task in tasks %}
       {{ taskUI.li(task, displayListName) }}
     {% endfor %}
