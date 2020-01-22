@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 {% import "macros/forms.html.twig" as forms %}
 {% import "macros/a.html.twig" as a %}
+{% import "AppBundle:tasks:tasks_macros.html.twig" as tasks_view %}
 
 {% block floatingActions %}{{ a.add('tasks_new') }}{% endblock %}
 {% block panelBack %}{{ a.back('tasks_index') }}{% endblock %}
@@ -13,81 +14,5 @@
 
 {% endblock %}
 {% block panelBody %}
-  <div class="card card-default {{ task.completed ? "completed" }}" 
-       data-order="id_{{task.id}}" 
-       id="task_{{task.id}}" 
-       data-id="{{task.id}}"
-       data-est="{{ task.est }}"
-       data-duration="{{ task.duration }}"
-       data-order-no="{{ task.order }}"
-       {% if (task.taskList.account) %}
-         data-account="{{task.taskList.account.id}}"
-         {% if (task.taskList.account.client) %}
-           data-client="{{task.taskList.account.client.id}}"
-         {% endif %}
-       {% endif %}
-       data-list="{{task.taskList.id}}"
-       >
-    <div class="card-header" id="task-header-{{task.id}}">
-      <div class="form-check-inline">
-        <label class="form-check-label {{ task.completed ? "completed" }} task">
-          <input type="checkbox" data-taskid="{{task.id}}" class="form-check-input" 
-                 {{ task.completed ? "checked" : "" }}/>
-          {{ task.task }}
-        </label>
-      </div>
-      <div class="card-info">
-        {% if task.urgency %}
-          <span class="badge badge-warning">U</span>
-        {% endif %}
-        {% if task.priority > 0 %}
-          <span class="badge badge-danger">H</span>
-        {% elseif task.priority < 0 %}
-          <span class="badge badge-default">L</span>
-        {% else %}
-          <span class="badge badge-secondary">?</span>
-        {% endif %}
-      </div>
-      <div class="card-tools">
-        <button class="btn btn-default btn-sm">
-          <i class="fa fa-grip-lines"></i>
-        </button>
-        <button class="btn btn-default btn-sm" type="button" data-toggle="collapse" data-target="#task-body-{{ task.id }}" aria-expanded="false" aria-controls="task-body-{{ task.id }}">
-          <i class="fa fa-plus"></i>
-        </button>
-      </div>
-    </div>
-    <div class="collapse" id="task-body-{{ task.id }}" aria-labelledby="task-header-{{task.id}}">
-      <div class="card-body">
-        <a class="badge badge-default task-list-name" 
-           data-tasklist="{{ task.taskList.name }}" 
-           href="{{ path("tasklists_show", {'id':task.taskList.id}) }}">
-          {{ task.taskList.name }}</a>
-          {% if task.taskList.account %}
-          <a class="badge badge-info" 
-             data-tasklist="{{ task.taskList.account.name }}" 
-             href="{{ path("accounts_show", {'id':task.taskList.account.id }) }}">
-            {{ task.taskList.account.name }}</a>
-
-          {% if task.taskList.account.client %}
-            <a class="badge badge-primary" 
-               data-tasklist="{{ task.taskList.account.client.name }}" 
-               href="{{ path("client_show", {'id':task.taskList.account.client.id }) }}">
-              {{ task.taskList.account.client.name }}</a>
-
-          {% endif %}
-        {% endif %}
-        <span class="badge badge-default">Est:</span>
-        {{ task.est ? task.est ~ "m"}}
-        <span class="badge badge-default">Duration:</span>
-        {{ task.duration ? task.duration ~ "m"}}
-        <span class="badge badge-default">Created At:</span>
-        {{ task.createdAt|date }}
-        <span class="badge badge-default">ETA:</span>
-        {{ (task.eta) ?task.eta|date }}
-        <span class="badge badge-default">Completed At:</span>
-        {{ (task.completedAt) ? task.completedAt|date }}
-      </div>
-    </div>
-  </div>
+  {{ tasks_view.ul([task]) }}
 {% endblock %}
