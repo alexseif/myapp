@@ -19,4 +19,4 @@
   {{ a.edit('tasklists_edit', { 'id': taskList.id }) }}
   {{ forms.delete(delete_form) }}
 {% endblock %}
-{% block panelBody %}{{ tasks_view.ul(taskList.tasks, taskList.name, false) }}{% endblock %}
+{% block panelBody %}{{ tasks_view.ul(taskList.tasks, {id: taskList.name, displayListName: false}) }}{% endblock %}
