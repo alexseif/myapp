@@ -9,7 +9,7 @@
   {% endif %}
 {% endmacro %}
 
-{% macro li(task, displayListName = true) %}
+{% macro li(task, attributes) %}
   {% import _self as taskUI %}
   <div class="card card-default task-item p-0 {{ task.completed ? "completed" }}" 
        data-order="id_{{task.id}}" 
@@ -36,6 +36,9 @@
       </div>
       <div class="card-info">
         {{ taskUI.taskIcons(task.urgency, task.priority) }}
+        <a class="badge badge-default" 
+           data-tasklist="{{ task.taskList.name }}" 
+           href="{{ path("focus_tasklist", {'name':task.taskList.name}) }}">{{ task.taskList.name }}</a>
       </div>
       <div class="card-tools">
         <button class="btn btn-default btn-sm sort-button">
@@ -55,16 +58,18 @@
           <small class="text-success">{{ task.est ~ "m"}}</small>
         {% endif %}
 
-        {% if displayListName %}
-          <a class="badge badge-default" 
-             data-tasklist="{{ task.taskList.name }}" 
-             href="{{ path("focus_tasklist", {'name':task.taskList.name}) }}">{{ task.taskList.name }}</a>
-          {% if (task.taskList.account) %}
-            <a href="{{ path('accounts_show', {'id': task.taskList.account.id}) }}"
-               class="badge badge-info">{{ task.taskList.account.name }}</a>
-            {% if (task.taskList.account.client) %}
-              <a href="{{ path('client_show', {'id': task.taskList.account.client.id}) }}"
-                 class="badge badge-primary">{{ task.taskList.account.client.name }}</a>
+        {% if attributes.displayListName is defined %}
+          {% if attributes.displayListName != false %}
+            <a class="badge badge-default" 
+               data-tasklist="{{ task.taskList.name }}" 
+               href="{{ path("tasklists_show", {'id':task.taskList.id}) }}">{{ task.taskList.name }}</a>
+            {% if (task.taskList.account) %}
+              <a href="{{ path('accounts_show', {'id': task.taskList.account.id}) }}"
+                 class="badge badge-info">{{ task.taskList.account.name }}</a>
+              {% if (task.taskList.account.client) %}
+                <a href="{{ path('client_show', {'id': task.taskList.account.client.id}) }}"
+                   class="badge badge-primary">{{ task.taskList.account.client.name }}</a>
+              {% endif %}
             {% endif %}
           {% endif %}
         {% endif %}
@@ -98,11 +103,11 @@
   </div>
 {% endmacro %}
 
-{% macro ul(tasks, id, displayListName = true) %}
+{% macro ul(tasks, attributes) %}
   {% import _self as taskUI %}
-  <div class="accordion task-list" {{ (id) ? 'id='~id }}>
+  <div class="accordion task-list" {{ (attributes.id is defined) ? 'id='~ attributes.id }}>
     {% for task in tasks %}
-      {{ taskUI.li(task, displayListName) }}
+      {{ taskUI.li(task, attributes) }}
     {% endfor %}
   </div>   
 {% endmacro %}
