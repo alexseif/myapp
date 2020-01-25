@@ -44,14 +44,14 @@ services:
       tags:
           - { name: twig.extension }
           
-    myApp.currency:
+    myapp.currency:
       class:  AppBundle\Service\CurrencyService
       arguments: [ '@doctrine.orm.entity_manager' ]
       public: true
     
-    myApp.cost:
+    myapp.cost:
       class:  AppBundle\Service\CostService
-      arguments: [ '@doctrine.orm.entity_manager', '@myApp.currency' ]
+      arguments: [ '@doctrine.orm.entity_manager', '@myapp.currency' ]
       public: true
       
     myapp.rate.calculator:
