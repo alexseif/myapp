@@ -39,6 +39,12 @@
         <a class="badge badge-default" 
            data-tasklist="{{ task.taskList.name }}" 
            href="{{ path("focus_tasklist", {'name':task.taskList.name}) }}">{{ task.taskList.name }}</a>
+        {% if task.duration %}
+          <small class="text-info" title="Duration">{{ task.duration ~ "m"}}</small><br/>
+        {% endif %}
+        {% if task.est %}
+          <small class="text-success" title="EST">{{ task.est ~ "m"}}</small><br/>
+        {% endif %}
       </div>
       <div class="card-tools">
         <button class="btn btn-default btn-sm sort-button">
@@ -51,29 +57,29 @@
     </div>
     <div class="collapse" id="task-body-{{ task.id }}" aria-labelledby="task-header-{{task.id}}" data-parent=".accordion">
       <div class="card-body">
-        {% if task.duration %}
-          <small class="text-info">{{ task.duration ~ "m"}}</small>
-        {% endif %}
-        {% if task.est %}
-          <small class="text-success">{{ task.est ~ "m"}}</small>
-        {% endif %}
-
-        {% if attributes.displayListName is defined %}
-          {% if attributes.displayListName != false %}
-            <a class="badge badge-default" 
-               data-tasklist="{{ task.taskList.name }}" 
-               href="{{ path("tasklists_show", {'id':task.taskList.id}) }}">{{ task.taskList.name }}</a>
-            {% if (task.taskList.account) %}
-              <a href="{{ path('accounts_show', {'id': task.taskList.account.id}) }}"
-                 class="badge badge-info">{{ task.taskList.account.name }}</a>
-              {% if (task.taskList.account.client) %}
-                <a href="{{ path('client_show', {'id': task.taskList.account.client.id}) }}"
-                   class="badge badge-primary">{{ task.taskList.account.client.name }}</a>
+        <div class="float-md-left">
+          {% if attributes.displayListName is defined %}
+            {% if attributes.displayListName != false %}
+              <a class="badge badge-default" 
+                 data-tasklist="{{ task.taskList.name }}" 
+                 href="{{ path("tasklists_show", {'id':task.taskList.id}) }}">{{ task.taskList.name }}</a>
+              {% if (task.taskList.account) %}
+                <a href="{{ path('accounts_show', {'id': task.taskList.account.id}) }}"
+                   class="badge badge-info">{{ task.taskList.account.name }}</a>
+                {% if (task.taskList.account.client) %}
+                  <a href="{{ path('client_show', {'id': task.taskList.account.client.id}) }}"
+                     class="badge badge-primary">{{ task.taskList.account.client.name }}</a>
+                {% endif %}
               {% endif %}
             {% endif %}
+            <br/>
           {% endif %}
-        {% endif %}
-        <span class="float-right">
+          {% if task.eta %}
+            <small class="text-info" title="ETA">{{ task.eta|date }}</small><br/>
+          {% endif %}
+          <small class="text-primary" title="Created">{{ task.createdAt|date }}</small><br/>
+        </div>
+        <div class="float-md-right">
           <a class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#"
              href="{{ path('task_show_modal', {"id":task.id}) }}">
             <i class="fas fa-folder-open"></i></a>
@@ -95,9 +101,9 @@
             </a>
           {% endif %}
           <a href="{{ path('tasks_edit', { 'id': task.id }) }}" 
-             class="btn btn-secondary btn-{{ task.completed ? "xs":"sm" }}">
+             class="btn btn-secondary btn-sm">
             Edit</a>
-        </span>
+        </div>
       </div>
     </div>
   </div>
