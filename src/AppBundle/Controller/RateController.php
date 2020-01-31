@@ -82,19 +82,21 @@ class RateController extends Controller
     $form = $this->createFormBuilder()
         ->add('percent', \Symfony\Component\Form\Extension\Core\Type\PercentType::class)
         ->add('fixedValue', \Symfony\Component\Form\Extension\Core\Type\MoneyType::class)
+        ->add('note')
         ->getForm();
 
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
-      $increase = $form->getData('percent');
+      $increase = $form->getData();
+      $note = $increase['note'];
       if (null != $increase['percent']) {
         $percent = 1 + $increase['percent'];
-        $rateCalculator->increaseByPercent($percent);
+        $rateCalculator->increaseByPercent($percent, $note);
         $this->addFlash('success', 'Rates increase by ' . $percent . "%");
       } elseif (null != $increase['fixedValue']) {
         $fixedValue = $increase['fixedValue'];
-        $rateCalculator->increaseByFixedValue($fixedValue);
+        $rateCalculator->increaseByFixedValue($fixedValue, $note);
         $this->addFlash('success', 'Rates increase by EGP ' . $fixedValue);
       } else {
         $this->addFlash('error', 'Invalide From');

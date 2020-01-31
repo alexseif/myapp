@@ -17,6 +17,7 @@
           <tr>
             <th>Client</th>
             <th>Rate</th>
+            <th>Note</th>
             <th>Active</th>
             <th>Createdat</th>
             <th>Actions</th>
@@ -27,6 +28,7 @@
             <tr>
               <td>{{ rate.client.name }}</td>
               <td>{{ rate.rate }}</td>
+              <td>{{ rate.note }}</td>
               <td>{% if rate.active %}Yes{% else %}No{% endif %}</td>
               <td>{% if rate.createdAt %}{{ rate.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
               <td>

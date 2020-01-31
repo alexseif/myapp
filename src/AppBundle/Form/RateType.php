@@ -24,7 +24,9 @@ class RateType extends AbstractType
           'attr' => array(
             'class' => 'chosen',
           )
-    ));
+        ))
+        ->add('note')
+    ;
   }
 
   /**

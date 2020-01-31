@@ -134,7 +134,7 @@ class RateCalculator
    * 
    * @param float $percent
    */
-  public function increaseByPercent($percent)
+  public function increaseByPercent($percent, $note)
   {
     $em = $this->em;
     $rates = $this->getActive();
@@ -150,13 +150,18 @@ class RateCalculator
     $em->flush();
   }
 
-  public function increaseByFixedValue($fixedValue)
+  /**
+   * 
+   * @param type $fixedValue
+   */
+  public function increaseByFixedValue($fixedValue, $note)
   {
     $em = $this->em;
     $rates = $this->getActive();
     foreach ($rates as $rate) {
       $newRate = new Rate();
       $newRate
+          ->setNote($note)
           ->setActive(true)
           ->setClient($rate->getClient())
           ->setRate($rate->getRate() + $fixedValue);
