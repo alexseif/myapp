@@ -71,6 +71,42 @@ class RateController extends Controller
   }
 
   /**
+   * Creates a new rate entity.
+   *
+   * @Route("/increase", name="rate_increase_all", methods={"GET", "POST"})
+   */
+  public function increaseAllAction(Request $request)
+  {
+    $rateCalculator = $this->get('myapp.rate.calculator');
+    $form = $this->createFormBuilder()
+        ->add('percent', \Symfony\Component\Form\Extension\Core\Type\PercentType::class)
+        ->add('fixedValue', \Symfony\Component\Form\Extension\Core\Type\MoneyType::class)
+        ->getForm();
+    
+    $form->handleRequest($request);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+      $increase = $form->getData('percent');
+      if (null != $increase['percent']) {
+        $percent = 1 + $increase['percent'];
+        $rateCalculator->increaseByPercent($percent);
+        $this->addFlash('success', 'Rates increase by ' . $percent . "%");
+      } elseif (null != $increase['fixedValue']) {
+        $fixedValue = $increase['fixedValue'];
+        $rateCalculator->increaseByFixedValue($fixedValue);
+        $this->addFlash('success', 'Rates increase by EGP ' . $fixedValue);
+      } else {
+        $this->addFlash('error', 'Invalide From');
+      }
+      $this->redirect($this->generateUrl('rate_increase_all'));
+    }
+    return $this->render('AppBundle:rate:increaseAll.html.twig', array(
+          'rates' => $rateCalculator->getActive(),
+          'form' => $form->createView(),
+    ));
+  }
+
+  /**
    * Finds and displays a rate entity.
    *
    * @Route("/{id}", name="rate_show", methods={"GET"})

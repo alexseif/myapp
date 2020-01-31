@@ -1,6 +1,9 @@
 {% extends 'base.html.twig' %}
 {% import "macros/a.html.twig" as a %}
-{% block floatingActions %}{{ a.add('rate_new') }}{% endblock %}
+{% block floatingActions %}
+  {{ a.add('rate_new') }}
+  {{ a.linkGlyph('primary', 'Increase', 'rate_increase_all') }}
+{% endblock %}
 {% block panelTitle %}Rates{% endblock %}
 {% block panelBody %}
   <div class="row">
