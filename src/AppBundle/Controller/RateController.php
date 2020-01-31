@@ -134,6 +134,8 @@ class RateController extends Controller
   {
     $deleteForm = $this->createDeleteForm($rate);
     $editForm = $this->createForm('AppBundle\Form\RateType', $rate);
+    $editForm->add('createdAt');
+    $editForm->add('updatedAt');
     $editForm->handleRequest($request);
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {

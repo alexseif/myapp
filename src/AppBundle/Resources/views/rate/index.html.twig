@@ -4,6 +4,7 @@
   {{ a.add('rate_new') }}
   {{ a.linkGlyph('primary', 'Increase', 'rate_increase_all') }}
 {% endblock %}
+{% block title %}Rates{% endblock %}
 {% block panelTitle %}Rates{% endblock %}
 {% block panelBody %}
   <div class="row">
@@ -31,7 +32,7 @@
               <td>
                 <div class="btn-group">
                   {{ a.show('rate_show', { 'id': rate.id }) }}
-                  {#              {{ a.edit('rate_edit', { 'id': client.id }) }}#}
+                  {{ a.edit('rate_edit', { 'id': rate.id }) }}
                 </div>
               </td>
             </tr>
