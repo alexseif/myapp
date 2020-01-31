@@ -76,6 +76,7 @@ class BottomBar
       $expctedByClientThisMonth = $contract->getHoursPerDay() * $workingDaysSoFar * 60;
       $duration = $this->em->getRepository('AppBundle:Tasks')->findCompletedByClientToday($contract->getClient())['duration'];
       $difference = $expctedByClientThisMonth - $completedByClientThisMonth;
+      $workingDaysLeft = ($workingDaysLeft) ?: 1;
       $overMonth = $difference / $workingDaysLeft;
       $minutesPerDay = ($contract->getHoursPerDay() * 60) + $overMonth;
       $contract->percentage = $duration / $minutesPerDay * 100;
