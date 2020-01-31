@@ -5,12 +5,12 @@
 
 {% block panelTitle %}{{ rate.client.name }}{% endblock %}
 {% block panelHeadingRight %}
-{#  {{ a.edit('rate_edit', {'id':rate.id}) }}#}
-{#  {{ forms.delete(delete_form) }}#}
+  {#  {{ a.edit('rate_edit', {'id':rate.id}) }}#}
+  {#  {{ forms.delete(delete_form) }}#}
 
 {% endblock %}
 {% block panelBody %}
-  <table>
+  <table class="table">
     <tbody>
       <tr>
         <th>Id</th>
@@ -28,6 +28,25 @@
         <th>Createdat</th>
         <td>{% if rate.createdAt %}{{ rate.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
       </tr>
+    </tbody>
+  </table>
+  <hr/>
+  <h3>History for {{ rate.client }} </h3>
+  <table class="table table-condensed">
+    <thead>
+      <tr>
+        <th>Rate</th>
+        <th>Active</th>
+        <th>Date</th>
+    </thead>
+    <tbody>
+      {% for rate in historyRates %}
+        <tr>
+          <td>{{ rate.rate }}</td>
+          <td>{% if rate.active %}Yes{% else %}No{% endif %}</td>
+          <td>{{ rate.createdAt|date }}</td>
+        </tr>
+      {% endfor %}
     </tbody>
   </table>
 {% endblock %}

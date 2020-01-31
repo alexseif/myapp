@@ -24,7 +24,8 @@ class RateController extends Controller
   {
     $em = $this->getDoctrine()->getManager();
     $costOfLife = $this->get('myapp.cost');
-    $rates = $em->getRepository('AppBundle:Rate')->findAll();
+    $rateCalculator = $this->get('myapp.rate.calculator');
+    $rates = $rateCalculator->getActive();
 
     return $this->render('AppBundle:rate:index.html.twig', array(
           'costOfLife' => $costOfLife,
@@ -82,7 +83,7 @@ class RateController extends Controller
         ->add('percent', \Symfony\Component\Form\Extension\Core\Type\PercentType::class)
         ->add('fixedValue', \Symfony\Component\Form\Extension\Core\Type\MoneyType::class)
         ->getForm();
-    
+
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
@@ -114,9 +115,12 @@ class RateController extends Controller
   public function showAction(Rate $rate)
   {
     $deleteForm = $this->createDeleteForm($rate);
+    $em = $this->getDoctrine()->getManager();
+    $historyRates = $em->getRepository("AppBundle:Rate")->findBy(array("client" => $rate->getClient()));
 
     return $this->render('AppBundle:rate:show.html.twig', array(
           'rate' => $rate,
+          'historyRates' => $historyRates,
           'delete_form' => $deleteForm->createView(),
     ));
   }
