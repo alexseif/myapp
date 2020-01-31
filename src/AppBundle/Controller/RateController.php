@@ -23,10 +23,11 @@ class RateController extends Controller
   public function indexAction()
   {
     $em = $this->getDoctrine()->getManager();
-
+    $costOfLife = $this->get('myapp.cost');
     $rates = $em->getRepository('AppBundle:Rate')->findAll();
 
     return $this->render('AppBundle:rate:index.html.twig', array(
+          'costOfLife' => $costOfLife,
           'rates' => $rates,
     ));
   }
