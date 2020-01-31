@@ -7,6 +7,7 @@
 namespace AppBundle\Service;
 
 use AppBundle\Entity\Tasks;
+use AppBundle\Entity\Rate;
 
 /**
  * Description of RateCalculator
@@ -57,7 +58,7 @@ class RateCalculator
     $total = 0;
     foreach ($tasks as $task) {
       $rate = $this->getRateByTask($task);
-      $total += $task->getDuration()/60 * $rate;
+      $total += $task->getDuration() / 60 * $rate;
     }
     return $total;
   }
@@ -118,6 +119,56 @@ class RateCalculator
   function setCost($cost)
   {
     $this->cost = $cost;
+  }
+
+  /**
+   * 
+   * @return \Doctrine\Common\Collections\ArrayCollection Rates
+   */
+  public function getActive()
+  {
+    return $this->em->getRepository('AppBundle:Rate')->getActiveRates();
+  }
+
+  /**
+   * 
+   * @param float $percent
+   */
+  public function increaseByPercent($percent, $note)
+  {
+    $em = $this->em;
+    $rates = $this->getActive();
+    foreach ($rates as $rate) {
+      $newRate = new Rate();
+      $newRate
+          ->setActive(true)
+          ->setClient($rate->getClient())
+          ->setRate($rate->getRate() * $percent);
+      $rate->setActive(false);
+      $em->persist($newRate);
+    }
+    $em->flush();
+  }
+
+  /**
+   * 
+   * @param type $fixedValue
+   */
+  public function increaseByFixedValue($fixedValue, $note)
+  {
+    $em = $this->em;
+    $rates = $this->getActive();
+    foreach ($rates as $rate) {
+      $newRate = new Rate();
+      $newRate
+          ->setNote($note)
+          ->setActive(true)
+          ->setClient($rate->getClient())
+          ->setRate($rate->getRate() + $fixedValue);
+      $rate->setActive(false);
+      $em->persist($newRate);
+    }
+    $em->flush();
   }
 
 }

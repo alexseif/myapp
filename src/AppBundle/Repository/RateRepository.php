@@ -10,4 +10,14 @@ namespace AppBundle\Repository;
  */
 class RateRepository extends \Doctrine\ORM\EntityRepository
 {
+
+  public function getActiveRates()
+  {
+    return $this
+            ->createQueryBuilder('r')
+            ->where('r.active = true')
+            ->getQuery()
+            ->getResult();
+  }
+
 }

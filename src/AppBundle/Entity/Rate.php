@@ -46,6 +46,13 @@ class Rate
   private $active;
 
   /**
+   * @var string
+   *
+   * @ORM\Column(name="note", type="text", nullable=true)
+   */
+  private $note;
+
+  /**
    * Get id.
    *
    * @return int
@@ -127,4 +134,28 @@ class Rate
     return $this->active;
   }
 
+
+    /**
+     * Set note.
+     *
+     * @param string|null $note
+     *
+     * @return Rate
+     */
+    public function setNote($note = null)
+    {
+        $this->note = $note;
+
+        return $this;
+    }
+
+    /**
+     * Get note.
+     *
+     * @return string|null
+     */
+    public function getNote()
+    {
+        return $this->note;
+    }
 }
