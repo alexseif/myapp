@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}	
+{% import "macros/forms.html.twig" as forms %}	
+{% import "macros/a.html.twig" as a %}	
+{% block container %}	
+  <style>	
+    body.weekly{	
+      background: #FFF;	
+      color:#000;	
+    }	
+    #weekly-container{}	
+    table#weekly{	
+      border-collapse: separate;	
+      border-spacing: 5px;	
+      width: 75vw;	
+      margin: 0 auto;	
+      table-layout: fixed;	
+      overflow: hidden;	
+    }	
+    table#weekly th {	
+      font-size: 100%;	
+      text-align: center;	
+      font-family: monospace;	
+    }	
+    table#weekly tbody tr td {	
+      border: 1px solid #000;	
+      width: calc(80vw / 52);	
+      height: calc(80vw / 52);	
+    }	
+    .lived{background: #222222;}	
+  </style>	
+  <div id="weekly-container">	
+    <span class="pull-left">{{ BOL|date('Y-m-d') }}</span>	
+    <br class="clear"/>	
+    <table id="weekly">	
+      <thead>	
+        <tr>	
+          {% for week in 0..52 %}	
+            <th>	
+              {% if loop.index is divisible by(5) %}	
+                {{ loop.index }}	
+              {% endif %}	
+            </th>	
+          {% endfor %}	
+        </tr>	
+      </thead>	
+      <tbody>	
+        {% set weeks = 0 %}	
+        {% for year in 0..90 %}	
+          <tr>	
+            <th>	
+              {% if loop.index is divisible by(5) %}	
+                {{ loop.index }}	
+              {% endif %}	
+            </th>	
+            {% for week in 0..52 %}	
+              <td 	
+                class="{{ weeks > weeksLived ? "" : "lived"}}"	
+                title="{{ BOL|date_modify(weeks ~ " week")|date("Y-m-d")}}">	
+              </td>	
+              {% set weeks = weeks +1 %}	
+            {% endfor %}	
+            <th>	
+              {% if loop.index is divisible by(5) %}	
+                {{ BOL|date_modify(loop.index ~ " year")|date("y")}}	
+              {% endif %}	
+            </th>	
+          </tr>	
+        {% endfor %}	
+      </tbody>	
+    </table>	
+    <span class="pull-right">{{ EOL|date('Y-m-d') }}</span>	
+
+  </div>	
+{% endblock %} 
