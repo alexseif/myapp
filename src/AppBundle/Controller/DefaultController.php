@@ -127,8 +127,6 @@ class DefaultController extends Controller
         "experiment_accounts"
       ],
       "Focus" => [
-        "focus_index",
-        "focus_new",
       ],
       "Management" => [
         "management_index",
