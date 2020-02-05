@@ -1,31 +1,33 @@
 {% extends 'base.html.twig' %}
-{% import "macros/a.html.twig" as a %}
-{% block floatingActions %}{{ a.add('focus_new') }}{% endblock %}
-{% block panelTitle %}Focus{% endblock %}
-{% block panelBody %}
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>TaskList</th>
-        <th>Duration</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for focus in foci %}
-        <tr>
-          <td><a href="{{ path('focus_show', { 'id': focus.id }) }}">{{ focus.name }}</a></td>
-          <td>{{ focus.taskList }}</td>
-          <td>{{ focus.duration }}</td>
-          <td>
-            <div class="btn-group">
-              {{ a.show('focus_show', { 'id': focus.id }) }}
-              {{ a.edit('focus_edit', { 'id': focus.id }) }}
-            </div>
-          </td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+{% import "AppBundle:tasks:tasks_macros.html.twig" as tasks_view %}
+
+{% block title %}Focus{% endblock %}
+{% block nav %}{% endblock %}
+{% block container %}
+  <div class="floating-action">
+    <a href="{{ path('dashboard') }}" class="btn btn-default bg-dark" type="button">
+      <i class="fas fa-home"></i>
+    </a>
+    <a class="btn btn-default bg-dark" type="button"
+       href="{{ (taskList is defined) ? path('focus_tasklist', {'name': taskList.name}) : path('focus') }}">
+      <i class="fas fa-sync-alt"></i>
+    </a>
+    <a class="btn btn-default text-bold bg-dark" type="button" 
+       href="{{ path('tasks_new')}}">
+      <i class="fas fa-plus"></i>
+    </a>
+  </div>
+
+  <div class="container">
+    {{ tasks_view.ul(completed, {displayListName: 'completed'}) }}
+    {{ tasks_view.ul(tasks, {displayListName: 'tasks', focus: true} ) }}
+  </div>
+
+{% endblock %}
+{% block javascripts %}
+  <script>
+    var todayHours
+    = {{ todayHours }};
+  </script>
+  {{ parent() }}
 {% endblock %}
