@@ -19,7 +19,7 @@
   </div>
 
   <div class="container">
-    {{ tasks_view.ul(completed, {displayListName: 'completed'}) }}
+    {{ tasks_view.ul(completed, {id: 'completed', displayListName: 'completed', class: 'm-2'}) }}
     {{ tasks_view.ul(tasks, {id: 'tasks', displayListName: 'tasks', focus: true} ) }}
   </div>
 
