@@ -9,7 +9,7 @@ var Tasks = {
   init: function () {
     this.bindEvents();
     if (this.isFocus) {
-      $('<div class="accordion task-list" id="focus"></div>').prependTo('.container');
+      $('<div class="accordion task-list m-4" id="focus"></div>').prependTo('.container');
       this.drawFocus();
       if (!touch) {
         $("#focus").sortable({
@@ -131,7 +131,7 @@ var Tasks = {
     while (this.day.remaining > 0) {
       task = $('#tasks .task-item:first-child');
       if (task.length) {
-        $taskTime = (task.data("est")) ? task.data("est") : 0;
+        $taskTime = (task.data("est")) ? task.data("est") : 60;
         $remainingTime = this.day.remaining - $taskTime;
         if (($remainingTime >= 0)) {
           this.day.remaining = $remainingTime;
