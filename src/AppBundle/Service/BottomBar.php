@@ -63,11 +63,13 @@ class BottomBar
   {
     $contracts = $this->em->getRepository('AppBundle:Contract')->findAll();
     foreach ($contracts as $contract) {
-      $month = $contract->getHoursPerDay() * 20;
       $completedByClientThisMonth = $this->em->getRepository('AppBundle:Tasks')->findCompletedByClientThisMonth($contract->getClient())['duration'];
       $monthStart = new \DateTime();
       $monthStart->setDate($monthStart->format('Y'), $monthStart->format('m'), 1);
       $monthStart->setTime(00, 00, 00);
+      if ($contract->getCreatedAt() > $monthStart) {
+        $monthStart->setDate($contract->getCreatedAt()->format('Y'), $contract->getCreatedAt()->format('m'), $contract->getCreatedAt()->format('d'));
+      }
       $monthEnd = new \DateTime();
       $monthEnd->setDate($monthEnd->format('Y'), $monthEnd->format('m'), $monthEnd->format('t'));
       $monthEnd->setTime(23, 59, 59);
