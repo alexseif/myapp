@@ -11,6 +11,7 @@
         <th>Id</th>
         <th>Name</th>
         <th>Hoursperday</th>
+        <th>Started At</th>
         <th>Actions</th>
       </tr>
     </thead>
@@ -20,10 +21,14 @@
           <td><a href="{{ path('contract_show', { 'id': contract.id }) }}">{{ contract.id }}</a></td>
           <td>{{ contract.name }}</td>
           <td>{{ contract.hoursPerDay }}</td>
+          <td>{{ contract.startedAt|date }}</td>
           <td>
             <ul>
               <li>
                 <a href="{{ path('contract_show', { 'id': contract.id }) }}">show</a>
+              </li>
+              <li>
+                <a href="{{ path('contract_report', { 'id': contract.id }) }}">Report</a>
               </li>
               <li>
                 <a href="{{ path('contract_edit', { 'id': contract.id }) }}">edit</a>

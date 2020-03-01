@@ -76,6 +76,40 @@ class ContractController extends Controller
   }
 
   /**
+   * Finds and displays a report for contract entity.
+   *
+   * @Route("/{id}/report", name="contract_report")
+   * @Method("GET")
+   */
+  public function reportAction(Contract $contract)
+  {
+    $em = $this->getDoctrine()->getManager();
+
+    $contractStart = $contract->getStartedAt();
+    $today = new \DateTime();
+//    $contractPeriod = $today->diff($contractStart);
+    $dayInterval = new \DateInterval("P1D");
+    $contractPeriod = new \DatePeriod($contractStart, $dayInterval, $today);
+    $workweek = [1, 2, 3, 4, 7];
+    $completedByClientThisMonth = $em->getRepository('AppBundle:Tasks')->findCompletedByClientByMonth($contract->getClient(), $contractStart);
+//    dump($completedByClientThisMonth);
+//    if ($contractPeriod->y > 0) {
+//    }
+//    if ($contractPeriod->m > 0) {
+//    }
+    $contactDetails = [];
+    foreach ($contractPeriod as $date) {
+      if (in_array($date->format('N'), $workweek)) {
+        $contractDetails[$date->format('Ymd')] = 0;
+      }
+    }
+//    dump($contractDetails);
+    return $this->render('AppBundle:contract:report.html.twig', array(
+          'contract' => $contract,
+    ));
+  }
+
+  /**
    * Displays a form to edit an existing contract entity.
    *
    * @Route("/{id}/edit", name="contract_edit")

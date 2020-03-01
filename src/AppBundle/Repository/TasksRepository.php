@@ -393,7 +393,7 @@ class TasksRepository extends EntityRepository
             ->getResult();
   }
 
-  public function findCompletedByClientThisMonth($client)
+  public function findDurationCompletedByClientThisMonth($client)
   {
     $date = new \DateTime();
     $date->setDate($date->format('Y'), $date->format('m'), 1);
@@ -409,6 +409,39 @@ class TasksRepository extends EntityRepository
             ->setParameter(':date', $date->format('Y-m-d H:i'))
             ->getQuery()
             ->getSingleResult();
+  }
+
+  public function findCompletedByClientThisMonth($client)
+  {
+    $date = new \DateTime();
+    $date->setDate($date->format('Y'), $date->format('m'), 1);
+    $date->setTime(00, 00, 00);
+    return $this
+            ->createQueryBuilder('t')
+            ->leftJoin('t.taskList', 'tl')
+            ->leftJoin('tl.account', 'a')
+            ->where('a.client = :client')
+            ->andWhere('t.completedAt > :date')
+            ->setParameter(':client', $client)
+            ->setParameter(':date', $date->format('Y-m-d H:i'))
+            ->getQuery()
+            ->getResult();
+  }
+
+  public function findCompletedByClientByMonth($client, $month)
+  {
+    return $this
+            ->createQueryBuilder('t')
+            ->leftJoin('t.taskList', 'tl')
+            ->leftJoin('tl.account', 'a')
+            ->where('a.client = :client')
+            ->andWhere('YEAR(t.completedAt) = :year')
+            ->andWhere('MONTH(t.completedAt) = :month')
+            ->setParameter(':client', $client)
+            ->setParameter(':month', $month->format('m'))
+            ->setParameter(':year', $month->format('Y'))
+            ->getQuery()
+            ->getResult();
   }
 
   public function findCompletedByClientToday($client)
