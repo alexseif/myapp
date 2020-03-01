@@ -63,7 +63,7 @@ class BottomBar
   {
     $contracts = $this->em->getRepository('AppBundle:Contract')->findAll();
     foreach ($contracts as $contract) {
-      $completedByClientThisMonth = $this->em->getRepository('AppBundle:Tasks')->findCompletedByClientThisMonth($contract->getClient())['duration'];
+      $completedByClientThisMonth = $this->em->getRepository('AppBundle:Tasks')->findDurationCompletedByClientThisMonth($contract->getClient())['duration'];
       $monthStart = new \DateTime();
       $monthStart->setDate($monthStart->format('Y'), $monthStart->format('m'), 1);
       $monthStart->setTime(00, 00, 00);
@@ -74,7 +74,6 @@ class BottomBar
       $monthEnd->setDate($monthEnd->format('Y'), $monthEnd->format('m'), $monthEnd->format('t'));
       $monthEnd->setTime(23, 59, 59);
       $workingDaysSoFar = \AppBundle\Util\DateRanges::numberOfWorkingDays($monthStart, new \DateTime());
-      dump($workingDaysSoFar);
       $workingDaysLeft = \AppBundle\Util\DateRanges::numberOfWorkingDays(new \DateTime(), $monthEnd);
       $expctedByClientThisMonth = $contract->getHoursPerDay() * $workingDaysSoFar * 60;
       $duration = $this->em->getRepository('AppBundle:Tasks')->findCompletedByClientToday($contract->getClient())['duration'];

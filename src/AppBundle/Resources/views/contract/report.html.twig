@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+{% import "macros/forms.html.twig" as forms %}
+{% import "macros/a.html.twig" as a %}
+{% block title %}{{ contract.name }}{% endblock %}
+
+{% block panelBack %}{{ a.back('contract_index') }}{% endblock %}
+{% block panelHeadingRight %}
+  {{ a.edit('contract_edit', {'id':contract.id}) }}
+
+{% endblock %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-header">
+      <h2><small>Contract</small> {{ contract.name}}</h2>
+      <div>
+        id: #{{ contract.id }}
+        name: {{ contract.name }}
+        hours: {{ contract.hoursPerDay }}
+        start: {{ contract.startedAt|date }}
+      </div>
+    </div>
+    <div class="card-body">
+
+    </div>
+  </div>
+{% endblock %}
