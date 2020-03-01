@@ -26,6 +26,7 @@ class ContractType extends AbstractType
           ))
         )
         ->add('hoursPerDay')
+        ->add('startedAt')
     ;
   }
 

@@ -52,7 +52,6 @@ class DateRanges
   {
     $workingDays = [1, 2, 3, 4, 7]; # date format = N (1 = Monday, ...)
     $holidayDays = ['*-12-25', '*-01-01', '2013-12-23']; # variable and fixed holidays
-
 //    $from = new \DateTime($from);
 //    $to = new \DateTime($to);
 //    $to->modify('+1 day');
@@ -69,7 +68,7 @@ class DateRanges
         continue;
       $days++;
     }
-    return $days;
+    return $days - 1;
   }
 
 }

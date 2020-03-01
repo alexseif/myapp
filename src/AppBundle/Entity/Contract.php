@@ -46,6 +46,13 @@ class Contract
   private $hoursPerDay;
 
   /**
+   * @var datetime
+   *
+   * @ORM\Column(name="startedAt", type="date")
+   */
+  private $startedAt;
+
+  /**
    * Get id.
    *
    * @return int
@@ -151,4 +158,28 @@ class Contract
     return $this->client;
   }
 
+
+    /**
+     * Set startedAt.
+     *
+     * @param \DateTime $startedAt
+     *
+     * @return Contract
+     */
+    public function setStartedAt($startedAt)
+    {
+        $this->startedAt = $startedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get startedAt.
+     *
+     * @return \DateTime
+     */
+    public function getStartedAt()
+    {
+        return $this->startedAt;
+    }
 }
