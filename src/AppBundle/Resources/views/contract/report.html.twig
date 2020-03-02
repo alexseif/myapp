@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 {% import "macros/forms.html.twig" as forms %}
 {% import "macros/a.html.twig" as a %}
-{% block title %}{{ contract.name }}{% endblock %}
+{% block panelTitle %}<small>Contract:</small>{{ contract.name }}{% endblock %}
 
 {% block panelBack %}{{ a.back('contract_index') }}{% endblock %}
 {% block panelHeadingRight %}
@@ -9,19 +9,56 @@
 
 {% endblock %}
 
-{% block content %}
-  <div class="card">
-    <div class="card-header">
-      <h2><small>Contract</small> {{ contract.name}}</h2>
-      <div>
-        id: #{{ contract.id }}
-        name: {{ contract.name }}
-        hours: {{ contract.hoursPerDay }}
-        start: {{ contract.startedAt|date }}
-      </div>
-    </div>
-    <div class="card-body">
-
+{% block panelBody %}
+  <div class="card-body">
+    hours: {{ contract.hoursPerDay }}<br/>
+    start: {{ contract.startedAt|date }}
+    {{ dump(contractDetails) }}
+    <div id="accordion">
+      {% for week,tasks in contractDetails %}
+        <div class="card">
+          <div class="card-header" id="heading{{ week }}">
+            <h5 class="mb-0">
+              <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#week{{ week }}" aria-expanded="true" aria-controls="week{{ week }}">
+                {{ week }}
+              </button>
+            </h5>
+          </div>
+          <div id="week{{ week }}" class="collapse" aria-labelledby="heading{{ week }}" data-parent="#accordion">
+            <div class="card-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Task</th>
+                    <th>List</th>
+                    <th>Date</th>
+                    <th>Duration</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% set total = 0 %}
+                  {% for task in tasks %}
+                  {% set total = total+task.duration %}
+                    <tr>
+                      <td>{{ task.task }}</td>
+                      <td>{{ task.taskList }}</td>
+                      <td>{{ task.completedAt|date }}</td>
+                      <td>{{ (task.duration/60)|round(0, 'floor') }}:{{ task.duration%60 }}</td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <th>{{ (total/60)|round(0, 'floor') }}:{{ total%60 }}</th>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
     </div>
   </div>
 {% endblock %}
