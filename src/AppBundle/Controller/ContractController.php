@@ -92,20 +92,24 @@ class ContractController extends Controller
     $contractPeriod = new \DatePeriod($contractStart, $dayInterval, $today);
     $workweek = [1, 2, 3, 4, 7];
     $completedByClientThisMonth = $em->getRepository('AppBundle:Tasks')->findCompletedByClientByMonth($contract->getClient(), $contractStart);
+    $contactDetails = [];
+    foreach ($completedByClientThisMonth as $task) {
+      $contractDetails[$task->getCompletedAt()->format('Ymd')][] = $task;
+    }
 //    dump($completedByClientThisMonth);
 //    if ($contractPeriod->y > 0) {
 //    }
 //    if ($contractPeriod->m > 0) {
 //    }
-    $contactDetails = [];
-    foreach ($contractPeriod as $date) {
-      if (in_array($date->format('N'), $workweek)) {
-        $contractDetails[$date->format('Ymd')] = 0;
-      }
-    }
+//    foreach ($contractPeriod as $date) {
+//      if (in_array($date->format('N'), $workweek)) {
+//        $contractDetails[$date->format('Ymd')] = 0;
+//      }
+//    }
 //    dump($contractDetails);
     return $this->render('AppBundle:contract:report.html.twig', array(
           'contract' => $contract,
+          'contractDetails' => $contractDetails
     ));
   }
 
