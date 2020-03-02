@@ -1,59 +1,60 @@
-{% extends 'base.html.twig' %}
-{% import "macros/forms.html.twig" as forms %}
-{% import "macros/a.html.twig" as a %}
-{% block panelTitle %}<small>Contract:</small>{{ contract.name }}{% endblock %}
+{% extends "::base.html.twig" %}
 
-{% block panelBack %}{{ a.back('contract_index') }}{% endblock %}
-{% block panelHeadingRight %}
-  {{ a.edit('contract_edit', {'id':contract.id}) }}
+{% block title %}Accounting - {{ contract }}{% endblock %}
 
-{% endblock %}
-
-{% block panelBody %}
-  <div class="card-body">
-    hours: {{ contract.hoursPerDay }}<br/>
-    start: {{ contract.startedAt|date }}
-    <div id="accordion">
-      {% for week,tasks in contractDetails %}
-        <div class="card ">
-          <div class="card-header" id="heading{{ week }}">
-            <h5 class="mb-0">
-              <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#week{{ week }}" aria-expanded="true" aria-controls="week{{ week }}">
-                {{ week }}
-              </button>{{ (totals[week]/60)|round(0, 'floor') }}:{{ totals[week]%60 }}
-            </h5>
-          </div>
-          <div id="week{{ week }}" class="collapse" aria-labelledby="heading{{ week }}" data-parent="#accordion">
-            <div class="card-body">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th>Task</th>
-                    <th>List</th>
-                    <th>Duration</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {% for task in tasks %}
-                    <tr>
-                      <td>{{ task.task }}</td>
-                      <td>{{ task.taskList }}</td>
-                      <td>{{ (task.duration/60)|round(0, 'floor') }}:{{ task.duration%60 }}</td>
-                    </tr>
-                  {% endfor %}
-                </tbody>
-                <tfoot>
-                  <tr>
-                    <td></td>
-                    <td></td>
-                    <th>{{ (totals[week]/60)|round(0, 'floor') }}:{{ totals[week]%60 }}</th>
-                  </tr>
-                </tfoot>
-              </table>
-            </div>
-          </div>
-        </div>
-      {% endfor %}
+{% block content %}
+  <style>
+    .current-balance{text-align: center;}
+    .table td{text-align: right;}
+    .table td:first-child{text-align: left;}
+  </style>
+  <div class="container">
+    {{ form_start(report_filter_form) }}
+    {{ form_widget(report_filter_form) }}
+    <div class="float-right">
+      <a href="{{ path('accounting_index') }}" class="btn btn-link">Reset</a>
+      <button type="submit" value="Filter" class="btn btn-secondary btn-sm">Search</button>
     </div>
+    {{ form_end(report_filter_form) }}
+    <div class="clearfix"></div>
+  </div>
+  <hr>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3">
+        <h2>Account: {{ contract }}</h2>
+      </div>
+      <div class="col-md-offset-6 col-md-3">
+        <h3>Client: {{ contract.client }}</h3>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="container">
+    <h3>Issued Statements</h3>
+    <table class="table table-bordered table-condensed table-striped">
+      <thead>
+        <tr>
+          <th>Coverage period</th>
+          <th>Forward Balance</th>
+          <th>Ending Balance</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in monthsArray %}
+          <tr>
+            <td>
+              {# TODO: Provide Date range #}
+              {# TODO: Respct provided date range #}
+              <a href="{{ path('contract_timesheet', {"id" : contract.id, "from": item.start, "to":item.end }) }}">
+                {{ item.start }} - {{ item.end }}
+              </a>
+            </td>
+            <td></td>
+            <td></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   </div>
 {% endblock %}

@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+{% import "macros/forms.html.twig" as forms %}
+{% import "macros/a.html.twig" as a %}
+{% block panelTitle %}<small>Contract:</small>{{ contract.name }}{% endblock %}
+
+{% block panelBack %}{{ a.back('contract_index') }}{% endblock %}
+{% block panelHeadingRight %}
+  {{ a.edit('contract_edit', {'id':contract.id}) }}
+
+{% endblock %}
+
+{% block panelBody %}
+  <div class="card-body">
+    hours: {{ contract.hoursPerDay }}<br/>
+    start: {{ contract.startedAt|date }}
+    <div id="accordion">
+      {% for week,tasks in contractDetails %}
+        <div class="card ">
+          <div class="card-header" id="heading{{ week }}">
+            <h5 class="mb-0">
+              <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#week{{ week }}" aria-expanded="true" aria-controls="week{{ week }}">
+                {{ week }}
+              </button>{{ (totals[week]/60)|round(0, 'floor') }}:{{ totals[week]%60 }}
+            </h5>
+          </div>
+          <div id="week{{ week }}" class="collapse" aria-labelledby="heading{{ week }}" data-parent="#accordion">
+            <div class="card-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Task</th>
+                    <th>List</th>
+                    <th>Duration</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for task in tasks %}
+                    <tr>
+                      <td>{{ task.task }}</td>
+                      <td>{{ task.taskList }}</td>
+                      <td>{{ (task.duration/60)|round(0, 'floor') }}:{{ task.duration%60 }}</td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <th>{{ (totals[week]/60)|round(0, 'floor') }}:{{ totals[week]%60 }}</th>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}
