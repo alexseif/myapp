@@ -2,15 +2,16 @@
 {% import "macros/a.html.twig" as a %}
 {% block floatingActions %}{{ a.add('contract_new') }}{% endblock %}
 {% block title %}Contracts{% endblock %}
-{% block content %}
-  <h1>Contracts list</h1>
+{% block panelTitle %}
+  Contracts list  
+{% endblock %}
 
-  <table>
+{% block panelBody %}
+  <table class="table">
     <thead>
       <tr>
-        <th>Id</th>
         <th>Name</th>
-        <th>Hoursperday</th>
+        <th>Hours per day</th>
         <th>Started At</th>
         <th>Actions</th>
       </tr>
@@ -18,31 +19,17 @@
     <tbody>
       {% for contract in contracts %}
         <tr>
-          <td><a href="{{ path('contract_show', { 'id': contract.id }) }}">{{ contract.id }}</a></td>
-          <td>{{ contract.name }}</td>
+          <td><a href="{{ path('contract_show', { 'id': contract.id }) }}">{{ contract.name }}</a></td>
           <td>{{ contract.hoursPerDay }}</td>
           <td>{{ contract.startedAt|date }}</td>
           <td>
-            <ul>
-              <li>
-                <a href="{{ path('contract_show', { 'id': contract.id }) }}">show</a>
-              </li>
-              <li>
-                <a href="{{ path('contract_report', { 'id': contract.id }) }}">Report</a>
-              </li>
-              <li>
-                <a href="{{ path('contract_edit', { 'id': contract.id }) }}">edit</a>
-              </li>
-            </ul>
+            {{ a.show('contract_show', { 'id': contract.id }) }}
+            {{ a.linkGlyph('info', 'Report','contract_report', { 'id': contract.id }) }}
+            {{ a.edit('contract_edit', { 'id': contract.id }) }}
           </td>
         </tr>
       {% endfor %}
     </tbody>
   </table>
 
-  <ul>
-    <li>
-      <a href="{{ path('contract_new') }}">Create a new contract</a>
-    </li>
-  </ul>
 {% endblock %}
