@@ -437,6 +437,7 @@ class TasksRepository extends EntityRepository
             ->where('a.client = :client')
             ->andWhere('YEAR(t.completedAt) = :year')
             ->andWhere('MONTH(t.completedAt) = :month')
+            ->orderBy('t.completedAt')
             ->setParameter(':client', $client)
             ->setParameter(':month', $month->format('m'))
             ->setParameter(':year', $month->format('Y'))
