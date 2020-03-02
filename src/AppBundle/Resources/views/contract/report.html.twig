@@ -13,7 +13,6 @@
   <div class="card-body">
     hours: {{ contract.hoursPerDay }}<br/>
     start: {{ contract.startedAt|date }}
-    {{ dump(contractDetails) }}
     <div id="accordion">
       {% for week,tasks in contractDetails %}
         <div class="card">
