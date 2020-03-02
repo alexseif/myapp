@@ -93,23 +93,33 @@ class ContractController extends Controller
     $workweek = [1, 2, 3, 4, 7];
     $completedByClientThisMonth = $em->getRepository('AppBundle:Tasks')->findCompletedByClientByMonth($contract->getClient(), $contractStart);
     $contactDetails = [];
+    $totals = [];
+    foreach ($contractPeriod as $date) {
+      if (in_array($date->format('N'), $workweek)) {
+        $week = $date->format('Ymd-D');
+        $contractDetails[$week] = [];
+        $totals[$week] = 0;
+      }
+    }
     foreach ($completedByClientThisMonth as $task) {
-      $contractDetails[$task->getCompletedAt()->format('Ymd')][] = $task;
+      $week = $task->getCompletedAt()->format('Ymd-D');
+      if (!key_exists($week, $totals)) {
+        $totals[$week] = 0;
+      }
+      $totals[$week] += $task->getDuration();
+      $contractDetails[$week][] = $task;
     }
 //    dump($completedByClientThisMonth);
 //    if ($contractPeriod->y > 0) {
 //    }
 //    if ($contractPeriod->m > 0) {
 //    }
-//    foreach ($contractPeriod as $date) {
-//      if (in_array($date->format('N'), $workweek)) {
-//        $contractDetails[$date->format('Ymd')] = 0;
-//      }
-//    }
+//    
 //    dump($contractDetails);
     return $this->render('AppBundle:contract:report.html.twig', array(
           'contract' => $contract,
-          'contractDetails' => $contractDetails
+          'contractDetails' => $contractDetails,
+          'totals' => $totals
     ));
   }
 
