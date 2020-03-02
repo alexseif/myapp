@@ -78,10 +78,10 @@ class ContractController extends Controller
   /**
    * Finds and displays a report for contract entity.
    *
-   * @Route("/{id}/report", name="contract_report")
+   * @Route("/{id}/log", name="contract_log")
    * @Method("GET")
    */
-  public function reportAction(Contract $contract)
+  public function logAction(Contract $contract)
   {
     $em = $this->getDoctrine()->getManager();
 
@@ -116,10 +116,70 @@ class ContractController extends Controller
 //    }
 //    
 //    dump($contractDetails);
-    return $this->render('AppBundle:contract:report.html.twig', array(
+    return $this->render('AppBundle:contract:log.html.twig', array(
           'contract' => $contract,
           'contractDetails' => $contractDetails,
           'totals' => $totals
+    ));
+  }
+
+  /**
+   * @Route("/{id}/report", name="contract_report")
+   */
+  public function reportAction(Contract $contract, Request $request)
+  {
+    $reportFilterFormBuider = $this->createFormBuilder()
+        ->add('test');
+    $reportFilterForm = $reportFilterFormBuider->getForm();
+
+    $reportFilterForm->handleRequest($request);
+    $monthsArray = [];
+    $today = new \DateTime();
+    $monthsArray = \AppBundle\Util\DateRanges::populateMonths($contract->getStartedAt()->format('Ymd'), $today->format('Ymd'), 1);
+
+    if ($reportFilterForm->isSubmitted() && $reportFilterForm->isValid()) {
+      $accountingFilterData = $reportFilterForm->getData();
+      $contract = $accountingFilterData['account'];
+
+      $em = $this->getDoctrine()->getManager();
+      $txnRepo = $em->getRepository('AppBundle:AccountTransactions');
+      $txnPeriod = $txnRepo->queryAccountRange($contract);
+
+      $overdue = $txnRepo->queryOverdueAccount($contract);
+
+      foreach ($monthsArray as $key => $range) {
+        $monthsArray[$key]['forward_balance'] = $txnRepo->queryCurrentBalanceByAccountAndRange($contract, $range)['amount'];
+        $monthsArray[$key]['ending_balance'] = $txnRepo->queryOverdueAccountTo($contract, $range['end'])['amount'];
+      }
+    }
+
+    return $this->render("AppBundle:contract:report.html.twig", array(
+          'report_filter_form' => $reportFilterForm->createView(),
+          'contract' => $contract,
+          'monthsArray' => $monthsArray
+    ));
+  }
+
+  /**
+   * @Route("/{id}/{from}/{to}", name="contract_timesheet")
+   */
+  public function timesheetAction(Contract $contract, Request $request, $from, $to)
+  {
+    $em = $this->getDoctrine()->getManager();
+    $tasks = $em->getRepository('AppBundle:Tasks')->findCompletedByClientByMonth($contract->getClient(), new \DateTime($from));
+
+    $total = 0;
+
+    foreach ($tasks as $task) {
+      $total += $task->getDuration();
+    }
+
+    return $this->render("AppBundle:contract:timesheet.html.twig", array(
+          "contract" => $contract,
+          "from" => $from,
+          "to" => $to,
+          "tasks" => $tasks,
+          "total" => $total,
     ));
   }
 

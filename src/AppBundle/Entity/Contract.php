@@ -158,28 +158,33 @@ class Contract
     return $this->client;
   }
 
+  /**
+   * Set startedAt.
+   *
+   * @param \DateTime $startedAt
+   *
+   * @return Contract
+   */
+  public function setStartedAt($startedAt)
+  {
+    $this->startedAt = $startedAt;
 
-    /**
-     * Set startedAt.
-     *
-     * @param \DateTime $startedAt
-     *
-     * @return Contract
-     */
-    public function setStartedAt($startedAt)
-    {
-        $this->startedAt = $startedAt;
+    return $this;
+  }
 
-        return $this;
-    }
+  /**
+   * Get startedAt.
+   *
+   * @return \DateTime
+   */
+  public function getStartedAt()
+  {
+    return $this->startedAt;
+  }
 
-    /**
-     * Get startedAt.
-     *
-     * @return \DateTime
-     */
-    public function getStartedAt()
-    {
-        return $this->startedAt;
-    }
+  public function __toString()
+  {
+    return $this->getName();
+  }
+
 }
