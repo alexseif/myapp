@@ -82,7 +82,7 @@ class BottomBar
       $overMonth = $difference / $workingDaysLeft;
       $minutesPerDay = ($contract->getHoursPerDay() * 60) + $overMonth;
       $contract->percentage = $duration / $minutesPerDay * 100;
-      $contract->setName($contract->getName() . " " . floor($minutesPerDay / 60) . ":" . ($minutesPerDay % 60));
+      $contract->setName($contract->getName() . " " . floor($minutesPerDay / 60) . ":" . ($minutesPerDay % 60) . " || " . floor($difference / 60) . ":" . ($difference % 60));
     }
     return $contracts;
   }
