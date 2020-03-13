@@ -40,10 +40,10 @@
            data-tasklist="{{ task.taskList.name }}" 
            href="{{ path("focus_tasklist", {'name':task.taskList.name}) }}">{{ task.taskList.name }}</a>
         {% if task.duration %}
-          <small class="text-info" title="Duration">{{ task.duration ~ "m"}}</small><br/>
+          <small class="text-info" title="Duration">{{ task.duration ~ "m"}}</small>
         {% endif %}
         {% if task.est %}
-          <small class="text-success" title="EST">{{ task.est ~ "m"}}</small><br/>
+          <small class="text-success" title="EST">{{ task.est ~ "m"}}</small>
         {% endif %}
       </div>
       <div class="card-tools">
