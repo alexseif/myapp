@@ -59,8 +59,7 @@ class ContractController extends Controller
   /**
    * Finds and displays a contract entity.
    *
-   * @Route("/{id}", name="contract_show", methods={"GET", "POST"})
-   * @Method("GET")
+   * @Route("/{id}", name="contract_show", methods={"GET"})
    */
   public function showAction(Contract $contract)
   {
