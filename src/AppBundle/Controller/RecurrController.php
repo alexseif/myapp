@@ -4,7 +4,6 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\RecurrEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -19,8 +18,7 @@ class RecurrController extends Controller
   /**
    * Lists all recurr entities.
    *
-   * @Route("/", name="recurr_index")
-   * @Method("GET")
+   * @Route("/", name="recurr_index", methods={"GET"})
    */
   public function indexAction()
   {
@@ -36,8 +34,7 @@ class RecurrController extends Controller
   /**
    * Creates a new recurr entity.
    *
-   * @Route("/new", name="recurr_new")
-   * @Method({"GET", "POST"})
+   * @Route("/new", name="recurr_new", methods={"GET", "POST"})
    */
   public function newAction(Request $request)
   {
@@ -62,8 +59,7 @@ class RecurrController extends Controller
   /**
    * Finds and displays a recurr entity.
    *
-   * @Route("/{id}", name="recurr_show")
-   * @Method("GET")
+   * @Route("/{id}", name="recurr_show", methods={"GET"})
    */
   public function showAction(RecurrEntity $recurr)
   {
@@ -78,8 +74,7 @@ class RecurrController extends Controller
   /**
    * Displays a form to edit an existing recurr entity.
    *
-   * @Route("/{id}/edit", name="recurr_edit")
-   * @Method({"GET", "POST"})
+   * @Route("/{id}/edit", name="recurr_edit", methods={"GET", "POST"})
    */
   public function editAction(Request $request, RecurrEntity $recurr)
   {
@@ -103,8 +98,7 @@ class RecurrController extends Controller
   /**
    * Deletes a recurr entity.
    *
-   * @Route("/{id}", name="recurr_delete")
-   * @Method("DELETE")
+   * @Route("/{id}", name="recurr_delete", methods={"DELETE"})
    */
   public function deleteAction(Request $request, RecurrEntity $recurr)
   {

@@ -4,7 +4,6 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Service;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -19,8 +18,7 @@ class ServiceController extends Controller
   /**
    * Lists all service entities.
    *
-   * @Route("/", name="service_index")
-   * @Method("GET")
+   * @Route("/", name="service_index", methods={"GET"})
    */
   public function indexAction()
   {
@@ -36,8 +34,7 @@ class ServiceController extends Controller
   /**
    * Creates a new service entity.
    *
-   * @Route("/new", name="service_new")
-   * @Method({"GET", "POST"})
+   * @Route("/new", name="service_new", methods={"GET", "POST"})
    */
   public function newAction(Request $request)
   {
@@ -62,8 +59,7 @@ class ServiceController extends Controller
   /**
    * Finds and displays a service entity.
    *
-   * @Route("/{id}", name="service_show")
-   * @Method("GET")
+   * @Route("/{id}", name="service_show", methods={"GET"})
    */
   public function showAction(Service $service)
   {
@@ -78,8 +74,7 @@ class ServiceController extends Controller
   /**
    * Displays a form to edit an existing service entity.
    *
-   * @Route("/{id}/edit", name="service_edit")
-   * @Method({"GET", "POST"})
+   * @Route("/{id}/edit", name="service_edit", methods={"GET", "POST"})
    */
   public function editAction(Request $request, Service $service)
   {
@@ -103,8 +98,7 @@ class ServiceController extends Controller
   /**
    * Deletes a service entity.
    *
-   * @Route("/{id}", name="service_delete")
-   * @Method("DELETE")
+   * @Route("/{id}", name="service_delete", methods={"DELETE"})
    */
   public function deleteAction(Request $request, Service $service)
   {

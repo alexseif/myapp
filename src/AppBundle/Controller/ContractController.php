@@ -4,7 +4,6 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Contract;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -19,8 +18,7 @@ class ContractController extends Controller
   /**
    * Lists all contract entities.
    *
-   * @Route("/", name="contract_index")
-   * @Method("GET")
+   * @Route("/", name="contract_index", methods={"GET"})
    */
   public function indexAction()
   {
@@ -36,8 +34,7 @@ class ContractController extends Controller
   /**
    * Creates a new contract entity.
    *
-   * @Route("/new", name="contract_new")
-   * @Method({"GET", "POST"})
+   * @Route("/new", name="contract_new", methods={"GET", "POST"})
    */
   public function newAction(Request $request)
   {
@@ -62,7 +59,7 @@ class ContractController extends Controller
   /**
    * Finds and displays a contract entity.
    *
-   * @Route("/{id}", name="contract_show")
+   * @Route("/{id}", name="contract_show", methods={"GET", "POST"})
    * @Method("GET")
    */
   public function showAction(Contract $contract)
@@ -78,8 +75,7 @@ class ContractController extends Controller
   /**
    * Finds and displays a report for contract entity.
    *
-   * @Route("/{id}/log", name="contract_log")
-   * @Method("GET")
+   * @Route("/{id}/log", name="contract_log", methods={"GET"})
    */
   public function logAction(Contract $contract)
   {
@@ -109,13 +105,7 @@ class ContractController extends Controller
       $totals[$week] += $task->getDuration();
       $contractDetails[$week][] = $task;
     }
-//    dump($completedByClientThisMonth);
-//    if ($contractPeriod->y > 0) {
-//    }
-//    if ($contractPeriod->m > 0) {
-//    }
-//    
-//    dump($contractDetails);
+
     return $this->render('AppBundle:contract:log.html.twig', array(
           'contract' => $contract,
           'contractDetails' => $contractDetails,
@@ -186,8 +176,7 @@ class ContractController extends Controller
   /**
    * Displays a form to edit an existing contract entity.
    *
-   * @Route("/{id}/edit", name="contract_edit")
-   * @Method({"GET", "POST"})
+   * @Route("/{id}/edit", name="contract_edit", methods={"GET"})
    */
   public function editAction(Request $request, Contract $contract)
   {
@@ -211,8 +200,7 @@ class ContractController extends Controller
   /**
    * Deletes a contract entity.
    *
-   * @Route("/{id}", name="contract_delete")
-   * @Method("DELETE")
+   * @Route("/{id}", name="contract_delete", methods={"DELETE"})
    */
   public function deleteAction(Request $request, Contract $contract)
   {
