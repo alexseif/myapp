@@ -91,18 +91,20 @@ class ContractController extends Controller
     $totals = [];
     foreach ($contractPeriod as $date) {
       if (in_array($date->format('N'), $workweek)) {
+        $month = $date->format('Ym');
         $week = $date->format('Ymd-D');
-        $contractDetails[$week] = [];
+        $contractDetails[$month][$week] = [];
         $totals[$week] = 0;
       }
     }
     foreach ($completedByClientThisMonth as $task) {
       $week = $task->getCompletedAt()->format('Ymd-D');
+      $month = $task->getCompletedAt()->format('Ym');
       if (!key_exists($week, $totals)) {
         $totals[$week] = 0;
       }
       $totals[$week] += $task->getDuration();
-      $contractDetails[$week][] = $task;
+      $contractDetails[$month][$week][] = $task;
     }
 
     return $this->render('AppBundle:contract:log.html.twig', array(
