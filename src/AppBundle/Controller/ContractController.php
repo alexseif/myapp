@@ -84,7 +84,13 @@ class ContractController extends Controller
     $today = new \DateTime();
 //    $contractPeriod = $today->diff($contractStart);
     $dayInterval = new \DateInterval("P1D");
+    $monthInterval = new \DateInterval("P1M");
     $contractPeriod = new \DatePeriod($contractStart, $dayInterval, $today);
+    $contractMonths = new \DatePeriod($contractStart, $monthInterval, $today);
+    $completedTasks = [];
+    foreach ($contractMonths as $month) {
+      $completedTasks[$month->format('Ym')] = $em->getRepository('AppBundle:Tasks')->findCompletedByClientByMonth($contract->getClient(), $month);
+    }
     $workweek = [1, 2, 3, 4, 7];
     $completedByClientThisMonth = $em->getRepository('AppBundle:Tasks')->findCompletedByClientByMonth($contract->getClient(), $contractStart);
     $contactDetails = [];
@@ -97,17 +103,19 @@ class ContractController extends Controller
         $totals[$month][$day] = 0;
       }
     }
-    foreach ($completedByClientThisMonth as $task) {
-      $day = $task->getCompletedAt()->format('Ymd-D');
-      $month = $task->getCompletedAt()->format('Ym');
-      if (!key_exists($month, $totals)) {
-        $totals[$month]= [];
+    foreach ($completedTasks as $month => $tasks) {
+      foreach ($tasks as $task) {
+        $day = $task->getCompletedAt()->format('Ymd-D');
+        $month = $task->getCompletedAt()->format('Ym');
+        if (!key_exists($month, $totals)) {
+          $totals[$month] = [];
+        }
+        if (!key_exists($day, $totals[$month])) {
+          $totals[$month][$day] = 0;
+        }
+        $totals[$month][$day] += $task->getDuration();
+        $contractDetails[$month][$day][] = $task;
       }
-      if (!key_exists($day, $totals[$month])) {
-        $totals[$month][$day] = 0;
-      }
-      $totals[$month][$day] += $task->getDuration();
-      $contractDetails[$month][$day][] = $task;
     }
     return $this->render('AppBundle:contract:log.html.twig', array(
           'contract' => $contract,
