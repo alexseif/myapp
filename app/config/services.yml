@@ -63,3 +63,8 @@ services:
       class:  AppBundle\Service\BottomBar
       arguments: [ '@doctrine.orm.entity_manager', '@myapp.cost' ]
       public: true
+      
+    myapp.progressMonitoring:
+      class:  AppBundle\Service\progressMonitoring
+      arguments: [ '@doctrine.orm.entity_manager' ]
+      public: true

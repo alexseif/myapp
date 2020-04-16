@@ -133,4 +133,14 @@ class AccountTransactionsRepository extends EntityRepository
             ->getResult();
   }
 
+  public function getRevenueSum()
+  {
+    return $this
+            ->createQueryBuilder('at')
+            ->select('SUM(at.amount)')
+            ->where('at.amount > 0')
+            ->getQuery()
+            ->getSingleResult();
+  }
+
 }

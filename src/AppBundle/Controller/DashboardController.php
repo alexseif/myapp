@@ -29,7 +29,6 @@ class DashboardController extends Controller
     $endDay->add(\DateInterval::createFromDateString($durationSum . " minutes"));
     $interval = $endDay->diff($today, true);
     /** Cost Of Life * */
-
     $costOfLife = $this->get('myapp.cost');
 
     $countByUrgenctAndPriority = $em->getRepository('AppBundle:Tasks')->countByUrgenctAndPriority();
@@ -64,6 +63,11 @@ class DashboardController extends Controller
 
     $earnedLogic = new \AppBundle\Logic\EarnedLogic($em, $costOfLife);
     $earned = $earnedLogic->getEarned();
+
+    /**
+     * Progress monitoring
+     */
+    $pm = $this->get('myapp.progressMonitoring');
     return $this->render("AppBundle:Dashboard:dashboard.html.twig", array(
           'taskLists' => $taskLists,
           'randomTasks' => $randomTasks,
@@ -76,6 +80,9 @@ class DashboardController extends Controller
           'interval' => $interval,
           'costOfLife' => $costOfLife,
           'piechart' => $piechart,
+          'clientsCount' => $pm->getClientsCount(),
+          'tasksCount' => $pm->getTasksCount(),
+          'revenueSum' => $pm->getRevenueSum(),
     ));
   }
 
