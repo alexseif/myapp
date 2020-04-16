@@ -84,27 +84,39 @@ class ContractController extends Controller
     $today = new \DateTime();
 //    $contractPeriod = $today->diff($contractStart);
     $dayInterval = new \DateInterval("P1D");
+    $monthInterval = new \DateInterval("P1M");
     $contractPeriod = new \DatePeriod($contractStart, $dayInterval, $today);
+    $contractMonths = new \DatePeriod($contractStart, $monthInterval, $today);
+    $completedTasks = [];
+    foreach ($contractMonths as $month) {
+      $completedTasks[$month->format('Ym')] = $em->getRepository('AppBundle:Tasks')->findCompletedByClientByMonth($contract->getClient(), $month);
+    }
     $workweek = [1, 2, 3, 4, 7];
     $completedByClientThisMonth = $em->getRepository('AppBundle:Tasks')->findCompletedByClientByMonth($contract->getClient(), $contractStart);
     $contactDetails = [];
     $totals = [];
     foreach ($contractPeriod as $date) {
       if (in_array($date->format('N'), $workweek)) {
-        $week = $date->format('Ymd-D');
-        $contractDetails[$week] = [];
-        $totals[$week] = 0;
+        $month = $date->format('Ym');
+        $day = $date->format('Ymd-D');
+        $contractDetails[$month][$day] = [];
+        $totals[$month][$day] = 0;
       }
     }
-    foreach ($completedByClientThisMonth as $task) {
-      $week = $task->getCompletedAt()->format('Ymd-D');
-      if (!key_exists($week, $totals)) {
-        $totals[$week] = 0;
+    foreach ($completedTasks as $month => $tasks) {
+      foreach ($tasks as $task) {
+        $day = $task->getCompletedAt()->format('Ymd-D');
+        $month = $task->getCompletedAt()->format('Ym');
+        if (!key_exists($month, $totals)) {
+          $totals[$month] = [];
+        }
+        if (!key_exists($day, $totals[$month])) {
+          $totals[$month][$day] = 0;
+        }
+        $totals[$month][$day] += $task->getDuration();
+        $contractDetails[$month][$day][] = $task;
       }
-      $totals[$week] += $task->getDuration();
-      $contractDetails[$week][] = $task;
     }
-
     return $this->render('AppBundle:contract:log.html.twig', array(
           'contract' => $contract,
           'contractDetails' => $contractDetails,
