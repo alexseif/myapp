@@ -1,0 +1,5 @@
+{# Generic render for badges of status #}
+{% macro status(status) %}
+  <div class="badge badge-{{ status ? "primary" : "secondary"}}">
+    {{status ? "Enabled" : "Disabled"}}</div>
+{% endmacro %}
