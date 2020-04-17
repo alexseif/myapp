@@ -15,6 +15,7 @@ class Client
 {
 
   use TimestampableEntity;
+  use Traits\Status;
 
   /**
    * @var int
