@@ -19,7 +19,7 @@
 {# Default render for back link #}
 {% macro back(path, parameters = {}) %}
   {% import _self as a %}
-  {{ a.linkGlyph('default', '<-', path, parameters) }}
+  {{ a.linkGlyph('default', 'fa fa-arrow-left', path, parameters) }}
 {% endmacro %}
 
 {# Generic render for link with glyphicon #}

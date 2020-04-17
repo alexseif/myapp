@@ -46,6 +46,7 @@ class ClientController extends Controller
       $em = $this->getDoctrine()->getManager();
       $em->persist($client);
       $em->flush($client);
+      $this->addFlash('success', 'Client saved');
 
       return $this->redirectToRoute('client_show', array('id' => $client->getId()));
     }
@@ -84,8 +85,8 @@ class ClientController extends Controller
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
       $this->getDoctrine()->getManager()->flush();
-
-      return $this->redirectToRoute('client_edit', array('id' => $client->getId()));
+      $this->addFlash('success', 'Client updated');
+      return $this->redirectToRoute('client_show', array('id' => $client->getId()));
     }
 
     return $this->render("AppBundle:client:edit.html.twig", array(
@@ -109,6 +110,7 @@ class ClientController extends Controller
       $em = $this->getDoctrine()->getManager();
       $em->remove($client);
       $em->flush($client);
+      $this->addFlash('success', 'Client deleted');
     }
 
     return $this->redirectToRoute('client_index');

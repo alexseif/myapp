@@ -7,15 +7,65 @@
 {% block panelHeadingRight %}
   {{ a.edit('client_edit', {'id':client.id}) }}
   {{ forms.delete(delete_form) }}
-
 {% endblock %}
-
-{% block content %}
-  <div class="container">
-    <h2><small>Client</small> {{ client.name}}</h2>
-    {% set accounts = client.accounts %}
-    {% set hideEmpty = false %}
-    {% include 'AppBundle:accounts:accounts_list.html.twig' %}
-  </div>
+{% block panelTitle %}Client{% endblock %}
+{% block panelTitleSmall %}{{ client.name }}{% endblock %}
+{% block panelBody %}
+  <div class="list-group">
+    <div class="list-group-item" id="client-details">
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Details</span>
+        </div>
+        <ul class="list-group">
+          <li class="list-group-item">
+            Enabled: {{ client.enabled ? "true" : "False" }}
+          </li>
+          <li class="list-group-item">
+            CreatedAt: {{ client.createdAt|date('Y-m-d') }}
+          </li>
+          <li class="list-group-item">
+            UpdatedAt: {{ client.updatedAt|date('Y-m-d') }}
+          </li>
+        </ul>
+      </div>
+    </div><!-- end list-group-item -->
+    <div class="list-group-item" id="client-accounts">
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Accounts</span>
+        </div>
+        {% set accounts = client.accounts %}
+        {% set hideEmpty = false %}
+        <div class="card-deck">
+          {% for account in accounts %}
+            <div class="card widget-flat mb-3">
+              <div class="card-body">
+                <div class="float-right">
+                  <i class="fa fa-file-invoice-dollar widget-icon"></i>
+                </div>
+                <h5 class="font-weight-normal mt-0" title="Number of Clients">{{ account.name }}</h5>
+                <h3 class="mt-3 mb-3">EGP {{ account.balance|number_format }}</h3>
+                <p class="mb-0 text-right">
+                  {{ a.show('accounts_show', {'id':account.id}) }}
+                </p>
+              </div> <!-- end card-body-->
+            </div> <!-- end card-->
+          {% endfor %}
+        </div><!-- end card-deck -->
+      </div>
+    </div><!-- end list-group-item -->
+    <div class="list-group-item" id="client-activity">
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Activity</span>
+        </div>
+        <div class="card-body">
+          <!-- TODO: Load activity -->
+          TODO: Load activity
+        </div>
+      </div>
+    </div><!-- end list-group-item -->
+  </div><!-- end list-group -->
 {% endblock %}
 
