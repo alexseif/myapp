@@ -7,13 +7,13 @@
 {# Default render for show link #}
 {% macro show(path, parameters = {}) %}
   {% import _self as a %}
-  {{ a.linkGlyph('info', 'Open', path, parameters) }}
+  {{ a.linkGlyph('info', 'fa fa-eye', path, parameters) }}
 {% endmacro %}
 
 {# Default render for edit link #}
 {% macro edit(path, parameters) %}
   {% import _self as a %}
-  {{ a.linkGlyph('primary', 'Edit', path, parameters) }}
+  {{ a.linkGlyph('primary', 'fa fa-edit', path, parameters) }}
 {% endmacro %}
 
 {# Default render for back link #}
@@ -25,8 +25,12 @@
 {# Generic render for link with glyphicon #}
 {% macro linkGlyph(btnClass = 'default', text, path, parameters = {}) %}
   <a href="{{ path(path, parameters) }}" role="button"
-     class="hidden-print btn btn-sm btn-{{btnClass}}">
-    {{ text }}
+     class="hidden-print btn btn-sm btn-{{btnClass}}" title="">
+    {% if text starts with 'fa ' or text starts with 'fas '%}
+      <i class="{{ text }}"></i>
+    {% else %}
+      {{ text }}
+    {% endif %}
   </a>
 
 {% endmacro %}

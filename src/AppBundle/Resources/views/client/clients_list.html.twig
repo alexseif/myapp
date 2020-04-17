@@ -1,17 +1,27 @@
 {% import "macros/forms.html.twig" as forms %}
 {% import "macros/a.html.twig" as a %}
-<div class="list-group">
-  {% for client in clients %}
-    <div class="list-group-item" href="{{ path('client_show', { 'id': client.id }) }}">
-      <span class="title">{{ client.name }}</span>
-      <div class="list-group-item-actions">
-        <a href="{{ path('client_show', { 'id': client.id }) }}" 
-           role="button" class="hidden-print list-action">
-          Open</a>
-        <a href="{{ path('client_edit', { 'id': client.id }) }}" 
-           role="button" class="hidden-print list-action edit-link">
-          Edit</a>
-      </div>
-    </div>
-  {% endfor %}
+<div class="table-responsive">
+  <table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Client</th>
+        <th scope="col">Created</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for client in clients %}
+        <tr>
+          <td scope="row">{{ client.id }}</td>
+          <td>{{ client.name }}</td>
+          <td>{{ client.createdAt|date('Y-m-d') }}</td>
+          <td>
+            {{ a.show('client_show', { 'id': client.id }) }}
+            {{ a.edit('client_edit', { 'id': client.id }) }}
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 </div>
