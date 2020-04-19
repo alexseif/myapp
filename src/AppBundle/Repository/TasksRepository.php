@@ -565,4 +565,72 @@ class TasksRepository extends EntityRepository
             ->getResult();
   }
 
+  /**
+   * List of completed tasks on a date
+   * 
+   * @param \DateTime $date
+   * @return type
+   */
+  public function getCompletedByDate(\DateTime $date)
+  {
+    return $this
+            ->createQueryBuilder('t')
+            ->select('t, tl, a, c, r, wl')
+            ->leftJoin('t.workLog', 'wl')
+            ->leftJoin('t.taskList', 'tl')
+            ->leftJoin('tl.account', 'a')
+            ->leftJoin('a.client', 'c')
+            ->leftJoin('c.rates', 'r')
+            ->where('DATE(t.completedAt) = :date')
+            ->setParameter(':date', $date->format('Y-m-d'))
+            ->getQuery()
+            ->getResult();
+  }
+
+  /**
+   * List of created tasks on a date
+   * 
+   * @param \DateTime $date
+   * @return type
+   */
+  public function getCreatedByDate(\DateTime $date)
+  {
+    return $this
+            ->createQueryBuilder('t')
+            ->select('t, tl, a, c, r, wl')
+            ->leftJoin('t.workLog', 'wl')
+            ->leftJoin('t.taskList', 'tl')
+            ->leftJoin('tl.account', 'a')
+            ->leftJoin('a.client', 'c')
+            ->leftJoin('c.rates', 'r')
+            ->where('DATE(t.createdAt) = :date')
+            ->andWhere('t.completed <> TRUE')
+            ->setParameter(':date', $date->format('Y-m-d'))
+            ->getQuery()
+            ->getResult();
+  }
+
+  /**
+   * List of updated tasks on a date
+   * 
+   * @param \DateTime $date
+   * @return type
+   */
+  public function getUpdatedByDate(\DateTime $date)
+  {
+    return $this
+            ->createQueryBuilder('t')
+            ->select('t, tl, a, c, r, wl')
+            ->leftJoin('t.workLog', 'wl')
+            ->leftJoin('t.taskList', 'tl')
+            ->leftJoin('tl.account', 'a')
+            ->leftJoin('a.client', 'c')
+            ->leftJoin('c.rates', 'r')
+            ->where('DATE(t.updatedAt) = :date')
+            ->andWhere('t.completed <> TRUE')
+            ->setParameter(':date', $date->format('Y-m-d'))
+            ->getQuery()
+            ->getResult();
+  }
+
 }

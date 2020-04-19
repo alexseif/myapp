@@ -70,6 +70,44 @@ class TasksController extends Controller
   /**
    * Search all Tasks entities.
    *
+   * @Route("/progressByDate", name="tasks_progress_by_date", methods={"GET"})
+   */
+  public function progressByDateAction(Request $request)
+  {
+    $formData = new \stdClass();
+    $formData->date = new \DateTime();
+    $formData->date->modify('-1 day');
+
+    $form = $this->createFormBuilder($formData)
+        ->setMethod('GET')
+        ->add('date', \Symfony\Component\Form\Extension\Core\Type\DateType::class, [
+          'widget' => 'single_text',
+          'label' => false])
+        ->add('Get', \Symfony\Component\Form\Extension\Core\Type\SubmitType::class)
+        ->getForm();
+
+    $form->handleRequest($request);
+
+    $em = $this->getDoctrine()->getManager();
+    $tasksRepo = $em->getRepository('AppBundle:Tasks');
+
+    $completedYesterday = $tasksRepo->getCompletedByDate($formData->date);
+    $createdYesterday = $tasksRepo->getCreatedByDate($formData->date);
+    $updatedYesterday = $tasksRepo->getUpdatedByDate($formData->date);
+    // Starting by yesterday
+
+    return $this->render("AppBundle:tasks:progressByDate.html.twig", [
+          'form' => $form->createView(),
+          'date' => $formData->date,
+          'completedYesterday' => $completedYesterday,
+          'createdYesterday' => $createdYesterday,
+          'updatedYesterday' => $updatedYesterday
+    ]);
+  }
+
+  /**
+   * Search all Tasks entities.
+   *
    * @Route("/search", name="tasks_search", methods={"GET"})
    */
   public function searchAction(Request $request)
