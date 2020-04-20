@@ -15,10 +15,9 @@
 {# Default render for delete forms #}
 {% macro delete(delete_form) %}
   {{ form_start(delete_form, {"attr":{"class":"delete-form"} }) }}
-  <button type="submit" value="Delete" class="btn btn-danger btn-sm btn-confirm">
-    Delete
+  <button type="submit" value="Delete" class="btn btn-danger btn-confirm">
+    <i class="fa fa-trash"></i>    
   </button>
-
   {{ form_end(delete_form) }}
 {% endmacro %}
 

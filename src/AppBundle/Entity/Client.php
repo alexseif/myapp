@@ -181,4 +181,14 @@ class Client
     return ($this->getRates()->count()) ? $this->getRates()->last()->getRate() : null;
   }
 
+  function getContracts()
+  {
+    return $this->contracts;
+  }
+
+  function setContracts($contracts)
+  {
+    $this->contracts = $contracts;
+  }
+
 }

@@ -13,7 +13,7 @@
     <tbody>
       {% for client in clients %}
         <tr>
-          <td>{{ client.name }}</td>
+          <th scope="row">{{ client.name }}</th>
           <td>{{ badge.status(client.enabled) }}</td>
           <td>
             {{ a.show('client_show', { 'id': client.id }) }}
