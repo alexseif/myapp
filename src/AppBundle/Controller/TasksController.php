@@ -188,7 +188,8 @@ class TasksController extends Controller
 
     if ($form->isSubmitted() && $form->isValid()) {
       if ($task->getCompleted()) {
-        $task->setCompletedAt(new \DateTime());
+        if (is_null($task->getCompletedAt()))
+          $task->setCompletedAt(new \DateTime());
       } else {
         $task->setCompletedAt(null);
       }
