@@ -144,7 +144,7 @@ class ProgressMonitoring
   {
     $date = new \DateTime();
     $this->revenueSum = number_format($this->em->getRepository('AppBundle:AccountTransactions')
-            ->getRevenueSumByMonth($date->format('Y'), $date->format('m')), 2);
+            ->getRevenueSumByMonth($date->format('Y'), $date->format('m')));
   }
 
   function getRevenueSum()
