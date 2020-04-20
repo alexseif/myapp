@@ -1,0 +1,36 @@
+{% import "macros/a.html.twig" as a %}
+{% import "macros/badges.html.twig" as badge %}
+<div class="table-responsive">
+  <table class="table table-striped table-hover table-dark table-bottom-border table-condensed mb-0">
+    <tbody>
+      {% set total = 0 %}
+      {% for account in accounts %}
+        {% if account.balance or not hideEmpty %}
+          {% set total = total + account.balance %}
+          <tr scope="row" class="text-{{ account.balance == 0 ? "default" : account.balance < 0 ? "success": "danger" }}">
+            <td>
+              {{ account.name }}
+              {% if(account.client) %}
+                <span class="badge badge-secondary text-muted float-right d-none d-md-inline-block">{{ account.client.name }}</span>
+              {% endif %}
+            </td>
+            <td class="money-egp">{{ account.balance|number_format(0) }}</td>
+            <td>
+              {{ a.show('accounts_show', { 'id': account.id }) }}
+              {{ a.add('accounttransactions_new', { 'account': account.id }) }}
+            </td>
+          </tr>
+        {% endif %}
+      {% endfor %}
+    </tbody>
+    <tfoot>
+      <tr class="text-{{ total <= 0 ? "success" : "danger" }}">
+        <th colspan="3">
+          <div class="money-egp" style="width: 125px; margin: 0 auto;">
+            {{ total|number_format }}
+          </div>
+        </th>
+      </tr>
+    </tfoot>
+  </table>
+</div>

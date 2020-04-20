@@ -83,8 +83,6 @@ select{max-width: 100%;}
 
 .costOfLife th,
 .costOfLife td{padding: 0.3rem;}
-.accounts th,
-.accounts td{padding: 0.3rem 0;}
 
 label.task{max-width: 65vw; overflow: hidden;}
 @media (min-width: 768px) { 
@@ -167,3 +165,6 @@ label.checkbox-inline {margin-right: 1%;margin-left: 1%;}
 .card-deck .card {
   box-shadow: 2px 2px 0px #222;
 }
+
+.money-egp{text-align: right; position: relative;}
+.money-egp:before{content: "EGP"; position: absolute; left: 0;}

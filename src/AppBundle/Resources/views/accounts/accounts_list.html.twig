@@ -1,50 +1,55 @@
 {% import "macros/a.html.twig" as a %}
-<table class="table table-condensed table-bottom-border accounts">
-  <tbody>
-    {% set total = 0 %}
-    {% for account in accounts %}
-      {% if account.balance or not hideEmpty %}
-        {% set total = total + account.balance %}
-        <tr>
-          <td>
-            <a href="{{ path('accounts_show', { 'id': account.id }) }}" 
-               class="btn btn-sm btn-link text-{{ account.balance == 0 ? "default" : account.balance < 0 ? "success": "danger" }}">
-              {% if (account.client) %}
-                <span class="badge badge-primary">{{ account.client.name }}</span>
-              {% endif %}
-              {{ account.name }}
-            </a>
-          </td>
-          <td>
-            <a href="{{ path('accounts_show', { 'id': account.id }) }}" 
-               class="btn btn-sm btn-link text-{{ account.balance == 0 ? "default" : account.balance < 0 ? "success": "danger" }}">
-              EGP {{ account.balance|number_format }}
-            </a>
-          </td>
-          <td>
-            {{ a.add('accounttransactions_new', { 'account': account.id }) }}
-          </td>
-        </tr>
-      {% endif %}
-    {% endfor %}
-  </tbody>
-  <tfoot>
-    <tr class="table-bordered">
-      <td>
-        <span class="btn btn-secondary btn-sm" 
-              style="text-align: left;font-weight: bold;">
-          Total
-        </span>
-      </td>
-      <td>
-        <span class="btn btn-sm btn-{{ total == 0 ? "default" : total < 0 ? "success": "danger" }}" 
-              style="text-align: right;font-weight: bold;">
-          EGP {{ total|number_format }}
-        </span>
-      </td>
-      <td>
-        {{ a.add('accounttransactions_new') }}
-      </td>
-    </tr>
-  </tfoot>
-</table>
+{% import "macros/badges.html.twig" as badge %}
+<div class="table-responsive">
+  <table class="table table-striped table-hover table-dark">
+    <thead>
+      <tr>
+        <th scope="col">Account</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% set total = 0 %}
+      {% for account in accounts %}
+        {% if account.balance or not hideEmpty %}
+          {% set total = total + account.balance %}
+          <tr scope="row" class="text-{{ (account.balance == 0) ? "default" : (account.balance) < 0 ? "success": "danger" }}">
+            <td class='text-'>
+              <div class="row">
+                <div class="col">
+                  <h4>{{ account.name }}</h4>
+                </div>
+                <div class="col">
+                  {% if(account.client) %}
+                    <div class="mb-3">
+                      {{ account.client.name }}
+                      <span class="float-right">{{ badge.status(account.client.enabled) }}</span>
+                    </div>
+                  {% endif %}
+                  {% if (account.conceal) %}
+                    <del>
+                    {% endif %}
+                    <div class="money-egp mb-2">{{ account.balance|number_format }}</div>
+                    {% if (account.conceal) %}
+                    </del>
+                  {% endif %}
+                </div><!-- end col -->
+              </div><!-- end row -->
+              {{ a.show('accounts_show', { 'id': account.id }) }}
+              {{ a.edit('accounts_edit', { 'id': account.id }) }}
+              {{ a.add('accounttransactions_new', { 'account': account.id }) }}
+            </td>
+          </tr>
+        {% endif %}
+      {% endfor %}
+    </tbody>
+    <tfoot>
+      <tr class="text-{{ total <= 0 ? "success" : "danger" }}">
+        <th>
+          <div class="money-egp" style="width: 125px; margin: 0 auto;">
+            {{ total|number_format }}
+          </div>
+        </th>
+      </tr>
+    </tfoot>
+  </table>
+</div>

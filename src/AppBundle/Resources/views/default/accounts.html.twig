@@ -1,4 +1,13 @@
 {% if accounts|length %}
   {% set hideEmpty = true %}
-  {% include 'AppBundle:accounts:accounts_list.html.twig' %}
+  <div class="card mb-3">
+    <h5 class="card-header">
+      <a data-toggle="collapse" href="#collapse-accounts" aria-expanded="false" aria-controls="collapse-accounts" id="heading-accounts" class="d-block">
+        Accounts
+      </a>
+    </h5>
+    <div id="collapse-accounts" class="collapse" aria-labelledby="heading-accounts">
+      {% include 'AppBundle:accounts:accounts_list_summary.html.twig' %}
+    </div>
+  </div>
 {% endif %}

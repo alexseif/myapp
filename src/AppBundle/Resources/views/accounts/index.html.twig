@@ -2,7 +2,10 @@
 {% import "macros/a.html.twig" as a %}
 {% block floatingActions %}{{ a.add('accounts_new') }}{% endblock %}
 {% block panelTitle %}Accounts{% endblock %}
-{% block panelBody %}
-  {% set hideEmpty = false %}
-  {% include 'AppBundle:accounts:accounts_list.html.twig' %}
+{% block content %}
+  <div class="container">
+    <h2>Accounts</h2>
+    {% set hideEmpty = false %}
+    {% include 'AppBundle:accounts:accounts_list.html.twig' %}
+  </div>
 {% endblock %}
