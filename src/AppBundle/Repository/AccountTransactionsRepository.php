@@ -133,14 +133,18 @@ class AccountTransactionsRepository extends EntityRepository
             ->getResult();
   }
 
-  public function getRevenueSum()
+  public function getRevenueSumByMonth($year, $month)
   {
     return $this
             ->createQueryBuilder('at')
             ->select('SUM(at.amount)')
-            ->where('at.amount > 0')
+            ->where('at.amount < 0')
+            ->andWhere('YEAR(at.issuedAt) = :year')
+            ->andWhere('MONTH(at.issuedAt) = :month')
+            ->setParameter(":year", $year)
+            ->setParameter(":month", $month)
             ->getQuery()
-            ->getSingleResult();
+            ->getSingleScalarResult();
   }
 
 }

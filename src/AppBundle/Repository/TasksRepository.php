@@ -633,4 +633,30 @@ class TasksRepository extends EntityRepository
             ->getResult();
   }
 
+  public function getCreatedInMonth($year, $month)
+  {
+    return $this
+            ->createQueryBuilder('t')
+            ->select('count(t.id)')
+            ->where('YEAR(t.createdAt) = :year')
+            ->andWhere('MONTH(t.createdAt) = :month')
+            ->setParameter(":year", $year)
+            ->setParameter(":month", $month)
+            ->getQuery()
+            ->getSingleScalarResult();
+  }
+
+  public function getSumDurationInMonth($year, $month)
+  {
+    return $this
+            ->createQueryBuilder('t')
+            ->select('SUM(t.duration)')
+            ->where('YEAR(t.createdAt) = :year')
+            ->andWhere('MONTH(t.createdAt) = :month')
+            ->setParameter(":year", $year)
+            ->setParameter(":month", $month)
+            ->getQuery()
+            ->getSingleScalarResult();
+  }
+
 }

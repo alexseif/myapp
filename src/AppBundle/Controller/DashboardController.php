@@ -80,9 +80,7 @@ class DashboardController extends Controller
           'interval' => $interval,
           'costOfLife' => $costOfLife,
           'piechart' => $piechart,
-          'clientsCount' => $pm->getClientsCount(),
-          'tasksCount' => $pm->getTasksCount(),
-          'revenueSum' => $pm->getRevenueSum(),
+          'progressMonitoring' => $pm,
     ));
   }
 
