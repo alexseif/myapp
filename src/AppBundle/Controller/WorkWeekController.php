@@ -15,7 +15,6 @@ class WorkWeekController extends Controller
   public function displayWorkWeekAction()
   {
     $workWeek = WorkWeek::getWorkWeek();
-dump($workWeek);
     return $this->render('AppBundle:WorkWeek:display_work_week.html.twig', array(
           'workWeek' => $workWeek
             // ...
