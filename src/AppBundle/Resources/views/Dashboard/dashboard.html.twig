@@ -8,16 +8,20 @@
 {% endblock %}
 {# TODO: http://bootsnipp.com/user/favorites #}
 {% block pageActions %}
-  <div class="floating-action dropdown">
+  <div class="floating-action dropup">
     <button class="btn btn-info dropdown-toggle" type="button" id="dashboardMenuButton" 
             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       <i class="fas fa-plus"></i>
     </button>
     <div class="dropdown-menu" aria-labelledby="dashboardMenuButton">
-      <a class="dropdown-item mb-2 btn bg-info" href="{{ path('tasks_new') }}">Task</a>
-      <a class="dropdown-item mb-2 btn bg-info" href="{{ path('tasklists_new') }}">List</a>
-      <a class="dropdown-item mb-2 btn bg-info" href="{{ path('days_new') }}">Day</a>
-      <a class="dropdown-item mb-2 btn bg-info" href="{{ path('notes_new') }}">Note</a>
+      <a class="dropdown-item mb-2 btn bg-primary" href="{{ path('tasks_new') }}">
+        <i class="fas fa-check"></i></a>
+      <a class="dropdown-item mb-2 btn bg-primary" href="{{ path('tasklists_new') }}">
+        <i class="fas fa-clipboard-list"></i></a>
+      <a class="dropdown-item mb-2 btn bg-primary" href="{{ path('days_new') }}">
+        <i class="fas fa-calendar-day"></i></a>
+      <a class="dropdown-item mb-2 btn bg-primary" href="{{ path('notes_new') }}">
+        <i class="far fa-sticky-note"></i></a>
     </div>
   </div>
 {% endblock %}
