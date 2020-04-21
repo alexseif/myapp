@@ -133,33 +133,29 @@ class AccountTransactionsRepository extends EntityRepository
             ->getResult();
   }
 
-  public function getRevenueSumByMonth($year, $month)
+  /**
+   * 
+   * @param type $year
+   * @param type $month
+   * @param type $day [optional]
+   * @return float
+   */
+  public function getRevenueSumByMonth($year, $month, $day = false)
   {
-    return $this
-            ->createQueryBuilder('at')
-            ->select('SUM(at.amount)')
-            ->where('at.amount < 0')
-            ->andWhere('YEAR(at.issuedAt) = :year')
-            ->andWhere('MONTH(at.issuedAt) = :month')
-            ->setParameter(":year", $year)
-            ->setParameter(":month", $month)
-            ->getQuery()
-            ->getSingleScalarResult();
-  }
+    $qb = $this
+        ->createQueryBuilder('at')
+        ->select('SUM(at.amount)')
+        ->where('at.amount < 0')
+        ->andWhere('YEAR(at.issuedAt) = :year')
+        ->andWhere('MONTH(at.issuedAt) = :month')
+        ->setParameter(":year", $year)
+        ->setParameter(":month", $month);
+    if ($day) {
+      $qb->andWhere('DAY(at.issuedAt) <= :day')
+          ->setParameter(":day", $day);
+    }
 
-  public function getRevenueSumByPartialMonth($year, $month, $day)
-  {
-    return $this
-            ->createQueryBuilder('at')
-            ->select('SUM(at.amount)')
-            ->where('at.amount < 0')
-            ->andWhere('YEAR(at.issuedAt) = :year')
-            ->andWhere('MONTH(at.issuedAt) = :month')
-            ->andWhere('DAY(at.issuedAt) <= :day')
-            ->setParameter(":year", $year)
-            ->setParameter(":month", $month)
-            ->setParameter(":day", $day)
-            ->getQuery()
+    return $qb->getQuery()
             ->getSingleScalarResult();
   }
 
