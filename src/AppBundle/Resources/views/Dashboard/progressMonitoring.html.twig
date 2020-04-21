@@ -53,9 +53,9 @@
           <i class="fa fa-tasks widget-icon"></i>
         </div>
         <h5 class="text-muted font-weight-normal mt-2" title="Number of Orders">Tasks</h5>
-        <h3 class="mt-3 mb-3">{{ progressMonitoring.tasksCount }}</h3>
+        <h3 class="mt-3 mb-3">{{ progressMonitoring.tasksCompletedCount }}</h3>
         <p class="mb-0 text-muted ">
-          <span class="text-{{ progressMonitoring.tasksProgress > 0 ? 'success' : 'danger' }} mr-2"><i class="mdi mdi-arrow-down-bold"></i> {{ progressMonitoring.tasksProgress }}%</span>
+          <span class="text-{{ progressMonitoring.tasksCompletedProgress > 0 ? 'success' : 'danger' }} mr-2"><i class="mdi mdi-arrow-down-bold"></i> {{ progressMonitoring.tasksCompletedProgress }}%</span>
           <span class="text-nowrap">Since last month</span>
         </p>
       </div> <!-- end card-body-->

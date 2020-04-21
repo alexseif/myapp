@@ -43,12 +43,13 @@ class ClientRepository extends \Doctrine\ORM\EntityRepository
             ->getResult();
   }
 
-  public function getCreatedInYear($year)
+  public function getCreatedTillYear($year)
   {
     return $this
             ->createQueryBuilder('c')
             ->select('count(c.id)')
-            ->where('YEAR(c.createdAt) = :year')
+            ->where('YEAR(c.createdAt) <= :year')
+            ->andWhere('c.enabled = true')
             ->setParameter(":year", $year)
             ->getQuery()
             ->getSingleScalarResult();

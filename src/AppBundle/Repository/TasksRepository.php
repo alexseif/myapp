@@ -633,29 +633,36 @@ class TasksRepository extends EntityRepository
             ->getResult();
   }
 
-  public function getCreatedInMonth($year, $month)
+  public function getCompletedByMonth($year, $month, $day = false)
   {
-    return $this
-            ->createQueryBuilder('t')
-            ->select('count(t.id)')
-            ->where('YEAR(t.createdAt) = :year')
-            ->andWhere('MONTH(t.createdAt) = :month')
-            ->setParameter(":year", $year)
-            ->setParameter(":month", $month)
-            ->getQuery()
+    $qb = $this->createQueryBuilder('t')
+        ->select('count(t.id)')
+        ->where('YEAR(t.completedAt) = :year')
+        ->andWhere('MONTH(t.completedAt) = :month')
+        ->setParameter(":year", $year)
+        ->setParameter(":month", $month);
+
+    if ($day) {
+      $qb->andWhere('DAY(t.completedAt) = :day')
+          ->setParameter('day', $day);
+    }
+    return $qb->getQuery()
             ->getSingleScalarResult();
   }
 
-  public function getSumDurationInMonth($year, $month)
+  public function getSumDurationByMonth($year, $month, $day = false)
   {
-    return $this
-            ->createQueryBuilder('t')
-            ->select('SUM(t.duration)')
-            ->where('YEAR(t.createdAt) = :year')
-            ->andWhere('MONTH(t.createdAt) = :month')
-            ->setParameter(":year", $year)
-            ->setParameter(":month", $month)
-            ->getQuery()
+    $qb = $this->createQueryBuilder('t')
+        ->select('SUM(t.duration)')
+        ->where('YEAR(t.createdAt) = :year')
+        ->andWhere('MONTH(t.createdAt) = :month')
+        ->setParameter(":year", $year)
+        ->setParameter(":month", $month);
+    if ($day) {
+      $qb->andWhere('DAY(t.completedAt) = :day')
+          ->setParameter('day', $day);
+    }
+    return $qb->getQuery()
             ->getSingleScalarResult();
   }
 
