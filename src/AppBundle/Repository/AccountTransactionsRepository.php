@@ -147,4 +147,20 @@ class AccountTransactionsRepository extends EntityRepository
             ->getSingleScalarResult();
   }
 
+  public function getRevenueSumByPartialMonth($year, $month, $day)
+  {
+    return $this
+            ->createQueryBuilder('at')
+            ->select('SUM(at.amount)')
+            ->where('at.amount < 0')
+            ->andWhere('YEAR(at.issuedAt) = :year')
+            ->andWhere('MONTH(at.issuedAt) = :month')
+            ->andWhere('DAY(at.issuedAt) >= :day')
+            ->setParameter(":year", $year)
+            ->setParameter(":month", $month)
+            ->setParameter(":day", $day)
+            ->getQuery()
+            ->getSingleScalarResult();
+  }
+
 }

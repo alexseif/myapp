@@ -102,12 +102,12 @@ class ProgressMonitoring
     $date->modify("-1 month");
     $clientsLastYear = $this->em->getRepository('AppBundle:Client')
         ->getCreatedInYear($date->format('Y'));
-    $this->clientsProgress = number_format(((($clientsThisYear - $clientsLastYear) / $this->getClientsCount() ) * 100), 2);
+    $this->clientsProgress = (($clientsThisYear - $clientsLastYear) / $this->getClientsCount() ) * 100;
   }
 
   function getClientsProgress()
   {
-    return $this->clientsProgress;
+    return number_format($this->clientsProgress, 2);
   }
 
   public function setTasksCount()
@@ -132,41 +132,41 @@ class ProgressMonitoring
         ->getCreatedInMonth($date->format('Y'), $date->format('m'));
     $divisionByZero = $tasksLastMonth ? $tasksLastMonth : 1;
 
-    $this->tasksProgress = number_format((($tasksThisMonth - $tasksLastMonth) / $divisionByZero) * 100, 2);
+    $this->tasksProgress = (($tasksThisMonth - $tasksLastMonth) / $divisionByZero) * 100;
   }
 
   function getTasksProgress()
   {
-    return $this->tasksProgress;
+    return number_format($this->tasksProgress, 2);
   }
 
   public function setRevenueSum()
   {
     $date = new \DateTime();
-    $this->revenueSum = number_format($this->em->getRepository('AppBundle:AccountTransactions')
-            ->getRevenueSumByMonth($date->format('Y'), $date->format('m')));
+    $this->revenueSum = $this->em->getRepository('AppBundle:AccountTransactions')
+        ->getRevenueSumByMonth($date->format('Y'), $date->format('m'));
   }
 
   function getRevenueSum()
   {
-    return $this->revenueSum;
+    return number_format($this->revenueSum);
   }
 
   function setRevenueProgress()
   {
+    $revenueThisMonth = $this->revenueSum;
     $date = new \DateTime();
-    $revenueThisMonth = $this->em->getRepository('AppBundle:AccountTransactions')
-        ->getRevenueSumByMonth($date->format('Y'), $date->format('m'));
     $date->modify("-1 month");
     $revenueLastMonth = $this->em->getRepository('AppBundle:AccountTransactions')
-        ->getRevenueSumByMonth($date->format('Y'), $date->format('m'));
+        ->getRevenueSumByPartialMonth($date->format('Y'), $date->format('m'), $date->format('d'));
+
     $divisionByZero = $revenueLastMonth ? $revenueLastMonth : 1;
-    $this->revenueProgress = number_format(((($revenueThisMonth - $revenueLastMonth) / $divisionByZero) * 100), 2);
+    $this->revenueProgress = (($revenueThisMonth - $revenueLastMonth) / $divisionByZero) * 100;
   }
 
   function getRevenueProgress()
   {
-    return $this->revenueProgress;
+    return number_format($this->revenueProgress, 2);
   }
 
   function setDurationSum()
@@ -190,12 +190,12 @@ class ProgressMonitoring
     $durationLastMonth = $this->em->getRepository('AppBundle:Tasks')
         ->getSumDurationInMonth($date->format('Y'), $date->format('m'));
     $divisionByZero = $durationLastMonth ? $durationLastMonth : 1;
-    $this->durationProgress = number_format(((($durationThisMonth - $durationLastMonth) / $divisionByZero) * 100), 2);
+    $this->durationProgress = ((($durationThisMonth - $durationLastMonth) / $divisionByZero) * 100);
   }
 
   function getDurationProgress()
   {
-    return $this->durationProgress;
+    return number_format($this->durationProgress, 2);
   }
 
 }
