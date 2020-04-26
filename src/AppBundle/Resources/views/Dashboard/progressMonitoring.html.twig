@@ -40,7 +40,9 @@
         <h5 class="text-muted font-weight-normal mt-2" title="Number of Clients">Clients</h5>
         <h3 class="mt-3 mb-3">{{ progressMonitoring.clientsCount }}</h3>
         <p class="mb-0 text-muted ">
-          <span class="text-{{ progressMonitoring.clientsProgress > 0 ? 'success' : 'danger' }} mr-2"><i class="mdi mdi-arrow-up-bold"></i> {{ progressMonitoring.clientsProgress }}%</span>
+          <span class="text-{{ progressMonitoring.clientsProgress > 0 ? 'success' : 'danger' }} mr-2">
+            <i class="fa fa-arrow-{{ progressMonitoring.clientsProgress > 0  ? 'up':'down'}}"></i>
+            {{ progressMonitoring.clientsProgress }}%</span>
           <span class="text-nowrap">Since last year</span>  
         </p>
       </div> <!-- end card-body-->
@@ -55,7 +57,9 @@
         <h5 class="text-muted font-weight-normal mt-2" title="Number of Orders">Tasks</h5>
         <h3 class="mt-3 mb-3">{{ progressMonitoring.tasksCompletedCount }}</h3>
         <p class="mb-0 text-muted ">
-          <span class="text-{{ progressMonitoring.tasksCompletedProgress > 0 ? 'success' : 'danger' }} mr-2"><i class="mdi mdi-arrow-down-bold"></i> {{ progressMonitoring.tasksCompletedProgress }}%</span>
+          <span class="text-{{ progressMonitoring.tasksCompletedProgress > 0 ? 'success' : 'danger' }} mr-2">
+            <i class="fa fa-arrow-{{ progressMonitoring.tasksCompletedProgress > 0  ? 'up':'down'}}"></i>
+            {{ progressMonitoring.tasksCompletedProgress }}%</span>
           <span class="text-nowrap">Since last month</span>
         </p>
       </div> <!-- end card-body-->
@@ -70,7 +74,9 @@
         <h5 class="text-muted font-weight-normal mt-2" title="Average Revenue">Revenue</h5>
         <h3 class="mt-3 mb-3 money-egp">{{ progressMonitoring.revenueSum }}</h3>
         <p class="mb-0 text-muted ">
-          <span class="text-{{ progressMonitoring.revenueProgress > 0 ? 'success' : 'danger' }} mr-2"><i class="mdi mdi-arrow-down-bold"></i> {{ progressMonitoring.revenueProgress }}%</span>
+          <span class="text-{{ progressMonitoring.revenueProgress > 0 ? 'success' : 'danger' }} mr-2">
+            <i class="fa fa-arrow-{{ progressMonitoring.revenueProgress > 0  ? 'up':'down'}}"></i>
+            {{ progressMonitoring.revenueProgress }}%</span>
           <span class="text-nowrap">Since last month</span>
         </p>
       </div> <!-- end card-body-->
@@ -85,7 +91,9 @@
         <h5 class="text-muted font-weight-normal mt-2" title="Growth">Duration</h5>
         <h3 class="mt-3 mb-3">{{ progressMonitoring.durationSum }}</h3>
         <p class="mb-0 text-muted ">
-          <span class="text-{{ progressMonitoring.durationProgress > 0 ? 'success' : 'danger' }} mr-2"><i class="mdi mdi-arrow-up-bold"></i> {{ progressMonitoring.durationProgress }}%</span>
+          <span class="text-{{ progressMonitoring.durationProgress > 0 ? 'success' : 'danger' }} mr-2">
+            <i class="fa fa-arrow-{{ progressMonitoring.durationProgress > 0  ? 'up':'down'}}"></i>
+            {{ progressMonitoring.durationProgress }}%</span>
           <span class="text-nowrap">Since last month</span>
         </p>
       </div> <!-- end card-body-->

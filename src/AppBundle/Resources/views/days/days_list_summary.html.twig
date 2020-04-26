@@ -1,0 +1,32 @@
+{% import "macros/a.html.twig" as a %}
+<div class="days-list card-deck">
+  {% for day in days %}
+    {% if (0 == (loop.index0 % 2))%}
+      <div class="w-100"></div>
+    {% endif %}
+    {#      <div class="col-md-12">#}
+    {% set diff = date(day.deadline).diff(date()) %}
+    {% set curStatus = day.complete ? "success" : (diff.days < 15 or not diff.invert ) ? 'danger' :  (diff.days < 30 ) ? 'warning' :(diff.days < 60 ) ? 'info' : 'muted' %}
+    <div class="card widget-flat mb-3 border-{{ curStatus }} text-{{ curStatus }} {{ day.complete ? "completed" }} text-white">
+      <div class="card-header">
+        {{ day.deadline|date('D M d, Y') }}
+        <div class="float-right">
+          <a href="{{ path('days_edit', { 'id': day.id }) }}">
+            <i class="fa fa-calendar-day widget-icon"></i>
+          </a>
+        </div>
+      </div>
+      <div class="card-body ">
+        <h3 class="">{{ day.name }}</h3>
+      </div> <!-- end card-body-->
+      <div class="card-footer">
+        <p class="mb-0  ">
+          <i class="fa fa-arrow-{{ diff.invert ? 'up':'down'}}"></i>
+          {{ diff.days }}
+          days {{ diff.invert ? "left" : "passed"}}
+        </p>
+      </div>
+    </div> <!-- end card-->
+    {#      </div>#}
+  {% endfor %}
+</div>
