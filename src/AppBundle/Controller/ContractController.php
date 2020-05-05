@@ -169,11 +169,18 @@ class ContractController extends Controller
     $em = $this->getDoctrine()->getManager();
     $tasks = $em->getRepository('AppBundle:Tasks')->findCompletedByClientByMonth($contract->getClient(), new \DateTime($from));
 
+    $workingDays = \AppBundle\Util\DateRanges::getWorkingDays($from, $to);
+    $expected = ($workingDays * 4);
+
     $total = 0;
 
     foreach ($tasks as $task) {
       $total += $task->getDuration();
     }
+    $totalHours = $total / 60;
+    $totalMins = $total % 60;
+    $remaining = $expected - $totalHours;
+    $remaining = floor($remaining) . ":" . $totalMins;
 
     return $this->render("AppBundle:contract:timesheet.html.twig", array(
           "contract" => $contract,
@@ -181,6 +188,8 @@ class ContractController extends Controller
           "to" => $to,
           "tasks" => $tasks,
           "total" => $total,
+          "expected" => $expected,
+          "remaining" => $remaining
     ));
   }
 

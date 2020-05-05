@@ -81,6 +81,14 @@
           <td colspan="3" class="text-right">Total</td>
           <th>{{ (total/60)|round(0, 'floor') }}:{{ total%60 }}</th>
         </tr>
+        <tr>
+          <td colspan="3" class="text-right">Expected</td>
+          <th>{{ expected }}:00</th>
+        </tr>
+        <tr>
+          <td colspan="3" class="text-right">Remaining</td>
+          <th>{{ remaining }}</th>
+        </tr>
       </tfoot>
     </table>
   </div>
