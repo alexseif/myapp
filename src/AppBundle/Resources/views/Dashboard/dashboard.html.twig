@@ -14,11 +14,11 @@
       <i class="fas fa-plus"></i>
     </button>
     <div class="dropdown-menu" aria-labelledby="dashboardMenuButton">
-      <a class="dropdown-item mb-2 btn bg-primary" href="{{ path('tasks_new') }}">
+      <a class="dropdown-item mb-2 btn bg-primary" href="{{ path('tasks_new') }}" id="newTask">
         <i class="fas fa-check"></i></a>
       <a class="dropdown-item mb-2 btn bg-primary" href="{{ path('tasklists_new') }}">
         <i class="fas fa-clipboard-list"></i></a>
-      <a class="dropdown-item mb-2 btn bg-primary" href="{{ path('days_new') }}">
+      <a class="dropdown-item mb-2 btn bg-primary" href="{{ path('days_new') }}" id="newDay">
         <i class="fas fa-calendar-day"></i></a>
       <a class="dropdown-item mb-2 btn bg-primary" href="{{ path('notes_new') }}">
         <i class="far fa-sticky-note"></i></a>
@@ -45,7 +45,17 @@
 {% endblock %}
 {% block javascripts %}
   {{ parent() }}
+  <script type="text/javascript" src="/js/shortcut.js"></script>
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script>
+    shortcut.add("alt+T", function () {
+      location.href = "{{ path('tasks_new') }}";});
+    shortcut.add("alt+D", function () {
+      location.href = "{{ path('days_new') }}";});
+    shortcut.add("alt+F", function () {
+      location.href = "{{ path('focus') }}";
+    });
+  </script>
   <script type="text/javascript">
     google.charts.load("current", {packages: ["corechart"]});
     google.charts.setOnLoadCallback(drawChart);
