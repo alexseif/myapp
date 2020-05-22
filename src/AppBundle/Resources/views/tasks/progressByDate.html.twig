@@ -25,19 +25,19 @@
     <hr/>
   <div class="card-deck">
     <div class="card">
-      <div class="card-header">Completed Yesterday</div>
+        <div class="card-header">Completed {{ date|time_diff }}</div>
       <div class="card-body">
         {{ tasks_view.ul(completedYesterday) }}
       </div>
     </div>
     <div class="card">
-      <div class="card-header">Added Yesterday</div>
+      <div class="card-header">Added {{ date|time_diff }}</div>
       <div class="card-body">
         {{ tasks_view.ul(createdYesterday) }}
       </div>
     </div>
     <div class="card">
-      <div class="card-header">Updated Yesterday</div>
+      <div class="card-header">Updated {{ date|time_diff }}</div>
       <div class="card-body">
         {{ tasks_view.ul(updatedYesterday) }}
       </div>
