@@ -1,10 +1,9 @@
 {% extends 'base.html.twig' %}
 {% import "macros/forms.html.twig" as forms %}
 {% import "macros/a.html.twig" as a %}
-{% block title %}{% endblock %}
 {% block floatingActions %}{{ a.add('holiday_new') }}{% endblock %}
 {% block panelBack %}{{ a.back('holiday_index') }}{% endblock %}
-{% block panelTitle %}Edit holiday: {{ holiday.name }}{% endblock %}
+{% block panelTitle %}Edit holiday: {{ holiday.name|title }}{% endblock %}
 {% block panelHeadingRight %}{{ forms.delete(delete_form) }}{% endblock %}
 {% block panelBody %}{{ forms.panel(edit_form, false) }}{% endblock %}
 
