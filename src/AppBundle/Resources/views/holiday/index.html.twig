@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+{% import "macros/a.html.twig" as a %}
+{% block floatingActions %}{{ a.add('holiday_new') }}{% endblock %}
+{% block panelTitle %}Holidays{% endblock %}
+{% block panelBody %}
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Date</th>
+        <th>actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for holiday in holidays %}
+        <tr>
+          <td>{{ holiday.name }}</td>
+          <td>{{ holiday.date ? holiday.date|date('Y-m-d') : '' }}</td>
+          <td>
+            {{ a.show('holiday_show', { 'id': holiday.id }) }}
+            {{ a.edit('holiday_edit', { 'id': holiday.id }) }}
+          </td>
+        </tr>
+      {% else %}
+        <tr>
+          <td colspan="3" class="text-info">no records found</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
+
+
+
