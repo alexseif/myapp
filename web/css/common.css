@@ -45,7 +45,6 @@
 .progress .progress-bar{font-size: 13px;}
 .label-muted{background: #e8e8e8;color: #999999;font-weight: normal;}
 
-.completed{color: #777}
 .completed, .completed *{text-decoration:line-through;background-image:none;}
 
 /* Changes button for collapsed cards */
