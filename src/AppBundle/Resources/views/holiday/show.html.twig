@@ -2,9 +2,8 @@
 {% import "macros/forms.html.twig" as forms %}
 {% import "macros/a.html.twig" as a %}
 {% import "macros/badges.html.twig" as badge %}
-{% block title %}{{ holiday.name }}{% endblock %}
 {% block panelBack %}{{ a.back('holiday_index') }}{% endblock %}
-{% block panelTitle %}Client: {{ holiday.name }}{% endblock %}
+{% block panelTitle %}Holiday: {{ holiday.name|title }}{% endblock %}
 {% block panelHeadingRight %}
   {{ a.edit('holiday_edit', {'id':holiday.id}) }}
   {{ forms.delete(delete_form) }}

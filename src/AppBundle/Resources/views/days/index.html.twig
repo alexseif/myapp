@@ -1,9 +1,11 @@
 {% extends 'base.html.twig' %}
 {% import "macros/a.html.twig" as a %}
 {% block floatingActions %}{{ a.add('days_new') }}{% endblock %}
+{% block panelTitle %}Days{% endblock %}
 {% block content %}
   <div class="row">
-    <div class="col-md-4 col-md-push-4">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
       {% include 'AppBundle:days:days_list.html.twig' %}
     </div>
   </div>
