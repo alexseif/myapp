@@ -5,9 +5,8 @@ namespace AppBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
-use AppBundle\Entity\Holiday;
 use AppBundle\Form\HolidayType;
-
+use AppBundle\Entity\Holiday;
 /**
  * Holiday controller.
  *
@@ -29,6 +28,18 @@ class HolidayController extends Controller
     return $this->render("AppBundle:holiday:index.html.twig", array(
           'holidays' => $holidays
     ));
+  }
+
+  /**
+   * Creates a new Holiday entity.
+   *
+   * @Route("/fetch", name="holiday_fetch", methods={"GET", "POST"})
+   */
+  public function testAction()
+  {
+    $this->get('myapp.workingdays')->updateHolidays();
+    $this->addFlash('Success', 'Holidays Updated');
+    return $this->redirect($this->generateUrl('holiday_index'));
   }
 
   /**
@@ -61,7 +72,7 @@ class HolidayController extends Controller
    *
    * @Route("/{id}", name="holiday_show", methods={"GET"})
    */
-  public function showAction(Holiday $holiday)
+  public function showAction(\AppBundle\Entity\Holiday $holiday)
   {
     $deleteForm = $this->createDeleteForm($holiday);
 

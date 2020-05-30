@@ -2,6 +2,9 @@
 {% import "macros/a.html.twig" as a %}
 {% block floatingActions %}{{ a.add('holiday_new') }}{% endblock %}
 {% block panelTitle %}Holidays{% endblock %}
+{% block panelHeadingRight %}
+  <a href="{{ path('holiday_fetch') }}" class="btn btn-primary">Fetch</a>
+{% endblock %}
 {% block panelBody %}
   <table class="table">
     <thead>
