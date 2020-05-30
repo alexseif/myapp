@@ -7,54 +7,73 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
+ * Holiday 
+ * 
  * @ORM\Entity(repositoryClass=HolidayRepository::class)
  * @UniqueEntity("date")
  */
 class Holiday
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $name;
+  /**
+   * @ORM\Id()
+   * @ORM\GeneratedValue()
+   * @ORM\Column(type="integer")
+   */
+  private $id;
 
-    /**
-     * @ORM\Column(type="date", unique=true)
-     */
-    private $date;
+  /**
+   * @ORM\Column(type="string", length=255)
+   */
+  private $name;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
+  /**
+   * @ORM\Column(type="string", length=255)
+   */
+  private $type;
 
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
+  /**
+   * @ORM\Column(type="date", unique=true)
+   */
+  private $date;
 
-    public function setName(string $name): self
-    {
-        $this->name = $name;
+  public function getId()
+  {
+    return $this->id;
+  }
 
-        return $this;
-    }
+  public function getName()
+  {
+    return $this->name;
+  }
 
-    public function getDate(): ?\DateTimeInterface
-    {
-        return $this->date;
-    }
+  public function setName(string $name)
+  {
+    $this->name = $name;
 
-    public function setDate(\DateTimeInterface $date): self
-    {
-        $this->date = $date;
+    return $this;
+  }
 
-        return $this;
-    }
+  public function getDate()
+  {
+    return $this->date;
+  }
+
+  public function setDate(\DateTimeInterface $date)
+  {
+    $this->date = $date;
+
+    return $this;
+  }
+
+  function getType()
+  {
+    return $this->type;
+  }
+
+  function setType($type)
+  {
+    $this->type = $type;
+  }
+
 }

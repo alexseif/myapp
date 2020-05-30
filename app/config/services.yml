@@ -68,3 +68,8 @@ services:
       class:  AppBundle\Service\progressMonitoring
       arguments: [ '@doctrine.orm.entity_manager' ]
       public: true
+      
+    myapp.workingdays:
+      class:  AppBundle\Service\WorkingDays
+      arguments: [ '@doctrine.orm.entity_manager' ]
+      public: true
