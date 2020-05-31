@@ -44,7 +44,12 @@
                   </div>
                   <div id="day{{ day }}" aria-labelledby="heading{{ day }}" data-parent="#month{{ month }}">
                     <div class="card-body">
-                      <table class="table">
+                      {% set tableHide='' %}
+                      {% if holidays[month][day] is defined %}
+                        <div class="card-title">{{ holidays[month][day] }}</div>
+                        {% set tableHide='d-none' %}
+                      {% endif %}
+                      <table class="table table-condensed {{ tableHide }}">
                         <thead>
                           <tr>
                             <th>Task</th>
