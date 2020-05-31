@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Form\HolidayType;
 use AppBundle\Entity\Holiday;
+
 /**
  * Holiday controller.
  *

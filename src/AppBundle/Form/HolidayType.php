@@ -14,6 +14,7 @@ class HolidayType extends AbstractType
   {
     $builder
         ->add('name')
+        ->add('type')
         ->add('date')
     ;
   }

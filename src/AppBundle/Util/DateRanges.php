@@ -82,6 +82,7 @@ class DateRanges
   public static function getWorkingDays($startDate, $endDate)
   {
     $holidays = self::getHolidays("egypt");
+    $holidays= [];
 
     $begin = strtotime($startDate);
     $end = strtotime($endDate);

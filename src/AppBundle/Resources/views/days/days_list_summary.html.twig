@@ -1,13 +1,13 @@
 {% import "macros/a.html.twig" as a %}
 <div class="days-list card-deck">
   {% for day in days %}
-    {% if (0 == (loop.index0 % 2))%}
-      <div class="w-100"></div>
-    {% endif %}
+{#    {% if (0 == (loop.index0 % 2))%}#}
+{#      <div class="w-100"></div>#}
+{#    {% endif %}#}
     {#      <div class="col-md-12">#}
     {% set diff = date(day.deadline).diff(date()) %}
     {% set curStatus = day.complete ? "success" : (diff.days < 15 or not diff.invert ) ? 'danger' :  (diff.days < 30 ) ? 'warning' :(diff.days < 60 ) ? 'info' : 'muted' %}
-    <div class="card widget-flat mb-3 border-{{ curStatus }} text-{{ curStatus }} {{ day.complete ? "completed" }} text-white">
+    <div class="card widget-flat mb-3 border-{{ curStatus }} text-{{ curStatus }} {{ day.complete ? "completed" }} text-white" data-date="{{ day.deadline|date('U') }}">
       <div class="card-header">
         {{ day.deadline|date('D M d, Y') }}
         <div class="float-right">

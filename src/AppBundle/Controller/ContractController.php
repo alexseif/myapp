@@ -93,7 +93,8 @@ class ContractController extends Controller
     }
     $workweek = [1, 2, 3, 4, 7];
     $completedByClientThisMonth = $em->getRepository('AppBundle:Tasks')->findCompletedByClientByMonth($contract->getClient(), $contractStart);
-    $contactDetails = [];
+    $contractDetails = [];
+    $holidays = [];
     $totals = [];
     foreach ($contractPeriod as $date) {
       if (in_array($date->format('N'), $workweek)) {
@@ -101,6 +102,10 @@ class ContractController extends Controller
         $day = $date->format('Ymd-D');
         $contractDetails[$month][$day] = [];
         $totals[$month][$day] = 0;
+        $holiday = $em->getRepository('AppBundle:Holiday')->findOneBy(['date' => $date]);
+        if ($holiday) {
+          $holidays[$month][$day] = $holiday->getName();
+        }
       }
     }
     foreach ($completedTasks as $month => $tasks) {
@@ -120,6 +125,7 @@ class ContractController extends Controller
     return $this->render('AppBundle:contract:log.html.twig', array(
           'contract' => $contract,
           'contractDetails' => $contractDetails,
+          'holidays' => $holidays,
           'totals' => $totals
     ));
   }
@@ -168,11 +174,20 @@ class ContractController extends Controller
   {
     $em = $this->getDoctrine()->getManager();
     $tasks = $em->getRepository('AppBundle:Tasks')->findCompletedByClientByMonth($contract->getClient(), new \DateTime($from));
-
+    $monthHolidays = $em->getRepository('AppBundle:Holiday')->findByRange(new \DateTime($from), new \DateTime($to));
     $workingDays = \AppBundle\Util\DateRanges::getWorkingDays($from, $to);
     $expected = ($workingDays * 4);
-
     $total = 0;
+
+    $workweek = [1, 2, 3, 4, 7];
+    $holidays = [];
+    foreach ($monthHolidays as $holiday) {
+      if (in_array($holiday->getDate()->format('N'), $workweek)) {
+        $holidays[]=$holiday;
+        $total += 240;
+      }
+    }
+
 
     foreach ($tasks as $task) {
       $total += $task->getDuration();
@@ -189,7 +204,8 @@ class ContractController extends Controller
           "tasks" => $tasks,
           "total" => $total,
           "expected" => $expected,
-          "remaining" => $remaining
+          "remaining" => $remaining,
+          "holidays" => $holidays
     ));
   }
 

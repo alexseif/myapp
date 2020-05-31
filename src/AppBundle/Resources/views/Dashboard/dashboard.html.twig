@@ -57,6 +57,7 @@
     <div class="col-lg-4 col-md-6 col-sm-12">
       {% if days|length %}
         {% include 'AppBundle:days:days_list_summary.html.twig' %}
+        {% include 'AppBundle:holiday:holidays_list_summary.html.twig' %}
       {% endif %}
     </div>
   </div>
@@ -67,9 +68,11 @@
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <script>
     shortcut.add("alt+T", function () {
-      location.href = "{{ path('tasks_new') }}";});
+      location.href = "{{ path('tasks_new') }}";
+    });
     shortcut.add("alt+D", function () {
-      location.href = "{{ path('days_new') }}";});
+      location.href = "{{ path('days_new') }}";
+    });
     shortcut.add("alt+F", function () {
       location.href = "{{ path('focus') }}";
     });
@@ -118,6 +121,27 @@
     }
     $(window).resize(function () {
       drawChart();
+    });
+  </script>
+  <script>
+    $(document).ready(function () {
+      $('.holidays-list .card').each(function () {
+        var holiday = this;
+        var timestamp = $(holiday).data('date');
+        $('.days-list .card').each(function () {
+          if (timestamp >= $(this).data('date')) {
+            $(holiday).insertAfter(this);
+          }
+        });
+      });
+      var i = 0;
+      $('.days-list .card').each(function () {
+        breaker = $('<div class="w-100"></div>');
+        i++;
+        if (0 == (i % 2)) {
+          $(breaker).insertAfter(this);
+        }
+      });
     });
   </script>
 {% endblock %}
