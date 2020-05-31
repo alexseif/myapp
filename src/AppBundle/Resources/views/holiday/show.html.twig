@@ -9,6 +9,7 @@
   {{ forms.delete(delete_form) }}
 {% endblock %}
 {% block panelBody %}
+  {% set timezone = 'Europe/Helsinki' %}
   <table class="table">
     <tbody>
       <tr>
@@ -22,7 +23,7 @@
       <tr>
         <th>Date</th>
         <td>
-          {{ holiday.date ? holiday.date|date('Y-m-d') : '' }}
+          {{ holiday.date ? holiday.date|date('Y-m-d', timezone) : '' }}
           <span class="badge badge-info">{{ holiday.date ? holiday.date|time_diff : '' }}</span>
         </td>
       </tr>
