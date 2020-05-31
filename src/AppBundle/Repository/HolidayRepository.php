@@ -13,4 +13,13 @@ use Doctrine\ORM\EntityRepository;
 class HolidayRepository extends EntityRepository
 {
 
+  public function getComingHolidays()
+  {
+    return $this->createQueryBuilder('h')
+            ->where('h.date >= CURRENT_TIMESTAMP()')
+            ->orderBy('h.date', 'ASC')
+            ->getQuery()
+            ->getResult();
+  }
+
 }

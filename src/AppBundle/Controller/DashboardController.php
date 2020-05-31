@@ -21,6 +21,7 @@ class DashboardController extends Controller
     $unlistedTasks = $em->getRepository('AppBundle:Tasks')->findUnlisted();
     $randomTasks = $em->getRepository('AppBundle:Tasks')->randomTasks();
     $days = $em->getRepository('AppBundle:Days')->getActiveCards();
+    $holidays = $em->getRepository('AppBundle:Holiday')->getComingHolidays();
     $accounts = $em->getRepository('AppBundle:Accounts')->findBy(array('conceal' => false));
     $tsksCntDay = $em->getRepository('AppBundle:Tasks')->findTasksCountByDay();
     $durationSum = $em->getRepository('AppBundle:Tasks')->sumDuration()["duration"];
@@ -73,6 +74,7 @@ class DashboardController extends Controller
           'randomTasks' => $randomTasks,
           'unlistedTasks' => $unlistedTasks,
           'days' => $days,
+          'holidays' => $holidays,
           'accounts' => $accounts,
           'earned' => $earned,
           'issuedThisMonth' => $earnedLogic->getIssuedThisMonth(),
