@@ -19,13 +19,18 @@ class DateRanges
    * 
    * @param string $startDate 
    * @param string $endDate
-   * @param int $setDayTo Set day of month (for eg. 01/12) if set to 0 the dates use the initial date
+   * @param int|string $setDayTo Set day of month (for eg. 01/12) if set to 0 the dates use the initial date if int between 0 and 32 set date, if string then modify is run on end of month ("+2"|"-5")
    * @return array Array of months between $startDate & $endDate
    */
   public static function populateMonths($startDate, $endDate, $setDayTo = 0)
   {
     $start = new \DateTime($startDate);
-    if ($setDayTo > 0 && $setDayTo < 32) {
+
+    if (is_string($setDayTo)) {
+      $start->setDate($start->format("Y"), $start->format("m"), $start->format("t"));
+      $start->modify("-1 month");
+      $start->modify($setDayTo);
+    } elseif ($setDayTo > 0 && $setDayTo < 32) {
       $start->setDate($start->format("Y"), $start->format("m"), $setDayTo);
     }
     $end = new \DateTime($endDate);
@@ -36,7 +41,12 @@ class DateRanges
     $index = 0;
     foreach ($period as $dt) {
       $dateArray[$index]['start'] = $dt->format('Y-m-d');
-      $dateArray[$index++]['end'] = $dt->format('Y-m-t');
+      if (($setDayTo > 0 && $setDayTo < 32) || is_string($setDayTo)) {
+        $dt->modify('+1 month');
+        $dateArray[$index++]['end'] = $dt->format('Y-m-d');
+      } else {
+        $dateArray[$index++]['end'] = $dt->format('Y-m-t');
+      }
     }
     return $dateArray;
   }
@@ -82,7 +92,7 @@ class DateRanges
   public static function getWorkingDays($startDate, $endDate)
   {
     $holidays = self::getHolidays("egypt");
-    $holidays= [];
+    $holidays = [];
 
     $begin = strtotime($startDate);
     $end = strtotime($endDate);

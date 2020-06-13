@@ -142,7 +142,7 @@ class ContractController extends Controller
     $reportFilterForm->handleRequest($request);
     $monthsArray = [];
     $today = new \DateTime();
-    $monthsArray = \AppBundle\Util\DateRanges::populateMonths($contract->getStartedAt()->format('Ymd'), $today->format('Ymd'), 1);
+    $monthsArray = \AppBundle\Util\DateRanges::populateMonths($contract->getStartedAt()->format('Ymd'), $today->format('Ymd'), "-5 days");
 
     if ($reportFilterForm->isSubmitted() && $reportFilterForm->isValid()) {
       $accountingFilterData = $reportFilterForm->getData();
@@ -183,7 +183,7 @@ class ContractController extends Controller
     $holidays = [];
     foreach ($monthHolidays as $holiday) {
       if (in_array($holiday->getDate()->format('N'), $workweek)) {
-        $holidays[]=$holiday;
+        $holidays[] = $holiday;
         $total += 240;
       }
     }
