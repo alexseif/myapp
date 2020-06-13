@@ -12,6 +12,10 @@
 {% block panelBack %}{{ a.back('accounts_index') }}{% endblock %}
 {% block panelTitle %}Account: {{ account.name }}{% endblock %}
 {% block panelHeadingRight %}
+  <a class="btn btn-info"
+     href="{{ path('accounting_account_page', {'accounting_main_filter[account]':account.id}) }}">
+    <i class="fas fa-file-invoice-dollar"></i>
+  </a>
   {{ a.edit('accounts_edit', {'id':account.id}) }}
   {{ forms.delete(delete_form) }}
 {% endblock %}
