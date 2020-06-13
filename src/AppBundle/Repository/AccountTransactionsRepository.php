@@ -16,14 +16,16 @@ class AccountTransactionsRepository extends EntityRepository
   public function issuedThisMonth()
   {
     $today = new \DateTime();
+    $today->setDate($today->format('Y'), $today->format('m'), $today->format('t'));
+    $today->setTime(00, 00, 00);
+    $today->modify("-5 days");
     return $this
             ->createQueryBuilder('at')
             ->select('at')
-            ->where('MONTH(at.issuedAt) = MONTH(:today)')
-            ->andWhere('YEAR(at.issuedAt) = YEAR(:today)')
+            ->where('at.issuedAt >= :today')
             ->andWhere('at.amount > 0')
             ->orderBy('at.issuedAt')
-            ->setParameter(':today', $today->format('Y-m-d'))
+            ->setParameter(':today', $today)
             ->getQuery()
             ->getResult();
   }
@@ -45,8 +47,7 @@ class AccountTransactionsRepository extends EntityRepository
     return $this
             ->createQueryBuilder('at')
             ->where('at.account = :account')
-            ->andWhere('at.issuedAt  >= :from')
-            ->andWhere('at.issuedAt <= :to')
+            ->andWhere('at.issuedAt BETWEEN :from AND :to')
             ->orderBy('at.issuedAt')
             ->setParameter(':account', $account)
             ->setParameter(':from', $from)
@@ -61,8 +62,7 @@ class AccountTransactionsRepository extends EntityRepository
             ->createQueryBuilder('at')
             ->select('SUM(at.amount) as amount')
             ->where('at.account = :account')
-            ->andWhere('at.issuedAt  >= :from')
-            ->andWhere('at.issuedAt <= :to')
+            ->andWhere('at.issuedAt BETWEEN :from AND :to')
             ->orderBy('at.issuedAt')
             ->setParameter(':account', $account)
             ->setParameter(':from', $range['start'])

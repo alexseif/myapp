@@ -76,12 +76,12 @@ class TasksRepository extends EntityRepository
             ->leftJoin('tl.account', 'a')
             ->leftJoin('a.client', 'c')
             ->leftJoin('c.rates', 'r')
-            ->where('t.completedAt > :date')
+            ->where('t.completedAt >= :date')
             ->orderBy("t.urgency", "DESC")
             ->addOrderBy("t.priority", "DESC")
             ->addOrderBy("t.completedAt", "ASC")
             ->addOrderBy("t.order", "ASC")
-            ->setParameter(':date', $date->format('Y-m-d H:i'))
+            ->setParameter(':date', $date)
             ->getQuery()
             ->getResult();
   }
@@ -125,8 +125,9 @@ class TasksRepository extends EntityRepository
   public function getCompletedThisMonth()
   {
     $date = new \DateTime();
-    $date->setDate($date->format('Y'), $date->format('m'), 1);
+    $date->setDate($date->format('Y'), $date->format('m'), $date->format('t'));
     $date->setTime(00, 00, 00);
+    $date->modify("-5 days");
     return $this->getCompletedAfter($date);
   }
 
@@ -435,8 +436,7 @@ class TasksRepository extends EntityRepository
             ->leftJoin('t.taskList', 'tl')
             ->leftJoin('tl.account', 'a')
             ->where('a.client = :client')
-            ->andWhere('t.completedAt >= :from')
-            ->andWhere('t.completedAt < :to')
+            ->andWhere('t.completedAt BETWEEN :from AND :to')
             ->orderBy('t.completedAt')
             ->setParameter(':client', $client)
             ->setParameter(':from', $from)
