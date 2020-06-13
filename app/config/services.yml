@@ -59,9 +59,14 @@ services:
       arguments: [ '@doctrine.orm.entity_manager' ]
       public: true
       
+    myapp.contract:
+      class:  AppBundle\Service\ContractService
+      arguments: [ '@doctrine.orm.entity_manager', '@myapp.cost' ]
+      public: true
+      
     myapp.bottomBar:
       class:  AppBundle\Service\BottomBar
-      arguments: [ '@doctrine.orm.entity_manager', '@myapp.cost' ]
+      arguments: [ '@doctrine.orm.entity_manager', '@myapp.cost', '@myapp.contract' ]
       public: true
       
     myapp.progressMonitoring:
@@ -73,3 +78,4 @@ services:
       class:  AppBundle\Service\WorkingDays
       arguments: [ '@doctrine.orm.entity_manager' ]
       public: true
+      
