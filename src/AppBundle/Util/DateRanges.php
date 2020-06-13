@@ -182,4 +182,19 @@ class DateRanges
     return $holidays;
   }
 
+  /**
+   * 
+   * @param \DateTime $date Optional to specify which month start
+   * @return \DateTime
+   */
+  public static function getMonthStart($date = null)
+  {
+    $date = new \DateTime($date);
+    $date->modify("-1 month");
+    $date->setDate($date->format('Y'), $date->format('m'), $date->format('t'));
+    $date->setTime(0, 0, 0);
+    $date->modify("-5 days");
+    return $date;
+  }
+
 }

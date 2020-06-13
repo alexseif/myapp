@@ -124,10 +124,7 @@ class TasksRepository extends EntityRepository
    */
   public function getCompletedThisMonth()
   {
-    $date = new \DateTime();
-    $date->setDate($date->format('Y'), $date->format('m'), $date->format('t'));
-    $date->setTime(00, 00, 00);
-    $date->modify("-5 days");
+    $date = \AppBundle\Util\DateRanges::getMonthStart();
     return $this->getCompletedAfter($date);
   }
 
@@ -650,7 +647,7 @@ class TasksRepository extends EntityRepository
             ->getResult();
   }
 
-  public function getCompletedByMonth($year, $month, $day = false)
+  public function getCompletedByMonthOrDay($year, $month, $day = false)
   {
     $qb = $this->createQueryBuilder('t')
         ->select('count(t.id)')

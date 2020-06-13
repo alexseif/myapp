@@ -110,9 +110,9 @@ class ProgressMonitoring
 
   public function setTasksCompletedCount()
   {
-    $date = new \DateTime();
+    $date = \AppBundle\Util\DateRanges::getMonthStart();
     $this->tasksCompletedCount = $this->em->getRepository('AppBundle:Tasks')
-        ->getCompletedByMonth($date->format('Y'), $date->format('m'));
+        ->getCompletedByMonthOrDay($date->format('Y'), $date->format('m'));
   }
 
   function getTasksCompletedCount()
@@ -122,10 +122,9 @@ class ProgressMonitoring
 
   public function setTasksCompletedProgress()
   {
-    $date = new \DateTime();
-    $date->modify("-1 month");
+    $date = \AppBundle\Util\DateRanges::getMonthStart();
     $tasksLastMonth = $this->em->getRepository('AppBundle:Tasks')
-        ->getCompletedByMonth($date->format('Y'), $date->format('m'), $date->format('d'));
+        ->getCompletedByMonthOrDay($date->format('Y'), $date->format('m'), $date->format('d'));
     $divisionByZero = $tasksLastMonth ? $tasksLastMonth : 1;
 
     $this->tasksCompletedProgress = (($this->tasksCompletedCount - $tasksLastMonth) / $divisionByZero) * 100;
@@ -150,8 +149,7 @@ class ProgressMonitoring
 
   function setRevenueProgress()
   {
-    $date = new \DateTime();
-    $date->modify("-1 month");
+    $date = \AppBundle\Util\DateRanges::getMonthStart();
     $revenueLastMonth = $this->em->getRepository('AppBundle:AccountTransactions')
         ->getRevenueSumByMonth($date->format('Y'), $date->format('m'), $date->format('d'));
 
@@ -178,8 +176,7 @@ class ProgressMonitoring
 
   function setDurationProgress()
   {
-    $date = new \DateTime();
-    $date->modify("-1 month");
+    $date = \AppBundle\Util\DateRanges::getMonthStart();
     $durationLastMonth = $this->em->getRepository('AppBundle:Tasks')
         ->getSumDurationByMonth($date->format('Y'), $date->format('m'), $date->format('d'));
     $divisionByZero = $durationLastMonth ? $durationLastMonth : 1;
