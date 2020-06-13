@@ -428,6 +428,23 @@ class TasksRepository extends EntityRepository
             ->getResult();
   }
 
+  public function findCompletedByClientByRange($client, $from, $to)
+  {
+    return $this
+            ->createQueryBuilder('t')
+            ->leftJoin('t.taskList', 'tl')
+            ->leftJoin('tl.account', 'a')
+            ->where('a.client = :client')
+            ->andWhere('t.completedAt >= :from')
+            ->andWhere('t.completedAt < :to')
+            ->orderBy('t.completedAt')
+            ->setParameter(':client', $client)
+            ->setParameter(':from', $from)
+            ->setParameter(':to', $to)
+            ->getQuery()
+            ->getResult();
+  }
+
   public function findCompletedByClientByMonth($client, $month)
   {
     return $this
