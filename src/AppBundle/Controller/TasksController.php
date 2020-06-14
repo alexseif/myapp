@@ -355,6 +355,10 @@ class TasksController extends Controller
 
     if ($form->isSubmitted() && $form->isValid()) {
       $em = $this->getDoctrine()->getManager();
+      $workLog = $task->getWorkLog();
+      if ($workLog) {
+        $em->remove($workLog);
+      }
       $em->remove($task);
       $em->flush();
     }
