@@ -173,7 +173,11 @@ class ContractController extends Controller
   public function timesheetAction(Contract $contract, Request $request, $from, $to)
   {
     $em = $this->getDoctrine()->getManager();
-    $tasks = $em->getRepository('AppBundle:Tasks')->findCompletedByClientByRange($contract->getClient(), new \DateTime($from), new \DateTime($to));
+    $fromDate = new \DateTime($from);
+    $fromDate->setTime(0, 0, 0);
+    $toDate = new \DateTime($to);
+    $toDate->setTime(23, 23, 59);
+    $tasks = $em->getRepository('AppBundle:Tasks')->findCompletedByClientByRange($contract->getClient(), $fromDate, $toDate);
     $monthHolidays = $em->getRepository('AppBundle:Holiday')->findByRange(new \DateTime($from), new \DateTime($to));
     $workingDays = \AppBundle\Util\DateRanges::getWorkingDays($from, $to);
     $expected = ($workingDays * 4);
