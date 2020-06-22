@@ -135,25 +135,19 @@ class AccountTransactionsRepository extends EntityRepository
 
   /**
    * 
-   * @param type $year
-   * @param type $month
-   * @param type $day [optional]
+   * @param \DateTime $from
+   * @param \DateTime $to
    * @return float
    */
-  public function getRevenueSumByMonth($year, $month, $day = false)
+  public function getRevenueSumByDateRange($from, $to)
   {
     $qb = $this
         ->createQueryBuilder('at')
         ->select('SUM(at.amount)')
         ->where('at.amount < 0')
-        ->andWhere('YEAR(at.issuedAt) = :year')
-        ->andWhere('MONTH(at.issuedAt) = :month')
-        ->setParameter(":year", $year)
-        ->setParameter(":month", $month);
-    if ($day) {
-      $qb->andWhere('DAY(at.issuedAt) <= :day')
-          ->setParameter(":day", $day);
-    }
+        ->andWhere('at.issuedAt BETWEEN :from AND :to')
+        ->setParameter(":from", $from)
+        ->setParameter(":to", $to);
 
     return $qb->getQuery()
             ->getSingleScalarResult();

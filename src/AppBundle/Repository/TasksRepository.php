@@ -664,18 +664,14 @@ class TasksRepository extends EntityRepository
             ->getSingleScalarResult();
   }
 
-  public function getSumDurationByMonth($year, $month, $day = false)
+  public function getDurationSumByRange($from, $to)
   {
     $qb = $this->createQueryBuilder('t')
         ->select('SUM(t.duration)')
-        ->where('YEAR(t.createdAt) = :year')
-        ->andWhere('MONTH(t.createdAt) = :month')
-        ->setParameter(":year", $year)
-        ->setParameter(":month", $month);
-    if ($day) {
-      $qb->andWhere('DAY(t.completedAt) = :day')
-          ->setParameter('day', $day);
-    }
+        ->where('t.completedAt BETWEEN :from AND :to')
+        ->setParameter(":from", $from)
+        ->setParameter(":to", $to);
+
     return $qb->getQuery()
             ->getSingleScalarResult();
   }

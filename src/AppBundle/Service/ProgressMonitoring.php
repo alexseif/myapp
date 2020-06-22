@@ -137,9 +137,11 @@ class ProgressMonitoring
 
   public function setRevenueSum()
   {
-    $date = new \DateTime();
+    $from = \AppBundle\Util\DateRanges::getMonthStart();
+    $from->modify("-1 month");
+    $to = \AppBundle\Util\DateRanges::getMonthStart();
     $this->revenueSum = $this->em->getRepository('AppBundle:AccountTransactions')
-        ->getRevenueSumByMonth($date->format('Y'), $date->format('m'));
+        ->getRevenueSumByDateRange($from, $to);
   }
 
   function getRevenueSum()
@@ -149,9 +151,12 @@ class ProgressMonitoring
 
   function setRevenueProgress()
   {
-    $date = \AppBundle\Util\DateRanges::getMonthStart();
+    $from = \AppBundle\Util\DateRanges::getMonthStart();
+    $from->modify("-2 months");
+    $to = \AppBundle\Util\DateRanges::getMonthStart();
+    $to->modify("-1 month");
     $revenueLastMonth = $this->em->getRepository('AppBundle:AccountTransactions')
-        ->getRevenueSumByMonth($date->format('Y'), $date->format('m'), $date->format('d'));
+        ->getRevenueSumByDateRange($from, $to);
 
     $divisionByZero = $revenueLastMonth ? $revenueLastMonth : 1;
     $this->revenueProgress = (($this->revenueSum - $revenueLastMonth) / $divisionByZero) * 100;
@@ -164,9 +169,12 @@ class ProgressMonitoring
 
   function setDurationSum()
   {
-    $date = new \DateTime();
+    $from = \AppBundle\Util\DateRanges::getMonthStart();
+    $from->modify("-1 month");
+    $to = \AppBundle\Util\DateRanges::getMonthStart();
+
     $this->durationSum = $this->em->getRepository('AppBundle:Tasks')
-        ->getSumDurationByMonth($date->format('Y'), $date->format('m'));
+        ->getDurationSumByRange($from, $to);
   }
 
   function getDurationSum()
@@ -176,9 +184,12 @@ class ProgressMonitoring
 
   function setDurationProgress()
   {
-    $date = \AppBundle\Util\DateRanges::getMonthStart();
+    $from = \AppBundle\Util\DateRanges::getMonthStart();
+    $from->modify("-2 months");
+    $to = \AppBundle\Util\DateRanges::getMonthStart();
+    $to->modify("-1 month");
     $durationLastMonth = $this->em->getRepository('AppBundle:Tasks')
-        ->getSumDurationByMonth($date->format('Y'), $date->format('m'), $date->format('d'));
+        ->getDurationSumByRange($from, $to);
     $divisionByZero = $durationLastMonth ? $durationLastMonth : 1;
     $this->durationProgress = ((($this->durationSum - $durationLastMonth) / $divisionByZero) * 100);
   }

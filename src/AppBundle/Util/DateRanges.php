@@ -184,7 +184,7 @@ class DateRanges
 
   /**
    * 
-   * @param \DateTime $date Optional to specify which month start
+   * @param mixed $date Optional to specify which month start
    * @return \DateTime
    */
   public static function getMonthStart($date = null)
