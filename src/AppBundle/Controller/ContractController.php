@@ -82,8 +82,10 @@ class ContractController extends Controller
 
     $contractStart = $contract->getStartedAt()
         ->setDate($contract->getStartedAt()->format("Y"), $contract->getStartedAt()->format("m"), $contract->getStartedAt()->format("t"))
-        ->modify("-1 month")
-        ->modify("-4 days");
+        ->modify("-1 month");
+    $contractStart
+        ->setDate($contractStart->format("Y"), $contractStart->format("m"), $contractStart->format("t"))
+        ->modify("-5 days");
     $today = new \DateTime();
     $workweek = [1, 2, 3, 4, 7];
 
@@ -97,13 +99,13 @@ class ContractController extends Controller
     $totals = [];
     foreach ($contractMonths as $month) {
       $from = new \DateTime();
-      $from->setDate($month->format('Y'), $month->format('m'), $month->format('t'))
-          ->modify("-1 month")
-          ->modify("-4 days")
+      $from->setDate($month->format('Y'), $month->format('m'), 1)
+          ->modify("-1 month");
+      $from->setDate($from->format('Y'), $from->format('m'), $from->format('t'))
+          ->modify("-5 days")
           ->setTime(00, 00, 00);
-      $to = new \DateTime();
-      $to->setDate($month->format('Y'), $month->format('m'), $month->format('t'))
-          ->modify("-4 days")
+      $to = clone $from;
+      $to->modify("+1 month")
           ->setTime(23, 59, 59);
       $tasks = $em->getRepository('AppBundle:Tasks')->findCompletedByClientByRange($contract->getClient(), $from, $to);
       $monthKey = (int) $month->format('Ym');
@@ -162,7 +164,7 @@ class ContractController extends Controller
     $reportFilterForm->handleRequest($request);
     $monthsArray = [];
     $today = new \DateTime();
-    $monthsArray = \AppBundle\Util\DateRanges::populateMonths($contract->getStartedAt()->format('Ymd'), $today->format('Ymd'), "-4 days");
+    $monthsArray = \AppBundle\Util\DateRanges::populateMonths($contract->getStartedAt()->format('Ymd'), $today->format('Ymd'), "-5 days");
 
     if ($reportFilterForm->isSubmitted() && $reportFilterForm->isValid()) {
       $accountingFilterData = $reportFilterForm->getData();

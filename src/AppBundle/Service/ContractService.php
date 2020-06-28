@@ -43,15 +43,16 @@ class ContractService
     foreach ($contracts as $contract) {
       $completedByClientThisMonth = $this->em->getRepository('AppBundle:Tasks')->findDurationCompletedByClientThisMonth($contract->getClient())['duration'];
       $monthStart = new \DateTime();
-      $monthStart->setTime(00, 00, 00);
+      $monthStart->setTime(00, 00, 00)
+          ->modify("-1 month");
       $monthStart->setDate($monthStart->format("Y"), $monthStart->format("m"), $monthStart->format("t"));
-      $monthStart->modify("-4 days");
+      $monthStart->modify("-5 days");
       if ($contract->getStartedAt() > $monthStart) {
         $monthStart->setDate($contract->getStartedAt()->format('Y'), $contract->getStartedAt()->format('m'), $contract->getStartedAt()->format('d'));
       }
       $monthEnd = new \DateTime();
       $monthEnd->setDate($monthEnd->format('Y'), $monthEnd->format('m'), $monthEnd->format('t'));
-      $monthEnd->modify("-4 days");
+      $monthEnd->modify("-5 days");
       $monthEnd->setTime(23, 59, 59);
       $workingDaysSoFar = \AppBundle\Util\DateRanges::numberOfWorkingDays($monthStart, new \DateTime());
       $workingDaysLeft = \AppBundle\Util\DateRanges::numberOfWorkingDays(new \DateTime(), $monthEnd);

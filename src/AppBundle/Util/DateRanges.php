@@ -27,11 +27,10 @@ class DateRanges
     $start = new \DateTime($startDate);
 
     if (is_string($setDayTo)) {
-      $start->setDate($start->format("Y"), $start->format("m"), $start->format("t"));
-      $start->modify("-1 month");
-      $start->modify($setDayTo);
-    } elseif ($setDayTo > 0 && $setDayTo < 32) {
-      $start->setDate($start->format("Y"), $start->format("m"), $setDayTo);
+      $start->setDate($start->format("Y"), $start->format("m"), 1)
+          ->modify("-1 month");
+      $start->setDate($start->format("Y"), $start->format("m"), $start->format("t"))
+          ->modify($setDayTo);
     }
     $end = new \DateTime($endDate);
     $interval = \DateInterval::createFromDateString('1 month');
