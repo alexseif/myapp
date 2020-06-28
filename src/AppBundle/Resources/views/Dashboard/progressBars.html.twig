@@ -1,3 +1,4 @@
+{% set daysDiff = (("last day of next month"|date_modify("-5 days")).diff(date("now")).days) %}
 {# Daily #}
 {% if total > 0 %}
   <div class="progress">
@@ -16,7 +17,7 @@
         EGP {{ progress }}
       </div>
       <div
-        class="progress-bar bg-{{ (("now"|date("t") -5 ) - "now"|date("d")) > 20 ? "info" : (("now"|date("t")-5) - "now"|date("d")) > 10 ? "warning" : "danger" }}"
+        class="progress-bar bg-{{ daysDiff  > 20 ? "info" : daysDiff  > 10 ? "warning" : "danger" }}"
         role="progressbar" style="width:{{ remaining }}%" aria-valuenow="{{ remaining }}" aria-valuemin="0" aria-valuemax="100"
         title="EGP {{ total - progress }}">
         EGP {{ total - progress }}
