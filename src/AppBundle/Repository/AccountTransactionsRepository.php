@@ -18,7 +18,7 @@ class AccountTransactionsRepository extends EntityRepository
     $today = new \DateTime();
     $today->setDate($today->format('Y'), $today->format('m'), $today->format('t'));
     $today->setTime(00, 00, 00);
-    $today->modify("-5 days");
+    $today->modify("-4 days");
     return $this
             ->createQueryBuilder('at')
             ->select('at')

@@ -193,7 +193,7 @@ class DateRanges
     $date->modify("-1 month");
     $date->setDate($date->format('Y'), $date->format('m'), $date->format('t'));
     $date->setTime(0, 0, 0);
-    $date->modify("-5 days");
+    $date->modify("-4 days");
     return $date;
   }
 

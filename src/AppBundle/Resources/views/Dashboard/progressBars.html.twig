@@ -1,4 +1,4 @@
-{% set daysDiff = (("last day of next month"|date_modify("-5 days")).diff(date("now")).days) %}
+{% set daysDiff = (("last day of next month"|date_modify("-4 days")).diff(date("now")).days) %}
 {# Daily #}
 {% if total > 0 %}
   <div class="progress">

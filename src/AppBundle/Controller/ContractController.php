@@ -83,7 +83,7 @@ class ContractController extends Controller
     $contractStart = $contract->getStartedAt()
         ->setDate($contract->getStartedAt()->format("Y"), $contract->getStartedAt()->format("m"), $contract->getStartedAt()->format("t"))
         ->modify("-1 month")
-        ->modify("-5 days");
+        ->modify("-4 days");
     $today = new \DateTime();
     $workweek = [1, 2, 3, 4, 7];
 
@@ -99,16 +99,16 @@ class ContractController extends Controller
       $from = new \DateTime();
       $from->setDate($month->format('Y'), $month->format('m'), $month->format('t'))
           ->modify("-1 month")
-          ->modify("-5 days")
+          ->modify("-4 days")
           ->setTime(00, 00, 00);
       $to = new \DateTime();
       $to->setDate($month->format('Y'), $month->format('m'), $month->format('t'))
-          ->modify("-5 days")
+          ->modify("-4 days")
           ->setTime(23, 59, 59);
       $tasks = $em->getRepository('AppBundle:Tasks')->findCompletedByClientByRange($contract->getClient(), $from, $to);
-      $monthKey = $month->format('Ym');
+      $monthKey = (int) $month->format('Ym');
       foreach ($tasks as $task) {
-        $day = $task->getCompletedAt()->format('Ymd-D');
+        $day = (int) $task->getCompletedAt()->format('Ymd');
         if (!key_exists($monthKey, $totals)) {
           $totals[$monthKey] = [];
         }
@@ -127,7 +127,7 @@ class ContractController extends Controller
 
       foreach ($contractPeriod as $date) {
         if (in_array($date->format('N'), $workweek)) {
-          $day = $date->format('Ymd-D');
+          $day = (int) $date->format('Ymd');
           $holiday = $em->getRepository('AppBundle:Holiday')->findOneBy(['date' => $date]);
           if ($holiday) {
             $contractDetails[$monthKey][$day] = $holiday;
@@ -137,52 +137,11 @@ class ContractController extends Controller
               $totals[$monthKey]['sum'] += 240;
             }
           }
+          ksort($contractDetails[$monthKey]);
         }
       }
     }
-    $from = new \DateTime();
-    $from->setDate($from->format('Y'), $from->format('m'), $month->format('t'));
-    $from->modify("-1 month");
-    $from->modify("-5 days");
-    $from->setTime(00, 00, 00);
-    $to = new \DateTime();
-    $to->setDate($to->format('Y'), $to->format('m'), $to->format('t'));
-    $to->modify("-5 days");
-    $to->setTime(23, 59, 59);
-    $monthKey = $to->format('Ym');
-    $tasks = $em->getRepository('AppBundle:Tasks')->findCompletedByClientByRange($contract->getClient(), $from, $to);
-    foreach ($tasks as $task) {
-      $day = $task->getCompletedAt()->format('Ymd-D');
-//        $month = $task->getCompletedAt()->format('Ym');
-      if (!key_exists($monthKey, $totals)) {
-        $totals[$monthKey] = [];
-      }
-      if (!key_exists('sum', $totals[$monthKey])) {
-        $totals[$monthKey]['sum'] = 0;
-      }
-      if (!key_exists($day, $totals[$monthKey])) {
-        $totals[$monthKey][$day] = 0;
-      }
-      $totals[$monthKey][$day] += $task->getDuration();
-      $totals[$monthKey]['sum'] += $totals[$monthKey][$day];
-      $contractDetails[$monthKey][$day][] = $task;
-    }
-    $contractPeriod = new \DatePeriod($from, $dayInterval, $to);
-
-    foreach ($contractPeriod as $date) {
-      if (in_array($date->format('N'), $workweek)) {
-        $day = $date->format('Ymd-D');
-        $holiday = $em->getRepository('AppBundle:Holiday')->findOneBy(['date' => $date]);
-        if ($holiday) {
-          $contractDetails[$monthKey][$day] = $holiday;
-          $holidays[$monthKey][$day] = $holiday->getName();
-          if (!key_exists($day, $totals[$monthKey])) {
-            $totals[$monthKey][$day] = 240;
-            $totals[$monthKey]['sum'] += 240;
-          }
-        }
-      }
-    }
+    ksort($contractDetails);
     return $this->render('AppBundle:contract:log.html.twig', [
           'contract' => $contract,
           'contractDetails' => $contractDetails,
@@ -203,7 +162,7 @@ class ContractController extends Controller
     $reportFilterForm->handleRequest($request);
     $monthsArray = [];
     $today = new \DateTime();
-    $monthsArray = \AppBundle\Util\DateRanges::populateMonths($contract->getStartedAt()->format('Ymd'), $today->format('Ymd'), "-5 days");
+    $monthsArray = \AppBundle\Util\DateRanges::populateMonths($contract->getStartedAt()->format('Ymd'), $today->format('Ymd'), "-4 days");
 
     if ($reportFilterForm->isSubmitted() && $reportFilterForm->isValid()) {
       $accountingFilterData = $reportFilterForm->getData();
