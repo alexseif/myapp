@@ -32,29 +32,31 @@ class AccountingController extends Controller
   }
 
   /**
-   * @Route("/account", name="accounting_account_page", methods={"GET"})
+   * @Route("/account/{id}", name="accounting_account_page", methods={"GET"})
    */
-  public function accountAction(Request $request)
+  public function accountAction(Request $request, Accounts $account)
   {
     $accountingFilterForm = $this->getFilterFunction($request);
 
     $accountingFilterForm->handleRequest($request);
 
-    if ($accountingFilterForm->isSubmitted() && $accountingFilterForm->isValid()) {
+    if (($accountingFilterForm->isSubmitted() && $accountingFilterForm->isValid()) || $account) {
       $accountingFilterData = $accountingFilterForm->getData();
-      $account = $accountingFilterData['account'];
-
+      $account = ($account) ?: $accountingFilterData['account'];
+      $currentBalance = 0;
+      $overdue = 0;
+      $monthsArray = 0;
       $em = $this->getDoctrine()->getManager();
       $txnRepo = $em->getRepository('AppBundle:AccountTransactions');
       $txnPeriod = $txnRepo->queryAccountRange($account);
-
-      $currentBalance = $txnRepo->queryCurrentBalanceByAccount($account);
-      $overdue = $txnRepo->queryOverdueAccount($account);
-
-      $monthsArray = \AppBundle\Util\DateRanges::populateMonths($txnPeriod['rangeStart'], $txnPeriod['rangeEnd'], "-5 days");
-      foreach ($monthsArray as $key => $range) {
-        $monthsArray[$key]['forward_balance'] = $txnRepo->queryCurrentBalanceByAccountAndRange($account, $range)['amount'];
-        $monthsArray[$key]['ending_balance'] = $txnRepo->queryOverdueAccountTo($account, $range['end'])['amount'];
+      if ($txnPeriod) {
+        $currentBalance = $txnRepo->queryCurrentBalanceByAccount($account)['amount'];
+        $overdue = $txnRepo->queryOverdueAccount($account)['amount'];
+        $monthsArray = \AppBundle\Util\DateRanges::populateMonths($txnPeriod['rangeStart'], $txnPeriod['rangeEnd'], "-5 days");
+        foreach ($monthsArray as $key => $range) {
+          $monthsArray[$key]['forward_balance'] = $txnRepo->queryCurrentBalanceByAccountAndRange($account, $range)['amount'];
+          $monthsArray[$key]['ending_balance'] = $txnRepo->queryOverdueAccountTo($account, $range['end'])['amount'];
+        }
       }
     }
 
@@ -142,7 +144,7 @@ class AccountingController extends Controller
   {
     return $this->createForm(AccountingMainFilterType::class, $request->get('accounting_filter'), array(
           'method' => 'GET',
-          'action' => $this->generateUrl('accounting_account_page')
+//          'action' => $this->generateUrl('accounting_account_page')
     ));
   }
 

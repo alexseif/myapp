@@ -31,15 +31,15 @@
     <div class="row current-balance">
       <div class="col-md-4">
         <h4>Current Balance</h4>
-        <h5>EGP {{ currentBalance.amount|number_format  }}</h5>
+        <h5>EGP {{ currentBalance|number_format  }}</h5>
       </div>
       <div class="col-md-4">
         <h4>Overdue</h4>
-        <h5>EGP {{ overdue.amount < 0 ? overdue.amount|number_format  : 0|number_format }}</h5>
+        <h5>EGP {{ overdue < 0 ? overdue|number_format  : 0|number_format }}</h5>
       </div>
       <div class="col-md-4">
         <h4>Credits</h4>
-        <h5>EGP {{ overdue.amount > 0 ? overdue.amount|number_format  : 0|number_format }}</h5>
+        <h5>EGP {{ overdue > 0 ? overdue|number_format  : 0|number_format }}</h5>
       </div>
     </div>
   </div>
@@ -71,4 +71,20 @@
       </tbody>
     </table>
   </div>
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+  <script>
+    $(function () {
+      // bind change event to select
+      $('#accounting_main_filter_account').on('change', function () {
+        var url = $(this).val(); // get selected value
+        if (url) { // require a URL
+          window.location = url; // redirect
+        }
+        return false;
+      });
+    });
+  </script>
 {% endblock %}
