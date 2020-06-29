@@ -26,9 +26,9 @@ class ContractController extends Controller
 
     $contracts = $em->getRepository('AppBundle:Contract')->findAll();
 
-    return $this->render('AppBundle:contract:index.html.twig', array(
+    return $this->render('AppBundle:contract:index.html.twig', [
           'contracts' => $contracts,
-    ));
+    ]);
   }
 
   /**
@@ -47,13 +47,13 @@ class ContractController extends Controller
       $em->persist($contract);
       $em->flush();
 
-      return $this->redirectToRoute('contract_show', array('id' => $contract->getId()));
+      return $this->redirectToRoute('contract_show', ['id' => $contract->getId()]);
     }
 
-    return $this->render('AppBundle:contract:new.html.twig', array(
+    return $this->render('AppBundle:contract:new.html.twig', [
           'contract' => $contract,
           'form' => $form->createView(),
-    ));
+    ]);
   }
 
   /**
@@ -65,10 +65,10 @@ class ContractController extends Controller
   {
     $deleteForm = $this->createDeleteForm($contract);
 
-    return $this->render('AppBundle:contract:show.html.twig', array(
+    return $this->render('AppBundle:contract:show.html.twig', [
           'contract' => $contract,
           'delete_form' => $deleteForm->createView(),
-    ));
+    ]);
   }
 
   /**
@@ -182,11 +182,11 @@ class ContractController extends Controller
       }
     }
 
-    return $this->render("AppBundle:contract:report.html.twig", array(
+    return $this->render("AppBundle:contract:report.html.twig", [
           'report_filter_form' => $reportFilterForm->createView(),
           'contract' => $contract,
           'monthsArray' => $monthsArray
-    ));
+    ]);
   }
 
   /**
@@ -223,7 +223,7 @@ class ContractController extends Controller
     $remaining = $expected - $totalHours;
     $remaining = floor($remaining) . ":" . $totalMins;
 
-    return $this->render("AppBundle:contract:timesheet.html.twig", array(
+    return $this->render("AppBundle:contract:timesheet.html.twig", [
           "contract" => $contract,
           "from" => $from,
           "to" => $to,
@@ -232,7 +232,7 @@ class ContractController extends Controller
           "expected" => $expected,
           "remaining" => $remaining,
           "holidays" => $holidays
-    ));
+    ]);
   }
 
   /**
@@ -249,14 +249,14 @@ class ContractController extends Controller
     if ($editForm->isSubmitted() && $editForm->isValid()) {
       $this->getDoctrine()->getManager()->flush();
 
-      return $this->redirectToRoute('contract_edit', array('id' => $contract->getId()));
+      return $this->redirectToRoute('contract_edit', ['id' => $contract->getId()]);
     }
 
-    return $this->render('AppBundle:contract:edit.html.twig', array(
+    return $this->render('AppBundle:contract:edit.html.twig', [
           'contract' => $contract,
           'edit_form' => $editForm->createView(),
           'delete_form' => $deleteForm->createView(),
-    ));
+    ]);
   }
 
   /**
@@ -288,7 +288,7 @@ class ContractController extends Controller
   private function createDeleteForm(Contract $contract)
   {
     return $this->createFormBuilder()
-            ->setAction($this->generateUrl('contract_delete', array('id' => $contract->getId())))
+            ->setAction($this->generateUrl('contract_delete', ['id' => $contract->getId()]))
             ->setMethod('DELETE')
             ->getForm()
     ;
