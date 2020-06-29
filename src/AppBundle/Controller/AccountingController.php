@@ -49,7 +49,7 @@ class AccountingController extends Controller
     if ($balance['period']) {
       $balance['current'] = $txnRepo->queryCurrentBalanceByAccount($account)['amount'];
       $balance['overdue'] = $txnRepo->queryOverdueAccount($account)['amount'];
-      $balance['invoices'] = \AppBundle\Util\DateRanges::populateMonths($balance['period']['rangeStart'], $balance['period']['rangeEnd'], "-5 days");
+      $balance['invoices'] = \AppBundle\Util\DateRanges::populateMonths($balance['period']['rangeStart'], $balance['period']['rangeEnd'], 25);
       foreach ($balance['invoices'] as $key => $range) {
         $balance['invoices'][$key]['forward_balance'] = $txnRepo->queryCurrentBalanceByAccountAndRange($account, $range)['amount'];
         $balance['invoices'][$key]['ending_balance'] = $txnRepo->queryOverdueAccountTo($account, $range['end'])['amount'];

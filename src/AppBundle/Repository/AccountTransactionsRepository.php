@@ -16,9 +16,8 @@ class AccountTransactionsRepository extends EntityRepository
   public function issuedThisMonth()
   {
     $today = new \DateTime();
-    $today->setDate($today->format('Y'), $today->format('m'), $today->format('t'));
+    $today->setDate($today->format('Y'), $today->format('m'), 25);
     $today->setTime(00, 00, 00);
-    $today->modify("-5 days");
     return $this
             ->createQueryBuilder('at')
             ->select('at')

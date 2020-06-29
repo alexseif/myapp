@@ -31,6 +31,9 @@ class DateRanges
           ->modify("-1 month");
       $start->setDate($start->format("Y"), $start->format("m"), $start->format("t"))
           ->modify($setDayTo);
+    } else {
+      $start->setDate($start->format("Y"), $start->format("m"), 25)
+          ->modify("-1 month");
     }
     $end = new \DateTime($endDate);
     $interval = \DateInterval::createFromDateString('1 month');
