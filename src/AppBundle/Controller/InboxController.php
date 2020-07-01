@@ -26,8 +26,13 @@ class InboxController extends Controller
   {
     $em = $this->getDoctrine()->getManager();
     $taskLists = $em->getRepository('AppBundle:TaskLists')->findAllWithActiveTasks();
+    $days = $em->getRepository('AppBundle:Days')->getActiveCards();
+    $holidays = $em->getRepository('AppBundle:Holiday')->getComingHolidays();
+
     $urgentTasks = [];
     return $this->render("AppBundle:inbox:index.html.twig", [
+          'days' => $days,
+          'holidays' => $holidays,
           'taskLists' => $taskLists,
           'urgentTasks' => $urgentTasks,
     ]);

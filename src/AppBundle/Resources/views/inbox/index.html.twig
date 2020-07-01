@@ -39,16 +39,41 @@
             {% endfor %}
           </ul>
         </div><!-- .col-wrapper -->
-      </div> 
-      <div class="col-10">
+      </div><!-- .col-2 -->
+      <div class="col-8">
         <div class="col-wrapper" id='inbox-tasks'>
 
         </div><!-- .col-wrapper -->
-      </div><!-- .col-9 -->
+      </div><!-- .col-8 -->
+      <div class="col-2">
+        <div class="col-wrapper" id='inbox-days'>
+          {% if days|length %}
+            {% include 'AppBundle:days:days_list_summary.html.twig' %}
+            {% include 'AppBundle:holiday:holidays_list_summary.html.twig' %}
+          {% endif %}
+        </div>
+      </div>
     </div><!-- .row -->
   </div><!-- #inbox -->
 {% endblock %}
 {% block javascripts %}
   {{ parent() }}
   <script src="{{ asset('/js/inbox.js') }}"></script>
+  <script>
+    $(document).ready(function () {
+      $('.holidays-list .card').each(function () {
+        var holiday = this;
+        var timestamp = $(holiday).data('date');
+        $('.days-list .card').each(function () {
+          if (timestamp >= $(this).data('date')) {
+            $(holiday).insertAfter(this);
+          }
+        });
+      });
+      $('.days-list .card').each(function () {
+        breaker = $('<div class="w-100"></div>');
+        $(breaker).insertAfter(this);
+      });
+    });
+  </script>
 {% endblock %}
