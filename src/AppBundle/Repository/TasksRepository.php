@@ -76,12 +76,12 @@ class TasksRepository extends EntityRepository
             ->leftJoin('tl.account', 'a')
             ->leftJoin('a.client', 'c')
             ->leftJoin('c.rates', 'r')
-            ->where('t.completedAt > :date')
+            ->where('t.completedAt >= :date')
             ->orderBy("t.urgency", "DESC")
             ->addOrderBy("t.priority", "DESC")
             ->addOrderBy("t.completedAt", "ASC")
             ->addOrderBy("t.order", "ASC")
-            ->setParameter(':date', $date->format('Y-m-d H:i'))
+            ->setParameter(':date', $date)
             ->getQuery()
             ->getResult();
   }
@@ -124,9 +124,7 @@ class TasksRepository extends EntityRepository
    */
   public function getCompletedThisMonth()
   {
-    $date = new \DateTime();
-    $date->setDate($date->format('Y'), $date->format('m'), 1);
-    $date->setTime(00, 00, 00);
+    $date = \AppBundle\Util\DateRanges::getMonthStart();
     return $this->getCompletedAfter($date);
   }
 
@@ -428,6 +426,22 @@ class TasksRepository extends EntityRepository
             ->getResult();
   }
 
+  public function findCompletedByClientByRange($client, $from, $to)
+  {
+    return $this
+            ->createQueryBuilder('t')
+            ->leftJoin('t.taskList', 'tl')
+            ->leftJoin('tl.account', 'a')
+            ->where('a.client = :client')
+            ->andWhere('t.completedAt BETWEEN :from AND :to')
+            ->orderBy('t.completedAt')
+            ->setParameter(':client', $client)
+            ->setParameter(':from', $from)
+            ->setParameter(':to', $to)
+            ->getQuery()
+            ->getResult();
+  }
+
   public function findCompletedByClientByMonth($client, $month)
   {
     return $this
@@ -633,7 +647,7 @@ class TasksRepository extends EntityRepository
             ->getResult();
   }
 
-  public function getCompletedByMonth($year, $month, $day = false)
+  public function getCompletedByMonthOrDay($year, $month, $day = false)
   {
     $qb = $this->createQueryBuilder('t')
         ->select('count(t.id)')
@@ -650,18 +664,14 @@ class TasksRepository extends EntityRepository
             ->getSingleScalarResult();
   }
 
-  public function getSumDurationByMonth($year, $month, $day = false)
+  public function getDurationSumByRange($from, $to)
   {
     $qb = $this->createQueryBuilder('t')
         ->select('SUM(t.duration)')
-        ->where('YEAR(t.createdAt) = :year')
-        ->andWhere('MONTH(t.createdAt) = :month')
-        ->setParameter(":year", $year)
-        ->setParameter(":month", $month);
-    if ($day) {
-      $qb->andWhere('DAY(t.completedAt) = :day')
-          ->setParameter('day', $day);
-    }
+        ->where('t.completedAt BETWEEN :from AND :to')
+        ->setParameter(":from", $from)
+        ->setParameter(":to", $to);
+
     return $qb->getQuery()
             ->getSingleScalarResult();
   }

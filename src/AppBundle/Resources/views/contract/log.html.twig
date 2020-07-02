@@ -21,7 +21,7 @@
           <div class="card-header" id="heading{{ month }}">
             <h5 class="mb-0">
               <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#month{{ month}}" aria-expanded="true" aria-controls="month{{ month }}">
-                {{ month }}
+                {{ month }} - {{ (totals[month]['sum']/60)|round(0, 'floor') }}:{{ totals[month]['sum']%60 }}
               </button>
             </h5>
           </div>
@@ -74,9 +74,9 @@
                           </tr>
                         </tfoot>
                       </table>
-                    </div>
-                  </div>
-                </div>
+                    </div><!-- .card-body -->
+                  </div><!-- #day -->
+                </div><!-- .card -->
               {% endfor %}
             </div>
           </div>

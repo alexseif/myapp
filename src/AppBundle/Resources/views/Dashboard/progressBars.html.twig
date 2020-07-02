@@ -1,6 +1,9 @@
+{% set daysDiff = (("last day of next month"|date_modify("-4 days")).diff(date("now")).days) %}
 {# Daily #}
 {% if total > 0 %}
   <div class="progress">
+    {% set percentage = (progress/total)*100 %}
+    {% set remaining = (100 - percentage)|abs %}
     {% if issued is defined and issued > 0 %}
       {% set progress = progress - issued %}
       <div class="progress-bar bg-default" role="progressbar" aria-valuenow="{{ ((issued)/total)*100 }}" aria-valuemin="0" aria-valuemax="100"
@@ -8,15 +11,13 @@
         EGP {{ issued }}
       </div>
     {% endif %}
-    {% set percentage = (progress/total)*100 %}
-    {% set remaining = (100 - percentage)|abs %}
     {% if percentage < 100 %}
       <div class="progress-bar bg-success" role="progressbar" aria-valuenow="{{ percentage }}" aria-valuemin="0" aria-valuemax="100"
            style="width:{{ percentage }}%" title="EGP {{ progress }}">
         EGP {{ progress }}
       </div>
       <div
-        class="progress-bar bg-{{ ("now"|date("t") - "now"|date("d")) > 20 ? "info" : ("now"|date("t") - "now"|date("d")) > 10 ? "warning" : "danger" }}"
+        class="progress-bar bg-{{ daysDiff  > 20 ? "info" : daysDiff  > 10 ? "warning" : "danger" }}"
         role="progressbar" style="width:{{ remaining }}%" aria-valuenow="{{ remaining }}" aria-valuemin="0" aria-valuemax="100"
         title="EGP {{ total - progress }}">
         EGP {{ total - progress }}

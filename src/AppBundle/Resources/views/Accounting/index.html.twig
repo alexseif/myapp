@@ -40,7 +40,7 @@
                   {% set total = total + account.balance %}
                   <tr>
                     <td>
-                      <a href="{{ path('accounting_account_page', { 'accounting_main_filter': {'account':account.id} }) }}" 
+                      <a href="{{ path('accounting_account_page', {'id':account.id}) }}" 
                          class="btn btn-sm btn-link text-{{ account.balance == 0 ? "default" : account.balance < 0 ? "success": "danger" }}">
                         {% if (account.client) %}
                           <span class="badge badge-primary">{{ account.client.name }}</span>
@@ -93,4 +93,20 @@
     </div>
     {{ form_end(accounting_filter_form) }}
   </div>
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+  <script>
+    $(function () {
+      // bind change event to select
+      $('#accounting_main_filter_account').on('change', function () {
+        var url = $(this).val(); // get selected value
+        if (url) { // require a URL
+          window.location = url; // redirect
+        }
+        return false;
+      });
+    });
+  </script>
 {% endblock %}

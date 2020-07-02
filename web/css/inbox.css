@@ -9,7 +9,7 @@ The following content was designed & implemented under AlexSeif.com
 .col-wrapper {
   overflow: visible;
   width: 100%;
-  white-space: nowrap;
+  /*white-space: nowrap;*/
   overflow: hidden;
   text-overflow: ellipsis;
   max-height: calc(100vh - 106px);

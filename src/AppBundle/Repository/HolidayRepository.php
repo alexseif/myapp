@@ -25,8 +25,7 @@ class HolidayRepository extends EntityRepository
   public function findByRange($from, $to)
   {
     return $this->createQueryBuilder('h')
-            ->where('h.date >= :from')
-            ->andWhere('h.date <= :to')
+            ->where('h.date BETWEEN :from AND :to')
             ->setParameter(":from", $from->format('Y-m-d'))
             ->setParameter(":to", $to->format('Y-m-d'))
             ->orderBy('h.date', 'ASC')

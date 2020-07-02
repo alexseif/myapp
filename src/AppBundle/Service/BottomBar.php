@@ -8,6 +8,7 @@ namespace AppBundle\Service;
 
 use Doctrine\ORM\EntityManager;
 use AppBundle\Service\CostService;
+use AppBundle\Service\ContractService;
 
 /**
  * Description of Bottom Bar Service
@@ -27,12 +28,34 @@ class BottomBar
    * 
    * @var CostService $cs
    */
-  protected $cs;
+  protected $costService;
 
-  public function __construct(EntityManager $em, CostService $cs)
+  /**
+   * 
+   * @var ContractService $c
+   */
+  protected $contractService;
+
+  public function __construct(EntityManager $em, CostService $costService, ContractService $contractService)
   {
     $this->em = $em;
-    $this->cs = $cs;
+    $this->costService = $costService;
+    $this->contractService= $contractService;
+  }
+
+  function getEm(): EntityManager
+  {
+    return $this->em;
+  }
+
+  function getCostService(): CostService
+  {
+    return $this->costService;
+  }
+
+  function getContractService(): ContractService
+  {
+    return $this->contractService;
   }
 
   /**
@@ -41,7 +64,7 @@ class BottomBar
    */
   public function getThings()
   {
-    $things = $this->em->getRepository('AppBundle:Thing')->findBy([], ['createdAt' => 'asc'], 5);
+    $things = $this->getEm()->getRepository('AppBundle:Thing')->findBy([], ['createdAt' => 'asc'], 5);
     return $things;
   }
 
@@ -51,7 +74,7 @@ class BottomBar
    */
   public function getTasks()
   {
-    $tasks = $this->em->getRepository('AppBundle:Tasks')->focusList(5);
+    $tasks = $this->getEm()->getRepository('AppBundle:Tasks')->focusList(5);
     return $tasks;
   }
 
@@ -59,48 +82,25 @@ class BottomBar
    * 
    * @return array Contract[]
    */
-  public function getContracts()
+  public function getContractsProgress()
   {
-    $contracts = $this->em->getRepository('AppBundle:Contract')->findAll();
-    foreach ($contracts as $contract) {
-      $completedByClientThisMonth = $this->em->getRepository('AppBundle:Tasks')->findDurationCompletedByClientThisMonth($contract->getClient())['duration'];
-      $monthStart = new \DateTime();
-      $monthStart->setDate($monthStart->format('Y'), $monthStart->format('m'), 1);
-      $monthStart->setTime(00, 00, 00);
-      if ($contract->getStartedAt() > $monthStart) {
-        $monthStart->setDate($contract->getStartedAt()->format('Y'), $contract->getStartedAt()->format('m'), $contract->getStartedAt()->format('d'));
-      }
-      $monthEnd = new \DateTime();
-      $monthEnd->setDate($monthEnd->format('Y'), $monthEnd->format('m'), $monthEnd->format('t'));
-      $monthEnd->setTime(23, 59, 59);
-      $workingDaysSoFar = \AppBundle\Util\DateRanges::numberOfWorkingDays($monthStart, new \DateTime());
-      $workingDaysLeft = \AppBundle\Util\DateRanges::numberOfWorkingDays(new \DateTime(), $monthEnd);
-      $expctedByClientThisMonth = $contract->getHoursPerDay() * $workingDaysSoFar * 60;
-      $duration = $this->em->getRepository('AppBundle:Tasks')->findCompletedByClientToday($contract->getClient())['duration'];
-      $difference = $expctedByClientThisMonth - $completedByClientThisMonth;
-      $workingDaysLeft = ($workingDaysLeft) ?: 1;
-      $overMonth = $difference / $workingDaysLeft;
-      $minutesPerDay = ($contract->getHoursPerDay() * 60) + $overMonth;
-      $contract->percentage = $duration / $minutesPerDay * 100;
-      $contract->setName($contract->getName() . " " . floor($minutesPerDay / 60) . ":" . ($minutesPerDay % 60) . " || " . floor($difference / 60) . ":" . ($difference % 60));
-    }
-    return $contracts;
+    return $this->getContractService()->progress();
   }
 
   public function getProgress()
   {
-    $earnedLogic = new \AppBundle\Logic\EarnedLogic($this->em, $this->cs);
+    $earnedLogic = new \AppBundle\Logic\EarnedLogic($this->getEm(), $this->getCostService());
     $earned = $earnedLogic->getEarned();
     return [
       'earned' => $earned,
       'issuedThisMonth' => $earnedLogic->getIssuedThisMonth(),
-      'costOfLife' => $this->cs,
+      'costOfLife' => $this->costService,
     ];
   }
 
   public function getObjectives()
   {
-    $objectives = $this->em->getRepository('AppBundle:Objective')->findBy([], ['createdAt' => 'asc'], 5);
+    $objectives = $this->getEm()->getRepository('AppBundle:Objective')->findBy([], ['createdAt' => 'asc'], 5);
     return $objectives;
   }
 

@@ -16,14 +16,15 @@ class AccountTransactionsRepository extends EntityRepository
   public function issuedThisMonth()
   {
     $today = new \DateTime();
+    $today->setDate($today->format('Y'), $today->format('m'), 25);
+    $today->setTime(00, 00, 00);
     return $this
             ->createQueryBuilder('at')
             ->select('at')
-            ->where('MONTH(at.issuedAt) = MONTH(:today)')
-            ->andWhere('YEAR(at.issuedAt) = YEAR(:today)')
+            ->where('at.issuedAt >= :today')
             ->andWhere('at.amount > 0')
             ->orderBy('at.issuedAt')
-            ->setParameter(':today', $today->format('Y-m-d'))
+            ->setParameter(':today', $today)
             ->getQuery()
             ->getResult();
   }
@@ -45,8 +46,7 @@ class AccountTransactionsRepository extends EntityRepository
     return $this
             ->createQueryBuilder('at')
             ->where('at.account = :account')
-            ->andWhere('at.issuedAt  >= :from')
-            ->andWhere('at.issuedAt <= :to')
+            ->andWhere('at.issuedAt BETWEEN :from AND :to')
             ->orderBy('at.issuedAt')
             ->setParameter(':account', $account)
             ->setParameter(':from', $from)
@@ -61,8 +61,7 @@ class AccountTransactionsRepository extends EntityRepository
             ->createQueryBuilder('at')
             ->select('SUM(at.amount) as amount')
             ->where('at.account = :account')
-            ->andWhere('at.issuedAt  >= :from')
-            ->andWhere('at.issuedAt <= :to')
+            ->andWhere('at.issuedAt BETWEEN :from AND :to')
             ->orderBy('at.issuedAt')
             ->setParameter(':account', $account)
             ->setParameter(':from', $range['start'])
@@ -135,25 +134,19 @@ class AccountTransactionsRepository extends EntityRepository
 
   /**
    * 
-   * @param type $year
-   * @param type $month
-   * @param type $day [optional]
+   * @param \DateTime $from
+   * @param \DateTime $to
    * @return float
    */
-  public function getRevenueSumByMonth($year, $month, $day = false)
+  public function getRevenueSumByDateRange($from, $to)
   {
     $qb = $this
         ->createQueryBuilder('at')
         ->select('SUM(at.amount)')
         ->where('at.amount < 0')
-        ->andWhere('YEAR(at.issuedAt) = :year')
-        ->andWhere('MONTH(at.issuedAt) = :month')
-        ->setParameter(":year", $year)
-        ->setParameter(":month", $month);
-    if ($day) {
-      $qb->andWhere('DAY(at.issuedAt) <= :day')
-          ->setParameter(":day", $day);
-    }
+        ->andWhere('at.issuedAt BETWEEN :from AND :to')
+        ->setParameter(":from", $from)
+        ->setParameter(":to", $to);
 
     return $qb->getQuery()
             ->getSingleScalarResult();

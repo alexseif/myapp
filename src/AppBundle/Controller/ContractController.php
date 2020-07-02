@@ -26,9 +26,9 @@ class ContractController extends Controller
 
     $contracts = $em->getRepository('AppBundle:Contract')->findAll();
 
-    return $this->render('AppBundle:contract:index.html.twig', array(
+    return $this->render('AppBundle:contract:index.html.twig', [
           'contracts' => $contracts,
-    ));
+    ]);
   }
 
   /**
@@ -47,13 +47,13 @@ class ContractController extends Controller
       $em->persist($contract);
       $em->flush();
 
-      return $this->redirectToRoute('contract_show', array('id' => $contract->getId()));
+      return $this->redirectToRoute('contract_show', ['id' => $contract->getId()]);
     }
 
-    return $this->render('AppBundle:contract:new.html.twig', array(
+    return $this->render('AppBundle:contract:new.html.twig', [
           'contract' => $contract,
           'form' => $form->createView(),
-    ));
+    ]);
   }
 
   /**
@@ -65,10 +65,10 @@ class ContractController extends Controller
   {
     $deleteForm = $this->createDeleteForm($contract);
 
-    return $this->render('AppBundle:contract:show.html.twig', array(
+    return $this->render('AppBundle:contract:show.html.twig', [
           'contract' => $contract,
           'delete_form' => $deleteForm->createView(),
-    ));
+    ]);
   }
 
   /**
@@ -80,54 +80,71 @@ class ContractController extends Controller
   {
     $em = $this->getDoctrine()->getManager();
 
-    $contractStart = $contract->getStartedAt();
+    $contractStart = $contract->getStartedAt()
+        ->setDate($contract->getStartedAt()->format("Y"), $contract->getStartedAt()->format("m"), 25)
+        ->modify("-1 month");
     $today = new \DateTime();
-//    $contractPeriod = $today->diff($contractStart);
+    $workweek = [1, 2, 3, 4, 7];
+
     $dayInterval = new \DateInterval("P1D");
     $monthInterval = new \DateInterval("P1M");
-    $contractPeriod = new \DatePeriod($contractStart, $dayInterval, $today);
+
     $contractMonths = new \DatePeriod($contractStart, $monthInterval, $today);
-    $completedTasks = [];
-    foreach ($contractMonths as $month) {
-      $completedTasks[$month->format('Ym')] = $em->getRepository('AppBundle:Tasks')->findCompletedByClientByMonth($contract->getClient(), $month);
-    }
-    $workweek = [1, 2, 3, 4, 7];
-    $completedByClientThisMonth = $em->getRepository('AppBundle:Tasks')->findCompletedByClientByMonth($contract->getClient(), $contractStart);
-    $contractDetails = [];
+
     $holidays = [];
+    $contractDetails = [];
     $totals = [];
-    foreach ($contractPeriod as $date) {
-      if (in_array($date->format('N'), $workweek)) {
-        $month = $date->format('Ym');
-        $day = $date->format('Ymd-D');
-        $contractDetails[$month][$day] = [];
-        $totals[$month][$day] = 0;
-        $holiday = $em->getRepository('AppBundle:Holiday')->findOneBy(['date' => $date]);
-        if ($holiday) {
-          $holidays[$month][$day] = $holiday->getName();
-        }
-      }
-    }
-    foreach ($completedTasks as $month => $tasks) {
+    foreach ($contractMonths as $month) {
+      $from = new \DateTime();
+      $from->setDate($month->format('Y'), $month->format('m'), 25)
+          ->modify("-1 month")
+          ->setTime(00, 00, 00);
+      $to = clone $from;
+      $to->modify("+1 month")
+          ->setTime(23, 59, 59);
+      $tasks = $em->getRepository('AppBundle:Tasks')->findCompletedByClientByRange($contract->getClient(), $from, $to);
+      $monthKey = (int) $month->format('Ym');
       foreach ($tasks as $task) {
-        $day = $task->getCompletedAt()->format('Ymd-D');
-        $month = $task->getCompletedAt()->format('Ym');
-        if (!key_exists($month, $totals)) {
-          $totals[$month] = [];
+        $day = (int) $task->getCompletedAt()->format('Ymd');
+        if (!key_exists($monthKey, $totals)) {
+          $totals[$monthKey] = [];
         }
-        if (!key_exists($day, $totals[$month])) {
-          $totals[$month][$day] = 0;
+        if (!key_exists('sum', $totals[$monthKey])) {
+          $totals[$monthKey]['sum'] = 0;
         }
-        $totals[$month][$day] += $task->getDuration();
-        $contractDetails[$month][$day][] = $task;
+        if (!key_exists($day, $totals[$monthKey])) {
+          $totals[$monthKey][$day] = 0;
+        }
+        $totals[$monthKey][$day] += $task->getDuration();
+        $totals[$monthKey]['sum'] += $totals[$monthKey][$day];
+        $contractDetails[$monthKey][$day][] = $task;
+      }
+      $holidays[$monthKey] = [];
+      $contractPeriod = new \DatePeriod($from, $dayInterval, $to);
+
+      foreach ($contractPeriod as $date) {
+        if (in_array($date->format('N'), $workweek)) {
+          $day = (int) $date->format('Ymd');
+          $holiday = $em->getRepository('AppBundle:Holiday')->findOneBy(['date' => $date]);
+          if ($holiday) {
+            $contractDetails[$monthKey][$day] = $holiday;
+            $holidays[$monthKey][$day] = $holiday->getName();
+            if (!key_exists($day, $totals[$monthKey])) {
+              $totals[$monthKey][$day] = 240;
+              $totals[$monthKey]['sum'] += 240;
+            }
+          }
+          ksort($contractDetails[$monthKey]);
+        }
       }
     }
-    return $this->render('AppBundle:contract:log.html.twig', array(
+    ksort($contractDetails);
+    return $this->render('AppBundle:contract:log.html.twig', [
           'contract' => $contract,
           'contractDetails' => $contractDetails,
           'holidays' => $holidays,
           'totals' => $totals
-    ));
+    ]);
   }
 
   /**
@@ -142,7 +159,7 @@ class ContractController extends Controller
     $reportFilterForm->handleRequest($request);
     $monthsArray = [];
     $today = new \DateTime();
-    $monthsArray = \AppBundle\Util\DateRanges::populateMonths($contract->getStartedAt()->format('Ymd'), $today->format('Ymd'), 1);
+    $monthsArray = \AppBundle\Util\DateRanges::populateMonths($contract->getStartedAt()->format('Ymd'), $today->format('Ymd'), 25);
 
     if ($reportFilterForm->isSubmitted() && $reportFilterForm->isValid()) {
       $accountingFilterData = $reportFilterForm->getData();
@@ -160,11 +177,11 @@ class ContractController extends Controller
       }
     }
 
-    return $this->render("AppBundle:contract:report.html.twig", array(
+    return $this->render("AppBundle:contract:report.html.twig", [
           'report_filter_form' => $reportFilterForm->createView(),
           'contract' => $contract,
           'monthsArray' => $monthsArray
-    ));
+    ]);
   }
 
   /**
@@ -173,7 +190,11 @@ class ContractController extends Controller
   public function timesheetAction(Contract $contract, Request $request, $from, $to)
   {
     $em = $this->getDoctrine()->getManager();
-    $tasks = $em->getRepository('AppBundle:Tasks')->findCompletedByClientByMonth($contract->getClient(), new \DateTime($from));
+    $fromDate = new \DateTime($from);
+    $fromDate->setTime(0, 0, 0);
+    $toDate = new \DateTime($to);
+    $toDate->setTime(23, 23, 59);
+    $tasks = $em->getRepository('AppBundle:Tasks')->findCompletedByClientByRange($contract->getClient(), $fromDate, $toDate);
     $monthHolidays = $em->getRepository('AppBundle:Holiday')->findByRange(new \DateTime($from), new \DateTime($to));
     $workingDays = \AppBundle\Util\DateRanges::getWorkingDays($from, $to);
     $expected = ($workingDays * 4);
@@ -183,7 +204,7 @@ class ContractController extends Controller
     $holidays = [];
     foreach ($monthHolidays as $holiday) {
       if (in_array($holiday->getDate()->format('N'), $workweek)) {
-        $holidays[]=$holiday;
+        $holidays[] = $holiday;
         $total += 240;
       }
     }
@@ -197,7 +218,7 @@ class ContractController extends Controller
     $remaining = $expected - $totalHours;
     $remaining = floor($remaining) . ":" . $totalMins;
 
-    return $this->render("AppBundle:contract:timesheet.html.twig", array(
+    return $this->render("AppBundle:contract:timesheet.html.twig", [
           "contract" => $contract,
           "from" => $from,
           "to" => $to,
@@ -206,7 +227,7 @@ class ContractController extends Controller
           "expected" => $expected,
           "remaining" => $remaining,
           "holidays" => $holidays
-    ));
+    ]);
   }
 
   /**
@@ -223,14 +244,14 @@ class ContractController extends Controller
     if ($editForm->isSubmitted() && $editForm->isValid()) {
       $this->getDoctrine()->getManager()->flush();
 
-      return $this->redirectToRoute('contract_edit', array('id' => $contract->getId()));
+      return $this->redirectToRoute('contract_edit', ['id' => $contract->getId()]);
     }
 
-    return $this->render('AppBundle:contract:edit.html.twig', array(
+    return $this->render('AppBundle:contract:edit.html.twig', [
           'contract' => $contract,
           'edit_form' => $editForm->createView(),
           'delete_form' => $deleteForm->createView(),
-    ));
+    ]);
   }
 
   /**
@@ -262,7 +283,7 @@ class ContractController extends Controller
   private function createDeleteForm(Contract $contract)
   {
     return $this->createFormBuilder()
-            ->setAction($this->generateUrl('contract_delete', array('id' => $contract->getId())))
+            ->setAction($this->generateUrl('contract_delete', ['id' => $contract->getId()]))
             ->setMethod('DELETE')
             ->getForm()
     ;

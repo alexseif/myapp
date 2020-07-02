@@ -19,14 +19,21 @@ class DateRanges
    * 
    * @param string $startDate 
    * @param string $endDate
-   * @param int $setDayTo Set day of month (for eg. 01/12) if set to 0 the dates use the initial date
+   * @param int|string $setDayTo Set day of month (for eg. 01/12) if set to 0 the dates use the initial date if int between 0 and 32 set date, if string then modify is run on end of month ("+2"|"-5")
    * @return array Array of months between $startDate & $endDate
    */
   public static function populateMonths($startDate, $endDate, $setDayTo = 0)
   {
     $start = new \DateTime($startDate);
-    if ($setDayTo > 0 && $setDayTo < 32) {
-      $start->setDate($start->format("Y"), $start->format("m"), $setDayTo);
+
+    if (is_string($setDayTo)) {
+      $start->setDate($start->format("Y"), $start->format("m"), 1)
+          ->modify("-1 month");
+      $start->setDate($start->format("Y"), $start->format("m"), $start->format("t"))
+          ->modify($setDayTo);
+    } else {
+      $start->setDate($start->format("Y"), $start->format("m"), 25)
+          ->modify("-1 month");
     }
     $end = new \DateTime($endDate);
     $interval = \DateInterval::createFromDateString('1 month');
@@ -36,7 +43,12 @@ class DateRanges
     $index = 0;
     foreach ($period as $dt) {
       $dateArray[$index]['start'] = $dt->format('Y-m-d');
-      $dateArray[$index++]['end'] = $dt->format('Y-m-t');
+      if (($setDayTo > 0 && $setDayTo < 32) || is_string($setDayTo)) {
+        $dt->modify('+1 month');
+        $dateArray[$index++]['end'] = $dt->format('Y-m-d');
+      } else {
+        $dateArray[$index++]['end'] = $dt->format('Y-m-t');
+      }
     }
     return $dateArray;
   }
@@ -82,7 +94,7 @@ class DateRanges
   public static function getWorkingDays($startDate, $endDate)
   {
     $holidays = self::getHolidays("egypt");
-    $holidays= [];
+    $holidays = [];
 
     $begin = strtotime($startDate);
     $end = strtotime($endDate);
@@ -170,6 +182,21 @@ class DateRanges
 //then reindex the array
     $holidays = array_values($holidays);
     return $holidays;
+  }
+
+  /**
+   * 
+   * @param mixed $date Optional to specify which month start
+   * @return \DateTime
+   */
+  public static function getMonthStart($date = null)
+  {
+    $date = new \DateTime($date);
+    $date->modify("-1 month");
+    $date->setDate($date->format('Y'), $date->format('m'), $date->format('t'));
+    $date->setTime(0, 0, 0);
+    $date->modify("-4 days");
+    return $date;
   }
 
 }

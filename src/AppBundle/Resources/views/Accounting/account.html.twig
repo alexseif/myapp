@@ -31,15 +31,15 @@
     <div class="row current-balance">
       <div class="col-md-4">
         <h4>Current Balance</h4>
-        <h5>EGP {{ currentBalance.amount|number_format  }}</h5>
+        <h5>EGP {{ balance.current|number_format  }}</h5>
       </div>
       <div class="col-md-4">
         <h4>Overdue</h4>
-        <h5>EGP {{ overdue.amount < 0 ? overdue.amount|number_format  : 0|number_format }}</h5>
+        <h5>EGP {{ balance.overdue < 0 ? balance.overdue|number_format  : 0|number_format }}</h5>
       </div>
       <div class="col-md-4">
         <h4>Credits</h4>
-        <h5>EGP {{ overdue.amount > 0 ? overdue.amount|number_format  : 0|number_format }}</h5>
+        <h5>EGP {{ balance.overdue > 0 ? balance.overdue|number_format  : 0|number_format }}</h5>
       </div>
     </div>
   </div>
@@ -55,20 +55,36 @@
         </tr>
       </thead>
       <tbody>
-        {% for item in monthsArray %}
+        {% for invoice in balance.invoices %}
           <tr>
             <td>
               {# TODO: Provide Date range #}
               {# TODO: Respct provided date range #}
-              <a href="{{ path('accounting_balance_page', {"accountId" : account.id, "from": item.start, "to":item.end }) }}">
-                {{ item.start }} - {{ item.end }}
+              <a href="{{ path('accounting_balance_page', {"id" : account.id, "from": invoice.start, "to":invoice.end }) }}">
+                {{ invoice.start }} - {{ invoice.end }}
               </a>
             </td>
-            <td><span class="float-left">EGP</span> {{ (item.forward_balance ? item.forward_balance : 0)|number_format}}</td>
-            <td><span class="float-left">EGP</span> {{ (item.ending_balance ? item.ending_balance : 0)|number_format}}</td>
+            <td><span class="float-left">EGP</span> {{ (invoice.forward_balance ? invoice.forward_balance : 0)|number_format}}</td>
+            <td><span class="float-left">EGP</span> {{ (invoice.ending_balance ? invoice.ending_balance : 0)|number_format}}</td>
           </tr>
         {% endfor %}
       </tbody>
     </table>
   </div>
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+  <script>
+    $(function () {
+      // bind change event to select
+      $('#accounting_main_filter_account').on('change', function () {
+        var url = $(this).val(); // get selected value
+        if (url) { // require a URL
+          window.location = url; // redirect
+        }
+        return false;
+      });
+    });
+  </script>
 {% endblock %}
