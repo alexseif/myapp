@@ -10,3 +10,11 @@ git checkout symfony_upgrade
 git pull --all
 git merge master
 git push origin symfony_upgrade
+git checkout billing
+git pull --all
+git merge master
+git push origin billing
+git checkout productivity
+git pull --all
+git merge master
+git push origin productivity
