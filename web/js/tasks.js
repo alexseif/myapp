@@ -126,6 +126,11 @@ var Tasks = {
     this.day.completed = 0;
     completed.each(function () {
       self.day.completed += ($(this).data("duration")) ? $(this).data("duration") : 0;
+      if ($('body').hasClass('has-contract')) {
+        if ($(this).data('client') != $('.client-details').data('client')) {
+          self.day.completed -= ($(this).data("duration")) ? $(this).data("duration") : 0;
+        }
+      }
     });
     this.day.remaining = this.day.time - this.day.completed;
     while (this.day.remaining > 0) {

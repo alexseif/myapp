@@ -45,14 +45,12 @@ class ContractService
       $monthStart = new \DateTime();
       $monthStart->setTime(00, 00, 00)
           ->modify("-1 month");
-      $monthStart->setDate($monthStart->format("Y"), $monthStart->format("m"), $monthStart->format("t"));
-      $monthStart->modify("-5 days");
+      $monthStart->setDate($monthStart->format("Y"), $monthStart->format("m"), 25);
       if ($contract->getStartedAt() > $monthStart) {
         $monthStart->setDate($contract->getStartedAt()->format('Y'), $contract->getStartedAt()->format('m'), $contract->getStartedAt()->format('d'));
       }
       $monthEnd = new \DateTime();
-      $monthEnd->setDate($monthEnd->format('Y'), $monthEnd->format('m'), $monthEnd->format('t'));
-      $monthEnd->modify("-5 days");
+      $monthEnd->setDate($monthEnd->format('Y'), $monthEnd->format('m'), 24);
       $monthEnd->setTime(23, 59, 59);
       $workingDaysSoFar = \AppBundle\Util\DateRanges::numberOfWorkingDays($monthStart, new \DateTime());
       $workingDaysLeft = \AppBundle\Util\DateRanges::numberOfWorkingDays(new \DateTime(), $monthEnd);

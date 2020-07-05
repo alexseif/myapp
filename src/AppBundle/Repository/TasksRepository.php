@@ -265,6 +265,28 @@ class TasksRepository extends EntityRepository
             ->getResult();
   }
 
+  public function focusByClient($client)
+  {
+    $today = new \DateTime();
+    return $this
+            ->createQueryBuilder('t')
+            ->select('t, tl, a, c, wl')
+            ->leftJoin('t.taskList', 'tl')
+            ->leftJoin('tl.account', 'a')
+            ->leftJoin('a.client', 'c')
+            ->leftJoin('t.workLog', 'wl')
+            ->where('t.completed <> true')
+            ->andWhere('t.eta <= :today OR t.eta IS NULL')
+            ->andWhere('a.client = :client')
+            ->orderBy("t.urgency", "DESC")
+            ->addOrderBy("t.priority", "DESC")
+            ->addOrderBy("t.order", "ASC")
+            ->setParameter(':today', $today->format('Y-m-d H:i'))
+            ->setParameter(':client', $client)
+            ->getQuery()
+            ->getResult();
+  }
+
   public function findTasksCountByDay()
   {
     return $this

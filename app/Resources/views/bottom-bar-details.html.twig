@@ -34,7 +34,7 @@
     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
       {% for contract in contracts %}
         <a class="dropdown-item" 
-           href="{{ path('contract_show', {'id': contract.id}) }}">
+           href="{{ path('focus', {'client': contract.client.id}) }}">
           {{ contract.name }}
         </a>
         <div class="progress">

@@ -29,7 +29,7 @@ tr:hover .edit-link{display: inline;}
 
 /** lis **/
 .task-list .task-item{padding: 0.3rem;white-space: nowrap;min-height: 35px;}
-.task-list > .completed{opacity: 0.35;}
+.task-list > .completed{opacity: 0.6;}
 .task-list .task-item{overflow: hidden;}
 
 /** Notes **/
@@ -69,3 +69,23 @@ body.notes {background: #e8e8e8}
 
 /** Transactions **/ 
 table.table-txn tbody tr td{vertical-align:middle;}
+
+
+/** focus by client **/
+.focus .details{
+  position: absolute;
+  top: 20vh;
+  right: 1vw;
+  opacity: 0.4;
+  border: 1px solid;
+  border-radius: 4px;
+  text-align: center;
+  z-index: -1;
+}
+.focus .details:hover{
+  opacity: 0.8;
+}
+.focus .details div{
+  padding: 10px;
+  font-weight: bold;
+}

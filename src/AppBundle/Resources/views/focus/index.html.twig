@@ -3,6 +3,8 @@
 
 {% block title %}Focus{% endblock %}
 {% block nav %}{% endblock %}
+
+{% block bodyClasses %}focus {% if client is defined %}focus-by-client{% endif %} {% if contract is defined %}has-contract{% endif %}{% endblock %}
 {% block container %}
   <div class="floating-action">
     <a href="{{ path('dashboard') }}" class="btn btn-default bg-dark" type="button">
@@ -22,7 +24,16 @@
     {{ tasks_view.ul(completed, {id: 'completed', displayListName: 'completed', class: 'm-2'}) }}
     {{ tasks_view.ul(tasks, {id: 'tasks', displayListName: 'tasks', focus: true} ) }}
   </div>
-
+  <div class="details">
+    {% if client is defined %}
+      <div class="client-details" data-client="{{ client.id }}">{{ client.name }}</div>
+    {% endif %}
+    {% if contract is defined %}
+      <div class="contract-details" data-hoursPerDay="{{ contract.hoursPerDay }}">
+        {{ contract.hoursPerDay }}h
+      </div>
+    {% endif %}
+  </div>
 {% endblock %}
 {% block javascripts %}
   <script>
