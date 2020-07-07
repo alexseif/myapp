@@ -13,7 +13,7 @@
 {% block panelTitle %}Account: {{ account.name }}{% endblock %}
 {% block panelHeadingRight %}
   <a class="btn btn-info"
-     href="{{ path('accounting_account_page', {'accounting_main_filter[account]':account.id}) }}">
+     href="{{ path('accounting_account_page', {'id':account.id}) }}">
     <i class="fas fa-file-invoice-dollar"></i>
   </a>
   {{ a.edit('accounts_edit', {'id':account.id}) }}
