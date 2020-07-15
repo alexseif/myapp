@@ -1,9 +1,9 @@
-{% set widgetColclass = "col-lg-2" %}
+{% set widgetColclass = "col-2" %}
 <div class="row">
-  <div class="col-lg-4">
+  <div class="col">
     <div class="card widget-flat mb-3">
       <div class="card-body" style="position: relative;">
-        <div class="dropdown float-right">
+        <div class="dropdown float-right d-none">
           <a href="#" class="dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false">
             <i class="mdi mdi-dots-vertical"></i>
           </a>
@@ -18,7 +18,7 @@
             <a href="javascript:void(0);" class="dropdown-item">Action</a>
           </div>
         </div>
-        <h5 class="text-muted font-weight-normal mt-0" title="Number of Clients">Progress Vs Actuals</h5>
+        <h5 class="text-muted font-weight-normal mt-0 d-none" title="Number of Clients">Progress Vs Actuals</h5>
         {% for key, progress in earned %}
           {% if 'monthly' == key %}
             {% include 'AppBundle:Dashboard:progressBars.html.twig' with {'total': attribute(costOfLife, key), 'progress': progress, 'issued': issuedThisMonth} %}
@@ -26,79 +26,49 @@
             {% include 'AppBundle:Dashboard:progressBars.html.twig' with {'total': attribute(costOfLife, key), 'progress': progress} %}
           {% endif %}
         {% endfor %}
-      </div> <!-- end card-body -->
-    </div> <!-- end card -->
-  </div>
-  {#  <div class="col-xl-7 col-lg-8">#}
-  {#    <div class="row">#}
+      </div><!-- .card-body -->
+    </div> <!-- .card -->
+  </div><!-- .col -->
   <div class="{{ widgetColclass }}">
-    <div class="card widget-flat mb-3">
-      <div class="card-body">
-        <div class="float-right">
-          <i class="fa fa-users widget-icon"></i>
-        </div>
-        <h5 class="text-muted font-weight-normal mt-2" title="Number of Clients">Clients</h5>
-        <h3 class="mt-3 mb-3">{{ progressMonitoring.clientsCount }}</h3>
-        <p class="mb-0 text-muted ">
-          <span class="text-{{ progressMonitoring.clientsProgress > 0 ? 'success' : 'danger' }} mr-2">
-            <i class="fa fa-arrow-{{ progressMonitoring.clientsProgress > 0  ? 'up':'down'}}"></i>
-            {{ progressMonitoring.clientsProgress }}%</span>
-          <span class="text-nowrap">Since last year</span>  
-        </p>
-      </div> <!-- end card-body-->
-    </div> <!-- end card-->
+    {% include 'AppBundle:Dashboard:widget-flat.html.twig' with {
+'widgetTitle': 'Clients', 
+'widgetIcon': 'fa fa-users',
+'widgetCount': progressMonitoring.clientsCount, 
+'widgetProgress': progressMonitoring.clientsProgress,
+'widgetSince': 'year'
+} %}
+  
+    {% include 'AppBundle:Dashboard:widget-flat.html.twig' with {
+'widgetTitle': 'Accounts', 
+'widgetIcon': 'fa fa-briefcase',
+'widgetCount': progressMonitoring.accountsCount, 
+'widgetProgress': progressMonitoring.accountsProgress,
+'widgetSince': 'year'
+} %}
   </div> <!-- end col-->
   <div class="{{ widgetColclass }}">
-    <div class="card widget-flat mb-3">
-      <div class="card-body">
-        <div class="float-right">
-          <i class="fa fa-tasks widget-icon"></i>
-        </div>
-        <h5 class="text-muted font-weight-normal mt-2" title="Number of Orders">Tasks</h5>
-        <h3 class="mt-3 mb-3">{{ progressMonitoring.tasksCompletedCount }}</h3>
-        <p class="mb-0 text-muted ">
-          <span class="text-{{ progressMonitoring.tasksCompletedProgress > 0 ? 'success' : 'danger' }} mr-2">
-            <i class="fa fa-arrow-{{ progressMonitoring.tasksCompletedProgress > 0  ? 'up':'down'}}"></i>
-            {{ progressMonitoring.tasksCompletedProgress }}%</span>
-          <span class="text-nowrap">Since last month</span>
-        </p>
-      </div> <!-- end card-body-->
-    </div> <!-- end card-->
+    {% include 'AppBundle:Dashboard:widget-flat.html.twig' with {
+'widgetTitle': 'Tasks', 
+'widgetIcon': 'fa fa-tasks',
+'widgetCount': progressMonitoring.tasksCompletedCount, 
+'widgetProgress': progressMonitoring.tasksCompletedProgress,
+'widgetSince': 'month'
+} %}
+    {% include 'AppBundle:Dashboard:widget-flat.html.twig' with {
+'widgetTitle': 'Revenue', 
+'widgetIcon': 'fa fa-egp',
+'widgetCount': progressMonitoring.revenueSum, 
+'widgetProgress': progressMonitoring.revenueProgress,
+'widgetSince': 'month'
+} %}
   </div> <!-- end col-->
   <div class="{{ widgetColclass }}">
-    <div class="card widget-flat mb-3">
-      <div class="card-body">
-        <div class="float-right">
-          <i class="fa fa-egp widget-icon"></i>
-        </div>
-        <h5 class="text-muted font-weight-normal mt-2" title="Average Revenue">Revenue</h5>
-        <h3 class="mt-3 mb-3 money-egp">{{ progressMonitoring.revenueSum }}</h3>
-        <p class="mb-0 text-muted ">
-          <span class="text-{{ progressMonitoring.revenueProgress > 0 ? 'success' : 'danger' }} mr-2">
-            <i class="fa fa-arrow-{{ progressMonitoring.revenueProgress > 0  ? 'up':'down'}}"></i>
-            {{ progressMonitoring.revenueProgress }}%</span>
-          <span class="text-nowrap">Since last month</span>
-        </p>
-      </div> <!-- end card-body-->
-    </div> <!-- end card-->
+    {% include 'AppBundle:Dashboard:widget-flat.html.twig' with {
+'widgetTitle': 'Duration', 
+'widgetIcon': 'fas fa-stopwatch', 
+'widgetCount': progressMonitoring.durationSum, 
+'widgetProgress': progressMonitoring.durationProgress,
+'widgetSince': 'month'
+} %}
   </div> <!-- end col-->
-  <div class="{{ widgetColclass }}">
-    <div class="card widget-flat mb-3">
-      <div class="card-body">
-        <div class="float-right">
-          <i class="fas fa-stopwatch widget-icon"></i>
-        </div>
-        <h5 class="text-muted font-weight-normal mt-2" title="Growth">Duration</h5>
-        <h3 class="mt-3 mb-3">{{ progressMonitoring.durationSum }}</h3>
-        <p class="mb-0 text-muted ">
-          <span class="text-{{ progressMonitoring.durationProgress > 0 ? 'success' : 'danger' }} mr-2">
-            <i class="fa fa-arrow-{{ progressMonitoring.durationProgress > 0  ? 'up':'down'}}"></i>
-            {{ progressMonitoring.durationProgress }}%</span>
-          <span class="text-nowrap">Since last month</span>
-        </p>
-      </div> <!-- end card-body-->
-    </div> <!-- end card-->
-  </div> <!-- end col-->
-  {#    </div> <!-- end row -->#}
-  {#  </div> <!-- end col -->#}
-</div>
+</div><!-- .row -->

@@ -36,6 +36,18 @@ class ProgressMonitoring
 
   /**
    *
+   * @var int total number of accounts
+   */
+  private $accountsCount;
+
+  /**
+   *
+   * @var float accounts annual increase
+   */
+  private $accountsProgress;
+
+  /**
+   *
    * @var int total number of tasks this month
    */
   private $tasksCompletedCount;
@@ -75,6 +87,8 @@ class ProgressMonitoring
     $this->em = $em;
     $this->setClientsCount();
     $this->setClientsProgress();
+    $this->setAccountsCount();
+    $this->setAccountsProgress();
     $this->setTasksCompletedCount();
     $this->setTasksCompletedProgress();
     $this->setRevenueSum();
@@ -105,7 +119,31 @@ class ProgressMonitoring
 
   function getClientsProgress()
   {
-    return number_format($this->clientsProgress, 2);
+    return number_format($this->clientsProgress, 1);
+  }
+
+  public function setAccountsCount()
+  {
+    $this->accountsCount = count($this->em->getRepository('AppBundle:Accounts')->findAll());
+  }
+
+  public function getAccountsCount()
+  {
+    return $this->accountsCount;
+  }
+
+  public function setAccountsProgress()
+  {
+    $date = new \DateTime();
+    $date->modify("-1 year");
+    $accountsLastYear = $this->em->getRepository('AppBundle:Accounts')
+        ->getCreatedTillYear($date->format('Y'));
+    $this->accountsProgress = (($this->accountsCount - $accountsLastYear) / $accountsLastYear) * 100;
+  }
+
+  function getAccountsProgress()
+  {
+    return number_format($this->clientsProgress, 1);
   }
 
   public function setTasksCompletedCount()
@@ -132,7 +170,10 @@ class ProgressMonitoring
 
   function getTasksCompletedProgress()
   {
-    return number_format($this->tasksCompletedProgress, 2);
+    if ($this->tasksCompletedProgress >= 1000) {
+      return $this->tasksCompletedProgress / 1000 . 'k';
+    }
+    return number_format($this->tasksCompletedProgress, 1);
   }
 
   public function setRevenueSum()
@@ -164,7 +205,7 @@ class ProgressMonitoring
 
   function getRevenueProgress()
   {
-    return number_format($this->revenueProgress, 2);
+    return number_format($this->revenueProgress, 1);
   }
 
   function setDurationSum()
@@ -196,7 +237,7 @@ class ProgressMonitoring
 
   function getDurationProgress()
   {
-    return number_format($this->durationProgress, 2);
+    return number_format($this->durationProgress, 1);
   }
 
 }

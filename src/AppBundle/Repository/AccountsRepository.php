@@ -57,4 +57,15 @@ class AccountsRepository extends EntityRepository
             ->getResult();
   }
 
+  public function getCreatedTillYear($year)
+  {
+    return $this
+            ->createQueryBuilder('a')
+            ->select('count(a.id)')
+            ->where('YEAR(a.createdAt) <= :year')
+            ->setParameter(":year", $year)
+            ->getQuery()
+            ->getSingleScalarResult();
+  }
+
 }

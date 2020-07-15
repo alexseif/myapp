@@ -40,7 +40,7 @@
 .card-transparent>.card-footer+.card-collapse>.card-body{border-bottom-color:#464545}
 .card-transparent>.card-heading{background-color:#464545}
 
-.progress{height: 20px;margin: 10px 5px;}
+.progress{height: 38px; margin: 10px 0px;}
 .progress-bars .progress:first-child{margin-top: 0px;}
 .progress .progress-bar{font-size: 13px;}
 .label-muted{background: #e8e8e8;color: #999999;font-weight: normal;}
