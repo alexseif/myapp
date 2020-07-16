@@ -75,12 +75,9 @@ class AccountingController extends Controller
     $balanceTo = $txnRepo->queryCurrentBalanceByAccountTo($account, $to);
     $currentBalance = $txnRepo->queryCurrentBalanceByAccount($account);
     $overdue = $txnRepo->queryOverdueAccountTo($account, $from);
+    $total = $txnRepo->queryAmountFromTo($account, $from, $to);
     $taxes = null;
-    $total = 0;
 
-    foreach ($txns as $txn) {
-      $total += $txn->getAmount();
-    }
 
     return $this->render("AppBundle:Accounting:balance.html.twig", array(
           "account" => $account,

@@ -101,20 +101,20 @@
         {% if app.request.get('taxes') %}
           <tr>
             <td colspan="3" class="text-right">Pre TAX</td>
-            <td> {{ total|number_format }}</td>
+            <td> {{ total.amount|number_format }}</td>
           </tr>
           <tr class="text-muted">
             <td colspan="3" class="text-right">TAX 14%</td>
-            <td> {{ total*0.14|number_format }}</td>
+            <td> {{ total.amount*0.14|number_format }}</td>
           </tr>
           <tr>
             <td colspan="3" class="text-right">Total</td>
-            <th> {{ total*1.14|number_format }}</th>
+            <th> {{ total.amount*1.14|number_format }}</th>
           </tr>
         {% else %}
           <tr>
             <td colspan="3" class="text-right">Sub-total</td>
-            <th> {{ total|number_format }}</th>
+            <th> {{ total.amount|number_format }}</th>
           </tr>
           <tr>
             <td colspan="3" class="text-right">{{ (overdue.amount < 0) ? "Overdue": "Credit" }}</td>

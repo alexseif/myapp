@@ -55,6 +55,21 @@ class AccountTransactionsRepository extends EntityRepository
             ->getResult();
   }
 
+  public function queryAmountFromTo($account, $from, $to)
+  {
+    return $this
+            ->createQueryBuilder('at')
+            ->select('SUM(at.amount) as amount')
+            ->where('at.account = :account')
+            ->andWhere('at.issuedAt BETWEEN :from AND :to')
+            ->orderBy('at.issuedAt')
+            ->setParameter(':account', $account)
+            ->setParameter(':from', $from)
+            ->setParameter(':to', $to)
+            ->getQuery()
+            ->getSingleResult();
+  }
+
   public function queryCurrentBalanceByAccountAndRange($account, $range)
   {
     return $this
