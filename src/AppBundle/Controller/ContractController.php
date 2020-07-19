@@ -74,76 +74,61 @@ class ContractController extends Controller
   /**
    * Finds and displays a report for contract entity.
    *
-   * @Route("/{id}/log", name="contract_log", methods={"GET"})
+   * @Route("/{id}/log-summary", name="contract_log_summary", methods={"GET"})
    */
-  public function logAction(Contract $contract)
+  public function logSummaryAction(Contract $contract)
   {
     $em = $this->getDoctrine()->getManager();
 
-    $contractStart = $contract->getStartedAt()
-        ->setDate($contract->getStartedAt()->format("Y"), $contract->getStartedAt()->format("m"), 25)
-        ->modify("-1 month");
     $today = new \DateTime();
+
+    $months = \AppBundle\Util\DateRanges::populateMonths($contract->getStartedAt()->format('Ymd'), $today->format('Ymd'), 25);
+
+    return $this->render('AppBundle:contract:log-summary.html.twig', [
+          'contract' => $contract,
+          'months' => $months
+    ]);
+  }
+
+  /**
+   * Finds and displays a report for contract entity.
+   *
+   * @Route("/{id}/log/{from}/{to}", name="contract_log", methods={"GET"})
+   */
+  public function logAction(Contract $contract, $from, $to)
+  {
+    $em = $this->getDoctrine()->getManager();
+    $tasksRepo = $em->getRepository('AppBundle:Tasks');
+    $fromDate = new \DateTime($from);
+    $fromDate->setTime(0, 0, 0);
+    $toDate = new \DateTime($to);
+    $toDate->setTime(23, 23, 59);
     $workweek = [1, 2, 3, 4, 7];
+    //TODO: Include holidays
+    //TODO: Calculate and display total
 
     $dayInterval = new \DateInterval("P1D");
-    $monthInterval = new \DateInterval("P1M");
 
-    $contractMonths = new \DatePeriod($contractStart, $monthInterval, $today);
+    $contractDays = new \DatePeriod($fromDate, $dayInterval, $toDate);
 
     $holidays = [];
     $contractDetails = [];
-    $totals = [];
-    foreach ($contractMonths as $month) {
-      $from = new \DateTime();
-      $from->setDate($month->format('Y'), $month->format('m'), 25)
-          ->modify("-1 month")
-          ->setTime(00, 00, 00);
-      $to = clone $from;
-      $to->modify("+1 month")
-          ->setTime(23, 59, 59);
-      $tasks = $em->getRepository('AppBundle:Tasks')->findCompletedByClientByRange($contract->getClient(), $from, $to);
-      $monthKey = (int) $month->format('Ym');
-      foreach ($tasks as $task) {
-        $day = (int) $task->getCompletedAt()->format('Ymd');
-        if (!key_exists($monthKey, $totals)) {
-          $totals[$monthKey] = [];
-        }
-        if (!key_exists('sum', $totals[$monthKey])) {
-          $totals[$monthKey]['sum'] = 0;
-        }
-        if (!key_exists($day, $totals[$monthKey])) {
-          $totals[$monthKey][$day] = 0;
-        }
-        $totals[$monthKey][$day] += $task->getDuration();
-        $totals[$monthKey]['sum'] += $totals[$monthKey][$day];
-        $contractDetails[$monthKey][$day][] = $task;
-      }
-      $holidays[$monthKey] = [];
-      $contractPeriod = new \DatePeriod($from, $dayInterval, $to);
+    foreach ($contractDays as $day) {
 
-      foreach ($contractPeriod as $date) {
-        if (in_array($date->format('N'), $workweek)) {
-          $day = (int) $date->format('Ymd');
-          $holiday = $em->getRepository('AppBundle:Holiday')->findOneBy(['date' => $date]);
-          if ($holiday) {
-            $contractDetails[$monthKey][$day] = $holiday;
-            $holidays[$monthKey][$day] = $holiday->getName();
-            if (!key_exists($day, $totals[$monthKey])) {
-              $totals[$monthKey][$day] = 240;
-              $totals[$monthKey]['sum'] += 240;
-            }
-          }
-          ksort($contractDetails[$monthKey]);
-        }
+      $dayKey = (int) $day->format('Ymd');
+      if (!key_exists($dayKey, $contractDetails)) {
+        $contractDetails[$dayKey] = [];
       }
+      $contractDetails[$dayKey]['tasks'] = $tasksRepo->findCompletedByClientByDate($contract->getClient(), $day);
+      $contractDetails[$dayKey]['total'] = $tasksRepo->sumDurationByClientByDate($contract->getClient(), $day);
     }
     ksort($contractDetails);
     return $this->render('AppBundle:contract:log.html.twig', [
           'contract' => $contract,
+          'from' => $from,
+          'to' => $to,
           'contractDetails' => $contractDetails,
           'holidays' => $holidays,
-          'totals' => $totals
     ]);
   }
 

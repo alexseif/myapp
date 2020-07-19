@@ -448,6 +448,21 @@ class TasksRepository extends EntityRepository
             ->getResult();
   }
 
+  public function findCompletedByClientByDate($client, $date)
+  {
+    return $this
+            ->createQueryBuilder('t')
+            ->leftJoin('t.taskList', 'tl')
+            ->leftJoin('tl.account', 'a')
+            ->where('a.client = :client')
+            ->andWhere('date(t.completedAt) = :date')
+            ->orderBy('t.completedAt')
+            ->setParameter(':client', $client)
+            ->setParameter(':date', $date->format('Y-m-d'))
+            ->getQuery()
+            ->getResult();
+  }
+
   public function findCompletedByClientByRange($client, $from, $to)
   {
     return $this
@@ -494,6 +509,21 @@ class TasksRepository extends EntityRepository
             ->andWhere('t.completedAt > :date')
             ->setParameter(':client', $client)
             ->setParameter(':date', $date->format('Y-m-d H:i'))
+            ->getQuery()
+            ->getSingleResult();
+  }
+
+  public function sumDurationByClientByDate($client, $date)
+  {
+    return $this
+            ->createQueryBuilder('t')
+            ->select('SUM(t.duration) as duration')
+            ->leftJoin('t.taskList', 'tl')
+            ->leftJoin('tl.account', 'a')
+            ->where('a.client = :client')
+            ->andWhere('date(t.completedAt) = :date')
+            ->setParameter(':client', $client)
+            ->setParameter(':date', $date->format('Y-m-d'))
             ->getQuery()
             ->getSingleResult();
   }

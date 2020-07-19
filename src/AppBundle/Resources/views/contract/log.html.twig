@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 {% import "macros/forms.html.twig" as forms %}
 {% import "macros/a.html.twig" as a %}
-{% block panelTitle %}<small>Contract:</small>{{ contract.name }}{% endblock %}
+{% block panelTitle %}Contract: {{ contract.name }}{% endblock %}
 
-{% block panelBack %}{{ a.back('contract_index') }}{% endblock %}
+{% block panelBack %}{{ a.back('contract_log_summary', {'id': contract.id}) }}{% endblock %}
 {% block panelHeadingRight %}
   {{ a.edit('contract_edit', {'id':contract.id}) }}
 
@@ -11,76 +11,65 @@
 
 {% block panelBody %}
   <div class="card-body">
-    hours: {{ contract.hoursPerDay }}<br/>
-    start: {{ contract.startedAt|date }}
-    <hr/>
-    {% for month, log in contractDetails %}
-      <h3>{{ month }}</h3>
-      <div id="accordion">
-        <div class="card">
-          <div class="card-header" id="heading{{ month }}">
-            <h5 class="mb-0">
-              <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#month{{ month}}" aria-expanded="true" aria-controls="month{{ month }}">
-                {{ month }} - {{ (totals[month]['sum']/60)|round(0, 'floor') }}:{{ totals[month]['sum']%60 }}
-              </button>
-            </h5>
+    <div class="card">
+      <div class="card-header">
+        <div class="row">
+          <div class="col">
+            from: {{ from|date('Y-m-d') }}
+            to: {{ to|date('Y-m-d') }}
           </div>
-          <div id="month{{ month }}" class="collapse" aria-labelledby="heading{{ month}}" data-parent="#accordion">
-            {% for day,tasks in log %}
-              {% if loop.first %}
-                <div class="card-deck">
-                {% elseif not loop.index0 % 5 %}
-                </div>
-                <div class="card-deck">
-                {% endif %}
-                <div class="card ">
-                  <div class="card-header" id="heading{{ day }}">
-                    <h5 class="mb-0">
-                      <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#day{{ day }}" aria-expanded="true" aria-controls="day{{ day }}">
-                        {{ day }}
-                      </button>
-                      {{ (totals[month][day]/60)|round(0, 'floor') }}:{{ totals[month][day]%60 }}
-                    </h5>
-                  </div>
-                  <div id="day{{ day }}" aria-labelledby="heading{{ day }}" data-parent="#month{{ month }}">
-                    <div class="card-body">
-                      {% set tableHide='' %}
-                      {% if holidays[month][day] is defined %}
-                        <div class="card-title">{{ holidays[month][day] }}</div>
-                        {% set tableHide='d-none' %}
-                      {% endif %}
-                      <table class="table table-condensed {{ tableHide }}">
-                        <thead>
-                          <tr>
-                            <th>Task</th>
-                            <th>List</th>
-                            <th>Duration</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {% for task in tasks %}
-                            <tr>
-                              <td>{{ task.task }}</td>
-                              <td>{{ task.taskList }}</td>
-                              <td>{{ (task.duration/60)|round(0, 'floor') }}:{{ task.duration%60 }}</td>
-                            </tr>
-                          {% endfor %}
-                        </tbody>
-                        <tfoot>
-                          <tr>
-                            <td></td>
-                            <td></td>
-                            <th>{{ (totals[month][day]/60)|round(0, 'floor') }}:{{ totals[month][day]%60 }}</th>
-                          </tr>
-                        </tfoot>
-                      </table>
-                    </div><!-- .card-body -->
-                  </div><!-- #day -->
-                </div><!-- .card -->
-              {% endfor %}
-            </div>
+          <div class="col">
+            hours: {{ contract.hoursPerDay }}
+            start: {{ contract.startedAt|date('Y-m-d') }}
           </div>
         </div>
-      {% endfor %}
-    </div>
-  {% endblock %}
+      </div>
+      <div class="row">
+        {% for dayKey, log in contractDetails %}
+          {% if ((loop.index0 % 5)==0) %}
+            <div class="w-100"></div>
+          {% endif %}
+          <div class="col">
+            <table class="table table-bordered table-condensed table-striped">
+              <thead>
+                <tr>
+                  <th>{{ dayKey }}</th>
+                  <th>Dur</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for task in log['tasks'] %}
+                  <tr>
+                    <td>
+                      <a href="{{ path('tasks_show', {'id': task.id}) }}" target="_blank">#{{ task.id }}</a>
+                      <div class="badge badge-info w-100">{{ task.taskList }}</div>
+                      {{ task.task }}
+                    </td>
+                    <td>{{ (task.duration/60)|round(0, 'floor') }}:{{ task.duration%60 }}</td>
+                  </tr>
+                {% endfor %}
+                {% if(log['total'].duration < 240) %}
+                  <tr>
+                    <td>
+                      Missing {{240 - log['total'].duration }}
+                    </td>
+                    <td>
+                      <a class='btn btn-primary btn-sm'
+                        href="{{ path('tasks_new', {'duration': 240 - log['total'].duration , 'completedAt': dayKey})}}" target="_blank">Add Task</a>
+                    </td>
+                  </tr>
+                {% endif %}
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td>Total</td>
+                  <td>{{ (log['total'].duration/60)|round(0, 'floor') }}:{{ log['total'].duration%60 }}</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div><!-- .col -->
+        {% endfor %}
+      </div><!-- .row -->
+    </div><!-- .card -->
+  </div><!-- .card-body -->
+{% endblock %}

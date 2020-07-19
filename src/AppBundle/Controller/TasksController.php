@@ -183,6 +183,13 @@ class TasksController extends Controller
       $taskList = $em->getRepository('AppBundle:TaskLists')->find($request->get("tasklist"));
       $task->setTaskList($taskList);
     }
+    if (!empty($request->get("duration"))) {
+      $task->setDuration($request->get("duration"));
+    }
+    if (!empty($request->get("completedAt"))) {
+      $task->setCompleted(true);
+      $task->setCompletedAt(new \DateTime($request->get("completedAt")));
+    }
     $form = $this->createForm(TasksType::class, $task);
     $form->handleRequest($request);
 
