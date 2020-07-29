@@ -114,13 +114,15 @@ class ContractController extends Controller
     $holidays = [];
     $contractDetails = [];
     foreach ($contractDays as $day) {
+      if (in_array($day->format('N'), $workweek)) {
 
-      $dayKey = (int) $day->format('Ymd');
-      if (!key_exists($dayKey, $contractDetails)) {
-        $contractDetails[$dayKey] = [];
+        $dayKey = (int) $day->format('Ymd');
+        if (!key_exists($dayKey, $contractDetails)) {
+          $contractDetails[$dayKey] = [];
+        }
+        $contractDetails[$dayKey]['tasks'] = $tasksRepo->findCompletedByClientByDate($contract->getClient(), $day);
+        $contractDetails[$dayKey]['total'] = $tasksRepo->sumDurationByClientByDate($contract->getClient(), $day);
       }
-      $contractDetails[$dayKey]['tasks'] = $tasksRepo->findCompletedByClientByDate($contract->getClient(), $day);
-      $contractDetails[$dayKey]['total'] = $tasksRepo->sumDurationByClientByDate($contract->getClient(), $day);
     }
     ksort($contractDetails);
     return $this->render('AppBundle:contract:log.html.twig', [
