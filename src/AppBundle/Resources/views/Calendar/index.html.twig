@@ -1,0 +1,85 @@
+{% extends "::base.html.twig" %}
+{% import "AppBundle:tasks:tasks_macros.html.twig" as tasks_view %}
+{% import "macros/a.html.twig" as a %}
+
+{% block title %}Calendar{% endblock %}
+{% block content %}
+  <style>
+    .calendar-container{
+      overflow: hidden;
+    }
+    .calendar-content{
+      position: relative;
+      left: 25vw;
+    }
+  </style>
+  <div class="calendar-container">
+    <div class='focus-glass'></div>
+    <div class='calendar-content'>
+      <div class="row">
+        {% for agendaTitle, agenda in calendar %}
+          <div class="col">
+            <h2>{{ agendaTitle|capitalize }}</h2>
+            <div class="row">
+              <div class="col-4">
+                {% for day in agenda.holidays %}
+                  {% set diff = date(day.date).diff(date()) %}
+                  {% set curStatus = (diff.days < 15 or not diff.invert ) ? 'danger' :  (diff.days < 30 ) ? 'warning' :(diff.days < 60 ) ? 'info' : 'muted' %}
+                  <div class="card widget-flat mb-3 border-{{ curStatus }} text-{{ curStatus }} text-white">
+                    <div class="card-header">
+                      {{ day.date|date('D M d, Y') }}
+                      <div class="float-right">
+                        <a href="{{ path('days_edit', { 'id': day.id }) }}">
+                          <i class="fa fa-calendar-day widget-icon"></i>
+                        </a>
+                      </div>
+                    </div>
+                    <div class="card-body ">
+                      <h3 class="">{{ day.name }}</h3>
+                    </div> <!-- end card-body-->
+                    <div class="card-footer">
+                      <p class="mb-0  ">
+                        <i class="fa fa-arrow-{{ diff.invert ? 'up':'down'}}"></i>
+                        {{ diff.days }}
+                        days {{ diff.invert ? "left" : "passed"}}
+                      </p>
+                    </div>
+                  </div> <!-- .card-->
+                {% endfor %}
+                {% for day in agenda.days %}
+                  {% set diff = date(day.deadline).diff(date()) %}
+                  {% set curStatus = day.complete ? "success" : (diff.days < 15 or not diff.invert ) ? 'danger' :  (diff.days < 30 ) ? 'warning' :(diff.days < 60 ) ? 'info' : 'muted' %}
+                  <div class="card widget-flat mb-3 border-{{ curStatus }} text-{{ curStatus }} {{ day.complete ? "completed" }} text-white" data-date="{{ day.deadline|date('U') }}">
+                    <div class="card-header">
+                      {{ day.deadline|date('D M d, Y') }}
+                      <div class="float-right">
+                        <a href="{{ path('days_edit', { 'id': day.id }) }}">
+                          <i class="fa fa-calendar-day widget-icon"></i>
+                        </a>
+                      </div>
+                    </div>
+                    <div class="card-body ">
+                      <h3 class="">{{ day.name }}</h3>
+                    </div> <!-- end card-body-->
+                    <div class="card-footer">
+                      <p class="mb-0  ">
+                        <i class="fa fa-arrow-{{ diff.invert ? 'up':'down'}}"></i>
+                        {{ diff.days }}
+                        days {{ diff.invert ? "left" : "passed"}}
+                      </p>
+                    </div>
+                  </div> <!-- .card-->
+                {% endfor %}
+
+              </div><!-- .col -->
+              <div class="col">    
+                {{ tasks_view.ul(agenda.completed, {id: 'completed', displayListName: 'completed', class: 'm-2'}) }}
+                {{ tasks_view.ul(agenda.tasks, {id: 'tasks', displayListName: 'tasks', focus: true} ) }}
+              </div>
+            </div><!-- .row -->
+          </div><!-- .col -->
+        {% endfor %}
+      </div><!-- .row -->
+    </div><!-- .calendar-content -->
+  </div><!-- .calendar-container -->
+{% endblock %}

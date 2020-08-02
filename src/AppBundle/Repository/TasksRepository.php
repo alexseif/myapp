@@ -731,4 +731,34 @@ class TasksRepository extends EntityRepository
             ->getSingleScalarResult();
   }
 
+  /**
+   * 
+   * @param int $limit
+   * @return Tasks[]
+   */
+  public function findFocusByEta($date, $limit = 0)
+  {
+    $query = $this
+        ->createQueryBuilder('t')
+        ->select('t, tl, a, c, wl')
+        ->leftJoin('t.taskList', 'tl')
+        ->leftJoin('tl.account', 'a')
+        ->leftJoin('a.client', 'c')
+        ->leftJoin('t.workLog', 'wl')
+        ->where('t.completed <> true')
+        ->andWhere('DATE(t.eta) <= :date OR t.eta IS NULL')
+        ->orderBy("t.urgency", "DESC")
+        ->addOrderBy("t.priority", "DESC")
+        ->addOrderBy("t.order", "ASC")
+        ->setParameter(':date', $date->format('Y-m-d'));
+
+    if ($limit > 0 && is_int($limit)) {
+      $query->setMaxResults($limit);
+    }
+
+    return $query
+            ->getQuery()
+            ->getResult();
+  }
+
 }
