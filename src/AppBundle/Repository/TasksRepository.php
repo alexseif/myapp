@@ -536,7 +536,7 @@ class TasksRepository extends EntityRepository
    *
    * @return array The objects.
    */
-  public function findByWithJoins(array $criteria, array $orderBy = [])
+  public function findByWithJoins(array $criteria, array $orderBy = [], $limit = null, $offset = null)
   {
     $queryBuilder = $this
         ->createQueryBuilder('t')
@@ -566,6 +566,9 @@ class TasksRepository extends EntityRepository
       } else {
         $queryBuilder->addOrderBy("t.$column", $value);
       }
+    }
+    if ($limit > 0 && is_int($limit)) {
+      $queryBuilder->setMaxResults($limit);
     }
 
     return $queryBuilder

@@ -62,11 +62,13 @@ class WorkLogController extends Controller
 
     $criteria = array('completed' => TRUE, 'workLoggable' => $log);
     $orderBy = array('completedAt' => 'DESC');
+    $limitBy = 500;
+    $offset = null;
 
     if ($taskListName) {
       $taskList = $em->getRepository('AppBundle:TaskLists')->findBy(array('name' => $taskListName));
       $criteria['taskList'] = $taskList;
-      $tasks = $tasksRepo->findBy($criteria, $orderBy);
+      $tasks = $tasksRepo->findBy($criteria, $orderBy, $limitBy, $offset);
     } elseif ($accountName) {
       $tasks = $tasksRepo->createQueryBuilder('t')
           ->select('t')
@@ -78,6 +80,7 @@ class WorkLogController extends Controller
           ->setParameter('log', $log)
           ->setParameter('account', $accountName)
           ->orderBy("t.completedAt", "DESC")
+          ->setMaxResults($limitBy)
           ->getQuery()
           ->getResult();
     } elseif ($clientName) {
@@ -92,10 +95,11 @@ class WorkLogController extends Controller
           ->setParameter('log', $log)
           ->setParameter('client', $clientName)
           ->orderBy("t.completedAt", "DESC")
+          ->setMaxResults($limitBy)
           ->getQuery()
           ->getResult();
     } else {
-      $tasks = $tasksRepo->findByWithJoins($criteria, $orderBy);
+      $tasks = $tasksRepo->findByWithJoins($criteria, $orderBy, $limitBy, $offset);
     }
 
     return $this->render("AppBundle:worklog:completedTasks.html.twig", array(
