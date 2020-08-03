@@ -115,11 +115,17 @@ class ContractController extends Controller
     $contractDetails = [];
     foreach ($contractDays as $day) {
       if (in_array($day->format('N'), $workweek)) {
-
+        $holidays = $em->getRepository('AppBundle:Holiday')->findByRange($day, $day);
+        if ($holidays) {
+          continue;
+        }
+        
         $dayKey = (int) $day->format('Ymd');
         if (!key_exists($dayKey, $contractDetails)) {
           $contractDetails[$dayKey] = [];
         }
+        $contractDetails[$dayKey]['title'] = $day->format('D Y-m-d');
+        $contractDetails[$dayKey]['day'] = $day;
         $contractDetails[$dayKey]['tasks'] = $tasksRepo->findCompletedByClientByDate($contract->getClient(), $day);
         $contractDetails[$dayKey]['total'] = $tasksRepo->sumDurationByClientByDate($contract->getClient(), $day);
       }
@@ -130,7 +136,7 @@ class ContractController extends Controller
           'from' => $from,
           'to' => $to,
           'contractDetails' => $contractDetails,
-          'holidays' => $holidays,
+          'holidays' => $holidays
     ]);
   }
 
