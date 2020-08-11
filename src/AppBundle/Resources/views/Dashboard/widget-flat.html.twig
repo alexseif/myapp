@@ -1,10 +1,10 @@
 <div class="card widget-flat mb-3">
   <div class="card-body row">
-    <div class="col-8">
+    <div class="col-7">
       <i class="{{ widgetIcon }} widget-icon mr-2 mb-2" title="{{ widgetTitle }}"></i>
       <span class="h4">{{ widgetCount }}</span>
     </div>
-    <div class="col-4 text-right">
+    <div class="col-5 text-right">
       <div class="text-{{ widgetProgress > 0 ? 'success' : 'danger' }}">
         <i class="fa fa-arrow-{{ widgetProgress > 0  ? 'up':'down'}}"></i>
         {{ widgetProgress }}%
