@@ -226,7 +226,7 @@ class ContractController extends Controller
   /**
    * Displays a form to edit an existing contract entity.
    *
-   * @Route("/{id}/edit", name="contract_edit", methods={"GET"})
+   * @Route("/{id}/edit", name="contract_edit", methods={"GET", "POST"})
    */
   public function editAction(Request $request, Contract $contract)
   {
