@@ -74,10 +74,6 @@ class ContractService
       $overdueTotal = ($contract->getHoursPerDay() * 60) + $overMonth;
       $contract->percentage = $todayTotal / $overdueTotal * 100;
 
-      dump($monthTotal);
-      dump($expectedSoFar);
-      dump($monthRemaining);
-      dump($workingDaysLeft);
       $contract->setName($contract->getName() . " " . floor($overdueTotal / 60) . ":" . ($overdueTotal % 60) . " || " . floor($monthRemaining / 60) . ":" . ($monthRemaining % 60));
     }
     return $contracts;
