@@ -24,18 +24,8 @@ class DateRanges
    */
   public static function populateMonths($startDate, $endDate, $setDayTo = 0)
   {
-    $start = new \DateTime($startDate);
-
-    if (is_string($setDayTo)) {
-      $start->setDate($start->format("Y"), $start->format("m"), 1)
-          ->modify("-1 month");
-      $start->setDate($start->format("Y"), $start->format("m"), $start->format("t"))
-          ->modify($setDayTo);
-    } else {
-      $start->setDate($start->format("Y"), $start->format("m"), 25)
-          ->modify("-1 month");
-    }
-    $end = new \DateTime($endDate);
+    $start = self::getMonthStart($startDate);
+    $end = self::getMonthEnd($endDate);
     $interval = \DateInterval::createFromDateString('1 month');
     $period = new \DatePeriod($start, $interval, $end);
     $dateArray = array();
@@ -189,14 +179,31 @@ class DateRanges
    * @param mixed $date Optional to specify which month start
    * @return \DateTime
    */
-  public static function getMonthStart($date = null)
+  public static function getMonthStart($date = "now")
   {
-    $date = new \DateTime($date);
-    $date->modify("-1 month");
-    $date->setDate($date->format('Y'), $date->format('m'), $date->format('t'));
-    $date->setTime(0, 0, 0);
-    $date->modify("-4 days");
-    return $date;
+    $monthStart = new \DateTime($date);
+    if ($monthStart->format('d') < 25)
+      $monthStart->modify("-1 month");
+    $monthStart->setTime(0, 0, 0);
+    $monthStart->setDate($monthStart->format("Y"), $monthStart->format("m"), 25);
+
+    return $monthStart;
+  }
+
+  /**
+   * 
+   * @param mixed $date Optional to specify which month start
+   * @return \DateTime
+   */
+  public static function getMonthEnd($date = "now")
+  {
+    $monthEnd = new \DateTime($date);
+    if ($monthEnd->format('d') >= 25)
+      $monthEnd->modify("+1 month");
+    $monthEnd->setTime(23, 59, 59);
+    $monthEnd->setDate($monthEnd->format('Y'), $monthEnd->format('m'), 24);
+
+    return $monthEnd;
   }
 
 }

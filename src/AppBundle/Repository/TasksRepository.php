@@ -413,20 +413,18 @@ class TasksRepository extends EntityRepository
             ->getResult();
   }
 
-  public function findDurationCompletedByClientThisMonth($client)
+  public function findDurationCompletedByClientByRange($client, $from, $to)
   {
-    $date = new \DateTime();
-    $date->setDate($date->format('Y'), $date->format('m'), 1);
-    $date->setTime(00, 00, 00);
     return $this
             ->createQueryBuilder('t')
             ->select('SUM(t.duration) as duration')
             ->leftJoin('t.taskList', 'tl')
             ->leftJoin('tl.account', 'a')
             ->where('a.client = :client')
-            ->andWhere('t.completedAt > :date')
+            ->andWhere('t.completedAt BETWEEN :from AND :to')
             ->setParameter(':client', $client)
-            ->setParameter(':date', $date->format('Y-m-d H:i'))
+            ->setParameter(':from', $from)
+            ->setParameter(':to', $to)
             ->getQuery()
             ->getSingleResult();
   }

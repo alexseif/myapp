@@ -41,17 +41,12 @@ class ContractService
   {
     $contracts = $this->em->getRepository('AppBundle:Contract')->findAll();
     foreach ($contracts as $contract) {
-      $completedByClientThisMonth = $this->em->getRepository('AppBundle:Tasks')->findDurationCompletedByClientThisMonth($contract->getClient())['duration'];
-      $monthStart = new \DateTime();
-      $monthStart->setTime(00, 00, 00)
-          ->modify("-1 month");
-      $monthStart->setDate($monthStart->format("Y"), $monthStart->format("m"), 25);
+      $monthStart = \AppBundle\Util\DateRanges::getMonthStart();
+      $monthEnd = \AppBundle\Util\DateRanges::getMonthEnd();
       if ($contract->getStartedAt() > $monthStart) {
         $monthStart->setDate($contract->getStartedAt()->format('Y'), $contract->getStartedAt()->format('m'), $contract->getStartedAt()->format('d'));
       }
-      $monthEnd = new \DateTime();
-      $monthEnd->setDate($monthEnd->format('Y'), $monthEnd->format('m'), 24);
-      $monthEnd->setTime(23, 59, 59);
+      $completedByClientThisMonth = $this->em->getRepository('AppBundle:Tasks')->findDurationCompletedByClientByRange($contract->getClient(), $monthStart, $monthEnd)['duration'];
       $workingDaysSoFar = \AppBundle\Util\DateRanges::numberOfWorkingDays($monthStart, new \DateTime());
       $workingDaysLeft = \AppBundle\Util\DateRanges::numberOfWorkingDays(new \DateTime(), $monthEnd);
       $expctedByClientThisMonth = $contract->getHoursPerDay() * $workingDaysSoFar * 60;

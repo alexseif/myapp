@@ -44,11 +44,8 @@ class WorkDaysController extends Controller
       $month = $tmp->format('m');
     }
 
-    $monthStart = new \DateTime();
-    $monthStart->setDate($monthStart->format('Y'), $month, 1);
-
-    $monthEnd = new \DateTime();
-    $monthEnd->setDate($monthEnd->format('Y'), $month + 1, 1);
+    $monthStart = \AppBundle\Util\DateRanges::getMonthStart();
+    $monthEnd = \AppBundle\Util\DateRanges::getMonthEnd();
 
     $interval = new \DateInterval('P1D');
     $periods = new \DatePeriod($monthStart, $interval, $monthEnd);
