@@ -47,6 +47,15 @@ class ContractService
         $monthStart->setDate($contract->getStartedAt()->format('Y'), $contract->getStartedAt()->format('m'), $contract->getStartedAt()->format('d'));
       }
       $completedByClientThisMonth = $this->em->getRepository('AppBundle:Tasks')->findDurationCompletedByClientByRange($contract->getClient(), $monthStart, $monthEnd)['duration'];
+      $monthHolidays = $this->em->getRepository('AppBundle:Holiday')->findByRange($monthStart, $monthEnd);
+      $holidayDuration = 0;
+      $workweek = [1, 2, 3, 4, 7];
+      foreach ($monthHolidays as $holiday) {
+        if (in_array($holiday->getDate()->format('N'), $workweek)) {
+          $holidayDuration += 240;
+        }
+      }
+      $completedByClientThisMonth += $holidayDuration;
       $workingDaysSoFar = \AppBundle\Util\DateRanges::numberOfWorkingDays($monthStart, new \DateTime());
       $workingDaysLeft = \AppBundle\Util\DateRanges::numberOfWorkingDays(new \DateTime(), $monthEnd);
       $expctedByClientThisMonth = $contract->getHoursPerDay() * $workingDaysSoFar * 60;
@@ -54,10 +63,11 @@ class ContractService
       $difference = $expctedByClientThisMonth - $completedByClientThisMonth;
       $workingDaysLeft = ($workingDaysLeft) ?: 1;
       $overMonth = $difference / $workingDaysLeft;
-      $minutesPerDay = ($contract->getHoursPerDay() * 60) + $overMonth;
-      if ($difference < 0) {
-        $minutesPerDay = ($contract->getHoursPerDay() * 60);
+      $minutesPerDay = ($contract->getHoursPerDay() * 60);
+      if ($difference >= 0) {
+        $minutesPerDay = ($contract->getHoursPerDay() * 60) + $overMonth;
       }
+      $difference = ($difference > 0) ? $difference : 0;
       $contract->percentage = $duration / $minutesPerDay * 100;
       $contract->setName($contract->getName() . " " . floor($minutesPerDay / 60) . ":" . ($minutesPerDay % 60) . " || " . floor($difference / 60) . ":" . ($difference % 60));
     }

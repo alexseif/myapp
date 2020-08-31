@@ -190,6 +190,7 @@ class ContractController extends Controller
     $tasks = $em->getRepository('AppBundle:Tasks')->findCompletedByClientByRange($contract->getClient(), $fromDate, $toDate);
     $monthHolidays = $em->getRepository('AppBundle:Holiday')->findByRange(new \DateTime($from), new \DateTime($to));
     $workingDays = \AppBundle\Util\DateRanges::getWorkingDays($from, $to);
+    //TODO: get from contract
     $expected = ($workingDays * 4);
     $total = 0;
 
