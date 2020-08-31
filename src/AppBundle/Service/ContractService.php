@@ -41,35 +41,44 @@ class ContractService
   {
     $contracts = $this->em->getRepository('AppBundle:Contract')->findAll();
     foreach ($contracts as $contract) {
+      $monthTotal = 0;
+      $expectedSoFar = 0;
+      $monthRemaining = 0;
+
       $monthStart = \AppBundle\Util\DateRanges::getMonthStart();
-      $monthEnd = \AppBundle\Util\DateRanges::getMonthEnd();
+      $monthEnd = new \DateTime();
       if ($contract->getStartedAt() > $monthStart) {
         $monthStart->setDate($contract->getStartedAt()->format('Y'), $contract->getStartedAt()->format('m'), $contract->getStartedAt()->format('d'));
       }
-      $completedByClientThisMonth = $this->em->getRepository('AppBundle:Tasks')->findDurationCompletedByClientByRange($contract->getClient(), $monthStart, $monthEnd)['duration'];
+      $monthTotal += $this->em->getRepository('AppBundle:Tasks')->findDurationCompletedByClientByRange($contract->getClient(), $monthStart, $monthEnd)['duration'];
       $monthHolidays = $this->em->getRepository('AppBundle:Holiday')->findByRange($monthStart, $monthEnd);
-      $holidayDuration = 0;
       $workweek = [1, 2, 3, 4, 7];
       foreach ($monthHolidays as $holiday) {
         if (in_array($holiday->getDate()->format('N'), $workweek)) {
-          $holidayDuration += 240;
+          if ('Personal' == $holiday->getType()) {
+            if (30 == $contract->getClient()->getId()) {
+              $monthTotal += 240;
+            }
+          } else {
+            $monthTotal += 240;
+          }
         }
       }
-      $completedByClientThisMonth += $holidayDuration;
       $workingDaysSoFar = \AppBundle\Util\DateRanges::numberOfWorkingDays($monthStart, new \DateTime());
-      $workingDaysLeft = \AppBundle\Util\DateRanges::numberOfWorkingDays(new \DateTime(), $monthEnd);
-      $expctedByClientThisMonth = $contract->getHoursPerDay() * $workingDaysSoFar * 60;
-      $duration = $this->em->getRepository('AppBundle:Tasks')->findCompletedByClientToday($contract->getClient())['duration'];
-      $difference = $expctedByClientThisMonth - $completedByClientThisMonth;
+      $expectedSoFar += $contract->getHoursPerDay() * $workingDaysSoFar * 60;
+      $workingDaysLeft = \AppBundle\Util\DateRanges::numberOfWorkingDays(new \DateTime(),  \AppBundle\Util\DateRanges::getMonthEnd());
+      $todayTotal = $this->em->getRepository('AppBundle:Tasks')->findCompletedByClientToday($contract->getClient())['duration'];
+      $monthRemaining = $expectedSoFar - $monthTotal;
       $workingDaysLeft = ($workingDaysLeft) ?: 1;
-      $overMonth = $difference / $workingDaysLeft;
-      $minutesPerDay = ($contract->getHoursPerDay() * 60);
-      if ($difference >= 0) {
-        $minutesPerDay = ($contract->getHoursPerDay() * 60) + $overMonth;
-      }
-      $difference = ($difference > 0) ? $difference : 0;
-      $contract->percentage = $duration / $minutesPerDay * 100;
-      $contract->setName($contract->getName() . " " . floor($minutesPerDay / 60) . ":" . ($minutesPerDay % 60) . " || " . floor($difference / 60) . ":" . ($difference % 60));
+      $overMonth = $monthRemaining / $workingDaysLeft;
+      $overdueTotal = ($contract->getHoursPerDay() * 60) + $overMonth;
+      $contract->percentage = $todayTotal / $overdueTotal * 100;
+
+      dump($monthTotal);
+      dump($expectedSoFar);
+      dump($monthRemaining);
+      dump($workingDaysLeft);
+      $contract->setName($contract->getName() . " " . floor($overdueTotal / 60) . ":" . ($overdueTotal % 60) . " || " . floor($monthRemaining / 60) . ":" . ($monthRemaining % 60));
     }
     return $contracts;
   }
