@@ -19,11 +19,12 @@
 {% endblock %}
 
 {% block panelBody %}
+  {% set contractDuration = contract.hoursPerDay * 60 %}
   {% for dayKey, log in contractDetails %}
     <table class="table table-bordered table-condensed table-striped">
       <thead>
         <tr>
-          <th class="{{ (log['total'].duration >= 240) ? "text-success" : (log['total'].duration < 240) ? "text-danger" }}">{{ log.title }}</th>
+          <th class="{{ (log['total'].duration >= contractDuration) ? "text-success" : (log['total'].duration < contractDuration) ? "text-danger" }}">{{ log.title }}</th>
           <th class="w-25">TaskList</th>
           <th class="w-25">Dur</th>
         </tr>
@@ -42,22 +43,22 @@
           </tr>
           {% set lastTaskList = task.taskList.id %}
         {% endfor %}
-        {% if(log['total'].duration < 240) %}
+        {% if(log['total'].duration < contractDuration) %}
           <tr class="text-warning">
             <td>
               <a class='btn btn-warning btn-sm'
-                 href="{{ path('tasks_new', {'duration': 240 - log['total'].duration , 'completedAt': dayKey, 'tasklist': lastTaskList})}}" 
+                 href="{{ path('tasks_new', {'duration': contractDuration - log['total'].duration , 'completedAt': dayKey, 'tasklist': lastTaskList})}}" 
                  target="_blank">Add Task</a>
             </td>
             <td>Missing </td>
             <td>
-              {{240 - log['total'].duration }}
+              {{contractDuration - log['total'].duration }}
             </td>
           </tr>
         {% endif %}
       </tbody>
       <tfoot>
-        <tr class="{{ (log['total'].duration >= 240) ? "text-success" : (log['total'].duration < 240) ? "text-danger" }}">
+        <tr class="{{ (log['total'].duration >= contractDuration) ? "text-success" : (log['total'].duration < contractDuration) ? "text-danger" }}">
           <td></td>
           <td>Total</td>
           <td>

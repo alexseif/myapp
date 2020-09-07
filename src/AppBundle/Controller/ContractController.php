@@ -191,7 +191,7 @@ class ContractController extends Controller
     $monthHolidays = $em->getRepository('AppBundle:Holiday')->findByRange(new \DateTime($from), new \DateTime($to));
     $workingDays = \AppBundle\Util\DateRanges::getWorkingDays($from, $to);
     //TODO: get from contract
-    $expected = ($workingDays * 4);
+    $expected = ($workingDays * $contract->getHoursPerDay());
     $total = 0;
 
     $workweek = [1, 2, 3, 4, 7];
@@ -199,7 +199,7 @@ class ContractController extends Controller
     foreach ($monthHolidays as $holiday) {
       if (in_array($holiday->getDate()->format('N'), $workweek)) {
         $holidays[] = $holiday;
-        $total += 240;
+        $total += $contract->getHoursPerDay();
       }
     }
 
