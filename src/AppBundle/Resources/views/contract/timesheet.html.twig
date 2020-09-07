@@ -83,7 +83,7 @@
             </td>
             <td>{{ holiday.name }}</td>
             <td>{{ holiday.date|date('Y-m-d', timezone)}}</td>
-            <td>4:00</td>
+            <td>{{ contract.hoursPerDay }}:00</td>
           </tr>
         {% endfor %}
       </tbody>
