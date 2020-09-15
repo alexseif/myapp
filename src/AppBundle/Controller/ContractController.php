@@ -119,7 +119,7 @@ class ContractController extends Controller
         if ($holidays) {
           continue;
         }
-        
+
         $dayKey = (int) $day->format('Ymd');
         if (!key_exists($dayKey, $contractDetails)) {
           $contractDetails[$dayKey] = [];
@@ -236,6 +236,12 @@ class ContractController extends Controller
     $editForm->handleRequest($request);
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
+      if ($contract->getIsCompleted()) {
+        if (is_null($contract->getCompletedAt()))
+          $contract->setCompletedAt(new \DateTime());
+      } else {
+        $contract->setCompletedAt(null);
+      }
       $this->getDoctrine()->getManager()->flush();
 
       return $this->redirectToRoute('contract_edit', ['id' => $contract->getId()]);

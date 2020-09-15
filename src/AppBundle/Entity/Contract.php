@@ -53,6 +53,16 @@ class Contract
   private $startedAt;
 
   /**
+   * @ORM\Column(type="boolean")
+   */
+  private $isCompleted;
+
+  /**
+   * @ORM\Column(type="datetime", nullable=true)
+   */
+  private $completedAt;
+
+  /**
    * Get id.
    *
    * @return int
@@ -185,6 +195,48 @@ class Contract
   public function __toString()
   {
     return $this->getName();
+  }
+
+  /**
+   * 
+   * @return bool $isCompleted
+   */
+  public function getIsCompleted()
+  {
+    return $this->isCompleted;
+  }
+
+  /**
+   * 
+   * @param bool $isCompleted
+   * @return self
+   */
+  public function setIsCompleted(bool $isCompleted)
+  {
+    $this->isCompleted = $isCompleted;
+
+    return $this;
+  }
+
+  /**
+   * 
+   * @return \DateTimeInterface $completedAt
+   */
+  public function getCompletedAt()
+  {
+    return $this->completedAt;
+  }
+
+  /**
+   * 
+   * @param \DateTimeInterface $completedAt
+   * @return self
+   */
+  public function setCompletedAt($completedAt)
+  {
+    $this->completedAt = $completedAt;
+
+    return $this;
   }
 
 }

@@ -32,6 +32,14 @@
           <th>Started At</th>
           <td>{{ contract.startedAt|date }}</td>
         </tr>
+        <tr>
+          <th>Is Completed</th>
+          <td>{{ contract.isCompleted ? "true":"false" }}</td>
+        </tr>
+        <tr>
+          <th>Completed At</th>
+          <td>{{ contract.completedAt?contract.completedAt|date }}</td>
+        </tr>
       </tbody>
     </table>
   </div>

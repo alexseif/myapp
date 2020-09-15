@@ -39,7 +39,7 @@ class ContractService
    */
   public function progress()
   {
-    $contracts = $this->em->getRepository('AppBundle:Contract')->findAll();
+    $contracts = $this->em->getRepository('AppBundle:Contract')->findBy(["isCompleted" => false]);
     foreach ($contracts as $contract) {
       $monthTotal = 0;
       $expectedSoFar = 0;
@@ -66,7 +66,7 @@ class ContractService
       }
       $workingDaysSoFar = \AppBundle\Util\DateRanges::numberOfWorkingDays($monthStart, new \DateTime());
       $expectedSoFar += $contract->getHoursPerDay() * $workingDaysSoFar * 60;
-      $workingDaysLeft = \AppBundle\Util\DateRanges::numberOfWorkingDays(new \DateTime(),  \AppBundle\Util\DateRanges::getMonthEnd());
+      $workingDaysLeft = \AppBundle\Util\DateRanges::numberOfWorkingDays(new \DateTime(), \AppBundle\Util\DateRanges::getMonthEnd());
       $todayTotal = $this->em->getRepository('AppBundle:Tasks')->findCompletedByClientToday($contract->getClient())['duration'];
       $monthRemaining = $expectedSoFar - $monthTotal;
       $workingDaysLeft = ($workingDaysLeft) ?: 1;

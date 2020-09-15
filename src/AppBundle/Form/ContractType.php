@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
 class ContractType extends AbstractType
 {
@@ -26,7 +27,18 @@ class ContractType extends AbstractType
           ))
         )
         ->add('hoursPerDay')
-        ->add('startedAt')
+        ->add('startedAt', DateTimeType::class, array(
+          'date_widget' => 'single_text',
+          'time_widget' => 'single_text',
+          'date_format' => 'yyyy-MM-dd',
+        ))
+        ->add('isCompleted')
+        ->add('completedAt', DateTimeType::class, array(
+          'date_widget' => 'single_text',
+          'time_widget' => 'single_text',
+          'date_format' => 'yyyy-MM-dd',
+          'required' => false
+        ))
     ;
   }
 
