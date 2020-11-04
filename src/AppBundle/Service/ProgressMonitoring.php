@@ -119,7 +119,7 @@ class ProgressMonitoring
 
   function getClientsProgress()
   {
-    return number_format($this->clientsProgress, 1);
+    return number_format(round($this->clientsProgress), 1);
   }
 
   public function setAccountsCount()
@@ -143,7 +143,7 @@ class ProgressMonitoring
 
   function getAccountsProgress()
   {
-    return number_format($this->clientsProgress, 1);
+    return number_format(round($this->clientsProgress), 1);
   }
 
   public function setTasksCompletedCount()
@@ -171,9 +171,9 @@ class ProgressMonitoring
   function getTasksCompletedProgress()
   {
     if ($this->tasksCompletedProgress >= 1000) {
-      return $this->tasksCompletedProgress / 1000 . 'k';
+      return round($this->tasksCompletedProgress / 1000) . 'k';
     }
-    return number_format($this->tasksCompletedProgress, 1);
+    return number_format(round($this->tasksCompletedProgress), 1);
   }
 
   public function setRevenueSum()
@@ -205,7 +205,7 @@ class ProgressMonitoring
 
   function getRevenueProgress()
   {
-    return number_format($this->revenueProgress, 1);
+    return number_format(round($this->revenueProgress), 1);
   }
 
   function setDurationSum()
@@ -237,7 +237,7 @@ class ProgressMonitoring
 
   function getDurationProgress()
   {
-    return number_format($this->durationProgress, 1);
+    return number_format(round($this->durationProgress), 1);
   }
 
 }
