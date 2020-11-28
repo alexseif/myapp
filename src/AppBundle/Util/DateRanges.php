@@ -34,7 +34,8 @@ class DateRanges
     foreach ($period as $dt) {
       $dateArray[$index]['start'] = $dt->format('Y-m-d');
       if (($setDayTo > 0 && $setDayTo < 32) || is_string($setDayTo)) {
-        $dt->modify('+1 month');
+        $dt->modify('+1 month')
+            ->modify('-1 day');
         $dateArray[$index++]['end'] = $dt->format('Y-m-d');
       } else {
         $dateArray[$index++]['end'] = $dt->format('Y-m-t');
