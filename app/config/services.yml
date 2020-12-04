@@ -79,3 +79,7 @@ services:
       arguments: [ '@doctrine.orm.entity_manager' ]
       public: true
       
+    myapp.dayManager:
+      class: AppBundle\Service\DayManager
+      arguments: []
+      public: true
