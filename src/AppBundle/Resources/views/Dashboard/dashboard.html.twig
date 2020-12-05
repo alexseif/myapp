@@ -26,14 +26,6 @@
   </div>
 {% endblock %}
 {% block content %}
-  <div class="">
-    <p>
-      {{ day_manager.whatsToday() }}
-    </p>
-    <p>
-      {{ day_manager.isWorkingDay() }}
-    </p>
-  </div>
   {% include 'AppBundle:Dashboard:progressMonitoring.html.twig'%}
   <div class="row">
     <div class="col-lg-4 col-md-6 col-sm-12">
