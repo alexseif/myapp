@@ -102,10 +102,10 @@ label.checkbox-inline {margin-right: 1%;margin-left: 1%;}
   color: #333;
   font-size: 20px;
   background-color: rgba(255,255,255,.25);
-  height: 40px;
-  width: 40px;
+  height: 35px;
+  width: 35px;
   text-align: center;
-  line-height: 40px;
+  line-height: 35px;
   border-radius: 3px;
   display: inline-block;
 }
@@ -182,3 +182,15 @@ label.checkbox-inline {margin-right: 1%;margin-left: 1%;}
 .money-egp:before{content: "EGP";position: absolute; left: 0;}
 .widget-flat .money-egp{text-align: center;}
 accounts-summary .money-egp:before{content: "EGP";position: absolute; left: 0;}
+
+/* https://codepen.io/afarrar/pen/JRaEjP */
+.clock {
+  font-family: system-ui;
+  letter-spacing: 7px;
+}
+/*https://codepen.io/jasonleewilson/pen/gPrxwX*/
+#timedate {
+  font-family: system-ui;
+  border-left: 3px solid #E74C3C;
+  padding: 0 20px;
+}

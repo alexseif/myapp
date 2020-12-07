@@ -14,12 +14,6 @@ namespace AppBundle\Service;
 class DayManager
 {
 
-  public function whatsToday()
-  {
-    $today = new \DateTime();
-    return 'Today is ' . $today->format('l') . ' the ' . $today->format('jS') . ' of ' . $today->format('F') . ' and it\'s awesome.';
-  }
-
   public function isWorkDay()
   {
     $today = new \DateTime();
