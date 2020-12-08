@@ -88,6 +88,32 @@ class DashboardController extends Controller
 
   /**
    * 
+   * @Route("elements", name="elements")
+   */
+  public function elementsAction(Request $request)
+  {
+    return $this->render("AppBundle:Dashboard:elements.html.twig");
+  }
+
+  /**
+   * 
+   * @Route("workspace", name="workspace")
+   */
+  public function workspaceAction(Request $request)
+  {
+    return $this->render("AppBundle:Dashboard:workspace.html.twig");
+  }
+  /**
+   * 
+   * @Route("remind", name="remind")
+   */
+  public function remindAction(Request $request)
+  {
+    return $this->render("AppBundle:Dashboard:remindMe.html.twig");
+  }
+
+  /**
+   * 
    * @Route("/workarea", name="workarea")
    */
   public function workareaAction()

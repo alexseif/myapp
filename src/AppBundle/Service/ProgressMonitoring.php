@@ -119,7 +119,7 @@ class ProgressMonitoring
 
   function getClientsProgress()
   {
-    return number_format(round($this->clientsProgress), 1);
+    return number_format(round($this->clientsProgress));
   }
 
   public function setAccountsCount()
@@ -143,7 +143,7 @@ class ProgressMonitoring
 
   function getAccountsProgress()
   {
-    return number_format(round($this->clientsProgress), 1);
+    return number_format(round($this->clientsProgress));
   }
 
   public function setTasksCompletedCount()
@@ -205,7 +205,7 @@ class ProgressMonitoring
 
   function getRevenueProgress()
   {
-    return number_format(round($this->revenueProgress), 1);
+    return number_format(round($this->revenueProgress));
   }
 
   function setDurationSum()
@@ -237,7 +237,7 @@ class ProgressMonitoring
 
   function getDurationProgress()
   {
-    return number_format(round($this->durationProgress), 1);
+    return number_format(round($this->durationProgress));
   }
 
 }

@@ -51,6 +51,7 @@ twig:
         thousands_separator: ','
     globals:
         bottom_bar: '@myapp.bottomBar'
+        day_manager: '@myapp.dayManager'
 # Doctrine Configuration
 doctrine:
     dbal:
