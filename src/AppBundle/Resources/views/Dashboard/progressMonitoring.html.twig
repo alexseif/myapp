@@ -30,60 +30,94 @@
     </div> <!-- .card -->
   </div><!-- .col -->
   <div class="{{ widgetColclass }}">
-    {% include 'AppBundle:Dashboard:widget-flat.html.twig' with {
-'widgetTitle': 'Clients', 
-'widgetIcon': 'fa fa-users',
-'widgetCount': progressMonitoring.clientsCount, 
-'widgetProgress': progressMonitoring.clientsProgress,
-'widgetSince': 'year'
-} %}
+    {% set widgetBody %}
+      <span class="float-right">
+        <i class="fa fa-users" title="Clients"></i>
+      </span>
+      {{ progressMonitoring.clientsCount}}
+      <br/>
+      <span class="text-{{ progressMonitoring.clientsProgress > 0 ? 'success' : 'danger' }}">
+        {{ progressMonitoring.clientsProgress }}%
+        <span class="float-right">
+          <i class="fa fa-arrow-{{ progressMonitoring.clientsProgress > 0  ? 'up':'down'}}"></i>
+        </span>
+      </span>
+    {% endset %}
+    {% include('AppBundle:Dashboard:_widget_flat.html.twig') %}
+    {% set widgetBody %}
+      <span class="float-right">
+        <i class="fa fa-briefcase" title="Accounts"></i>
+      </span>
+      {{ progressMonitoring.accountsCount}}
+      <br/>
+      <span class="text-{{ progressMonitoring.accountsProgress > 0 ? 'success' : 'danger' }}">
+        {{ progressMonitoring.accountsProgress }}%
+        <span class="float-right">
+          <i class="fa fa-arrow-{{ progressMonitoring.accountsProgress > 0  ? 'up':'down'}}"></i>
+        </span>
+      </span>
+    {% endset %}
+    {% include('AppBundle:Dashboard:_widget_flat.html.twig') %}
+  </div> <!-- end col-->
+  <div class="{{ widgetColclass }}">
+    {% set widgetBody %}
+      <span class="float-right">
+        <i class="fa fa-tasks" title="Tasks"></i>
+      </span>
+      {{ progressMonitoring.tasksCompletedCount }}
+      <br/>
+      <span class="text-{{ progressMonitoring.tasksCompletedProgress > 0 ? 'success' : 'danger' }}">
+        {{ progressMonitoring.tasksCompletedProgress }}%
+        <span class="float-right">
+          <i class="fa fa-arrow-{{ progressMonitoring.tasksCompletedProgress > 0  ? 'up':'down'}}"></i>
+        </span>
+      </span>
+    {% endset %}
+    {% include('AppBundle:Dashboard:_widget_flat.html.twig') %}
+    {% set widgetBody %}
+      <span class="float-right">
+        <i class="fa fa-egp" title="Revenue"></i>
+      </span>
+      {{ progressMonitoring.revenueSum }}
+      <br/>
+      <span class="text-{{ progressMonitoring.revenueProgress > 0 ? 'success' : 'danger' }}">
+        {{ progressMonitoring.revenueProgress }}%
+        <span class="float-right">
+          <i class="fa fa-arrow-{{ progressMonitoring.revenueProgress > 0  ? 'up':'down'}}"></i>
+        </span>
+      </span>
+    {% endset %}
+    {% include('AppBundle:Dashboard:_widget_flat.html.twig') %}
+  </div> <!-- end col-->
+  <div class="{{ widgetColclass }}">
+    {% set widgetBody %}
+      <span class="float-right">
+        <i class="fas fa-stopwatch" title="Duration"></i>
+      </span>
+      {{ progressMonitoring.durationSum }}
+      <br/>
+      <span class="text-{{ progressMonitoring.durationProgress  > 0 ? 'success' : 'danger' }}">
+        {{ progressMonitoring.durationProgress }}%
+        <span class="float-right">
+          <i class="fa fa-arrow-{{ progressMonitoring.durationProgress  > 0  ? 'up':'down'}}"></i>
+        </span>
+      </span>
+    {% endset %}
+    {% include('AppBundle:Dashboard:_widget_flat.html.twig') %}
 
-    {% include 'AppBundle:Dashboard:widget-flat.html.twig' with {
-'widgetTitle': 'Accounts', 
-'widgetIcon': 'fa fa-briefcase',
-'widgetCount': progressMonitoring.accountsCount, 
-'widgetProgress': progressMonitoring.accountsProgress,
-'widgetSince': 'year'
-} %}
-  </div> <!-- end col-->
-  <div class="{{ widgetColclass }}">
-    {% include 'AppBundle:Dashboard:widget-flat.html.twig' with {
-'widgetTitle': 'Tasks', 
-'widgetIcon': 'fa fa-tasks',
-'widgetCount': progressMonitoring.tasksCompletedCount, 
-'widgetProgress': progressMonitoring.tasksCompletedProgress,
-'widgetSince': 'month'
-} %}
-    {% include 'AppBundle:Dashboard:widget-flat.html.twig' with {
-'widgetTitle': 'Revenue', 
-'widgetIcon': 'fa fa-egp',
-'widgetCount': progressMonitoring.revenueSum, 
-'widgetProgress': progressMonitoring.revenueProgress,
-'widgetSince': 'month'
-} %}
-  </div> <!-- end col-->
-  <div class="{{ widgetColclass }}">
-    {% include 'AppBundle:Dashboard:widget-flat.html.twig' with {
-'widgetTitle': 'Duration', 
-'widgetIcon': 'fas fa-stopwatch', 
-'widgetCount': progressMonitoring.durationSum, 
-'widgetProgress': progressMonitoring.durationProgress,
-'widgetSince': 'month'
-} %}
-    <div class="card widget-flat mb-3">
-      <div class="card-body row">
-        <!-- https://codepen.io/jasonleewilson/pen/gPrxwX -->
-        <div id="timedate" class="text-info">
-          <a id="h">12</a> :
-          <a id="m">00</a>:
-          <a id="s">00</a><br/>
-          <a id="day">{{ "now"|date('l')}}</a>
-          <a id="mon">January</a>
-          <a id="d">1</a>,
-          <a id="y">0</a>
-          {#          {{ day_manager.isWorkingDay() }}#}
-        </div>
-      </div> <!-- end card-body-->
-    </div> <!-- end card-->
+    {% set widgetBody %}
+      <!-- https://codepen.io/jasonleewilson/pen/gPrxwX -->
+      <div id="timedate">
+        <a id="h">12</a> :
+        <a id="m">00</a>:
+        <a id="s">00</a><br/>
+        <a id="day">{{ "now"|date('l')}}</a>
+        <a id="mon">January</a>
+        <a id="d">1</a>,
+        <a id="y">0</a>
+        {#          {{ day_manager.isWorkingDay() }}#}
+      </div>
+    {% endset %}
+    {% include('AppBundle:Dashboard:_widget_flat.html.twig') %}
   </div> <!-- end col-->
 </div><!-- .row -->
