@@ -7,6 +7,7 @@
 namespace AppBundle\Service;
 
 use Doctrine\ORM\EntityManager;
+use AppBundle\Service\CostService;
 
 /**
  * Description of Bottom Bar Service
@@ -21,6 +22,12 @@ class ProgressMonitoring
    * @var EntityManager $em
    */
   protected $em;
+
+  /**
+   * 
+   * @var CostService $cs
+   */
+  protected $cs;
 
   /**
    *
@@ -82,9 +89,10 @@ class ProgressMonitoring
    */
   private $durationProgress;
 
-  public function __construct(EntityManager $em)
+  public function __construct(EntityManager $em, CostService $cs)
   {
     $this->em = $em;
+    $this->cs = $cs;
     $this->setClientsCount();
     $this->setClientsProgress();
     $this->setAccountsCount();
@@ -95,6 +103,11 @@ class ProgressMonitoring
     $this->setRevenueProgress();
     $this->setDurationSum();
     $this->setDurationProgress();
+  }
+
+  public function getCostOfLife()
+  {
+    return $this->cs;
   }
 
   public function setClientsCount()
@@ -238,6 +251,39 @@ class ProgressMonitoring
   function getDurationProgress()
   {
     return number_format(round($this->durationProgress));
+  }
+
+  public function getEarnedToday()
+  {
+    $completedTasks = $this->em->getRepository('AppBundle:Tasks')->getCompletedToday();
+    $total = 0;
+    foreach ($completedTasks as $task) {
+      $rate = (null != $task->getRate()) ? $task->getRate() : $this->costOfLife->getHourly();
+      $total += $task->getDuration() / 60 * $rate;
+    }
+    return $total;
+  }
+
+  public function getEarnedThisWeek()
+  {
+    $completedTasks = $this->em->getRepository('AppBundle:Tasks')->getCompletedThisWeek();
+    $total = 0;
+    foreach ($completedTasks as $task) {
+      $rate = (null == $task->getRate()) ? $task->getRate() : $this->costOfLife->getHourly();
+      $total += $task->getDuration() / 60 * $rate;
+    }
+    return $total;
+  }
+
+  public function getEarnedThisMonth()
+  {
+    $completedTasks = $this->em->getRepository('AppBundle:Tasks')->getCompletedThisMonth();
+    $total = 0;
+    foreach ($completedTasks as $task) {
+      $rate = (null == $task->getRate()) ? $task->getRate() : $this->getCostOfLife()->getHourly();
+      $total += $task->getDuration() / 60 * $rate;
+    }
+    return $total;
   }
 
 }

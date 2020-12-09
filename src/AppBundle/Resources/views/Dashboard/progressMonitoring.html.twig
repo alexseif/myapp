@@ -1,7 +1,89 @@
-{% set widgetColclass = "col-lg-2" %}
+{% set widgetColClass = "col" %}
+{% set daysDiff = (("last day of next month"|date_modify("-4 days")).diff(date("now")).days) %}
 <div class="row">
-  <div class="col-lg-3">
-    <div class="dropdown float-right d-none">
+  <div class="{{ widgetColClass }}">
+    {% set widgetBody %}
+      <br/>
+      <!-- https://codepen.io/jasonleewilson/pen/gPrxwX -->
+      <div id="timedate">
+        <a id="h">12</a> :
+        <a id="m">00</a>:
+        <a id="s">00</a><br/>
+        <a id="day">{{ "now"|date('l')}}</a>
+        <a id="mon">January</a>
+        <a id="d">1</a>,
+        <a id="y">0</a>
+        {#          {{ day_manager.isWorkingDay() }}#}
+      </div>
+    {% endset %}
+    {% include('AppBundle:Dashboard:_widget_flat.html.twig') %}
+  </div><!-- col -->
+  <div class="{{ widgetColClass }}">
+    {% set widgetBody %}
+      <div class="text-{{ daysDiff  > 20 ? "info" : daysDiff  > 10 ? "warning" : "danger" }}">
+        <span class="float-right">{{ 0 }}%</span>
+        <i class="fa fa-egp" title="Revenue"></i>
+        {{ progressMonitoring.earnedToday }} / {{ 1000 }} 
+        <br/>
+        <span class="float-right">{{ 0 }}%</span>
+        <i class="fa fa-egp" title="Revenue"></i>
+        {{ progressMonitoring.earnedThisWeek}} / {{ 1000 }}
+        <br/>
+        <span class="float-right">{{ 0 }}%</span>
+        <i class="fa fa-egp" title="Revenue"></i>
+        {{ progressMonitoring.earnedThisMonth }} / {{ 1000 }}
+      </div>
+    {% endset %}
+    {% include('AppBundle:Dashboard:_widget_flat.html.twig') %}
+  </div><!-- col -->
+  <div class="{{ widgetColClass }}">
+    {% set widgetBody %}
+      <br/>
+      <span class="float-right text-{{ progressMonitoring.clientsProgress > 0 ? 'success' : 'danger' }}">
+        {{ progressMonitoring.clientsProgress }}%
+        <i class="fa fa-arrow-{{ progressMonitoring.clientsProgress > 0  ? 'up':'down'}}"></i>
+      </span>
+      <i class="fa fa-users" title="Clients"></i>
+      {{ progressMonitoring.clientsCount}}
+      <br/>
+      <span class="float-right text-{{ progressMonitoring.accountsProgress > 0 ? 'success' : 'danger' }}">
+        {{ progressMonitoring.accountsProgress }}%
+        <i class="fa fa-arrow-{{ progressMonitoring.accountsProgress > 0  ? 'up':'down'}}"></i>
+      </span>
+      <i class="fa fa-briefcase" title="Accounts"></i>
+      {{ progressMonitoring.accountsCount}}
+      <br/>
+    {% endset %}
+    {% include('AppBundle:Dashboard:_widget_flat.html.twig') %}
+  </div><!-- col -->
+  <div class="{{ widgetColClass }}">
+    {% set widgetBody %}
+      <span class="float-right text-{{ progressMonitoring.tasksCompletedProgress > 0 ? 'success' : 'danger' }}">
+        {{ progressMonitoring.tasksCompletedProgress }}%
+        <i class="fa fa-arrow-{{ progressMonitoring.tasksCompletedProgress > 0  ? 'up':'down'}}"></i>
+      </span>
+      <i class="fa fa-tasks" title="Tasks"></i>
+      {{ progressMonitoring.tasksCompletedCount }}
+      <br/>
+      <span class="float-right text-{{ progressMonitoring.durationProgress  > 0 ? 'success' : 'danger' }}">
+        {{ progressMonitoring.durationProgress }}%
+        <i class="fa fa-arrow-{{ progressMonitoring.durationProgress  > 0  ? 'up':'down'}}"></i>
+      </span>
+      <i class="fas fa-stopwatch" title="Duration"></i>
+      {{ progressMonitoring.durationSum }}
+      <br/>
+      <span class="float-right text-{{ progressMonitoring.revenueProgress > 0 ? 'success' : 'danger' }}">
+        {{ progressMonitoring.revenueProgress }}%
+        <i class="fa fa-arrow-{{ progressMonitoring.revenueProgress > 0  ? 'up':'down'}}"></i>
+      </span>
+      <i class="fa fa-egp" title="Revenue"></i>
+      {{ progressMonitoring.revenueSum }}
+      <br/>
+    {% endset %}
+    {% include('AppBundle:Dashboard:_widget_flat.html.twig') %}
+  </div> <!-- end col-->
+  <div class="col-lg-3 d-none">
+    <div class="dropdown float-right">
       <a href="#" class="dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false">
         <i class="mdi mdi-dots-vertical"></i>
       </a>
@@ -16,93 +98,6 @@
         <a href="javascript:void(0);" class="dropdown-item">Action</a>
       </div>
     </div>
-    <h5 class="text-muted font-weight-normal mt-0 d-none" title="Number of Clients">Progress Vs Actuals</h5>
-    {% set daysDiff = (("last day of next month"|date_modify("-4 days")).diff(date("now")).days) %}
-    {% for key, progress in earned %}
-      {% set percentage = (progress/attribute(costOfLife, key) * 100) %}
-      {% set widgetBody %}
-        <div class="text-{{ daysDiff  > 20 ? "info" : daysDiff  > 10 ? "warning" : "danger" }}">
-          EGP {{ issuedThisMonth|number_format }} 
-          <span class="float-right">
-            EGP {{ attribute(costOfLife, key)|number_format }}
-          </span>
-          <br/>
-          <i class="float-right fa fa-arrow-{{ percentage > 0  ? 'up':'down'}}"></i>
-        </div>
-        {{ percentage|round }}%
-      {% endset %}
-      {% include('AppBundle:Dashboard:_widget_flat.html.twig') %}
-    {% endfor %}
+    <h5 class="text-muted font-weight-normal mt-0" title="Number of Clients">Progress Vs Actuals</h5>
   </div><!-- .col -->
-  <div class="{{ widgetColclass }}">
-    {% set widgetBody %}
-      <i class="float-right fa fa-users" title="Clients"></i>
-      {{ progressMonitoring.clientsCount}}
-      <br/>
-      <span class="text-{{ progressMonitoring.clientsProgress > 0 ? 'success' : 'danger' }}">
-        {{ progressMonitoring.clientsProgress }}%
-        <i class="float-right fa fa-arrow-{{ progressMonitoring.clientsProgress > 0  ? 'up':'down'}}"></i>
-      </span>
-    {% endset %}
-    {% include('AppBundle:Dashboard:_widget_flat.html.twig') %}
-    {% set widgetBody %}
-      <i class="float-right fa fa-briefcase" title="Accounts"></i>
-      {{ progressMonitoring.accountsCount}}
-      <br/>
-      <span class="text-{{ progressMonitoring.accountsProgress > 0 ? 'success' : 'danger' }}">
-        {{ progressMonitoring.accountsProgress }}%
-        <i class="float-right fa fa-arrow-{{ progressMonitoring.accountsProgress > 0  ? 'up':'down'}}"></i>
-      </span>
-    {% endset %}
-    {% include('AppBundle:Dashboard:_widget_flat.html.twig') %}
-  </div> <!-- end col-->
-  <div class="{{ widgetColclass }}">
-    {% set widgetBody %}
-      <i class="float-right fa fa-tasks" title="Tasks"></i>
-      {{ progressMonitoring.tasksCompletedCount }}
-      <br/>
-      <span class="text-{{ progressMonitoring.tasksCompletedProgress > 0 ? 'success' : 'danger' }}">
-        {{ progressMonitoring.tasksCompletedProgress }}%
-        <i class="float-right fa fa-arrow-{{ progressMonitoring.tasksCompletedProgress > 0  ? 'up':'down'}}"></i>
-      </span>
-    {% endset %}
-    {% include('AppBundle:Dashboard:_widget_flat.html.twig') %}
-    {% set widgetBody %}
-      <i class="float-right fa fa-egp" title="Revenue"></i>
-      {{ progressMonitoring.revenueSum }}
-      <br/>
-      <span class="text-{{ progressMonitoring.revenueProgress > 0 ? 'success' : 'danger' }}">
-        {{ progressMonitoring.revenueProgress }}%
-        <i class="float-right fa fa-arrow-{{ progressMonitoring.revenueProgress > 0  ? 'up':'down'}}"></i>
-      </span>
-    {% endset %}
-    {% include('AppBundle:Dashboard:_widget_flat.html.twig') %}
-  </div> <!-- end col-->
-  <div class="{{ widgetColclass }}">
-    {% set widgetBody %}
-      <i class="float-right fas fa-stopwatch" title="Duration"></i>
-      {{ progressMonitoring.durationSum }}
-      <br/>
-      <span class="text-{{ progressMonitoring.durationProgress  > 0 ? 'success' : 'danger' }}">
-        {{ progressMonitoring.durationProgress }}%
-        <i class="float-right fa fa-arrow-{{ progressMonitoring.durationProgress  > 0  ? 'up':'down'}}"></i>
-      </span>
-    {% endset %}
-    {% include('AppBundle:Dashboard:_widget_flat.html.twig') %}
-
-    {% set widgetBody %}
-      <!-- https://codepen.io/jasonleewilson/pen/gPrxwX -->
-      <div id="timedate">
-        <a id="h">12</a> :
-        <a id="m">00</a>:
-        <a id="s">00</a><br/>
-        <a id="day">{{ "now"|date('l')}}</a>
-        <a id="mon">January</a>
-        <a id="d">1</a>,
-        <a id="y">0</a>
-        {#          {{ day_manager.isWorkingDay() }}#}
-      </div>
-    {% endset %}
-    {% include('AppBundle:Dashboard:_widget_flat.html.twig') %}
-  </div> <!-- end col-->
 </div><!-- .row -->

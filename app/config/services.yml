@@ -71,7 +71,7 @@ services:
       
     myapp.progressMonitoring:
       class:  AppBundle\Service\progressMonitoring
-      arguments: [ '@doctrine.orm.entity_manager' ]
+      arguments: [ '@doctrine.orm.entity_manager', '@myapp.cost' ]
       public: true
       
     myapp.workingdays:
