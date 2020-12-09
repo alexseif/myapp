@@ -258,7 +258,7 @@ class ProgressMonitoring
     $completedTasks = $this->em->getRepository('AppBundle:Tasks')->getCompletedToday();
     $total = 0;
     foreach ($completedTasks as $task) {
-      $rate = (null != $task->getRate()) ? $task->getRate() : $this->costOfLife->getHourly();
+      $rate = (null != $task->getRate()) ? $task->getRate() : $this->getCostOfLife->getHourly();
       $total += $task->getDuration() / 60 * $rate;
     }
     return $total;
@@ -269,7 +269,7 @@ class ProgressMonitoring
     $completedTasks = $this->em->getRepository('AppBundle:Tasks')->getCompletedThisWeek();
     $total = 0;
     foreach ($completedTasks as $task) {
-      $rate = (null == $task->getRate()) ? $task->getRate() : $this->costOfLife->getHourly();
+      $rate = (null == $task->getRate()) ? $task->getRate() : $this->getCostOfLife()->getHourly();
       $total += $task->getDuration() / 60 * $rate;
     }
     return $total;
