@@ -189,7 +189,11 @@ accounts-summary .money-egp:before{content: "EGP";position: absolute; left: 0;}
   letter-spacing: 7px;
 }
 /*https://codepen.io/jasonleewilson/pen/gPrxwX*/
+
 .widget-flat {
   font-family: system-ui;
   border-left: 3px solid #E74C3C;
+}
+.widget-flat .card-body{
+  padding: 1rem;
 }
