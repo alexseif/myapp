@@ -1,4 +1,5 @@
 {% set widgetColClass = "col" %}
+{% set widgetClass = "widget-danger" %}
 {% set daysDiff = (("last day of next month"|date_modify("-4 days")).diff(date("now")).days) %}
 <div class="row">
   <div class="{{ widgetColClass }}">

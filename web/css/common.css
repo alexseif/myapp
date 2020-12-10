@@ -192,7 +192,20 @@ accounts-summary .money-egp:before{content: "EGP";position: absolute; left: 0;}
 
 .widget-flat {
   font-family: system-ui;
-  border-left: 3px solid #E74C3C;
+  border-left: 3px solid transparent;
+}
+.widget-flat.widget-info{
+  border-left-color: #3498DB;
+}
+.widget-flat.widget-muted{
+  border-left-color: #999;
+}
+.widget-flat.widget-warning{
+  border-left-color: #F39C12;
+}
+
+.widget-flat.widget-danger {
+  border-left-color: #E74C3C;
 }
 .widget-flat .card-body{
   padding: 1rem;
