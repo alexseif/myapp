@@ -132,7 +132,7 @@ class ProgressMonitoring
 
   function getClientsProgress()
   {
-    return number_format(round($this->clientsProgress));
+    return round($this->clientsProgress);
   }
 
   public function setAccountsCount()
@@ -156,7 +156,7 @@ class ProgressMonitoring
 
   function getAccountsProgress()
   {
-    return number_format(round($this->clientsProgress));
+    return round($this->clientsProgress);
   }
 
   public function setTasksCompletedCount()
@@ -186,7 +186,7 @@ class ProgressMonitoring
     if ($this->tasksCompletedProgress >= 1000) {
       return round($this->tasksCompletedProgress / 1000) . 'k';
     }
-    return number_format(round($this->tasksCompletedProgress), 1);
+    return round($this->tasksCompletedProgress);
   }
 
   public function setRevenueSum()
@@ -200,7 +200,7 @@ class ProgressMonitoring
 
   function getRevenueSum()
   {
-    return number_format($this->revenueSum);
+    return round($this->revenueSum);
   }
 
   function setRevenueProgress()
@@ -233,7 +233,7 @@ class ProgressMonitoring
 
   function getDurationSum()
   {
-    return number_format($this->durationSum / 60) . ':' . ($this->durationSum % 60);
+    return round($this->durationSum / 60) . ':' . ($this->durationSum % 60);
   }
 
   function setDurationProgress()
@@ -250,7 +250,7 @@ class ProgressMonitoring
 
   function getDurationProgress()
   {
-    return number_format(round($this->durationProgress));
+    return round($this->durationProgress);
   }
 
   public function getEarnedToday()
@@ -261,7 +261,7 @@ class ProgressMonitoring
       $rate = (null != $task->getRate()) ? $task->getRate() : $this->getCostOfLife()->getHourly();
       $total += $task->getDuration() / 60 * $rate;
     }
-    return $total;
+    return round($total);
   }
 
   public function getEarnedThisWeek()
@@ -272,7 +272,7 @@ class ProgressMonitoring
       $rate = (null == $task->getRate()) ? $task->getRate() : $this->getCostOfLife()->getHourly();
       $total += $task->getDuration() / 60 * $rate;
     }
-    return $total;
+    return round($total);
   }
 
   public function getEarnedThisMonth()
@@ -283,7 +283,7 @@ class ProgressMonitoring
       $rate = (null == $task->getRate()) ? $task->getRate() : $this->getCostOfLife()->getHourly();
       $total += $task->getDuration() / 60 * $rate;
     }
-    return $total;
+    return round($total);
   }
 
 }
