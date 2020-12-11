@@ -21,8 +21,8 @@ var Tasks = {
     }
   },
   bindEvents: function () {
-    $('.task-list input[type="checkbox"]').change(this.updateTask);
-    $('.task-list a.postpone').click(this.postponeTask);
+    $('.task-item input[type="checkbox"]').change(this.updateTask);
+    $('.task-item .postpone').click(this.postponeTask);
     $('[data-toggle="popover"]').popover({html: true, container: "body"});
     $('[data-toggle="modal"]').click(this.showModal);
 
@@ -49,20 +49,20 @@ var Tasks = {
       }
     }).done(function () {
 
-      var undoLink = $('<a class="undo"><strong>Undo</strong></a>')
-              .data('taskid', taskId);
-      var div = $('<div/>')
-              .addClass("alert alert-success alert-dismissable")
-              .css("margin-bottom", 0)
-              .append('<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Postponed!</strong>&nbsp;')
-              .append(undoLink);
-      var li = $('<div/>')
-              .append(div);
-      console.log($(taskEl).parents('.task-item'));
-      $(taskEl).parents('.task-item').after(li);
-      $('a.undo').click(Tasks.undoPostponeTask);
-      $(taskEl).parents('.task-item').remove();
       if (self.isFocus) {
+        var undoLink = $('<a class="undo"><strong>Undo</strong></a>')
+                .data('taskid', taskId);
+        var div = $('<div/>')
+                .addClass("alert alert-success alert-dismissable")
+                .css("margin-bottom", 0)
+                .append('<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Postponed!</strong>&nbsp;')
+                .append(undoLink);
+        var li = $('<div/>')
+                .append(div);
+        console.log($(taskEl).parents('.task-item'));
+        $(taskEl).parents('.task-item').after(li);
+        $('a.undo').click(Tasks.undoPostponeTask);
+        $(taskEl).parents('.task-item').remove();
         self.drawFocus();
       }
     });
@@ -100,14 +100,10 @@ var Tasks = {
     }).done(function () {
       if (isCompleted) {
         $(taskEl).parents('.task-item')
-                .addClass('completed')
-                .children('.btn-sm:not(.info-link)')
-                .removeClass('btn-sm').addClass('btn-xs');
+                .addClass('completed');
       } else {
         $(taskEl).parents('.task-item')
-                .removeClass('completed')
-                .children('.btn-xs:not(.info-link)')
-                .removeClass('btn-xs').addClass('btn-sm');
+                .removeClass('completed');
       }
       if (self.isFocus) {
         self.drawFocus();

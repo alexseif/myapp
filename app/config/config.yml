@@ -42,7 +42,7 @@ twig:
     form_themes:
         - 'bootstrap_3_layout.html.twig'
     date:
-        format: d.m.Y, H:i:s
+        format: d.m.y
         interval_format: '%%d days'
         timezone: Africa/Cairo
     number_format:

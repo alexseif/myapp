@@ -98,9 +98,11 @@ function updateClock() {
           yr = now.getFullYear();
   var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   var tags = ["mon", "d", "y", "h", "m", "s"],
-          corr = [months[mo].substring(0,3), dy, yr - 2000, hou.pad(2), min.pad(2), sec.pad(2)];
-  for (var i = 0; i < tags.length; i++)
-    document.getElementById(tags[i]).firstChild.nodeValue = corr[i];
+          corr = [months[mo].substring(0, 3), dy, yr - 2000, hou.pad(2), min.pad(2), sec.pad(2)];
+  for (var i = 0; i < tags.length; i++) {
+    if (document.getElementById(tags[i]))
+      document.getElementById(tags[i]).firstChild.nodeValue = corr[i];
+  }
 }
 
 function initClock() {
