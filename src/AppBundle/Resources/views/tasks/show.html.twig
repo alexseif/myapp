@@ -115,7 +115,7 @@
               <span title="Duration">Duration: {{ task.duration ~ "m"}}</span>
             {% endif %}
             {% if task.completed %}
-              <span title="Completed: {{ task.completed|date('D M, j Y') }}">Completed: {{ task.completed|date }}</span>
+              <span title="Completed: {{ task.completedAt|date('D M, j Y') }}">Completed: {{ task.completedAt|date }}</span>
             {% endif %}
             <span title="Created: {{ task.createdAt|date('D M, j Y') }}">Created: {{ task.createdAt|date }}</span>
           </div>
