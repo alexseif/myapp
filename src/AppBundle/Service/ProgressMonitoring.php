@@ -110,6 +110,11 @@ class ProgressMonitoring
     return $this->cs;
   }
 
+  public function formatNumber($number)
+  {
+    return \AppBundle\Util\Formatting::number($number);
+  }
+
   public function setClientsCount()
   {
     $this->clientsCount = count($this->em->getRepository('AppBundle:Client')->findBy([
@@ -132,7 +137,7 @@ class ProgressMonitoring
 
   function getClientsProgress()
   {
-    return round($this->clientsProgress);
+    return $this->formatNumber($this->clientsProgress);
   }
 
   public function setAccountsCount()
@@ -156,7 +161,7 @@ class ProgressMonitoring
 
   function getAccountsProgress()
   {
-    return round($this->clientsProgress);
+    return $this->formatNumber($this->clientsProgress);
   }
 
   public function setTasksCompletedCount()
@@ -184,9 +189,9 @@ class ProgressMonitoring
   function getTasksCompletedProgress()
   {
     if ($this->tasksCompletedProgress >= 1000) {
-      return round($this->tasksCompletedProgress / 1000) . 'k';
+      return $this->formatNumber($this->tasksCompletedProgress / 1000) . 'k';
     }
-    return round($this->tasksCompletedProgress);
+    return $this->formatNumber($this->tasksCompletedProgress);
   }
 
   public function setRevenueSum()
@@ -200,7 +205,7 @@ class ProgressMonitoring
 
   function getRevenueSum()
   {
-    return round($this->revenueSum);
+    return $this->formatNumber($this->revenueSum);
   }
 
   function setRevenueProgress()
@@ -218,7 +223,7 @@ class ProgressMonitoring
 
   function getRevenueProgress()
   {
-    return number_format(round($this->revenueProgress));
+    return $this->formatNumber($this->revenueProgress);
   }
 
   function setDurationSum()
@@ -233,7 +238,7 @@ class ProgressMonitoring
 
   function getDurationSum()
   {
-    return round($this->durationSum / 60) . ':' . ($this->durationSum % 60);
+    return $this->formatNumber($this->durationSum / 60) . ':' . ($this->durationSum % 60);
   }
 
   function setDurationProgress()
@@ -250,7 +255,7 @@ class ProgressMonitoring
 
   function getDurationProgress()
   {
-    return round($this->durationProgress);
+    return $this->formatNumber($this->durationProgress);
   }
 
   public function getEarnedToday()
@@ -261,7 +266,7 @@ class ProgressMonitoring
       $rate = (null != $task->getRate()) ? $task->getRate() : $this->getCostOfLife()->getHourly();
       $total += $task->getDuration() / 60 * $rate;
     }
-    return round($total);
+    return $this->formatNumber($total);
   }
 
   public function getEarnedThisWeek()
@@ -272,7 +277,7 @@ class ProgressMonitoring
       $rate = (null == $task->getRate()) ? $task->getRate() : $this->getCostOfLife()->getHourly();
       $total += $task->getDuration() / 60 * $rate;
     }
-    return round($total);
+    return $this->formatNumber($total);
   }
 
   public function getEarnedThisMonth()
@@ -283,7 +288,7 @@ class ProgressMonitoring
       $rate = (null == $task->getRate()) ? $task->getRate() : $this->getCostOfLife()->getHourly();
       $total += $task->getDuration() / 60 * $rate;
     }
-    return round($total);
+    return $this->formatNumber($total);
   }
 
 }
