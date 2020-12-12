@@ -89,6 +89,12 @@ class ProgressMonitoring
    */
   private $durationProgress;
 
+  /**
+   *
+   * @var array 
+   */
+  private $earnedProgress;
+
   public function __construct(EntityManager $em, CostService $cs)
   {
     $this->em = $em;
@@ -103,6 +109,9 @@ class ProgressMonitoring
     $this->setRevenueProgress();
     $this->setDurationSum();
     $this->setDurationProgress();
+    $this->setEarnedThisMonth();
+    $this->setEarnedThisWeek();
+    $this->setEarnedToday();
   }
 
   public function getCostOfLife()
@@ -258,7 +267,7 @@ class ProgressMonitoring
     return $this->formatNumber($this->durationProgress);
   }
 
-  public function getEarnedToday()
+  public function setEarnedToday()
   {
     $completedTasks = $this->em->getRepository('AppBundle:Tasks')->getCompletedToday();
     $total = 0;
@@ -266,10 +275,15 @@ class ProgressMonitoring
       $rate = (null != $task->getRate()) ? $task->getRate() : $this->getCostOfLife()->getHourly();
       $total += $task->getDuration() / 60 * $rate;
     }
-    return $this->formatNumber($total);
+    $this->earnedProgress['today'] = $total;
   }
 
-  public function getEarnedThisWeek()
+  public function getEarnedToday()
+  {
+    return $this->formatNumber($this->earnedProgress['today']);
+  }
+
+  public function setEarnedThisWeek()
   {
     $completedTasks = $this->em->getRepository('AppBundle:Tasks')->getCompletedThisWeek();
     $total = 0;
@@ -277,10 +291,15 @@ class ProgressMonitoring
       $rate = (null == $task->getRate()) ? $task->getRate() : $this->getCostOfLife()->getHourly();
       $total += $task->getDuration() / 60 * $rate;
     }
-    return $this->formatNumber($total);
+    $this->earnedProgress['week'] = $total;
   }
 
-  public function getEarnedThisMonth()
+  public function getEarnedThisWeek()
+  {
+    return $this->formatNumber($this->earnedProgress['week']);
+  }
+
+  public function setEarnedThisMonth()
   {
     $completedTasks = $this->em->getRepository('AppBundle:Tasks')->getCompletedThisMonth();
     $total = 0;
@@ -288,7 +307,47 @@ class ProgressMonitoring
       $rate = (null == $task->getRate()) ? $task->getRate() : $this->getCostOfLife()->getHourly();
       $total += $task->getDuration() / 60 * $rate;
     }
-    return $this->formatNumber($total);
+    $this->earnedProgress['month'] = $total;
+  }
+
+  public function getEarnedThisMonth()
+  {
+    return $this->formatNumber($this->earnedProgress['month']);
+  }
+
+  public function getMonthly()
+  {
+    return $this->formatNumber($this->getCostOfLife()->getMonthly());
+  }
+
+  public function getWeekly()
+  {
+    return $this->formatNumber($this->getCostOfLife()->getWeekly());
+  }
+
+  public function getDaily()
+  {
+    return $this->formatNumber($this->getCostOfLife()->getDaily());
+  }
+
+  public function getHourly()
+  {
+    return $this->formatNumber($this->getCostOfLife()->getHourly());
+  }
+
+  public function getMonthProgress()
+  {
+    return $this->formatNumber($this->earnedProgress['month'] / $this->getCostOfLife()->getMonthly() * 100);
+  }
+
+  public function getWeekProgress()
+  {
+    return $this->formatNumber($this->earnedProgress['week'] / $this->getCostOfLife()->getWeekly() * 100);
+  }
+
+  public function getTodayProgress()
+  {
+    return $this->formatNumber($this->earnedProgress['today'] / $this->getCostOfLife()->getDaily() * 100);
   }
 
 }

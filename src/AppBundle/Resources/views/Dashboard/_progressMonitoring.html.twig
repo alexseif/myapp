@@ -1,6 +1,7 @@
 {% set widgetColClass = "col" %}
 {% set widgetClass = "widget-danger" %}
 {% set daysDiff = (("last day of next month"|date_modify("-4 days")).diff(date("now")).days) %}
+{% set pm = progressMonitoring %}
 <div class="row">
   <div class="{{ widgetColClass }}">
     {% set widgetBody %}
@@ -22,17 +23,17 @@
   <div class="{{ widgetColClass }}">
     {% set widgetBody %}
       <div class="text-{{ daysDiff  > 20 ? "info" : daysDiff  > 10 ? "warning" : "danger" }}">
-        <span class="float-right">{{ 0 }}%</span>
+        <span class="float-right">{{ pm.todayProgress }}%</span>
         <i class="fa fa-egp" title="Revenue"></i>
-        {{ progressMonitoring.earnedToday }} / {{ 1000 }} 
+        {{ pm.earnedToday }} / {{ pm.daily }} 
         <br/>
-        <span class="float-right">{{ 0 }}%</span>
+        <span class="float-right">{{ pm.weekProgress }}%</span>
         <i class="fa fa-egp" title="Revenue"></i>
-        {{ progressMonitoring.earnedThisWeek}} / {{ 1000 }}
+        {{ pm.earnedThisWeek}} / {{ pm.weekly }}
         <br/>
-        <span class="float-right">{{ 0 }}%</span>
+        <span class="float-right">{{ pm.monthProgress }}%</span>
         <i class="fa fa-egp" title="Revenue"></i>
-        {{ progressMonitoring.earnedThisMonth }} / {{ 1000 }}
+        {{ pm.earnedThisMonth }} / {{ pm.monthly }}
       </div>
     {% endset %}
     {% include('AppBundle:Dashboard:_widget_flat.html.twig') %}
@@ -40,45 +41,45 @@
   <div class="{{ widgetColClass }}">
     {% set widgetBody %}
       <br/>
-      <span class="float-right text-{{ progressMonitoring.clientsProgress > 0 ? 'success' : 'danger' }}">
-        {{ progressMonitoring.clientsProgress }}%
-        <i class="fa fa-arrow-{{ progressMonitoring.clientsProgress > 0  ? 'up':'down'}}"></i>
+      <span class="float-right text-{{ pm.clientsProgress > 0 ? 'success' : 'danger' }}">
+        {{ pm.clientsProgress }}%
+        <i class="fa fa-arrow-{{ pm.clientsProgress > 0  ? 'up':'down'}}"></i>
       </span>
       <i class="fa fa-users" title="Clients"></i>
-      {{ progressMonitoring.clientsCount}}
+      {{ pm.clientsCount}}
       <br/>
-      <span class="float-right text-{{ progressMonitoring.accountsProgress > 0 ? 'success' : 'danger' }}">
-        {{ progressMonitoring.accountsProgress }}%
-        <i class="fa fa-arrow-{{ progressMonitoring.accountsProgress > 0  ? 'up':'down'}}"></i>
+      <span class="float-right text-{{ pm.accountsProgress > 0 ? 'success' : 'danger' }}">
+        {{ pm.accountsProgress }}%
+        <i class="fa fa-arrow-{{ pm.accountsProgress > 0  ? 'up':'down'}}"></i>
       </span>
       <i class="fa fa-briefcase" title="Accounts"></i>
-      {{ progressMonitoring.accountsCount}}
+      {{ pm.accountsCount}}
       <br/>
     {% endset %}
     {% include('AppBundle:Dashboard:_widget_flat.html.twig') %}
   </div><!-- col -->
   <div class="{{ widgetColClass }}">
     {% set widgetBody %}
-      <span class="float-right text-{{ progressMonitoring.tasksCompletedProgress > 0 ? 'success' : 'danger' }}">
-        {{ progressMonitoring.tasksCompletedProgress }}%
-        <i class="fa fa-arrow-{{ progressMonitoring.tasksCompletedProgress > 0  ? 'up':'down'}}"></i>
+      <span class="float-right text-{{ pm.tasksCompletedProgress > 0 ? 'success' : 'danger' }}">
+        {{ pm.tasksCompletedProgress }}%
+        <i class="fa fa-arrow-{{ pm.tasksCompletedProgress > 0  ? 'up':'down'}}"></i>
       </span>
       <i class="fa fa-tasks" title="Tasks"></i>
-      {{ progressMonitoring.tasksCompletedCount }}
+      {{ pm.tasksCompletedCount }}
       <br/>
-      <span class="float-right text-{{ progressMonitoring.durationProgress  > 0 ? 'success' : 'danger' }}">
-        {{ progressMonitoring.durationProgress }}%
-        <i class="fa fa-arrow-{{ progressMonitoring.durationProgress  > 0  ? 'up':'down'}}"></i>
+      <span class="float-right text-{{ pm.durationProgress  > 0 ? 'success' : 'danger' }}">
+        {{ pm.durationProgress }}%
+        <i class="fa fa-arrow-{{ pm.durationProgress  > 0  ? 'up':'down'}}"></i>
       </span>
       <i class="fas fa-stopwatch" title="Duration"></i>
-      {{ progressMonitoring.durationSum }}
+      {{ pm.durationSum }}
       <br/>
-      <span class="float-right text-{{ progressMonitoring.revenueProgress > 0 ? 'success' : 'danger' }}">
-        {{ progressMonitoring.revenueProgress }}%
-        <i class="fa fa-arrow-{{ progressMonitoring.revenueProgress > 0  ? 'up':'down'}}"></i>
+      <span class="float-right text-{{ pm.revenueProgress > 0 ? 'success' : 'danger' }}">
+        {{ pm.revenueProgress }}%
+        <i class="fa fa-arrow-{{ pm.revenueProgress > 0  ? 'up':'down'}}"></i>
       </span>
       <i class="fa fa-egp" title="Revenue"></i>
-      {{ progressMonitoring.revenueSum }}
+      {{ pm.revenueSum }}
       <br/>
     {% endset %}
     {% include('AppBundle:Dashboard:_widget_flat.html.twig') %}

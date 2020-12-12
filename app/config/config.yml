@@ -52,6 +52,7 @@ twig:
     globals:
         bottom_bar: '@myapp.bottomBar'
         day_manager: '@myapp.dayManager'
+        progressMonitoring: '@myapp.progressMonitoring'
 # Doctrine Configuration
 doctrine:
     dbal:
