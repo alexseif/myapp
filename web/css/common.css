@@ -211,6 +211,136 @@ accounts-summary .money-egp:before{content: "EGP";position: absolute; left: 0;}
   padding: 1rem;
 }
 
-.widget-flat .dropdown .dropdown-menu .dropdown-item{
-  /*width: auto;*/
+/*three dot menu*/
+/* @todo: better animation */
+/* @todo: click div open postion. 
+maybe group dots in child div and rotate div */
+.three-dot-menu {
+  position: absolute;
+  top: 14px;
+  right: 23px;
+  bottom: 0;
+  cursor: pointer;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #fff;
 }
+
+.three-dot-menu:before {
+  content: "";
+  position: absolute;
+  top: 8px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #fff;
+}
+
+.three-dot-menu:after {
+  content: "";
+  position: absolute;
+  top: 17px;
+  bottom: 50px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #fff;
+}
+.three-dot-menu div {
+  width: 20px;
+  height: 30px;
+  border-radius: 0px;
+  margin-left: -7px;
+  margin-top: -4px;
+}
+/* Open  */
+.three-dot-menu:not(.collapsed) {
+  top: 23px;
+  right: 15px;
+}
+.three-dot-menu:not(.collapsed):before {
+  top: 0px;
+  right: 7px;
+}
+.three-dot-menu:not(.collapsed):after {
+  top: 0px;
+  right: 14px;
+}
+/* click feedback*/
+.three-dot-menu div:active {
+  background-color: #6e6e6e;
+  border-radius: 40%;
+  -webkit-animation: fadeInFromNone 0.5s ease-out;
+  -moz-animation: fadeInFromNone 0.5s ease-out;
+  -o-animation: fadeInFromNone 0.5s ease-out;
+  animation: fadeInFromNone 0.5s ease-out;
+}
+@-webkit-keyframes fadeInFromNone {
+  0% {
+    display: none;
+    opacity: 0;
+  }
+
+  1% {
+    display: block;
+    opacity: 0;
+  }
+
+  100% {
+    display: block;
+    opacity: 1;
+  }
+}
+
+@-moz-keyframes fadeInFromNone {
+  0% {
+    display: none;
+    opacity: 0;
+  }
+
+  1% {
+    display: block;
+    opacity: 0;
+  }
+
+  100% {
+    display: block;
+    opacity: 1;
+  }
+}
+
+@-o-keyframes fadeInFromNone {
+  0% {
+    display: none;
+    opacity: 0;
+  }
+
+  1% {
+    display: block;
+    opacity: 0;
+  }
+
+  100% {
+    display: block;
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInFromNone {
+  0% {
+    display: none;
+    opacity: 0;
+  }
+
+  1% {
+    display: block;
+    opacity: 0;
+  }
+
+  100% {
+    display: block;
+    opacity: 1;
+  }
+}
+/*three dot menu ends*/
