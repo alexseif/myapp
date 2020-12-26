@@ -5,6 +5,9 @@ namespace AppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Service\TasksService;
+use AppBundle\Service\ReminderService;
+use AppBundle\Service\AccountsService;
 
 class DashboardController extends Controller
 {
@@ -13,71 +16,24 @@ class DashboardController extends Controller
    * 
    * @Route("/", name="dashboard")
    */
-  public function dashboardAction(Request $request)
+  public function dashboardAction(Request $request, TasksService $ts, ReminderService $rs, AccountsService $as)
   {
     $em = $this->getDoctrine()->getManager();
 
-    $taskLists = $em->getRepository('AppBundle:DashboardTaskLists')->findAll();
-    $unlistedTasks = $em->getRepository('AppBundle:Tasks')->findUnlisted();
-    $randomTasks = $em->getRepository('AppBundle:Tasks')->randomTasks();
-    $days = $em->getRepository('AppBundle:Days')->getActiveCards();
-    $holidays = $em->getRepository('AppBundle:Holiday')->getComingHolidays();
-    $accounts = $em->getRepository('AppBundle:Accounts')->findBy(array('conceal' => false));
-    $tsksCntDay = $em->getRepository('AppBundle:Tasks')->findTasksCountByDay();
-    $durationSum = $em->getRepository('AppBundle:Tasks')->sumDuration()["duration"];
-    $today = new \DateTime();
-    $endDay = new \DateTime();
-    $endDay->add(\DateInterval::createFromDateString($durationSum . " minutes"));
-    $interval = $endDay->diff($today, true);
-    /** Cost Of Life * */
-    $costOfLife = $this->get('myapp.cost');
-
-    $countByUrgenctAndPriority = $em->getRepository('AppBundle:Tasks')->countByUrgenctAndPriority();
-    $piechart = [];
-    $piechart['Urgent & Important'] = 0;
-    $piechart['Urgent'] = 0;
-    $piechart['Important'] = 0;
-    $piechart['Normal'] = 0;
-    $piechart['Low'] = 0;
-
-    foreach ($countByUrgenctAndPriority as $key => $row) {
-      $row['duration'] = (int) $row['duration'];
-      if ($row['urgency']) {
-        if ($row['priority']) {
-          $piechart['Urgent & Important'] = $row['duration'];
-        } else {
-          $piechart['Urgent'] = $row['duration'];
-        }
-      } elseif ($row['priority'] > 0) {
-        $piechart['Important'] = $row['duration'];
-      } elseif ($row['priority'] < 0) {
-        $piechart['Low'] = $row['duration'];
-      } else {
-        $piechart['Normal'] = $row['duration'];
-      }
-    }
-
-    $tskCnt = array();
-    foreach ($tsksCntDay as $t) {
-      $tskCnt[$t['day_name']] = $t['cnt'];
-    }
-
-    $earnedLogic = new \AppBundle\Logic\EarnedLogic($em, $costOfLife);
-    $earned = $earnedLogic->getEarned();
+    $earnedLogic = new \AppBundle\Logic\EarnedLogic($em, $this->get('myapp.cost'));
 
     return $this->render("AppBundle:Dashboard:dashboard.html.twig", array(
-          'taskLists' => $taskLists,
-          'randomTasks' => $randomTasks,
-          'unlistedTasks' => $unlistedTasks,
-          'days' => $days,
-          'holidays' => $holidays,
-          'accounts' => $accounts,
-          'earned' => $earned,
+          'taskLists' => $ts->getDashboardTasklists(),
+          'randomTasks' => $ts->getRandom(),
+          'unlistedTasks' => $ts->getUnlisted(),
+          'days' => $rs->getActiveReminders(),
+          'holidays' => $em->getRepository('AppBundle:Holiday')->getComingHolidays(),
+          'accounts' => $as->getDashboard(),
+          'earned' => $earnedLogic->getEarned(),
           'issuedThisMonth' => $earnedLogic->getIssuedThisMonth(),
-          'tskCnt' => $tskCnt,
-          'interval' => $interval,
-          'costOfLife' => $costOfLife,
-          'piechart' => $piechart,
+          'tskCnt' => $ts->getCompletedCountPerDayOfTheWeek(),
+          'costOfLife' => $this->get('myapp.cost'),
+          'piechart' => $ts->getPieChartByUrgencyAndPriority(),
     ));
   }
 
@@ -98,6 +54,7 @@ class DashboardController extends Controller
   {
     return $this->render("AppBundle:Dashboard:workspace.html.twig");
   }
+
   /**
    * 
    * @Route("remind", name="remind")

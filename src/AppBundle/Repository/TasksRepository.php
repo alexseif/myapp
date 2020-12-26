@@ -299,16 +299,6 @@ class TasksRepository extends EntityRepository
             ->getResult();
   }
 
-  public function sumDuration()
-  {
-    return $this
-            ->createQueryBuilder('t')
-            ->select('SUM(t.duration) as duration')
-            ->where('t.completed <> true')
-            ->getQuery()
-            ->getSingleResult();
-  }
-
   public function countByUrgenctAndPriority()
   {
     return $this
