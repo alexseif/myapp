@@ -9,7 +9,7 @@ var Tasks = {
   init: function () {
     this.bindEvents();
     if (this.isFocus) {
-      $('<div class="accordion task-list m-4" id="focus"></div>').prependTo('.container');
+      $('<div class="task-list m-4" id="focus"></div>').prependTo('.container');
       this.drawFocus();
       if (!touch) {
         $("#focus").sortable({

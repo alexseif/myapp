@@ -200,7 +200,7 @@ class TasksRepository extends EntityRepository
    * @param int $limit
    * @return Tasks[]
    */
-  public function focusList($limit = 0)
+  public function focusList($limit = 20)
   {
     $today = new \DateTime();
     $query = $this

@@ -215,11 +215,13 @@ accounts-summary .money-egp:before{content: "EGP";position: absolute; left: 0;}
 /* @todo: better animation */
 /* @todo: click div open postion. 
 maybe group dots in child div and rotate div */
+.task-actions{
+  position: relative;
+}
 .three-dot-menu {
   position: absolute;
-  top: 14px;
-  right: 23px;
-  bottom: 0;
+  top: 0px;
+  right: 0px;
   cursor: pointer;
   width: 4px;
   height: 4px;
@@ -256,8 +258,8 @@ maybe group dots in child div and rotate div */
 }
 /* Open  */
 .three-dot-menu:not(.collapsed) {
-  top: 23px;
-  right: 15px;
+  top: 10px;
+  right: -5px;
 }
 .three-dot-menu:not(.collapsed):before {
   top: 0px;
