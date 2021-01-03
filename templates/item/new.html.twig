@@ -1,0 +1,8 @@
+{% extends 'base.html.twig' %}
+{% import "macros/forms.html.twig" as forms %}
+{% import "macros/a.html.twig" as a %}
+{% block panelTitle %}New Item{% endblock %}
+{% block panelBack %}{{ a.back('item_index') }}{% endblock %}
+{% block panelBody %}
+  {{ include('item/_form.html.twig') }}
+{% endblock %}

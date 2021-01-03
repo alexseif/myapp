@@ -2,4 +2,12 @@
 {% macro status(status) %}
   <div class="badge badge-{{ status ? "primary" : "secondary"}}">
     {{status ? "Enabled" : "Disabled"}}</div>
+
+{% endmacro %}
+
+
+{% macro priority(priority) %}
+  {# TODO: [ITEM] display by priority #}
+  <div class="badge badge-{{ priority ? "primary" : "secondary"}}">
+    {{priority ? "Enabled" : "Disabled"}}</div>
 {% endmacro %}
