@@ -1,9 +1,16 @@
-<!DOCTYPE html>
+{% extends 'base.html.twig' %}
+{% import "macros/forms.html.twig" as forms %}
+{% import "macros/a.html.twig" as a %}
+{% block panelBack %}{{ a.back('item_index') }}{% endblock %}
+{% block panelTitle %}Item: {{ item.title }}{% endblock %}
+{% block panelHeadingRight %}
+    {{ a.edit('item_edit', {'id':item.id}) }}
+    {{ include('item/_delete_form.html.twig') }}
+{#    {{ forms.delete(delete_form) }}#}
+{% endblock %}
 
-<title>Item</title>
-{% block body %}
-    <h1>Item</h1>
-
+{% block panelBody %}
+{#    TODO: widgets #}
     <table class="table">
         <tbody>
             <tr>
@@ -41,9 +48,4 @@
         </tbody>
     </table>
 
-    <a href="{{ path('item_index') }}">back to list</a>
-
-    <a href="{{ path('item_edit', {'id': item.id}) }}">edit</a>
-
-    {{ include('item/_delete_form.html.twig') }}
 {% endblock %}

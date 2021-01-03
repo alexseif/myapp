@@ -1,13 +1,13 @@
-<!DOCTYPE html>
-
-<title>Edit Item</title>
-
-{% block body %}
-    <h1>Edit Item</h1>
-
-    {{ include('item/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('item_index') }}">back to list</a>
-
+{% extends 'base.html.twig' %}
+{% import "macros/forms.html.twig" as forms %}
+{% import "macros/a.html.twig" as a %}
+{% block floatingActions %}{{ a.add('item_new') }}{% endblock %}
+{% block panelBack %}{{ a.back('item_index') }}{% endblock %}
+{% block panelTitle %}Edit Item: {{ item.title }}{% endblock %}
+{% block panelHeadingRight %}
     {{ include('item/_delete_form.html.twig') }}
 {% endblock %}
+{% block panelBody %}
+    {{ include('item/_form.html.twig', {'button_label': 'Update'}) }}
+{% endblock %}
+

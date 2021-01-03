@@ -12,102 +12,102 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 class Item
 {
 
-use TimestampableEntity;
+    use TimestampableEntity;
 
-/**
- * @ORM\Id
- * @ORM\GeneratedValue
- * @ORM\Column(type="integer")
- */
-private $id;
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     */
+    private $id;
 
-/**
- * @ORM\Column(type="string", length=255)
- */
-private $title;
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $title;
 
-/**
- * @ORM\Column(type="text", nullable=true)
- */
-private $description;
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $description;
 
-/**
- * @ORM\Column(type="integer")
- */
-private $priority;
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $priority = 0;
 
-/**
- * @ORM\Column(type="integer")
- */
-private $sort;
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $sort = 0;
 
-/**
- * @ORM\Column(type="string", length=255)
- */
-private $type;
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $type;
 
-public function getId(): ?int
-{
-return $this->id;
-}
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
-public function getTitle(): ?string
-{
-return $this->title;
-}
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
 
-public function setTitle(string $title): self
-{
-$this->title = $title;
+    public function setTitle(string $title): self
+    {
+        $this->title = $title;
 
-return $this;
-}
+        return $this;
+    }
 
-public function getDescription(): ?string
-{
-return $this->description;
-}
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
 
-public function setDescription(?string $description): self
-{
-$this->description = $description;
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
 
-return $this;
-}
+        return $this;
+    }
 
-public function getPriority(): ?int
-{
-return $this->priority;
-}
+    public function getPriority(): ?int
+    {
+        return $this->priority;
+    }
 
-public function setPriority(int $priority): self
-{
-$this->priority = $priority;
+    public function setPriority(int $priority): self
+    {
+        $this->priority = $priority;
 
-return $this;
-}
+        return $this;
+    }
 
-public function getSort(): ?int
-{
-return $this->sort;
-}
+    public function getSort(): ?int
+    {
+        return $this->sort;
+    }
 
-public function setSort(int $sort): self
-{
-$this->sort = $sort;
+    public function setSort(int $sort): self
+    {
+        $this->sort = $sort;
 
-return $this;
-}
+        return $this;
+    }
 
-public function getType(): ?string
-{
-return $this->type;
-}
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
 
-public function setType(string $type): self
-{
-$this->type = $type;
+    public function setType(string $type): self
+    {
+        $this->type = $type;
 
-return $this;
-}
+        return $this;
+    }
 }

@@ -15,11 +15,13 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class ItemController extends Controller
 {
+
     /**
      * @Route("/", name="item_index", methods={"GET"})
      */
     public function index(ItemRepository $itemRepository): Response
     {
+//      @todo: item pagination
         return $this->render('item/index.html.twig', [
             'items' => $itemRepository->findAll(),
         ]);
@@ -83,7 +85,7 @@ class ItemController extends Controller
      */
     public function delete(Request $request, Item $item): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$item->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $item->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($item);
             $entityManager->flush();
@@ -91,4 +93,5 @@ class ItemController extends Controller
 
         return $this->redirectToRoute('item_index');
     }
+
 }

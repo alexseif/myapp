@@ -15,7 +15,6 @@ class AccountsType extends AbstractType
    */
   public function buildForm(FormBuilderInterface $builder, array $options)
   {
-    //    TODO: https://github.com/ninsuo/symfony-collection
 
     $builder
         ->add('name')
