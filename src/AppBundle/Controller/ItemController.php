@@ -18,6 +18,8 @@ class ItemController extends Controller
 
     /**
      * @Route("/", name="item_index", methods={"GET"})
+     * @param ItemRepository $itemRepository
+     * @return Response
      */
     public function index(ItemRepository $itemRepository): Response
     {
@@ -29,6 +31,8 @@ class ItemController extends Controller
 
     /**
      * @Route("/new", name="item_new", methods={"GET","POST"})
+     * @param Request $request
+     * @return Response
      */
     public function new(Request $request): Response
     {
@@ -52,6 +56,8 @@ class ItemController extends Controller
 
     /**
      * @Route("/{id}", name="item_show", methods={"GET"})
+     * @param Item $item
+     * @return Response
      */
     public function show(Item $item): Response
     {
@@ -62,6 +68,9 @@ class ItemController extends Controller
 
     /**
      * @Route("/{id}/edit", name="item_edit", methods={"GET","POST"})
+     * @param Request $request
+     * @param Item $item
+     * @return Response
      */
     public function edit(Request $request, Item $item): Response
     {
@@ -82,6 +91,9 @@ class ItemController extends Controller
 
     /**
      * @Route("/{id}", name="item_delete", methods={"DELETE"})
+     * @param Request $request
+     * @param Item $item
+     * @return Response
      */
     public function delete(Request $request, Item $item): Response
     {
