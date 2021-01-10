@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-{% import "AppBundle:tasks:tasks_macros.html.twig" as tasks_view %}
+{% import "macros/tasks.html.twig" as t %}
 {% block title %}Dashboard{% endblock %}
 {# TODO: http://bootsnipp.com/user/favorites #}
 {% block stylesheets %}
@@ -20,7 +20,7 @@
   </div>
   <div class="row">
     <div class="col-xs-12 col-sm-6 col-md-8 col-lg-8 scrollable">
-      {{ tasks_view.ul(focus, {displayListName: 'workarea'}) }}
+      {{ t.ul(focus, {displayListName: 'workarea'}) }}
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 scrollable">
       {% if days|length %}

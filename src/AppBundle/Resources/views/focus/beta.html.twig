@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-{% import "AppBundle:tasks:tasks_macros.html.twig" as taskUI %}
+{% import "macros/tasks.html.twig" as t %}
 {% block title %}Dashboard{% endblock %}
 {% block stylesheets %}
   {{ parent() }}
@@ -20,7 +20,7 @@
       <li class="list-group-item action-item" id="{{ item.type }}-{{ item.id }}">
         <div class="row">
           <div class="col-md-2">
-            {{ taskUI.taskIcons(item.urgency, item.priority) }}
+            {{ t.taskIcons(item.urgency, item.priority) }}
             <span class="badge badge-default action-list">{{ item.label}}</span>
           </div>
           <div class="text-lg col-md-8">{{ item.title }}</div>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+
+<title>Task</title>
+
+{% block body %}
+    <h1>Task</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ task.id }}</td>
+            </tr>
+            <tr>
+                <th>Duration</th>
+                <td>{{ task.duration }}</td>
+            </tr>
+            <tr>
+                <th>Sizing</th>
+                <td>{{ task.sizing }}</td>
+            </tr>
+            <tr>
+                <th>Due</th>
+                <td>{{ task.due ? task.due|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Eta</th>
+                <td>{{ task.eta ? task.eta|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>IsCompleted</th>
+                <td>{{ task.isCompleted ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>CompletedAt</th>
+                <td>{{ task.completedAt ? task.completedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('task_index') }}">back to list</a>
+
+    <a href="{{ path('task_edit', {'id': task.id}) }}">edit</a>
+
+    {{ include('task/_delete_form.html.twig') }}
+{% endblock %}

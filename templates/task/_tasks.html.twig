@@ -1,0 +1,8 @@
+{% import "macros/tasks.html.twig" as t %}
+{% for task in tasks %}
+    {{ t.row(task) }}
+{% else %}
+    <tr>
+        <td colspan="8">no records found</td>
+    </tr>
+{% endfor %}

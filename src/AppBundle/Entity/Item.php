@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Definition\Types;
 use AppBundle\Repository\ItemRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
@@ -35,6 +36,12 @@ class Item
      * @ORM\Column(type="integer")
      */
     private $priority = 0;
+    private $priorityClasses = [
+        0 => 'default',
+        1 => 'info',
+        2 => 'warning',
+        3 => 'danger'
+    ];
 
     /**
      * @ORM\Column(type="integer")
@@ -44,7 +51,7 @@ class Item
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $type;
+    private $type = Types::DEFAULT;
 
     public function getId(): ?int
     {
@@ -109,5 +116,28 @@ class Item
         $this->type = $type;
 
         return $this;
+    }
+
+    public function getPriorityClass()
+    {
+        return (array_key_exists($this->priority, $this->priorityClasses)) ? $this->priorityClasses[$this->priority] : 'danger';
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getPriorityClasses(): array
+    {
+        return $this->priorityClasses;
+    }
+
+    /**
+     * Returns createdAt.
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
     }
 }

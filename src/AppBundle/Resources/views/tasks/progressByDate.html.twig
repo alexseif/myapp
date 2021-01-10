@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-{% import "AppBundle:tasks:tasks_macros.html.twig" as tasks_view %}
+{% import "macros/tasks.html.twig" as t %}
 
 {% block content %}
   <style>
@@ -27,19 +27,19 @@
     <div class="card">
         <div class="card-header">Completed {{ date|time_diff }}</div>
       <div class="card-body">
-        {{ tasks_view.ul(completedYesterday) }}
+        {{ t.ul(completedYesterday) }}
       </div>
     </div>
     <div class="card">
       <div class="card-header">Added {{ date|time_diff }}</div>
       <div class="card-body">
-        {{ tasks_view.ul(createdYesterday) }}
+        {{ t.ul(createdYesterday) }}
       </div>
     </div>
     <div class="card">
       <div class="card-header">Updated {{ date|time_diff }}</div>
       <div class="card-body">
-        {{ tasks_view.ul(updatedYesterday) }}
+        {{ t.ul(updatedYesterday) }}
       </div>
     </div>
   </div>

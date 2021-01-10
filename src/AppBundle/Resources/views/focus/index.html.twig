@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-{% import "AppBundle:tasks:tasks_macros.html.twig" as tasks_view %}
+{% import "macros/tasks.html.twig" as t %}
 
 {% block title %}Focus{% endblock %}
 
@@ -20,8 +20,8 @@
   </div>
 
   <div class="container">
-    {{ tasks_view.ul(completed, {id: 'completed', displayListName: 'completed', class: 'm-2'}) }}
-    {{ tasks_view.ul(tasks, {id: 'tasks', displayListName: 'tasks', focus: true} ) }}
+    {{ t.ul(completed, {id: 'completed', displayListName: 'completed', class: 'm-2'}) }}
+    {{ t.ul(tasks, {id: 'tasks', displayListName: 'tasks', focus: true} ) }}
   </div>
   <div class="details">
     {% if client is defined %}

@@ -1,9 +1,9 @@
-{% import "AppBundle:tasks:tasks_macros.html.twig" as tasks_view %}
+{% import "macros/tasks.html.twig" as t %}
 {#<div class="btn btn-secondary border border-secondary btn-sm btn-block p-0">{{ interval|date("%d %H:%I") }}</div>#}
 {% if unlistedTasks|length %}
   <div class="card">
     <div class="card-header">UnListed</div>
-    {{ tasks_view.ul(unlistedTasks) }}
+    {{ t.ul(unlistedTasks) }}
   </div>
 {% endif %}
 {% for taskList in taskLists %}
@@ -36,12 +36,12 @@
           </div>
         </button>
         <div class="collapse" id="taskList-{{ taskList.id }}">
-          {{ tasks_view.ul(tasks, {displayListName: false}) }}
+          {{ t.ul(tasks, {displayListName: false}) }}
         </div>
       </div>
     {% endif %}
   {% endif %}
 {% endfor %}
 <div class="mt-3 mb-3">
-  {{ tasks_view.ul(randomTasks) }}
+  {{ t.ul(randomTasks) }}
 </div>

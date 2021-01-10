@@ -1,0 +1,17 @@
+{% extends 'baseTable.html.twig' %}
+{% import "macros/a.html.twig" as a %}
+{% import "macros/tasks.html.twig" as t %}
+
+{% import "macros/badges.html.twig" as badge %}
+{% block floatingActions %}{{ a.add('task_new') }}{% endblock %}
+
+{% block title %}Task Index{% endblock %}
+{% block content %}
+    <div class="container">
+        <h1>Tasks</h1>
+        {{ t.ul(tasks) }}
+        <a data-ajax="{{ path('task_get', {'start': (app.request.get('length', 20) + app.request.get('start', 0))}) }}">
+            Load More
+        </a>
+    </div>
+{% endblock %}

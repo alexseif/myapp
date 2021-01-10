@@ -1,5 +1,5 @@
 {% extends "::base.html.twig" %}
-{% import "AppBundle:tasks:tasks_macros.html.twig" as tasks_view %}
+{% import "macros/tasks.html.twig" as t %}
 
 {% block title %}AppBundle:Experiments:listTasks{% endblock %}
 
@@ -22,7 +22,7 @@
           {{ data.result.experiment|keys|first }}
         </div>
         <ul class="list-group list-group-flush task-list">
-          {{ tasks_view.li(data.result.task ) }}
+          {{ t.li(data.result.task ) }}
         </ul>
       </div>
 

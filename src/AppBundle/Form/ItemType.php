@@ -2,6 +2,7 @@
 
 namespace AppBundle\Form;
 
+use AppBundle\Definition\Types;
 use AppBundle\Entity\Item;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -17,16 +18,18 @@ class ItemType extends AbstractType
         $builder
             ->add('title')
             ->add('description')
-            ->add('priority')
             ->add('sort')
-            ->add('type', ChoiceType::class, [
+            ->add('priority', ChoiceType::class, [
+//                'expanded' => true,
+                'label_attr' => ['class' => 'radio-inline'],
                 'choices' => [
-                    'Type1',
-                    'Type2',
-                    'Type3',
-                    'Type4',
+                    'Normal' => 0,
+                    'Important' => 1,
+                    'Urgent' => 2,
+                    'Important & Urgent' => 3
                 ],
             ]);
+
     }
 
     public function configureOptions(OptionsResolver $resolver)

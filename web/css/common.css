@@ -46,7 +46,7 @@ footer{margin-bottom: 3em;}
 .progress .progress-bar{font-size: 13px;}
 .label-muted{background: #e8e8e8;color: #999999;font-weight: normal;}
 
-.completed label, .completed label *{text-decoration:line-through;background-image:none;}
+.completed > label, .completed label *{text-decoration:line-through;background-image:none;}
 
 /* Changes button for collapsed cards */
 
@@ -193,6 +193,9 @@ accounts-summary .money-egp:before{content: "EGP";position: absolute; left: 0;}
 .widget-flat {
   font-family: system-ui;
   border-left: 3px solid transparent;
+}
+.widget-flat.widget-default{
+  border-left-color: #0c0c0c;
 }
 .widget-flat.widget-info{
   border-left-color: #3498DB;
