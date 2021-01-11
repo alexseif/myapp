@@ -2,7 +2,13 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\Accounts;
+use AppBundle\Entity\Tasks;
+use AppBundle\Util\DateRanges;
+use DateInterval;
+use DateTime;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\QueryBuilder;
 
 /**
  * TasksRepository
@@ -46,7 +52,7 @@ class TasksRepository extends EntityRepository
 
     public function getIncopmleteTasks()
     {
-        $today = new \DateTime();
+        $today = new DateTime();
         return $this
             ->createQueryBuilder('t')
             ->select('t')
@@ -63,10 +69,10 @@ class TasksRepository extends EntityRepository
     /**
      * List of completed tasks after date
      *
-     * @param \DateTime $date
-     * @return type
+     * @param DateTime $date
+     * @return array The objects.
      */
-    public function getCompletedAfter(\DateTime $date)
+    public function getCompletedAfter(DateTime $date)
     {
         return $this
             ->createQueryBuilder('t')
@@ -89,11 +95,11 @@ class TasksRepository extends EntityRepository
     /**
      * List of completed tasks today
      *
-     * @return type
+     * @return array The objects.
      */
     public function getCompletedToday()
     {
-        $date = new \DateTime();
+        $date = new DateTime();
         $date->setTime(00, 00, 00);
 
         return $this->getCompletedAfter($date);
@@ -102,7 +108,7 @@ class TasksRepository extends EntityRepository
     /**
      * List of completed tasks this week
      *
-     * @return type
+     * @return array The objects.
      */
     public function getCompletedThisWeek()
     {
@@ -111,8 +117,8 @@ class TasksRepository extends EntityRepository
 //    $week_start = date('Y-m-d H:i', strtotime('-' . $day . ' days'));
 //    $week_end = date('Y-m-d H:i', strtotime('+' . (6 - $day) . ' days'));
 
-        $date = new \DateTime();
-        $date->sub(new \DateInterval("P" . $day . "D"));
+        $date = new DateTime();
+        $date->sub(new DateInterval("P" . $day . "D"));
         $date->setTime(00, 00, 00);
         return $this->getCompletedAfter($date);
     }
@@ -120,19 +126,19 @@ class TasksRepository extends EntityRepository
     /**
      * List of completed tasks this Month
      *
-     * @return type
+     * @return array The objects.
      */
     public function getCompletedThisMonth()
     {
-        $date = \AppBundle\Util\DateRanges::getMonthStart();
+        $date = DateRanges::getMonthStart();
         return $this->getCompletedAfter($date);
     }
 
     /**
      * Sums the duration of completed tasks after date
      *
-     * @param type $date
-     * @return type
+     * @param DateTime $date
+     * @return array The sum.
      */
     public function sumCompletedDurationAfter($date)
     {
@@ -149,11 +155,11 @@ class TasksRepository extends EntityRepository
     /**
      * List of completed tasks today
      *
-     * @return type
+     * @return array The objects.
      */
     public function sumCompletedDurationToday()
     {
-        $date = new \DateTime();
+        $date = new DateTime();
         $date->setTime(00, 00, 00);
 
         return $this->sumCompletedDurationAfter($date);
@@ -162,7 +168,7 @@ class TasksRepository extends EntityRepository
     /**
      * List of completed tasks this week
      *
-     * @return type
+     * @return array The objects.
      */
     public function sumCompletedDurationThisWeek()
     {
@@ -171,8 +177,8 @@ class TasksRepository extends EntityRepository
 //    $week_start = date('Y-m-d H:i', strtotime('-' . $day . ' days'));
 //    $week_end = date('Y-m-d H:i', strtotime('+' . (6 - $day) . ' days'));
 
-        $date = new \DateTime();
-        $date->sub(new \DateInterval("P" . $day . "D"));
+        $date = new DateTime();
+        $date->sub(new DateInterval("P" . $day . "D"));
         $date->setTime(00, 00, 00);
         return $this->sumCompletedDurationAfter($date);
     }
@@ -180,7 +186,7 @@ class TasksRepository extends EntityRepository
     /**
      * List of completed tasks this week
      *
-     * @return type
+     * @return array The objects.
      */
     public function sumCompletedDurationThisMonth()
     {
@@ -189,7 +195,7 @@ class TasksRepository extends EntityRepository
 //    $week_start = date('Y-m-d H:i', strtotime('-' . $day . ' days'));
 //    $week_end = date('Y-m-d H:i', strtotime('+' . (6 - $day) . ' days'));
 
-        $date = new \DateTime();
+        $date = new DateTime();
         $date->setDate($date->format('Y'), $date->format('m'), 1);
         $date->setTime(00, 00, 00);
         return $this->sumCompletedDurationAfter($date);
@@ -202,7 +208,7 @@ class TasksRepository extends EntityRepository
      */
     public function focusList($limit = 20)
     {
-        $today = new \DateTime();
+        $today = new DateTime();
         $query = $this
             ->createQueryBuilder('t')
             ->select('t, tl, a, c, wl')
@@ -228,7 +234,7 @@ class TasksRepository extends EntityRepository
 
     public function focusLimitList()
     {
-        $today = new \DateTime();
+        $today = new DateTime();
         return $this
             ->createQueryBuilder('t')
             ->select('t')
@@ -245,7 +251,7 @@ class TasksRepository extends EntityRepository
 
     public function focusByTasklist($taskList)
     {
-        $today = new \DateTime();
+        $today = new DateTime();
         return $this
             ->createQueryBuilder('t')
             ->select('t, tl, a, c, wl')
@@ -267,7 +273,7 @@ class TasksRepository extends EntityRepository
 
     public function focusByClient($client)
     {
-        $today = new \DateTime();
+        $today = new DateTime();
         return $this
             ->createQueryBuilder('t')
             ->select('t, tl, a, c, wl')
@@ -329,7 +335,7 @@ class TasksRepository extends EntityRepository
 
     public function randomTasks()
     {
-        $today = new \DateTime();
+        $today = new DateTime();
         return $this
             ->createQueryBuilder('t')
             ->select('t')
@@ -345,7 +351,7 @@ class TasksRepository extends EntityRepository
 
     public function singleTaskList()
     {
-        $today = new \DateTime();
+        $today = new DateTime();
         return $this
             ->createQueryBuilder('t')
             ->select('t')
@@ -361,7 +367,7 @@ class TasksRepository extends EntityRepository
 
     public function weightedList()
     {
-        $today = new \DateTime();
+        $today = new DateTime();
         return $this
             ->createQueryBuilder('t')
             ->select('COUNT(t.urgency) as cnt, t.urgency, t.priority, tl.id')
@@ -421,7 +427,7 @@ class TasksRepository extends EntityRepository
 
     public function findCompletedByClientThisMonth($client)
     {
-        $date = new \DateTime();
+        $date = new DateTime();
         $date->setDate($date->format('Y'), $date->format('m'), 1);
         $date->setTime(00, 00, 00);
         return $this
@@ -486,7 +492,7 @@ class TasksRepository extends EntityRepository
 
     public function findCompletedByClientToday($client)
     {
-        $date = new \DateTime();
+        $date = new DateTime();
         $date->setTime(00, 00, 00);
         return $this
             ->createQueryBuilder('t')
@@ -522,9 +528,9 @@ class TasksRepository extends EntityRepository
      * @param array $criteria
      * @param array|null $orderBy
      *
-     * @return array The objects.
+     * @return QueryBuilder
      */
-    public function findByWithJoins(array $criteria, array $orderBy = [], $limit = null, $offset = null)
+    public function findByWithJoinsQuery(array $criteria, array $orderBy = [], $limit = null, $offset = null)
     {
         $queryBuilder = $this
             ->createQueryBuilder('t')
@@ -557,8 +563,24 @@ class TasksRepository extends EntityRepository
         }
         if ($limit > 0 && is_int($limit)) {
             $queryBuilder->setMaxResults($limit);
+        }  if ($offset > 0 && is_int($offset)) {
+            $queryBuilder->setFirstResult($offset);
         }
 
+        return $queryBuilder;
+    }
+
+    /**
+     * Finds Tasks entities with joins to increase performance
+     *
+     * @param array $criteria
+     * @param array|null $orderBy
+     *
+     * @return array The objects.
+     */
+    public function findByWithJoins(array $criteria, array $orderBy = [], $limit = null, $offset = null)
+    {
+        $queryBuilder = $this->findByWithJoinsQuery($criteria, $orderBy, $limit, $offset);
         return $queryBuilder
             ->getQuery()
             ->getResult();
@@ -569,12 +591,22 @@ class TasksRepository extends EntityRepository
      *
      * @return array The entities.
      */
-    public function findAllWithJoins()
+    public function findAllWithJoinsQuery(int $limit = 100, int $offset = 0)
     {
-        return $this->findByWithJoins([], ["completed" => "ASC"]);
+        return $this->findByWithJoinsQuery([], ["completed" => "ASC"], $limit, $offset);
     }
 
-    public function findByAccountNoWorklog(\AppBundle\Entity\Accounts $account)
+    /**
+     * Finds all Tasks entities in the repository with joins to increase performance
+     *
+     * @return array The entities.
+     */
+    public function findAllWithJoins(int $limit = 100, int $offset = 0)
+    {
+        return $this->findByWithJoins([], ["completed" => "ASC"], $limit, $offset);
+    }
+
+    public function findByAccountNoWorklog(Accounts $account)
     {
         return $this->createQueryBuilder('t')
             ->select('t, tl, a, c, r, wl')
@@ -592,7 +624,7 @@ class TasksRepository extends EntityRepository
 
     public function focusListLimit()
     {
-        $today = new \DateTime();
+        $today = new DateTime();
         return $this
             ->createQueryBuilder('t')
             ->select('t')
@@ -625,10 +657,10 @@ class TasksRepository extends EntityRepository
     /**
      * List of completed tasks on a date
      *
-     * @param \DateTime $date
-     * @return type
+     * @param DateTime $date
+     * @return array The objects.
      */
-    public function getCompletedByDate(\DateTime $date)
+    public function getCompletedByDate(DateTime $date)
     {
         return $this
             ->createQueryBuilder('t')
@@ -647,10 +679,10 @@ class TasksRepository extends EntityRepository
     /**
      * List of created tasks on a date
      *
-     * @param \DateTime $date
-     * @return type
+     * @param DateTime $date
+     * @return array The objects.
      */
-    public function getCreatedByDate(\DateTime $date)
+    public function getCreatedByDate(DateTime $date)
     {
         return $this
             ->createQueryBuilder('t')
@@ -670,10 +702,10 @@ class TasksRepository extends EntityRepository
     /**
      * List of updated tasks on a date
      *
-     * @param \DateTime $date
-     * @return type
+     * @param DateTime $date
+     * @return array The objects.
      */
-    public function getUpdatedByDate(\DateTime $date)
+    public function getUpdatedByDate(DateTime $date)
     {
         return $this
             ->createQueryBuilder('t')

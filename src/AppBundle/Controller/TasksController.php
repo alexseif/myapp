@@ -2,11 +2,21 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Form\TasksFilterType;
+use DateInterval;
+use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use stdClass;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Form;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Entity\Tasks;
 use AppBundle\Form\TasksType;
+use AppBundle\Util\Paginator;
 
 /**
  * Tasks controller.
@@ -21,14 +31,19 @@ class TasksController extends Controller
      *
      * @Route("/", name="tasks_index", methods={"GET"})
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
+        $page = $request->get('page', 0);
         $em = $this->getDoctrine()->getManager();
+        $paginator = new Paginator('tasks_index', $em->getRepository('AppBundle:Tasks')->findAllWithJoinsQuery(),
+            100, $page);
 
-        $tasks = $em->getRepository('AppBundle:Tasks')->findAllWithJoins();
+        $tasks = $em->getRepository('AppBundle:Tasks')
+            ->findAllWithJoins($paginator->getLimit(), $paginator->getOffset());
 
         return $this->render("AppBundle:tasks:index.html.twig", array(
             'tasks' => $tasks,
+            'paginator' => $paginator
         ));
     }
 
@@ -37,7 +52,7 @@ class TasksController extends Controller
      *
      * @Route("/reorder", name="tasks_reorder", methods={"GET"})
      */
-    public function reorderAction(Request $request)
+    public function reorderAction()
     {
         $em = $this->getDoctrine()->getManager();
         $tasksRepo = $em->getRepository('AppBundle:Tasks');
@@ -48,7 +63,7 @@ class TasksController extends Controller
                 $taskListsOrder[] = $row['id'];
             }
         }
-        $tasks = new \Doctrine\Common\Collections\ArrayCollection();
+        $tasks = new ArrayCollection();
         foreach ($taskListsOrder as $taskListId) {
             $reorderTasks = $tasksRepo->findBy(
                 array(
@@ -64,7 +79,7 @@ class TasksController extends Controller
             $tasks->add($reorderTasks);
         }
 
-        return new \Symfony\Component\HttpFoundation\JsonResponse($tasks);
+        return new JsonResponse($tasks);
     }
 
     /**
@@ -74,16 +89,16 @@ class TasksController extends Controller
      */
     public function progressByDateAction(Request $request)
     {
-        $formData = new \stdClass();
-        $formData->date = new \DateTime();
+        $formData = new stdClass();
+        $formData->date = new DateTime();
         $formData->date->modify('-1 day');
 
         $form = $this->createFormBuilder($formData)
             ->setMethod('GET')
-            ->add('date', \Symfony\Component\Form\Extension\Core\Type\DateType::class, [
+            ->add('date', DateType::class, [
                 'widget' => 'single_text',
                 'label' => false])
-            ->add('Get', \Symfony\Component\Form\Extension\Core\Type\SubmitType::class)
+            ->add('Get', SubmitType::class)
             ->getForm();
 
         $form->handleRequest($request);
@@ -113,7 +128,7 @@ class TasksController extends Controller
     public function searchAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $form = $this->createForm(\AppBundle\Form\TasksFilterType::class, $request->get('tasks_filter'), array(
+        $form = $this->createForm(TasksFilterType::class, $request->get('tasks_filter'), array(
             'method' => 'GET',
         ));
         $filters = $tasks = array();
@@ -151,8 +166,9 @@ class TasksController extends Controller
      * Advanced Lists all Tasks entities.
      *
      * @Route("/advanced", name="tasks_advanced", methods={"GET", "POST"})
+     * @return \Symfony\Component\HttpFoundation\Response|null
      */
-    public function advancedAction(Request $request)
+    public function advancedAction()
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -188,7 +204,7 @@ class TasksController extends Controller
         }
         if (!empty($request->get("completedAt"))) {
             $task->setCompleted(true);
-            $task->setCompletedAt(new \DateTime($request->get("completedAt")));
+            $task->setCompletedAt(new DateTime($request->get("completedAt")));
         }
         $form = $this->createForm(TasksType::class, $task);
         $form->handleRequest($request);
@@ -196,7 +212,7 @@ class TasksController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             if ($task->getCompleted()) {
                 if (is_null($task->getCompletedAt()))
-                    $task->setCompletedAt(new \DateTime());
+                    $task->setCompletedAt(new DateTime());
             } else {
                 $task->setCompletedAt(null);
             }
@@ -231,7 +247,7 @@ class TasksController extends Controller
                 }
             }
             $em->flush();
-            return new \Symfony\Component\HttpFoundation\JsonResponse();
+            return new JsonResponse();
         }
     }
 
@@ -276,8 +292,8 @@ class TasksController extends Controller
 
             if (!is_null($request->get('postpone'))) {
                 $postpone = $request->get('postpone');
-                $eta = new \DateTime($request->get('postpone'));
-                if ("tomorrow" == $postpone) {
+                $eta = new DateTime($request->get('postpone'));
+                if ("tomorrow" === $postpone) {
                     $eta->setTime(8, 0, 0);
                 }
                 $task->setEta($eta);
@@ -289,13 +305,13 @@ class TasksController extends Controller
             if (!is_null($request->get('completed'))) {
                 $task->setCompleted($request->get('completed'));
                 if ($task->getCompleted()) {
-                    $task->setCompletedAt(new \DateTime());
+                    $task->setCompletedAt(new DateTime());
                 } else {
                     $task->setCompletedAt(null);
                 }
             }
             $em->flush();
-            return new \Symfony\Component\HttpFoundation\JsonResponse();
+            return new JsonResponse();
         }
 
         $deleteForm = $this->createDeleteForm($task);
@@ -306,13 +322,13 @@ class TasksController extends Controller
             $em = $this->getDoctrine()->getManager();
             if ("archive" == $request->get('completedAt')) {
                 $task->setCompleted(true);
-                $lastMonth = new \DateTime();
-                $lastMonth->sub(new \DateInterval('P1M'));
+                $lastMonth = new DateTime();
+                $lastMonth->sub(new DateInterval('P1M'));
                 $task->setCompletedAt($lastMonth);
             } else {
                 if ($task->getCompleted()) {
                     if (null == $task->getCompletedAt()) {
-                        $task->setCompletedAt(new \DateTime());
+                        $task->setCompletedAt(new DateTime());
                     }
                 } else {
                     $task->setCompletedAt(null);
@@ -338,8 +354,8 @@ class TasksController extends Controller
     public function postponeAction(Request $request, Tasks $task)
     {
         $em = $this->getDoctrine()->getManager();
-        $tomorrow = new \DateTime();
-        $tomorrow->add(\DateInterval::createFromDateString("+8 hours"));
+        $tomorrow = new DateTime();
+        $tomorrow->add(DateInterval::createFromDateString("+8 hours"));
         $task->setEta($tomorrow);
         $em->persist($task);
         $em->flush();
@@ -378,7 +394,7 @@ class TasksController extends Controller
      *
      * @param Tasks $task The Tasks entity
      *
-     * @return \Symfony\Component\Form\Form The form
+     * @return Form The form
      */
     private function createDeleteForm(Tasks $task)
     {

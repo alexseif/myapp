@@ -1,0 +1,24 @@
+{# Default render for add link #}
+{% macro paginator(paginator) %}
+  <nav aria-label="Pagination">
+    <ul class="pagination flex-wrap">
+      <li class="page-item">
+        <a class="page-link" href="{{ path(paginator.path, {'page': paginator.prevPage }) }}">
+          Previous
+        </a>
+      </li>
+      {% for i in 0..paginator.pages %}
+        <li class="page-item {{ (i == paginator.page) ? 'active' }}">
+          <a class="page-link" href="{{ path(paginator.path, {'page': i }) }}">
+            {{ i }}
+          </a>
+        </li>
+      {% endfor %}
+      <li class="page-item">
+        <a class="page-link" href="{{ path(paginator.path, {'page': paginator.nextPage}) }}">
+          Next
+        </a>
+      </li>
+    </ul>
+  </nav>
+{% endmacro %}

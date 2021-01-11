@@ -1,8 +1,12 @@
 {% extends 'base.html.twig' %}
 {% import "macros/forms.html.twig" as forms %}
 {% import "macros/a.html.twig" as a %}
+{% import "macros/paginator.html.twig" as p %}
 {% import "AppBundle:tasks:tasks_macros.html.twig" as tasks_view %}
 {% block floatingActions %}{{ a.add('tasks_new') }}{% endblock %}
-{% block panelTitle %}Tasks{% endblock %}
-{% block panelBody %}{{ tasks_view.ul(tasks) }}{% endblock %}
+{% block panelTitle %}Tasks <span class="badge badge-info">{{ paginator.total }}</span>{% endblock %}
+{% block panelBody %}
+    {{ tasks_view.ul(tasks) }}
+    {{ p.paginator(paginator) }}
+{% endblock %}
 
