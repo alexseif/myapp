@@ -3,38 +3,38 @@
 {% import "macros/a.html.twig" as a %}
 {% block title %}Currencies{% endblock %}
 {% block content %}
-  <div class="row">
-    <div class="col-md-6 offset-md-3">
-      {{ parent() }}
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            {{ parent() }}
+        </div>
     </div>
-  </div>
 {% endblock %}
 {% block floatingActions %}{{ a.add('currency_new') }}{% endblock %}
 {% block panelTitle %}Currencies{% endblock %}
 {% block panelBody %}
-  <table class="table table-condensed table-bordered table-striped">
-    <thead>
-      <tr>
-        <th>Code</th>
-        <th>Name</th>
-        <th>EGP</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for currency in currencies %}
+    <table class="table table-condensed table-bordered table-striped">
+        <thead>
         <tr>
-          <td>{{ currency.code }}</td>
-          <td>{{ currency.name }}</td>
-          <td class="text-right"><span class="float-left">EGP</span> {{ (currency.egp/100) }}</td>
-          <td>
-            <div class="btn-group">
-              {{ a.show('currency_show', { 'id': currency.id }) }}
-              {{ a.edit('currency_edit', { 'id': currency.id }) }}
-            </div>
-          </td>
+            <th>Code</th>
+            <th>Name</th>
+            <th>EGP</th>
+            <th>Actions</th>
         </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+        </thead>
+        <tbody>
+        {% for currency in currencies %}
+            <tr>
+                <td>{{ currency.code }}</td>
+                <td>{{ currency.name }}</td>
+                <td class="text-right"><span class="float-left">EGP</span> {{ (currency.egp/100) }}</td>
+                <td>
+                    <div class="btn-group">
+                        {{ a.show('currency_show', { 'id': currency.id }) }}
+                        {{ a.edit('currency_edit', { 'id': currency.id }) }}
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}

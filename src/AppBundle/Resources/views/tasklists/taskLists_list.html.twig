@@ -1,49 +1,50 @@
 {% import "macros/forms.html.twig" as forms %}
 {% import "macros/a.html.twig" as a %}
 <ul class="list-group">
-  {% for taskList in taskLists %}
-    <li class="list-group-item">
-      <a class="btn btn-secondary" href="{{ path('tasklists_show', { 'id': taskList.id }) }}">
-        {{ taskList.name }}
-        <span class="badge badge-secondary">{{ taskList.tasks(false)|length }}</span>
-        <span class="badge badge-default">{{ taskList.status|capitalize }}</span>
-        <span class="badge badge-default">{{ taskList.createdAt ? taskList.createdAt|date('Y-m-d H:i') }}</span>
-      </a>
-      <span class="card-title-labels">
+    {% for taskList in taskLists %}
+        <li class="list-group-item">
+            <a class="btn btn-secondary" href="{{ path('tasklists_show', { 'id': taskList.id }) }}">
+                {{ taskList.name }}
+                <span class="badge badge-secondary">{{ taskList.tasks(false)|length }}</span>
+                <span class="badge badge-default">{{ taskList.status|capitalize }}</span>
+                <span class="badge badge-default">{{ taskList.createdAt ? taskList.createdAt|date('Y-m-d H:i') }}</span>
+            </a>
+            <span class="card-title-labels">
         {% if (taskList.account) %}
-          <a href="{{ path('accounts_show', {'id': taskList.account.id}) }}"
-             class="badge badge-info">{{ taskList.account.name }}</a>
+            <a href="{{ path('accounts_show', {'id': taskList.account.id}) }}"
+               class="badge badge-info">{{ taskList.account.name }}</a>
           {% if (taskList.account.client) %}
             <a href="{{ path('client_show', {'id': taskList.account.client.id}) }}"
                class="badge badge-primary">{{ taskList.account.client.name }}</a>
-          {% endif %}
+        {% endif %}
         {% endif %}
       </span>
-      <div class="btn-group btn-group-sm edit-fixed-link">
-        {{ a.add('tasks_new', {"tasklist": taskList.id}) }}
-        <button type="button" class="btn btn-secondary me" 
-                data-tasklistid="{{ taskList.id }}" 
-                data-tasklist="{{ taskList.name }}">
-          List</button>
+            <div class="btn-group btn-group-sm edit-fixed-link">
+                {{ a.add('tasks_new', {"tasklist": taskList.id}) }}
+                <button type="button" class="btn btn-secondary me"
+                        data-tasklistid="{{ taskList.id }}"
+                        data-tasklist="{{ taskList.name }}">
+                    List
+                </button>
 
-        {% if(taskList.status == 'archive') %}
-          <a type="button" class="btn btn-secondary" 
-             data-tasklistid="{{ taskList.id }}" 
-             data-tasklist="{{ taskList.name }}"
-             href="{{ path('tasklists_unarchive', { 'id': taskList.id }) }}">
-            Open</a>
+                {% if(taskList.status == 'archive') %}
+                    <a type="button" class="btn btn-secondary"
+                       data-tasklistid="{{ taskList.id }}"
+                       data-tasklist="{{ taskList.name }}"
+                       href="{{ path('tasklists_unarchive', { 'id': taskList.id }) }}">
+                        Open</a>
 
-        {% else %}
-          <a type="button" class="btn btn-secondary" 
-             data-tasklistid="{{ taskList.id }}" 
-             data-tasklist="{{ taskList.name }}"
-             href="{{ path('tasklists_archive', { 'id': taskList.id }) }}">
-            Close</a>
+                {% else %}
+                    <a type="button" class="btn btn-secondary"
+                       data-tasklistid="{{ taskList.id }}"
+                       data-tasklist="{{ taskList.name }}"
+                       href="{{ path('tasklists_archive', { 'id': taskList.id }) }}">
+                        Close</a>
 
-        {% endif %}
+                {% endif %}
 
-        {{ a.edit('tasklists_edit', { 'id': taskList.id }) }}
-      </div>
-    </li>
-  {% endfor %}
+                {{ a.edit('tasklists_edit', { 'id': taskList.id }) }}
+            </div>
+        </li>
+    {% endfor %}
 </ul>

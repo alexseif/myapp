@@ -3,79 +3,81 @@
 {% import "macros/a.html.twig" as a %}
 {% block title %}Increase all Rates{% endblock %}
 {% block content %}
-  <div class="container">
-    {{ parent() }}
-  </div>
+    <div class="container">
+        {{ parent() }}
+    </div>
 {% endblock %}
 {% block panelTitle %}Increase all Rates{% endblock %}
 {% block panelBack %}{{ a.back('rate_index') }}{% endblock %}
 {% block panelBody %}
-  <div class="row">
-    <div class="col">
-      <table class="table table-condensed">
-        <thead>
-          <tr>
-            <th>Client</th>
-            <th>Rate</th>
-        </thead>
-        <tbody>
-          {% for rate in rates %}
-            <tr>
-              <td>{{ rate.client }}</td>
-              <td>{{ rate.rate }}</td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+    <div class="row">
+        <div class="col">
+            <table class="table table-condensed">
+                <thead>
+                <tr>
+                    <th>Client</th>
+                    <th>Rate</th>
+                </thead>
+                <tbody>
+                {% for rate in rates %}
+                    <tr>
+                        <td>{{ rate.client }}</td>
+                        <td>{{ rate.rate }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col">
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-secondary">
+                    <input type="radio" name="increaseType" id="percent" value="percent" autocomplete="off"/> Percent
+                </label>
+                <label class="btn btn-secondary text-muted">
+                    <input type="radio" name="increaseType" id="fixedValue" value="fixedValue" autocomplete="off"
+                           disabled/> Fixed Value
+                </label>
+            </div>
+            {{ forms.panel(form) }}
+        </div>
     </div>
-    <div class="col">
-      <div class="btn-group btn-group-toggle" data-toggle="buttons">
-        <label class="btn btn-secondary">
-          <input type="radio" name="increaseType" id="percent" value="percent" autocomplete="off"/> Percent
-        </label>
-        <label class="btn btn-secondary text-muted">
-          <input type="radio" name="increaseType" id="fixedValue" value="fixedValue" autocomplete="off" disabled /> Fixed Value
-        </label>
-      </div>
-      {{ forms.panel(form) }}
-    </div>
-  </div>
 {% endblock %}
 
 {% block javascripts %}
-  {{ parent() }}
-  <script>
-    function increaseTypeChange($increaseType) {
-      switch ($increaseType) {
-        case 'percent':
-          $('#form_fixedValue')
-                  .val(null)
-                  .attr('required', false)
-                  .parents('.form-group').hide();
-          $('#form_percent')
-                  .attr('required', true)
-                  .parents('.form-group').show();
-          break;
-        case 'fixedValue':
-          $('#form_percent').val(null)
-                  .attr('required', false)
-                  .parents('.form-group').hide();
-          $('#form_fixedValue')
-                  .attr('required', true)
-                  .parents('.form-group').show();
-          break;
-        default:
-          $('#form_percent').parents('.form-group').hide();
-          $('#form_fixedValue').parents('.form-group').hide();
-          break;
-      }
-    }
-    $(function () {
-      $('input[name="increaseType"]').change(function () {
-        $increaseType = $(this).val();
-        increaseTypeChange($increaseType);
-      });
-      increaseTypeChange();
-    });
-  </script>
+    {{ parent() }}
+    <script>
+        function increaseTypeChange($increaseType) {
+            switch ($increaseType) {
+                case 'percent':
+                    $('#form_fixedValue')
+                        .val(null)
+                        .attr('required', false)
+                        .parents('.form-group').hide();
+                    $('#form_percent')
+                        .attr('required', true)
+                        .parents('.form-group').show();
+                    break;
+                case 'fixedValue':
+                    $('#form_percent').val(null)
+                        .attr('required', false)
+                        .parents('.form-group').hide();
+                    $('#form_fixedValue')
+                        .attr('required', true)
+                        .parents('.form-group').show();
+                    break;
+                default:
+                    $('#form_percent').parents('.form-group').hide();
+                    $('#form_fixedValue').parents('.form-group').hide();
+                    break;
+            }
+        }
+
+        $(function () {
+            $('input[name="increaseType"]').change(function () {
+                $increaseType = $(this).val();
+                increaseTypeChange($increaseType);
+            });
+            increaseTypeChange();
+        });
+    </script>
 {% endblock %}

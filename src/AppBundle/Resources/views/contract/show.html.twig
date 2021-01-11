@@ -5,42 +5,42 @@
 
 {% block panelBack %}{{ a.back('contract_index') }}{% endblock %}
 {% block panelHeadingRight %}
-  {{ a.edit('contract_edit', {'id':contract.id}) }}
-  {{ forms.delete(delete_form) }}
+    {{ a.edit('contract_edit', {'id':contract.id}) }}
+    {{ forms.delete(delete_form) }}
 
 {% endblock %}
 
 {% block content %}
-  <div class="container">
-    <h2><small>Contract</small> {{ contract.name}}</h2>
-    {% set hideEmpty = false %}
-    <table>
-      <tbody>
-        <tr>
-          <th>Id</th>
-          <td>{{ contract.id }}</td>
-        </tr>
-        <tr>
-          <th>Name</th>
-          <td>{{ contract.name }}</td>
-        </tr>
-        <tr>
-          <th>Hoursperday</th>
-          <td>{{ contract.hoursPerDay }}</td>
-        </tr>
-        <tr>
-          <th>Started At</th>
-          <td>{{ contract.startedAt|date }}</td>
-        </tr>
-        <tr>
-          <th>Is Completed</th>
-          <td>{{ contract.isCompleted ? "true":"false" }}</td>
-        </tr>
-        <tr>
-          <th>Completed At</th>
-          <td>{{ contract.completedAt?contract.completedAt|date }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+    <div class="container">
+        <h2><small>Contract</small> {{ contract.name }}</h2>
+        {% set hideEmpty = false %}
+        <table>
+            <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ contract.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ contract.name }}</td>
+            </tr>
+            <tr>
+                <th>Hoursperday</th>
+                <td>{{ contract.hoursPerDay }}</td>
+            </tr>
+            <tr>
+                <th>Started At</th>
+                <td>{{ contract.startedAt|date }}</td>
+            </tr>
+            <tr>
+                <th>Is Completed</th>
+                <td>{{ contract.isCompleted ? "true":"false" }}</td>
+            </tr>
+            <tr>
+                <th>Completed At</th>
+                <td>{{ contract.completedAt?contract.completedAt|date }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

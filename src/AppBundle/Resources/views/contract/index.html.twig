@@ -3,34 +3,34 @@
 {% block floatingActions %}{{ a.add('contract_new') }}{% endblock %}
 {% block title %}Contracts{% endblock %}
 {% block panelTitle %}
-  Contracts list  
+    Contracts list
 {% endblock %}
 
 {% block panelBody %}
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Hours per day</th>
-        <th>Started At</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for contract in contracts %}
+    <table class="table">
+        <thead>
         <tr>
-          <td><a href="{{ path('contract_show', { 'id': contract.id }) }}">{{ contract.name }}</a></td>
-          <td>{{ contract.hoursPerDay }}</td>
-          <td>{{ contract.startedAt|date }}</td>
-          <td>
-            {{ a.show('contract_show', { 'id': contract.id }) }}
-            {{ a.linkGlyph('info', 'Log','contract_log_summary', { 'id': contract.id }) }}
-            {{ a.linkGlyph('info', 'Reports','contract_report', { 'id': contract.id }) }}
-            {{ a.edit('contract_edit', { 'id': contract.id }) }}
-          </td>
+            <th>Name</th>
+            <th>Hours per day</th>
+            <th>Started At</th>
+            <th>Actions</th>
         </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+        </thead>
+        <tbody>
+        {% for contract in contracts %}
+            <tr>
+                <td><a href="{{ path('contract_show', { 'id': contract.id }) }}">{{ contract.name }}</a></td>
+                <td>{{ contract.hoursPerDay }}</td>
+                <td>{{ contract.startedAt|date }}</td>
+                <td>
+                    {{ a.show('contract_show', { 'id': contract.id }) }}
+                    {{ a.linkGlyph('info', 'Log','contract_log_summary', { 'id': contract.id }) }}
+                    {{ a.linkGlyph('info', 'Reports','contract_report', { 'id': contract.id }) }}
+                    {{ a.edit('contract_edit', { 'id': contract.id }) }}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
 {% endblock %}

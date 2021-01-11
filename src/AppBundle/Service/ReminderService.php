@@ -17,30 +17,30 @@ use Doctrine\ORM\EntityManagerInterface;
 class ReminderService
 {
 
-  protected $em;
+    protected $em;
 
-  function __construct(EntityManagerInterface $em)
-  {
-    $this->em = $em;
-  }
+    function __construct(EntityManagerInterface $em)
+    {
+        $this->em = $em;
+    }
 
-  public function getEm()
-  {
-    return $this->em;
-  }
+    public function getEm()
+    {
+        return $this->em;
+    }
 
-  /**
-   * 
-   * @return \AppBundle\Repository\DaysRepository
-   */
-  public function getRepository()
-  {
-    return $this->getEm()->getRepository('AppBundle:Days');
-  }
+    /**
+     *
+     * @return \AppBundle\Repository\DaysRepository
+     */
+    public function getRepository()
+    {
+        return $this->getEm()->getRepository('AppBundle:Days');
+    }
 
-  public function getActiveReminders()
-  {
-    return $this->getRepository()->getActiveCards();
-  }
+    public function getActiveReminders()
+    {
+        return $this->getRepository()->getActiveCards();
+    }
 
 }

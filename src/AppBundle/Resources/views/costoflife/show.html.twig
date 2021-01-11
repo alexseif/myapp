@@ -3,24 +3,25 @@
 {% import "macros/a.html.twig" as a %}
 {% block title %}{{ costOfLife.name }}{% endblock %}
 {% block content %}
-  <div class="row">
-    <div class="col-md-3 offset-md-4">
-      {{ parent() }}
+    <div class="row">
+        <div class="col-md-3 offset-md-4">
+            {{ parent() }}
+        </div>
     </div>
-  </div>
 {% endblock %}
 {% block floatingActions %}{{ a.add('costoflife_new') }}{% endblock %}
 {% block panelBack %}{{ a.back('costoflife_index') }}{% endblock %}
 {% block panelTitle %}{{ costOfLife.name }}{% endblock %}
 {% block panelHeadingRight %}
-  {{ a.edit('costoflife_edit', { 'id': costOfLife.id }) }}
-  {{ forms.delete(delete_form) }}
+    {{ a.edit('costoflife_edit', { 'id': costOfLife.id }) }}
+    {{ forms.delete(delete_form) }}
 {% endblock %}
 {% block panelBody %}
-  <div class="card-body">
-    <div class="row">
-      <div class="col-sm-6">{{ costOfLife.name }}</div>
-      <div class="col-sm-6 text-right"><span class="float-left">{{ costOfLife.currency.code }}</span> {{ (costOfLife.value/100) }}</div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-6">{{ costOfLife.name }}</div>
+            <div class="col-sm-6 text-right"><span
+                        class="float-left">{{ costOfLife.currency.code }}</span> {{ (costOfLife.value/100) }}</div>
+        </div>
     </div>
-  </div>
 {% endblock %}

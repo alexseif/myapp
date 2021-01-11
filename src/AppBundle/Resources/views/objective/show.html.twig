@@ -3,24 +3,24 @@
 {% import "macros/a.html.twig" as a %}
 {% block title %}{{ objective.name }}{% endblock %}
 {% block content %}
-  <div class="row">
-    <div class="col-md-6 offset-md-3">
-      {{ parent() }}
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            {{ parent() }}
+        </div>
     </div>
-  </div>
 {% endblock %}
 {% block floatingActions %}{{ a.add('objective_new') }}{% endblock %}
 {% block panelBack %}{{ a.back('objective_index') }}{% endblock %}
 {% block panelTitle %}{{ objective.name }}{% endblock %}
 {% block panelHeadingRight %}
-  {{ a.edit('objective_edit', { 'id': objective.id }) }}
-  {{ forms.delete(delete_form) }}
+    {{ a.edit('objective_edit', { 'id': objective.id }) }}
+    {{ forms.delete(delete_form) }}
 {% endblock %}
 {% block panelBody %}
-  <div class="card-body">
-    <div class="row">
-      <div class="col-sm-6">{{ objective.name }}</div>
-      <div class="col-sm-6">{{ objective.description }}</div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-6">{{ objective.name }}</div>
+            <div class="col-sm-6">{{ objective.description }}</div>
+        </div>
     </div>
-  </div>
 {% endblock %}

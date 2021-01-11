@@ -21,85 +21,85 @@ use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 class BackupsController extends Controller
 {
 
-  /**
-   * @Route("/", name="backups")
-   */
-  public function indexAction()
-  {
-    $finder = new Finder();
+    /**
+     * @Route("/", name="backups")
+     */
+    public function indexAction()
+    {
+        $finder = new Finder();
 
-    try {
-      $finder->files()->in($this->get('kernel')->getRootDir() . '/../backups')->sortByModifiedTime();
-    } catch (\Exception $exc) {
-      $finder = null;
-    }
-
-    return $this->render("AppBundle:backups:index.html.twig", array(
-          'finder' => $finder
-        ));
-  }
-
-  /**
-   * @Route("/generate", name="backups_generate")
-   */
-  public function generateAction()
-  {
-    $finder = new Finder();
-
-    try {
-      $finder->files()->in($this->get('kernel')->getRootDir() . '/../backups')->sortByModifiedTime();
-    } catch (\Exception $exc) {
-      $finder = null;
-    }
-
-    $fs = new Filesystem();
-    if (!is_null($finder)) {
-      $count = $finder->count();
-      foreach ($finder->files() as $file) {
-        if ($count >= 5) {
-          try {
-            $fs->remove($file);
-          } catch (IOExceptionInterface $e) {
-            echo "An error occurred while creating your directory at " . $e->getPath();
-          }
-          $count--;
+        try {
+            $finder->files()->in($this->get('kernel')->getRootDir() . '/../backups')->sortByModifiedTime();
+        } catch (\Exception $exc) {
+            $finder = null;
         }
-      }
+
+        return $this->render("AppBundle:backups:index.html.twig", array(
+            'finder' => $finder
+        ));
     }
 
-    $kernel = $this->get('kernel');
-    $application = new Application($kernel);
-    $application->setAutoExit(false);
+    /**
+     * @Route("/generate", name="backups_generate")
+     */
+    public function generateAction()
+    {
+        $finder = new Finder();
 
-    $input = new ArrayInput(array(
-      'command' => 'zenstruck:backup:run',
-      'profile' => 'daily',
-      '-e' => 'prod',
-      '--clear',
-    ));
-    $output = new BufferedOutput();
-    $application->run($input, $output);
-    $content = $output->fetch();
+        try {
+            $finder->files()->in($this->get('kernel')->getRootDir() . '/../backups')->sortByModifiedTime();
+        } catch (\Exception $exc) {
+            $finder = null;
+        }
 
-    $this->addFlash('success', 'Backup generated');
-    return $this->redirectToRoute('backups');
-  }
+        $fs = new Filesystem();
+        if (!is_null($finder)) {
+            $count = $finder->count();
+            foreach ($finder->files() as $file) {
+                if ($count >= 5) {
+                    try {
+                        $fs->remove($file);
+                    } catch (IOExceptionInterface $e) {
+                        echo "An error occurred while creating your directory at " . $e->getPath();
+                    }
+                    $count--;
+                }
+            }
+        }
 
-  /**
-   * @Route("/{file}", name="backups_download")
-   */
-  public function downloadAction($file)
-  {
-    $content = file_get_contents($this->get('kernel')->getRootDir() . '/../backups/' . $file);
+        $kernel = $this->get('kernel');
+        $application = new Application($kernel);
+        $application->setAutoExit(false);
 
-    $response = new Response();
+        $input = new ArrayInput(array(
+            'command' => 'zenstruck:backup:run',
+            'profile' => 'daily',
+            '-e' => 'prod',
+            '--clear',
+        ));
+        $output = new BufferedOutput();
+        $application->run($input, $output);
+        $content = $output->fetch();
 
-    //set headers
-    $response->headers->set('Content-Type', 'application/gzip');
-    $response->headers->set('Content-Disposition', 'attachment;filename="' . $file);
+        $this->addFlash('success', 'Backup generated');
+        return $this->redirectToRoute('backups');
+    }
 
-    $response->setContent($content);
-    return $response;
-  }
+    /**
+     * @Route("/{file}", name="backups_download")
+     */
+    public function downloadAction($file)
+    {
+        $content = file_get_contents($this->get('kernel')->getRootDir() . '/../backups/' . $file);
+
+        $response = new Response();
+
+        //set headers
+        $response->headers->set('Content-Type', 'application/gzip');
+        $response->headers->set('Content-Disposition', 'attachment;filename="' . $file);
+
+        $response->setContent($content);
+        return $response;
+    }
 
 }

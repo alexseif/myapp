@@ -3,25 +3,25 @@
 {% block title %}AppBundle:Reports:index{% endblock %}
 
 {% block content %}
-  <h1>Welcome to the Reports:index page</h1>
-  <div class="row">
-    <div class="col">
-      <a href="{{ path('reports_index') }}" class="btn btn-block btn-primary">Reports</a>
+    <h1>Welcome to the Reports:index page</h1>
+    <div class="row">
+        <div class="col">
+            <a href="{{ path('reports_index') }}" class="btn btn-block btn-primary">Reports</a>
+        </div>
+        <div class="col">
+            <a href="{{ path('reports_clients') }}" class="btn btn-block btn-primary">Clients List</a>
+        </div>
+        <div class="col">
+            <a href="{{ path('reports_income') }}" class="btn btn-block btn-primary">Monthly Income</a>
+        </div>
+        <div class="col">
+            <a href="{{ path('reports_diff') }}" class="btn btn-block btn-primary">Monthly Diff</a>
+        </div>
+        <div class="col">
+            <a href="{{ path('reports_annual_income') }}" class="btn btn-block btn-primary">Annual Income</a>
+        </div>
+        <div class="col">
+            <a href="{{ path('reports_tasks_years') }}" class="btn btn-block btn-primary">Tasks Years</a>
+        </div>
     </div>
-    <div class="col">
-      <a href="{{ path('reports_clients') }}" class="btn btn-block btn-primary">Clients List</a>
-    </div>
-    <div class="col">
-      <a href="{{ path('reports_income') }}" class="btn btn-block btn-primary">Monthly Income</a>
-    </div>
-    <div class="col">
-      <a href="{{ path('reports_diff') }}" class="btn btn-block btn-primary">Monthly Diff</a>
-    </div>
-    <div class="col">
-      <a href="{{ path('reports_annual_income') }}" class="btn btn-block btn-primary">Annual Income</a>
-    </div>
-    <div class="col">
-      <a href="{{ path('reports_tasks_years') }}" class="btn btn-block btn-primary">Tasks Years</a>
-    </div>
-  </div>
 {% endblock %}

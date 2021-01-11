@@ -14,110 +14,110 @@ namespace AppBundle\Logic;
 class EarnedLogic
 {
 
-  protected $em;
-  protected $costOfLife;
-  protected $issuedThisMonth, $monthly, $weekly, $daily = 0;
+    protected $em;
+    protected $costOfLife;
+    protected $issuedThisMonth, $monthly, $weekly, $daily = 0;
 
-  public function __construct($em, $costOfLife)
-  {
-    $this->em = $em;
-    $this->costOfLife = $costOfLife;
-    $this->calculateDaily();
-    $this->calculateWeekly();
-    $this->calculateMonthly();
-    $this->calculateIssued();
-  }
-
-  public function getEarned()
-  {
-    return [
-      'daily' => $this->getDaily(),
-      'weekly' => $this->getWeekly(),
-      'monthly' => $this->getMonthly()
-    ];
-  }
-
-  public function calculateIssued()
-  {
-    $issuedThisMonth = $this->em->getRepository('AppBundle:AccountTransactions')->issuedThisMonth();
-    $issued = 0;
-    foreach ($issuedThisMonth as $tm) {
-      $issued += abs($tm->getAmount());
+    public function __construct($em, $costOfLife)
+    {
+        $this->em = $em;
+        $this->costOfLife = $costOfLife;
+        $this->calculateDaily();
+        $this->calculateWeekly();
+        $this->calculateMonthly();
+        $this->calculateIssued();
     }
-    $this->setIssuedThisMonth($issued);
-  }
 
-  public function calculateMonthly()
-  {
-    $completedTasks = $this->em->getRepository('AppBundle:Tasks')->getCompletedThisMonth();
-    $total = 0;
-    foreach ($completedTasks as $task) {
-      $rate = (null == $task->getRate()) ? $task->getRate() : $this->costOfLife->getHourly();
-      $total += $task->getDuration() / 60 * $rate;
+    public function getEarned()
+    {
+        return [
+            'daily' => $this->getDaily(),
+            'weekly' => $this->getWeekly(),
+            'monthly' => $this->getMonthly()
+        ];
     }
-    $this->setMonthly($total);
-  }
 
-  public function calculateWeekly()
-  {
-    $completedTasks = $this->em->getRepository('AppBundle:Tasks')->getCompletedThisWeek();
-    $total = 0;
-    foreach ($completedTasks as $task) {
-      $rate = (null == $task->getRate()) ? $task->getRate() : $this->costOfLife->getHourly();
-      $total += $task->getDuration() / 60 * $rate;
+    public function calculateIssued()
+    {
+        $issuedThisMonth = $this->em->getRepository('AppBundle:AccountTransactions')->issuedThisMonth();
+        $issued = 0;
+        foreach ($issuedThisMonth as $tm) {
+            $issued += abs($tm->getAmount());
+        }
+        $this->setIssuedThisMonth($issued);
     }
-    $this->setWeekly($total);
-  }
 
-  public function calculateDaily()
-  {
-    $completedTasks = $this->em->getRepository('AppBundle:Tasks')->getCompletedToday();
-    $total = 0;
-    foreach ($completedTasks as $task) {
-      $rate = (null != $task->getRate()) ? $task->getRate() : $this->costOfLife->getHourly();
-      $total += $task->getDuration() / 60 * $rate;
+    public function calculateMonthly()
+    {
+        $completedTasks = $this->em->getRepository('AppBundle:Tasks')->getCompletedThisMonth();
+        $total = 0;
+        foreach ($completedTasks as $task) {
+            $rate = (null == $task->getRate()) ? $task->getRate() : $this->costOfLife->getHourly();
+            $total += $task->getDuration() / 60 * $rate;
+        }
+        $this->setMonthly($total);
     }
-    $this->setDaily($total);
-  }
 
-  function getMonthly()
-  {
-    return $this->monthly;
-  }
+    public function calculateWeekly()
+    {
+        $completedTasks = $this->em->getRepository('AppBundle:Tasks')->getCompletedThisWeek();
+        $total = 0;
+        foreach ($completedTasks as $task) {
+            $rate = (null == $task->getRate()) ? $task->getRate() : $this->costOfLife->getHourly();
+            $total += $task->getDuration() / 60 * $rate;
+        }
+        $this->setWeekly($total);
+    }
 
-  function getWeekly()
-  {
-    return $this->weekly;
-  }
+    public function calculateDaily()
+    {
+        $completedTasks = $this->em->getRepository('AppBundle:Tasks')->getCompletedToday();
+        $total = 0;
+        foreach ($completedTasks as $task) {
+            $rate = (null != $task->getRate()) ? $task->getRate() : $this->costOfLife->getHourly();
+            $total += $task->getDuration() / 60 * $rate;
+        }
+        $this->setDaily($total);
+    }
 
-  function getDaily()
-  {
-    return $this->daily;
-  }
+    function getMonthly()
+    {
+        return $this->monthly;
+    }
 
-  function setMonthly($monthly)
-  {
-    $this->monthly = $monthly;
-  }
+    function getWeekly()
+    {
+        return $this->weekly;
+    }
 
-  function setWeekly($weekly)
-  {
-    $this->weekly = $weekly;
-  }
+    function getDaily()
+    {
+        return $this->daily;
+    }
 
-  function setDaily($daily)
-  {
-    $this->daily = $daily;
-  }
+    function setMonthly($monthly)
+    {
+        $this->monthly = $monthly;
+    }
 
-  function getIssuedThisMonth()
-  {
-    return $this->issuedThisMonth;
-  }
+    function setWeekly($weekly)
+    {
+        $this->weekly = $weekly;
+    }
 
-  function setIssuedThisMonth($issuedThisMonth)
-  {
-    $this->issuedThisMonth = $issuedThisMonth;
-  }
+    function setDaily($daily)
+    {
+        $this->daily = $daily;
+    }
+
+    function getIssuedThisMonth()
+    {
+        return $this->issuedThisMonth;
+    }
+
+    function setIssuedThisMonth($issuedThisMonth)
+    {
+        $this->issuedThisMonth = $issuedThisMonth;
+    }
 
 }

@@ -3,7 +3,7 @@
 {% import "macros/a.html.twig" as a %}
 {% block panelBack %}{{ a.back('tasklists_show', {'id':taskList.id}) }}{% endblock %}
 {% block panelTitle %}Edit Task List{% endblock %}
-{% block panelTitleSmall %}{{taskList.name}}{% endblock %}
+{% block panelTitleSmall %}{{ taskList.name }}{% endblock %}
 {% block panelHeadingRight %}{{ forms.delete(delete_form) }}{% endblock %}
 {% block panelBody %}{{ forms.panel(tasklist_form, false) }}{% endblock %}
 

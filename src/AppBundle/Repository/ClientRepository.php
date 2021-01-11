@@ -11,41 +11,40 @@ namespace AppBundle\Repository;
 class ClientRepository extends \Doctrine\ORM\EntityRepository
 {
 
-  public function search($searchTerm)
-  {
-    return $this
+    public function search($searchTerm)
+    {
+        return $this
             ->createQueryBuilder('c')
             ->select()
             ->where('c.name LIKE :searchTerm')
             ->setParameter(":searchTerm", '%' . $searchTerm . '%')
             ->getQuery()
             ->getResult();
-  }
+    }
 
-  /**
-   *
-   * @return array The objects.
-   */
-  public function findByYear($year)
-  {
-    $queryBuilder = $this
-        ->createQueryBuilder('c')
-        ->select('t, tl, a, c')
-        ->leftJoin('c.accounts', 'a')
-        ->leftJoin('a.taskLists', 'tl')
-        ->leftJoin('tl.tasks', 't')
-        ->where('YEAR(t.completedAt) = :year')
-        ->setParameter(':year', $year)
-        ->groupBy('c.id')
-    ;
-    return $queryBuilder
+    /**
+     *
+     * @return array The objects.
+     */
+    public function findByYear($year)
+    {
+        $queryBuilder = $this
+            ->createQueryBuilder('c')
+            ->select('t, tl, a, c')
+            ->leftJoin('c.accounts', 'a')
+            ->leftJoin('a.taskLists', 'tl')
+            ->leftJoin('tl.tasks', 't')
+            ->where('YEAR(t.completedAt) = :year')
+            ->setParameter(':year', $year)
+            ->groupBy('c.id');
+        return $queryBuilder
             ->getQuery()
             ->getResult();
-  }
+    }
 
-  public function getCreatedTillYear($year)
-  {
-    return $this
+    public function getCreatedTillYear($year)
+    {
+        return $this
             ->createQueryBuilder('c')
             ->select('count(c.id)')
             ->where('YEAR(c.createdAt) <= :year')
@@ -53,6 +52,6 @@ class ClientRepository extends \Doctrine\ORM\EntityRepository
             ->setParameter(":year", $year)
             ->getQuery()
             ->getSingleScalarResult();
-  }
+    }
 
 }

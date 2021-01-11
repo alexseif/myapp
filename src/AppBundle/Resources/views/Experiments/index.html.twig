@@ -3,12 +3,12 @@
 {% block title %}AppBundle:Experiments:index{% endblock %}
 
 {% block container %}
-  <div class="row">
-    {% for title, path in experiments %}
-      <div class="col">
-        <a class="btn btn-block btn-primary"
-           href="{{ path(path)}}">{{ title }}</a>
-      </div> 
-    {% endfor %}
-  </div>
+    <div class="row">
+        {% for title, path in experiments %}
+            <div class="col">
+                <a class="btn btn-block btn-primary"
+                   href="{{ path(path) }}">{{ title }}</a>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}

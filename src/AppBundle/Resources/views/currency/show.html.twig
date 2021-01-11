@@ -3,24 +3,24 @@
 {% import "macros/a.html.twig" as a %}
 {% block title %}{{ currency.code }}{% endblock %}
 {% block content %}
-  <div class="row">
-    <div class="col-md-6 offset-md-3">
-      {{ parent() }}
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            {{ parent() }}
+        </div>
     </div>
-  </div>
 {% endblock %}
 {% block floatingActions %}{{ a.add('currency_new') }}{% endblock %}
 {% block panelBack %}{{ a.back('currency_index') }}{% endblock %}
 {% block panelTitle %}{{ currency.code }}{% endblock %}
 {% block panelHeadingRight %}
-  {{ a.edit('currency_edit', { 'id': currency.id }) }}
-  {{ forms.delete(delete_form) }}
+    {{ a.edit('currency_edit', { 'id': currency.id }) }}
+    {{ forms.delete(delete_form) }}
 {% endblock %}
 {% block panelBody %}
-  <div class="card-body">
-    <div class="row">
-      <div class="col-sm-6">{{ currency.name }}</div>
-      <div class="col-sm-6 text-right"><span class="float-left">EGP</span> {{ (currency.egp/100) }}</div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-6">{{ currency.name }}</div>
+            <div class="col-sm-6 text-right"><span class="float-left">EGP</span> {{ (currency.egp/100) }}</div>
+        </div>
     </div>
-  </div>
 {% endblock %}

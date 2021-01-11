@@ -2,78 +2,78 @@
 
 {% block title %}Inbox{% endblock %}
 {% block stylesheets %}
-  {{ parent() }}
-  <link href="{{ asset('/css/inbox.css')}}" rel="stylesheet" type="text/css"/>
+    {{ parent() }}
+    <link href="{{ asset('/css/inbox.css') }}" rel="stylesheet" type="text/css"/>
 {% endblock %}
 {% block container %}
-  <div id="inbox">
-    <div class="row">
-      <div class="col-2">
-        <div class="col-wrapper">
-          <ul class="nav flex-column" id="inbox-menu">
-            <li class="nav-item">
-              <span class="badge badge-pill"></span>
-              <a class="nav-link" data-ajax='true' data-target='#inbox-tasks'
-                 data-url='{{ path('inbox_get_tasks', {'taskListName': 'focus'}) }}'
-                 href="#focus" >Focus</a>
-            </li>
-            <li class="nav-item">
-              <span class="badge badge-pill"></span>
-              <a class="nav-link" data-ajax='true' data-target='#inbox-tasks'
-                 data-url='{{ path('inbox_get_tasks', {'taskListName': 'urgent'}) }}'
-                 href="#urgent" >Urgent</a>
-            </li>
-            <li class="nav-item">
-              <span class="badge badge-pill"></span>
-              <a class="nav-link" data-ajax='true' data-target='#inbox-tasks'
-                 data-url='{{ path('inbox_get_tasks', {'taskListName': 'completedToday'}) }}'
-                 href="#completedToday" >Completed Today</a>
-            </li>
-            {% for taskList in taskLists %}
-              <li class="nav-item">
-                <span class="badge badge-pill">{{ taskList.tasks|length }}</span>
-                <a class="nav-link" data-ajax='true' data-target='#inbox-tasks'
-                   data-url='{{ path('inbox_get_tasks', {'taskListName': taskList.name}) }}'
-                   href="#{{ taskList.name }}" >{{ taskList.name }}</a>
-              </li>
-            {% endfor %}
-          </ul>
-        </div><!-- .col-wrapper -->
-      </div><!-- .col-2 -->
-      <div class="col-8">
-        <div class="col-wrapper" id='inbox-tasks'>
+    <div id="inbox">
+        <div class="row">
+            <div class="col-2">
+                <div class="col-wrapper">
+                    <ul class="nav flex-column" id="inbox-menu">
+                        <li class="nav-item">
+                            <span class="badge badge-pill"></span>
+                            <a class="nav-link" data-ajax='true' data-target='#inbox-tasks'
+                               data-url='{{ path('inbox_get_tasks', {'taskListName': 'focus'}) }}'
+                               href="#focus">Focus</a>
+                        </li>
+                        <li class="nav-item">
+                            <span class="badge badge-pill"></span>
+                            <a class="nav-link" data-ajax='true' data-target='#inbox-tasks'
+                               data-url='{{ path('inbox_get_tasks', {'taskListName': 'urgent'}) }}'
+                               href="#urgent">Urgent</a>
+                        </li>
+                        <li class="nav-item">
+                            <span class="badge badge-pill"></span>
+                            <a class="nav-link" data-ajax='true' data-target='#inbox-tasks'
+                               data-url='{{ path('inbox_get_tasks', {'taskListName': 'completedToday'}) }}'
+                               href="#completedToday">Completed Today</a>
+                        </li>
+                        {% for taskList in taskLists %}
+                            <li class="nav-item">
+                                <span class="badge badge-pill">{{ taskList.tasks|length }}</span>
+                                <a class="nav-link" data-ajax='true' data-target='#inbox-tasks'
+                                   data-url='{{ path('inbox_get_tasks', {'taskListName': taskList.name}) }}'
+                                   href="#{{ taskList.name }}">{{ taskList.name }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div><!-- .col-wrapper -->
+            </div><!-- .col-2 -->
+            <div class="col-8">
+                <div class="col-wrapper" id='inbox-tasks'>
 
-        </div><!-- .col-wrapper -->
-      </div><!-- .col-8 -->
-      <div class="col-2">
-        <div class="col-wrapper" id='inbox-days'>
-          {% if days|length %}
-            {% include 'AppBundle:days:days_list_summary.html.twig' %}
-            {% include 'AppBundle:holiday:holidays_list_summary.html.twig' %}
-          {% endif %}
-        </div>
-      </div>
-    </div><!-- .row -->
-  </div><!-- #inbox -->
+                </div><!-- .col-wrapper -->
+            </div><!-- .col-8 -->
+            <div class="col-2">
+                <div class="col-wrapper" id='inbox-days'>
+                    {% if days|length %}
+                        {% include 'AppBundle:days:days_list_summary.html.twig' %}
+                        {% include 'AppBundle:holiday:holidays_list_summary.html.twig' %}
+                    {% endif %}
+                </div>
+            </div>
+        </div><!-- .row -->
+    </div><!-- #inbox -->
 {% endblock %}
 {% block javascripts %}
-  {{ parent() }}
-  <script src="{{ asset('/js/inbox.js') }}"></script>
-  <script>
-    $(document).ready(function () {
-      $('.holidays-list .card').each(function () {
-        var holiday = this;
-        var timestamp = $(holiday).data('date');
-        $('.days-list .card').each(function () {
-          if (timestamp >= $(this).data('date')) {
-            $(holiday).insertAfter(this);
-          }
+    {{ parent() }}
+    <script src="{{ asset('/js/inbox.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            $('.holidays-list .card').each(function () {
+                var holiday = this;
+                var timestamp = $(holiday).data('date');
+                $('.days-list .card').each(function () {
+                    if (timestamp >= $(this).data('date')) {
+                        $(holiday).insertAfter(this);
+                    }
+                });
+            });
+            $('.days-list .card').each(function () {
+                breaker = $('<div class="w-100"></div>');
+                $(breaker).insertAfter(this);
+            });
         });
-      });
-      $('.days-list .card').each(function () {
-        breaker = $('<div class="w-100"></div>');
-        $(breaker).insertAfter(this);
-      });
-    });
-  </script>
+    </script>
 {% endblock %}

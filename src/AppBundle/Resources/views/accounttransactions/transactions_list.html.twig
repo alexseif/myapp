@@ -1,43 +1,47 @@
 {% import "macros/a.html.twig" as a %}
 <table class="table table-condensed table-bordered table-striped table-hover table-txn" id="txns">
-  <thead>
+    <thead>
     <tr>
-      <th>#</th>
-      <th>Amount</th>
-      <th>Account</th>
-      <th>Client</th>
-      <th>Issued At</th>
-      <th>Note</th>
-      <th>Created At</th>
-      <th>Actions</th>
+        <th>#</th>
+        <th>Amount</th>
+        <th>Account</th>
+        <th>Client</th>
+        <th>Issued At</th>
+        <th>Note</th>
+        <th>Created At</th>
+        <th>Actions</th>
     </tr>
-  </thead>
-  <tbody>
+    </thead>
+    <tbody>
     {% set total=0 %}
     {% for accountTransaction in accountTransactions %}
-      {% set total = total + accountTransaction.amount %}
-      <tr class="{{ (accountTransaction.account) ? accountTransaction.account.conceal ? "conceal" }}">
-        <td><a href="{{ path('accounttransactions_show', { 'id': accountTransaction.id }) }}">{{ accountTransaction.id }}</a></td>
-        <td class="text-right" class="{{ (accountTransaction.account) ? accountTransaction.account.conceal ? "conceal" }}">{{ accountTransaction.amount|number_format }} <span class="float-left">EGP</span></td>
-        <td>{{ (accountTransaction.account) ? accountTransaction.account.name }}</td>
-        <td>{{ (accountTransaction.account) ? accountTransaction.account.client ? accountTransaction.account.client.name }}</td>
-        <td>{% if accountTransaction.issuedAt %}{{ accountTransaction.issuedAt|date('Y-m-d') }}{% endif %}</td>
-        <td>{{ accountTransaction.note }}</td>
-        <td>{% if accountTransaction.createdAt %}{{ accountTransaction.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
-        <td>
-          <div class="btn-group">
-            {{ a.show('accounttransactions_show', { 'id': accountTransaction.id }) }}
-            {{ a.edit('accounttransactions_edit', { 'id': accountTransaction.id }) }}
-          </div>
-        </td>
-      </tr>
+        {% set total = total + accountTransaction.amount %}
+        <tr class="{{ (accountTransaction.account) ? accountTransaction.account.conceal ? "conceal" }}">
+            <td>
+                <a href="{{ path('accounttransactions_show', { 'id': accountTransaction.id }) }}">{{ accountTransaction.id }}</a>
+            </td>
+            <td class="text-right"
+                class="{{ (accountTransaction.account) ? accountTransaction.account.conceal ? "conceal" }}">{{ accountTransaction.amount|number_format }}
+                <span class="float-left">EGP</span></td>
+            <td>{{ (accountTransaction.account) ? accountTransaction.account.name }}</td>
+            <td>{{ (accountTransaction.account) ? accountTransaction.account.client ? accountTransaction.account.client.name }}</td>
+            <td>{% if accountTransaction.issuedAt %}{{ accountTransaction.issuedAt|date('Y-m-d') }}{% endif %}</td>
+            <td>{{ accountTransaction.note }}</td>
+            <td>{% if accountTransaction.createdAt %}{{ accountTransaction.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            <td>
+                <div class="btn-group">
+                    {{ a.show('accounttransactions_show', { 'id': accountTransaction.id }) }}
+                    {{ a.edit('accounttransactions_edit', { 'id': accountTransaction.id }) }}
+                </div>
+            </td>
+        </tr>
     {% endfor %}
-  </tbody>
-  <tfoot>
+    </tbody>
+    <tfoot>
     <tr>
-      <th class="text-right">Total</th>
-      <th class="text-right">EGP {{ total|number_format }}</th>
-      <th colspan="5"></th>
+        <th class="text-right">Total</th>
+        <th class="text-right">EGP {{ total|number_format }}</th>
+        <th colspan="5"></th>
     </tr>
-  </tfoot>
+    </tfoot>
 </table>

@@ -3,72 +3,109 @@
 {% block title %}AppBundle:Management:priority{% endblock %}
 
 {% block content %}
-  <style>
-    .mangement-panel{position: relative; width: 100vw;}
-    .task-panel{position: fixed; width: 20vw; left: 0;}
-    .table-panel{position: fixed; width: 80vw; right:0;}
-    ol{min-height: 50px; border: 1px dotted #444; border-radius: 4px; list-style-type: none; padding: 0px; width: 100%; height: 100%; overflow-y:scroll;}
-    ol li{margin: 10px; background: #444; padding: 5px; border: 1px solid gray; word-wrap: break-word;}
-    .col-1{width: 10%;}
-    td{position: relative;}
-    h4{
-      position: absolute;
-      right: 0;
-      background: rgba(0,0,0,0.8);
-      padding: 5px;
-      border-radius: 4px 0 0 4px;
-    }
-  </style>
-  <h1>Welcome to the Management:priority page</h1>
-  <div>
-    What do I want to do here
-  </div>
-  <div class="mangement-panel">
-    <div class="task-panel">
-      <ol class="simple_with_animation">
-        {% for task in tasks %}
-          <li 
-            data-id="{{task.id}}" 
-            data-priority="{{task.priority}}" 
-            data-urgency="{{task.urgency}}"
-            title="{{task.taskList.name }}"
-            data-task-url="{{ path('tasks_edit', {'id':task.id}) }}"
-            > 
-            {{ task.task }} 
-          </li>
-        {% endfor %}
-      </ol>
+    <style>
+        .mangement-panel {
+            position: relative;
+            width: 100vw;
+        }
+
+        .task-panel {
+            position: fixed;
+            width: 20vw;
+            left: 0;
+        }
+
+        .table-panel {
+            position: fixed;
+            width: 80vw;
+            right: 0;
+        }
+
+        ol {
+            min-height: 50px;
+            border: 1px dotted #444;
+            border-radius: 4px;
+            list-style-type: none;
+            padding: 0px;
+            width: 100%;
+            height: 100%;
+            overflow-y: scroll;
+        }
+
+        ol li {
+            margin: 10px;
+            background: #444;
+            padding: 5px;
+            border: 1px solid gray;
+            word-wrap: break-word;
+        }
+
+        .col-1 {
+            width: 10%;
+        }
+
+        td {
+            position: relative;
+        }
+
+        h4 {
+            position: absolute;
+            right: 0;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 5px;
+            border-radius: 4px 0 0 4px;
+        }
+    </style>
+    <h1>Welcome to the Management:priority page</h1>
+    <div>
+        What do I want to do here
     </div>
-    <div class="table-panel">
-      <table>
-        <tbody>
-          <tr>
-            <td title="Important & Urgent">    
-              <h4>Important & Urgent</h4>
-              <ol class="simple_with_animation" id="importantAndUrgent"></ol>
-            </td>
-            <td title="Important">
-              <h4>Important</h4>
-              <ol class="simple_with_animation" id="important"></ol>
-            </td>
-          </tr>
-          <tr>
-            <td title="Urgent">
-              <h4>Urgent</h4>
-              <ol class="simple_with_animation" id="urgent"></ol>
-            </td>
-            <td title="Normal">
-              <h4>Normal</h4>
-              <ol class="simple_with_animation" id="normal"></ol>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="mangement-panel">
+        <div class="task-panel">
+            <ol class="simple_with_animation">
+                {% for task in tasks %}
+                    <li
+                            data-id="{{ task.id }}"
+                            data-priority="{{ task.priority }}"
+                            data-urgency="{{ task.urgency }}"
+                            title="{{ task.taskList.name }}"
+                            data-task-url="{{ path('tasks_edit', {'id':task.id}) }}"
+                    >
+                        {{ task.task }}
+                    </li>
+                {% endfor %}
+            </ol>
+        </div>
+        <div class="table-panel">
+            <table>
+                <tbody>
+                <tr>
+                    <td title="Important & Urgent">
+                        <h4>Important & Urgent</h4>
+                        <ol class="simple_with_animation" id="importantAndUrgent"></ol>
+                    </td>
+                    <td title="Important">
+                        <h4>Important</h4>
+                        <ol class="simple_with_animation" id="important"></ol>
+                    </td>
+                </tr>
+                <tr>
+                    <td title="Urgent">
+                        <h4>Urgent</h4>
+                        <ol class="simple_with_animation" id="urgent"></ol>
+                    </td>
+                    <td title="Normal">
+                        <h4>Normal</h4>
+                        <ol class="simple_with_animation" id="normal"></ol>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-  </div>
 {% endblock %}
 {% block javascripts %}
-  {{ parent() }}
-  <script type="text/javascript" src="/js/jquery-sortable.js"></script>
-  <script type="text/javascript" src="/js/management-priority.js"></script>
+    {{ parent() }}
+    <script type="text/javascript" src="/js/jquery-sortable.js"></script>
+    <script type="text/javascript" src="/js/management-priority.js"></script>
 {% endblock %}

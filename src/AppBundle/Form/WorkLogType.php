@@ -11,47 +11,46 @@ use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 class WorkLogType extends AbstractType
 {
 
-  /**
-   * {@inheritdoc}
-   */
-  public function buildForm(FormBuilderInterface $builder, array $options)
-  {
-    $builder
-        ->add('task', EntityType::class, array(
-          'class' => 'AppBundle:Tasks',
-          'group_by' => function($tasks) {
-            return $tasks->getTaskList()->getName();
-          },
-          'choice_attr' => function($tasks, $key, $index) {
-            return ['data-duration' => $tasks->getDuration(), 'data-client' => $tasks->getClient()];
-          },
-          'attr' => array(
-            'class' => 'chosen'
-          )
-        ))
-        ->add('name')
-        ->add('duration')
-        ->add('pricePerUnit', MoneyType::class)
-        ->add('total', MoneyType::class)
-    ;
-  }
+    /**
+     * {@inheritdoc}
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder
+            ->add('task', EntityType::class, array(
+                'class' => 'AppBundle:Tasks',
+                'group_by' => function ($tasks) {
+                    return $tasks->getTaskList()->getName();
+                },
+                'choice_attr' => function ($tasks, $key, $index) {
+                    return ['data-duration' => $tasks->getDuration(), 'data-client' => $tasks->getClient()];
+                },
+                'attr' => array(
+                    'class' => 'chosen'
+                )
+            ))
+            ->add('name')
+            ->add('duration')
+            ->add('pricePerUnit', MoneyType::class)
+            ->add('total', MoneyType::class);
+    }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function configureOptions(OptionsResolver $resolver)
-  {
-    $resolver->setDefaults(array(
-      'data_class' => 'AppBundle\Entity\WorkLog'
-    ));
-  }
+    /**
+     * {@inheritdoc}
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(array(
+            'data_class' => 'AppBundle\Entity\WorkLog'
+        ));
+    }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function getBlockPrefix()
-  {
-    return 'appbundle_worklog';
-  }
+    /**
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix()
+    {
+        return 'appbundle_worklog';
+    }
 
 }

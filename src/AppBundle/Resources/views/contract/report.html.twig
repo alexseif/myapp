@@ -3,58 +3,66 @@
 {% block title %}Accounting - {{ contract }}{% endblock %}
 
 {% block content %}
-  <style>
-    .current-balance{text-align: center;}
-    .table td{text-align: right;}
-    .table td:first-child{text-align: left;}
-  </style>
-  <div class="container">
-    {{ form_start(report_filter_form) }}
-    {{ form_widget(report_filter_form) }}
-    <div class="float-right">
-      <a href="{{ path('accounting_index') }}" class="btn btn-link">Reset</a>
-      <button type="submit" value="Filter" class="btn btn-secondary btn-sm">Search</button>
+    <style>
+        .current-balance {
+            text-align: center;
+        }
+
+        .table td {
+            text-align: right;
+        }
+
+        .table td:first-child {
+            text-align: left;
+        }
+    </style>
+    <div class="container">
+        {{ form_start(report_filter_form) }}
+        {{ form_widget(report_filter_form) }}
+        <div class="float-right">
+            <a href="{{ path('accounting_index') }}" class="btn btn-link">Reset</a>
+            <button type="submit" value="Filter" class="btn btn-secondary btn-sm">Search</button>
+        </div>
+        {{ form_end(report_filter_form) }}
+        <div class="clearfix"></div>
     </div>
-    {{ form_end(report_filter_form) }}
-    <div class="clearfix"></div>
-  </div>
-  <hr>
-  <div class="container">
-    <div class="row">
-      <div class="col-md-3">
-        <h2>Account: {{ contract }}</h2>
-      </div>
-      <div class="offset-md-6 col-md-3">
-        <h3>Client: {{ contract.client }}</h3>
-      </div>
+    <hr>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <h2>Account: {{ contract }}</h2>
+            </div>
+            <div class="offset-md-6 col-md-3">
+                <h3>Client: {{ contract.client }}</h3>
+            </div>
+        </div>
     </div>
-  </div>
-  <hr>
-  <div class="container">
-    <h3>Issued Statements</h3>
-    <table class="table table-bordered table-condensed table-striped">
-      <thead>
-        <tr>
-          <th>Coverage period</th>
-          <th>Forward Balance</th>
-          <th>Ending Balance</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for item in monthsArray %}
-          <tr>
-            <td>
-              {# TODO: Provide Date range #}
-              {# TODO: Respct provided date range #}
-              <a href="{{ path('contract_timesheet', {"id" : contract.id, "from": item.start, "to":item.end }) }}">
-                {{ item.start }} - {{ item.end }}
-              </a>
-            </td>
-            <td></td>
-            <td></td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
+    <hr>
+    <div class="container">
+        <h3>Issued Statements</h3>
+        <table class="table table-bordered table-condensed table-striped">
+            <thead>
+            <tr>
+                <th>Coverage period</th>
+                <th>Forward Balance</th>
+                <th>Ending Balance</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in monthsArray %}
+                <tr>
+                    <td>
+                        {# TODO: Provide Date range #}
+                        {# TODO: Respct provided date range #}
+                        <a href="{{ path('contract_timesheet', {"id" : contract.id, "from": item.start, "to":item.end }) }}">
+                            {{ item.start }} - {{ item.end }}
+                        </a>
+                    </td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

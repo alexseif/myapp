@@ -3,14 +3,14 @@
 {% block title %}Income Reports{% endblock %}
 
 {% block content %}
-  <div class="row">
-    {% for year in tasksYears %}
-      {% if year.years is not null %}
-        <div class="col">
-          <a href="{{ path('reports_clients_by_years', {'year': year.years }) }}" 
-             class="btn btn-primary btn-block">{{year.years}}</a>
-        </div>
-      {% endif %}
-    {% endfor %}
-  </div>
+    <div class="row">
+        {% for year in tasksYears %}
+            {% if year.years is not null %}
+                <div class="col">
+                    <a href="{{ path('reports_clients_by_years', {'year': year.years }) }}"
+                       class="btn btn-primary btn-block">{{ year.years }}</a>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
 {% endblock %}

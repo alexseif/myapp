@@ -14,133 +14,133 @@ namespace AppBundle\Model;
 class Sheet
 {
 
-  /**
-   *
-   * @var string title
-   */
-  private $title;
+    /**
+     *
+     * @var string title
+     */
+    private $title;
 
-  /**
-   *
-   * @var \DateTime date
-   */
-  private $date;
+    /**
+     *
+     * @var \DateTime date
+     */
+    private $date;
 
-  /**
-   *
-   * @var \DateInterval days
-   */
-  private $days;
+    /**
+     *
+     * @var \DateInterval days
+     */
+    private $days;
 
-  /**
-   *
-   * @var int amount
-   */
-  private $amount;
+    /**
+     *
+     * @var int amount
+     */
+    private $amount;
 
-  /**
-   *
-   * @var int balance
-   */
-  private $balance;
+    /**
+     *
+     * @var int balance
+     */
+    private $balance;
 
-  public function __construct($title, \DateTime $date, \DateInterval $days, $amount, $balance)
-  {
-    $this->setTitle($title);
-    $this->setDate($date);
-    $this->setDays($days);
-    $this->setAmount($amount);
-    $this->setBalance($balance);
-  }
+    public function __construct($title, \DateTime $date, \DateInterval $days, $amount, $balance)
+    {
+        $this->setTitle($title);
+        $this->setDate($date);
+        $this->setDays($days);
+        $this->setAmount($amount);
+        $this->setBalance($balance);
+    }
 
-  /**
-   * 
-   * @return string
-   */
-  public function getTitle()
-  {
-    return $this->title;
-  }
+    /**
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
 
-  /**
-   * 
-   * @return \DateTime
-   */
-  public function getDate()
-  {
-    return $this->date;
-  }
+    /**
+     *
+     * @return \DateTime
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
 
-  /**
-   * 
-   * @return \DateInterval
-   */
-  public function getDays()
-  {
-    return $this->days;
-  }
+    /**
+     *
+     * @return \DateInterval
+     */
+    public function getDays()
+    {
+        return $this->days;
+    }
 
-  /**
-   * 
-   * @return int
-   */
-  public function getAmount()
-  {
-    return $this->amount;
-  }
+    /**
+     *
+     * @return int
+     */
+    public function getAmount()
+    {
+        return $this->amount;
+    }
 
-  /**
-   * 
-   * @return int
-   */
-  public function getBalance()
-  {
-    return $this->balance;
-  }
+    /**
+     *
+     * @return int
+     */
+    public function getBalance()
+    {
+        return $this->balance;
+    }
 
-  /**
-   * 
-   * @param string $title
-   */
-  public function setTitle($title)
-  {
-    $this->title = $title;
-  }
+    /**
+     *
+     * @param string $title
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    }
 
-  /**
-   * 
-   * @param \DateTime $date
-   */
-  public function setDate(\DateTime $date)
-  {
-    $this->date = $date;
-  }
+    /**
+     *
+     * @param \DateTime $date
+     */
+    public function setDate(\DateTime $date)
+    {
+        $this->date = $date;
+    }
 
-  /**
-   * 
-   * @param \DateInterval $days
-   */
-  public function setDays(\DateInterval $days)
-  {
-    $this->days = $days;
-  }
+    /**
+     *
+     * @param \DateInterval $days
+     */
+    public function setDays(\DateInterval $days)
+    {
+        $this->days = $days;
+    }
 
-  /**
-   * 
-   * @param int $amount
-   */
-  public function setAmount($amount)
-  {
-    $this->amount = $amount;
-  }
+    /**
+     *
+     * @param int $amount
+     */
+    public function setAmount($amount)
+    {
+        $this->amount = $amount;
+    }
 
-  /**
-   * 
-   * @param int $balance
-   */
-  public function setBalance($balance)
-  {
-    $this->balance = $balance;
-  }
+    /**
+     *
+     * @param int $balance
+     */
+    public function setBalance($balance)
+    {
+        $this->balance = $balance;
+    }
 
 }

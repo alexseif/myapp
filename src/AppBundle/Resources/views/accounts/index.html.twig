@@ -3,9 +3,9 @@
 {% block floatingActions %}{{ a.add('accounts_new') }}{% endblock %}
 {% block panelTitle %}Accounts{% endblock %}
 {% block content %}
-  <div class="container">
-    <h2>Accounts</h2>
-    {% set hideEmpty = false %}
-    {% include 'AppBundle:accounts:accounts_list.html.twig' %}
-  </div>
+    <div class="container">
+        <h2>Accounts</h2>
+        {% set hideEmpty = false %}
+        {% include 'AppBundle:accounts:accounts_list.html.twig' %}
+    </div>
 {% endblock %}

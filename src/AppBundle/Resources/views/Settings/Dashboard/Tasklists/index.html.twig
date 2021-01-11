@@ -3,38 +3,40 @@
 {% block floatingActions %}{{ a.add('dashboardtasklists_new') }}{% endblock %}
 {% block panelTitle %}Dashboard -> Tasklists{% endblock %}
 {% block panelBody %}
-  <table class="table table-condensed table-bordered table-striped">
-    <thead>
-      <tr>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for taskList in dashboardTaskLists %}
+    <table class="table table-condensed table-bordered table-striped">
+        <thead>
         <tr>
-          <td>{{ (taskList[0].name is defined)? taskList[0].name }}</td>
-          <td>
-            <div class="btn-group">
-              {#              {% if taskList.id is not null %}#}
-              <button class="btn btn-sm btn-success btn-app-post" 
-                      title="Add to Dashboard"
-                      {{ (taskList.id is not null) ? "disabled" }}
-                      data-post='{"id": "{{ taskList[0].id }}"}'
-                      data-action="{{ path('dashboardtasklists_add') }}">
-                Add</button>
-                {#              {% else %}#}
-              <button class="btn btn-sm btn-danger btn-app-post" 
-                      title="Remove From Dashboard"
-                      {{ (taskList.id is null) ? "disabled" }}
-                      data-post='{"id": "{{ taskList[0].id }}"}'
-                      data-action="{{ path ('dashboardtasklists_remove') }}">
-                Delete</button>
-                {#              {% endif %}#}
-                {# {{ a.edit('dashboardtasklists_edit', { 'id': dashboardTaskList.id }) }} #}
-            </div>
-          </td>
+            <th>Actions</th>
         </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+        </thead>
+        <tbody>
+        {% for taskList in dashboardTaskLists %}
+            <tr>
+                <td>{{ (taskList[0].name is defined)? taskList[0].name }}</td>
+                <td>
+                    <div class="btn-group">
+                        {# {% if taskList.id is not null %} #}
+                        <button class="btn btn-sm btn-success btn-app-post"
+                                title="Add to Dashboard"
+                                {{ (taskList.id is not null) ? "disabled" }}
+                                data-post='{"id": "{{ taskList[0].id }}"}'
+                                data-action="{{ path('dashboardtasklists_add') }}">
+                            Add
+                        </button>
+                        {# {% else %} #}
+                        <button class="btn btn-sm btn-danger btn-app-post"
+                                title="Remove From Dashboard"
+                                {{ (taskList.id is null) ? "disabled" }}
+                                data-post='{"id": "{{ taskList[0].id }}"}'
+                                data-action="{{ path ('dashboardtasklists_remove') }}">
+                            Delete
+                        </button>
+                        {# {% endif %} #}
+                        {# {{ a.edit('dashboardtasklists_edit', { 'id': dashboardTaskList.id }) }} #}
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}

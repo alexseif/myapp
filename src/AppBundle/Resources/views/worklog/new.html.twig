@@ -4,34 +4,34 @@
 {% block panelTitle %}New Work Log{% endblock %}
 {% block panelBack %}{{ a.back('worklog_index') }}{% endblock %}
 {% block panelBody %}
-  {{ forms.panel(form) }}
+    {{ forms.panel(form) }}
 {% endblock %}
 
 {% block javascripts %}
-  {{ parent() }}
-  <script>
-    function updateCost(updatePricePerUnit = true) {
-      $('#appbundle_worklog_name').val($("#appbundle_worklog_task :selected").text());
-      $('#appbundle_worklog_duration').val($("#appbundle_worklog_task :selected").data("duration"));
-      if (updatePricePerUnit) {
-        $('#appbundle_worklog_pricePerUnit').val(ClientRates[$("#appbundle_worklog_task :selected").data("client")]);
-      }
-      $('#appbundle_worklog_total').val($('#appbundle_worklog_duration').val() * $('#appbundle_worklog_pricePerUnit').val() / 60);
-    }
-  </script>
-  <script>
-    $('#appbundle_worklog_task').change(updateCost);
-    $('#appbundle_worklog_pricePerUnit').change(function () {
-      updateCost(false);
-    });
-    $('#appbundle_worklog_duration').change(updateCost);
-  </script>
-  <script>
-    var ClientRates = [];
+    {{ parent() }}
+    <script>
+        function updateCost(updatePricePerUnit = true) {
+            $('#appbundle_worklog_name').val($("#appbundle_worklog_task :selected").text());
+            $('#appbundle_worklog_duration').val($("#appbundle_worklog_task :selected").data("duration"));
+            if (updatePricePerUnit) {
+                $('#appbundle_worklog_pricePerUnit').val(ClientRates[$("#appbundle_worklog_task :selected").data("client")]);
+            }
+            $('#appbundle_worklog_total').val($('#appbundle_worklog_duration').val() * $('#appbundle_worklog_pricePerUnit').val() / 60);
+        }
+    </script>
+    <script>
+        $('#appbundle_worklog_task').change(updateCost);
+        $('#appbundle_worklog_pricePerUnit').change(function () {
+            updateCost(false);
+        });
+        $('#appbundle_worklog_duration').change(updateCost);
+    </script>
+    <script>
+        var ClientRates = [];
 
-    {% for clientRate in clientRates %}
-      ClientRates['{{ clientRate.client }}'] = {{ clientRate.rate }};
-    {% endfor %}
+        {% for clientRate in clientRates %}
+        ClientRates['{{ clientRate.client }}'] = {{ clientRate.rate }};
+        {% endfor %}
 
-  </script>
+    </script>
 {% endblock %}

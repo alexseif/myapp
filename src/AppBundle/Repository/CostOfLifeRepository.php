@@ -11,13 +11,13 @@ namespace AppBundle\Repository;
 class CostOfLifeRepository extends \Doctrine\ORM\EntityRepository
 {
 
-  public function sumCostOfLife()
-  {
-    return $this
+    public function sumCostOfLife()
+    {
+        return $this
             ->createQueryBuilder('col')
             ->select('SUM(col.value)/100 as cost')
             ->getQuery()
             ->getSingleResult();
-  }
+    }
 
 }

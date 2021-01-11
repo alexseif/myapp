@@ -1,26 +1,27 @@
 {% import "macros/a.html.twig" as a %}
 <div class="days-list card-deck">
-  {% for day in days %}
-    {#    {% if (0 == (loop.index0 % 2))%}#}
-    {#      <div class="w-100"></div>#}
-    {#    {% endif %}#}
-    {#      <div class="col-md-12">#}
-    {% set diff = date(day.deadline).diff(date()) %}
-    {% set curStatus = day.complete ? "success" : (diff.days < 15 or not diff.invert ) ? 'danger' :  (diff.days < 30 ) ? 'warning' :(diff.days < 60 ) ? 'info' : 'muted' %}
-    <div class="card widget-flat widget-{{ curStatus }} mb-3 text-{{ curStatus }} {{ day.complete ? "completed" }}" data-date="{{ day.deadline|date('U') }}">
-      <div class="card-body ">
-        <a href="{{ path('days_edit', { 'id': day.id }) }}" class="float-right text-info">
-          <i class="fa fa-calendar-day"></i>
-        </a>
-        <strong>{{ day.name }}</strong><br/>
-        {{ day.deadline|date('D M d, Y') }}<br/>
-        <span class="float-right">
-          <i class="fa fa-arrow-{{ diff.invert ? 'up':'down'}}"></i>
+    {% for day in days %}
+        {# {% if (0 == (loop.index0 % 2))%} #}
+        {# <div class="w-100"></div> #}
+        {# {% endif %} #}
+        {# <div class="col-md-12"> #}
+        {% set diff = date(day.deadline).diff(date()) %}
+        {% set curStatus = day.complete ? "success" : (diff.days < 15 or not diff.invert ) ? 'danger' :  (diff.days < 30 ) ? 'warning' :(diff.days < 60 ) ? 'info' : 'muted' %}
+        <div class="card widget-flat widget-{{ curStatus }} mb-3 text-{{ curStatus }} {{ day.complete ? "completed" }}"
+             data-date="{{ day.deadline|date('U') }}">
+            <div class="card-body ">
+                <a href="{{ path('days_edit', { 'id': day.id }) }}" class="float-right text-info">
+                    <i class="fa fa-calendar-day"></i>
+                </a>
+                <strong>{{ day.name }}</strong><br/>
+                {{ day.deadline|date('D M d, Y') }}<br/>
+                <span class="float-right">
+          <i class="fa fa-arrow-{{ diff.invert ? 'up':'down' }}"></i>
         </span>
-        {{ diff.days }}
-        days {{ diff.invert ? "left" : "passed"}}
-      </div> <!-- end card-body-->
-    </div> <!-- end card-->
-    {#      </div>#}
-  {% endfor %}
+                {{ diff.days }}
+                days {{ diff.invert ? "left" : "passed" }}
+            </div> <!-- end card-body-->
+        </div> <!-- end card-->
+        {# </div> #}
+    {% endfor %}
 </div>

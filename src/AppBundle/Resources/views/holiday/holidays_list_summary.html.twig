@@ -1,25 +1,25 @@
 {% import "macros/a.html.twig" as a %}
 <div class="holidays-list card-deck">
-  {% for holiday in holidays %}
-    {% if (0 == (loop.index0 % 2))%}
-      <div class="w-100"></div>
-    {% endif %}
-    {% set diff = date(holiday.date).diff(date()) %}
-    <div class="card widget-flat widget-info mb-3 text-info text-white" data-date="{{ holiday.date|date('U') }}">
-      <div class="card-body ">
-        {{ holiday.date|date('D M d, Y') }}
-        <div class="float-right">
-          <a href="{{ path('holiday_edit', { 'id': holiday.id }) }}">
-            <i class="fa fa-calendar-day"></i>
-          </a>
-        </div>
-        <h3 class="">{{ holiday.name }}</h3>
-        <p class="mb-0  ">
-          <i class="fa fa-arrow-{{ diff.invert ? 'up':'down'}}"></i>
-          {{ diff.days }}
-          days {{ diff.invert ? "left" : "passed"}}
-        </p>
-      </div> <!-- end card-body-->
-    </div> <!-- end card-->
-  {% endfor %}
+    {% for holiday in holidays %}
+        {% if (0 == (loop.index0 % 2)) %}
+            <div class="w-100"></div>
+        {% endif %}
+        {% set diff = date(holiday.date).diff(date()) %}
+        <div class="card widget-flat widget-info mb-3 text-info text-white" data-date="{{ holiday.date|date('U') }}">
+            <div class="card-body ">
+                {{ holiday.date|date('D M d, Y') }}
+                <div class="float-right">
+                    <a href="{{ path('holiday_edit', { 'id': holiday.id }) }}">
+                        <i class="fa fa-calendar-day"></i>
+                    </a>
+                </div>
+                <h3 class="">{{ holiday.name }}</h3>
+                <p class="mb-0  ">
+                    <i class="fa fa-arrow-{{ diff.invert ? 'up':'down' }}"></i>
+                    {{ diff.days }}
+                    days {{ diff.invert ? "left" : "passed" }}
+                </p>
+            </div> <!-- end card-body-->
+        </div> <!-- end card-->
+    {% endfor %}
 </div>

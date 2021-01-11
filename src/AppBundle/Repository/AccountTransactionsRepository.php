@@ -13,12 +13,12 @@ use Doctrine\ORM\EntityRepository;
 class AccountTransactionsRepository extends EntityRepository
 {
 
-  public function issuedThisMonth()
-  {
-    $today = new \DateTime();
-    $today->setDate($today->format('Y'), $today->format('m'), 25);
-    $today->setTime(00, 00, 00);
-    return $this
+    public function issuedThisMonth()
+    {
+        $today = new \DateTime();
+        $today->setDate($today->format('Y'), $today->format('m'), 25);
+        $today->setTime(00, 00, 00);
+        return $this
             ->createQueryBuilder('at')
             ->select('at')
             ->where('at.issuedAt >= :today')
@@ -27,11 +27,11 @@ class AccountTransactionsRepository extends EntityRepository
             ->setParameter(':today', $today)
             ->getQuery()
             ->getResult();
-  }
+    }
 
-  public function queryAccountRange($account)
-  {
-    return $this
+    public function queryAccountRange($account)
+    {
+        return $this
             ->createQueryBuilder('at')
             ->select('MIN(at.issuedAt) as rangeStart, MAX(at.issuedAt) as rangeEnd')
             ->where('at.account = :account')
@@ -39,11 +39,11 @@ class AccountTransactionsRepository extends EntityRepository
             ->setParameter(':account', $account)
             ->getQuery()
             ->getOneOrNullResult();
-  }
+    }
 
-  public function queryAccountFromTo($account, $from, $to)
-  {
-    return $this
+    public function queryAccountFromTo($account, $from, $to)
+    {
+        return $this
             ->createQueryBuilder('at')
             ->where('at.account = :account')
             ->andWhere('at.issuedAt BETWEEN :from AND :to')
@@ -53,11 +53,11 @@ class AccountTransactionsRepository extends EntityRepository
             ->setParameter(':to', $to)
             ->getQuery()
             ->getResult();
-  }
+    }
 
-  public function queryAmountFromTo($account, $from, $to)
-  {
-    return $this
+    public function queryAmountFromTo($account, $from, $to)
+    {
+        return $this
             ->createQueryBuilder('at')
             ->select('SUM(at.amount) as amount')
             ->where('at.account = :account')
@@ -68,11 +68,11 @@ class AccountTransactionsRepository extends EntityRepository
             ->setParameter(':to', $to)
             ->getQuery()
             ->getSingleResult();
-  }
+    }
 
-  public function queryCurrentBalanceByAccountAndRange($account, $range)
-  {
-    return $this
+    public function queryCurrentBalanceByAccountAndRange($account, $range)
+    {
+        return $this
             ->createQueryBuilder('at')
             ->select('SUM(at.amount) as amount')
             ->where('at.account = :account')
@@ -83,11 +83,11 @@ class AccountTransactionsRepository extends EntityRepository
             ->setParameter(':to', $range['end'])
             ->getQuery()
             ->getSingleResult();
-  }
+    }
 
-  public function queryCurrentBalanceByAccount($account)
-  {
-    return $this
+    public function queryCurrentBalanceByAccount($account)
+    {
+        return $this
             ->createQueryBuilder('at')
             ->select('SUM(at.amount) as amount')
             ->where('at.account = :account')
@@ -95,25 +95,11 @@ class AccountTransactionsRepository extends EntityRepository
             ->setParameter(':account', $account)
             ->getQuery()
             ->getSingleResult();
-  }
+    }
 
-  public function queryCurrentBalanceByAccountTo($account, $to)
-  {
-    return $this
-            ->createQueryBuilder('at')
-            ->select('SUM(at.amount) as amount')
-            ->where('at.account = :account')
-            ->andWhere('at.issuedAt <= :to')
-            ->orderBy('at.issuedAt')
-            ->setParameter(':account', $account)
-            ->setParameter(':to', $to)
-            ->getQuery()
-            ->getSingleResult();
-  }
-
-  public function queryOverdueAccountTo($account, $to)
-  {
-    return $this
+    public function queryCurrentBalanceByAccountTo($account, $to)
+    {
+        return $this
             ->createQueryBuilder('at')
             ->select('SUM(at.amount) as amount')
             ->where('at.account = :account')
@@ -123,11 +109,25 @@ class AccountTransactionsRepository extends EntityRepository
             ->setParameter(':to', $to)
             ->getQuery()
             ->getSingleResult();
-  }
+    }
 
-  public function queryOverdueAccount($account)
-  {
-    return $this
+    public function queryOverdueAccountTo($account, $to)
+    {
+        return $this
+            ->createQueryBuilder('at')
+            ->select('SUM(at.amount) as amount')
+            ->where('at.account = :account')
+            ->andWhere('at.issuedAt <= :to')
+            ->orderBy('at.issuedAt')
+            ->setParameter(':account', $account)
+            ->setParameter(':to', $to)
+            ->getQuery()
+            ->getSingleResult();
+    }
+
+    public function queryOverdueAccount($account)
+    {
+        return $this
             ->createQueryBuilder('at')
             ->select('SUM(at.amount) as amount')
             ->where('at.account = :account')
@@ -135,36 +135,36 @@ class AccountTransactionsRepository extends EntityRepository
             ->setParameter(':account', $account)
             ->getQuery()
             ->getSingleResult();
-  }
+    }
 
-  public function queryIncome()
-  {
-    return $this
+    public function queryIncome()
+    {
+        return $this
             ->createQueryBuilder('at')
             ->where('at.amount > 0')
             ->orderBy('at.issuedAt')
             ->getQuery()
             ->getResult();
-  }
+    }
 
-  /**
-   * 
-   * @param \DateTime $from
-   * @param \DateTime $to
-   * @return float
-   */
-  public function getRevenueSumByDateRange($from, $to)
-  {
-    $qb = $this
-        ->createQueryBuilder('at')
-        ->select('SUM(at.amount)')
-        ->where('at.amount < 0')
-        ->andWhere('at.issuedAt BETWEEN :from AND :to')
-        ->setParameter(":from", $from)
-        ->setParameter(":to", $to);
+    /**
+     *
+     * @param \DateTime $from
+     * @param \DateTime $to
+     * @return float
+     */
+    public function getRevenueSumByDateRange($from, $to)
+    {
+        $qb = $this
+            ->createQueryBuilder('at')
+            ->select('SUM(at.amount)')
+            ->where('at.amount < 0')
+            ->andWhere('at.issuedAt BETWEEN :from AND :to')
+            ->setParameter(":from", $from)
+            ->setParameter(":to", $to);
 
-    return $qb->getQuery()
+        return $qb->getQuery()
             ->getSingleScalarResult();
-  }
+    }
 
 }

@@ -4,16 +4,16 @@
 {% import "AppBundle:tasks:tasks_macros.html.twig" as tasks_view %}
 
 {% block floatingActions %}
-  {{ a.add('tasks_new') }}
+    {{ a.add('tasks_new') }}
 {% endblock %}
 {% block content %}
-  {{ a.back('tasks_index') }}
-  <div class="container">
-    <div class="text-right">
+    {{ a.back('tasks_index') }}
+    <div class="container">
+        <div class="text-right">
       <span class="btn btn-danger mb-4">
         {{ forms.delete(delete_form) }}
       </span>
-    </div>
-    {{ tasks_view.show(task) }}
-  </div><!-- container -->
+        </div>
+        {{ tasks_view.show(task) }}
+    </div><!-- container -->
 {% endblock %}

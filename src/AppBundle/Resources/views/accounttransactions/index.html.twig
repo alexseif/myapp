@@ -2,66 +2,71 @@
 {% import "macros/forms.html.twig" as forms %}
 {% import "macros/a.html.twig" as a %}
 {% block stylesheets %}
-  {{ parent() }}
-  <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />
-  <style>
-    table.dataTable tbody tr{background-color: transparent;}
-    .table-hover > tbody > tr:hover{background-color: black;}
-  </style>
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css"/>
+    <style>
+        table.dataTable tbody tr {
+            background-color: transparent;
+        }
+
+        .table-hover > tbody > tr:hover {
+            background-color: black;
+        }
+    </style>
 {% endblock %}
 
 {% block panelTitle %}Transactions{% endblock %}
 {% block container %}
-  <div class="floating-action">
-    {{ a.add('accounttransactions_new') }}
-  </div>
-  {% include 'AppBundle:accounttransactions:transactions_list.html.twig' %}
+    <div class="floating-action">
+        {{ a.add('accounttransactions_new') }}
+    </div>
+    {% include 'AppBundle:accounttransactions:transactions_list.html.twig' %}
 {% endblock %}
 
 {% block javascripts %}
-  {{ parent() }}
-  <script type="text/javascript" src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js" ></script>
-  <script>
-    $(document).ready(function () {
-      var txnsTable = $('#txns').DataTable({
-        "stateSave": true,
-        "footerCallback": function (row, data, start, end, display) {
-          var api = this.api(), data;
-          // Remove the formatting to get integer data for summation
-          var intVal = function (i) {
-            return typeof i === 'string' ?
-                    i.replace(/(<([^>]+)>)/ig, "").replace(/[^\d.-]/g, '') * 1 :
-                    typeof i === 'number' ?
-                    i : 0;
-          };
+    {{ parent() }}
+    <script type="text/javascript" src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+                var txnsTable = $('#txns').DataTable({
+                    "stateSave": true,
+                    "footerCallback": function (row, data, start, end, display) {
+                        var api = this.api(), data;
+                        // Remove the formatting to get integer data for summation
+                        var intVal = function (i) {
+                            return typeof i === 'string' ?
+                                i.replace(/(<([^>]+)>)/ig, "").replace(/[^\d.-]/g, '') * 1 :
+                                typeof i === 'number' ?
+                                    i : 0;
+                        };
 
-          // Total over all pages
-          total = api
-                  .column(1)
-                  .data()
-                  .reduce(function (a, b) {
-                    return intVal(a) + intVal(b);
-                  }, 0);
+                        // Total over all pages
+                        total = api
+                            .column(1)
+                            .data()
+                            .reduce(function (a, b) {
+                                return intVal(a) + intVal(b);
+                            }, 0);
 
-          // Total over this page
-          pageTotal = api
-                  .column(1, {page: 'current'})
-                  .data()
-                  .reduce(function (a, b) {
-                    return intVal(a) + intVal(b);
-                  }, 0);
+                        // Total over this page
+                        pageTotal = api
+                            .column(1, {page: 'current'})
+                            .data()
+                            .reduce(function (a, b) {
+                                return intVal(a) + intVal(b);
+                            }, 0);
 
-          // Update footer
-          $(api.column(2).footer()).html(
-                  'EGP ' + pageTotal + ' (EGP ' + total + ' total)'
-                  );
-        }
-      });
+                        // Update footer
+                        $(api.column(2).footer()).html(
+                            'EGP ' + pageTotal + ' (EGP ' + total + ' total)'
+                        );
+                    }
+                });
 
-      $('#txns tbody').on('dblclick', 'tr', function () {
-        $(this).children('td').first().children('a')[0].click();
-      });
-    }
-    );
-  </script>
+                $('#txns tbody').on('dblclick', 'tr', function () {
+                    $(this).children('td').first().children('a')[0].click();
+                });
+            }
+        );
+    </script>
 {% endblock %}

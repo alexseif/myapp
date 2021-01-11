@@ -3,34 +3,34 @@
 {% import "macros/a.html.twig" as a %}
 {% block title %}Objectives{% endblock %}
 {% block content %}
-  <div class="row">
-    <div class="col-md-6 offset-md-3">
-      {{ parent() }}
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            {{ parent() }}
+        </div>
     </div>
-  </div>
 {% endblock %}
 {% block floatingActions %}{{ a.add('objective_new') }}{% endblock %}
 {% block panelTitle %}Objectives{% endblock %}
 {% block panelBody %}
-  <table class="table table-condensed table-bordered table-striped">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for objective in objectives %}
+    <table class="table table-condensed table-bordered table-striped">
+        <thead>
         <tr>
-          <td>{{ objective.name }}</td>
-          <td>
-            <div class="btn-group">
-              {{ a.show('objective_show', { 'id': objective.id }) }}
-              {{ a.edit('objective_edit', { 'id': objective.id }) }}
-            </div>
-          </td>
+            <th>Name</th>
+            <th>Actions</th>
         </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+        </thead>
+        <tbody>
+        {% for objective in objectives %}
+            <tr>
+                <td>{{ objective.name }}</td>
+                <td>
+                    <div class="btn-group">
+                        {{ a.show('objective_show', { 'id': objective.id }) }}
+                        {{ a.edit('objective_edit', { 'id': objective.id }) }}
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}

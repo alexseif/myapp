@@ -16,121 +16,120 @@ use AppBundle\Form\NotesType;
 class NotesController extends Controller
 {
 
-  /**
-   * Lists all Notes entities.
-   *
-   * @Route("/", name="notes_index", methods={"GET"})
-   */
-  public function indexAction()
-  {
-    $em = $this->getDoctrine()->getManager();
+    /**
+     * Lists all Notes entities.
+     *
+     * @Route("/", name="notes_index", methods={"GET"})
+     */
+    public function indexAction()
+    {
+        $em = $this->getDoctrine()->getManager();
 
-    $notes = $em->getRepository('AppBundle:Notes')->findAll();
+        $notes = $em->getRepository('AppBundle:Notes')->findAll();
 
-    return $this->render("AppBundle:notes:index.html.twig", array(
-          'notes' => $notes,
-    ));
-  }
-
-  /**
-   * Creates a new Notes entity.
-   *
-   * @Route("/new", name="notes_new", methods={"GET", "POST"})
-   */
-  public function newAction(Request $request)
-  {
-    $note = new Notes();
-    $form = $this->createForm('AppBundle\Form\NotesType', $note);
-    $form->handleRequest($request);
-
-    if ($form->isSubmitted() && $form->isValid()) {
-      $em = $this->getDoctrine()->getManager();
-      $em->persist($note);
-      $em->flush();
-
-      return $this->redirectToRoute('notes_show', array('id' => $note->getId()));
+        return $this->render("AppBundle:notes:index.html.twig", array(
+            'notes' => $notes,
+        ));
     }
 
-    return $this->render("AppBundle:notes:new.html.twig", array(
-          'note' => $note,
-          'notes_form' => $form->createView(),
-    ));
-  }
+    /**
+     * Creates a new Notes entity.
+     *
+     * @Route("/new", name="notes_new", methods={"GET", "POST"})
+     */
+    public function newAction(Request $request)
+    {
+        $note = new Notes();
+        $form = $this->createForm('AppBundle\Form\NotesType', $note);
+        $form->handleRequest($request);
 
-  /**
-   * Finds and displays a Notes entity.
-   *
-   * @Route("/{id}", name="notes_show", methods={"GET"})
-   */
-  public function showAction(Notes $note)
-  {
-    $deleteForm = $this->createDeleteForm($note);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($note);
+            $em->flush();
 
-    return $this->render("AppBundle:notes:show.html.twig", array(
-          'note' => $note,
-          'delete_form' => $deleteForm->createView(),
-    ));
-  }
+            return $this->redirectToRoute('notes_show', array('id' => $note->getId()));
+        }
 
-  /**
-   * Displays a form to edit an existing Notes entity.
-   *
-   * @Route("/{id}/edit", name="notes_edit", methods={"GET", "POST"})
-   */
-  public function editAction(Request $request, Notes $note)
-  {
-    $deleteForm = $this->createDeleteForm($note);
-    $editForm = $this->createForm('AppBundle\Form\NotesType', $note);
-    $editForm->handleRequest($request);
-
-    if ($editForm->isSubmitted() && $editForm->isValid()) {
-      $em = $this->getDoctrine()->getManager();
-      $em->persist($note);
-      $em->flush();
-
-      return $this->redirectToRoute('notes_show', array('id' => $note->getId()));
+        return $this->render("AppBundle:notes:new.html.twig", array(
+            'note' => $note,
+            'notes_form' => $form->createView(),
+        ));
     }
 
-    return $this->render("AppBundle:notes:edit.html.twig", array(
-          'note' => $note,
-          'notes_form' => $editForm->createView(),
-          'delete_form' => $deleteForm->createView(),
-    ));
-  }
+    /**
+     * Finds and displays a Notes entity.
+     *
+     * @Route("/{id}", name="notes_show", methods={"GET"})
+     */
+    public function showAction(Notes $note)
+    {
+        $deleteForm = $this->createDeleteForm($note);
 
-  /**
-   * Deletes a Notes entity.
-   *
-   * @Route("/{id}", name="notes_delete", methods={"DELETE"})
-   */
-  public function deleteAction(Request $request, Notes $note)
-  {
-    $form = $this->createDeleteForm($note);
-    $form->handleRequest($request);
-
-    if ($form->isSubmitted() && $form->isValid()) {
-      $em = $this->getDoctrine()->getManager();
-      $em->remove($note);
-      $em->flush();
+        return $this->render("AppBundle:notes:show.html.twig", array(
+            'note' => $note,
+            'delete_form' => $deleteForm->createView(),
+        ));
     }
 
-    return $this->redirectToRoute('notes_index');
-  }
+    /**
+     * Displays a form to edit an existing Notes entity.
+     *
+     * @Route("/{id}/edit", name="notes_edit", methods={"GET", "POST"})
+     */
+    public function editAction(Request $request, Notes $note)
+    {
+        $deleteForm = $this->createDeleteForm($note);
+        $editForm = $this->createForm('AppBundle\Form\NotesType', $note);
+        $editForm->handleRequest($request);
 
-  /**
-   * Creates a form to delete a Notes entity.
-   *
-   * @param Notes $note The Notes entity
-   *
-   * @return \Symfony\Component\Form\Form The form
-   */
-  private function createDeleteForm(Notes $note)
-  {
-    return $this->createFormBuilder()
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($note);
+            $em->flush();
+
+            return $this->redirectToRoute('notes_show', array('id' => $note->getId()));
+        }
+
+        return $this->render("AppBundle:notes:edit.html.twig", array(
+            'note' => $note,
+            'notes_form' => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),
+        ));
+    }
+
+    /**
+     * Deletes a Notes entity.
+     *
+     * @Route("/{id}", name="notes_delete", methods={"DELETE"})
+     */
+    public function deleteAction(Request $request, Notes $note)
+    {
+        $form = $this->createDeleteForm($note);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($note);
+            $em->flush();
+        }
+
+        return $this->redirectToRoute('notes_index');
+    }
+
+    /**
+     * Creates a form to delete a Notes entity.
+     *
+     * @param Notes $note The Notes entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createDeleteForm(Notes $note)
+    {
+        return $this->createFormBuilder()
             ->setAction($this->generateUrl('notes_delete', array('id' => $note->getId())))
             ->setMethod('DELETE')
-            ->getForm()
-    ;
-  }
+            ->getForm();
+    }
 
 }

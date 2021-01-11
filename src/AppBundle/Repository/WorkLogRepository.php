@@ -11,9 +11,9 @@ namespace AppBundle\Repository;
 class WorkLogRepository extends \Doctrine\ORM\EntityRepository
 {
 
-  public function orderByTaskList()
-  {
-    return $this
+    public function orderByTaskList()
+    {
+        return $this
             ->createQueryBuilder('wl')
             ->select('wl, t')
             ->join('wl.task', 't')
@@ -21,11 +21,11 @@ class WorkLogRepository extends \Doctrine\ORM\EntityRepository
             ->addOrderBy('wl.createdAt', 'DESC')
             ->getQuery()
             ->getResult();
-  }
+    }
 
-  public function getByTaskList($taskList)
-  {
-    return $this
+    public function getByTaskList($taskList)
+    {
+        return $this
             ->createQueryBuilder('wl')
             ->select('wl, t')
             ->join('wl.task', 't')
@@ -34,6 +34,6 @@ class WorkLogRepository extends \Doctrine\ORM\EntityRepository
             ->addOrderBy('wl.createdAt', 'DESC')
             ->getQuery()
             ->getResult();
-  }
+    }
 
 }

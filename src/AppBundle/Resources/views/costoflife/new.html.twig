@@ -3,11 +3,11 @@
 {% import "macros/a.html.twig" as a %}
 {% block title %}New Cost of Life{% endblock %}
 {% block content %}
-  <div class="row">
-    <div class="col-md-6 offset-md-3">
-      {{ parent() }}
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            {{ parent() }}
+        </div>
     </div>
-  </div>
 {% endblock %}
 {% block panelBack %}{{ a.back('costoflife_index') }}{% endblock %}
 {% block panelTitle %}New Cost Of Life{% endblock %}

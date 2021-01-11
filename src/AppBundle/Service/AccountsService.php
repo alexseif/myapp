@@ -17,30 +17,30 @@ use Doctrine\ORM\EntityManagerInterface;
 class AccountsService
 {
 
-  protected $em;
+    protected $em;
 
-  function __construct(EntityManagerInterface $em)
-  {
-    $this->em = $em;
-  }
+    function __construct(EntityManagerInterface $em)
+    {
+        $this->em = $em;
+    }
 
-  function getEm()
-  {
-    return $this->em;
-  }
+    function getEm()
+    {
+        return $this->em;
+    }
 
-  /**
-   * 
-   * @return \AppBundle\Repository\AccountsRepository
-   */
-  public function getRepository()
-  {
-    return $this->getEm()->getRepository('AppBundle:Accounts');
-  }
+    /**
+     *
+     * @return \AppBundle\Repository\AccountsRepository
+     */
+    public function getRepository()
+    {
+        return $this->getEm()->getRepository('AppBundle:Accounts');
+    }
 
-  public function getDashboard()
-  {
-    return $this->getRepository()->findBy(array('conceal' => false));
-  }
+    public function getDashboard()
+    {
+        return $this->getRepository()->findBy(array('conceal' => false));
+    }
 
 }

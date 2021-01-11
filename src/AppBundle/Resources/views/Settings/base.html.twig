@@ -2,36 +2,37 @@
 {% import "macros/forms.html.twig" as forms %}
 {% import "macros/a.html.twig" as a %}
 {% block content %}
-  <div class="row">
-    <div class="col-md-3">
-      <div class="card card-default">
-        <ul class="list-group">
-          <li class="list-group-item"><a href="{{ path('dashboardtasklists_index') }}">Dashboard TaskLists</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="col-md-9">
-      {% include 'flash.html.twig' %}
-
-      {% block panel %}
-        <div class="card bg-{% block panelClass %}default{% endblock %}">
-          {% block panelHeading %}
-            <div class="card-heading">
-              {% block panelBack %}
-                <a href="{{ path('dashboard') }}" 
-                   class="btn btn-secondary btn-sm">
-                  Dashboard
-                </a>
-              {% endblock %}
-              <span class="card-title">{% block panelTitle %}{% endblock %}</span>
-              <small class="card-title-small">{% block panelTitleSmall %}{% endblock %}</small>
-              <span class="card-title-labels">{% block panelTitleLabels %}{% endblock %}</span>
-              <div class="float-right">{% block panelHeadingRight %}{% endblock %}</div>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card card-default">
+                <ul class="list-group">
+                    <li class="list-group-item"><a href="{{ path('dashboardtasklists_index') }}">Dashboard TaskLists</a>
+                    </li>
+                </ul>
             </div>
-          {% endblock %}
-          {% block panelBody %} {% endblock %}
         </div>
-      {% endblock %}
+        <div class="col-md-9">
+            {% include 'flash.html.twig' %}
+
+            {% block panel %}
+                <div class="card bg-{% block panelClass %}default{% endblock %}">
+                    {% block panelHeading %}
+                        <div class="card-heading">
+                            {% block panelBack %}
+                                <a href="{{ path('dashboard') }}"
+                                   class="btn btn-secondary btn-sm">
+                                    Dashboard
+                                </a>
+                            {% endblock %}
+                            <span class="card-title">{% block panelTitle %}{% endblock %}</span>
+                            <small class="card-title-small">{% block panelTitleSmall %}{% endblock %}</small>
+                            <span class="card-title-labels">{% block panelTitleLabels %}{% endblock %}</span>
+                            <div class="float-right">{% block panelHeadingRight %}{% endblock %}</div>
+                        </div>
+                    {% endblock %}
+                    {% block panelBody %} {% endblock %}
+                </div>
+            {% endblock %}
+        </div>
     </div>
-  </div>
 {% endblock %}

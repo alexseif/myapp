@@ -13,22 +13,22 @@ use Symfony\Component\Routing\Annotation\Route;
 class WeeklyController extends Controller
 {
 
-  /**
-   * @Route("/", name="default")
-   */
-  public function defaultAction()
-  {
-    $BOL = new \DateTime();
-    $BOL->setDate(1982, 10, 29);
-    $EOL = new \DateTime();
-    $EOL->setDate(1982, 10, 29)
-        ->add(new \DateInterval('P90Y'));
-    $weeksLived = $BOL->diff(new \DateTime())->days / 7;
-    return $this->render("AppBundle:weekly:index.html.twig", array(
-          'BOL' => $BOL,
-          'EOL' => $EOL,
-          'weeksLived' => $weeksLived
-    ));
-  }
+    /**
+     * @Route("/", name="default")
+     */
+    public function defaultAction()
+    {
+        $BOL = new \DateTime();
+        $BOL->setDate(1982, 10, 29);
+        $EOL = new \DateTime();
+        $EOL->setDate(1982, 10, 29)
+            ->add(new \DateInterval('P90Y'));
+        $weeksLived = $BOL->diff(new \DateTime())->days / 7;
+        return $this->render("AppBundle:weekly:index.html.twig", array(
+            'BOL' => $BOL,
+            'EOL' => $EOL,
+            'weeksLived' => $weeksLived
+        ));
+    }
 
 }

@@ -13,10 +13,10 @@ use Doctrine\ORM\EntityRepository;
 class TaskListsRepository extends EntityRepository
 {
 
-  public function findAll()
-  {
-    $today = new \DateTime();
-    return $this
+    public function findAll()
+    {
+        $today = new \DateTime();
+        return $this
             ->createQueryBuilder('tl')
             ->select('tl, t, a, c, w')
             ->leftJoin('tl.tasks', 't')
@@ -26,12 +26,12 @@ class TaskListsRepository extends EntityRepository
             ->orderBy("tl.createdAt", "ASC")
             ->getQuery()
             ->getResult();
-  }
+    }
 
-  public function findAllWithActiveTasks()
-  {
-    $today = new \DateTime();
-    return $this
+    public function findAllWithActiveTasks()
+    {
+        $today = new \DateTime();
+        return $this
             ->createQueryBuilder('tl')
             ->select('tl, t')
             ->leftJoin('tl.tasks', 't')
@@ -42,17 +42,17 @@ class TaskListsRepository extends EntityRepository
             ->setParameter(':today', $today->format('Y-m-d'))
             ->getQuery()
             ->getResult();
-  }
+    }
 
-  public function search($searchTerm)
-  {
-    return $this
+    public function search($searchTerm)
+    {
+        return $this
             ->createQueryBuilder('tl')
             ->select()
             ->where('tl.name LIKE :searchTerm')
             ->setParameter(":searchTerm", '%' . $searchTerm . '%')
             ->getQuery()
             ->getResult();
-  }
+    }
 
 }

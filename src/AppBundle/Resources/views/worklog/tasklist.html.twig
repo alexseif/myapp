@@ -3,60 +3,70 @@
 {% import "macros/a.html.twig" as a %}
 {% block floatingActions %}{{ a.add('worklog_new') }}{% endblock %}
 {% block panelBack %}
-  <a href="{{ path('worklog_index') }}" 
-     class="btn btn-secondary btn-sm">
-    Dashboard
-  </a>
+    <a href="{{ path('worklog_index') }}"
+       class="btn btn-secondary btn-sm">
+        Dashboard
+    </a>
 {% endblock %}
 {% block panelTitle %}{{ workLogs|first.task.taskList }} | Work Logs{% endblock %}
-{% block panelHeadingRight %}<a href="{{ path('completed_tasks') }}" class="btn btn-secondary btn-sm">Completed Tasks</a>{% endblock %}
+{% block panelHeadingRight %}<a href="{{ path('completed_tasks') }}" class="btn btn-secondary btn-sm">Completed
+    Tasks</a>{% endblock %}
 {% block panelBody %}
-  <style>
-    table tbody tr td{text-align: right;}
-    table tbody tr td:first-child{text-align: left;}
-  </style>
-  <table class="table table-condensed table-bordered table-striped">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Duration</th>
-        <th>Price per unit</th>
-        <th>Created At</th>
-        <th>Total</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      {% set taskListDuration = 0 %}
-      {% set taskListTotal = 0 %}
-      {% for workLog in workLogs %}
-        {% set taskListTotal = taskListTotal + workLog.total %}
-        {% set taskListDuration = taskListDuration + workLog.duration %}
+    <style>
+        table tbody tr td {
+            text-align: right;
+        }
+
+        table tbody tr td:first-child {
+            text-align: left;
+        }
+    </style>
+    <table class="table table-condensed table-bordered table-striped">
+        <thead>
         <tr>
-          <td>{{ workLog.name }}
-            <a href="{{path("tasks_show", {"id":workLog.task.id})}}"
-               target="_blank" class="float-right">
-              Open</a>
-          </td>
-          <td>{{ workLog.duration }}</td>
-          <td>{{ workLog.pricePerUnit }}</td>
-          <td>{{ workLog.createdAt|date }}</td>
-          <td class="text-right"><span class="float-left">EGP</span> {{ workLog.total }}</td>
-          <td>
-            <a href="{{ path('worklog_show', { 'id': workLog.id }) }}"
-               class="btn btn-sm btn-secondary">
-              Open</a>
-            <a href="{{ path('worklog_edit', { 'id': workLog.id }) }}"
-               class="btn btn-sm btn-secondary">
-              Edit</a>
-          </td>
+            <th>Name</th>
+            <th>Duration</th>
+            <th>Price per unit</th>
+            <th>Created At</th>
+            <th>Total</th>
+            <th></th>
         </tr>
-      {% endfor %}
-    </tbody>
-    <tfoot>
-      <tr>
-        <td></td><td>{{ taskListDuration }}m</td><td></td><td>{{ taskListTotal }}</td><td></td>
-      </tr>
-    </tfoot>
-  </table>
+        </thead>
+        <tbody>
+        {% set taskListDuration = 0 %}
+        {% set taskListTotal = 0 %}
+        {% for workLog in workLogs %}
+            {% set taskListTotal = taskListTotal + workLog.total %}
+            {% set taskListDuration = taskListDuration + workLog.duration %}
+            <tr>
+                <td>{{ workLog.name }}
+                    <a href="{{ path("tasks_show", {"id":workLog.task.id}) }}"
+                       target="_blank" class="float-right">
+                        Open</a>
+                </td>
+                <td>{{ workLog.duration }}</td>
+                <td>{{ workLog.pricePerUnit }}</td>
+                <td>{{ workLog.createdAt|date }}</td>
+                <td class="text-right"><span class="float-left">EGP</span> {{ workLog.total }}</td>
+                <td>
+                    <a href="{{ path('worklog_show', { 'id': workLog.id }) }}"
+                       class="btn btn-sm btn-secondary">
+                        Open</a>
+                    <a href="{{ path('worklog_edit', { 'id': workLog.id }) }}"
+                       class="btn btn-sm btn-secondary">
+                        Edit</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+        <tr>
+            <td></td>
+            <td>{{ taskListDuration }}m</td>
+            <td></td>
+            <td>{{ taskListTotal }}</td>
+            <td></td>
+        </tr>
+        </tfoot>
+    </table>
 {% endblock %}

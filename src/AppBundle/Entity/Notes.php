@@ -14,90 +14,90 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 class Notes
 {
 
-  use TimestampableEntity;
+    use TimestampableEntity;
 
-  /**
-   * @var int
-   *
-   * @ORM\Column(name="id", type="integer")
-   * @ORM\Id
-   * @ORM\GeneratedValue(strategy="AUTO")
-   */
-  private $id;
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
 
-  /**
-   * @var string
-   *
-   * @ORM\Column(name="note", type="text")
-   */
-  private $note;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="note", type="text")
+     */
+    private $note;
 
-  /**
-   * @var string
-   *
-   * @ORM\Column(name="type", type="string", length=255)
-   */
-  private $type;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="type", type="string", length=255)
+     */
+    private $type;
 
-  function __construct()
-  {
-    $this->type = 'general';
-  }
+    function __construct()
+    {
+        $this->type = 'general';
+    }
 
-  /**
-   * Get id
-   *
-   * @return integer 
-   */
-  public function getId()
-  {
-    return $this->id;
-  }
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
-  /**
-   * Set note
-   *
-   * @param string $note
-   * @return Notes
-   */
-  public function setNote($note)
-  {
-    $this->note = $note;
+    /**
+     * Set note
+     *
+     * @param string $note
+     * @return Notes
+     */
+    public function setNote($note)
+    {
+        $this->note = $note;
 
-    return $this;
-  }
+        return $this;
+    }
 
-  /**
-   * Get note
-   *
-   * @return string 
-   */
-  public function getNote()
-  {
-    return $this->note;
-  }
+    /**
+     * Get note
+     *
+     * @return string
+     */
+    public function getNote()
+    {
+        return $this->note;
+    }
 
-  /**
-   * Set type
-   *
-   * @param string $type
-   * @return Notes
-   */
-  public function setType($type)
-  {
-    $this->type = $type;
+    /**
+     * Set type
+     *
+     * @param string $type
+     * @return Notes
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
 
-    return $this;
-  }
+        return $this;
+    }
 
-  /**
-   * Get type
-   *
-   * @return string 
-   */
-  public function getType()
-  {
-    return $this->type;
-  }
+    /**
+     * Get type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
 
 }

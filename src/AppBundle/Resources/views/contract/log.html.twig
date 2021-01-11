@@ -3,69 +3,69 @@
 {% import "macros/a.html.twig" as a %}
 
 {% block panelTitle %}
-  {{ from|date('Y-m-d') }} -> {{ to|date('Y-m-d') }}
+    {{ from|date('Y-m-d') }} -> {{ to|date('Y-m-d') }}
 {% endblock %}
 {% block panelTitleSmall %}
-  hours: {{ contract.hoursPerDay }}
+    hours: {{ contract.hoursPerDay }}
 {% endblock %}
 {% block panelTitleLabels %}
-  <span class="badge badge-dark">{{ contract.name }}</span>
+    <span class="badge badge-dark">{{ contract.name }}</span>
 {% endblock %}
 
 {% block panelBack %}{{ a.back('contract_log_summary', {'id': contract.id}) }}{% endblock %}
 {% block panelHeadingRight %}
-  {{ a.edit('contract_edit', {'id':contract.id}) }}
+    {{ a.edit('contract_edit', {'id':contract.id}) }}
 
 {% endblock %}
 
 {% block panelBody %}
-  {% set contractDuration = contract.hoursPerDay * 60 %}
-  {% for dayKey, log in contractDetails %}
-    <table class="table table-bordered table-condensed table-striped">
-      <thead>
-        <tr>
-          <th class="{{ (log['total'].duration >= contractDuration) ? "text-success" : (log['total'].duration < contractDuration) ? "text-danger" }}">{{ log.title }}</th>
-          <th class="w-25">TaskList</th>
-          <th class="w-25">Dur</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% set lastTaskList = null %}
-        {% for task in log['tasks'] %}
-          <tr>
-            <td>
-              <a href="{{ path('tasks_show', {'id': task.id}) }}" 
-                 target="_blank">#{{ task.id }}</a>
-              {{ task.task }}
-            </td>
-            <td>{{ task.taskList }}</td>
-            <td>{{ (task.duration/60)|round(0, 'floor') }}:{{ task.duration%60 }}</td>
-          </tr>
-          {% set lastTaskList = task.taskList.id %}
-        {% endfor %}
-        {% if(log['total'].duration < contractDuration) %}
-          <tr class="text-warning">
-            <td>
-              <a class='btn btn-warning btn-sm'
-                 href="{{ path('tasks_new', {'duration': contractDuration - log['total'].duration , 'completedAt': dayKey, 'tasklist': lastTaskList})}}" 
-                 target="_blank">Add Task</a>
-            </td>
-            <td>Missing </td>
-            <td>
-              {{contractDuration - log['total'].duration }}
-            </td>
-          </tr>
-        {% endif %}
-      </tbody>
-      <tfoot>
-        <tr class="{{ (log['total'].duration >= contractDuration) ? "text-success" : (log['total'].duration < contractDuration) ? "text-danger" }}">
-          <td></td>
-          <td>Total</td>
-          <td>
-            {{ (log['total'].duration/60)|round(0, 'floor') }}:{{ log['total'].duration%60 }}
-          </td>
-        </tr>
-      </tfoot>
-    </table>
-  {% endfor %}
+    {% set contractDuration = contract.hoursPerDay * 60 %}
+    {% for dayKey, log in contractDetails %}
+        <table class="table table-bordered table-condensed table-striped">
+            <thead>
+            <tr>
+                <th class="{{ (log['total'].duration >= contractDuration) ? "text-success" : (log['total'].duration < contractDuration) ? "text-danger" }}">{{ log.title }}</th>
+                <th class="w-25">TaskList</th>
+                <th class="w-25">Dur</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% set lastTaskList = null %}
+            {% for task in log['tasks'] %}
+                <tr>
+                    <td>
+                        <a href="{{ path('tasks_show', {'id': task.id}) }}"
+                           target="_blank">#{{ task.id }}</a>
+                        {{ task.task }}
+                    </td>
+                    <td>{{ task.taskList }}</td>
+                    <td>{{ (task.duration/60)|round(0, 'floor') }}:{{ task.duration%60 }}</td>
+                </tr>
+                {% set lastTaskList = task.taskList.id %}
+            {% endfor %}
+            {% if(log['total'].duration < contractDuration) %}
+                <tr class="text-warning">
+                    <td>
+                        <a class='btn btn-warning btn-sm'
+                           href="{{ path('tasks_new', {'duration': contractDuration - log['total'].duration , 'completedAt': dayKey, 'tasklist': lastTaskList}) }}"
+                           target="_blank">Add Task</a>
+                    </td>
+                    <td>Missing</td>
+                    <td>
+                        {{ contractDuration - log['total'].duration }}
+                    </td>
+                </tr>
+            {% endif %}
+            </tbody>
+            <tfoot>
+            <tr class="{{ (log['total'].duration >= contractDuration) ? "text-success" : (log['total'].duration < contractDuration) ? "text-danger" }}">
+                <td></td>
+                <td>Total</td>
+                <td>
+                    {{ (log['total'].duration/60)|round(0, 'floor') }}:{{ log['total'].duration%60 }}
+                </td>
+            </tr>
+            </tfoot>
+        </table>
+    {% endfor %}
 {% endblock %}

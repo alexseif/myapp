@@ -10,5 +10,5 @@ namespace AppBundle\Repository;
  */
 class ContractRepository extends \Doctrine\ORM\EntityRepository
 {
-  
+
 }

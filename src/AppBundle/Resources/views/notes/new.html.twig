@@ -5,7 +5,7 @@
 {% block panelTitle %}New note{% endblock %}
 {% block panelBody %}{{ forms.panel(notes_form) }}{% endblock %}
 {% block javascripts %}
-  {{ parent() }}
-  <script src="/js/tinymce/tinymce.min.js"></script>
-  <script>tinymce.init({selector: '#notes_note'});</script>
+    {{ parent() }}
+    <script src="/js/tinymce/tinymce.min.js"></script>
+    <script>tinymce.init({selector: '#notes_note'});</script>
 {% endblock %}

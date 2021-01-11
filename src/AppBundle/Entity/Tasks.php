@@ -14,489 +14,489 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 class Tasks
 {
 
-  use TimestampableEntity;
+    use TimestampableEntity;
 
-  const LOW_PRIORITY = -1;
-  CONST NORMAL_PRIORITY = 0;
-  CONST HIGH_PRIORITY = 1;
-  CONST NORMAL_URGENCY = 0;
-  CONST HIGH_URGENCY = 1;
+    const LOW_PRIORITY = -1;
+    const NORMAL_PRIORITY = 0;
+    const HIGH_PRIORITY = 1;
+    const NORMAL_URGENCY = 0;
+    const HIGH_URGENCY = 1;
 
-  /**
-   * @var int
-   *
-   * @ORM\Column(name="id", type="integer")
-   * @ORM\Id
-   * @ORM\GeneratedValue(strategy="AUTO")
-   */
-  private $id;
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
 
-  /**
-   * @var string
-   *
-   * @ORM\Column(name="task", type="string", length=255)
-   */
-  private $task;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="task", type="string", length=255)
+     */
+    private $task;
 
-  /**
-   * @var integer
-   *
-   * @ORM\Column(name="torder", type="integer")
-   */
-  private $order;
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="torder", type="integer")
+     */
+    private $order;
 
-  /**
-   * @var integer
-   *
-   * @ORM\Column(name="priority", type="integer")
-   */
-  private $priority;
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="priority", type="integer")
+     */
+    private $priority;
 
-  /**
-   * @var integer
-   *
-   * @ORM\Column(name="urgency", type="integer")
-   */
-  private $urgency;
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="urgency", type="integer")
+     */
+    private $urgency;
 
-  /**
-   * @var integer
-   *
-   * @ORM\Column(name="duration", type="integer", nullable=true)
-   */
-  private $duration;
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="duration", type="integer", nullable=true)
+     */
+    private $duration;
 
-  /**
-   * @var integer
-   *
-   * @ORM\Column(name="est", type="integer", nullable=true)
-   */
-  private $est;
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="est", type="integer", nullable=true)
+     */
+    private $est;
 
-  /**
-   * @var datetime
-   *
-   * @ORM\Column(name="eta", type="datetime", nullable=true)
-   */
-  private $eta;
+    /**
+     * @var datetime
+     *
+     * @ORM\Column(name="eta", type="datetime", nullable=true)
+     */
+    private $eta;
 
-  /**
-   * @var boolean
-   *
-   * @ORM\Column(name="completed", type="boolean")
-   */
-  private $completed;
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="completed", type="boolean")
+     */
+    private $completed;
 
-  /**
-   * @var datetime
-   *
-   * @ORM\Column(name="completedAt", type="datetime", nullable=true)
-   */
-  private $completedAt;
+    /**
+     * @var datetime
+     *
+     * @ORM\Column(name="completedAt", type="datetime", nullable=true)
+     */
+    private $completedAt;
 
-  /**
-   * @ORM\ManyToOne(targetEntity="TaskLists", inversedBy="tasks")
-   * @ORM\JoinColumn(name="task_list_id", referencedColumnName="id")
-   */
-  private $taskList;
+    /**
+     * @ORM\ManyToOne(targetEntity="TaskLists", inversedBy="tasks")
+     * @ORM\JoinColumn(name="task_list_id", referencedColumnName="id")
+     */
+    private $taskList;
 
-  /**
-   * One Task has One WorkLog.
-   * @ORM\OneToOne(targetEntity="WorkLog", mappedBy="task")
-   */
-  private $workLog;
+    /**
+     * One Task has One WorkLog.
+     * @ORM\OneToOne(targetEntity="WorkLog", mappedBy="task")
+     */
+    private $workLog;
 
-  /**
-   * If task is available for WorkLog.
-   * @ORM\Column(name="work_loggable", type="boolean", options={"default": TRUE})
-   */
-  private $workLoggable;
+    /**
+     * If task is available for WorkLog.
+     * @ORM\Column(name="work_loggable", type="boolean", options={"default": TRUE})
+     */
+    private $workLoggable;
 
-  /**
-   * Constructor
-   */
-  public function __construct()
-  {
-    $this->costs = new \Doctrine\Common\Collections\ArrayCollection();
-    $this->order = 0;
-    $this->priority = Tasks::NORMAL_PRIORITY;
-    $this->urgency = Tasks::NORMAL_URGENCY;
-    $this->workLoggable = TRUE;
-    $this->priorityName = array(
-      -1 => "Low",
-      0 => "Normal",
-      1 => "Important"
-    );
-    $this->urgencyName = array(
-      0 => "Normal",
-      1 => "Urgent"
-    );
-  }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->costs = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->order = 0;
+        $this->priority = Tasks::NORMAL_PRIORITY;
+        $this->urgency = Tasks::NORMAL_URGENCY;
+        $this->workLoggable = TRUE;
+        $this->priorityName = array(
+            -1 => "Low",
+            0 => "Normal",
+            1 => "Important"
+        );
+        $this->urgencyName = array(
+            0 => "Normal",
+            1 => "Urgent"
+        );
+    }
 
-  /**
-   * Get id
-   *
-   * @return integer 
-   */
-  public function getId()
-  {
-    return $this->id;
-  }
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
-  /**
-   * Set task
-   *
-   * @param string $task
-   * @return Tasks
-   */
-  public function setTask($task)
-  {
-    $this->task = $task;
+    /**
+     * Set task
+     *
+     * @param string $task
+     * @return Tasks
+     */
+    public function setTask($task)
+    {
+        $this->task = $task;
 
-    return $this;
-  }
+        return $this;
+    }
 
-  /**
-   * Get task
-   *
-   * @return string 
-   */
-  public function getTask()
-  {
-    return $this->task;
-  }
+    /**
+     * Get task
+     *
+     * @return string
+     */
+    public function getTask()
+    {
+        return $this->task;
+    }
 
-  /**
-   * Set completed
-   *
-   * @param bool $completed
-   * @return Tasks
-   */
-  public function setCompleted($completed)
-  {
-    $this->completed = $completed;
+    /**
+     * Set completed
+     *
+     * @param bool $completed
+     * @return Tasks
+     */
+    public function setCompleted($completed)
+    {
+        $this->completed = $completed;
 
-    return $this;
-  }
+        return $this;
+    }
 
-  /**
-   * Get completed
-   *
-   * @return bool
-   */
-  public function getCompleted()
-  {
-    return $this->completed;
-  }
+    /**
+     * Get completed
+     *
+     * @return bool
+     */
+    public function getCompleted()
+    {
+        return $this->completed;
+    }
 
-  /**
-   * Set completedAt
-   *
-   * @param \DateTime $completedAt
-   * @return Tasks
-   */
-  public function setCompletedAt($completedAt)
-  {
-    $this->completedAt = $completedAt;
+    /**
+     * Set completedAt
+     *
+     * @param \DateTime $completedAt
+     * @return Tasks
+     */
+    public function setCompletedAt($completedAt)
+    {
+        $this->completedAt = $completedAt;
 
-    return $this;
-  }
+        return $this;
+    }
 
-  /**
-   * Get completedAt
-   *
-   * @return \DateTime 
-   */
-  public function getCompletedAt()
-  {
-    return $this->completedAt;
-  }
+    /**
+     * Get completedAt
+     *
+     * @return \DateTime
+     */
+    public function getCompletedAt()
+    {
+        return $this->completedAt;
+    }
 
-  /**
-   * Set taskList
-   *
-   * @param \AppBundle\Entity\TaskLists $taskList
-   * @return Tasks
-   */
-  public function setTaskList(\AppBundle\Entity\TaskLists $taskList = null)
-  {
-    $this->taskList = $taskList;
+    /**
+     * Set taskList
+     *
+     * @param \AppBundle\Entity\TaskLists $taskList
+     * @return Tasks
+     */
+    public function setTaskList(\AppBundle\Entity\TaskLists $taskList = null)
+    {
+        $this->taskList = $taskList;
 
-    return $this;
-  }
+        return $this;
+    }
 
-  /**
-   * Get taskList
-   *
-   * @return \AppBundle\Entity\TaskLists 
-   */
-  public function getTaskList()
-  {
-    return $this->taskList;
-  }
+    /**
+     * Get taskList
+     *
+     * @return \AppBundle\Entity\TaskLists
+     */
+    public function getTaskList()
+    {
+        return $this->taskList;
+    }
 
-  /**
-   * Get Account
-   *
-   * @return \AppBundle\Entity\Accounts
-   */
-  public function getAccount()
-  {
-    return $this->getTaskList()->getAccount();
-  }
+    /**
+     * Get Account
+     *
+     * @return \AppBundle\Entity\Accounts
+     */
+    public function getAccount()
+    {
+        return $this->getTaskList()->getAccount();
+    }
 
-  /**
-   * Get Client
-   *
-   * @return \AppBundle\Entity\Client
-   */
-  public function getClient()
-  {
-    return ($this->getTaskList()->getAccount()) ? $this->getTaskList()->getAccount()->getClient() : null;
-  }
+    /**
+     * Get Client
+     *
+     * @return \AppBundle\Entity\Client
+     */
+    public function getClient()
+    {
+        return ($this->getTaskList()->getAccount()) ? $this->getTaskList()->getAccount()->getClient() : null;
+    }
 
-  /**
-   * Get Rate
-   *
-   * @return \AppBundle\Entity\Rate
-   */
-  public function getRate()
-  {
-    return ($this->getTaskList()->getAccount()) ? $this->getTaskList()->getAccount()->getClient()->getRate() : null;
-  }
+    /**
+     * Get Rate
+     *
+     * @return \AppBundle\Entity\Rate
+     */
+    public function getRate()
+    {
+        return ($this->getTaskList()->getAccount()) ? $this->getTaskList()->getAccount()->getClient()->getRate() : null;
+    }
 
-  /**
-   * Set order
-   *
-   * @param integer $order
-   * @return Tasks
-   */
-  public function setOrder($order)
-  {
-    $this->order = $order;
+    /**
+     * Set order
+     *
+     * @param integer $order
+     * @return Tasks
+     */
+    public function setOrder($order)
+    {
+        $this->order = $order;
 
-    return $this;
-  }
+        return $this;
+    }
 
-  /**
-   * Get order
-   *
-   * @return integer 
-   */
-  public function getOrder()
-  {
-    return $this->order;
-  }
+    /**
+     * Get order
+     *
+     * @return integer
+     */
+    public function getOrder()
+    {
+        return $this->order;
+    }
 
-  /**
-   * Set priority
-   *
-   * @param integer $priority
-   * @return Tasks
-   */
-  public function setPriority($priority)
-  {
-    $this->priority = $priority;
+    /**
+     * Set priority
+     *
+     * @param integer $priority
+     * @return Tasks
+     */
+    public function setPriority($priority)
+    {
+        $this->priority = $priority;
 
-    return $this;
-  }
+        return $this;
+    }
 
-  /**
-   * Get priority
-   *
-   * @return integer 
-   */
-  public function getPriority()
-  {
-    return $this->priority;
-  }
+    /**
+     * Get priority
+     *
+     * @return integer
+     */
+    public function getPriority()
+    {
+        return $this->priority;
+    }
 
-  /**
-   * Get priority
-   *
-   * @return string
-   */
-  public function getPriorityName()
-  {
-    $priorityName = array(
-      -1 => "Low",
-      0 => "Normal",
-      1 => "Important"
-    );
-    return $priorityName[$this->priority];
-  }
+    /**
+     * Get priority
+     *
+     * @return string
+     */
+    public function getPriorityName()
+    {
+        $priorityName = array(
+            -1 => "Low",
+            0 => "Normal",
+            1 => "Important"
+        );
+        return $priorityName[$this->priority];
+    }
 
-  /**
-   * Set urgency
-   *
-   * @param integer $urgency
-   * @return Tasks
-   */
-  public function setUrgency($urgency)
-  {
-    $this->urgency = $urgency;
+    /**
+     * Set urgency
+     *
+     * @param integer $urgency
+     * @return Tasks
+     */
+    public function setUrgency($urgency)
+    {
+        $this->urgency = $urgency;
 
-    return $this;
-  }
+        return $this;
+    }
 
-  /**
-   * Get urgency
-   *
-   * @return integer 
-   */
-  public function getUrgency()
-  {
-    return $this->urgency;
-  }
+    /**
+     * Get urgency
+     *
+     * @return integer
+     */
+    public function getUrgency()
+    {
+        return $this->urgency;
+    }
 
-  /**
-   * Get urgency
-   *
-   * @return string 
-   */
-  public function getUrgencyName()
-  {
-    $urgencyName = array(
-      0 => "Normal",
-      1 => "Urgent"
-    );
-    return $urgencyName[$this->urgency];
-  }
+    /**
+     * Get urgency
+     *
+     * @return string
+     */
+    public function getUrgencyName()
+    {
+        $urgencyName = array(
+            0 => "Normal",
+            1 => "Urgent"
+        );
+        return $urgencyName[$this->urgency];
+    }
 
-  /**
-   * Set duration
-   *
-   * @param integer $duration
-   * @return Tasks
-   */
-  public function setDuration($duration)
-  {
-    $this->duration = $duration;
+    /**
+     * Set duration
+     *
+     * @param integer $duration
+     * @return Tasks
+     */
+    public function setDuration($duration)
+    {
+        $this->duration = $duration;
 
-    return $this;
-  }
+        return $this;
+    }
 
-  /**
-   * Get duration
-   *
-   * @return integer 
-   */
-  public function getDuration()
-  {
-    return $this->duration;
-  }
+    /**
+     * Get duration
+     *
+     * @return integer
+     */
+    public function getDuration()
+    {
+        return $this->duration;
+    }
 
-  /**
-   * Set eta
-   *
-   * @param \DateTime $eta
-   *
-   * @return Tasks
-   */
-  public function setEta($eta)
-  {
-    $this->eta = $eta;
+    /**
+     * Set eta
+     *
+     * @param \DateTime $eta
+     *
+     * @return Tasks
+     */
+    public function setEta($eta)
+    {
+        $this->eta = $eta;
 
-    return $this;
-  }
+        return $this;
+    }
 
-  /**
-   * Get eta
-   *
-   * @return \DateTime
-   */
-  public function getEta()
-  {
-    return $this->eta;
-  }
+    /**
+     * Get eta
+     *
+     * @return \DateTime
+     */
+    public function getEta()
+    {
+        return $this->eta;
+    }
 
-  /**
-   * Set workLog
-   *
-   * @param \AppBundle\Entity\WorkLog $workLog
-   *
-   * @return Tasks
-   */
-  public function setWorkLog(\AppBundle\Entity\WorkLog $workLog = null)
-  {
-    $this->workLog = $workLog;
+    /**
+     * Set workLog
+     *
+     * @param \AppBundle\Entity\WorkLog $workLog
+     *
+     * @return Tasks
+     */
+    public function setWorkLog(\AppBundle\Entity\WorkLog $workLog = null)
+    {
+        $this->workLog = $workLog;
 
-    return $this;
-  }
+        return $this;
+    }
 
-  /**
-   * Get workLog
-   *
-   * @return \AppBundle\Entity\WorkLog
-   */
-  public function getWorkLog()
-  {
-    return $this->workLog;
-  }
+    /**
+     * Get workLog
+     *
+     * @return \AppBundle\Entity\WorkLog
+     */
+    public function getWorkLog()
+    {
+        return $this->workLog;
+    }
 
-  public function getTaskString()
-  {
+    public function getTaskString()
+    {
 
-    return $this->getTask();
+        return $this->getTask();
 //    return ($this->getCompleted() ? "x " : "") . $this->getTask() . ' | ' . $this->getTaskList()->getName();
-  }
+    }
 
-  /**
-   * Set workLoggable
-   *
-   * @param boolean $workLoggable
-   *
-   * @return Tasks
-   */
-  public function setWorkLoggable($workLoggable)
-  {
-    $this->workLoggable = $workLoggable;
+    /**
+     * Set workLoggable
+     *
+     * @param boolean $workLoggable
+     *
+     * @return Tasks
+     */
+    public function setWorkLoggable($workLoggable)
+    {
+        $this->workLoggable = $workLoggable;
 
-    return $this;
-  }
+        return $this;
+    }
 
-  /**
-   * Get workLoggable
-   *
-   * @return boolean
-   */
-  public function getWorkLoggable()
-  {
-    return $this->workLoggable;
-  }
+    /**
+     * Get workLoggable
+     *
+     * @return boolean
+     */
+    public function getWorkLoggable()
+    {
+        return $this->workLoggable;
+    }
 
-  public function getName()
-  {
-    return $this->getTask();
-  }
+    public function getName()
+    {
+        return $this->getTask();
+    }
 
-  public function __toString()
-  {
-    return $this->getTaskString();
-  }
+    public function __toString()
+    {
+        return $this->getTaskString();
+    }
 
-  /**
-   * Set est.
-   *
-   * @param int|null $est
-   *
-   * @return Tasks
-   */
-  public function setEst($est = null)
-  {
-    $this->est = $est;
+    /**
+     * Set est.
+     *
+     * @param int|null $est
+     *
+     * @return Tasks
+     */
+    public function setEst($est = null)
+    {
+        $this->est = $est;
 
-    return $this;
-  }
+        return $this;
+    }
 
-  /**
-   * Get est.
-   *
-   * @return int|null
-   */
-  public function getEst()
-  {
-    return $this->est;
-  }
+    /**
+     * Get est.
+     *
+     * @return int|null
+     */
+    public function getEst()
+    {
+        return $this->est;
+    }
 
 }

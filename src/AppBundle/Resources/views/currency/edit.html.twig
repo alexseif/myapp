@@ -3,11 +3,11 @@
 {% import "macros/a.html.twig" as a %}
 {% block title %}Edit {{ currency.code }}{% endblock %}
 {% block content %}
-  <div class="row">
-    <div class="col-md-6 offset-md-3">
-      {{ parent() }}
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            {{ parent() }}
+        </div>
     </div>
-  </div>
 {% endblock %}
 {% block floatingActions %}{{ a.add('currency_new') }}{% endblock %}
 {% block panelBack %}{{ a.back('currency_index') }}{% endblock %}

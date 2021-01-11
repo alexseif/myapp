@@ -1,20 +1,20 @@
 {% import "macros/a.html.twig" as a %}
 {% import "macros/badges.html.twig" as badge %}
 <div class="card" id="client-details">
-  <div class="card-header">Client Details</div>
-  <ul class="list-group">
-    <li class="list-group-item">
-      Name: {{ client.name }}  
-      <span class="float-right">{{ a.show('client_show', {'id': client.id}) }}</span>
-    </li>
-    <li class="list-group-item">
-      Status: {{ badge.status(client.enabled) }}     
-    </li>
-    <li class="list-group-item">
-      Rate: <span class="money-egp pl-5">{{ client.rate|number_format }}</span>
-    </li>
-    <li class="list-group-item">
-      Contract: //TODO: Client contract
-    </li>
-  </ul>
+    <div class="card-header">Client Details</div>
+    <ul class="list-group">
+        <li class="list-group-item">
+            Name: {{ client.name }}
+            <span class="float-right">{{ a.show('client_show', {'id': client.id}) }}</span>
+        </li>
+        <li class="list-group-item">
+            Status: {{ badge.status(client.enabled) }}
+        </li>
+        <li class="list-group-item">
+            Rate: <span class="money-egp pl-5">{{ client.rate|number_format }}</span>
+        </li>
+        <li class="list-group-item">
+            Contract: //TODO: Client contract
+        </li>
+    </ul>
 </div><!-- end card -->

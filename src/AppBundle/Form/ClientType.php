@@ -11,34 +11,34 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 class ClientType extends AbstractType
 {
 
-  /**
-   * {@inheritdoc}
-   */
-  public function buildForm(FormBuilderInterface $builder, array $options)
-  {
-    $builder->add('name')
-        ->add('enabled', CheckboxType::class, [
-          'required' => false,
-          'label_attr' => ['class' => 'switch_box']
-    ]);
-  }
+    /**
+     * {@inheritdoc}
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder->add('name')
+            ->add('enabled', CheckboxType::class, [
+                'required' => false,
+                'label_attr' => ['class' => 'switch_box']
+            ]);
+    }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function configureOptions(OptionsResolver $resolver)
-  {
-    $resolver->setDefaults(array(
-      'data_class' => 'AppBundle\Entity\Client'
-    ));
-  }
+    /**
+     * {@inheritdoc}
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(array(
+            'data_class' => 'AppBundle\Entity\Client'
+        ));
+    }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function getBlockPrefix()
-  {
-    return 'appbundle_client';
-  }
+    /**
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix()
+    {
+        return 'appbundle_client';
+    }
 
 }

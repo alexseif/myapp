@@ -3,88 +3,100 @@
 {% block title %}Accounting - {{ account }}{% endblock %}
 
 {% block content %}
-  <style>
-    .current-balance{text-align: center;}
-    .table td{text-align: right;}
-    .table td:first-child{text-align: left;}
-  </style>
-  <div class="container">
-    {{ form_start(accounting_filter_form) }}
-    {{ form_widget(accounting_filter_form) }}
-    <div class="float-right">
-      <a href="{{ path('accounting_index') }}" class="btn btn-link">Reset</a>
-      <button type="submit" value="Filter" class="btn btn-secondary btn-sm">Search</button>
+    <style>
+        .current-balance {
+            text-align: center;
+        }
+
+        .table td {
+            text-align: right;
+        }
+
+        .table td:first-child {
+            text-align: left;
+        }
+    </style>
+    <div class="container">
+        {{ form_start(accounting_filter_form) }}
+        {{ form_widget(accounting_filter_form) }}
+        <div class="float-right">
+            <a href="{{ path('accounting_index') }}" class="btn btn-link">Reset</a>
+            <button type="submit" value="Filter" class="btn btn-secondary btn-sm">Search</button>
+        </div>
+        {{ form_end(accounting_filter_form) }}
+        <div class="clearfix"></div>
     </div>
-    {{ form_end(accounting_filter_form) }}
-    <div class="clearfix"></div>
-  </div>
-  <hr>
-  <div class="container">
-    <div class="row">
-      <div class="col-md-3">
-        <h2>Account: {{ account }}</h2>
-      </div>
-      <div class="offset-md-6 col-md-3">
-        <h3>Client: {{ account.client }}</h3>
-      </div>
+    <hr>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <h2>Account: {{ account }}</h2>
+            </div>
+            <div class="offset-md-6 col-md-3">
+                <h3>Client: {{ account.client }}</h3>
+            </div>
+        </div>
+        <div class="row current-balance">
+            <div class="col-md-4">
+                <h4>Current Balance</h4>
+                <h5>EGP {{ balance.current|number_format }}</h5>
+            </div>
+            <div class="col-md-4">
+                <h4>Overdue</h4>
+                <h5>EGP {{ balance.overdue < 0 ? balance.overdue|number_format  : 0|number_format }}</h5>
+            </div>
+            <div class="col-md-4">
+                <h4>Credits</h4>
+                <h5>EGP {{ balance.overdue > 0 ? balance.overdue|number_format  : 0|number_format }}</h5>
+            </div>
+        </div>
     </div>
-    <div class="row current-balance">
-      <div class="col-md-4">
-        <h4>Current Balance</h4>
-        <h5>EGP {{ balance.current|number_format  }}</h5>
-      </div>
-      <div class="col-md-4">
-        <h4>Overdue</h4>
-        <h5>EGP {{ balance.overdue < 0 ? balance.overdue|number_format  : 0|number_format }}</h5>
-      </div>
-      <div class="col-md-4">
-        <h4>Credits</h4>
-        <h5>EGP {{ balance.overdue > 0 ? balance.overdue|number_format  : 0|number_format }}</h5>
-      </div>
+    <hr>
+    <div class="container">
+        <h3>Issued Statements</h3>
+        <table class="table table-bordered table-condensed table-striped">
+            <thead>
+            <tr>
+                <th>Coverage period</th>
+                <th>Forward Balance</th>
+                <th>Ending Balance</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for invoice in balance.invoices %}
+                <tr>
+                    <td>
+                        {# TODO: Provide Date range #}
+                        {# TODO: Respct provided date range #}
+                        <a href="{{ path('accounting_balance_page', {"id" : account.id, "from": invoice.start, "to":invoice.end }) }}">
+                            {{ invoice.start }} - {{ invoice.end }}
+                        </a>
+                    </td>
+                    <td>
+                        <span class="float-left">EGP</span> {{ (invoice.forward_balance ? invoice.forward_balance : 0)|number_format }}
+                    </td>
+                    <td>
+                        <span class="float-left">EGP</span> {{ (invoice.ending_balance ? invoice.ending_balance : 0)|number_format }}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     </div>
-  </div>
-  <hr>
-  <div class="container">
-    <h3>Issued Statements</h3>
-    <table class="table table-bordered table-condensed table-striped">
-      <thead>
-        <tr>
-          <th>Coverage period</th>
-          <th>Forward Balance</th>
-          <th>Ending Balance</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for invoice in balance.invoices %}
-          <tr>
-            <td>
-              {# TODO: Provide Date range #}
-              {# TODO: Respct provided date range #}
-              <a href="{{ path('accounting_balance_page', {"id" : account.id, "from": invoice.start, "to":invoice.end }) }}">
-                {{ invoice.start }} - {{ invoice.end }}
-              </a>
-            </td>
-            <td><span class="float-left">EGP</span> {{ (invoice.forward_balance ? invoice.forward_balance : 0)|number_format}}</td>
-            <td><span class="float-left">EGP</span> {{ (invoice.ending_balance ? invoice.ending_balance : 0)|number_format}}</td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
 {% endblock %}
 
 {% block javascripts %}
-  {{ parent() }}
-  <script>
-    $(function () {
-      // bind change event to select
-      $('#accounting_main_filter_account').on('change', function () {
-        var url = $(this).val(); // get selected value
-        if (url) { // require a URL
-          window.location = url; // redirect
-        }
-        return false;
-      });
-    });
-  </script>
+    {{ parent() }}
+    <script>
+        $(function () {
+            // bind change event to select
+            $('#accounting_main_filter_account').on('change', function () {
+                var url = $(this).val(); // get selected value
+                if (url) { // require a URL
+                    window.location = url; // redirect
+                }
+                return false;
+            });
+        });
+    </script>
 {% endblock %}

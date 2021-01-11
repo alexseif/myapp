@@ -11,40 +11,39 @@ use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 class RateType extends AbstractType
 {
 
-  /**
-   * {@inheritdoc}
-   */
-  public function buildForm(FormBuilderInterface $builder, array $options)
-  {
-    $builder
-        ->add('rate', MoneyType::class)
-        ->add('client', EntityType::class, array(
-          'class' => 'AppBundle:Client',
-          'choice_label' => 'name',
-          'attr' => array(
-            'class' => 'chosen',
-          )
-        ))
-        ->add('note')
-    ;
-  }
+    /**
+     * {@inheritdoc}
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder
+            ->add('rate', MoneyType::class)
+            ->add('client', EntityType::class, array(
+                'class' => 'AppBundle:Client',
+                'choice_label' => 'name',
+                'attr' => array(
+                    'class' => 'chosen',
+                )
+            ))
+            ->add('note');
+    }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function configureOptions(OptionsResolver $resolver)
-  {
-    $resolver->setDefaults(array(
-      'data_class' => \AppBundle\Entity\Rate::class
-    ));
-  }
+    /**
+     * {@inheritdoc}
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(array(
+            'data_class' => \AppBundle\Entity\Rate::class
+        ));
+    }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function getBlockPrefix()
-  {
-    return 'appbundle_rate';
-  }
+    /**
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix()
+    {
+        return 'appbundle_rate';
+    }
 
 }

@@ -17,158 +17,158 @@ use AppBundle\Entity\Rate;
 class RateCalculator
 {
 
-  protected $em;
-  protected $currencies, $costOfLife, $defaultRate, $cost;
+    protected $em;
+    protected $currencies, $costOfLife, $defaultRate, $cost;
 
-  public function __construct(\Doctrine\ORM\EntityManager $em)
-  {
-    $this->setEm($em);
-    $this->setCurrencies($this->getEm()->getRepository('AppBundle:Currency')->findAll());
-    $this->setCost($this->getEm()->getRepository('AppBundle:CostOfLife')->sumCostOfLife()["cost"]);
-    $this->setCostOfLife(new \AppBundle\Logic\CostOfLifeLogic($this->getCost(), $this->getCurrencies()));
-    $this->setDefaultRate($this->getCostOfLife()->getHourly());
-  }
-
-  public function getRate(\AppBundle\Entity\Client $client)
-  {
-    if ($client->hasRates()) {
-      return $client->getRate();
+    public function __construct(\Doctrine\ORM\EntityManager $em)
+    {
+        $this->setEm($em);
+        $this->setCurrencies($this->getEm()->getRepository('AppBundle:Currency')->findAll());
+        $this->setCost($this->getEm()->getRepository('AppBundle:CostOfLife')->sumCostOfLife()["cost"]);
+        $this->setCostOfLife(new \AppBundle\Logic\CostOfLifeLogic($this->getCost(), $this->getCurrencies()));
+        $this->setDefaultRate($this->getCostOfLife()->getHourly());
     }
-    return $this->getDefaultRate();
-  }
 
-  public function getRateByTask(Tasks $task)
-  {
-    return $this->getRate($task->getTaskList()->getAccount()->getClient());
-  }
-
-  public function task(Tasks $task)
-  {
-
-    $client = $task->getTaskList()->getAccount()->getClient();
-
-    if ($task->getDuration()) {
-      $this->getRate($client) * $task->getDuration();
+    public function getRate(\AppBundle\Entity\Client $client)
+    {
+        if ($client->hasRates()) {
+            return $client->getRate();
+        }
+        return $this->getDefaultRate();
     }
-    return null;
-  }
 
-  public function tasks($tasks)
-  {
-    $total = 0;
-    foreach ($tasks as $task) {
-      $rate = $this->getRateByTask($task);
-      $total += $task->getDuration() / 60 * $rate;
+    public function getRateByTask(Tasks $task)
+    {
+        return $this->getRate($task->getTaskList()->getAccount()->getClient());
     }
-    return $total;
-  }
 
-  /**
-   * 
-   * @return \Doctrine\ORM\EntityManager 
-   */
-  public function getEm()
-  {
-    return $this->em;
-  }
+    public function task(Tasks $task)
+    {
 
-  /**
-   * 
-   * @param \Doctrine\ORM\EntityManager $em
-   */
-  public function setEm($em)
-  {
-    $this->em = $em;
-  }
+        $client = $task->getTaskList()->getAccount()->getClient();
 
-  function getCurrencies()
-  {
-    return $this->currencies;
-  }
-
-  function getDefaultRate()
-  {
-    return $this->defaultRate;
-  }
-
-  function setCurrencies($currencies)
-  {
-    $this->currencies = $currencies;
-  }
-
-  function setDefaultRate($defaultRate)
-  {
-    $this->defaultRate = $defaultRate;
-  }
-
-  function getCostOfLife()
-  {
-    return $this->costOfLife;
-  }
-
-  function setCostOfLife($costOfLife)
-  {
-    $this->costOfLife = $costOfLife;
-  }
-
-  function getCost()
-  {
-    return $this->cost;
-  }
-
-  function setCost($cost)
-  {
-    $this->cost = $cost;
-  }
-
-  /**
-   * 
-   * @return \Doctrine\Common\Collections\ArrayCollection Rates
-   */
-  public function getActive()
-  {
-    return $this->em->getRepository('AppBundle:Rate')->getActiveRates();
-  }
-
-  /**
-   * 
-   * @param float $percent
-   */
-  public function increaseByPercent($percent, $note)
-  {
-    $em = $this->em;
-    $rates = $this->getActive();
-    foreach ($rates as $rate) {
-      $newRate = new Rate();
-      $newRate
-          ->setActive(true)
-          ->setClient($rate->getClient())
-          ->setRate($rate->getRate() * $percent);
-      $rate->setActive(false);
-      $em->persist($newRate);
+        if ($task->getDuration()) {
+            $this->getRate($client) * $task->getDuration();
+        }
+        return null;
     }
-    $em->flush();
-  }
 
-  /**
-   * 
-   * @param type $fixedValue
-   */
-  public function increaseByFixedValue($fixedValue, $note)
-  {
-    $em = $this->em;
-    $rates = $this->getActive();
-    foreach ($rates as $rate) {
-      $newRate = new Rate();
-      $newRate
-          ->setNote($note)
-          ->setActive(true)
-          ->setClient($rate->getClient())
-          ->setRate($rate->getRate() + $fixedValue);
-      $rate->setActive(false);
-      $em->persist($newRate);
+    public function tasks($tasks)
+    {
+        $total = 0;
+        foreach ($tasks as $task) {
+            $rate = $this->getRateByTask($task);
+            $total += $task->getDuration() / 60 * $rate;
+        }
+        return $total;
     }
-    $em->flush();
-  }
+
+    /**
+     *
+     * @return \Doctrine\ORM\EntityManager
+     */
+    public function getEm()
+    {
+        return $this->em;
+    }
+
+    /**
+     *
+     * @param \Doctrine\ORM\EntityManager $em
+     */
+    public function setEm($em)
+    {
+        $this->em = $em;
+    }
+
+    function getCurrencies()
+    {
+        return $this->currencies;
+    }
+
+    function getDefaultRate()
+    {
+        return $this->defaultRate;
+    }
+
+    function setCurrencies($currencies)
+    {
+        $this->currencies = $currencies;
+    }
+
+    function setDefaultRate($defaultRate)
+    {
+        $this->defaultRate = $defaultRate;
+    }
+
+    function getCostOfLife()
+    {
+        return $this->costOfLife;
+    }
+
+    function setCostOfLife($costOfLife)
+    {
+        $this->costOfLife = $costOfLife;
+    }
+
+    function getCost()
+    {
+        return $this->cost;
+    }
+
+    function setCost($cost)
+    {
+        $this->cost = $cost;
+    }
+
+    /**
+     *
+     * @return \Doctrine\Common\Collections\ArrayCollection Rates
+     */
+    public function getActive()
+    {
+        return $this->em->getRepository('AppBundle:Rate')->getActiveRates();
+    }
+
+    /**
+     *
+     * @param float $percent
+     */
+    public function increaseByPercent($percent, $note)
+    {
+        $em = $this->em;
+        $rates = $this->getActive();
+        foreach ($rates as $rate) {
+            $newRate = new Rate();
+            $newRate
+                ->setActive(true)
+                ->setClient($rate->getClient())
+                ->setRate($rate->getRate() * $percent);
+            $rate->setActive(false);
+            $em->persist($newRate);
+        }
+        $em->flush();
+    }
+
+    /**
+     *
+     * @param type $fixedValue
+     */
+    public function increaseByFixedValue($fixedValue, $note)
+    {
+        $em = $this->em;
+        $rates = $this->getActive();
+        foreach ($rates as $rate) {
+            $newRate = new Rate();
+            $newRate
+                ->setNote($note)
+                ->setActive(true)
+                ->setClient($rate->getClient())
+                ->setRate($rate->getRate() + $fixedValue);
+            $rate->setActive(false);
+            $em->persist($newRate);
+        }
+        $em->flush();
+    }
 
 }

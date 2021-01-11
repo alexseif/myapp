@@ -3,43 +3,43 @@
 {% block floatingActions %}{{ a.add('recurr_new') }}{% endblock %}
 {% block panelTitle %}Recurrs{% endblock %}
 {% block panelBody %}
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Datestart</th>
-        <th>Dateuntil</th>
-        <th>Count</th>
-        <th>Interval</th>
-        <th>Freq</th>
-        <th>Byday</th>
-        <th>Bymonthday</th>
-        <th>Byyearday</th>
-        <th>Bymonth</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for recurr in recurrs %}
+    <table class="table">
+        <thead>
         <tr>
-          <td><a href="{{ path('recurr_show', { 'id': recurr.id }) }}">{{ recurr.name }}</a></td>
-          <td>{% if recurr.dateStart %}{{ recurr.dateStart|date('Y-m-d') }}{% endif %}</td>
-          <td>{% if recurr.dateUntil %}{{ recurr.dateUntil|date('Y-m-d') }}{% endif %}</td>
-          <td>{{ recurr.count }}</td>
-          <td>{{ recurr.interval }}</td>
-          <td>{{ recurr.freq }}</td>
-          <td>{{ recurr.byDay|join(', ') }}</td>
-          <td>{{ recurr.byMonthDay|join(', ') }}</td>
-          <td>{{ recurr.byYearDay|join(', ') }}</td>
-          <td>{{ recurr.byMonth|join(', ') }}</td>
-          <td>
-            <div class="btn-group">
-              {{ a.show('recurr_show', { 'id': recurr.id }) }}
-              {{ a.edit('recurr_edit', { 'id': recurr.id }) }}
-            </div>
-          </td>
+            <th>Name</th>
+            <th>Datestart</th>
+            <th>Dateuntil</th>
+            <th>Count</th>
+            <th>Interval</th>
+            <th>Freq</th>
+            <th>Byday</th>
+            <th>Bymonthday</th>
+            <th>Byyearday</th>
+            <th>Bymonth</th>
+            <th>Actions</th>
         </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+        </thead>
+        <tbody>
+        {% for recurr in recurrs %}
+            <tr>
+                <td><a href="{{ path('recurr_show', { 'id': recurr.id }) }}">{{ recurr.name }}</a></td>
+                <td>{% if recurr.dateStart %}{{ recurr.dateStart|date('Y-m-d') }}{% endif %}</td>
+                <td>{% if recurr.dateUntil %}{{ recurr.dateUntil|date('Y-m-d') }}{% endif %}</td>
+                <td>{{ recurr.count }}</td>
+                <td>{{ recurr.interval }}</td>
+                <td>{{ recurr.freq }}</td>
+                <td>{{ recurr.byDay|join(', ') }}</td>
+                <td>{{ recurr.byMonthDay|join(', ') }}</td>
+                <td>{{ recurr.byYearDay|join(', ') }}</td>
+                <td>{{ recurr.byMonth|join(', ') }}</td>
+                <td>
+                    <div class="btn-group">
+                        {{ a.show('recurr_show', { 'id': recurr.id }) }}
+                        {{ a.edit('recurr_edit', { 'id': recurr.id }) }}
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}

@@ -3,45 +3,47 @@
 {% import "macros/a.html.twig" as a %}
 {% block title %}Cost Of Life{% endblock %}
 {% block content %}
-  <div class="row">
-    <div class="col-md-6 offset-md-3">
-      {{ parent() }}
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            {{ parent() }}
+        </div>
     </div>
-  </div>
 {% endblock %}
 {% block floatingActions %}{{ a.add('costoflife_new') }}{% endblock %}
 {% block panelTitle %}Cost Of Life{% endblock %}
 {% block panelBody %}
-  <table class="table table-condensed table-bordered table-striped">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Value</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% set sum = 0 %}
-      {% for costOfLife in costOfLives %}
-        {% set sum = sum + costOfLife.value %}
+    <table class="table table-condensed table-bordered table-striped">
+        <thead>
         <tr>
-          <td>{{ costOfLife.name }}</td>
-          <td class="text-right"><span class="float-left">{{ costOfLife.currency.code }}</span> {{ (costOfLife.value/100)|number_format }}</td>
-          <td>
-            <div class="btn-group">
-              {{ a.show('costoflife_show', { 'id': costOfLife.id }) }}
-              {{ a.edit('costoflife_edit', { 'id': costOfLife.id }) }}
-            </div>
-          </td>
+            <th>Name</th>
+            <th>Value</th>
+            <th>Actions</th>
         </tr>
-      {% endfor %}
-    </tbody>
-    <tfoot>
-      <tr>
-        <td>Sum</td>
-        <td class="text-right"><span class="float-left">EGP</span> {{ (sum/100)|number_format }}</td>
-        <td></td>
-      </tr>
-    </tfoot>
-  </table>
+        </thead>
+        <tbody>
+        {% set sum = 0 %}
+        {% for costOfLife in costOfLives %}
+            {% set sum = sum + costOfLife.value %}
+            <tr>
+                <td>{{ costOfLife.name }}</td>
+                <td class="text-right"><span
+                            class="float-left">{{ costOfLife.currency.code }}</span> {{ (costOfLife.value/100)|number_format }}
+                </td>
+                <td>
+                    <div class="btn-group">
+                        {{ a.show('costoflife_show', { 'id': costOfLife.id }) }}
+                        {{ a.edit('costoflife_edit', { 'id': costOfLife.id }) }}
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+        <tr>
+            <td>Sum</td>
+            <td class="text-right"><span class="float-left">EGP</span> {{ (sum/100)|number_format }}</td>
+            <td></td>
+        </tr>
+        </tfoot>
+    </table>
 {% endblock %}

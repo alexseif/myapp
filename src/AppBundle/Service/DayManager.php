@@ -14,22 +14,22 @@ namespace AppBundle\Service;
 class DayManager
 {
 
-  public function isWorkDay()
-  {
-    $today = new \DateTime();
-    if (in_array($today->format('N'), [5, 6])) { // 5 and 6 are weekend days
-      return false;
+    public function isWorkDay()
+    {
+        $today = new \DateTime();
+        if (in_array($today->format('N'), [5, 6])) { // 5 and 6 are weekend days
+            return false;
+        }
+        return true;
     }
-    return true;
-  }
 
-  public function isWorkingDay()
-  {
-    if ($this->isWorkDay()) {
-      return 'Yes, it\'s a working day.';
-    } else {
-      return 'No, it\'s not a working day.';
+    public function isWorkingDay()
+    {
+        if ($this->isWorkDay()) {
+            return 'Yes, it\'s a working day.';
+        } else {
+            return 'No, it\'s not a working day.';
+        }
     }
-  }
 
 }

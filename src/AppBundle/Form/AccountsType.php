@@ -10,43 +10,42 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 class AccountsType extends AbstractType
 {
 
-  /**
-   * {@inheritdoc}
-   */
-  public function buildForm(FormBuilderInterface $builder, array $options)
-  {
-    //    TODO: https://github.com/ninsuo/symfony-collection
+    /**
+     * {@inheritdoc}
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        //    TODO: https://github.com/ninsuo/symfony-collection
 
-    $builder
-        ->add('name')
-        ->add('conceal')
-        ->add('client', EntityType::class, array(
-          'required' => false,
-          'class' => 'AppBundle:Client',
-          'choice_label' => 'name',
-          'attr' => array(
-            'class' => 'chosen',
-          ))
-        )
-    ;
-  }
+        $builder
+            ->add('name')
+            ->add('conceal')
+            ->add('client', EntityType::class, array(
+                    'required' => false,
+                    'class' => 'AppBundle:Client',
+                    'choice_label' => 'name',
+                    'attr' => array(
+                        'class' => 'chosen',
+                    ))
+            );
+    }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function configureOptions(OptionsResolver $resolver)
-  {
-    $resolver->setDefaults(array(
-      'data_class' => 'AppBundle\Entity\Accounts'
-    ));
-  }
+    /**
+     * {@inheritdoc}
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(array(
+            'data_class' => 'AppBundle\Entity\Accounts'
+        ));
+    }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function getBlockPrefix()
-  {
-    return 'appbundle_accounts';
-  }
+    /**
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix()
+    {
+        return 'appbundle_accounts';
+    }
 
 }

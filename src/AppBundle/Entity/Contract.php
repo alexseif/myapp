@@ -14,229 +14,229 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 class Contract
 {
 
-  use TimestampableEntity;
+    use TimestampableEntity;
 
-  /**
-   * @var int
-   *
-   * @ORM\Column(name="id", type="integer")
-   * @ORM\Id
-   * @ORM\GeneratedValue(strategy="AUTO")
-   */
-  private $id;
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
 
-  /**
-   * @var string
-   *
-   * @ORM\Column(name="name", type="string", length=255)
-   */
-  private $name;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=255)
+     */
+    private $name;
 
-  /**
-   * @ORM\ManyToOne(targetEntity="Client", inversedBy="contracts")
-   * @ORM\JoinColumn(name="client_id", referencedColumnName="id", nullable=true)
-   */
-  private $client;
+    /**
+     * @ORM\ManyToOne(targetEntity="Client", inversedBy="contracts")
+     * @ORM\JoinColumn(name="client_id", referencedColumnName="id", nullable=true)
+     */
+    private $client;
 
-  /**
-   * @var int
-   *
-   * @ORM\Column(name="hoursPerDay", type="integer")
-   */
-  private $hoursPerDay;
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="hoursPerDay", type="integer")
+     */
+    private $hoursPerDay;
 
-  /**
-   * @var datetime
-   *
-   * @ORM\Column(name="startedAt", type="date")
-   */
-  private $startedAt;
+    /**
+     * @var datetime
+     *
+     * @ORM\Column(name="startedAt", type="date")
+     */
+    private $startedAt;
 
-  /**
-   * @ORM\Column(type="boolean")
-   */
-  private $isCompleted;
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isCompleted;
 
-  /**
-   * @ORM\Column(type="datetime", nullable=true)
-   */
-  private $completedAt;
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $completedAt;
 
-  /**
-   * Get id.
-   *
-   * @return int
-   */
-  public function getId()
-  {
-    return $this->id;
-  }
+    /**
+     * Get id.
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
-  /**
-   * Set name.
-   *
-   * @param string $name
-   *
-   * @return Contract
-   */
-  public function setName($name)
-  {
-    $this->name = $name;
+    /**
+     * Set name.
+     *
+     * @param string $name
+     *
+     * @return Contract
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
 
-    return $this;
-  }
+        return $this;
+    }
 
-  /**
-   * Get name.
-   *
-   * @return string
-   */
-  public function getName()
-  {
-    return $this->name;
-  }
+    /**
+     * Get name.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
 
-  /**
-   * Set account.
-   *
-   * @param \stdClass|null $account
-   *
-   * @return Contract
-   */
-  public function setAccount($account = null)
-  {
-    $this->account = $account;
+    /**
+     * Set account.
+     *
+     * @param \stdClass|null $account
+     *
+     * @return Contract
+     */
+    public function setAccount($account = null)
+    {
+        $this->account = $account;
 
-    return $this;
-  }
+        return $this;
+    }
 
-  /**
-   * Get account.
-   *
-   * @return \stdClass|null
-   */
-  public function getAccount()
-  {
-    return $this->account;
-  }
+    /**
+     * Get account.
+     *
+     * @return \stdClass|null
+     */
+    public function getAccount()
+    {
+        return $this->account;
+    }
 
-  /**
-   * Set hoursPerDay.
-   *
-   * @param int $hoursPerDay
-   *
-   * @return Contract
-   */
-  public function setHoursPerDay($hoursPerDay)
-  {
-    $this->hoursPerDay = $hoursPerDay;
+    /**
+     * Set hoursPerDay.
+     *
+     * @param int $hoursPerDay
+     *
+     * @return Contract
+     */
+    public function setHoursPerDay($hoursPerDay)
+    {
+        $this->hoursPerDay = $hoursPerDay;
 
-    return $this;
-  }
+        return $this;
+    }
 
-  /**
-   * Get hoursPerDay.
-   *
-   * @return int
-   */
-  public function getHoursPerDay()
-  {
-    return $this->hoursPerDay;
-  }
+    /**
+     * Get hoursPerDay.
+     *
+     * @return int
+     */
+    public function getHoursPerDay()
+    {
+        return $this->hoursPerDay;
+    }
 
-  /**
-   * Set client.
-   *
-   * @param \AppBundle\Entity\Client|null $client
-   *
-   * @return Contract
-   */
-  public function setClient(\AppBundle\Entity\Client $client = null)
-  {
-    $this->client = $client;
+    /**
+     * Set client.
+     *
+     * @param \AppBundle\Entity\Client|null $client
+     *
+     * @return Contract
+     */
+    public function setClient(\AppBundle\Entity\Client $client = null)
+    {
+        $this->client = $client;
 
-    return $this;
-  }
+        return $this;
+    }
 
-  /**
-   * Get client.
-   *
-   * @return \AppBundle\Entity\Client|null
-   */
-  public function getClient()
-  {
-    return $this->client;
-  }
+    /**
+     * Get client.
+     *
+     * @return \AppBundle\Entity\Client|null
+     */
+    public function getClient()
+    {
+        return $this->client;
+    }
 
-  /**
-   * Set startedAt.
-   *
-   * @param \DateTime $startedAt
-   *
-   * @return Contract
-   */
-  public function setStartedAt($startedAt)
-  {
-    $this->startedAt = $startedAt;
+    /**
+     * Set startedAt.
+     *
+     * @param \DateTime $startedAt
+     *
+     * @return Contract
+     */
+    public function setStartedAt($startedAt)
+    {
+        $this->startedAt = $startedAt;
 
-    return $this;
-  }
+        return $this;
+    }
 
-  /**
-   * Get startedAt.
-   *
-   * @return \DateTime
-   */
-  public function getStartedAt()
-  {
-    return $this->startedAt;
-  }
+    /**
+     * Get startedAt.
+     *
+     * @return \DateTime
+     */
+    public function getStartedAt()
+    {
+        return $this->startedAt;
+    }
 
-  public function __toString()
-  {
-    return $this->getName();
-  }
+    public function __toString()
+    {
+        return $this->getName();
+    }
 
-  /**
-   * 
-   * @return bool $isCompleted
-   */
-  public function getIsCompleted()
-  {
-    return $this->isCompleted;
-  }
+    /**
+     *
+     * @return bool $isCompleted
+     */
+    public function getIsCompleted()
+    {
+        return $this->isCompleted;
+    }
 
-  /**
-   * 
-   * @param bool $isCompleted
-   * @return self
-   */
-  public function setIsCompleted(bool $isCompleted)
-  {
-    $this->isCompleted = $isCompleted;
+    /**
+     *
+     * @param bool $isCompleted
+     * @return self
+     */
+    public function setIsCompleted(bool $isCompleted)
+    {
+        $this->isCompleted = $isCompleted;
 
-    return $this;
-  }
+        return $this;
+    }
 
-  /**
-   * 
-   * @return \DateTimeInterface $completedAt
-   */
-  public function getCompletedAt()
-  {
-    return $this->completedAt;
-  }
+    /**
+     *
+     * @return \DateTimeInterface $completedAt
+     */
+    public function getCompletedAt()
+    {
+        return $this->completedAt;
+    }
 
-  /**
-   * 
-   * @param \DateTimeInterface $completedAt
-   * @return self
-   */
-  public function setCompletedAt($completedAt)
-  {
-    $this->completedAt = $completedAt;
+    /**
+     *
+     * @param \DateTimeInterface $completedAt
+     * @return self
+     */
+    public function setCompletedAt($completedAt)
+    {
+        $this->completedAt = $completedAt;
 
-    return $this;
-  }
+        return $this;
+    }
 
 }

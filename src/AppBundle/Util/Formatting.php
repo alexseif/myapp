@@ -14,9 +14,9 @@ namespace AppBundle\Util;
 class Formatting
 {
 
-  public static function number($number)
-  {
-    return number_format(round($number), 0);
-  }
+    public static function number($number)
+    {
+        return number_format(round($number), 0);
+    }
 
 }

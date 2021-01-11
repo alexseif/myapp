@@ -3,20 +3,21 @@
 {% import "macros/a.html.twig" as a %}
 {% block floatingActions %}{{ a.add('worklog_new') }}{% endblock %}
 {% block panelTitle %}Work Logs{% endblock %}
-{% block panelHeadingRight %}<a href="{{ path('completed_tasks') }}" class="btn btn-dark btn-sm">Completed Tasks</a>{% endblock %}
+{% block panelHeadingRight %}<a href="{{ path('completed_tasks') }}" class="btn btn-dark btn-sm">Completed
+    Tasks</a>{% endblock %}
 {% block panelBody %}
-  <div class="card-body">
-    {% for tasklist in tasklists %}
-      <ul class="list-group">
-        <li class="list-group-item p-2">
-          {{ tasklist }}
-          <a class="btn btn-primary btn-sm float-right"
-             href="{{ path('worklog_tasklist', {"tasklist": tasklist.id}) }}">
-            Open
-          </a>
-        </li>
-      </ul>
+    <div class="card-body">
+        {% for tasklist in tasklists %}
+            <ul class="list-group">
+                <li class="list-group-item p-2">
+                    {{ tasklist }}
+                    <a class="btn btn-primary btn-sm float-right"
+                       href="{{ path('worklog_tasklist', {"tasklist": tasklist.id}) }}">
+                        Open
+                    </a>
+                </li>
+            </ul>
 
-    {% endfor %}
-  </div>
+        {% endfor %}
+    </div>
 {% endblock %}

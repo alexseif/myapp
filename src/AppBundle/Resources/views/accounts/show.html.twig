@@ -6,92 +6,93 @@
 {% block title %}{{ account.name }}{% endblock %}
 
 {% block floatingActions %}
-  {{ a.add('accounttransactions_new', { 'account': account.id }) }}
+    {{ a.add('accounttransactions_new', { 'account': account.id }) }}
 {% endblock %}
 
 {% block panelBack %}{{ a.back('accounts_index') }}{% endblock %}
 {% block panelTitle %}Account: {{ account.name }}{% endblock %}
 {% block panelHeadingRight %}
-  <a class="btn btn-info"
-     href="{{ path('accounting_account_page', {'id':account.id}) }}">
-    <i class="fas fa-file-invoice-dollar"></i>
-  </a>
-  {{ a.edit('accounts_edit', {'id':account.id}) }}
-  {{ forms.delete(delete_form) }}
+    <a class="btn btn-info"
+       href="{{ path('accounting_account_page', {'id':account.id}) }}">
+        <i class="fas fa-file-invoice-dollar"></i>
+    </a>
+    {{ a.edit('accounts_edit', {'id':account.id}) }}
+    {{ forms.delete(delete_form) }}
 {% endblock %}
 {% set accountTransactions = account.transactions %}
 {% block panelBody %}
-  <div class="list-group">
-    <div class="list-group-item" id="account-details">
-      <div class="row">
-        <div class="col">
-          <div class="card" >
-            <div class="card-header">Account Details</div>
+    <div class="list-group">
+        <div class="list-group-item" id="account-details">
+            <div class="row">
+                <div class="col">
+                    <div class="card">
+                        <div class="card-header">Account Details</div>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                CreatedAt: {{ account.createdAt|date('Y-m-d') }}
+                            </li>
+                            <li class="list-group-item">
+                                UpdatedAt: {{ account.updatedAt|date('Y-m-d') }}
+                            </li>
+                            <li class="list-group-item">
+                                Conceal: {{ badge.status(account.conceal) }}
+                            </li>
+                        </ul>
+                    </div><!-- end card -->
+                </div><!-- end col -->
+                <div class="col">
+                    {% if (account.client) %}
+                        {% set client = account.client %}
+                        {% include 'AppBundle:client:client_details.html.twig' %}
+                    {% endif %}
+                </div><!-- end col -->
+            </div><!-- end row -->
+        </div><!-- end card -->
+    </div><!-- end list-group-item -->
+    <div class="list-group-item" id="account-taskLists">
+        <div class="card">
+            <div class="card-header">Task lists</div>
+            <div class="card-deck">
+                {% for taskList in account.taskLists %}
+                    {% if (0 == (loop.index0 % 5)) %}
+                        <div class="w-100"></div>
+                    {% endif %}
+                    <div class="card widget-flat mb-3">
+                        <div class="card-body">
+                            <div class="float-right">
+                                <i class="fa fa fa-tasks widget-icon"></i>
+                            </div>
+                            <h5 class="font-weight-normal mt-0" title="">{{ taskList.name }}</h5>
+                            <h3 class="mt-3 mb-3">{{ taskList.tasks|length }} Tasks</h3>
+                            <p class="mb-0 text-muted ">
+                                <span class="text-success mr-2"><i
+                                            class="mdi mdi-arrow-up-bold"></i> {{ taskList.durationTotal|date("%d %H:%I") }}</span>
+                                <span class="text-nowrap">Duration</span>
+                                <span class="float-right">{{ a.show('tasklists_show', {'id':taskList.id}) }}</span>
+                            </p>
+                        </div> <!-- end card-body-->
+                    </div> <!-- end card-->
+                {% endfor %}
+            </div><!-- end card-deck -->
+        </div>
+    </div><!-- end list-group-item -->
+    <div class="list-group-item" id="account-transactions">
+        <div class="card">
+            <div class="card-header">Transactions</div>
             <ul class="list-group">
-              <li class="list-group-item">
-                CreatedAt: {{ account.createdAt|date('Y-m-d') }}
-              </li>
-              <li class="list-group-item">
-                UpdatedAt: {{ account.updatedAt|date('Y-m-d') }}
-              </li>
-              <li class="list-group-item">
-                Conceal: {{ badge.status(account.conceal) }}
-              </li>
-            </ul>
-          </div><!-- end card -->
-        </div><!-- end col -->
-        <div class="col">
-          {% if (account.client) %}
-            {% set client = account.client %}
-            {% include 'AppBundle:client:client_details.html.twig' %}
-          {% endif %}  
-        </div><!-- end col -->
-      </div><!-- end row -->
-    </div><!-- end card -->
-  </div><!-- end list-group-item -->
-  <div class="list-group-item" id="account-taskLists">
-    <div class="card">
-      <div class="card-header">Task lists</div>
-      <div class="card-deck">
-        {% for taskList in account.taskLists %}
-          {% if (0 == (loop.index0 % 5))%}
-            <div class="w-100"></div>
-          {% endif %}
-          <div class="card widget-flat mb-3">
-            <div class="card-body">
-              <div class="float-right">
-                <i class="fa fa fa-tasks widget-icon"></i>
-              </div>
-              <h5 class="font-weight-normal mt-0" title="">{{ taskList.name }}</h5>
-              <h3 class="mt-3 mb-3">{{ taskList.tasks|length }} Tasks</h3>
-              <p class="mb-0 text-muted ">
-                <span class="text-success mr-2"><i class="mdi mdi-arrow-up-bold"></i> {{ taskList.durationTotal|date("%d %H:%I") }}</span>
-                <span class="text-nowrap">Duration</span>  
-                <span class="float-right">{{ a.show('tasklists_show', {'id':taskList.id}) }}</span>
-              </p>
-            </div> <!-- end card-body-->
-          </div> <!-- end card-->
-        {% endfor %}
-      </div><!-- end card-deck -->
-    </div>
-  </div><!-- end list-group-item -->
-  <div class="list-group-item" id="account-transactions">
-    <div class="card">
-      <div class="card-header">Transactions</div>
-      <ul class="list-group">
-        <li class="list-group-item">Count: {{ accountTransactions.count }}</li>
-        <li class="list-group-item text-{{ (account.balance == 0) ? "default" : (account.balance) < 0 ? "success": "danger" }}">
-          Balance: 
-          <span class="money-egp pl-5">{{ account.balance|number_format }}</span>
-        </li>
-      </ul><!-- end list-group -->
-      <div id="txn-{{ account.id }}" class="">
-        {% include 'AppBundle:accounttransactions:transactions_list_summary.html.twig' %}
-      </div>
-    </div><!-- end card -->
-  </div><!-- end list-group-item -->
-</div><!-- end list-group -->
+                <li class="list-group-item">Count: {{ accountTransactions.count }}</li>
+                <li class="list-group-item text-{{ (account.balance == 0) ? "default" : (account.balance) < 0 ? "success": "danger" }}">
+                    Balance:
+                    <span class="money-egp pl-5">{{ account.balance|number_format }}</span>
+                </li>
+            </ul><!-- end list-group -->
+            <div id="txn-{{ account.id }}" class="">
+                {% include 'AppBundle:accounttransactions:transactions_list_summary.html.twig' %}
+            </div>
+        </div><!-- end card -->
+    </div><!-- end list-group-item -->
+    </div><!-- end list-group -->
 
 {% endblock %}
 
-{# TODO: show account info #}
+{# TODO: show account info  #}

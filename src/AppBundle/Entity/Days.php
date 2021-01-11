@@ -14,120 +14,120 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 class Days
 {
 
-  use TimestampableEntity;
+    use TimestampableEntity;
 
-  /**
-   * @var int
-   *
-   * @ORM\Column(name="id", type="integer")
-   * @ORM\Id
-   * @ORM\GeneratedValue(strategy="AUTO")
-   */
-  private $id;
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
 
-  /**
-   * @var string
-   *
-   * @ORM\Column(name="name", type="string", length=255)
-   */
-  private $name;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=255)
+     */
+    private $name;
 
-  /**
-   * @var \DateTime
-   *
-   * @ORM\Column(name="deadline", type="date")
-   */
-  private $deadline;
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="deadline", type="date")
+     */
+    private $deadline;
 
-  /**
-   * @var bool
-   *
-   * @ORM\Column(name="complete", type="boolean")
-   */
-  private $complete;
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="complete", type="boolean")
+     */
+    private $complete;
 
-  /**
-   * Get id
-   *
-   * @return integer 
-   */
-  public function getId()
-  {
-    return $this->id;
-  }
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
-  /**
-   * Set name
-   *
-   * @param string $name
-   * @return Days
-   */
-  public function setName($name)
-  {
-    $this->name = $name;
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return Days
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
 
-    return $this;
-  }
+        return $this;
+    }
 
-  /**
-   * Get name
-   *
-   * @return string 
-   */
-  public function getName()
-  {
-    return $this->name;
-  }
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
 
-  /**
-   * Set deadline
-   *
-   * @param \DateTime $deadline
-   * @return Days
-   */
-  public function setDeadline($deadline)
-  {
-    $this->deadline = $deadline;
+    /**
+     * Set deadline
+     *
+     * @param \DateTime $deadline
+     * @return Days
+     */
+    public function setDeadline($deadline)
+    {
+        $this->deadline = $deadline;
 
-    return $this;
-  }
+        return $this;
+    }
 
-  /**
-   * Get deadline
-   *
-   * @return \DateTime 
-   */
-  public function getDeadline()
-  {
-    return $this->deadline;
-  }
+    /**
+     * Get deadline
+     *
+     * @return \DateTime
+     */
+    public function getDeadline()
+    {
+        return $this->deadline;
+    }
 
-  /**
-   * Set complete
-   *
-   * @param boolean $complete
-   * @return Days
-   */
-  public function setComplete($complete)
-  {
-    $this->complete = $complete;
+    /**
+     * Set complete
+     *
+     * @param boolean $complete
+     * @return Days
+     */
+    public function setComplete($complete)
+    {
+        $this->complete = $complete;
 
-    return $this;
-  }
+        return $this;
+    }
 
-  /**
-   * Get complete
-   *
-   * @return boolean 
-   */
-  public function getComplete()
-  {
-    return $this->complete;
-  }
+    /**
+     * Get complete
+     *
+     * @return boolean
+     */
+    public function getComplete()
+    {
+        return $this->complete;
+    }
 
-  public function __toString()
-  {
-    return $this->getName();
-  }
+    public function __toString()
+    {
+        return $this->getName();
+    }
 
 }

@@ -3,103 +3,103 @@
 {% set daysDiff = (("last day of next month"|date_modify("-4 days")).diff(date("now")).days) %}
 {% set pm = progressMonitoring %}
 <div class="row">
-  <div class="{{ widgetColClass }}">
-    {% set widgetBody %}
-      <br/>
-      <!-- https://codepen.io/jasonleewilson/pen/gPrxwX -->
-      <div id="timedate">
-        <a id="h">12</a> :
-        <a id="m">00</a>:
-        <a id="s">00</a><br/>
-        <a id="day">{{ "now"|date('l')}}</a>
-        <a id="mon">January</a>
-        <a id="d">1</a>,
-        <a id="y">0</a>
-        {#          {{ day_manager.isWorkingDay() }}#}
-      </div>
-    {% endset %}
-    {% include('AppBundle:Dashboard:_widget_flat.html.twig') %}
-  </div><!-- col -->
-  <div class="{{ widgetColClass }}">
-    {% set widgetBody %}
-      <div class="text-{{ daysDiff  > 20 ? "info" : daysDiff  > 10 ? "warning" : "danger" }}">
-        <span class="float-right">{{ pm.todayProgress }}%</span>
-        <i class="fa fa-egp" title="Revenue"></i>
-        {{ pm.earnedToday }} / {{ pm.daily }} 
-        <br/>
-        <span class="float-right">{{ pm.weekProgress }}%</span>
-        <i class="fa fa-egp" title="Revenue"></i>
-        {{ pm.earnedThisWeek}} / {{ pm.weekly }}
-        <br/>
-        <span class="float-right">{{ pm.monthProgress }}%</span>
-        <i class="fa fa-egp" title="Revenue"></i>
-        {{ pm.earnedThisMonth }} / {{ pm.monthly }}
-      </div>
-    {% endset %}
-    {% include('AppBundle:Dashboard:_widget_flat.html.twig') %}
-  </div><!-- col -->
-  <div class="{{ widgetColClass }}">
-    {% set widgetBody %}
-      <br/>
-      <span class="float-right text-{{ pm.clientsProgress > 0 ? 'success' : 'danger' }}">
+    <div class="{{ widgetColClass }}">
+        {% set widgetBody %}
+            <br/>
+            <!-- https://codepen.io/jasonleewilson/pen/gPrxwX -->
+            <div id="timedate">
+                <a id="h">12</a> :
+                <a id="m">00</a>:
+                <a id="s">00</a><br/>
+                <a id="day">{{ "now"|date('l') }}</a>
+                <a id="mon">January</a>
+                <a id="d">1</a>,
+                <a id="y">0</a>
+                {# {{ day_manager.isWorkingDay() }} #}
+            </div>
+        {% endset %}
+        {% include('AppBundle:Dashboard:_widget_flat.html.twig') %}
+    </div><!-- col -->
+    <div class="{{ widgetColClass }}">
+        {% set widgetBody %}
+            <div class="text-{{ daysDiff  > 20 ? "info" : daysDiff  > 10 ? "warning" : "danger" }}">
+                <span class="float-right">{{ pm.todayProgress }}%</span>
+                <i class="fa fa-egp" title="Revenue"></i>
+                {{ pm.earnedToday }} / {{ pm.daily }}
+                <br/>
+                <span class="float-right">{{ pm.weekProgress }}%</span>
+                <i class="fa fa-egp" title="Revenue"></i>
+                {{ pm.earnedThisWeek }} / {{ pm.weekly }}
+                <br/>
+                <span class="float-right">{{ pm.monthProgress }}%</span>
+                <i class="fa fa-egp" title="Revenue"></i>
+                {{ pm.earnedThisMonth }} / {{ pm.monthly }}
+            </div>
+        {% endset %}
+        {% include('AppBundle:Dashboard:_widget_flat.html.twig') %}
+    </div><!-- col -->
+    <div class="{{ widgetColClass }}">
+        {% set widgetBody %}
+            <br/>
+            <span class="float-right text-{{ pm.clientsProgress > 0 ? 'success' : 'danger' }}">
         {{ pm.clientsProgress }}%
-        <i class="fa fa-arrow-{{ pm.clientsProgress > 0  ? 'up':'down'}}"></i>
+        <i class="fa fa-arrow-{{ pm.clientsProgress > 0  ? 'up':'down' }}"></i>
       </span>
-      <i class="fa fa-users" title="Clients"></i>
-      {{ pm.clientsCount}}
-      <br/>
-      <span class="float-right text-{{ pm.accountsProgress > 0 ? 'success' : 'danger' }}">
+            <i class="fa fa-users" title="Clients"></i>
+            {{ pm.clientsCount }}
+            <br/>
+            <span class="float-right text-{{ pm.accountsProgress > 0 ? 'success' : 'danger' }}">
         {{ pm.accountsProgress }}%
-        <i class="fa fa-arrow-{{ pm.accountsProgress > 0  ? 'up':'down'}}"></i>
+        <i class="fa fa-arrow-{{ pm.accountsProgress > 0  ? 'up':'down' }}"></i>
       </span>
-      <i class="fa fa-briefcase" title="Accounts"></i>
-      {{ pm.accountsCount}}
-      <br/>
-    {% endset %}
-    {% include('AppBundle:Dashboard:_widget_flat.html.twig') %}
-  </div><!-- col -->
-  <div class="{{ widgetColClass }}">
-    {% set widgetBody %}
-      <span class="float-right text-{{ pm.tasksCompletedProgress > 0 ? 'success' : 'danger' }}">
+            <i class="fa fa-briefcase" title="Accounts"></i>
+            {{ pm.accountsCount }}
+            <br/>
+        {% endset %}
+        {% include('AppBundle:Dashboard:_widget_flat.html.twig') %}
+    </div><!-- col -->
+    <div class="{{ widgetColClass }}">
+        {% set widgetBody %}
+            <span class="float-right text-{{ pm.tasksCompletedProgress > 0 ? 'success' : 'danger' }}">
         {{ pm.tasksCompletedProgress }}%
-        <i class="fa fa-arrow-{{ pm.tasksCompletedProgress > 0  ? 'up':'down'}}"></i>
+        <i class="fa fa-arrow-{{ pm.tasksCompletedProgress > 0  ? 'up':'down' }}"></i>
       </span>
-      <i class="fa fa-tasks" title="Tasks"></i>
-      {{ pm.tasksCompletedCount }}
-      <br/>
-      <span class="float-right text-{{ pm.durationProgress  > 0 ? 'success' : 'danger' }}">
+            <i class="fa fa-tasks" title="Tasks"></i>
+            {{ pm.tasksCompletedCount }}
+            <br/>
+            <span class="float-right text-{{ pm.durationProgress  > 0 ? 'success' : 'danger' }}">
         {{ pm.durationProgress }}%
-        <i class="fa fa-arrow-{{ pm.durationProgress  > 0  ? 'up':'down'}}"></i>
+        <i class="fa fa-arrow-{{ pm.durationProgress  > 0  ? 'up':'down' }}"></i>
       </span>
-      <i class="fas fa-stopwatch" title="Duration"></i>
-      {{ pm.durationSum }}
-      <br/>
-      <span class="float-right text-{{ pm.revenueProgress > 0 ? 'success' : 'danger' }}">
+            <i class="fas fa-stopwatch" title="Duration"></i>
+            {{ pm.durationSum }}
+            <br/>
+            <span class="float-right text-{{ pm.revenueProgress > 0 ? 'success' : 'danger' }}">
         {{ pm.revenueProgress }}%
-        <i class="fa fa-arrow-{{ pm.revenueProgress > 0  ? 'up':'down'}}"></i>
+        <i class="fa fa-arrow-{{ pm.revenueProgress > 0  ? 'up':'down' }}"></i>
       </span>
-      <i class="fa fa-egp" title="Revenue"></i>
-      {{ pm.revenueSum }}
-      <br/>
-    {% endset %}
-    {% include('AppBundle:Dashboard:_widget_flat.html.twig') %}
-  </div> <!-- end col-->
-  <div class="col-lg-3 d-none">
-    <div class="dropdown float-right">
-      <a href="#" class="dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false">
-        <i class="mdi mdi-dots-vertical"></i>
-      </a>
-      <div class="dropdown-menu dropdown-menu-right">
-        <!-- item-->
-        <a href="javascript:void(0);" class="dropdown-item">Sales Report</a>
-        <!-- item-->
-        <a href="javascript:void(0);" class="dropdown-item">Export Report</a>
-        <!-- item-->
-        <a href="javascript:void(0);" class="dropdown-item">Profit</a>
-        <!-- item-->
-        <a href="javascript:void(0);" class="dropdown-item">Action</a>
-      </div>
-    </div>
-    <h5 class="text-muted font-weight-normal mt-0" title="Number of Clients">Progress Vs Actuals</h5>
-  </div><!-- .col -->
+            <i class="fa fa-egp" title="Revenue"></i>
+            {{ pm.revenueSum }}
+            <br/>
+        {% endset %}
+        {% include('AppBundle:Dashboard:_widget_flat.html.twig') %}
+    </div> <!-- end col-->
+    <div class="col-lg-3 d-none">
+        <div class="dropdown float-right">
+            <a href="#" class="dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false">
+                <i class="mdi mdi-dots-vertical"></i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right">
+                <!-- item-->
+                <a href="javascript:void(0);" class="dropdown-item">Sales Report</a>
+                <!-- item-->
+                <a href="javascript:void(0);" class="dropdown-item">Export Report</a>
+                <!-- item-->
+                <a href="javascript:void(0);" class="dropdown-item">Profit</a>
+                <!-- item-->
+                <a href="javascript:void(0);" class="dropdown-item">Action</a>
+            </div>
+        </div>
+        <h5 class="text-muted font-weight-normal mt-0" title="Number of Clients">Progress Vs Actuals</h5>
+    </div><!-- .col -->
 </div><!-- .row -->

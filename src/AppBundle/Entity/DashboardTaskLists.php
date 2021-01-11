@@ -14,61 +14,61 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 class DashboardTaskLists
 {
 
-  use TimestampableEntity;
+    use TimestampableEntity;
 
-  /**
-   * @var int
-   *
-   * @ORM\Column(name="id", type="integer")
-   * @ORM\Id
-   * @ORM\GeneratedValue(strategy="AUTO")
-   */
-  private $id;
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
 
-  /**
-   * 
-   * @ORM\OneToOne(targetEntity="TaskLists")
-   * @ORM\JoinColumn(name="taskLists_id", referencedColumnName="id")
-   */
-  private $taskList;
+    /**
+     *
+     * @ORM\OneToOne(targetEntity="TaskLists")
+     * @ORM\JoinColumn(name="taskLists_id", referencedColumnName="id")
+     */
+    private $taskList;
 
-  /**
-   * Get id
-   *
-   * @return int
-   */
-  public function getId()
-  {
-    return $this->id;
-  }
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
-  /**
-   * Set taskList
-   *
-   * @param \AppBundle\Entity\TaskLists $taskList
-   *
-   * @return DashboardTaskLists
-   */
-  public function setTaskList(\AppBundle\Entity\TaskLists $taskList = null)
-  {
-    $this->taskList = $taskList;
+    /**
+     * Set taskList
+     *
+     * @param \AppBundle\Entity\TaskLists $taskList
+     *
+     * @return DashboardTaskLists
+     */
+    public function setTaskList(\AppBundle\Entity\TaskLists $taskList = null)
+    {
+        $this->taskList = $taskList;
 
-    return $this;
-  }
+        return $this;
+    }
 
-  /**
-   * Get taskList
-   *
-   * @return \AppBundle\Entity\TaskLists
-   */
-  public function getTaskList()
-  {
-    return $this->taskList;
-  }
+    /**
+     * Get taskList
+     *
+     * @return \AppBundle\Entity\TaskLists
+     */
+    public function getTaskList()
+    {
+        return $this->taskList;
+    }
 
-  public function getName()
-  {
-    return $this->taskList->getName();
-  }
+    public function getName()
+    {
+        return $this->taskList->getName();
+    }
 
 }

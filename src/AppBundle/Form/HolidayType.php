@@ -10,20 +10,19 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class HolidayType extends AbstractType
 {
 
-  public function buildForm(FormBuilderInterface $builder, array $options)
-  {
-    $builder
-        ->add('name')
-        ->add('type')
-        ->add('date')
-    ;
-  }
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder
+            ->add('name')
+            ->add('type')
+            ->add('date');
+    }
 
-  public function configureOptions(OptionsResolver $resolver)
-  {
-    $resolver->setDefaults([
-      'data_class' => Holiday::class,
-    ]);
-  }
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'data_class' => Holiday::class,
+        ]);
+    }
 
 }

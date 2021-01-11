@@ -1,46 +1,46 @@
 {% extends 'base.html.twig' %}
 {% import "macros/forms.html.twig" as forms %}
 {% import "macros/a.html.twig" as a %}
-{% block title %}#{{accountTransaction.id}} {{accountTransaction.account.name}} Transaction{% endblock %}
+{% block title %}#{{ accountTransaction.id }} {{ accountTransaction.account.name }} Transaction{% endblock %}
 {% block content %}
-  <div class="row">
-    <div class="col-md-4 offset-md-4">
-      {{ parent() }}
+    <div class="row">
+        <div class="col-md-4 offset-md-4">
+            {{ parent() }}
+        </div>
     </div>
-  </div>
 {% endblock %}
 {% block floatingActions %}{{ a.add('accounttransactions_new') }}{% endblock %}
 {% block panelBack %}{{ a.back('accounts_show', {'id': accountTransaction.account.id}) }}{% endblock %}
-{% block panelTitle %}Transaction #{{accountTransaction.id}}{% endblock %}
-{% block panelTitleSmall %}{{accountTransaction.account.name}}{% endblock %}
+{% block panelTitle %}Transaction #{{ accountTransaction.id }}{% endblock %}
+{% block panelTitleSmall %}{{ accountTransaction.account.name }}{% endblock %}
 {% block panelHeadingRight %}
-  {{ a.edit('accounttransactions_edit', { 'id': accountTransaction.id }) }}
-  {{ forms.delete(delete_form) }}
+    {{ a.edit('accounttransactions_edit', { 'id': accountTransaction.id }) }}
+    {{ forms.delete(delete_form) }}
 {% endblock %}
 {% block panelBody %}
-  <ul class="list-group">
-    <li class="list-group-item">
-      # {{ accountTransaction.id }} 
-      <a class="badge badge-primary float-right" 
-         href="{{ path('accounts_show', {'id': accountTransaction.account.id}) }}">
-        {{ accountTransaction.account.name }}
-      </a>
-    </li>
-    <li class="list-group-item">
-      {{ accountTransaction.amount|number_format }}
-      <span class="badge badge-light float-right">EGP</span>
-    </li>
-    <li class="list-group-item">
-      {% if accountTransaction.issuedAt %}{{ accountTransaction.issuedAt|date('Y-m-d') }}{% endif %}
-      <span class="badge badge-light float-right">Issued</span> 
-    </li>
-    <li class="list-group-item">
-      {{ accountTransaction.note }}
-      <span class="badge badge-light float-right">Note</span>
-    </li>
-    <li class="list-group-item">
-      {% if accountTransaction.createdAt %}{{ accountTransaction.createdAt|date('Y-m-d H:i:s') }}{% endif %}
-      <span class="badge badge-light float-right">Created</span> 
-    </li>
-  </ul>
+    <ul class="list-group">
+        <li class="list-group-item">
+            # {{ accountTransaction.id }}
+            <a class="badge badge-primary float-right"
+               href="{{ path('accounts_show', {'id': accountTransaction.account.id}) }}">
+                {{ accountTransaction.account.name }}
+            </a>
+        </li>
+        <li class="list-group-item">
+            {{ accountTransaction.amount|number_format }}
+            <span class="badge badge-light float-right">EGP</span>
+        </li>
+        <li class="list-group-item">
+            {% if accountTransaction.issuedAt %}{{ accountTransaction.issuedAt|date('Y-m-d') }}{% endif %}
+            <span class="badge badge-light float-right">Issued</span>
+        </li>
+        <li class="list-group-item">
+            {{ accountTransaction.note }}
+            <span class="badge badge-light float-right">Note</span>
+        </li>
+        <li class="list-group-item">
+            {% if accountTransaction.createdAt %}{{ accountTransaction.createdAt|date('Y-m-d H:i:s') }}{% endif %}
+            <span class="badge badge-light float-right">Created</span>
+        </li>
+    </ul>
 {% endblock %}

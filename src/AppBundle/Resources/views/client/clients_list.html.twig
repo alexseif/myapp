@@ -2,25 +2,25 @@
 {% import "macros/a.html.twig" as a %}
 {% import "macros/badges.html.twig" as badge %}
 <div class="table-responsive">
-  <table class="table table-striped table-hover table-dark">
-    <thead>
-      <tr>
-        <th scope="col">Client</th>
-        <th scope="col">Enabled</th>
-        <th scope="col"></th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for client in clients %}
+    <table class="table table-striped table-hover table-dark">
+        <thead>
         <tr>
-          <th scope="row">{{ client.name }}</th>
-          <td>{{ badge.status(client.enabled) }}</td>
-          <td>
-            {{ a.show('client_show', { 'id': client.id }) }}
-            {{ a.edit('client_edit', { 'id': client.id }) }}
-          </td>
+            <th scope="col">Client</th>
+            <th scope="col">Enabled</th>
+            <th scope="col"></th>
         </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+        </thead>
+        <tbody>
+        {% for client in clients %}
+            <tr>
+                <th scope="row">{{ client.name }}</th>
+                <td>{{ badge.status(client.enabled) }}</td>
+                <td>
+                    {{ a.show('client_show', { 'id': client.id }) }}
+                    {{ a.edit('client_edit', { 'id': client.id }) }}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 </div>

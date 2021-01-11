@@ -13,25 +13,24 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 class ManagementSearchType extends AbstractType
 {
 
-  /**
-   * @param FormBuilderInterface $builder
-   * @param array $options
-   */
-  public function buildForm(FormBuilderInterface $builder, array $options)
-  {
-    $builder
-        ->add('search', \Symfony\Component\Form\Extension\Core\Type\TextType::class, array())
-    ;
-  }
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder
+            ->add('search', \Symfony\Component\Form\Extension\Core\Type\TextType::class, array());
+    }
 
-  /**
-   * @param OptionsResolver $resolver
-   */
-  public function configureOptions(OptionsResolver $resolver)
-  {
-    $resolver->setDefaults(array(
-      'csrf_protection' => false,
-    ));
-  }
+    /**
+     * @param OptionsResolver $resolver
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(array(
+            'csrf_protection' => false,
+        ));
+    }
 
 }

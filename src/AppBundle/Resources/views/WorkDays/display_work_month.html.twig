@@ -2,41 +2,41 @@
 
 {% block panelTitle %}Work Month{% endblock %}
 {% block panelHeadingRight %}
-  {% for i in 1..12 %}
-    <a class="btn btn-primary" href="{{ path('workdays_show_month', {'month': i}) }}">{{ i }}</a>
-  {% endfor %}
+    {% for i in 1..12 %}
+        <a class="btn btn-primary" href="{{ path('workdays_show_month', {'month': i}) }}">{{ i }}</a>
+    {% endfor %}
 {% endblock %}
 {% block panelBody %}
-  <table class="table table-condensed">
-    <thead>
-      <tr>
-        <th>Date</th>
-        <th>Comment</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for dateRow in dateTable %}
+    <table class="table table-condensed">
+        <thead>
         <tr>
-          <td>{{ dateRow.date|date('D d/m/y') }}</td>
-          <td>
-            {% if dateRow.holiday %}
-              <span class="badge badge-info">
+            <th>Date</th>
+            <th>Comment</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for dateRow in dateTable %}
+            <tr>
+                <td>{{ dateRow.date|date('D d/m/y') }}</td>
+                <td>
+                    {% if dateRow.holiday %}
+                        <span class="badge badge-info">
                 Holiday - {{ dateRow.comment }}
               </span>
-            {% elseif dateRow.weekend %}
-              <span class="badge badge-info">Weekend</span>
-            {% else %}
-              <span class="badge badge-primary">WorkDay</span>
-            {% endif %}
-          </td>
+                    {% elseif dateRow.weekend %}
+                        <span class="badge badge-info">Weekend</span>
+                    {% else %}
+                        <span class="badge badge-primary">WorkDay</span>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+        <tr>
+            <th>Days Total: {{ monthTotal.daysTotal }}</th>
+            <th>Hours Total: {{ monthTotal.hoursTotal }}</th>
         </tr>
-      {% endfor %}
-    </tbody>
-    <tfoot>
-      <tr>
-        <th>Days Total: {{ monthTotal.daysTotal }}</th>
-        <th>Hours Total: {{ monthTotal.hoursTotal }}</th>
-      </tr>
-    </tfoot>
-  </table>
+        </tfoot>
+    </table>
 {% endblock %}

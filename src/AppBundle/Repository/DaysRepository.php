@@ -13,45 +13,45 @@ use Doctrine\ORM\EntityRepository;
 class DaysRepository extends EntityRepository
 {
 
-  public function getActiveCards()
-  {
-    return $this->createQueryBuilder('d')
+    public function getActiveCards()
+    {
+        return $this->createQueryBuilder('d')
             ->where('d.complete = 0')
             ->orWhere('d.deadline >= CURRENT_TIMESTAMP()')
             ->orderBy('d.deadline', 'ASC')
             ->getQuery()
             ->getResult();
-  }
+    }
 
-  public function getImportantCards()
-  {
-    return $this->createQueryBuilder('d')
+    public function getImportantCards()
+    {
+        return $this->createQueryBuilder('d')
             ->where('d.complete = 0')
             ->andWhere('DATEDIFF(d.deadline, CURRENT_TIMESTAMP() ) <= 30')
             ->orderBy('d.deadline', 'ASC')
             ->getQuery()
             ->getResult();
-  }
+    }
 
-  public function getArchiveCards()
-  {
-    return $this->createQueryBuilder('d')
+    public function getArchiveCards()
+    {
+        return $this->createQueryBuilder('d')
             ->where('d.complete = 1')
             ->andWhere('d.deadline < CURRENT_TIMESTAMP()')
             ->orderBy('d.deadline', 'DESC')
             ->getQuery()
             ->getResult();
-  }
+    }
 
-  public function search($searchTerm)
-  {
-    return $this
+    public function search($searchTerm)
+    {
+        return $this
             ->createQueryBuilder('d')
             ->select()
             ->where('d.name LIKE :searchTerm')
             ->setParameter(":searchTerm", '%' . $searchTerm . '%')
             ->getQuery()
             ->getResult();
-  }
+    }
 
 }

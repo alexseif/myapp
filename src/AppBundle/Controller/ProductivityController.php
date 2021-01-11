@@ -14,16 +14,15 @@ use Symfony\Component\HttpFoundation\Request;
 class ProductivityController extends Controller
 {
 
-  /**
-   *
-   * @Route("/", name="productivity_index", methods={"GET"})
-   */
-  public function indexAction()
-  {
-    $em = $this->getDoctrine()->getManager();
+    /**
+     *
+     * @Route("/", name="productivity_index", methods={"GET"})
+     */
+    public function indexAction()
+    {
+        $em = $this->getDoctrine()->getManager();
 
-    return $this->render('AppBundle:productivity:index.html.twig', array(
-    ));
-  }
+        return $this->render('AppBundle:productivity:index.html.twig', array());
+    }
 
 }

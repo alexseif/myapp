@@ -14,125 +14,125 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 class Rate
 {
 
-  use TimestampableEntity;
+    use TimestampableEntity;
 
-  /**
-   * @var int
-   *
-   * @ORM\Column(name="id", type="integer")
-   * @ORM\Id
-   * @ORM\GeneratedValue(strategy="AUTO")
-   */
-  private $id;
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
 
-  /**
-   * @var float
-   *
-   * @ORM\Column(name="rate", type="float")
-   */
-  private $rate;
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="rate", type="float")
+     */
+    private $rate;
 
-  /**
-   * @ORM\ManyToOne(targetEntity="Client", inversedBy="rates")
-   * @ORM\JoinColumn(name="client_id", referencedColumnName="id")
-   */
-  private $client;
+    /**
+     * @ORM\ManyToOne(targetEntity="Client", inversedBy="rates")
+     * @ORM\JoinColumn(name="client_id", referencedColumnName="id")
+     */
+    private $client;
 
-  /**
-   * @var bool
-   *
-   * @ORM\Column(name="active", type="boolean")
-   */
-  private $active;
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="active", type="boolean")
+     */
+    private $active;
 
-  /**
-   * @var string
-   *
-   * @ORM\Column(name="note", type="text", nullable=true)
-   */
-  private $note;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="note", type="text", nullable=true)
+     */
+    private $note;
 
-  /**
-   * Get id.
-   *
-   * @return int
-   */
-  public function getId()
-  {
-    return $this->id;
-  }
+    /**
+     * Get id.
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
-  /**
-   * Set rate.
-   *
-   * @param float $rate
-   *
-   * @return Rate
-   */
-  public function setRate($rate)
-  {
-    $this->rate = $rate;
+    /**
+     * Set rate.
+     *
+     * @param float $rate
+     *
+     * @return Rate
+     */
+    public function setRate($rate)
+    {
+        $this->rate = $rate;
 
-    return $this;
-  }
+        return $this;
+    }
 
-  /**
-   * Get rate.
-   *
-   * @return float
-   */
-  public function getRate()
-  {
-    return $this->rate;
-  }
+    /**
+     * Get rate.
+     *
+     * @return float
+     */
+    public function getRate()
+    {
+        return $this->rate;
+    }
 
-  /**
-   * Set client.
-   *
-   * @param \AppBundle\Entity\Client|null $client
-   *
-   * @return Rate
-   */
-  public function setClient(\AppBundle\Entity\Client $client = null)
-  {
-    $this->client = $client;
+    /**
+     * Set client.
+     *
+     * @param \AppBundle\Entity\Client|null $client
+     *
+     * @return Rate
+     */
+    public function setClient(\AppBundle\Entity\Client $client = null)
+    {
+        $this->client = $client;
 
-    return $this;
-  }
+        return $this;
+    }
 
-  /**
-   * Get client.
-   *
-   * @return \AppBundle\Entity\Client|null
-   */
-  public function getClient()
-  {
-    return $this->client;
-  }
+    /**
+     * Get client.
+     *
+     * @return \AppBundle\Entity\Client|null
+     */
+    public function getClient()
+    {
+        return $this->client;
+    }
 
-  /**
-   * Set active.
-   *
-   * @param bool $active
-   *
-   * @return Rate
-   */
-  public function setActive($active)
-  {
-    $this->active = $active;
+    /**
+     * Set active.
+     *
+     * @param bool $active
+     *
+     * @return Rate
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
 
-    return $this;
-  }
+        return $this;
+    }
 
-  /**
-   * Get active.
-   *
-   * @return bool
-   */
-  public function getActive()
-  {
-    return $this->active;
-  }
+    /**
+     * Get active.
+     *
+     * @return bool
+     */
+    public function getActive()
+    {
+        return $this->active;
+    }
 
 
     /**

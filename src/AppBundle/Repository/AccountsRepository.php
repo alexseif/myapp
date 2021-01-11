@@ -13,59 +13,58 @@ use Doctrine\ORM\EntityRepository;
 class AccountsRepository extends EntityRepository
 {
 
-  public function search($searchTerm)
-  {
-    return $this
+    public function search($searchTerm)
+    {
+        return $this
             ->createQueryBuilder('a')
             ->select()
             ->where('a.name LIKE :searchTerm')
             ->setParameter(":searchTerm", '%' . $searchTerm . '%')
             ->getQuery()
             ->getResult();
-  }
+    }
 
-  public function findAllwithJoin()
-  {
+    public function findAllwithJoin()
+    {
 
-    return $this
+        return $this
             ->createQueryBuilder('a')
             ->select('a, c')
             ->leftJoin('a.client', 'c');
-  }
+    }
 
-  /**
-   *
-   * @return array The objects.
-   */
-  public function findByYearAndClient($year, $client)
-  {
-    $queryBuilder = $this
-        ->createQueryBuilder('a')
-        ->select('t, tl, a, c')
-        ->leftJoin('a.taskLists', 'tl')
-        ->leftJoin('a.client', 'c')
-        ->leftJoin('tl.tasks', 't')
-        ->where('YEAR(t.completedAt) = :year')
-        ->andWhere('a.client = :client')
-        ->setParameter(':year', $year)
-        ->setParameter(':client', $client)
-        ->groupBy('tl.account')
-    ;
+    /**
+     *
+     * @return array The objects.
+     */
+    public function findByYearAndClient($year, $client)
+    {
+        $queryBuilder = $this
+            ->createQueryBuilder('a')
+            ->select('t, tl, a, c')
+            ->leftJoin('a.taskLists', 'tl')
+            ->leftJoin('a.client', 'c')
+            ->leftJoin('tl.tasks', 't')
+            ->where('YEAR(t.completedAt) = :year')
+            ->andWhere('a.client = :client')
+            ->setParameter(':year', $year)
+            ->setParameter(':client', $client)
+            ->groupBy('tl.account');
 
-    return $queryBuilder
+        return $queryBuilder
             ->getQuery()
             ->getResult();
-  }
+    }
 
-  public function getCreatedTillYear($year)
-  {
-    return $this
+    public function getCreatedTillYear($year)
+    {
+        return $this
             ->createQueryBuilder('a')
             ->select('count(a.id)')
             ->where('YEAR(a.createdAt) <= :year')
             ->setParameter(":year", $year)
             ->getQuery()
             ->getSingleScalarResult();
-  }
+    }
 
 }

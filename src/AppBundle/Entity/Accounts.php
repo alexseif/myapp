@@ -15,217 +15,217 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 class Accounts
 {
 
-  use TimestampableEntity;
+    use TimestampableEntity;
 
-  /**
-   * @var int
-   *
-   * @ORM\Column(name="id", type="integer")
-   * @ORM\Id
-   * @ORM\GeneratedValue(strategy="AUTO")
-   */
-  private $id;
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
 
-  /**
-   * @var string
-   *
-   * @ORM\Column(name="name", type="string", length=255)
-   */
-  private $name;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=255)
+     */
+    private $name;
 
-  /**
-   * @var boolean
-   *
-   * @ORM\Column(name="conceal", type="boolean")
-   */
-  private $conceal = false;
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="conceal", type="boolean")
+     */
+    private $conceal = false;
 
-  /**
-   * @ORM\OneToMany(targetEntity="AccountTransactions", mappedBy="account", cascade="remove")
-   */
-  private $transactions;
+    /**
+     * @ORM\OneToMany(targetEntity="AccountTransactions", mappedBy="account", cascade="remove")
+     */
+    private $transactions;
 
-  /**
-   * @ORM\ManyToOne(targetEntity="Client", inversedBy="accounts")
-   * @ORM\JoinColumn(name="client_id", referencedColumnName="id", nullable=true)
-   */
-  private $client;
+    /**
+     * @ORM\ManyToOne(targetEntity="Client", inversedBy="accounts")
+     * @ORM\JoinColumn(name="client_id", referencedColumnName="id", nullable=true)
+     */
+    private $client;
 
-  /**
-   * @ORM\OneToMany(targetEntity="TaskLists", mappedBy="account")
-   */
-  private $taskLists;
+    /**
+     * @ORM\OneToMany(targetEntity="TaskLists", mappedBy="account")
+     */
+    private $taskLists;
 
-  /**
-   * Constructor
-   */
-  public function __construct()
-  {
-    $this->transactions = new \Doctrine\Common\Collections\ArrayCollection();
-    $this->taskLists = new \Doctrine\Common\Collections\ArrayCollection();
-  }
-
-  /**
-   * Get id
-   *
-   * @return integer 
-   */
-  public function getId()
-  {
-    return $this->id;
-  }
-
-  /**
-   * Set name
-   *
-   * @param string $name
-   * @return Accounts
-   */
-  public function setName($name)
-  {
-    $this->name = $name;
-
-    return $this;
-  }
-
-  /**
-   * Get name
-   *
-   * @return string 
-   */
-  public function getName()
-  {
-    return $this->name;
-  }
-
-  /**
-   * Add transactions
-   *
-   * @param \AppBundle\Entity\AccountTransactions $transactions
-   * @return Accounts
-   */
-  public function addTransaction(\AppBundle\Entity\AccountTransactions $transactions)
-  {
-    $this->transactions[] = $transactions;
-
-    return $this;
-  }
-
-  /**
-   * Remove transactions
-   *
-   * @param \AppBundle\Entity\AccountTransactions $transactions
-   */
-  public function removeTransaction(\AppBundle\Entity\AccountTransactions $transactions)
-  {
-    $this->transactions->removeElement($transactions);
-  }
-
-  /**
-   * Get transactions
-   *
-   * @return \Doctrine\Common\Collections\Collection 
-   */
-  public function getTransactions()
-  {
-    return $this->transactions;
-  }
-
-  public function getBalance()
-  {
-    $balance = 0;
-    $transactions = $this->getTransactions();
-    foreach ($transactions as $transaction) {
-      $balance += $transaction->getAmount();
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->transactions = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->taskLists = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    return $balance;
-  }
 
-  /**
-   * Set client
-   *
-   * @param \AppBundle\Entity\Client $client
-   *
-   * @return Accounts
-   */
-  public function setClient(\AppBundle\Entity\Client $client = null)
-  {
-    $this->client = $client;
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
-    return $this;
-  }
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return Accounts
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
 
-  /**
-   * Get client
-   *
-   * @return \AppBundle\Entity\Client
-   */
-  public function getClient()
-  {
-    return $this->client;
-  }
+        return $this;
+    }
 
-  /**
-   * Add taskList
-   *
-   * @param \AppBundle\Entity\TaskLists $taskList
-   *
-   * @return Accounts
-   */
-  public function addTaskList(\AppBundle\Entity\TaskLists $taskList)
-  {
-    $this->taskList[] = $taskList;
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
 
-    return $this;
-  }
+    /**
+     * Add transactions
+     *
+     * @param \AppBundle\Entity\AccountTransactions $transactions
+     * @return Accounts
+     */
+    public function addTransaction(\AppBundle\Entity\AccountTransactions $transactions)
+    {
+        $this->transactions[] = $transactions;
 
-  /**
-   * Remove taskList
-   *
-   * @param \AppBundle\Entity\TaskLists $taskList
-   */
-  public function removeTaskList(\AppBundle\Entity\TaskLists $taskList)
-  {
-    $this->taskList->removeElement($taskList);
-  }
+        return $this;
+    }
 
-  /**
-   * Get taskLists
-   *
-   * @return \Doctrine\Common\Collections\Collection
-   */
-  public function getTaskLists()
-  {
-    return $this->taskLists;
-  }
+    /**
+     * Remove transactions
+     *
+     * @param \AppBundle\Entity\AccountTransactions $transactions
+     */
+    public function removeTransaction(\AppBundle\Entity\AccountTransactions $transactions)
+    {
+        $this->transactions->removeElement($transactions);
+    }
 
-  /**
-   * Set conceal
-   *
-   * @param boolean $conceal
-   *
-   * @return Accounts
-   */
-  public function setConceal($conceal)
-  {
-    $this->conceal = $conceal;
+    /**
+     * Get transactions
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTransactions()
+    {
+        return $this->transactions;
+    }
 
-    return $this;
-  }
+    public function getBalance()
+    {
+        $balance = 0;
+        $transactions = $this->getTransactions();
+        foreach ($transactions as $transaction) {
+            $balance += $transaction->getAmount();
+        }
+        return $balance;
+    }
 
-  /**
-   * Get conceal
-   *
-   * @return boolean
-   */
-  public function getConceal()
-  {
-    return $this->conceal;
-  }
+    /**
+     * Set client
+     *
+     * @param \AppBundle\Entity\Client $client
+     *
+     * @return Accounts
+     */
+    public function setClient(\AppBundle\Entity\Client $client = null)
+    {
+        $this->client = $client;
 
-  public function __toString()
-  {
-    return $this->getName();
-  }
+        return $this;
+    }
+
+    /**
+     * Get client
+     *
+     * @return \AppBundle\Entity\Client
+     */
+    public function getClient()
+    {
+        return $this->client;
+    }
+
+    /**
+     * Add taskList
+     *
+     * @param \AppBundle\Entity\TaskLists $taskList
+     *
+     * @return Accounts
+     */
+    public function addTaskList(\AppBundle\Entity\TaskLists $taskList)
+    {
+        $this->taskList[] = $taskList;
+
+        return $this;
+    }
+
+    /**
+     * Remove taskList
+     *
+     * @param \AppBundle\Entity\TaskLists $taskList
+     */
+    public function removeTaskList(\AppBundle\Entity\TaskLists $taskList)
+    {
+        $this->taskList->removeElement($taskList);
+    }
+
+    /**
+     * Get taskLists
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTaskLists()
+    {
+        return $this->taskLists;
+    }
+
+    /**
+     * Set conceal
+     *
+     * @param boolean $conceal
+     *
+     * @return Accounts
+     */
+    public function setConceal($conceal)
+    {
+        $this->conceal = $conceal;
+
+        return $this;
+    }
+
+    /**
+     * Get conceal
+     *
+     * @return boolean
+     */
+    public function getConceal()
+    {
+        return $this->conceal;
+    }
+
+    public function __toString()
+    {
+        return $this->getName();
+    }
 
 }
