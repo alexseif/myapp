@@ -1,91 +1,192 @@
 /** Days **/
-.completed .days, .completed .days-line{text-decoration: line-through;}
-.days-table tr:last-child td:first-child {border-top: 1px solid #222222;}
-.days-table tr:last-child td:first-child sup{border-bottom: 1px dotted #ccc;}
-.days-cell{width: 25%;}
-.days-table { 
-  /* These are technically the same, but use both */
-  overflow-wrap: break-word;
-  word-wrap: break-word;
+.completed .days, .completed .days-line {
+    text-decoration: line-through;
+}
 
-  -ms-word-break: break-all;
-  /* This is the dangerous one in WebKit, as it breaks things wherever */
-  word-break: break-all;
-  /* Instead use this non-standard one: */
-  word-break: break-word;
+.days-table tr:last-child td:first-child {
+    border-top: 1px solid #222222;
+}
 
-  /* Adds a hyphen where the word breaks, if supported (No Blink) */
-  -ms-hyphens: auto;
-  -moz-hyphens: auto;
-  -webkit-hyphens: auto;
-  hyphens: auto;
+.days-table tr:last-child td:first-child sup {
+    border-bottom: 1px dotted #ccc;
+}
+
+.days-cell {
+    width: 25%;
+}
+
+.days-table {
+    /* These are technically the same, but use both */
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+
+    /* Adds a hyphen where the word breaks, if supported (No Blink) */
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
 
 }
-tr:hover .edit-link{display: inline;}
-.task-item:hover .edit-link{display: inline;}
 
-.days-table td{position: relative;}
-.days-table h2{ font-size: 2em;}
+.days-table {
+    word-break: break-word;
+}
+
+tr:hover .edit-link {
+    display: inline;
+}
+
+.task-item:hover .edit-link {
+    display: inline;
+}
+.task-item .task-label{
+overflow: hidden;
+    max-width: 90%;
+}
+.days-table td {
+    position: relative;
+}
+
+.days-table h2 {
+    font-size: 2em;
+}
 
 /** lis **/
-.task-list .task-item{padding: 0.3rem;white-space: nowrap;min-height: 35px;}
-.task-list > .completed{opacity: 0.6;}
-.task-list .task-item{overflow: hidden;}
+.task-list .task-item {
+    padding: 0.3rem;
+    white-space: nowrap;
+    min-height: 35px;
+}
 
+.task-list > .completed {
+    opacity: 0.6;
+}
+
+.task-list .task-item {
+    overflow: hidden;
+}
 /** Notes **/
-body.notes {background: #e8e8e8}
-.notes-container{position: relative; margin: 0 auto;}
-.note-container{
-  margin: 16px;
-  display: block;
-  position: absolute;
-  transition-property: opacity, transform;
-  transition-duration: .218s;
+body.notes {
+    background: #e8e8e8
 }
-.note{
-  box-sizing: border-box;
-  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
-  overflow: hidden;
-  position: relative;
-  border-radius: 2px;
-  transition-duration: .218s;
-  transition-property: background, opacity, box-shadow, transform;
-  transition-timing-function: ease-in;
-  background: #ffffff;
-  color: #222222;
+
+.notes-container {
+    position: relative;
+    margin: 0 auto;
 }
-.note:hover{box-shadow: 0 2px 15px rgba(0, 0, 0, 0.30);}
+
+.note-container {
+    margin: 16px;
+    display: block;
+    position: absolute;
+    transition-property: opacity, transform;
+    transition-duration: .218s;
+}
+
+.note {
+    box-sizing: border-box;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+    overflow: hidden;
+    position: relative;
+    border-radius: 2px;
+    transition-duration: .218s;
+    transition-property: background, opacity, box-shadow, transform;
+    transition-timing-function: ease-in;
+    background: #ffffff;
+    color: #222222;
+}
+
+.note:hover {
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.30);
+}
+
 .note p,
 .note h1,
 .note h2,
 .note h3,
 .note h4,
 .note h5,
-.note h6
-{margin: 15px 10px;}
-.note .btn-group{visibility:hidden;}
-.note:hover .btn-group{visibility:visible;}
-.note .label{border-radius: 0.25em 0em 0em 0.25em;}
+.note h6 {
+    margin: 15px 10px;
+}
 
-/** Transactions **/ 
-table.table-txn tbody tr td{vertical-align:middle;}
+.note .btn-group {
+    visibility: hidden;
+}
+
+.note:hover .btn-group {
+    visibility: visible;
+}
+
+.note .label {
+    border-radius: 0.25em 0 0 0.25em;
+}
+
+/** Transactions **/
+table.table-txn tbody tr td {
+    vertical-align: middle;
+}
 
 
 /** focus by client **/
-.focus .details{
-  position: absolute;
-  top: 20vh;
-  right: 1vw;
-  opacity: 0.4;
-  border: 1px solid;
-  border-radius: 4px;
-  text-align: center;
-  z-index: -1;
+.focus .details {
+    position: absolute;
+    top: 20vh;
+    right: 1vw;
+    opacity: 0.4;
+    border: 1px solid;
+    border-radius: 4px;
+    text-align: center;
+    z-index: -1;
 }
-.focus .details:hover{
-  opacity: 0.8;
+
+.focus .details:hover {
+    opacity: 0.8;
 }
-.focus .details div{
-  padding: 10px;
-  font-weight: bold;
+
+.focus .details div {
+    padding: 10px;
+    font-weight: bold;
+}
+
+#focus-switch {
+    height: 0;
+    width: 0;
+    visibility: hidden;
+}
+
+#focus-switch + label {
+    cursor: pointer;
+    text-indent: -9999px;
+    width: 40px;
+    height: 20px;
+    background: grey;
+    display: block;
+    border-radius: 20px;
+    position: relative;
+}
+
+#focus-switch + label:after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 16px;
+    height: 16px;
+    background: #fff;
+    border-radius: 18px;
+    transition: 0.3s;
+}
+
+input#focus-switch:checked + label {
+    background: #bada55;
+}
+
+input#focus-switch:checked + label:after {
+    left: calc(100% - 2px);
+    transform: translateX(-100%);
+}
+
+label#focus-switch:active:after {
+    width: 52px;
 }

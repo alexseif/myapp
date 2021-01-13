@@ -6,7 +6,10 @@
 
 namespace AppBundle\Service;
 
+use AppBundle\Entity\Client;
+use AppBundle\Entity\Contract;
 use AppBundle\Entity\Tasks;
+use AppBundle\Util\WorkWeek;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
@@ -30,7 +33,7 @@ class TasksService
      */
     public function getRepository()
     {
-        return $this->getEm()->getRepository('AppBundle:Tasks');
+        return $this->getEm()->getRepository(Tasks::class);
     }
 
     function getEm()
@@ -100,4 +103,32 @@ class TasksService
         return $piechart;
     }
 
+    public function initFocus()
+    {
+        $focus = [];
+        $focus['todayHours'] = WorkWeek::getDayHours(date('l'));
+        $focus['completed'] = $this->getRepository()->getCompletedToday();
+        return $focus;
+
+    }
+
+    public function getFocus($myAccount = false)
+    {
+        $focus = $this->initFocus();
+        $focus['tasks'] = $this->getRepository()->focusList($myAccount);
+        return $focus;
+    }
+
+    public function getFocusByClient(Client $client)
+    {
+        $focus = $this->initFocus();
+        $focus['client'] = $client;
+        $focus['tasks'] = $this->getRepository()->focusByClient($client);
+        $contract = $this->getEm()->getRepository(Contract::class)->findOneBy(["client" => $client]);
+        if ($contract) {
+            $focus['contract'] = $contract;
+            $focus['todayHours'] = $focus['contract']->getHoursPerDay();
+        }
+        return $focus;
+    }
 }

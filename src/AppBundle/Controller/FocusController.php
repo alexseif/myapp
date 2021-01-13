@@ -2,12 +2,13 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Service\TasksService;
+use AppBundle\Util\WorkWeek;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Entity\Tasks;
 use AppBundle\Entity\TaskLists;
-use AppBundle\Form\TasksType;
 use AppBundle\Model\ActionItem;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -21,22 +22,15 @@ class FocusController extends Controller
     public function focusAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $focus = [];
-        $focus['todayHours'] = \AppBundle\Util\WorkWeek::getDayHours(date('l'));
-        $focus['completed'] = $em->getRepository('AppBundle:Tasks')->getCompletedToday();
+
         if ($request->query->has('client')) {
-            $focus['client'] = $em->getRepository('AppBundle:Client')->find($request->get('client'));
-            if (empty($focus['client'])) {
+            $client = $em->getRepository('AppBundle:Client')->find($request->get('client'));
+            if (empty($client)) {
                 throw new NotFoundHttpException("Client not found");
             }
-            $focus['tasks'] = $em->getRepository('AppBundle:Tasks')->focusByClient($focus['client']);
-            $contract = $em->getRepository('AppBundle:Contract')->findOneBy(["client" => $focus['client']]);
-            if ($contract) {
-                $focus['contract'] = $contract;
-                $focus['todayHours'] = $focus['contract']->getHoursPerDay();
-            }
+            $focus = $this->get(TasksService::class)->getFocusByClient($client);
         } else {
-            $focus['tasks'] = $em->getRepository('AppBundle:Tasks')->focusList();
+            $focus = $this->get(TasksService::class)->getFocus($request->get('focus-switch', false));
         }
 
         return $this->render("AppBundle:focus:index.html.twig", $focus);
@@ -49,7 +43,7 @@ class FocusController extends Controller
     public function focusByTaskListAction(TaskLists $taskList)
     {
         $em = $this->getDoctrine()->getManager();
-        $todayHours = \AppBundle\Util\WorkWeek::getDayHours(date('l'));
+        $todayHours = WorkWeek::getDayHours(date('l'));
 
         $tasks = $em->getRepository('AppBundle:Tasks')->focusByTasklist($taskList);
         $completedToday = $em->getRepository('AppBundle:Tasks')->getCompletedToday();
@@ -99,8 +93,9 @@ class FocusController extends Controller
     /**
      *
      * @Route("/beta", name="beta")
+     * @return \Symfony\Component\HttpFoundation\Response|null
      */
-    public function betaAction(Request $request)
+    public function betaAction()
     {
         $em = $this->getDoctrine()->getManager();
         $tasksRepo = $em->getRepository('AppBundle:Tasks');
@@ -108,7 +103,7 @@ class FocusController extends Controller
 //    $tasksCompletedToday = $tasksRepo->getCompletedToday();
         $days = $em->getRepository('AppBundle:Days')->getImportantCards();
 
-        $today = new \DateTime();
+        $today = new DateTime();
         $actionItems = array();
         foreach ($days as $day) {
             $actionItems[] = new ActionItem($day->getId(), 'day', $day->getName(), $day->getDeadline()->diff($today)->format('%R%a days'));

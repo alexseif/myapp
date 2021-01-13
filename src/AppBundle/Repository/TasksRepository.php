@@ -1,4 +1,3 @@
-
 <?php
 
 namespace AppBundle\Repository;
@@ -207,10 +206,10 @@ class TasksRepository extends EntityRepository
      * @param int $limit
      * @return Tasks[]
      */
-    public function focusList($limit = 20)
+    public function focusList($limit = 20, $offset = 0)
     {
         $today = new DateTime();
-        $query = $this
+        $queryBuilder = $this
             ->createQueryBuilder('t')
             ->select('t, tl, a, c, wl')
             ->leftJoin('t.taskList', 'tl')
@@ -224,11 +223,15 @@ class TasksRepository extends EntityRepository
             ->addOrderBy("t.order", "ASC")
             ->setParameter(':today', $today->format('Y-m-d H:i'));
 
+        $queryBuilder->andWhere('c.id <> 28');
         if ($limit > 0 && is_int($limit)) {
-            $query->setMaxResults($limit);
+            $queryBuilder->setMaxResults($limit);
+        }
+        if ($offset > 0 && is_int($offset)) {
+            $queryBuilder->setFirstResult($offset);
         }
 
-        return $query
+        return $queryBuilder
             ->getQuery()
             ->getResult();
     }

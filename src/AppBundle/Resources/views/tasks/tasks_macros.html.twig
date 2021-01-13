@@ -36,7 +36,7 @@
             </div>
             <div class="card-info">
                 {{ taskUI.taskIcons(task.urgency, task.priority) }}
-                <a class="badge badge-default"
+                <a class="badge badge-default d-none d-md-inline"
                    data-tasklist="{{ task.taskList.name }}"
                    href="{{ path("focus_tasklist", {'name':task.taskList.name}) }}">{{ task.taskList.name }}</a>
                 {% if task.duration %}
@@ -94,13 +94,13 @@
                            data-postpone="+1 hour"
                            title="5 mins"
                            class="btn btn-secondary postpone btn-sm">
-                            <img src="/images/snooze_white_18x18.png" width="18px"/>
+                            <img src="{{  asset('/images/snooze_white_18x18.png') }}" width="18px" alt="snooze"/>
                         </a>
                         <a data-taskid="{{ task.id }}"
                            data-postpone="tomorrow"
                            title="tomorrow"
                            class="btn btn-secondary postpone btn-sm">
-                            <img src="/images/zzz.png" width="18px"/>
+                            <img src="{{ asset('/images/zzz.png') }}" width="18px" alt="snooze"/>
                         </a>
                     {% endif %}
                     <a href="{{ path('tasks_edit', { 'id': task.id }) }}"
@@ -176,12 +176,12 @@
                     </div><!-- d-flex -->
                 </div><!-- dropdown-menu -->
             </div><!-- task-actions dropdown -->
-            <label class="m-0">
+            <label class="m-0 task-label">
                 <input type="checkbox" data-taskid="{{ task.id }}" {{ task.completed ? "checked" : "" }} class="mr-1"/>
-                <h5 class="font-weight-normal m-0 d-inline-block" title="{{ task.task }}">{{ task.task }}</h5>
+                <span class="h5 font-weight-normal m-0 d-inline" title="{{ task.task }}">{{ task.task }}</span>
             </label>
             &nbsp;
-            <a title="Task List"
+            <a title="Task List" class="badge badge-default d-none d-md-inline"
                data-tasklist="{{ task.taskList.name }}"
                href="{{ path("tasklists_show", {'id':task.taskList.id}) }}">
                 {{ task.taskList.name }}

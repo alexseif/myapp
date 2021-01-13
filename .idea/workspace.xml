@@ -5,7 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e73aa83a-994a-42da-851b-31491aa0126e" name="Default Changelist" comment="PHP doc">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/AppBundle/Controller/FocusController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppBundle/Controller/FocusController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/AppBundle/Repository/TasksRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppBundle/Repository/TasksRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/AppBundle/Resources/views/focus/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppBundle/Resources/views/focus/index.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/AppBundle/Resources/views/tasks/tasks_macros.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppBundle/Resources/views/tasks/tasks_macros.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/AppBundle/Service/TasksService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppBundle/Service/TasksService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/css/custom.css" beforeDir="false" afterPath="$PROJECT_DIR$/web/css/custom.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -135,7 +141,7 @@
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="PHP" />
     <property name="com.jetbrains.php.lang.actions.generation.PhpGenerateFieldAccessorHandlerBase$MyMemberChooser.fluent.setters.last.selected" value="true" />
     <property name="full.screen.before.presentation.mode" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/Resources/views/macros" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -187,6 +193,7 @@
       <workItem from="1610288770183" duration="867000" />
       <workItem from="1610386339591" duration="7312000" />
       <workItem from="1610445450865" duration="858000" />
+      <workItem from="1610530595499" duration="5615000" />
     </task>
     <task id="LOCAL-00002" summary="Item Show &amp; edit">
       <created>1609704462119</created>
@@ -230,7 +237,21 @@
       <option name="project" value="LOCAL" />
       <updated>1610395146397</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Offset">
+      <created>1610530628599</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1610530628599</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Offset">
+      <created>1610530639295</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1610530639295</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -271,7 +292,9 @@
     <MESSAGE value="composer updaste" />
     <MESSAGE value="Reformat code" />
     <MESSAGE value="Task Pagination" />
-    <option name="LAST_COMMIT_MESSAGE" value="Task Pagination" />
+    <MESSAGE value="Offset" />
+    <MESSAGE value="Focus my me as a client," />
+    <option name="LAST_COMMIT_MESSAGE" value="Focus my me as a client," />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
