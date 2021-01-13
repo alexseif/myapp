@@ -1,3 +1,4 @@
+
 <?php
 
 namespace AppBundle\Repository;
@@ -563,7 +564,8 @@ class TasksRepository extends EntityRepository
         }
         if ($limit > 0 && is_int($limit)) {
             $queryBuilder->setMaxResults($limit);
-        }  if ($offset > 0 && is_int($offset)) {
+        }
+        if ($offset > 0 && is_int($offset)) {
             $queryBuilder->setFirstResult($offset);
         }
 
