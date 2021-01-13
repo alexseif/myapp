@@ -6,12 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="e73aa83a-994a-42da-851b-31491aa0126e" name="Default Changelist" comment="PHP doc">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AppBundle/Controller/FocusController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppBundle/Controller/FocusController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AppBundle/Repository/TasksRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppBundle/Repository/TasksRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AppBundle/Resources/views/focus/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppBundle/Resources/views/focus/index.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/AppBundle/Controller/TasksController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppBundle/Controller/TasksController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/AppBundle/Resources/views/tasks/tasks_macros.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppBundle/Resources/views/tasks/tasks_macros.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AppBundle/Service/TasksService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppBundle/Service/TasksService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/css/custom.css" beforeDir="false" afterPath="$PROJECT_DIR$/web/css/custom.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/js/tasks.js" beforeDir="false" afterPath="$PROJECT_DIR$/web/js/tasks.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -193,7 +190,7 @@
       <workItem from="1610288770183" duration="867000" />
       <workItem from="1610386339591" duration="7312000" />
       <workItem from="1610445450865" duration="858000" />
-      <workItem from="1610530595499" duration="5615000" />
+      <workItem from="1610530595499" duration="8374000" />
     </task>
     <task id="LOCAL-00002" summary="Item Show &amp; edit">
       <created>1609704462119</created>
@@ -251,7 +248,14 @@
       <option name="project" value="LOCAL" />
       <updated>1610530639295</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Focus me as a client">
+      <created>1610537010875</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1610537010875</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -294,7 +298,9 @@
     <MESSAGE value="Task Pagination" />
     <MESSAGE value="Offset" />
     <MESSAGE value="Focus my me as a client," />
-    <option name="LAST_COMMIT_MESSAGE" value="Focus my me as a client," />
+    <MESSAGE value="Focus me as a client" />
+    <MESSAGE value="Duration for task completion" />
+    <option name="LAST_COMMIT_MESSAGE" value="Duration for task completion" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

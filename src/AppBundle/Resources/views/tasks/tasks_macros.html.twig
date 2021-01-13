@@ -94,7 +94,7 @@
                            data-postpone="+1 hour"
                            title="5 mins"
                            class="btn btn-secondary postpone btn-sm">
-                            <img src="{{  asset('/images/snooze_white_18x18.png') }}" width="18px" alt="snooze"/>
+                            <img src="{{ asset('/images/snooze_white_18x18.png') }}" width="18px" alt="snooze"/>
                         </a>
                         <a data-taskid="{{ task.id }}"
                            data-postpone="tomorrow"
@@ -177,7 +177,9 @@
                 </div><!-- dropdown-menu -->
             </div><!-- task-actions dropdown -->
             <label class="m-0 task-label">
-                <input type="checkbox" data-taskid="{{ task.id }}" {{ task.completed ? "checked" : "" }} class="mr-1"/>
+                <input type="checkbox" data-taskid="{{ task.id }}" {{ task.completed ? "checked" : "" }} class="mr-1"
+                       data-duration="{{ task.duration }}"
+                />
                 <span class="h5 font-weight-normal m-0 d-inline" title="{{ task.task }}">{{ task.task }}</span>
             </label>
             &nbsp;

@@ -236,9 +236,9 @@ class TasksController extends Controller
      */
     public function orderAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
 
         if ($request->isXMLHttpRequest()) {
+            $em = $this->getDoctrine()->getManager();
             $tasks = $request->get('tasks');
             foreach ($tasks as $order => $taskId) {
                 $task = $em->find(Tasks::class, $taskId);
@@ -247,8 +247,8 @@ class TasksController extends Controller
                 }
             }
             $em->flush();
-            return new JsonResponse();
         }
+        return new JsonResponse();
     }
 
     /**
@@ -304,6 +304,7 @@ class TasksController extends Controller
             }
             if (!is_null($request->get('completed'))) {
                 $task->setCompleted($request->get('completed'));
+                $task->setDuration($request->get('duration'));
                 if ($task->getCompleted()) {
                     $task->setCompletedAt(new DateTime());
                 } else {
@@ -320,7 +321,7 @@ class TasksController extends Controller
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            if ("archive" == $request->get('completedAt')) {
+            if ("archive" === $request->get('completedAt')) {
                 $task->setCompleted(true);
                 $lastMonth = new DateTime();
                 $lastMonth->sub(new DateInterval('P1M'));
@@ -394,7 +395,7 @@ class TasksController extends Controller
      *
      * @param Tasks $task The Tasks entity
      *
-     * @return Form The form
+     * @return Form|\Symfony\Component\Form\FormInterface
      */
     private function createDeleteForm(Tasks $task)
     {
