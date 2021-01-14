@@ -7,6 +7,7 @@
         {% set widgetBody %}
             <!-- https://codepen.io/jasonleewilson/pen/gPrxwX -->
             <!-- https://www.timeanddate.com/worldclock/egypt/cairo -->
+            <div class="float-left">{{ ("now"|date("d")  / "now"|date("t") * 100)|round }}%</div>
             <div id="timedate" class="text-right">
                 <div class="h3">
                     <strong><a id="h">{{ "now"|date("H") }}</a>:<a id="m">{{ "now"|date("i") }}</a></strong>
