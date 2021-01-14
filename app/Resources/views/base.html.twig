@@ -5,7 +5,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% block title %}{{ block('panelTitle') }}{% endblock %} | myApp</title>
+    <title>{% block title %}{{ block('panelTitle')|striptags }}{% endblock %} | myApp</title>
     {% block stylesheets %}
       <link rel="stylesheet" href="//cdn.materialdesignicons.com/5.4.55/css/materialdesignicons.min.css">
       <!-- Bootswatch Darkly theme-->
