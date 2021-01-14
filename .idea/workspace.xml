@@ -6,9 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="e73aa83a-994a-42da-851b-31491aa0126e" name="Default Changelist" comment="PHP doc">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AppBundle/Controller/TasksController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppBundle/Controller/TasksController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AppBundle/Resources/views/tasks/tasks_macros.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppBundle/Resources/views/tasks/tasks_macros.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/js/tasks.js" beforeDir="false" afterPath="$PROJECT_DIR$/web/js/tasks.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/AppBundle/Resources/views/Dashboard/_progressMonitoring.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppBundle/Resources/views/Dashboard/_progressMonitoring.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/js/common.js" beforeDir="false" afterPath="$PROJECT_DIR$/web/js/common.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,9 +26,23 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <favorite-branches>
+      <branch-storage>
+        <map>
+          <entry type="LOCAL">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="wip" />
+                <branch-info repo="$PROJECT_DIR$" source="refactor/item" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </favorite-branches>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="wip" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -190,7 +203,10 @@
       <workItem from="1610288770183" duration="867000" />
       <workItem from="1610386339591" duration="7312000" />
       <workItem from="1610445450865" duration="858000" />
-      <workItem from="1610530595499" duration="8374000" />
+      <workItem from="1610530595499" duration="8769000" />
+      <workItem from="1610546445687" duration="51000" />
+      <workItem from="1610557227113" duration="927000" />
+      <workItem from="1610620831238" duration="3673000" />
     </task>
     <task id="LOCAL-00002" summary="Item Show &amp; edit">
       <created>1609704462119</created>
@@ -255,7 +271,14 @@
       <option name="project" value="LOCAL" />
       <updated>1610537010875</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Duration for task completion">
+      <created>1610539733352</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1610539733352</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -277,7 +300,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="master" />
+                        <option value="wip" />
                       </list>
                     </value>
                   </entry>
@@ -300,7 +323,8 @@
     <MESSAGE value="Focus my me as a client," />
     <MESSAGE value="Focus me as a client" />
     <MESSAGE value="Duration for task completion" />
-    <option name="LAST_COMMIT_MESSAGE" value="Duration for task completion" />
+    <MESSAGE value="Progress monitoring time &amp; date" />
+    <option name="LAST_COMMIT_MESSAGE" value="Progress monitoring time &amp; date" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
