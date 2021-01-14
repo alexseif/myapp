@@ -1,14 +1,13 @@
-{% set widgetColClass = "col" %}
-{% set widgetClass = "widget-info" %}
-{% set daysDiff = (("last day of next month"|date_modify("-4 days")).diff(date("now")).days) %}
+{% set widgetClass ="widget-info" %}
+{% set daysDiff = (("last day of this month"|date_modify("-4 days")).diff(date("now")).days) %}
 {% set pm = progressMonitoring %}
 <div class="row">
-    <div class="{{ widgetColClass }}">
+    <div class="col">
         {% set widgetBody %}
             <!-- https://codepen.io/jasonleewilson/pen/gPrxwX -->
             <!-- https://www.timeanddate.com/worldclock/egypt/cairo -->
             <div class="float-left">{{ ("now"|date("d")  / "now"|date("t") * 100)|round }}%</div>
-            <div id="timedate" class="text-right">
+            <div id="timedate" class="text-right text-nowrap">
                 <div class="h3">
                     <strong><a id="h">{{ "now"|date("H") }}</a>:<a id="m">{{ "now"|date("i") }}</a></strong>
                     <sup><a id="s">{{ "now"|date("s") }}</a></sup>
@@ -21,71 +20,82 @@
         {% endset %}
         {% include('AppBundle:Dashboard:_widget_flat.html.twig') %}
     </div><!-- col -->
-    <div class="{{ widgetColClass }}">
+    <div class="col">
+        {% set widgetClass = daysDiff  > 20 ? "widget-info" : daysDiff  > 10 ? "widget-warning" : "widget-danger" %}
         {% set widgetBody %}
-            <div class="text-{{ daysDiff  > 20 ? "info" : daysDiff  > 10 ? "warning" : "danger" }}">
-                <span class="float-right">{{ pm.todayProgress }}%</span>
-                <i class="fa fa-egp" title="Revenue"></i>
-                {{ pm.earnedToday }} / {{ pm.daily }}
-                <br/>
-                <span class="float-right">{{ pm.weekProgress }}%</span>
-                <i class="fa fa-egp" title="Revenue"></i>
-                {{ pm.earnedThisWeek }} / {{ pm.weekly }}
-                <br/>
-                <span class="float-right">{{ pm.monthProgress }}%</span>
-                <i class="fa fa-egp" title="Revenue"></i>
-                {{ pm.earnedThisMonth }} / {{ pm.monthly }}
+            <table class="m-0 income-progress">
+                <tbody>
+                <tr>
+                    <td>{{ pm.earnedToday }} / {{ pm.daily }}</td>
+                    <td><i class="fa fa-egp" title="Revenue"></i></td>
+                    <td>{{ pm.todayProgress }}%</td>
+                </tr>
+                <tr>
+                    <td>{{ pm.earnedThisWeek }} / {{ pm.weekly }}</td>
+                    <td><i class="fa fa-egp" title="Revenue"></i></td>
+                    <td>{{ pm.weekProgress }}%</td>
+                </tr>
+                <tr>
+                    <td>{{ pm.earnedThisMonth }} / {{ pm.monthly }}</td>
+                    <td><i class="fa fa-egp" title="Revenue"></i></td>
+                    <td>{{ pm.monthProgress }}%</td>
+                </tr>
+                </tbody>
+            </table>
+        {% endset %}
+        {% include('AppBundle:Dashboard:_widget_flat.html.twig') %}
+    </div><!-- col -->
+    <div class="col">
+        {% set widgetClass = pm.accountsProgress > 0 ? 'widget-success' : 'widget-danger' %}
+        {% set widgetBody %}
+            <div class="text-center">
+                <h4>{{ pm.clientsProgress }}%</h4>
+                {{ pm.clientsCount }} <i class="fa fa-users" title="Clients"></i>
             </div>
         {% endset %}
         {% include('AppBundle:Dashboard:_widget_flat.html.twig') %}
     </div><!-- col -->
-    <div class="{{ widgetColClass }}">
+    <div class="col">
+        {% set widgetClass = pm.accountsProgress > 0 ? 'widget-success' : 'widget-danger' %}
         {% set widgetBody %}
-            <br/>
-            <span class="float-right text-{{ pm.clientsProgress > 0 ? 'success' : 'danger' }}">
-        {{ pm.clientsProgress }}%
-        <i class="fa fa-arrow-{{ pm.clientsProgress > 0  ? 'up':'down' }}"></i>
-      </span>
-            <i class="fa fa-users" title="Clients"></i>
-            {{ pm.clientsCount }}
-            <br/>
-            <span class="float-right text-{{ pm.accountsProgress > 0 ? 'success' : 'danger' }}">
-        {{ pm.accountsProgress }}%
-        <i class="fa fa-arrow-{{ pm.accountsProgress > 0  ? 'up':'down' }}"></i>
-      </span>
-            <i class="fa fa-briefcase" title="Accounts"></i>
-            {{ pm.accountsCount }}
-            <br/>
+            <div class="text-center">
+                <h4>{{ pm.accountsProgress }}%</h4>
+                {{ pm.accountsCount }} <i class="fa fa-briefcase" title="Accounts"></i>
+            </div>
         {% endset %}
         {% include('AppBundle:Dashboard:_widget_flat.html.twig') %}
     </div><!-- col -->
-    <div class="{{ widgetColClass }}">
+    <div class="col">
+        {% set widgetClass = pm.tasksCompletedProgress > 0 ? 'widget-success' : 'widget-danger' %}
         {% set widgetBody %}
-            <span class="float-right text-{{ pm.tasksCompletedProgress > 0 ? 'success' : 'danger' }}">
-        {{ pm.tasksCompletedProgress }}%
-        <i class="fa fa-arrow-{{ pm.tasksCompletedProgress > 0  ? 'up':'down' }}"></i>
-      </span>
-            <i class="fa fa-tasks" title="Tasks"></i>
-            {{ pm.tasksCompletedCount }}
-            <br/>
-            <span class="float-right text-{{ pm.durationProgress  > 0 ? 'success' : 'danger' }}">
-        {{ pm.durationProgress }}%
-        <i class="fa fa-arrow-{{ pm.durationProgress  > 0  ? 'up':'down' }}"></i>
-      </span>
-            <i class="fas fa-stopwatch" title="Duration"></i>
-            {{ pm.durationSum }}
-            <br/>
-            <span class="float-right text-{{ pm.revenueProgress > 0 ? 'success' : 'danger' }}">
-        {{ pm.revenueProgress }}%
-        <i class="fa fa-arrow-{{ pm.revenueProgress > 0  ? 'up':'down' }}"></i>
-      </span>
-            <i class="fa fa-egp" title="Revenue"></i>
-            {{ pm.revenueSum }}
-            <br/>
+            <div class="text-center">
+                <h4>{{ pm.tasksCompletedProgress }}%</h4>
+                {{ pm.tasksCompletedCount }} <i class="fa fa-tasks" title="Tasks"></i>
+            </div>
         {% endset %}
         {% include('AppBundle:Dashboard:_widget_flat.html.twig') %}
-    </div> <!-- end col-->
-    <div class="col-lg-3 d-none">
+    </div><!-- col -->
+    <div class="col">
+        {% set widgetClass = pm.durationProgress > 0 ? 'widget-success' : 'widget-danger' %}
+        {% set widgetBody %}
+            <div class="text-center">
+                <h4>{{ pm.durationProgress }}%</h4>
+                {{ pm.durationSum }} <i class="fa fa-stopwatch" title="Duration"></i>
+            </div>
+        {% endset %}
+        {% include('AppBundle:Dashboard:_widget_flat.html.twig') %}
+    </div><!-- col -->
+    <div class="col">
+        {% set widgetClass = pm.revenueProgress > 0 ? 'widget-success' : 'widget-danger' %}
+        {% set widgetBody %}
+            <div class="text-center">
+                <h4>{{ pm.revenueProgress }}%</h4>
+                {{ pm.revenueSum }} <i class="fa fa-egp" title="Duration"></i>
+            </div>
+        {% endset %}
+        {% include('AppBundle:Dashboard:_widget_flat.html.twig') %}
+    </div><!-- col -->
+    <div class="col d-none">
         <div class="dropdown float-right">
             <a href="#" class="dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false">
                 <i class="mdi mdi-dots-vertical"></i>

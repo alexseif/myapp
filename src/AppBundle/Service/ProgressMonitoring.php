@@ -6,8 +6,10 @@
 
 namespace AppBundle\Service;
 
+use AppBundle\Util\DateRanges;
+use AppBundle\Util\Formatting;
+use DateTime;
 use Doctrine\ORM\EntityManager;
-use AppBundle\Service\CostService;
 
 /**
  * Description of Bottom Bar Service
@@ -121,7 +123,7 @@ class ProgressMonitoring
 
     public function formatNumber($number)
     {
-        return \AppBundle\Util\Formatting::number($number);
+        return Formatting::number($number);
     }
 
     public function setClientsCount()
@@ -137,7 +139,7 @@ class ProgressMonitoring
 
     public function setClientsProgress()
     {
-        $date = new \DateTime();
+        $date = new DateTime();
         $date->modify("-1 year");
         $clientsLastYear = $this->em->getRepository('AppBundle:Client')
             ->getCreatedTillYear($date->format('Y'));
@@ -161,7 +163,7 @@ class ProgressMonitoring
 
     public function setAccountsProgress()
     {
-        $date = new \DateTime();
+        $date = new DateTime();
         $date->modify("-1 year");
         $accountsLastYear = $this->em->getRepository('AppBundle:Accounts')
             ->getCreatedTillYear($date->format('Y'));
@@ -175,7 +177,7 @@ class ProgressMonitoring
 
     public function setTasksCompletedCount()
     {
-        $date = \AppBundle\Util\DateRanges::getMonthStart();
+        $date = DateRanges::getMonthStart();
         $this->tasksCompletedCount = $this->em->getRepository('AppBundle:Tasks')
             ->getCompletedByMonthOrDay($date->format('Y'), $date->format('m'));
     }
@@ -187,7 +189,7 @@ class ProgressMonitoring
 
     public function setTasksCompletedProgress()
     {
-        $date = \AppBundle\Util\DateRanges::getMonthStart();
+        $date = DateRanges::getMonthStart();
         $tasksLastMonth = $this->em->getRepository('AppBundle:Tasks')
             ->getCompletedByMonthOrDay($date->format('Y'), $date->format('m'), $date->format('d'));
         $divisionByZero = $tasksLastMonth ? $tasksLastMonth : 1;
@@ -205,23 +207,27 @@ class ProgressMonitoring
 
     public function setRevenueSum()
     {
-        $from = \AppBundle\Util\DateRanges::getMonthStart();
+        $from = DateRanges::getMonthStart();
         $from->modify("-1 month");
-        $to = \AppBundle\Util\DateRanges::getMonthStart();
+        $to = DateRanges::getMonthStart();
         $this->revenueSum = $this->em->getRepository('AppBundle:AccountTransactions')
             ->getRevenueSumByDateRange($from, $to);
     }
 
     function getRevenueSum()
     {
+        if ($this->revenueSum <= 1000) {
+            return $this->formatNumber($this->revenueSum / 1000) . 'k';
+        }
         return $this->formatNumber($this->revenueSum);
     }
 
     function setRevenueProgress()
     {
-        $from = \AppBundle\Util\DateRanges::getMonthStart();
+        $from =
+            DateRanges::getMonthStart();
         $from->modify("-2 months");
-        $to = \AppBundle\Util\DateRanges::getMonthStart();
+        $to = DateRanges::getMonthStart();
         $to->modify("-1 month");
         $revenueLastMonth = $this->em->getRepository('AppBundle:AccountTransactions')
             ->getRevenueSumByDateRange($from, $to);
@@ -237,9 +243,9 @@ class ProgressMonitoring
 
     function setDurationSum()
     {
-        $from = \AppBundle\Util\DateRanges::getMonthStart();
+        $from = DateRanges::getMonthStart();
         $from->modify("-1 month");
-        $to = \AppBundle\Util\DateRanges::getMonthStart();
+        $to = DateRanges::getMonthStart();
 
         $this->durationSum = $this->em->getRepository('AppBundle:Tasks')
             ->getDurationSumByRange($from, $to);
@@ -252,9 +258,9 @@ class ProgressMonitoring
 
     function setDurationProgress()
     {
-        $from = \AppBundle\Util\DateRanges::getMonthStart();
+        $from = DateRanges::getMonthStart();
         $from->modify("-2 months");
-        $to = \AppBundle\Util\DateRanges::getMonthStart();
+        $to = DateRanges::getMonthStart();
         $to->modify("-1 month");
         $durationLastMonth = $this->em->getRepository('AppBundle:Tasks')
             ->getDurationSumByRange($from, $to);
