@@ -1,111 +1,118 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-3">
-  <a class="navbar-brand" href="{{ path('dashboard') }}">myApp</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="viewsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Focus
-          </a>
-          <div class="dropdown-menu" aria-labelledby="viewsDropdown">
-            <a class="dropdown-item" href="{{ path('inbox_index') }}">Inbox</a>
-            <a class="dropdown-item" href="{{ path('focus') }}">Focus</a>
-            <a class="dropdown-item" href="{{ path('singleTask') }}">Single Task</a>
-            <a class="dropdown-item" href="{{ path('workarea') }}">Workarea</a>
-            <a class="dropdown-item" href="{{ path('beta') }}">Beta</a>
-          </div>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="tasksDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Tasks 
-          </a>
-          <div class="dropdown-menu" aria-labelledby="tasksDropdown">
-            <a class="dropdown-item" href="{{ path('tasklists_index') }}" title="Task Lists">
-              Lists
-            </a>
-            <a class="dropdown-item" href="{{ path('tasks_index') }}" title="Tasks">
-              Tasks
-            </a>
-            <a class="dropdown-item" href="{{ path('tasks_progress_by_date') }}" title="Tasks Progress By Date">
-              Progress By Date
-            </a>
-            <a class="dropdown-item" href="{{ path('tasks_new') }}" title="New Task">
-              Add Task
-            </a>
-          </div>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="daysDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Days 
-          </a>
-          <div class="dropdown-menu" aria-labelledby="daysDropdown">
-            <a class="dropdown-item" href="{{ path('days_index') }}">Days</a>
-            <a class="dropdown-item" href="{{ path('days_new') }}">Add Day</a>
-            <a class="dropdown-item" href="{{ path('days_archive') }}">Archive</a>
-          </div>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="workDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Work
-          </a>
-          <div class="dropdown-menu" aria-labelledby="workDropdown">
-            <a class="dropdown-item" href="{{ path('client_index') }}">
-              Clients</a>
-            <a class="dropdown-item" href="{{ path('accounts_index') }}">
-              Accounts</a>
-            <a class="dropdown-item" href="{{ path('accounting_index') }}">
-              Accounting</a>
-            <a class="dropdown-item" href="{{ path('worklog_index') }}">
-              Worklog</a>
-            <a class="dropdown-item" href="{{ path('contract_index') }}">
-              Contracts</a>
-          </div>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{{ path('notes_index') }}">
-            Notes
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{{ path('tasks_search') }}">
-            <i class="fas fa-search"></i>
-          </a>
-        </li>
-        {% if ("dashboard" == app.request.get('_route')) %}
-          <li class="nav-item"><a class="nav-link" href="{{ path('dashboardtasklists_index') }}">
-              <i class="fas fa-wrench"></i>
-            </a></li>
-          {% endif %}
-        <li class="navbar-text">{{ "now"|date('d.m H:i') }}</li>
-      </ul>
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="{{ path('objective_index') }}">
-            Objective
-          </a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="settingsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Settings
-          </a>
-          <div class="dropdown-menu" aria-labelledby="settingsDropdown">
-            <a class="dropdown-item" href="{{ path('currency_index') }}">Currency</a>
-            <a class="dropdown-item" href="{{ path('costoflife_index') }}">Cost Of Life</a>
-            <a class="dropdown-item" href="{{ path('rate_index') }}">Rates</a>
-            <a class="dropdown-item" href="{{ path('holiday_index') }}">Holidays</a>
-            <a class="dropdown-item" href="{{ path('experiments_index') }}">Experiments</a>
-            <a class="dropdown-item" href="{{ path('backups') }}">Backups</a>
-          </div>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{{ path('fos_user_security_logout') }}">
-            Bye <i class="fas fa-door-open"></i>
-          </a>
-        </li>
-      </ul>
-    </div>
-  {% endif %}
+    <a class="navbar-brand" href="{{ path('dashboard') }}">myApp</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="viewsDropdown" role="button" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        Focus
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="viewsDropdown">
+                        <a class="dropdown-item" href="{{ path('inbox_index') }}">Inbox</a>
+                        <a class="dropdown-item" href="{{ path('focus') }}">Focus</a>
+                        <a class="dropdown-item" href="{{ path('singleTask') }}">Single Task</a>
+                        <a class="dropdown-item" href="{{ path('workarea') }}">Workarea</a>
+                        <a class="dropdown-item" href="{{ path('beta') }}">Beta</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="tasksDropdown" role="button" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        Tasks
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="tasksDropdown">
+                        <a class="dropdown-item" href="{{ path('tasklists_index') }}" title="Task Lists">
+                            Lists
+                        </a>
+                        <a class="dropdown-item" href="{{ path('tasks_index') }}" title="Tasks">
+                            Tasks
+                        </a>
+                        <a class="dropdown-item" href="{{ path('tasks_progress_by_date') }}"
+                           title="Tasks Progress By Date">
+                            Progress By Date
+                        </a>
+                        <a class="dropdown-item" href="{{ path('tasks_new') }}" title="New Task">
+                            Add Task
+                        </a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="daysDropdown" role="button" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        Days
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="daysDropdown">
+                        <a class="dropdown-item" href="{{ path('days_index') }}">Days</a>
+                        <a class="dropdown-item" href="{{ path('days_new') }}">Add Day</a>
+                        <a class="dropdown-item" href="{{ path('days_archive') }}">Archive</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="workDropdown" role="button" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        Work
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="workDropdown">
+                        <a class="dropdown-item" href="{{ path('client_index') }}">
+                            Clients</a>
+                        <a class="dropdown-item" href="{{ path('accounts_index') }}">
+                            Accounts</a>
+                        <a class="dropdown-item" href="{{ path('accounting_index') }}">
+                            Accounting</a>
+                        <a class="dropdown-item" href="{{ path('worklog_index') }}">
+                            Worklog</a>
+                        <a class="dropdown-item" href="{{ path('contract_index') }}">
+                            Contracts</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('notes_index') }}">
+                        Notes
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('tasks_search') }}">
+                        <i class="fas fa-search"></i>
+                    </a>
+                </li>
+                {% if ("dashboard" == app.request.get('_route')) %}
+                    <li class="nav-item"><a class="nav-link" href="{{ path('dashboardtasklists_index') }}">
+                            <i class="fas fa-wrench"></i>
+                        </a></li>
+                {% endif %}
+                <li class="navbar-text">{{ "now"|date('d.m H:i') }}</li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('objective_index') }}">
+                        Objective
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="settingsDropdown" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Settings
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="settingsDropdown">
+                        <a class="dropdown-item" href="{{ path('currency_index') }}">Currency</a>
+                        <a class="dropdown-item" href="{{ path('costoflife_index') }}">Cost Of Life</a>
+                        <a class="dropdown-item" href="{{ path('rate_index') }}">Rates</a>
+                        <a class="dropdown-item" href="{{ path('holiday_index') }}">Holidays</a>
+                        <a class="dropdown-item" href="{{ path('experiments_index') }}">Experiments</a>
+                        <a class="dropdown-item" href="{{ path('backups') }}">Backups</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('fos_user_security_logout') }}">
+                        Bye <i class="fas fa-door-open"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    {% endif %}
 </nav>

@@ -1,21 +1,21 @@
 {% if app.session.flashbag.peekAll|length > 0 %}
-  {% set typeCheck = '' %}
-  {% for type, flashMessages in app.session.flashbag.all %}
-    {% if(typeCheck != type and typeCheck != '' ) %}</div>{% endif %}
-    {% if(typeCheck != type ) %}
-    <div class="flash_{{ type }}">
-      {% set typeCheck = type %}
-    {% endif %}
-    {% for message in flashMessages %}
-      <div class="alert alert-dismissible alert-{{ type == "error"? 'danger':'info' }}">
-        <button type="button" class="close" data-dismiss="alert">×</button>
-        {% if type in ['error_raw', 'success_raw', 'warning_raw'] %}
-          {{ message|raw }}
-        {% else %}
-          {{ message }}
+    {% set typeCheck = '' %}
+    {% for type, flashMessages in app.session.flashbag.all %}
+        {% if(typeCheck != type and typeCheck != '' ) %}</div>{% endif %}
+        {% if(typeCheck != type ) %}
+            <div class="flash_{{ type }}">
+            {% set typeCheck = type %}
         {% endif %}
-      </div>
+        {% for message in flashMessages %}
+            <div class="alert alert-dismissible alert-{{ type == "error"? 'danger':'info' }}">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                {% if type in ['error_raw', 'success_raw', 'warning_raw'] %}
+                    {{ message|raw }}
+                {% else %}
+                    {{ message }}
+                {% endif %}
+            </div>
+        {% endfor %}
     {% endfor %}
-  {% endfor %}
-</div>
+    </div>
 {% endif %}

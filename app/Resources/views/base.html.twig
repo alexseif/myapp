@@ -1,85 +1,85 @@
 {% import "macros/forms.html.twig" as forms %}
 {% import "macros/a.html.twig" as a %}
 <!DOCTYPE html>
-<html lang="en" xml:lang="en" >
-  <head>
-    <meta charset="UTF-8" />
+<html lang="en" xml:lang="en">
+<head>
+    <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}{{ block('panelTitle')|striptags }}{% endblock %} | myApp</title>
     {% block stylesheets %}
-      <link rel="stylesheet" href="//cdn.materialdesignicons.com/5.4.55/css/materialdesignicons.min.css">
-      <!-- Bootswatch Darkly theme-->
-      <link href="/assets/bootstrap-4.3.1-dist/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-      <link href="/css/bootstrap-darkly.min.css" rel="stylesheet" type="text/css"/>
-      <link href="/assets/jquery-ui-1.12.1/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
-      <link href="/assets/jquery-ui-1.12.1/jquery-ui.theme.css" rel="stylesheet" type="text/css"/>
-      <link rel="stylesheet" type="text/css" href="/css/chosen.min.css" />
-      <link href="/assets/fontawesome-free-5.9.0-web/css/all.min.css" rel="stylesheet" type="text/css"/>
-      <!-- Custom Styling -->
-      <link rel="stylesheet" href="/css/common.css"/>
-      <link rel="stylesheet" href="{{ asset('assets/css/frontend.css') }}">
+        <link rel="stylesheet" href="//cdn.materialdesignicons.com/5.4.55/css/materialdesignicons.min.css">
+        <!-- Bootswatch Darkly theme-->
+        <link href="/assets/bootstrap-4.3.1-dist/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <link href="/css/bootstrap-darkly.min.css" rel="stylesheet" type="text/css"/>
+        <link href="/assets/jquery-ui-1.12.1/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
+        <link href="/assets/jquery-ui-1.12.1/jquery-ui.theme.css" rel="stylesheet" type="text/css"/>
+        <link rel="stylesheet" type="text/css" href="/css/chosen.min.css"/>
+        <link href="/assets/fontawesome-free-5.9.0-web/css/all.min.css" rel="stylesheet" type="text/css"/>
+        <!-- Custom Styling -->
+        <link rel="stylesheet" href="/css/common.css"/>
+        <link rel="stylesheet" href="{{ asset('assets/css/frontend.css') }}">
 
-      <link rel="stylesheet" href="/css/custom.css"/>
-      {#      <script src="https://kit.fontawesome.com/f85e5626c0.js"></script>#}
+        <link rel="stylesheet" href="/css/custom.css"/>
+        {# <script src="https://kit.fontawesome.com/f85e5626c0.js"></script> #}
     {% endblock %}
-    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-  </head>
-  <body class="{% block bodyClasses %}{{ get_controller_name() }} {{ get_action_name() }} {{ app.request.attributes.get("_route") }}{% endblock %}">
-    {% block body %}
-      {% block nav %}
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
+</head>
+<body class="{% block bodyClasses %}{{ get_controller_name() }} {{ get_action_name() }} {{ app.request.attributes.get("_route") }}{% endblock %}">
+{% block body %}
+    {% block nav %}
         {% include 'nav.html.twig' %}
-      {% endblock %}
-      <div class="container-fluid">
+    {% endblock %}
+    <div class="container-fluid">
         {% block container %}
-          {% block pageActions %}
-            <div class="floating-action">
-              {% block floatingActions %}
-              {% endblock %}
-            </div>
-          {% endblock %}
-          {% include 'flash.html.twig' %}
-        {% block formStart %}{% endblock %}
-        {% block content %}
-          <div class="row justify-content-center">
-            <div class="col {% block panelWrapperClass %}{% endblock %}">
-              {% block panel %}
-                <div class="card bg-{% block panelClass %}default{% endblock %}">
-                  {% block panelHeading %}
-                    <div class="card-header">
-                      {% block panelBack %}
-                        <a href="{{ path('dashboard') }}" 
-                           class="btn btn-secondary btn-sm">
-                          Dashboard
-                        </a>
-                      {% endblock %}
-                      <span>{% block panelTitle %}{% endblock %}</span>
-                      <small class="card-title-small">{% block panelTitleSmall %}{% endblock %}</small>
-                      <span class="card-title-labels">{% block panelTitleLabels %}{% endblock %}</span>
-                      <div class="float-right">{% block panelHeadingRight %}{% endblock %}</div>
-                    </div>
-                  {% endblock %}
-                  {% block panelBody %} 
-                  {% endblock %}
+            {% block pageActions %}
+                <div class="floating-action">
+                    {% block floatingActions %}
+                    {% endblock %}
                 </div>
-              {% endblock %}
-            </div>
-          </div>
+            {% endblock %}
+            {% include 'flash.html.twig' %}
+            {% block formStart %}{% endblock %}
+            {% block content %}
+                <div class="row justify-content-center">
+                    <div class="col {% block panelWrapperClass %}{% endblock %}">
+                        {% block panel %}
+                            <div class="card bg-{% block panelClass %}default{% endblock %}">
+                                {% block panelHeading %}
+                                    <div class="card-header">
+                                        {% block panelBack %}
+                                            <a href="{{ path('dashboard') }}"
+                                               class="btn btn-secondary btn-sm">
+                                                Dashboard
+                                            </a>
+                                        {% endblock %}
+                                        <span>{% block panelTitle %}{% endblock %}</span>
+                                        <small class="card-title-small">{% block panelTitleSmall %}{% endblock %}</small>
+                                        <span class="card-title-labels">{% block panelTitleLabels %}{% endblock %}</span>
+                                        <div class="float-right">{% block panelHeadingRight %}{% endblock %}</div>
+                                    </div>
+                                {% endblock %}
+                                {% block panelBody %}
+                                {% endblock %}
+                            </div>
+                        {% endblock %}
+                    </div>
+                </div>
+            {% endblock %}
+            {% block formEnd %} {% endblock %}
         {% endblock %}
-        {% block formEnd %} {% endblock %}
-      {% endblock %}
     </div>
     <footer>
-      {% block footer %}
-      {% endblock %}
+        {% block footer %}
+        {% endblock %}
     </footer>
     {% if app.user %}
-      {% include 'bottom-bar.html.twig' %}
+        {% include 'bottom-bar.html.twig' %}
     {% endif %}
-  {% endblock %}
-  {% block javascripts %}
+{% endblock %}
+{% block javascripts %}
     <script type="text/javascript">
-      var tasks_path = '{{ path('tasks_index') }}';
-      var tasks_order = '{{ path('tasks_order') }}';
+        var tasks_path = '{{ path('tasks_index') }}';
+        var tasks_order = '{{ path('tasks_order') }}';
     </script>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="/assets/jquery-3.4.1/jquery-3.4.1.min.js"></script>
@@ -93,6 +93,6 @@
     <script type="text/javascript" src="/js/chosen.jquery.min.js"></script>
     <script type="text/javascript" src="/js/common.js"></script>
     <script type="text/javascript" src="/js/tasks.js"></script>
-  {% endblock %}
+{% endblock %}
 </body>
 </html>

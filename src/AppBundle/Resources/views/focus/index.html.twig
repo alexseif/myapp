@@ -30,7 +30,7 @@
 {% block content %}
     <form method="get" action="{{ path('focus') }}" class="float-right">
         <input type="checkbox" name="client" id="focus-switch"
-               onChange="this.form.submit();" {{ ("28" == app.request.get('client')) ? "checked" }} value="28" />
+               onChange="this.form.submit();" {{ ("28" == app.request.get('client')) ? "checked" }} value="28"/>
         <label for="focus-switch">Focus Switch</label>
     </form>
     <div class="container">
