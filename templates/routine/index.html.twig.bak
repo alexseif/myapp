@@ -1,0 +1,48 @@
+
+<!DOCTYPE html>
+
+<title>Routine index</title>
+
+{% block body %}
+    <h1>Routine index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Priority</th>
+                <th>Sort</th>
+                <th>Status</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for routine in routines %}
+            <tr>
+                <td>{{ routine.id }}</td>
+                <td>{{ routine.title }}</td>
+                <td>{{ routine.description }}</td>
+                <td>{{ routine.priority }}</td>
+                <td>{{ routine.sort }}</td>
+                <td>{{ routine.status }}</td>
+                <td>{{ routine.createdAt ? routine.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ routine.updatedAt ? routine.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('routine_show', {'id': routine.id}) }}">show</a>
+                    <a href="{{ path('routine_edit', {'id': routine.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('routine_new') }}">Create new</a>
+{% endblock %}

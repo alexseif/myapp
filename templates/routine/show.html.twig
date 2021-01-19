@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+
+<title>Routine</title>
+
+{% block body %}
+    <h1>Routine</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ routine.id }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ routine.title }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ routine.description }}</td>
+            </tr>
+            <tr>
+                <th>Priority</th>
+                <td>{{ routine.priority }}</td>
+            </tr>
+            <tr>
+                <th>Sort</th>
+                <td>{{ routine.sort }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ routine.status }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ routine.createdAt ? routine.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedAt</th>
+                <td>{{ routine.updatedAt ? routine.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('routine_index') }}">back to list</a>
+
+    <a href="{{ path('routine_edit', {'id': routine.id}) }}">edit</a>
+
+    {{ include('routine/_delete_form.html.twig') }}
+{% endblock %}

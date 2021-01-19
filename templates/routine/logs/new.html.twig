@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+{% import "macros/forms.html.twig" as forms %}
+{% import "macros/a.html.twig" as a %}
+{% block panelTitle %}New Routine Log{% endblock %}
+{% block panelBack %}{{ a.back('routine_log_index') }}{% endblock %}
+{% block panelBody %}
+    {{ forms.panel(form) }}
+{#    {{ include('routine_log/_form.html.twig') }}#}
+{% endblock %}

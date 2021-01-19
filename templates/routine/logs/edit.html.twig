@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+
+<title>Edit RoutineLog</title>
+
+{% block body %}
+    <h1>Edit RoutineLog</h1>
+
+    {{ include('routine/logs/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('routine_log_index') }}">back to list</a>
+
+    {{ include('routine/logs/_delete_form.html.twig') }}
+{% endblock %}

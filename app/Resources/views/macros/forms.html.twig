@@ -5,9 +5,8 @@
         {{ form_widget(form) }}
     </div>
     <div class="card-footer text-right">
-        <button type="submit" value="Save" class="btn btn-success">
-            Save
-        </button>
+        <button class="btn" type="submit">{{ button_label|default('Save') }}</button>
+{#        <button type="submit" value="Save" class="btn btn-success">Save</button>#}
     </div>
     {{ form_end(form) }}
 {% endmacro %}
