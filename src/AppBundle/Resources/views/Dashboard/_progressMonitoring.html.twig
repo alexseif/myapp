@@ -48,7 +48,7 @@
     <div class="col">
         {% set widgetClass = pm.accountsProgress > 0 ? 'widget-success' : 'widget-danger' %}
         {% set widgetBody %}
-            <div class="text-center">
+            <div class="text-center text-nowrap">
                 <h4>{{ pm.clientsProgress }}%</h4>
                 {{ pm.clientsCount }} <i class="fa fa-users" title="Clients"></i>
             </div>
@@ -58,7 +58,7 @@
     <div class="col">
         {% set widgetClass = pm.accountsProgress > 0 ? 'widget-success' : 'widget-danger' %}
         {% set widgetBody %}
-            <div class="text-center">
+            <div class="text-center text-nowrap">
                 <h4>{{ pm.accountsProgress }}%</h4>
                 {{ pm.accountsCount }} <i class="fa fa-briefcase" title="Accounts"></i>
             </div>
@@ -68,7 +68,7 @@
     <div class="col">
         {% set widgetClass = pm.tasksCompletedProgress > 0 ? 'widget-success' : 'widget-danger' %}
         {% set widgetBody %}
-            <div class="text-center">
+            <div class="text-center text-nowrap">
                 <h4>{{ pm.tasksCompletedProgress }}%</h4>
                 {{ pm.tasksCompletedCount }} <i class="fa fa-tasks" title="Tasks"></i>
             </div>
@@ -78,7 +78,7 @@
     <div class="col">
         {% set widgetClass = pm.durationProgress > 0 ? 'widget-success' : 'widget-danger' %}
         {% set widgetBody %}
-            <div class="text-center">
+            <div class="text-center text-nowrap">
                 <h4>{{ pm.durationProgress }}%</h4>
                 {{ pm.durationSum }} <i class="fa fa-stopwatch" title="Duration"></i>
             </div>
@@ -88,12 +88,22 @@
     <div class="col">
         {% set widgetClass = pm.revenueProgress > 0 ? 'widget-success' : 'widget-danger' %}
         {% set widgetBody %}
-            <div class="text-center">
+            <div class="text-center text-nowrap">
                 <h4>{{ pm.revenueProgress }}%</h4>
                 {{ pm.revenueSum }} <i class="fa fa-egp" title="Duration"></i>
             </div>
         {% endset %}
         {% include('AppBundle:Dashboard:_widget_flat.html.twig') %}
+    </div><!-- col -->
+    <div class="col">
+        <div class="card widget-flat widget-primary mb-4">
+            <div class="text-center text-default">
+                <label class="btn btn-block btn-default pb-4 pt-4 m-0" for="done">
+                    <input type="checkbox" id="done"/> Exercise
+                </label>
+            </div>
+        </div><!-- end card-->
+
     </div><!-- col -->
     <div class="col d-none">
         <div class="dropdown float-right">

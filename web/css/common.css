@@ -389,6 +389,14 @@ label.checkbox-inline {
     border-left-color: #E74C3C;
 }
 
+.widget-flat.widget-primary{
+    border-left-color: #375A7F;
+}
+
+.widget-flat.default{
+    border-left-color: transparent;
+}
+
 .widget-flat .card-body {
     padding: 1rem;
 }
