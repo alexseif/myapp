@@ -21,7 +21,7 @@ class RoutineLog
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Routine::class, inversedBy="routineLogs")
+     * @ORM\ManyToOne(targetEntity=Routine::class, inversedBy="logs")
      * @ORM\JoinColumn(nullable=false)
      */
     private $routine;

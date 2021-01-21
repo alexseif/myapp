@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use AppBundle\Repository\RoutineRepository;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -57,14 +58,24 @@ class Routine
      * @var ArrayCollection
      * @ORM\OneToMany(targetEntity=RoutineLog::class, mappedBy="routine", orphanRemoval=true)
      */
-    private $routineLogs;
+    private $logs;
+
+    /**
+     * @ORM\Column(type="array")
+     */
+    private $daysOfWeek = [];
+
+    /**
+     * @ORM\Column(type="time", nullable=true)
+     */
+    private $timeOfDay;
 
     /**
      * Routine constructor.
      */
     public function __construct()
     {
-        $this->routineLogs = new ArrayCollection();
+        $this->logs = new ArrayCollection();
     }
 
     /**
@@ -173,19 +184,19 @@ class Routine
     /**
      * @return Collection|RoutineLog[]
      */
-    public function getRoutineLogs(): Collection
+    public function getLogs(): Collection
     {
-        return $this->routineLogs;
+        return $this->logs;
     }
 
     /**
      * @param RoutineLog $routineLog
      * @return $this
      */
-    public function addRoutineLog(RoutineLog $routineLog): self
+    public function addLog(RoutineLog $routineLog): self
     {
-        if (!$this->routineLogs->contains($routineLog)) {
-            $this->routineLogs[] = $routineLog;
+        if (!$this->logs->contains($routineLog)) {
+            $this->logs[] = $routineLog;
             $routineLog->setRoutine($this);
         }
 
@@ -196,9 +207,9 @@ class Routine
      * @param RoutineLog $routineLog
      * @return $this
      */
-    public function removeRoutineLog(RoutineLog $routineLog): self
+    public function removeLog(RoutineLog $routineLog): self
     {
-        if ($this->routineLogs->removeElement($routineLog)) {
+        if ($this->logs->removeElement($routineLog)) {
             // set the owning side to null (unless already changed)
             if ($routineLog->getRoutine() === $this) {
                 $routineLog->setRoutine(null);
@@ -214,6 +225,30 @@ class Routine
     public function __toString()
     {
         return $this->title;
+    }
+
+    public function getDaysOfWeek(): ?array
+    {
+        return $this->daysOfWeek?:[];
+    }
+
+    public function setDaysOfWeek(array $daysOfWeek): self
+    {
+        $this->daysOfWeek = $daysOfWeek;
+
+        return $this;
+    }
+
+    public function getTimeOfDay(): ?DateTimeInterface
+    {
+        return $this->timeOfDay;
+    }
+
+    public function setTimeOfDay(?DateTimeInterface $timeOfDay): self
+    {
+        $this->timeOfDay = $timeOfDay;
+
+        return $this;
     }
 
 }

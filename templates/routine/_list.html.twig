@@ -6,6 +6,8 @@
         <thead>
         <tr>
             <th scope="col">Title</th>
+            <th scope="col">Days OF Week</th>
+            <th scope="col">Time of Day</th>
             <th scope="col">Description</th>
             <th scope="col">Priority</th>
             <th scope="col">Sort</th>
@@ -19,6 +21,8 @@
         {% for routine in routines %}
             <tr>
                 <th scope="row">{{ routine.title }}</th>
+                <td>{{ routine.daysOfWeek|join(', ') }}</td>
+                <td>{{ routine.timeOfDay }}</td>
                 <td>{{ routine.description }}</td>
                 <td>{{ routine.priority }}</td>
                 <td>{{ routine.sort }}</td>
