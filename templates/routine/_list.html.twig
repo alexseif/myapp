@@ -22,7 +22,7 @@
             <tr>
                 <th scope="row">{{ routine.title }}</th>
                 <td>{{ routine.daysOfWeek|join(', ') }}</td>
-                <td>{{ routine.timeOfDay }}</td>
+                <td>{{ routine.timeOfDay ? routine.timeOfDay|date('H:i') }}</td>
                 <td>{{ routine.description }}</td>
                 <td>{{ routine.priority }}</td>
                 <td>{{ routine.sort }}</td>

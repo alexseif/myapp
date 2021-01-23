@@ -95,16 +95,20 @@
         {% endset %}
         {% include('AppBundle:Dashboard:_widget_flat.html.twig') %}
     </div><!-- col -->
-    <div class="col">
-        <div class="card widget-flat widget-primary mb-4">
-            <div class="text-center text-default">
-                <label class="btn btn-block btn-default pb-4 pt-4 m-0" for="done">
-                    <input type="checkbox" id="done"/> Exercise
-                </label>
-            </div>
-        </div><!-- end card-->
-
-    </div><!-- col -->
+    {% if(pm.currentRoutine) %}
+        <div class="col">
+            <div class="card widget-flat widget-primary mb-4">
+                <div class="text-center text-default text-nowrap">
+                    <form>
+                        <label class="btn btn-block btn-default pb-4 pt-4 m-0" for="done">
+                            <input type="checkbox" id="done" name="routine" class="routine_log"
+                                   value="{{ pm.currentRoutine.id }}"/> {{ pm.currentRoutine.title }}
+                        </label>
+                    </form>
+                </div>
+            </div><!-- end card-->
+        </div><!-- col -->
+    {% endif %}
     <div class="col d-none">
         <div class="dropdown float-right">
             <a href="#" class="dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false">

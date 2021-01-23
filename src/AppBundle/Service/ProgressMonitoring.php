@@ -20,87 +20,99 @@ class ProgressMonitoring
 {
 
     /**
-     *
+     * @todo: remove and use repository in entity service
      * @var EntityManager $em
      */
     protected $em;
 
     /**
-     *
+     * @todo rename
      * @var CostService $cs
      */
     protected $cs;
 
     /**
-     *
+     * @todo move to seperate service
      * @var int total number of clients
      */
     private $clientsCount;
 
     /**
-     *
+     * @todo move to seperate service
      * @var float clients annual increase
      */
     private $clientsProgress;
 
     /**
-     *
+     * @todo move to seperate service
      * @var int total number of accounts
      */
     private $accountsCount;
 
     /**
-     *
+     * @todo move to seperate service
      * @var float accounts annual increase
      */
     private $accountsProgress;
 
     /**
-     *
+     * @todo move to seperate service
      * @var int total number of tasks this month
      */
     private $tasksCompletedCount;
 
     /**
-     *
+     * @todo move to seperate service
      * @var float tasks this month increase
      */
     private $tasksCompletedProgress;
 
     /**
-     *
+     * @todo move to seperate service
      * @var float revenue sum this month
      */
     private $revenueSum;
 
     /**
-     *
+     * @todo move to seperate service
      * @var float revenue this month increase
      */
     private $revenueProgress;
 
     /**
-     *
+     * @todo move to seperate service
      * @var int duration sum this month
      */
     private $durationSum;
 
     /**
-     *
+     * @todo move to seperate service
      * @var int duration this month increase
      */
     private $durationProgress;
 
     /**
-     *
+     * @todo move to seperate service
      * @var array
      */
     private $earnedProgress;
 
-    public function __construct(EntityManager $em, CostService $cs)
+    /**
+     * @var RoutineService
+     */
+    protected $routineService;
+
+    /**
+     * ProgressMonitoring constructor.
+     * @param EntityManager $em
+     * @param CostService $cs
+     * @param RoutineService $routineService
+     */
+    public function __construct(EntityManager $em, CostService $cs, RoutineService $routineService)
     {
         $this->em = $em;
         $this->cs = $cs;
+        $this->routineService = $routineService;
         $this->setClientsCount();
         $this->setClientsProgress();
         $this->setAccountsCount();
@@ -116,27 +128,43 @@ class ProgressMonitoring
         $this->setEarnedToday();
     }
 
+    /**
+     * @return CostService
+     */
     public function getCostOfLife()
     {
         return $this->cs;
     }
 
+    /**
+     * @param $number
+     * @return string
+     */
     public function formatNumber($number)
     {
         return Formatting::number($number);
     }
 
+    /**
+     * @todo
+     */
     public function setClientsCount()
     {
         $this->clientsCount = count($this->em->getRepository('AppBundle:Client')->findBy([
             "enabled" => true]));
     }
 
+    /**
+     * @return int
+     */
     public function getClientsCount()
     {
         return $this->clientsCount;
     }
 
+    /**
+     * @todo
+     */
     public function setClientsProgress()
     {
         $date = new DateTime();
@@ -146,21 +174,33 @@ class ProgressMonitoring
         $this->clientsProgress = (($this->clientsCount - $clientsLastYear) / $clientsLastYear) * 100;
     }
 
+    /**
+     * @return string
+     */
     function getClientsProgress()
     {
         return $this->formatNumber($this->clientsProgress);
     }
 
+    /**
+     * @todo
+     */
     public function setAccountsCount()
     {
         $this->accountsCount = count($this->em->getRepository('AppBundle:Accounts')->findAll());
     }
 
+    /**
+     * @return int
+     */
     public function getAccountsCount()
     {
         return $this->accountsCount;
     }
 
+    /**
+     * @todo
+     */
     public function setAccountsProgress()
     {
         $date = new DateTime();
@@ -170,11 +210,17 @@ class ProgressMonitoring
         $this->accountsProgress = (($this->accountsCount - $accountsLastYear) / $accountsLastYear) * 100;
     }
 
+    /**
+     * @return string
+     */
     function getAccountsProgress()
     {
         return $this->formatNumber($this->clientsProgress);
     }
 
+    /**
+     * @todo
+     */
     public function setTasksCompletedCount()
     {
         $date = DateRanges::getMonthStart();
@@ -182,11 +228,17 @@ class ProgressMonitoring
             ->getCompletedByMonthOrDay($date->format('Y'), $date->format('m'));
     }
 
+    /**
+     * @return int
+     */
     function getTasksCompletedCount()
     {
         return $this->tasksCompletedCount;
     }
 
+    /**
+     * @todo
+     */
     public function setTasksCompletedProgress()
     {
         $date = DateRanges::getMonthStart();
@@ -197,6 +249,9 @@ class ProgressMonitoring
         $this->tasksCompletedProgress = (($this->tasksCompletedCount - $tasksLastMonth) / $divisionByZero) * 100;
     }
 
+    /**
+     * @return string
+     */
     function getTasksCompletedProgress()
     {
         if ($this->tasksCompletedProgress >= 1000) {
@@ -205,6 +260,9 @@ class ProgressMonitoring
         return $this->formatNumber($this->tasksCompletedProgress);
     }
 
+    /**
+     * @todo
+     */
     public function setRevenueSum()
     {
         $from = DateRanges::getMonthStart();
@@ -214,6 +272,9 @@ class ProgressMonitoring
             ->getRevenueSumByDateRange($from, $to);
     }
 
+    /**
+     * @return string
+     */
     function getRevenueSum()
     {
         if ($this->revenueSum <= 1000) {
@@ -222,6 +283,9 @@ class ProgressMonitoring
         return $this->formatNumber($this->revenueSum);
     }
 
+    /**
+     * @todo
+     */
     function setRevenueProgress()
     {
         $from =
@@ -236,11 +300,17 @@ class ProgressMonitoring
         $this->revenueProgress = (($this->revenueSum - $revenueLastMonth) / $divisionByZero) * 100;
     }
 
+    /**
+     * @return string
+     */
     function getRevenueProgress()
     {
         return $this->formatNumber($this->revenueProgress);
     }
 
+    /**
+     * @todo
+     */
     function setDurationSum()
     {
         $from = DateRanges::getMonthStart();
@@ -251,11 +321,17 @@ class ProgressMonitoring
             ->getDurationSumByRange($from, $to);
     }
 
+    /**
+     * @return string
+     */
     function getDurationSum()
     {
         return $this->formatNumber($this->durationSum / 60) . ':' . ($this->durationSum % 60);
     }
 
+    /**
+     * @todo
+     */
     function setDurationProgress()
     {
         $from = DateRanges::getMonthStart();
@@ -268,11 +344,17 @@ class ProgressMonitoring
         $this->durationProgress = ((($this->durationSum - $durationLastMonth) / $divisionByZero) * 100);
     }
 
+    /**
+     * @return string
+     */
     function getDurationProgress()
     {
         return $this->formatNumber($this->durationProgress);
     }
 
+    /**
+     * @todo
+     */
     public function setEarnedToday()
     {
         $completedTasks = $this->em->getRepository('AppBundle:Tasks')->getCompletedToday();
@@ -284,11 +366,17 @@ class ProgressMonitoring
         $this->earnedProgress['today'] = $total;
     }
 
+    /**
+     * @return string
+     */
     public function getEarnedToday()
     {
         return $this->formatNumber($this->earnedProgress['today']);
     }
 
+    /**
+     * @todo
+     */
     public function setEarnedThisWeek()
     {
         $completedTasks = $this->em->getRepository('AppBundle:Tasks')->getCompletedThisWeek();
@@ -300,11 +388,17 @@ class ProgressMonitoring
         $this->earnedProgress['week'] = $total;
     }
 
+    /**
+     * @return string
+     */
     public function getEarnedThisWeek()
     {
         return $this->formatNumber($this->earnedProgress['week']);
     }
 
+    /**
+     * @todo
+     */
     public function setEarnedThisMonth()
     {
         $completedTasks = $this->em->getRepository('AppBundle:Tasks')->getCompletedThisMonth();
@@ -316,44 +410,75 @@ class ProgressMonitoring
         $this->earnedProgress['month'] = $total;
     }
 
+    /**
+     * @return string
+     */
     public function getEarnedThisMonth()
     {
         return $this->formatNumber($this->earnedProgress['month']);
     }
 
+    /**
+     * @return string
+     */
     public function getMonthly()
     {
         return $this->formatNumber($this->getCostOfLife()->getMonthly());
     }
 
+    /**
+     * @return string
+     */
     public function getWeekly()
     {
         return $this->formatNumber($this->getCostOfLife()->getWeekly());
     }
 
+    /**
+     * @return string
+     */
     public function getDaily()
     {
         return $this->formatNumber($this->getCostOfLife()->getDaily());
     }
 
+    /**
+     * @return string
+     */
     public function getHourly()
     {
         return $this->formatNumber($this->getCostOfLife()->getHourly());
     }
 
+    /**
+     * @return string
+     */
     public function getMonthProgress()
     {
         return $this->formatNumber($this->earnedProgress['month'] / $this->getCostOfLife()->getMonthly() * 100);
     }
 
+    /**
+     * @return string
+     */
     public function getWeekProgress()
     {
         return $this->formatNumber($this->earnedProgress['week'] / $this->getCostOfLife()->getWeekly() * 100);
     }
 
+    /**
+     * @return string
+     */
     public function getTodayProgress()
     {
         return $this->formatNumber($this->earnedProgress['today'] / $this->getCostOfLife()->getDaily() * 100);
     }
 
+    /**
+     * @return \AppBundle\Entity\Routine|null
+     */
+    public function getCurrentRoutine()
+    {
+        return $this->routineService->getCurrent();
+    }
 }

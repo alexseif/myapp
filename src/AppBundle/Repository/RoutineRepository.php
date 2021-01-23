@@ -14,9 +14,41 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class RoutineRepository extends ServiceEntityRepository
 {
+    /**
+     * RoutineRepository constructor.
+     * @param ManagerRegistry $registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Routine::class);
+    }
+
+    /**
+     * @param $dayOfWeek
+     * @param false $timeOfDay
+     * @return int|mixed|string|null
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function findByDayAndTime($dayOfWeek, $timeOfDay = false)
+    {
+        $qb = $this->createQueryBuilder('r');
+
+        if ($timeOfDay !== false) {
+            $qb
+                ->where(':timeOfDay >= r.timeOfDay')
+                ->orWhere('r.timeOfDay IS NULL')
+                ->setParameter(':timeOfDay', $timeOfDay);
+        }
+
+
+        return $qb
+            ->andWhere('r.daysOfWeek LIKE :dayOfWeek')
+            ->setParameter(':dayOfWeek', "%" . $dayOfWeek . "%")
+            ->orderBy('r.priority')
+            ->addOrderBy('r.sort')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 
     // /**
