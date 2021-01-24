@@ -2,6 +2,7 @@
 
 namespace AppBundle\Repository;
 
+use DateTime;
 use Doctrine\ORM\EntityRepository;
 
 /**
@@ -15,7 +16,6 @@ class TaskListsRepository extends EntityRepository
 
     public function findAll()
     {
-        $today = new \DateTime();
         return $this
             ->createQueryBuilder('tl')
             ->select('tl, t, a, c, w')
@@ -28,9 +28,27 @@ class TaskListsRepository extends EntityRepository
             ->getResult();
     }
 
+    public function findActive()
+    {
+        return $this->findActiveQuery()
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findActiveQuery()
+    {
+        return $this
+            ->createQueryBuilder('tl')
+            ->select('tl, a, c')
+            ->leftJoin('tl.account', 'a')
+            ->leftJoin('a.client', 'c')
+            ->where('tl.status <> \'archive\'')
+            ->orderBy("tl.createdAt", "ASC");
+    }
+
     public function findAllWithActiveTasks()
     {
-        $today = new \DateTime();
+        $today = new DateTime();
         return $this
             ->createQueryBuilder('tl')
             ->select('tl, t')
