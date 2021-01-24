@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+{% import "macros/a.html.twig" as a %}
+{% block floatingActions %}{{ a.add('feature_new') }}{% endblock %}
+{% block panelTitle %}Feature index{% endblock %}
+{% block panelBody %}
+    <div class="card-body">
+        <div class="w-50 float-right">
+            {{ form(form) }}
+        </div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>List</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Priority</th>
+                <th>Sort</th>
+                <th>Rate</th>
+                <th>Est</th>
+                <th>Offer</th>
+                <th>IsApproved</th>
+                <th>ApprovedAt</th>
+                <th>actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% set total = {'est' : 0, 'rate': 0, 'offer' : 0} %}
+            {% for feature in features %}
+                {% set total = {
+                    'est' : total.est + feature.est,
+                    'rate' : total.rate + feature.rate,
+                    'offer' : total.offer + feature.offer
+                } %}
+                <tr>
+                    <td>{{ feature.id }}</td>
+                    <td>
+                        <a title="Task List" class="badge badge-default d-none d-md-inline"
+                           data-tasklist="{{ feature.list.name }}"
+                           href="{{ path("tasklists_show", {'id':feature.list.id}) }}">
+                            {{ feature.list.name }}
+                        </a>
+                    </td>
+                    <td>{{ feature.title }}</td>
+                    <td>{{ feature.description }}</td>
+                    <td>{{ feature.priority }}</td>
+                    <td>{{ feature.sort }}</td>
+                    <td>{{ feature.rate }}</td>
+                    <td>{{ feature.est }}</td>
+                    <td>{{ feature.offer }}</td>
+                    <td>{{ feature.isApproved ? 'Yes' : 'No' }}</td>
+                    <td>{{ feature.approvedAt ? feature.approvedAt|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>
+                        {{ a.show('feature_show',  {'id': feature.id}) }}
+                        {{ a.edit('feature_edit',  {'id': feature.id}) }}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="11">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+            <tfoot>
+            <tr>
+                <th colspan="6"></th>
+                <th>{{ total.rate/(features|length?:1) }}</th>
+                <th>{{ total.est }}</th>
+                <th>{{ total.offer }}</th>
+                <th colspan="3"></th>
+            </tr>
+            </tfoot>
+        </table>
+    </div><!-- .card-body -->
+{% endblock %}
