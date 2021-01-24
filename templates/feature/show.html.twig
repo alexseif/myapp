@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+{% import "macros/forms.html.twig" as forms %}
+{% import "macros/a.html.twig" as a %}
+{% import "macros/badges.html.twig" as badge %}
+{% block title %}{{ feature.title }}{% endblock %}
+{% block panelWrapperClass %}w-50 m-auto{% endblock %}
+{% block panelBack %}{{ a.back('feature_index') }}{% endblock %}
+{% block panelTitle %}Feature: <strong>{{ feature.title }}</strong>{% endblock %}
+{% block panelHeadingRight %}
+    <div class="row">
+        <div class="col">{{ a.edit('feature_edit', {'id':feature.id}) }}</div>
+        <div class="col">{{ include('feature/_delete_form.html.twig') }}</div>
+    </div>
+{% endblock %}
+{% block panelBody %}
+    <table class="table">
+        <tbody>
+        <tr>
+            <th>#</th>
+            <td>{{ feature.id }}</td>
+        </tr>
+        <tr>
+            <th>Title</th>
+            <td>{{ feature.title }}</td>
+        </tr>
+        <tr>
+            <th>Description</th>
+            <td>{{ feature.description }}</td>
+        </tr>
+        <tr>
+            <th>Priority</th>
+            <td>{{ feature.priority }}</td>
+        </tr>
+        <tr>
+            <th>Sort</th>
+            <td>{{ feature.sort }}</td>
+        </tr>
+        <tr>
+            <th>Rate</th>
+            <td>{{ feature.rate }}</td>
+        </tr>
+        <tr>
+            <th>Est</th>
+            <td>{{ feature.est }}</td>
+        </tr>
+        <tr>
+            <th>Offer</th>
+            <td>{{ feature.offer }}</td>
+        </tr>
+        <tr>
+            <th>IsApproved</th>
+            <td>{{ feature.isApproved ? 'Yes' : 'No' }}</td>
+        </tr>
+        <tr>
+            <th>ApprovedAt</th>
+            <td>{{ feature.approvedAt ? feature.approvedAt|date('Y-m-d H:i:s') : '' }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+{% endblock %}

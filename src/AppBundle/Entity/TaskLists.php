@@ -2,6 +2,10 @@
 
 namespace AppBundle\Entity;
 
+use DateInterval;
+use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Criteria;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
@@ -53,12 +57,18 @@ class TaskLists
     private $tasks;
 
     /**
+     * @ORM\OneToMany(targetEntity=Feature::class, mappedBy="list", orphanRemoval=true)
+     */
+    private $features;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
-        $this->tasks = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->tasks = new ArrayCollection();
         $this->status = "start";
+        $this->features = new ArrayCollection();
     }
 
     /**
@@ -120,10 +130,10 @@ class TaskLists
     /**
      * Add tasks
      *
-     * @param \AppBundle\Entity\Tasks $tasks
+     * @param Tasks $tasks
      * @return TaskLists
      */
-    public function addTask(\AppBundle\Entity\Tasks $tasks)
+    public function addTask(Tasks $tasks)
     {
         $tasks->setTaskList($this);
         $this->tasks[] = $tasks;
@@ -134,9 +144,9 @@ class TaskLists
     /**
      * Remove tasks
      *
-     * @param \AppBundle\Entity\Tasks $tasks
+     * @param Tasks $tasks
      */
-    public function removeTask(\AppBundle\Entity\Tasks $tasks)
+    public function removeTask(Tasks $tasks)
     {
         $this->tasks->removeElement($tasks);
     }
@@ -167,22 +177,20 @@ class TaskLists
         foreach ($tasks as $task) {
             $durationTotal += $task->getDuration();
         }
-        $today = new \DateTime();
-        $endDay = new \DateTime();
-        $endDay->add(\DateInterval::createFromDateString($durationTotal . " minutes"));
-        $interval = $endDay->diff($today);
-
-        return $interval;
+        $today = new DateTime();
+        $endDay = new DateTime();
+        $endDay->add(DateInterval::createFromDateString($durationTotal . " minutes"));
+        return $endDay->diff($today);
     }
 
     /**
      * Set account
      *
-     * @param \AppBundle\Entity\Accounts $account
+     * @param Accounts $account
      *
      * @return TaskLists
      */
-    public function setAccount(\AppBundle\Entity\Accounts $account = null)
+    public function setAccount(Accounts $account = null)
     {
         $this->account = $account;
 
@@ -192,7 +200,7 @@ class TaskLists
     /**
      * Get account
      *
-     * @return \AppBundle\Entity\Accounts
+     * @return Accounts
      */
     public function getAccount()
     {
@@ -202,6 +210,36 @@ class TaskLists
     public function __toString()
     {
         return $this->getName();
+    }
+
+    /**
+     * @return Collection|Feature[]
+     */
+    public function getFeatures(): Collection
+    {
+        return $this->features;
+    }
+
+    public function addFeature(Feature $feature): self
+    {
+        if (!$this->features->contains($feature)) {
+            $this->features[] = $feature;
+            $feature->setList($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFeature(Feature $feature): self
+    {
+        if ($this->features->removeElement($feature)) {
+            // set the owning side to null (unless already changed)
+            if ($feature->getList() === $this) {
+                $feature->setList(null);
+            }
+        }
+
+        return $this;
     }
 
 }
