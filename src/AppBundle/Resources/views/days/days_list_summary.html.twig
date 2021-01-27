@@ -8,7 +8,10 @@
         {% set diff = date(day.deadline).diff(date()) %}
         {% set curStatus = day.complete ? "success" : (diff.days < 15 or not diff.invert ) ? 'danger' :  (diff.days < 30 ) ? 'warning' :(diff.days < 60 ) ? 'info' : 'muted' %}
         <div class="card widget-flat widget-{{ curStatus }} mb-3 text-{{ curStatus }} {{ day.complete ? "completed" }}"
-             data-date="{{ day.deadline|date('U') }}">
+             data-date="{{ day.deadline|date('U') }}"
+             id="day-{{ day.id }}"
+             data-id="day-{{ day.id }}"
+        >
             <div class="card-body ">
                 <a href="{{ path('days_edit', { 'id': day.id }) }}" class="float-right text-info">
                     <i class="fa fa-calendar-day"></i>
@@ -16,11 +19,12 @@
                 <strong>{{ day.name }}</strong><br/>
                 {{ day.deadline|date('D M d, Y') }}<br/>
                 <span class="float-right">
-          <i class="fa fa-arrow-{{ diff.invert ? 'up':'down' }}"></i>
-        </span>
+                    <i class="fa fa-arrow-{{ diff.invert ? 'up':'down' }}"></i>
+                </span>
                 {{ diff.days }}
                 days {{ diff.invert ? "left" : "passed" }}
             </div> <!-- end card-body-->
+            <a href="#" class="btn btn-muted delete-me m-1"><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
         </div> <!-- end card-->
         {# </div> #}
     {% endfor %}

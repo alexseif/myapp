@@ -21,8 +21,7 @@
        href="{{ (taskList is defined) ? path('focus_tasklist', {'name': taskList.name}) : path('focus') }}">
         <i class="fas fa-sync-alt"></i>
     </a>
-    <a class="btn btn-default text-bold bg-dark" type="button"
-       href="{{ path('tasks_new') }}">
+    <a class="btn btn-default text-bold bg-dark" type="button" href="{{ path('tasks_new') }}">
         <i class="fas fa-plus"></i>
     </a>
 {% endblock %}
@@ -34,6 +33,9 @@
         <label for="focus-switch">Focus Switch</label>
     </form>
     <div class="container">
+        {% if dayCards|length %}
+            {{ include('AppBundle:days:days_list_summary.html.twig', {'days' : dayCards } ) }}
+        {% endif %}
         {{ tasks_view.ul(completed, {id: 'completed', displayListName: 'completed', class: 'm-2'}) }}
         {{ tasks_view.ul(tasks, {id: 'tasks', displayListName: 'tasks', focus: true} ) }}
     </div>

@@ -13,13 +13,67 @@ function timeOfDay(response) {
     }
 }
 
-var touch = false;
+let touch = false;
+let pageSession = {"hide": []};
+var ONE_HOUR = 60 * 60 * 1000; /* ms */
+
+function loadPageSession() {
+    if (Modernizr.localstorage) {
+        pageSession = (localStorage.getItem("pageSession") !== null) ? JSON.parse(localStorage.getItem("pageSession")) : {
+            hide: [],
+            created: Date.now()
+        };
+        if ((pageSession.created - pageSession.created) > ONE_HOUR) {
+            clearPageSession();
+        }
+    }
+}
+
+function savePageSession() {
+    if (Modernizr.localstorage) {
+        localStorage.setItem("pageSession", JSON.stringify(pageSession));
+    }
+}
+
+/**
+ *
+ * @returns {boolean}
+ */
+function clearPageSession() {
+    localStorage.clear();
+    location.reload();
+    return false;
+}
+
+/**
+ *
+ * @param e
+ * @returns {boolean}
+ */
+function deleteMe(e) {
+    pageSession["hide"].push($(this).parent().data('id'));
+    savePageSession();
+    $(this).parent().remove();
+    return false;
+}
+
+function deleteMeFromPageSession() {
+    for (const hideSessionKey in pageSession.hide) {
+        $('#' + pageSession.hide[hideSessionKey]).remove();
+    }
+}
+
 $(document).ready(function () {
+    // touch
     if (typeof Modernizr == 'object') {
         if (Modernizr.touch) {
             touch = true;
         }
     }
+
+    loadPageSession();
+    deleteMeFromPageSession();
+
     $('#bottom-bar-btn').click(function () {
         var bottomBarNav = $('#bottom-bar .nav');
         bottomBarNav.toggle();
@@ -65,6 +119,10 @@ $(document).ready(function () {
         });
     });
     initClock();
+
+    $('.delete-me').click(deleteMe);
+
+    $('#clear-storage').click(clearPageSession);
 });
 
 function getBottomBarDetails() {

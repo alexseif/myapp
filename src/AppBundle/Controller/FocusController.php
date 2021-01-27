@@ -2,7 +2,7 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Service\TasksService;
+use AppBundle\Service\FocusService;
 use AppBundle\Util\WorkWeek;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -19,7 +19,7 @@ class FocusController extends Controller
      *
      * @Route("/focus", name="focus")
      */
-    public function focusAction(Request $request)
+    public function focusAction(Request $request, FocusService $focusService)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -28,12 +28,12 @@ class FocusController extends Controller
             if (empty($client)) {
                 throw new NotFoundHttpException("Client not found");
             }
-            $focus = $this->get(TasksService::class)->getFocusByClient($client);
+            $focusService->setTasks($client);
         } else {
-            $focus = $this->get(TasksService::class)->getFocus($request->get('focus-switch', false));
+            $focusService->setTasks();
         }
 
-        return $this->render("AppBundle:focus:index.html.twig", $focus);
+        return $this->render("AppBundle:focus:index.html.twig", $focusService->get());
     }
 
     /**

@@ -563,3 +563,10 @@ table.income-progress tr td:nth-child(3) {
 table.income-progress tr td:last-child {
     width: auto;
 }
+
+@media (min-width: 576px){
+    .card-deck .card {
+        -ms-flex: 1 0 22%;
+        flex: 1 0 22%;
+    }
+}
