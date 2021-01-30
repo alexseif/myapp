@@ -19,13 +19,15 @@ var ONE_HOUR = 60 * 60 * 1000; /* ms */
 
 function loadPageSession() {
     if (Modernizr.localstorage) {
+        if ((Date.now() - pageSession.created) > ONE_HOUR) {
+            clearPageSession();
+        }
         pageSession = (localStorage.getItem("pageSession") !== null) ? JSON.parse(localStorage.getItem("pageSession")) : {
             hide: [],
             created: Date.now()
         };
-        if ((pageSession.created - pageSession.created) > ONE_HOUR) {
-            clearPageSession();
-        }
+
+
     }
 }
 
@@ -59,7 +61,9 @@ function deleteMe(e) {
 
 function deleteMeFromPageSession() {
     for (const hideSessionKey in pageSession.hide) {
-        $('#' + pageSession.hide[hideSessionKey]).remove();
+        ele = $('#' + pageSession.hide[hideSessionKey]);
+        if (ele.length)
+            ele.remove();
     }
 }
 
