@@ -59,16 +59,21 @@ class WorkingDays
     public function updateHolidays()
     {
         $curlHolidays = \AppBundle\Util\DateRanges::getHolidays("egypt");
+        $holidays = [];
         foreach ($curlHolidays as $curlHoliday) {
             $dt = new \DateTime($curlHoliday[0]);
-            $holiday = $this->em->getRepository('AppBundle:Holiday')->findBy(['date' => $dt]);
-            if (!$holiday) {
-                $holiday = new \AppBundle\Entity\Holiday();
-                $holiday->setDate($dt);
-                $holiday->setName($curlHoliday[2]);
-                $holiday->setType($curlHoliday[3]);
-                $this->em->persist($holiday);
+            $dateKey = $dt->format('Y-m-d');
+            if(key_exists($dateKey, $holidays)){
+                $holidays[$dateKey]->setName($holidays[$dateKey]->getName() . ', ' . $curlHoliday[2]);
+                $holidays[$dateKey]->setType($holidays[$dateKey]->getType() . ', ' . $curlHoliday[3]);
+                continue;
             }
+            $holiday = $this->em->getRepository('AppBundle:Holiday')->findOneBy(['date' => $dt]);
+            $holidays[$dateKey] = ($holiday)?: new \AppBundle\Entity\Holiday();
+            $holidays[$dateKey]->setDate($dt);
+            $holidays[$dateKey]->setName($curlHoliday[2]);
+            $holidays[$dateKey]->setType($curlHoliday[3]);
+            $this->em->persist($holidays[$dateKey]);
         }
         $this->em->flush();
     }
