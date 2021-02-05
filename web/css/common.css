@@ -570,3 +570,7 @@ table.income-progress tr td:last-child {
         flex: 1 0 22%;
     }
 }
+
+.flex-form .form-group{
+  flex: 1;
+}

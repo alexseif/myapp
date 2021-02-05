@@ -12,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use DateTime;
 
 /**
  * @Route("/feature")
@@ -74,6 +75,9 @@ class FeatureController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            
+            $feature = $this->approveFeature($feature);
+            
             $entityManager->persist($feature);
             $entityManager->flush();
 
@@ -105,6 +109,7 @@ class FeatureController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $feature = $this->approveFeature($feature);
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('feature_index');
@@ -128,5 +133,21 @@ class FeatureController extends Controller
         }
 
         return $this->redirectToRoute('feature_index');
+    }
+    
+    /**
+     * @todo Maybe move this to a service
+     * @param Feature $feature
+     * @return Feature
+     */
+    protected function approveFeature(Feature $feature): Feature
+    {
+      if($feature->isApproved()){
+        if(is_null($feature->getApprovedAt())){
+          $feature->setApprovedAt(new DateTime());
+          }  
+      }
+      
+      return $feature;
     }
 }

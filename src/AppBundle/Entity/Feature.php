@@ -160,6 +160,10 @@ class Feature
 
         return $this;
     }
+    
+    public function isApproved(){
+      return $this->isApproved; 
+    }
 
     public function getIsApproved(): ?bool
     {
