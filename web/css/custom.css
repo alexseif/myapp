@@ -54,7 +54,7 @@ overflow: hidden;
 /** lis **/
 .task-list .task-item {
     padding: 0.3rem;
-    white-space: nowrap;
+    /*white-space: nowrap;*/
     min-height: 35px;
 }
 
