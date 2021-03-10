@@ -220,8 +220,8 @@ class TasksRepository extends EntityRepository
             ->andWhere('t.eta <= :today OR t.eta IS NULL')
             ->orderBy("t.urgency", "DESC")
             ->addOrderBy("t.priority", "DESC")
-            ->addOrderBy("tl.id", "ASC")
             ->addOrderBy("t.order", "ASC")
+            ->addOrderBy("tl.id", "ASC")
             ->setParameter(':today', $today->format('Y-m-d H:i'));
 
         $queryBuilder->andWhere('c.id <> 28');
