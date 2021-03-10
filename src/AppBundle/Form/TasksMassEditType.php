@@ -2,11 +2,12 @@
 
 namespace AppBundle\Form;
 
+use AppBundle\Entity\TaskLists;
+use AppBundle\Entity\Tasks;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class TasksMassEditType extends AbstractType
@@ -20,23 +21,23 @@ class TasksMassEditType extends AbstractType
     {
         $builder
             ->add('priority', ChoiceType::class, array(
-                'choices' => array(
-                    -1 => 'Low',
-                    0 => 'Normal',
-                    1 => 'Important',
-                ),
+                'choices' => [
+                    'Low' => -1,
+                    'Normal' => 0,
+                    'Important' => 1,
+                ],
                 'expanded' => true,
                 'label_attr' => array('class' => 'radio-inline')
             ))
             ->add('urgency', ChoiceType::class, array(
                 'choices' => array(
-                    0 => 'Not Urgent',
-                    1 => 'Urgent',
+                    'Not Urgent' => 0,
+                    'Urgent' => 1,
                 ),
                 'expanded' => true,
                 'label_attr' => array('class' => 'radio-inline')
             ))
-            ->add('taskList', EntityType::class, array('class' => \AppBundle\Entity\TaskLists::class, 'choice_label' => 'name'));
+            ->add('taskList', EntityType::class, array('class' => TaskLists::class, 'choice_label' => 'name'));
     }
 
     /**
@@ -45,7 +46,7 @@ class TasksMassEditType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => \AppBundle\Entity\Tasks::class
+            'data_class' => Tasks::class
         ));
     }
 
