@@ -2,6 +2,8 @@
 {% import "macros/forms.html.twig" as forms %}
 {% import "macros/a.html.twig" as a %}
 {% block panelTitle %}Edit Task{% endblock %}
+{% block panelWrapperClass %}{% endblock %}
+
 {% block panelTitleSmall %}{{ task.task }}{% endblock %}
 {% block panelBack %}{{ a.back('tasks_index') }}{% endblock %}
 {% block panelHeadingRight %}
@@ -9,14 +11,14 @@
     {{ include('tasks/_delete_form.html.twig') }}
 {% endblock %}
 {% block panelBody %}
-{#    {{ include('tasks/_form.html.twig', {'button_label': 'Update'}) }}#}
+    {{ include('tasks/_form.html.twig', {'button_label': 'Update'}) }}
 
-    {{ forms.panel(form, false) }}
-    <div class="card-footer text-right">
-        <a id="adv" tabindex="-1" class="text-warning" role="button">
-            Close
-        </a>
-    </div>
+{#    {{ forms.panel(form, false) }}#}
+{#    <div class="card-footer text-right">#}
+{#        <a id="adv" tabindex="-1" class="text-warning" role="button">#}
+{#            Close#}
+{#        </a>#}
+{#    </div>#}
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}

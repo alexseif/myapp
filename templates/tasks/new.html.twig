@@ -2,8 +2,9 @@
 {% import "macros/forms.html.twig" as forms %}
 {% import "macros/a.html.twig" as a %}
 {% block panelTitle %}New Task{% endblock %}
+{% block panelWrapperClass %}{% endblock %}
 {% block panelBack %}{{ a.back('tasks_index') }}{% endblock %}
 {% block panelBody %}
-    {{ forms.panel(form) }}
-{#    {{ include('tasks/_form.html.twig') }}#}
+{#    {{ forms.panel(form) }}#}
+    {{ include('tasks/_form.html.twig') }}
 {% endblock %}
