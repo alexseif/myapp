@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+
+<title>Edit ProposalDetails</title>
+
+{% block body %}
+    <h1>Edit ProposalDetails</h1>
+
+    {{ include('proposal_details/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('proposal_details_index') }}">back to list</a>
+
+    {{ include('proposal_details/_delete_form.html.twig') }}
+{% endblock %}

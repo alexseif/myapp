@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+
+<title>ProposalDetails</title>
+
+{% block body %}
+    <h1>ProposalDetails</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ proposal_detail.id }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ proposal_detail.title }}</td>
+            </tr>
+            <tr>
+                <th>Body</th>
+                <td>{{ proposal_detail.body }}</td>
+            </tr>
+            <tr>
+                <th>Type</th>
+                <td>{{ proposal_detail.type }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('proposal_details_index') }}">back to list</a>
+
+    <a href="{{ path('proposal_details_edit', {'id': proposal_detail.id}) }}">edit</a>
+
+    {{ include('proposal_details/_delete_form.html.twig') }}
+{% endblock %}

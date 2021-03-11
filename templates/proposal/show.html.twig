@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+{% import "macros/forms.html.twig" as forms %}
+{% import "macros/a.html.twig" as a %}
+{% import "macros/badges.html.twig" as badge %}
+{% block title %}{{ proposal.title }}{% endblock %}
+{% block panelWrapperClass %}w-50 m-auto{% endblock %}
+{% block panelBack %}{{ a.back('proposal_index') }}{% endblock %}
+{% block panelTitle %}Proposal: <strong>{{ proposal.title }}</strong>{% endblock %}
+{% block panelHeadingRight %}
+    <div class="row">
+        <div class="col">{{ a.edit('proposal_edit', {'id':proposal.id}) }}</div>
+        <div class="col">{{ include('proposal/_delete_form.html.twig') }}</div>
+    </div>
+{% endblock %}
+{% block panelBody %}
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ proposal.id }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ proposal.title }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ proposal.createdAt ? proposal.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedAt</th>
+                <td>{{ proposal.updatedAt ? proposal.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ proposal.status }}</td>
+            </tr>
+            <tr>
+                <th>Enabled</th>
+                <td>{{ proposal.enabled ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+{% endblock %}

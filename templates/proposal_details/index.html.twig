@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+
+<title>ProposalDetails index</title>
+
+{% block body %}
+    <h1>ProposalDetails index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Body</th>
+                <th>Type</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for proposal_detail in proposal_details %}
+            <tr>
+                <td>{{ proposal_detail.id }}</td>
+                <td>{{ proposal_detail.title }}</td>
+                <td>{{ proposal_detail.body }}</td>
+                <td>{{ proposal_detail.type }}</td>
+                <td>
+                    <a href="{{ path('proposal_details_show', {'id': proposal_detail.id}) }}">show</a>
+                    <a href="{{ path('proposal_details_edit', {'id': proposal_detail.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('proposal_details_new') }}">Create new</a>
+{% endblock %}

@@ -2,6 +2,8 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
@@ -50,11 +52,17 @@ class Client
     private $rates;
 
     /**
+     * @ORM\OneToMany(targetEntity=Proposal::class, mappedBy="client")
+     */
+    private $proposals;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
-        $this->accounts = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->accounts = new ArrayCollection();
+        $this->proposals = new ArrayCollection();
     }
 
     /**
@@ -62,7 +70,7 @@ class Client
      *
      * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -74,7 +82,7 @@ class Client
      *
      * @return Client
      */
-    public function setName($name)
+    public function setName(string $name): Client
     {
         $this->name = $name;
 
@@ -86,7 +94,7 @@ class Client
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -94,11 +102,11 @@ class Client
     /**
      * Add account
      *
-     * @param \AppBundle\Entity\Accounts $account
+     * @param Accounts $account
      *
      * @return Client
      */
-    public function addAccount(\AppBundle\Entity\Accounts $account)
+    public function addAccount(Accounts $account): Client
     {
         $this->accounts[] = $account;
 
@@ -108,9 +116,9 @@ class Client
     /**
      * Remove account
      *
-     * @param \AppBundle\Entity\Accounts $account
+     * @param Accounts $account
      */
-    public function removeAccount(\AppBundle\Entity\Accounts $account)
+    public function removeAccount(Accounts $account): void
     {
         $this->accounts->removeElement($account);
     }
@@ -118,14 +126,14 @@ class Client
     /**
      * Get accounts
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getAccounts()
     {
         return $this->accounts;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getName();
     }
@@ -133,11 +141,11 @@ class Client
     /**
      * Add rate.
      *
-     * @param \AppBundle\Entity\Rate $rate
+     * @param Rate $rate
      *
      * @return Client
      */
-    public function addRate(\AppBundle\Entity\Rate $rate)
+    public function addRate(Rate $rate): Client
     {
         $this->rates[] = $rate;
 
@@ -147,11 +155,11 @@ class Client
     /**
      * Remove rate.
      *
-     * @param \AppBundle\Entity\Rate $rate
+     * @param Rate $rate
      *
      * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
      */
-    public function removeRate(\AppBundle\Entity\Rate $rate)
+    public function removeRate(Rate $rate): bool
     {
         return $this->rates->removeElement($rate);
     }
@@ -159,9 +167,9 @@ class Client
     /**
      * Get rates.
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
-    public function getRates()
+    public function getRates(): Collection
     {
         return $this->rates;
     }
@@ -171,7 +179,7 @@ class Client
      *
      * @return int
      */
-    public function hasRates()
+    public function hasRates(): int
     {
         return $this->getRates()->count();
     }
@@ -181,14 +189,42 @@ class Client
         return ($this->getRates()->count()) ? $this->getRates()->last()->getRate() : null;
     }
 
-    function getContracts()
+    public function getContracts()
     {
         return $this->contracts;
     }
 
-    function setContracts($contracts)
+    public function setContracts($contracts): void
     {
         $this->contracts = $contracts;
+    }
+
+    /**
+     * @return Collection|Proposal[]
+     */
+    public function getProposals(): Collection
+    {
+        return $this->proposals;
+    }
+
+    public function addProposal(Proposal $proposal): self
+    {
+        if (!$this->proposals->contains($proposal)) {
+            $this->proposals[] = $proposal;
+            $proposal->setClient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProposal(Proposal $proposal): self
+    {
+        // set the owning side to null (unless already changed)
+        if ($this->proposals->removeElement($proposal) && $proposal->getClient() === $this) {
+            $proposal->setClient(null);
+        }
+
+        return $this;
     }
 
 }

@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+
+<title>New ProposalDetails</title>
+
+{% block body %}
+    <h1>Create new ProposalDetails</h1>
+
+    {{ include('proposal_details/_form.html.twig') }}
+
+    <a href="{{ path('proposal_details_index') }}">back to list</a>
+{% endblock %}
