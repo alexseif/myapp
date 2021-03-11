@@ -152,9 +152,9 @@ function updateClock() {
         mo = now.getMonth(),
         dy = now.getDate(),
         yr = now.getFullYear();
-    var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    // var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     var tags = ["mon", "d", "y", "h", "m", "s"],
-        corr = [months[mo], dy, yr, hou.pad(2), min.pad(2), sec.pad(2)];
+        corr = [(mo+1).pad(2), dy, yr, hou.pad(2), min.pad(2), sec.pad(2)];
     for (var i = 0; i < tags.length; i++) {
         if (document.getElementById(tags[i]))
             document.getElementById(tags[i]).firstChild.nodeValue = corr[i];
