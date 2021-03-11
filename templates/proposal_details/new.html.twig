@@ -1,11 +1,12 @@
-<!DOCTYPE html>
-
-<title>New ProposalDetails</title>
-
-{% block body %}
-    <h1>Create new ProposalDetails</h1>
-
-    {{ include('proposal_details/_form.html.twig') }}
-
-    <a href="{{ path('proposal_details_index') }}">back to list</a>
+{% extends 'base.html.twig' %}
+{% import "macros/forms.html.twig" as forms %}
+{% import "macros/a.html.twig" as a %}
+{% block panelTitle %}New proposal_detail{% endblock %}
+{% block panelBack %}{{ a.back('proposal_details_index', {'proposal': proposal.id}) }}{% endblock %}
+{% block panelBody %}
+    {{ forms.panel(form) }}
+{#    {{ include('proposal_details/_form.html.twig') }}#}
 {% endblock %}
+
+
+

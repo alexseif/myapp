@@ -16,31 +16,39 @@
 
     <table class="table">
         <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ proposal.id }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ proposal.title }}</td>
-            </tr>
-            <tr>
-                <th>CreatedAt</th>
-                <td>{{ proposal.createdAt ? proposal.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>UpdatedAt</th>
-                <td>{{ proposal.updatedAt ? proposal.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Status</th>
-                <td>{{ proposal.status }}</td>
-            </tr>
-            <tr>
-                <th>Enabled</th>
-                <td>{{ proposal.enabled ? 'Yes' : 'No' }}</td>
-            </tr>
+        <tr>
+            <th>Id</th>
+            <td>{{ proposal.id }}</td>
+        </tr>
+        <tr>
+            <th>Title</th>
+            <td>{{ proposal.title }}</td>
+        </tr>
+        <tr>
+            <th>Client</th>
+            <td>{{ proposal.client }}</td>
+        </tr>
+        <tr>
+            <th>CreatedAt</th>
+            <td>{{ proposal.createdAt ? proposal.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+        </tr>
+        <tr>
+            <th>UpdatedAt</th>
+            <td>{{ proposal.updatedAt ? proposal.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+        </tr>
+        <tr>
+            <th>Status</th>
+            <td>{{ proposal.status }}</td>
+        </tr>
+        <tr>
+            <th>Enabled</th>
+            <td>{{ proposal.enabled ? 'Yes' : 'No' }}</td>
+        </tr>
         </tbody>
     </table>
+    <hr/>
+    <h2>Proposal Details</h2>
+    {{ include('proposal_details/_list.html.twig', {'proposal_details':proposal.details}) }}
 
+    {{ a.add('proposal_details_new', {'proposal':proposal.id}) }}
 {% endblock %}

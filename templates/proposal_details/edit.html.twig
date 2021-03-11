@@ -1,13 +1,13 @@
-<!DOCTYPE html>
-
-<title>Edit ProposalDetails</title>
-
-{% block body %}
-    <h1>Edit ProposalDetails</h1>
-
-    {{ include('proposal_details/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('proposal_details_index') }}">back to list</a>
-
-    {{ include('proposal_details/_delete_form.html.twig') }}
+{% extends 'base.html.twig' %}
+{% import "macros/forms.html.twig" as forms %}
+{% import "macros/a.html.twig" as a %}
+{% block title %}Edit {{ proposal_details.title }}{% endblock %}
+{% block panelBack %}{{ a.back('proposal_details_index', {'proposal':proposal.id}) }}{% endblock %}
+{% block panelTitle %}{{ proposal_details.title }}{% endblock %}
+{% block panelHeadingRight %}{{ include('proposal_details/_delete_form.html.twig') }}{% endblock %}
+{% block panelBody %}
+    {{ forms.panel(form, false) }}
+{#    {{ include('proposal_details/_form.html.twig', {'button_label': 'Update'}) }}#}
 {% endblock %}
+
+
