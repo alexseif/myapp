@@ -6,15 +6,16 @@
         {% set widgetBody %}
             <!-- https://codepen.io/jasonleewilson/pen/gPrxwX -->
             <!-- https://www.timeanddate.com/worldclock/egypt/cairo -->
-            <div class="float-left">{{ ("now"|date("d")  / "now"|date("t") * 100)|round }}%</div>
+            <sup class="float-left">{{ ("now"|date("d")  / "now"|date("t") * 100)|round }}%</sup>
             <div id="timedate" class="text-right text-nowrap">
                 <div class="h3">
                     <strong><a id="h">{{ "now"|date("H") }}</a>:<a id="m">{{ "now"|date("i") }}</a></strong>
                     <sup><a id="s">{{ "now"|date("s") }}</a></sup>
                 </div>
                 <strong>
-                    <a id="day">{{ "now"|date('l') }}</a>, <a id="d">{{ "now"|date("d") }}</a>
-                    <a id="mon">{{ "now"|date("F") }}</a> <a id="y">{{ "now"|date("Y") }}</a>
+                    <a id="y">{{ "now"|date("Y") }}</a>-<a id="mon">{{ "now"|date("m") }}</a>-<a
+                            id="d">{{ "now"|date("d") }}</a>
+                    <a id="day">{{ "now"|date('l') }}</a>
                 </strong>
             </div>
         {% endset %}
@@ -27,18 +28,18 @@
                 <tbody>
                 <tr>
                     <td>{{ pm.earnedToday }} / {{ pm.daily }}</td>
-                    <td><i class="fa fa-egp" title="Revenue"></i></td>
-                    <td>{{ pm.todayProgress }}%</td>
+                    <td><i class="fa fa-egp" title="Daily Revenue"></i></td>
+                    <td><sup>{{ pm.todayProgress }}%</sup></td>
                 </tr>
                 <tr>
                     <td>{{ pm.earnedThisWeek }} / {{ pm.weekly }}</td>
-                    <td><i class="fa fa-egp" title="Revenue"></i></td>
-                    <td>{{ pm.weekProgress }}%</td>
+                    <td><i class="fa fa-egp" title="Weekly Revenue"></i></td>
+                    <td><sup>{{ pm.weekProgress }}%</sup></td>
                 </tr>
                 <tr>
                     <td>{{ pm.earnedThisMonth }} / {{ pm.monthly }}</td>
-                    <td><i class="fa fa-egp" title="Revenue"></i></td>
-                    <td>{{ pm.monthProgress }}%</td>
+                    <td><i class="fa fa-egp" title="Monthly Revenue"></i></td>
+                    <td><sup>{{ pm.monthProgress }}%</sup></td>
                 </tr>
                 </tbody>
             </table>
