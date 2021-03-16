@@ -2,8 +2,8 @@
 
 namespace AppBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
@@ -52,7 +52,7 @@ class Accounts
     private $client;
 
     /**
-     * @ORM\OneToMany(targetEntity="TaskLists", mappedBy="account")
+     * @ORM\OneToMany(targetEntity=TaskLists::class, mappedBy="account")
      */
     private $taskLists;
 
@@ -61,8 +61,8 @@ class Accounts
      */
     public function __construct()
     {
-        $this->transactions = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->taskLists = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->transactions = new ArrayCollection();
+        $this->taskLists = new ArrayCollection();
     }
 
     /**
@@ -101,10 +101,10 @@ class Accounts
     /**
      * Add transactions
      *
-     * @param \AppBundle\Entity\AccountTransactions $transactions
+     * @param AccountTransactions $transactions
      * @return Accounts
      */
-    public function addTransaction(\AppBundle\Entity\AccountTransactions $transactions)
+    public function addTransaction(AccountTransactions $transactions)
     {
         $this->transactions[] = $transactions;
 
@@ -114,9 +114,9 @@ class Accounts
     /**
      * Remove transactions
      *
-     * @param \AppBundle\Entity\AccountTransactions $transactions
+     * @param AccountTransactions $transactions
      */
-    public function removeTransaction(\AppBundle\Entity\AccountTransactions $transactions)
+    public function removeTransaction(AccountTransactions $transactions)
     {
         $this->transactions->removeElement($transactions);
     }
@@ -144,11 +144,11 @@ class Accounts
     /**
      * Set client
      *
-     * @param \AppBundle\Entity\Client $client
+     * @param Client $client
      *
      * @return Accounts
      */
-    public function setClient(\AppBundle\Entity\Client $client = null)
+    public function setClient(Client $client = null)
     {
         $this->client = $client;
 
@@ -158,7 +158,7 @@ class Accounts
     /**
      * Get client
      *
-     * @return \AppBundle\Entity\Client
+     * @return Client
      */
     public function getClient()
     {
@@ -168,13 +168,13 @@ class Accounts
     /**
      * Add taskList
      *
-     * @param \AppBundle\Entity\TaskLists $taskList
+     * @param TaskLists $taskList
      *
      * @return Accounts
      */
-    public function addTaskList(\AppBundle\Entity\TaskLists $taskList)
+    public function addTaskList(TaskLists $taskList)
     {
-        $this->taskList[] = $taskList;
+        $this->taskLists[] = $taskList;
 
         return $this;
     }
@@ -182,11 +182,11 @@ class Accounts
     /**
      * Remove taskList
      *
-     * @param \AppBundle\Entity\TaskLists $taskList
+     * @param TaskLists $taskList
      */
-    public function removeTaskList(\AppBundle\Entity\TaskLists $taskList)
+    public function removeTaskList(TaskLists $taskList)
     {
-        $this->taskList->removeElement($taskList);
+        $this->taskLists->removeElement($taskList);
     }
 
     /**

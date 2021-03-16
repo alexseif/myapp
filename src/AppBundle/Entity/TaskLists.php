@@ -2,19 +2,17 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Repository\TaskListsRepository;
 use DateInterval;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
- * TaskLists
- *
- * @ORM\Table(name="task_lists")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\TaskListsRepository")
+ * @ORM\Entity(repositoryClass=TaskListsRepository::class)
  */
 class TaskLists
 {
@@ -24,40 +22,43 @@ class TaskLists
     /**
      * @var int
      *
-     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
      */
     private $id;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(type="string", length=255)
      */
     private $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Accounts", inversedBy="taskLists")
-     * @ORM\JoinColumn(name="account_id", referencedColumnName="id", nullable=true)
+     * @ORM\ManyToOne(targetEntity=Accounts::class, inversedBy="taskLists")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $account;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="status", type="string", length=255)
+     * @ORM\Column(type="string", length=255)
      */
     private $status;
 
+
     /**
-     * @ORM\OneToMany(targetEntity="Tasks", mappedBy="taskList", cascade="remove")
+     * @ORM\OneToMany(targetEntity=Tasks::class, mappedBy="taskList", cascade="remove")
      * @ORM\OrderBy({"completed" = "ASC", "order" = "ASC"})
      */
     private $tasks;
 
     /**
-     * @ORM\OneToMany(targetEntity=Feature::class, mappedBy="list", orphanRemoval=true)
+     * @var string
+     *
+     * @ORM\OneToMany(targetEntity=Feature::class, mappedBy="list, orphanRemoval=true")
      */
     private $features;
 
@@ -71,92 +72,65 @@ class TaskLists
         $this->features = new ArrayCollection();
     }
 
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * Set name
-     *
-     * @param string $name
-     * @return TaskLists
-     */
-    public function setName($name)
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
     {
         $this->name = $name;
 
         return $this;
     }
 
-    /**
-     * Get name
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Set status
-     *
-     * @param string $status
-     * @return TaskLists
-     */
-    public function setStatus($status)
+    public function setStatus(?string $status): self
     {
         $this->status = $status;
 
         return $this;
     }
 
-    /**
-     * Get status
-     *
-     * @return string
-     */
-    public function getStatus()
+
+    public function getStatus(): ?string
     {
         return $this->status;
     }
 
-    /**
-     * Add tasks
-     *
-     * @param Tasks $tasks
-     * @return TaskLists
-     */
-    public function addTask(Tasks $tasks)
+
+    public function addTask(Tasks $task): self
     {
-        $tasks->setTaskList($this);
-        $this->tasks[] = $tasks;
+        if (!$this->tasks->contains($task)) {
+            $this->tasks[] = $task;
+            $task->setTaskList($this);
+        }
 
         return $this;
     }
 
-    /**
-     * Remove tasks
-     *
-     * @param Tasks $tasks
-     */
-    public function removeTask(Tasks $tasks)
+
+    public function removeTask(Tasks $task): self
     {
-        $this->tasks->removeElement($tasks);
+        if ($this->tasks->removeElement($task)) {
+            // set the owning side to null (unless already changed)
+            if ($task->getTaskList() === $this) {
+                $task->setTaskList(null);
+            }
+        }
+
+        return $this;
     }
 
+
     /**
-     * Get tasks
-     *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection|Tasks[]
      */
-    public function getTasks($showComplete = true)
+    public function getTasks($showComplete = true): Collection
     {
         $criteria = Criteria::create();
         if ($showComplete !== true) {
@@ -168,7 +142,10 @@ class TaskLists
             'priority' => 'desc'
         ));
         return $this->tasks->matching($criteria);
+
+//        return $this->tasks;
     }
+
 
     public function getDurationTotal($showComplete = true)
     {
@@ -183,33 +160,23 @@ class TaskLists
         return $endDay->diff($today);
     }
 
-    /**
-     * Set account
-     *
-     * @param Accounts $account
-     *
-     * @return TaskLists
-     */
-    public function setAccount(Accounts $account = null)
+
+    public function setAccount(?Accounts $account): self
     {
         $this->account = $account;
 
         return $this;
     }
 
-    /**
-     * Get account
-     *
-     * @return Accounts
-     */
-    public function getAccount()
+
+    public function getAccount(): ?Accounts
     {
         return $this->account;
     }
 
     public function __toString()
     {
-        return $this->getName();
+        return $this->name;
     }
 
     /**
@@ -241,5 +208,4 @@ class TaskLists
 
         return $this;
     }
-
 }

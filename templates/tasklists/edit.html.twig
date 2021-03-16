@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+{% import "macros/forms.html.twig" as forms %}
+{% import "macros/a.html.twig" as a %}
+{% block panelBack %}{{ a.back('tasklists_show', {'id':tasklist.id}) }}{% endblock %}
+{% block panelTitle %}Edit Task List{% endblock %}
+{% block panelTitleSmall %}{{ tasklist.name }}{% endblock %}
+{% block panelHeadingRight %}
+    {{ include('tasklists/_delete_form.html.twig') }}
+{#    {{ forms.delete(delete_form) }}#}
+{% endblock %}
+{% block panelBody %}
+{#    {{ forms.panel(tasklist_form, false) }}#}
+    {{ include('tasklists/_form.html.twig', {'button_label': 'Update'}) }}
+{% endblock %}
+
+
+
+

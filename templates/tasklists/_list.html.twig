@@ -1,0 +1,50 @@
+{% import "macros/forms.html.twig" as forms %}
+{% import "macros/a.html.twig" as a %}
+<ul class="list-group">
+    {% for tasklist in tasklists %}
+        <li class="list-group-item">
+            <a class="btn btn-secondary" href="{{ path('tasklists_show', { 'id': tasklist.id }) }}">
+                {{ tasklist.name }}
+                <span class="badge badge-secondary">{{ tasklist.tasks(false)|length }}</span>
+                <span class="badge badge-default">{{ tasklist.status|capitalize }}</span>
+                <span class="badge badge-default">{{ tasklist.createdAt ? tasklist.createdAt|date('Y-m-d H:i') }}</span>
+            </a>
+            <span class="card-title-labels">
+        {% if (tasklist.account) %}
+            <a href="{{ path('accounts_show', {'id': tasklist.account.id}) }}"
+               class="badge badge-info">{{ tasklist.account.name }}</a>
+          {% if (tasklist.account.client) %}
+            <a href="{{ path('client_show', {'id': tasklist.account.client.id}) }}"
+               class="badge badge-primary">{{ tasklist.account.client.name }}</a>
+        {% endif %}
+        {% endif %}
+      </span>
+            <div class="btn-group btn-group-sm edit-fixed-link">
+                {{ a.add('tasks_new', {"tasklist": tasklist.id}) }}
+                <button type="button" class="btn btn-secondary me"
+                        data-tasklistid="{{ tasklist.id }}"
+                        data-tasklist="{{ tasklist.name }}">
+                    List
+                </button>
+
+                {% if(tasklist.status == 'archive') %}
+                    <a type="button" class="btn btn-secondary"
+                       data-tasklistid="{{ tasklist.id }}"
+                       data-tasklist="{{ tasklist.name }}"
+                       href="{{ path('tasklists_unarchive', { 'id': tasklist.id }) }}">
+                        Open</a>
+
+                {% else %}
+                    <a type="button" class="btn btn-secondary"
+                       data-tasklistid="{{ tasklist.id }}"
+                       data-tasklist="{{ tasklist.name }}"
+                       href="{{ path('tasklists_archive', { 'id': tasklist.id }) }}">
+                        Close</a>
+
+                {% endif %}
+
+                {{ a.edit('tasklists_edit', { 'id': tasklist.id }) }}
+            </div>
+        </li>
+    {% endfor %}
+</ul>

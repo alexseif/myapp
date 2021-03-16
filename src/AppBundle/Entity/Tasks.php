@@ -2,14 +2,16 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Repository\TasksRepository;
+use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
  * Tasks
  *
- * @ORM\Table(name="tasks")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\TasksRepository")
+ * @ORM\Entity(repositoryClass=TasksRepository::class)
  */
 class Tasks
 {
@@ -95,7 +97,7 @@ class Tasks
     private $completedAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity="TaskLists", inversedBy="tasks")
+     * @ORM\ManyToOne(targetEntity=TaskLists::class, inversedBy="tasks")
      * @ORM\JoinColumn(name="task_list_id", referencedColumnName="id")
      */
     private $taskList;
@@ -117,7 +119,7 @@ class Tasks
      */
     public function __construct()
     {
-        $this->costs = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->costs = new ArrayCollection();
         $this->order = 0;
         $this->priority = Tasks::NORMAL_PRIORITY;
         $this->urgency = Tasks::NORMAL_URGENCY;
@@ -215,10 +217,10 @@ class Tasks
     /**
      * Set taskList
      *
-     * @param \AppBundle\Entity\TaskLists $taskList
+     * @param TaskLists|null $taskList
      * @return Tasks
      */
-    public function setTaskList(\AppBundle\Entity\TaskLists $taskList = null)
+    public function setTaskList(TaskLists $taskList = null)
     {
         $this->taskList = $taskList;
 
@@ -228,7 +230,7 @@ class Tasks
     /**
      * Get taskList
      *
-     * @return \AppBundle\Entity\TaskLists
+     * @return TaskLists
      */
     public function getTaskList()
     {
@@ -413,11 +415,11 @@ class Tasks
     /**
      * Set workLog
      *
-     * @param \AppBundle\Entity\WorkLog $workLog
+     * @param WorkLog $workLog
      *
      * @return Tasks
      */
-    public function setWorkLog(\AppBundle\Entity\WorkLog $workLog = null)
+    public function setWorkLog(WorkLog $workLog = null)
     {
         $this->workLog = $workLog;
 
@@ -427,7 +429,7 @@ class Tasks
     /**
      * Get workLog
      *
-     * @return \AppBundle\Entity\WorkLog
+     * @return WorkLog
      */
     public function getWorkLog()
     {
