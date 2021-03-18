@@ -5,7 +5,6 @@ namespace AppBundle\Entity;
 use DateInterval;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Criteria;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
@@ -56,10 +55,6 @@ class TaskLists
      */
     private $tasks;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Feature::class, mappedBy="list", orphanRemoval=true)
-     */
-    private $features;
 
     /**
      * Constructor
@@ -68,7 +63,6 @@ class TaskLists
     {
         $this->tasks = new ArrayCollection();
         $this->status = "start";
-        $this->features = new ArrayCollection();
     }
 
     /**
@@ -212,34 +206,5 @@ class TaskLists
         return $this->getName();
     }
 
-    /**
-     * @return Collection|Feature[]
-     */
-    public function getFeatures(): Collection
-    {
-        return $this->features;
-    }
-
-    public function addFeature(Feature $feature): self
-    {
-        if (!$this->features->contains($feature)) {
-            $this->features[] = $feature;
-            $feature->setList($this);
-        }
-
-        return $this;
-    }
-
-    public function removeFeature(Feature $feature): self
-    {
-        if ($this->features->removeElement($feature)) {
-            // set the owning side to null (unless already changed)
-            if ($feature->getList() === $this) {
-                $feature->setList(null);
-            }
-        }
-
-        return $this;
-    }
 
 }
