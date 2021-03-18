@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+{% import "macros/a.html.twig" as a %}
+{% block floatingActions %}{{ a.add('routine_new') }}{% endblock %}
+{% block title %}Routines{% endblock %}
+{% block content %}
+    <h2>Pick a List</h2>
+    <div class="card-deck">
+        {% for tasklist in tasklists %}
+            <div class="card">
+                <a href="{{ path('sizing_tasklist', {'id': tasklist.id}) }}">
+                    <div class="card-header">
+                        {{ tasklist }}
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

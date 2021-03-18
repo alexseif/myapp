@@ -1,0 +1,111 @@
+{% extends 'base.html.twig' %}
+{% import "macros/a.html.twig" as a %}
+{% block floatingActions %}{{ a.add('routine_new') }}{% endblock %}
+{% block title %}Sizing{% endblock %}
+{% block content %}
+    {# @todo: add tasks #}
+    {# @todo: delete tasks #}
+    {# @todo: fix card header #}
+    {# @todo: save data inputs #}
+    <style>
+        table tr td:nth-child(3),
+        table tr td:nth-child(4),
+        table tr td input {
+            text-align: right;
+        }
+    </style>
+    <h2>Size tasks</h2>
+    <div class="card">
+        <div class="card-header">
+            {{ tasklist }} - {{ tasklist.account }} - {{ tasklist.account.client }}
+            <span class="float-right" id="rate" data-rate="{{ rate_calculator.getRate(tasklist.account.client) }}">
+                EGP {{ rate_calculator.getRate(tasklist.account.client)|number_format }}</span>
+        </div>
+        <div class="card-body">
+            <div class="d-flex flex-fill justify-content-between">
+                <div>Status: {{ tasklist.status }};</div>
+                <div>CreatedAt: {{ tasklist.createdAt|date }};</div>
+                <div>UpdatedAt: {{ tasklist.updatedAt|date }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="tasks">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>id</th>
+                <th>task</th>
+                <th>est</th>
+                <th>value</th>
+                <th>createdAt</th>
+                <th>updatedAt</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for task in tasklist.tasks %}
+                <tr id="{{ task.id }}">
+                    <td>{{ task.id }}</td>
+                    <td>{{ task.task }}</td>
+                    <td>
+                        <label>
+                            <input type="number" name="task[{{ task.id }}][est]" value="{{ task.est }}"
+                                   class="form-control" data-task="{{ task.id }}"/>
+                        </label>
+                    </td>
+                    <td class="total"></td>
+                    <td>{{ task.createdAt|date }}</td>
+                    <td>{{ task.updatedAt|date }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+            <tfoot>
+            <tr>
+                <td>#</td>
+                <td>{{ tasklist.tasks|length }}</td>
+                <th id="est-total" data-est=0></th>
+                <th id="total" data-total=0></th>
+                <td colspan="2"></td>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    {# @todo: create class #}
+    <script>
+        function calculateEstTotal() {
+            let estTotal = 0;
+            $('input').each(function () {
+                estTotal += parseInt($(this).val(), 10) || 0;
+            });
+            $('#est-total')
+                .data('total', estTotal)
+                .text(estTotal);
+
+            return estTotal;
+        }
+
+        function updateTotal() {
+            let estTotal = calculateEstTotal();
+            let total = parseInt(estTotal * rate / 60, 10) || 0;
+            $('#total')
+                .data('total', total)
+                .text('EGP ' + total + '.00');
+        }
+
+        function estChanged() {
+            $task = $(this).data('task');
+            let newEst = $(this).val();
+            $('#' + $task + ' .total').text(parseInt(newEst * rate / 60, 10) || 0);
+            console.log($task);
+            updateTotal();
+        }
+
+        let rate = parseInt($('#rate').data('rate'), 10) || 0;
+        $(function () {
+            $('input').change(estChanged);
+            updateTotal();
+        })
+    </script>
+{% endblock %}
