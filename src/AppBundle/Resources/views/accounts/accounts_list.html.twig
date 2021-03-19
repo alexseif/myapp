@@ -12,8 +12,7 @@
         {% for account in accounts %}
             {% if account.balance or not hideEmpty %}
                 {% set total = total + account.balance %}
-                <tr scope="row"
-                    class="text-{{ (account.balance == 0) ? "default" : (account.balance) < 0 ? "success": "danger" }}">
+                <tr class="text-{{ (account.balance == 0) ? "default" : (account.balance) < 0 ? "success": "danger" }}">
                     <td class='text-'>
                         <div class="row">
                             <div class="col">
@@ -37,7 +36,9 @@
                         </div><!-- end row -->
                         {{ a.show('accounts_show', { 'id': account.id }) }}
                         {{ a.edit('accounts_edit', { 'id': account.id }) }}
-                        {{ a.add('accounttransactions_new', { 'account': account.id }) }}
+                        {{ a.linkGlyph('success', 'New Transaction','accounttransactions_new', { 'account': account.id }) }}
+                        {{ a.linkGlyph('primary', 'New List','tasklists_new', { 'account': account.id }) }}
+                        {{ a.linkGlyph('primary', 'New Sizing', 'sizing_index', { 'account': account.id }) }}
                     </td>
                 </tr>
             {% endif %}

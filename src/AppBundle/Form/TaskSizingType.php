@@ -6,7 +6,6 @@ use AppBundle\Entity\Tasks;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -32,7 +31,7 @@ class TaskSizingType extends AbstractType
                     'Important' => 1,
                 ),
                 'expanded' => true,
-                'label_attr' => array('class' => 'radio - inline')
+                'label_attr' => array('class' => 'radio-inline')
             ))
             ->add('urgency', ChoiceType::class, array(
                 'label' => false,
@@ -41,9 +40,8 @@ class TaskSizingType extends AbstractType
                     'Urgent' => 1
                 ),
                 'expanded' => true,
-                'label_attr' => array('class' => 'radio - inline')
+                'label_attr' => array('class' => 'radio-inline')
             ))
-            ->add('order', HiddenType::class)
             ->add('eta', DateTimeType::class, array(
                 'label' => false,
                 'date_widget' => 'single_text',

@@ -367,8 +367,11 @@ class TasksController extends Controller
             $entityManager->remove($task);
             $entityManager->flush();
         }
-
-        return $this->redirectToRoute('tasks_index');
+        if ($request->isXMLHttpRequest()) {
+            return JsonResponse::create();
+        }
+        $redirect = ($request->headers->get('referer')) ?: $this->generateUrl('tasks_index');
+        return $this->redirect($redirect);
     }
 
 }
