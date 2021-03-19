@@ -2,6 +2,9 @@
 
 namespace AppBundle\Entity;
 
+use DateTime;
+use DateTime as datetimeAlias;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
@@ -74,7 +77,7 @@ class Tasks
     private $est;
 
     /**
-     * @var datetime
+     * @var datetimeAlias
      *
      * @ORM\Column(name="eta", type="datetime", nullable=true)
      */
@@ -85,10 +88,10 @@ class Tasks
      *
      * @ORM\Column(name="completed", type="boolean")
      */
-    private $completed;
+    private $completed = false;
 
     /**
-     * @var datetime
+     * @var DateTime
      *
      * @ORM\Column(name="completedAt", type="datetime", nullable=true)
      */
@@ -117,7 +120,7 @@ class Tasks
      */
     public function __construct()
     {
-        $this->costs = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->costs = new ArrayCollection();
         $this->order = 0;
         $this->priority = Tasks::NORMAL_PRIORITY;
         $this->urgency = Tasks::NORMAL_URGENCY;
@@ -205,7 +208,7 @@ class Tasks
     /**
      * Get completedAt
      *
-     * @return \DateTime
+     * @return DateTime
      */
     public function getCompletedAt()
     {
@@ -215,10 +218,10 @@ class Tasks
     /**
      * Set taskList
      *
-     * @param \AppBundle\Entity\TaskLists $taskList
+     * @param TaskLists $taskList
      * @return Tasks
      */
-    public function setTaskList(\AppBundle\Entity\TaskLists $taskList = null)
+    public function setTaskList(TaskLists $taskList = null)
     {
         $this->taskList = $taskList;
 
@@ -228,7 +231,7 @@ class Tasks
     /**
      * Get taskList
      *
-     * @return \AppBundle\Entity\TaskLists
+     * @return TaskLists
      */
     public function getTaskList()
     {
@@ -403,7 +406,7 @@ class Tasks
     /**
      * Get eta
      *
-     * @return \DateTime
+     * @return DateTime
      */
     public function getEta()
     {
@@ -413,11 +416,11 @@ class Tasks
     /**
      * Set workLog
      *
-     * @param \AppBundle\Entity\WorkLog $workLog
+     * @param WorkLog $workLog
      *
      * @return Tasks
      */
-    public function setWorkLog(\AppBundle\Entity\WorkLog $workLog = null)
+    public function setWorkLog(WorkLog $workLog = null)
     {
         $this->workLog = $workLog;
 
@@ -427,7 +430,7 @@ class Tasks
     /**
      * Get workLog
      *
-     * @return \AppBundle\Entity\WorkLog
+     * @return WorkLog
      */
     public function getWorkLog()
     {

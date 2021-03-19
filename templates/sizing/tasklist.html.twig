@@ -1,9 +1,10 @@
 {% extends 'base.html.twig' %}
 {% import "macros/a.html.twig" as a %}
-{% block floatingActions %}{{ a.add('routine_new') }}{% endblock %}
+{% block floatingActions %}
+    {{ a.linkGlyph('primary btn-ajax', 'fa fa-plus', 'sizing_new_task', {'id':tasklist.id}) }}
+{% endblock %}
 {% block title %}Sizing{% endblock %}
 {% block content %}
-    {# @todo: add tasks #}
     {# @todo: delete tasks #}
     {# @todo: fix card header #}
     {# @todo: save data inputs #}
@@ -30,6 +31,9 @@
         </div>
     </div>
     <div class="tasks">
+        {{ form_start(form) }}
+
+        <h3>Tasks</h3>
         <table class="table table-striped">
             <thead>
             <tr>
@@ -37,37 +41,43 @@
                 <th>task</th>
                 <th>est</th>
                 <th>value</th>
-                <th>createdAt</th>
-                <th>updatedAt</th>
+                <th>eta</th>
+                <th>priority</th>
+                <th>urgency</th>
             </tr>
             </thead>
             <tbody>
-            {% for task in tasklist.tasks %}
-                <tr id="{{ task.id }}">
-                    <td>{{ task.id }}</td>
-                    <td>{{ task.task }}</td>
-                    <td>
-                        <label>
-                            <input type="number" name="task[{{ task.id }}][est]" value="{{ task.est }}"
-                                   class="form-control" data-task="{{ task.id }}"/>
-                        </label>
-                    </td>
-                    <td class="total"></td>
-                    <td>{{ task.createdAt|date }}</td>
-                    <td>{{ task.updatedAt|date }}</td>
-                </tr>
+            {# {% for task in tasklist.tasks %} #}
+            {% for task in form.tasks %}
+                {% if not task.vars.value.completed %}
+                    <tr id="{{ task.vars.value.id }}">
+                        <td>{{ task.vars.value.id }}</td>
+                        <td>{{ form_widget(task.task) }}</td>
+                        <td>{{ form_widget(task.est, {'attr':{'data-task':task.vars.value.id}}) }}</td>
+                        <td class="total"></td>
+                        <td>{{ form_widget(task.eta) }}</td>
+                        <td>
+                            {{ form_widget(task.priority) }}
+                        </td>
+                        <td>
+                            {{ form_widget(task.urgency) }}
+                        </td>
+                    </tr>
+                {% endif %}
             {% endfor %}
             </tbody>
             <tfoot>
             <tr>
                 <td>#</td>
+                {# @todo: count tasks #}
                 <td>{{ tasklist.tasks|length }}</td>
                 <th id="est-total" data-est=0></th>
                 <th id="total" data-total=0></th>
-                <td colspan="2"></td>
+                <td colspan="3"></td>
             </tr>
             </tfoot>
         </table>
+        {{ form_end(form, {'render_rest': false}) }}
     </div>
 {% endblock %}
 {% block javascripts %}
@@ -76,7 +86,7 @@
     <script>
         function calculateEstTotal() {
             let estTotal = 0;
-            $('input').each(function () {
+            $('input.est').each(function () {
                 estTotal += parseInt($(this).val(), 10) || 0;
             });
             $('#est-total')
@@ -98,7 +108,6 @@
             $task = $(this).data('task');
             let newEst = $(this).val();
             $('#' + $task + ' .total').text(parseInt(newEst * rate / 60, 10) || 0);
-            console.log($task);
             updateTotal();
         }
 
@@ -107,5 +116,21 @@
             $('input').change(estChanged);
             updateTotal();
         })
+    </script>
+    <script>
+        $(function () {
+            $('.btn-ajax').click(function (event) {
+                event.preventDefault();
+                event.stopPropagation();
+                $.ajax({
+                    type: "GET",
+                    url: $(this).attr("href"),
+                    dataType: "json"
+                }).done(function (data) {
+                    $('#ajax-container').html(data);
+                    $('.modal').modal('show');
+                });
+            });
+        });
     </script>
 {% endblock %}
