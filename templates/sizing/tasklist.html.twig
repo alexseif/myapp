@@ -1,10 +1,25 @@
 {% extends 'base.html.twig' %}
 {% import "macros/a.html.twig" as a %}
 {% block floatingActions %}
-    {{ a.linkGlyph('primary btn-modal', 'fa fa-plus', 'sizing_new_task', {'id':tasklist.id}) }}
+    {{ a.linkGlyph('primary btn-modal', 'fa fa-plus', 'sizing_new_task', query) }}
 {% endblock %}
 {% block title %}Sizing{% endblock %}
-{% block content %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css"/>
+    <style>
+        table.dataTable tbody tr {
+            background-color: transparent;
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: black;
+        }
+
+        table tbody tr td {
+            text-align: left;
+        }
+    </style>
     <style>
         table tr td:nth-child(2) {
             width: 40%;
@@ -27,20 +42,31 @@
             box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
         }
     </style>
-    <h2>Size tasks</h2>
+{% endblock %}
+{% block content %}
+    <a class="btn btn-sm btn-secondary float-right" id="reset"
+       href="{{ path('sizing_by_tasklist', query) }}">Reset View</a>
 
+    <h2>Size tasks</h2>
     <div class="tasks">
         {{ form_start(form) }}
         {{ form_row(form._token) }}
         {{ form_errors(form) }}
         <h3>Tasks</h3>
-        <table class="table table-striped">
+        <table class="table table-striped" id="sizing_table">
             <thead>
             <tr>
                 <th></th>
                 <th>{{ tasklist }} - {{ tasklist.account }} - {{ tasklist.account.client }}</th>
+                <th>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-sm btn-secondary assign-est" data-est="30">30mins</button>
+                        <button type="button" class="btn btn-sm btn-secondary assign-est" data-est="60">60mins</button>
+                        <button type="button" class="btn btn-sm btn-secondary clear-est" data-est="60">Clear</button>
+                    </div>
+                </th>
                 <th>Status: {{ tasklist.status }}</th>
-                <th id="rate" data-rate="{{ rate_calculator.getRate(tasklist.account.client) }}" colspan="5">
+                <th id="rate" data-rate="{{ rate_calculator.getRate(tasklist.account.client) }}" colspan="4">
                     EGP {{ rate_calculator.getRate(tasklist.account.client)|number_format }}
                 </th>
             </tr>
@@ -67,11 +93,13 @@
                     <tr id="{{ task.vars.value.id }}">
                         <td>{{ task.vars.value.id }}</td>
                         <td>{{ form_widget(task.task) }}</td>
-                        <td>{{ form_widget(task.est, {'attr':{'data-task':task.vars.value.id}}) }}</td>
+                        <td data-order="{{ task.vars.value.est }}">{{ form_widget(task.est, {'attr':{'data-task':task.vars.value.id}}) }}</td>
                         <td class="total"></td>
                         <td class="d-none details">{{ form_widget(task.eta) }}</td>
-                        <td class="d-none details">{{ form_widget(task.priority) }}</td>
-                        <td class="d-none details">{{ form_widget(task.urgency) }}</td>
+                        <td class="d-none details"
+                            data-order="{{ task.vars.value.priority }}">{{ form_widget(task.priority) }}</td>
+                        <td class="d-none details"
+                            data-order="{{ task.vars.value.urgency }}">{{ form_widget(task.urgency) }}</td>
                         <td class="">
                             <a class="btn btn-danger btn-confirm btn-ajax-delete d-none"
                                data-data='{"_token":"{{ csrf_token('delete' ~ task.vars.value.id) }}", "_method": "DELETED"}'
@@ -144,5 +172,36 @@
                 $('table .btn-ajax-delete').toggleClass('d-none');
             });
         })
+    </script>
+    <script type="text/javascript" src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(function () {
+            let sizingTable = $('#sizing_table').DataTable({
+                "stateSave": true,
+                "aaSorting": [],
+            });
+            //reset view
+            $('#reset').click(function () {
+                sizingTable.state.clear();
+                return true;
+            });
+
+            //assign est
+            $('.assign-est').click(function () {
+                _self = this;
+                $est = $(_self).data('est');
+                $('input.est').each(function () {
+                    $(this).val($(this).val() || $est);
+                });
+            });
+            //clear est
+            $('.clear-est').click(function () {
+                _self = this;
+                $est = $(_self).data('est');
+                $('input.est').each(function () {
+                    $(this).val(null);
+                });
+            });
+        });
     </script>
 {% endblock %}
