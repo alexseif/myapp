@@ -24,7 +24,9 @@ class TasklistSizingType extends AbstractType
                 ],
                 'allow_add' => true,
                 'allow_delete' => true,
-                'by_reference' => false
+                'by_reference' => false,
+                'data' => $options['tasks'],
+                'mapped' => false
             ]);
     }
 
@@ -36,5 +38,6 @@ class TasklistSizingType extends AbstractType
         $resolver->setDefaults([
             'data_class' => TaskLists::class,
         ]);
+        $resolver->setRequired(['tasks']);
     }
 }
