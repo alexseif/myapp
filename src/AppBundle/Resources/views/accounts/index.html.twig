@@ -35,7 +35,8 @@
         $(document).ready(function () {
             var tasksTable = $('#accounts').DataTable({
                 "stateSave": true,
-                "aaSorting": []
+                "aaSorting": [],
+                "pageLength": 100
             });
             //reset view
             $('#reset').click(function () {
