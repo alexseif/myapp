@@ -64,7 +64,8 @@ class SizingController extends Controller
         }
         return $this->render('sizing/tasklist.html.twig', [
             'tasklist' => $tasklist,
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'query' => $query
         ]);
     }
 
