@@ -1,6 +1,8 @@
 body {
     color: #fff;
     background: #222;
+    /*background: linear-gradient(to bottom right, #222 0%, #303030 100%);*/
+    padding-bottom: 4rem;
 }
 
 footer {
@@ -575,4 +577,8 @@ table.income-progress tr td:last-child {
         -ms-flex: 1 0 22%;
         flex: 1 0 22%;
     }
+}
+
+.flex-form .form-group{
+  flex: 1;
 }

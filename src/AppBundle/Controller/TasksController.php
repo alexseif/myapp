@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Repository\TaskListsRepository;
 use DateInterval;
 use \DateTime;
 use AppBundle\Entity\Tasks;
@@ -10,11 +11,11 @@ use AppBundle\Form\TasksType;
 use AppBundle\Repository\TasksRepository;
 use AppBundle\Util\Paginator;
 use Doctrine\Common\Collections\ArrayCollection;
+use Exception;
 use stdClass;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,6 +29,9 @@ class TasksController extends Controller
 {
     /**
      * @Route("/", name="tasks_index", methods={"GET"})
+     * @param TasksRepository $tasksRepository
+     * @param Request $request
+     * @return Response
      */
     public function index(TasksRepository $tasksRepository, Request $request): Response
     {
@@ -48,14 +52,14 @@ class TasksController extends Controller
      *
      * @Route("/reorder", name="tasks_reorder", methods={"GET"})
      */
-    public function reorderAction()
+    public function reorderAction(): JsonResponse
     {
         $em = $this->getDoctrine()->getManager();
         $tasksRepo = $em->getRepository('AppBundle:Tasks');
         $weightedList = $tasksRepo->weightedList();
         $taskListsOrder = [];
         foreach ($weightedList as $key => $row) {
-            if (!in_array($row['id'], $taskListsOrder)) {
+            if (!in_array($row['id'], $taskListsOrder, true)) {
                 $taskListsOrder[] = $row['id'];
             }
         }
@@ -82,6 +86,9 @@ class TasksController extends Controller
      * Search all Tasks entities.
      *
      * @Route("/progressByDate", name="tasks_progress_by_date", methods={"GET"})
+     * @param TasksRepository $tasksRepository
+     * @param Request $request
+     * @return Response
      */
     public function progressByDateAction(TasksRepository $tasksRepository, Request $request): Response
     {
@@ -117,6 +124,9 @@ class TasksController extends Controller
      * Search all Tasks entities.
      *
      * @Route("/search", name="tasks_search", methods={"GET"})
+     * @param TasksRepository $tasksRepository
+     * @param Request $request
+     * @return Response
      */
     public function searchAction(TasksRepository $tasksRepository, Request $request): Response
     {
@@ -159,9 +169,9 @@ class TasksController extends Controller
      * Advanced Lists all Tasks entities.
      *
      * @Route("/advanced", name="tasks_advanced", methods={"GET", "POST"})
-     * @return \Symfony\Component\HttpFoundation\Response|null
+     * @return Response|null
      */
-    public function advancedAction()
+    public function advancedAction(): ?Response
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -183,8 +193,10 @@ class TasksController extends Controller
      * Displays a form to edit an existing Tasks entity.
      *
      * @Route("/order", name="tasks_order", methods={"POST"})
+     * @param Request $request
+     * @return JsonResponse
      */
-    public function orderAction(Request $request)
+    public function orderAction(Request $request): JsonResponse
     {
 
         if ($request->isXMLHttpRequest()) {
@@ -202,14 +214,14 @@ class TasksController extends Controller
     }
 
     /**
-     * @Route("/new", name="tasks_new", methods={"GET","POST"})
+     * @param Request $request
+     * @return Tasks
      */
-    public function new(Request $request): Response
+    public function createNewTask(TaskListsRepository $taskListsRepository, Request $request): Tasks
     {
-        $em = $this->getDoctrine()->getManager();
         $task = new Tasks();
         if (!empty($request->get("tasklist"))) {
-            $taskList = $em->getRepository('AppBundle:TaskLists')->find($request->get("tasklist"));
+            $taskList = $taskListsRepository->find($request->get("tasklist"));
             $task->setTaskList($taskList);
         }
         if (!empty($request->get("duration"))) {
@@ -217,15 +229,34 @@ class TasksController extends Controller
         }
         if (!empty($request->get("completedAt"))) {
             $task->setCompleted(true);
-            $task->setCompletedAt(new DateTime($request->get("completedAt")));
+            try {
+                $task->setCompletedAt(new DateTime($request->get("completedAt")));
+            } catch (Exception $e) {
+                $task->setCompletedAt(new DateTime());
+            }
         }
+        return $task;
+    }
+
+    /**
+     * @Route("/new", name="tasks_new", methods={"GET","POST"})
+     * @param Request $request
+     * @return Response
+     * @throws Exception
+     */
+    public function new(Request $request): Response
+    {
+
+        $task = $this->createNewTask($this->get(TaskListsRepository::class), $request);
+
         $form = $this->createForm(TasksType::class, $task);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             if ($task->getCompleted()) {
-                if (is_null($task->getCompletedAt()))
+                if (is_null($task->getCompletedAt())) {
                     $task->setCompletedAt(new DateTime());
+                }
             } else {
                 $task->setCompletedAt(null);
             }
@@ -244,6 +275,8 @@ class TasksController extends Controller
 
     /**
      * @Route("/{id}", name="tasks_show", methods={"GET"})
+     * @param Tasks $task
+     * @return Response
      */
     public function show(Tasks $task): Response
     {
@@ -254,6 +287,10 @@ class TasksController extends Controller
 
     /**
      * @Route("/{id}/edit", name="tasks_edit", methods={"GET","POST"})
+     * @param Request $request
+     * @param Tasks $task
+     * @return Response
+     * @throws Exception
      */
     public function edit(Request $request, Tasks $task): Response
     {
@@ -265,7 +302,7 @@ class TasksController extends Controller
                 $postpone = $request->get('postpone');
                 $eta = new DateTime($request->get('postpone'));
                 if ("tomorrow" === $postpone) {
-                    $eta->setTime(8, 0, 0);
+                    $eta->setTime(8, 0);
                 }
                 $task->setEta($eta);
             }
@@ -296,14 +333,12 @@ class TasksController extends Controller
                 $lastMonth = new DateTime();
                 $lastMonth->sub(new DateInterval('P1M'));
                 $task->setCompletedAt($lastMonth);
-            } else {
-                if ($task->getCompleted()) {
-                    if (null == $task->getCompletedAt()) {
-                        $task->setCompletedAt(new DateTime());
-                    }
-                } else {
-                    $task->setCompletedAt(null);
+            } else if ($task->getCompleted()) {
+                if (null == $task->getCompletedAt()) {
+                    $task->setCompletedAt(new DateTime());
                 }
+            } else {
+                $task->setCompletedAt(null);
             }
 
             $this->getDoctrine()->getManager()->flush();
@@ -321,6 +356,9 @@ class TasksController extends Controller
 
     /**
      * @Route("/{id}", name="tasks_delete", methods={"DELETE"})
+     * @param Request $request
+     * @param Tasks $task
+     * @return Response
      */
     public function delete(Request $request, Tasks $task): Response
     {
@@ -329,23 +367,11 @@ class TasksController extends Controller
             $entityManager->remove($task);
             $entityManager->flush();
         }
-
-        return $this->redirectToRoute('tasks_index');
-    }
-
-    /**
-     * Creates a form to delete a Tasks entity.
-     *
-     * @param Tasks $task The Tasks entity
-     *
-     * @return Form|\Symfony\Component\Form\FormInterface
-     */
-    private function createDeleteForm(Tasks $task)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('tasks_delete', array('id' => $task->getId())))
-            ->setMethod('DELETE')
-            ->getForm();
+        if ($request->isXMLHttpRequest()) {
+            return JsonResponse::create();
+        }
+        $redirect = ($request->headers->get('referer')) ?: $this->generateUrl('tasks_index');
+        return $this->redirect($redirect);
     }
 
 }

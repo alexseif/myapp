@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+{% import "macros/a.html.twig" as a %}
+{% block title %}Sizing{% endblock %}
+{% block content %}
+    <h2>Pick a List</h2>
+    <div class="card-deck">
+        {% for tasklist in tasklists %}
+            <div class="card">
+                <a href="{{ path('sizing_by_tasklist', {'id': tasklist.id}|merge(query)) }}">
+                    <div class="card-header">
+                        {{ tasklist }}
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+    <div>
+        {{ a.linkGlyph('primary btn-modal', 'New List', 'sizing_new_tasklist', query) }}
+    </div>
+{% endblock %}
