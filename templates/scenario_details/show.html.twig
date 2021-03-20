@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ScenarioDetails{% endblock %}
+
+{% block content %}
+    <h1>ScenarioDetails</h1>
+
+    <table class="table">
+        <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ scenario_detail.id }}</td>
+        </tr>
+        <tr>
+            <th>Title</th>
+            <td>{{ scenario_detail.title }}</td>
+        </tr>
+        <tr>
+            <th>Date</th>
+            <td>{{ scenario_detail.date ? scenario_detail.date|date('Y-m-d') : '' }}</td>
+        </tr>
+        <tr>
+            <th>Amount</th>
+            <td>{{ scenario_detail.amount }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('scenario_details_index', {'scenario': scenario}) }}">back to list</a>
+
+    <a href="{{ path('scenario_details_edit', {'scenario': scenario, 'id': scenario_detail.id}) }}">edit</a>
+
+    {{ include('scenario_details/_delete_form.html.twig') }}
+{% endblock %}

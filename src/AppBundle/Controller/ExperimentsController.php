@@ -2,7 +2,11 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Repository\AccountsRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -23,6 +27,7 @@ class ExperimentsController extends Controller
             "Reports" => "reports_index",
             "Tasks" => "experiment_tasks",
             "Accounts" => "experiment_accounts",
+            "Cash" => "scenario_index"
         ];
         return $this->render('AppBundle:Experiments:index.html.twig', array(
             "experiments" => $experiments,
@@ -39,7 +44,7 @@ class ExperimentsController extends Controller
             "tasks" => $this->getDoctrine()->getRepository('AppBundle:Tasks')->findAll()
         ];
         $form = $this->createFormBuilder($data)
-            ->add("experiments", \Symfony\Component\Form\Extension\Core\Type\ChoiceType::class, array(
+            ->add("experiments", ChoiceType::class, array(
                 'mapped' => FALSE,
                 'choices' => $data['experiments'],
                 'placeholder' => 'Select an experiment',
@@ -47,14 +52,14 @@ class ExperimentsController extends Controller
                     'class' => 'chosen',
                 )
             ))
-            ->add("tasks", \Symfony\Bridge\Doctrine\Form\Type\EntityType::class, array(
+            ->add("tasks", EntityType::class, array(
                 'class' => 'AppBundle:Tasks',
                 'placeholder' => 'Select a task',
                 'attr' => array(
                     'class' => 'chosen',
                 )
             ))
-            ->add('Yalla', \Symfony\Component\Form\Extension\Core\Type\SubmitType::class, array(
+            ->add('Yalla', SubmitType::class, array(
                 'attr' => array(
                     'class' => 'btn btn-success float-right',
                 )
@@ -88,7 +93,7 @@ class ExperimentsController extends Controller
             "experiments" => ["Account" => "experiment_accounts"],
         ];
         $form = $this->createFormBuilder($data)
-            ->add("experiments", \Symfony\Component\Form\Extension\Core\Type\ChoiceType::class, array(
+            ->add("experiments", ChoiceType::class, array(
                 'mapped' => FALSE,
                 'choices' => $data['experiments'],
                 'placeholder' => 'Select an experiment',
@@ -96,10 +101,10 @@ class ExperimentsController extends Controller
                     'class' => 'chosen',
                 )
             ))
-            ->add("account", \Symfony\Bridge\Doctrine\Form\Type\EntityType::class, array(
+            ->add("account", EntityType::class, array(
                 'class' => 'AppBundle:Accounts',
                 'placeholder' => 'Select an Account',
-                'query_builder' => function (\AppBundle\Repository\AccountsRepository $ar) {
+                'query_builder' => function (AccountsRepository $ar) {
                     return $ar->createQueryBuilder('a')
                         ->select('a, c')
                         ->leftJoin('a.client', 'c');
@@ -114,7 +119,7 @@ class ExperimentsController extends Controller
                     'class' => 'chosen',
                 )
             ))
-            ->add('Yalla', \Symfony\Component\Form\Extension\Core\Type\SubmitType::class, array(
+            ->add('Yalla', SubmitType::class, array(
                 'attr' => array(
                     'class' => 'btn btn-success float-right',
                 )

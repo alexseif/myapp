@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Scenario index{% endblock %}
+
+{% block content %}
+    <h1>Scenario index</h1>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Title</th>
+            <th>actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for scenario in scenarios %}
+            <tr>
+                <td>{{ scenario.id }}</td>
+                <td>{{ scenario.title }}</td>
+                <td>
+                    <a href="{{ path('scenario_show', {'id': scenario.id}) }}">show</a>
+                    <a href="{{ path('scenario_edit', {'id': scenario.id}) }}">edit</a>
+                    <a href="{{ path('scenario_details_index', {'scenario': scenario}) }}">Details</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('scenario_new') }}">Create new</a>
+{% endblock %}
