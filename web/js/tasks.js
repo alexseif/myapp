@@ -22,7 +22,7 @@ var Tasks = {
     },
     bindEvents: function () {
         $('.task-item input[type="checkbox"]').change(this.updateTask);
-        $('.task-item .postpone').click(this.postponeTask);
+        $('.task-item .postpone').click(Tasks.postponeTask);
         $('[data-toggle="popover"]').popover({html: true, container: "body"});
         $('[data-toggle="modal"]').click(this.showModal);
 
