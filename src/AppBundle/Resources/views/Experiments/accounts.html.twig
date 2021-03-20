@@ -1,4 +1,4 @@
-{% extends "::base.html.twig" %}
+{% extends "base.html.twig" %}
 {% import "AppBundle:tasks:tasks_macros.html.twig" as tasks_view %}
 
 {% block title %}AppBundle:Experiments:Accounts{% endblock %}
@@ -31,7 +31,6 @@
         <div class="card-footer bg-info text-right">
             EGP {{ data.result.price|number_format }}
         </div>
-        </div>
+        </div><!-- .container -->
     {% endif %}
-    </div>
 {% endblock %}
