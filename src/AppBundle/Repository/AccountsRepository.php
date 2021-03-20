@@ -33,13 +33,23 @@ class AccountsRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findAllSorted()
+    {
+        return $this->findAllWithJoin()
+            ->getQuery()
+            ->getResult();
+    }
+
     public function findAllWithJoin(): QueryBuilder
     {
 
         return $this
             ->createQueryBuilder('a')
             ->select('a, c')
-            ->leftJoin('a.client', 'c');
+            ->leftJoin('a.client', 'c')
+            ->orderBy('c.enabled', 'DESC')
+            ->addOrderBy('a.name')
+            ;
     }
 
     /**
