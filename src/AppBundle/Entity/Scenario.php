@@ -30,6 +30,7 @@ class Scenario
 
     /**
      * @ORM\OneToMany(targetEntity=ScenarioDetails::class, mappedBy="scenario", orphanRemoval=true)
+     * @ORM\OrderBy ({"date"="ASC"})
      */
     private $scenarioDetails;
 

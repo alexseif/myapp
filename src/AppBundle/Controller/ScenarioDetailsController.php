@@ -41,7 +41,7 @@ class ScenarioDetailsController extends Controller
             $entityManager->persist($scenarioDetail);
             $entityManager->flush();
 
-            return $this->redirectToRoute('scenario_details_index');
+            return $this->redirectToRoute('scenario_show', ["id" => $scenario]);
         }
 
         return $this->render('scenario_details/new.html.twig', [
@@ -73,7 +73,7 @@ class ScenarioDetailsController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('scenario_details_index');
+            return $this->redirectToRoute('scenario_show', ['id' => $scenario]);
         }
 
         return $this->render('scenario_details/edit.html.twig', [

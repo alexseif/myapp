@@ -3,7 +3,10 @@
 {% block title %}Scenario{% endblock %}
 
 {% block content %}
+    <a href="{{ path('scenario_index') }}" class="btn btn-primary">back to list</a>
     <h1>Scenario</h1>
+    <a href="{{ path('scenario_edit', {'id': scenario.id}) }}" class="btn btn-primary">edit</a>
+    {{ include('scenario/_delete_form.html.twig') }}
 
     <table class="table">
         <tbody>
@@ -18,9 +21,80 @@
         </tbody>
     </table>
 
-    <a href="{{ path('scenario_index') }}">back to list</a>
+    <h2>Scenario Details</h2>
+    <a href="{{ path('scenario_generate_details',  {"id": scenario}) }}" class="btn btn-primary">Generate Scenario
+        details</a>
 
-    <a href="{{ path('scenario_edit', {'id': scenario.id}) }}">edit</a>
+    <a href="{{ path('scenario_details_new', {'scenario': scenario.id}) }}" class="btn btn-primary">Add Scenario
+        Details</a>
+    <style>
+        #scenario-details th:first-child {
+            width: 1%;
+        }
 
-    {{ include('scenario/_delete_form.html.twig') }}
+        #scenario-details th:nth-child(3),
+        #scenario-details td:nth-child(3) {
+            text-align: left;
+        }
+    </style>
+    <div class="container">
+    <form action="{{ path('scenario_delete_details', {'id':scenario}) }}" method="post">
+        <table class="table table-striped datatable text-right" id="scenario-details">
+            <thead>
+            <tr>
+                <th></th>
+                <th>Date</th>
+                <th>Title</th>
+                <th>Amount</th>
+                <th>Balance</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% set balance = 0 %}
+            {% for scenario_details in scenario.scenarioDetails %}
+                {% set balance = balance + scenario_details.amount %}
+                <tr data-id="{{ scenario_details.id }}" class="text-{{ (0 > balance)? "success":"danger" }}">
+                    <td>
+                        <label class="d-block form-check m-0">
+                            <input type="checkbox" name="scenarioDetails[]"
+                                   value="{{ scenario_details.id }}" id="check-{{ scenario_details.id }}"/>
+                        </label>
+                    </td>
+                    <td>{{ scenario_details.date|date }}</td>
+                    <td>{{ scenario_details.title }}</td>
+                    <td>{{ scenario_details.amount|number_format }}</td>
+                    <td>{{ balance|number_format }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+            <tfoot>
+            <tr class="text-{{ (0 > balance)? "success":"danger" }}">
+                <th></th>
+                <th>#</th>
+                <th>{{ scenario.scenarioDetails|first.date|date }} - {{ scenario.scenarioDetails|last.date|date }}</th>
+                <th>Total</th>
+                <th>{{ balance|number_format }}</th>
+            </tr>
+            </tfoot>
+        </table>
+        <button type="submit" class="btn btn-confirm btn-danger"
+                id="btn-scenario-delete-details">Delete Scenario Details
+        </button>
+    </form>
+    </div>
+
+
+
+
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(function () {
+            $('#scenario-details tbody tr').dblclick(function () {
+                $('#check-' + $(this).data('id')).click();
+            });
+        });
+    </script>
 {% endblock %}

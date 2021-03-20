@@ -7,6 +7,7 @@ use AppBundle\Entity\ScenarioDetails;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -26,7 +27,7 @@ class ScenarioDetailsType extends AbstractType
                     'data-date-format' => 'yyyy-MM-dd',
                 )
             ])
-            ->add('amount')
+            ->add('amount', MoneyType::class)
             ->add('scenario', EntityType::class, [
                 'class' => Scenario::class,
                 'choice_label' => 'title'
