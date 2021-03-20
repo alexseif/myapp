@@ -35,6 +35,14 @@ class SizingController extends Controller
                 'account' => $account
             ]);
         }
+        foreach ($tasklists as $tasklist) {
+            $tasklist->estTotal = 0;
+            $tasklist->rate = $this->get('myapp.rate.calculator')->getRate($tasklist->getAccount()->getClient());
+            foreach ($tasklist->getTasks(false) as $task) {
+                $tasklist->estTotal += $task->getEst();
+            }
+            $tasklist->sizing = number_format($tasklist->estTotal * $tasklist->rate / 60, 0);
+        }
         return $this->render('sizing/index.html.twig', [
             'tasklists' => $tasklists,
             'query' => $request->query->all()

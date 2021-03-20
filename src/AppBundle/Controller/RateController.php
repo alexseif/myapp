@@ -3,7 +3,10 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Rate;
+use AppBundle\Logic\CostOfLifeLogic;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Component\Form\Extension\Core\Type\PercentType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -22,10 +25,10 @@ class RateController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getManager();
         $costOfLife = $this->get('myapp.cost');
         $rateCalculator = $this->get('myapp.rate.calculator');
         $rates = $rateCalculator->getActive();
+
 
         return $this->render('AppBundle:rate:index.html.twig', array(
             'costOfLife' => $costOfLife,
@@ -46,7 +49,7 @@ class RateController extends Controller
         $currencies = $em->getRepository('AppBundle:Currency')->findAll();
         $cost = $em->getRepository('AppBundle:CostOfLife')->sumCostOfLife()["cost"];
 
-        $costOfLife = new \AppBundle\Logic\CostOfLifeLogic($cost, $currencies);
+        $costOfLife = new CostOfLifeLogic($cost, $currencies);
         $rate->setRate($costOfLife->getHourly());
 
 
@@ -80,8 +83,8 @@ class RateController extends Controller
     {
         $rateCalculator = $this->get('myapp.rate.calculator');
         $form = $this->createFormBuilder()
-            ->add('percent', \Symfony\Component\Form\Extension\Core\Type\PercentType::class)
-            ->add('fixedValue', \Symfony\Component\Form\Extension\Core\Type\MoneyType::class)
+            ->add('percent', PercentType::class)
+            ->add('fixedValue', MoneyType::class)
             ->add('note')
             ->getForm();
 
@@ -92,7 +95,7 @@ class RateController extends Controller
             $note = $increase['note'];
             if (null != $increase['percent']) {
                 $percent = 1 + $increase['percent'];
-                $rateCalculator->increaseByPercent($percent, $note);
+                $rateCalculator->increaseByPercent($percent);
                 $this->addFlash('success', 'Rates increase by ' . $percent . "%");
             } elseif (null != $increase['fixedValue']) {
                 $fixedValue = $increase['fixedValue'];
@@ -177,7 +180,7 @@ class RateController extends Controller
      *
      * @param Rate $rate The rate entity
      *
-     * @return \Symfony\Component\Form\Form The form
+     * @return \Symfony\Component\Form\FormInterface The form
      */
     private function createDeleteForm(Rate $rate)
     {

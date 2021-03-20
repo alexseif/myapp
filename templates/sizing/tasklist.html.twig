@@ -6,6 +6,7 @@
 {% block title %}Sizing{% endblock %}
 {% block stylesheets %}
     {{ parent() }}
+    <!--suppress CssUnusedSymbol -->
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css"/>
     <style>
         table.dataTable tbody tr {
@@ -57,7 +58,16 @@
             <thead>
             <tr>
                 <th></th>
-                <th>{{ tasklist }} - {{ tasklist.account }} - {{ tasklist.account.client }}</th>
+                <th>
+                    <a href="{{ path('tasklists_show', { 'id':tasklist.id }) }}">
+                        {{ tasklist }}</a>
+                    -
+                    <a href="{{ path('accounts_show', { 'id':tasklist.account.id }) }}">
+                        {{ tasklist.account }}</a>
+                    -
+                    <a href="{{ path('client_show', { 'id':tasklist.account.client.id }) }}">
+                        {{ tasklist.account.client }}</a>
+                </th>
                 <th>
                     <div class="btn-group">
                         <button type="button" class="btn btn-sm btn-secondary assign-est" data-est="30">30mins</button>
@@ -91,7 +101,10 @@
             {% for task in form.tasks %}
                 {% if not task.vars.value.completed %}
                     <tr id="{{ task.vars.value.id }}">
-                        <td>{{ task.vars.value.id }}</td>
+                        <td>
+                            <a href="{{ path('tasks_show', { 'id':task.vars.value.id }) }}"
+                               target="_blank">{{ task.vars.value.id }}</a>
+                        </td>
                         <td>{{ form_widget(task.task) }}</td>
                         <td data-order="{{ task.vars.value.est }}">{{ form_widget(task.est, {'attr':{'data-task':task.vars.value.id}}) }}</td>
                         <td class="total"></td>

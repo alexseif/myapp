@@ -6,8 +6,12 @@
 
 namespace AppBundle\Service;
 
+use AppBundle\Entity\Client;
 use AppBundle\Entity\Tasks;
 use AppBundle\Entity\Rate;
+use AppBundle\Logic\CostOfLifeLogic;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityManager;
 
 /**
  * Description of RateCalculator
@@ -20,29 +24,35 @@ class RateCalculator
     protected $em;
     protected $currencies, $costOfLife, $defaultRate, $cost;
 
-    public function __construct(\Doctrine\ORM\EntityManager $em)
+    public function __construct(EntityManager $em)
     {
         $this->setEm($em);
         $this->setCurrencies($this->getEm()->getRepository('AppBundle:Currency')->findAll());
         $this->setCost($this->getEm()->getRepository('AppBundle:CostOfLife')->sumCostOfLife()["cost"]);
-        $this->setCostOfLife(new \AppBundle\Logic\CostOfLifeLogic($this->getCost(), $this->getCurrencies()));
+        $this->setCostOfLife(new CostOfLifeLogic($this->getCost(), $this->getCurrencies()));
         $this->setDefaultRate($this->getCostOfLife()->getHourly());
     }
 
-    public function getRate(\AppBundle\Entity\Client $client)
+    public function getRate(Client $client)
     {
         if ($client->hasRates()) {
-            return $client->getRate();
+            foreach ($client->getRates() as $rate) {
+                if ($rate->getActive()) {
+                    return $rate->getRate();
+                }
+            }
         }
         return $this->getDefaultRate();
     }
 
-    public function getRateByTask(Tasks $task)
+    public
+    function getRateByTask(Tasks $task)
     {
         return $this->getRate($task->getTaskList()->getAccount()->getClient());
     }
 
-    public function task(Tasks $task)
+    public
+    function task(Tasks $task)
     {
 
         $client = $task->getTaskList()->getAccount()->getClient();
@@ -53,7 +63,8 @@ class RateCalculator
         return null;
     }
 
-    public function tasks($tasks)
+    public
+    function tasks($tasks)
     {
         $total = 0;
         foreach ($tasks as $task) {
@@ -65,18 +76,20 @@ class RateCalculator
 
     /**
      *
-     * @return \Doctrine\ORM\EntityManager
+     * @return EntityManager
      */
-    public function getEm()
+    public
+    function getEm()
     {
         return $this->em;
     }
 
     /**
      *
-     * @param \Doctrine\ORM\EntityManager $em
+     * @param EntityManager $em
      */
-    public function setEm($em)
+    public
+    function setEm($em)
     {
         $this->em = $em;
     }
@@ -123,9 +136,10 @@ class RateCalculator
 
     /**
      *
-     * @return \Doctrine\Common\Collections\ArrayCollection Rates
+     * @return ArrayCollection Rates
      */
-    public function getActive()
+    public
+    function getActive()
     {
         return $this->em->getRepository('AppBundle:Rate')->getActiveRates();
     }
@@ -134,7 +148,8 @@ class RateCalculator
      *
      * @param float $percent
      */
-    public function increaseByPercent($percent, $note)
+    public
+    function increaseByPercent(float $percent)
     {
         $em = $this->em;
         $rates = $this->getActive();
@@ -152,9 +167,10 @@ class RateCalculator
 
     /**
      *
-     * @param type $fixedValue
+     * @param float $fixedValue
      */
-    public function increaseByFixedValue($fixedValue, $note)
+    public
+    function increaseByFixedValue($fixedValue, $note)
     {
         $em = $this->em;
         $rates = $this->getActive();
