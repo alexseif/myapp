@@ -9,6 +9,9 @@
                 <a href="{{ path('sizing_by_tasklist', {'id': tasklist.id}|merge(query)) }}">
                     <div class="card-header">
                         {{ tasklist }}
+                        <span class="float-right text-bold">
+                        EGP {{ tasklist.sizing }}
+                        </span>
                     </div>
                 </a>
             </div>

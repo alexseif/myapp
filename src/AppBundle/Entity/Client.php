@@ -2,6 +2,8 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
@@ -54,7 +56,7 @@ class Client
      */
     public function __construct()
     {
-        $this->accounts = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->accounts = new ArrayCollection();
     }
 
     /**
@@ -94,11 +96,11 @@ class Client
     /**
      * Add account
      *
-     * @param \AppBundle\Entity\Accounts $account
+     * @param Accounts $account
      *
      * @return Client
      */
-    public function addAccount(\AppBundle\Entity\Accounts $account)
+    public function addAccount(Accounts $account)
     {
         $this->accounts[] = $account;
 
@@ -108,9 +110,9 @@ class Client
     /**
      * Remove account
      *
-     * @param \AppBundle\Entity\Accounts $account
+     * @param Accounts $account
      */
-    public function removeAccount(\AppBundle\Entity\Accounts $account)
+    public function removeAccount(Accounts $account)
     {
         $this->accounts->removeElement($account);
     }
@@ -118,7 +120,7 @@ class Client
     /**
      * Get accounts
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getAccounts()
     {
@@ -133,11 +135,11 @@ class Client
     /**
      * Add rate.
      *
-     * @param \AppBundle\Entity\Rate $rate
+     * @param Rate $rate
      *
      * @return Client
      */
-    public function addRate(\AppBundle\Entity\Rate $rate)
+    public function addRate(Rate $rate)
     {
         $this->rates[] = $rate;
 
@@ -147,11 +149,11 @@ class Client
     /**
      * Remove rate.
      *
-     * @param \AppBundle\Entity\Rate $rate
+     * @param Rate $rate
      *
      * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
      */
-    public function removeRate(\AppBundle\Entity\Rate $rate)
+    public function removeRate(Rate $rate)
     {
         return $this->rates->removeElement($rate);
     }
@@ -159,7 +161,7 @@ class Client
     /**
      * Get rates.
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getRates()
     {
