@@ -49,9 +49,7 @@
         {% for task in tasks %}
             <tr>
                 <td>
-                    <label>
-                        <input type="checkbox" name="tasks[]" value="{{ task.id }}"/>
-                    </label>
+                    <input type="checkbox" name="tasks[]" value="{{ task.id }}"/>
                 </td>
                 <td>
                     <a href="{{ path('tasks_show', { 'id' : task.id }) }}"
