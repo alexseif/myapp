@@ -51,9 +51,10 @@ class SizingController extends Controller
     {
         $request->query->add(['id' => $tasklist->getId()]);
         $query = $request->query->all();
-
+        $tasks = $tasklist->getTasks(false);
         $form = $this->createForm(TasklistSizingType::class, $tasklist, [
             'action' => $this->generateUrl('sizing_by_tasklist', $query),
+            'tasks' => $tasks
         ]);
         $form->handleRequest($request);
 
