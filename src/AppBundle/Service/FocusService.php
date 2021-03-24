@@ -9,6 +9,7 @@ namespace AppBundle\Service;
 use AppBundle\Entity\Client;
 use AppBundle\Entity\Contract;
 use AppBundle\Entity\Days;
+use AppBundle\Entity\TaskLists;
 use AppBundle\Entity\Tasks;
 use AppBundle\Repository\TasksRepository;
 use AppBundle\Util\WorkWeek;
@@ -115,6 +116,10 @@ class FocusService
         } else {
             $this->focus['tasks'] = $this->getTasksRepository()->focusList();
         }
+    }
 
+    public function setTasksByTaskList(TaskLists $tasklist): void
+    {
+        $this->focus['tasks'] = $this->getTasksRepository()->focusByTasklist($tasklist);
     }
 }

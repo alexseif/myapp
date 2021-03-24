@@ -264,7 +264,9 @@ class TasksController extends Controller
             $entityManager->persist($task);
             $entityManager->flush();
 
-            return $this->redirectToRoute('tasks_index');
+            return $this->redirectToRoute('tasks_show', [
+                "id" => $task->getId()
+            ]);
         }
 
         return $this->render('tasks/new.html.twig', [

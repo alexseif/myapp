@@ -185,7 +185,7 @@
             &nbsp;
             <a title="Task List" class="badge badge-default d-none d-md-inline"
                data-tasklist="{{ task.taskList.name }}"
-               href="{{ path("tasklists_show", {'id':task.taskList.id}) }}">
+               href="{{ path("focus_tasklist", {'name':task.taskList.name}) }}">
                 {{ task.taskList.name }}
             </a>
         </div>
@@ -193,10 +193,14 @@
             <div class="card-body d-flex justify-content-around">
                 <div class="d-flex flex-column justify-content-around m-1">
           <span>
-            <a title="Account"
-               href="{{ path('accounts_show', {'id': task.taskList.account.id}) }}">
+            <a title="TaskList"
+               href="{{ path('tasklists_show', {'id': task.taskList.id}) }}">
+              {{ task.taskList.name }}
+            </a> /
+              <a title="Account"
+                 href="{{ path('accounts_show', {'id': task.taskList.account.id}) }}">
               {{ task.taskList.account.name }}
-            </a> / 
+            </a> /
             <a title="Client"
                href="{{ path('client_show', {'id': task.taskList.account.client.id}) }}">
               {{ task.taskList.account.client.name }}
