@@ -44,7 +44,7 @@
             <tbody>
             {% set balance = 0 %}
             {% for scenario_objective in scenario.scenarioObjectives %}
-                {% set balance = balance + scenario_objective.amount %}
+                {% set balance = balance + scenario_objective.value %}
                 <tr data-id="{{ scenario_objective.id }}">
                     <td>
                         <label class="d-block form-check m-0">
