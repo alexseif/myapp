@@ -1,34 +1,33 @@
 <section id="details" class="card flex-fill">
-
-    <div class="card-header d-flex justify-content-between">
-        <div class="flex-fill">
-            <button class="text-white bg-transparent border-0 p-0" type="button" data-toggle="collapse"
-                    data-target="#scenario-objectives" aria-expanded="false"
-                    aria-controls="scenario-objectives">
-                Objectives
-            </button>
-        </div>
-        <div>
-            <div class="btn-group btn-group-sm">
-                <a href="{{ path('scenario_objective_new', {'scenario': scenario.id}) }}" class="btn btn-primary">Add
-                    Objective</a>
-                <button type="submit" class="btn btn-confirm btn-danger"
-                        id="btn-scenario-delete-objectives">Delete Objectives
+    <form action="{{ path('scenario_delete_objectives', {'id':scenario}) }}" method="post">
+        <div class="card-header d-flex justify-content-between">
+            <div class="flex-fill">
+                <button class="text-white bg-transparent border-0 p-0" type="button" data-toggle="collapse"
+                        data-target="#scenario-objectives" aria-expanded="false"
+                        aria-controls="scenario-objectives">
+                    Objectives
                 </button>
             </div>
+            <div>
+                <div class="btn-group btn-group-sm">
+                    <a href="{{ path('scenario_objective_new', {'scenario': scenario.id}) }}" class="btn btn-primary">Add
+                        Objective</a>
+                    <button type="submit" class="btn btn-confirm btn-danger"
+                            id="btn-scenario-delete-objectives">Delete Objectives
+                    </button>
+                </div>
+            </div>
         </div>
-    </div>
-    <style>
-        #scenario-objective th:first-child {
-            width: 1%;
-        }
+        <style>
+            #scenario-objective th:first-child {
+                width: 1%;
+            }
 
-        #scenario-objective th:nth-child(3),
-        #scenario-objective td:nth-child(3) {
-            text-align: left;
-        }
-    </style>
-    <form action="{{ path('scenario_delete_objectives', {'id':scenario}) }}" method="post">
+            #scenario-objective th:nth-child(3),
+            #scenario-objective td:nth-child(3) {
+                text-align: left;
+            }
+        </style>
         <table class="table table-striped datatable text-right collapse" id="scenario-objectives">
             <thead>
             <tr>
@@ -65,9 +64,9 @@
             {% endfor %}
             </tbody>
         </table>
+        <div class="card-footer">
+            <b>Total</b>
+            <b>EGP {{ balance|number_format }}</b>
+        </div>
     </form>
-    <div class="card-footer">
-        <b>Total</b>
-        <b>EGP {{ balance|number_format }}</b>
-    </div>
 </section><!-- #objectives -->
