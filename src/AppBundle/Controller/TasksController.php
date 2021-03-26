@@ -372,7 +372,7 @@ class TasksController extends Controller
         if ($request->isXMLHttpRequest()) {
             return JsonResponse::create();
         }
-        $redirect = ($request->headers->get('referer')) ?: $this->generateUrl('tasks_index');
+        $redirect = $this->generateUrl('focus');
         return $this->redirect($redirect);
     }
 
