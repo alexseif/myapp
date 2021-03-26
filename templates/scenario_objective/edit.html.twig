@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit ScenarioObjective{% endblock %}
+
+{% block content %}
+    <h1>Edit ScenarioObjective</h1>
+
+    {{ include('scenario_objective/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('scenario_objective_index', {'scenario': scenario}) }}">back to list</a>
+
+    {{ include('scenario_objective/_delete_form.html.twig') }}
+{% endblock %}

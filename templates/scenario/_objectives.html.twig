@@ -1,0 +1,70 @@
+<section id="objectives" class="flex-fill">
+
+    <h2>Objectives</h2>
+
+
+    <a href="{{ path('scenario_objective_new', {'scenario': scenario.id}) }}" class="btn btn-primary">Add
+        Objective</a>
+    <button type="submit" class="btn btn-confirm btn-danger"
+            id="btn-scenario-delete-objectives">Delete Objectives
+    </button>
+    <style>
+        #scenario-objective th:first-child {
+            width: 1%;
+        }
+
+        #scenario-objective th:nth-child(3),
+        #scenario-objective td:nth-child(3) {
+            text-align: left;
+        }
+    </style>
+    <form action="{{ path('scenario_delete_objectives', {'id':scenario}) }}" method="post">
+        <table class="table table-striped datatable text-right" id="scenario-objective">
+            <thead>
+            <tr>
+                <th></th>
+                <th>Name</th>
+                <th>Value</th>
+                <th>Priority</th>
+                <th>Urgency</th>
+                <th>Balance</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% set balance = 0 %}
+            {% for scenario_objective in scenario.scenarioObjectives %}
+                {% set balance = balance + scenario_objective.amount %}
+                <tr data-id="{{ scenario_objective.id }}">
+                    <td>
+                        <label class="d-block form-check m-0">
+                            <input type="checkbox" name="scenarioObjectives[]"
+                                   value="{{ scenario_objective.id }}" id="check-{{ scenario_objective.id }}"/>
+                        </label>
+                    </td>
+                    <td>
+                        <a href="{{ path('scenario_objective_edit', {'scenario': scenario, 'id': scenario_objective.id}) }}">
+                            {{ scenario_objective.name }}
+                        </a>
+                    </td>
+                    <td>{{ scenario_objective.value|number_format }}</td>
+                    <td class="text-{{ (scenario_objective.priority) ? "danger" : "default" }}">{{ (scenario_objective.priority) ? "Important" : "Not Important" }}</td>
+                    <td class="text-{{ (scenario_objective.urgency) ? "warning" : "default" }}">{{ (scenario_objective.urgency) ? "Urgent" : "Not Urgent" }}</td>
+                    <td>{{ balance|number_format }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+            <tfoot>
+            <tr>
+                <th></th>
+                <th>#</th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th>Total</th>
+                <th>{{ balance|number_format }}</th>
+            </tr>
+            </tfoot>
+        </table>
+    </form>
+</section><!-- #objectives -->

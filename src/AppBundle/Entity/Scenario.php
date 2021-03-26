@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
- * @ORM\Entity(repositoryClass=ScenarioRepository::class)
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\ScenarioRepository", repositoryClass=ScenarioRepository::class)
  */
 class Scenario
 {
@@ -30,15 +30,22 @@ class Scenario
 
     /**
      * @ORM\OneToMany(targetEntity=ScenarioDetails::class, mappedBy="scenario", orphanRemoval=true)
-     * @ORM\OrderBy ({"date"="ASC"})
+     * @ORM\OrderBy({"date"="ASC"})
      */
     private $scenarioDetails;
+
+    /**
+     * @ORM\OneToMany(targetEntity=ScenarioObjective::class, mappedBy="scenario", orphanRemoval=true)
+     * @ORM\OrderBy({"urgency"="DESC", "priority"="DESC"})
+     */
+    private $scenarioObjectives;
 
     public function __construct()
     {
         $date = new DateTime();
         $this->title = $date->format('Y-m-d');
         $this->scenarioDetails = new ArrayCollection();
+        $this->scenarioObjectives = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -91,6 +98,36 @@ class Scenario
     public function __toString()
     {
         return (string)$this->getId();
+    }
+
+    /**
+     * @return Collection|ScenarioObjective[]
+     */
+    public function getScenarioObjectives(): Collection
+    {
+        return $this->scenarioObjectives;
+    }
+
+    public function addScenarioObjective(ScenarioObjective $scenarioObjective): self
+    {
+        if (!$this->scenarioObjectives->contains($scenarioObjective)) {
+            $this->scenarioObjectives[] = $scenarioObjective;
+            $scenarioObjective->setScenario($this);
+        }
+
+        return $this;
+    }
+
+    public function removeScenarioObjective(ScenarioObjective $scenarioObjective): self
+    {
+        if ($this->scenarioObjectives->removeElement($scenarioObjective)) {
+            // set the owning side to null (unless already changed)
+            if ($scenarioObjective->getScenario() === $this) {
+                $scenarioObjective->setScenario(null);
+            }
+        }
+
+        return $this;
     }
 
 

@@ -6,6 +6,7 @@ use AppBundle\Entity\Scenario;
 use AppBundle\Entity\ScenarioDetails;
 use AppBundle\Form\ScenarioType;
 use AppBundle\Repository\ScenarioDetailsRepository;
+use AppBundle\Repository\ScenarioObjectiveRepository;
 use AppBundle\Repository\ScenarioRepository;
 use DateTime;
 use stdClass;
@@ -171,6 +172,21 @@ class ScenarioController extends Controller
     {
         $sdIds = $request->get('scenarioDetails');
         $sdr = $this->get(ScenarioDetailsRepository::class);
+        foreach ($sdIds as $sdId) {
+            $sd = $sdr->find($sdId);
+            $scenario->removeScenarioDetail($sd);
+        }
+        $this->getDoctrine()->getManager()->flush();
+
+        return $this->redirectToRoute('scenario_show', ["id" => $scenario]);
+    }
+    /**
+     * @Route("/{id}/delete_objectives", name="scenario_delete_objectives", methods={"GET", "POST"})
+     */
+    public function deleteObjectives(Request $request, Scenario $scenario)
+    {
+        $sdIds = $request->get('scenarioObjectives');
+        $sdr = $this->get(ScenarioObjectiveRepository::class);
         foreach ($sdIds as $sdId) {
             $sd = $sdr->find($sdId);
             $scenario->removeScenarioDetail($sd);
