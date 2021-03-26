@@ -1,13 +1,23 @@
-<section id="objectives" class="flex-fill">
+<section id="details" class="card flex-fill">
 
-    <h2>Objectives</h2>
-
-
-    <a href="{{ path('scenario_objective_new', {'scenario': scenario.id}) }}" class="btn btn-primary">Add
-        Objective</a>
-    <button type="submit" class="btn btn-confirm btn-danger"
-            id="btn-scenario-delete-objectives">Delete Objectives
-    </button>
+    <div class="card-header d-flex justify-content-between">
+        <div class="flex-fill">
+            <button class="text-white bg-transparent border-0 p-0" type="button" data-toggle="collapse"
+                    data-target="#scenario-objectives" aria-expanded="false"
+                    aria-controls="scenario-objectives">
+                Objectives
+            </button>
+        </div>
+        <div>
+            <div class="btn-group btn-group-sm">
+                <a href="{{ path('scenario_objective_new', {'scenario': scenario.id}) }}" class="btn btn-primary">Add
+                    Objective</a>
+                <button type="submit" class="btn btn-confirm btn-danger"
+                        id="btn-scenario-delete-objectives">Delete Objectives
+                </button>
+            </div>
+        </div>
+    </div>
     <style>
         #scenario-objective th:first-child {
             width: 1%;
@@ -19,7 +29,7 @@
         }
     </style>
     <form action="{{ path('scenario_delete_objectives', {'id':scenario}) }}" method="post">
-        <table class="table table-striped datatable text-right" id="scenario-objective">
+        <table class="table table-striped datatable text-right collapse" id="scenario-objective">
             <thead>
             <tr>
                 <th></th>
@@ -54,17 +64,10 @@
                 </tr>
             {% endfor %}
             </tbody>
-            <tfoot>
-            <tr>
-                <th></th>
-                <th>#</th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th>Total</th>
-                <th>{{ balance|number_format }}</th>
-            </tr>
-            </tfoot>
         </table>
     </form>
+    <div class="card-footer">
+        <b>Total</b>
+        <b>EGP {{ balance|number_format }}</b>
+    </div>
 </section><!-- #objectives -->

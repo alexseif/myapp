@@ -7,5 +7,5 @@
 
     {{ include('scenario_objective/_form.html.twig') }}
 
-    <a href="{{ path('scenario_objective_index', {'scenario': scenario}) }}">back to list</a>
+    <a href="{{ path('scenario_show', {'id': scenario}) }}">back to list</a>
 {% endblock %}

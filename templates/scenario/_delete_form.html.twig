@@ -2,5 +2,8 @@
       onsubmit="return confirm('Are you sure you want to delete this item?');">
     <input type="hidden" name="_method" value="DELETE">
     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ scenario.id) }}">
-    <button class="btn">Delete</button>
+    <div class="btn-group btn-group-sm">
+        <a href="{{ path('scenario_edit', {'id': scenario.id}) }}" class="btn btn-primary">edit</a>
+        <button class="btn btn-danger ">Delete</button>
+    </div>
 </form>

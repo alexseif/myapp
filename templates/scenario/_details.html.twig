@@ -1,15 +1,28 @@
-<section id="details" class="flex-fill">
+<section id="details" class="card flex-fill">
 
-    <h2>Scenario Details</h2>
-    <a href="{{ path('scenario_generate_details',  {"id": scenario}) }}" class="btn btn-primary">Generate
-        Scenario
-        details</a>
+    <div class="card-header d-flex justify-content-between">
+        <div class="flex-fill">
+            <button class="text-white bg-transparent border-0 p-0" type="button" data-toggle="collapse"
+                    data-target="#scenario-details" aria-expanded="false"
+                    aria-controls="scenario-details">
+                Details
+            </button>
+        </div>
+        <div>
+            <div class="btn-group btn-group-sm">
+                <a href="{{ path('scenario_generate_details',  {"id": scenario}) }}" class="btn btn-primary">Generate
+                    Scenario
+                    details</a>
 
-    <a href="{{ path('scenario_details_new', {'scenario': scenario.id}) }}" class="btn btn-primary">Add Scenario
-        Details</a>
-    <button type="submit" class="btn btn-confirm btn-danger"
-            id="btn-scenario-delete-details">Delete Details
-    </button>
+                <a href="{{ path('scenario_details_new', {'scenario': scenario.id}) }}" class="btn btn-primary">Add
+                    Scenario
+                    Details</a>
+                <button type="submit" class="btn btn-confirm btn-danger"
+                        id="btn-scenario-delete-details">Delete Details
+                </button>
+            </div>
+        </div>
+    </div><!-- .card-header -->
     <style>
         #scenario-details th:first-child {
             width: 1%;
@@ -21,7 +34,7 @@
         }
     </style>
     <form action="{{ path('scenario_delete_details', {'id':scenario}) }}" method="post">
-        <table class="table table-striped datatable text-right" id="scenario-details">
+        <table class="table table-striped datatable text-right collapse" id="scenario-details">
             <thead>
             <tr>
                 <th></th>
@@ -54,17 +67,17 @@
                 </tr>
             {% endfor %}
             </tbody>
-            <tfoot>
-            <tr class="text-{{ (0 > balance)? "success":"danger" }}">
-                <th></th>
-                <th>#</th>
-                <th>{{ scenario.scenarioDetails|first.date|date }}
-                    - {{ scenario.scenarioDetails|last.date|date }}</th>
-                <th>Total</th>
-                <th>{{ balance|number_format }}</th>
-            </tr>
-            </tfoot>
         </table>
-
     </form>
+    <div class="card-footer">
+        <div class="d-flex justify-content-around text-{{ (0 > balance)? "success":"danger" }}">
+            <div>{{ scenario.scenarioDetails|first.date|date }}
+                - {{ scenario.scenarioDetails|last.date|date }}
+            </div>
+            <div>
+                <b>Total</b>
+                <b>EGP {{ balance|number_format }}</b>
+            </div>
+        </div>
+    </div>
 </section><!-- #details -->

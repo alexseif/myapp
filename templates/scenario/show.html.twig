@@ -3,27 +3,18 @@
 {% block title %}Scenario{% endblock %}
 
 {% block content %}
-    <a href="{{ path('scenario_index') }}" class="btn btn-primary">back to list</a>
-    <h1>Scenario</h1>
-    <a href="{{ path('scenario_edit', {'id': scenario.id}) }}" class="btn btn-primary">edit</a>
-    {{ include('scenario/_delete_form.html.twig') }}
+    <a href="{{ path('scenario_index') }}">back to list</a>
+    <div class="card">
+        <div class="card-header d-flex justify-content-between">
+            <h1 class="flex-fill">Scenario: {{ scenario.title }}</h1>
+                {{ include('scenario/_delete_form.html.twig') }}
 
-    <table class="table">
-        <tbody>
-        <tr>
-            <th>Id</th>
-            <td>{{ scenario.id }}</td>
-        </tr>
-        <tr>
-            <th>Title</th>
-            <td>{{ scenario.title }}</td>
-        </tr>
-        </tbody>
-    </table>
-    <div class="d-flex justify-content-around">
-        {{ include('scenario/_details.html.twig', {'scenario':scenario}) }}
-        {{ include('scenario/_objectives.html.twig', {'scenario':scenario}) }}
-    </div><!-- .d-flex -->
+        </div><!-- .card-header -->
+        <div class="d-flex justify-content-around">
+            {{ include('scenario/_details.html.twig', {'scenario':scenario}) }}
+            {{ include('scenario/_objectives.html.twig', {'scenario':scenario}) }}
+        </div><!-- .d-flex -->
+    </div><!-- .card -->
 
 {% endblock %}
 
