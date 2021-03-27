@@ -166,6 +166,51 @@ class ScenarioController extends Controller
     }
 
     /**
+     * @Route("/{id}/est", name="scenario_est", methods={"GET"})
+     * @param Scenario $scenario
+     * @return Response|null
+     */
+    public function scenarioEst(Scenario $scenario)
+    {
+        $objectiveSum = 0;
+        $objectives = $scenario->getScenarioObjectives();
+        foreach ($objectives as $objective) {
+            $objectiveSum += $objective->getValue();
+        }
+
+        $balance = 0;
+        $objectiveIndex = 0;
+        $ests = [];
+        $estId = 0;
+        foreach ($scenario->getScenarioDetails() as $detail) {
+            $est = new stdClass();
+            $est->id = $estId++;
+            $est->date = $detail->getDate()->format('c');
+            $est->name = $detail->getTitle();
+            $est->value = $detail->getAmount();
+            $ests[] = $est;
+            $balance += $detail->getAmount();
+            if (count($objectives) && $balance < 0) {
+                if (($balance + $objectives[$objectiveIndex]->getValue()) < 0) {
+                    $est = new stdClass();
+                    $est->id = $estId++;
+                    $est->date = $detail->getDate()->format('c');
+                    $est->name = $objectives[$objectiveIndex]->getName();
+                    $est->value = $objectives[$objectiveIndex]->getValue();
+                    $ests[] = $est;
+                    $balance += $objectives[$objectiveIndex]->getValue();
+                    unset($objectives[$objectiveIndex]);
+                    $objectiveIndex++;
+                }
+            }
+        }
+        return $this->render('scenario/est.html.twig', [
+            'scenario' => $scenario,
+            'ests' => $ests
+        ]);
+    }
+
+    /**
      * @Route("/{id}/delete_details", name="scenario_delete_details", methods={"GET", "POST"})
      */
     public function deleteDetails(Request $request, Scenario $scenario)
@@ -180,6 +225,7 @@ class ScenarioController extends Controller
 
         return $this->redirectToRoute('scenario_show', ["id" => $scenario]);
     }
+
     /**
      * @Route("/{id}/delete_objectives", name="scenario_delete_objectives", methods={"GET", "POST"})
      */
