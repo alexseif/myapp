@@ -110,7 +110,7 @@ class ScenarioController extends Controller
         $generate = new stdClass();
         $generate->title = $date->format('Y-m-d');
         $generate->startDate = $generate->endDate = $date;
-        $generate->amount = 0;
+        $generate->value = 0;
         $form = $this->createFormBuilder($generate)
             ->add('title')
             ->add('startDate', DateType::class, [
@@ -133,7 +133,7 @@ class ScenarioController extends Controller
                     'data-date-format' => 'yyyy-MM-dd',
                 )
             ])
-            ->add('amount', MoneyType::class)
+            ->add('value', MoneyType::class)
             ->getForm();
         $form->handleRequest($request);
 
@@ -149,7 +149,7 @@ class ScenarioController extends Controller
                 $scenarioDetails = new ScenarioDetails();
                 $scenarioDetails->setDate($date);
                 $scenarioDetails->setTitle($generate->title);
-                $scenarioDetails->setAmount($generate->amount);
+                $scenarioDetails->setValue($generate->value);
                 $scenario->addScenarioDetail($scenarioDetails);
                 $entityManager->persist($scenarioDetails);
             }
@@ -187,15 +187,15 @@ class ScenarioController extends Controller
             $est->id = $estId++;
             $est->date = $detail->getDate()->format('c');
             $est->name = $detail->getTitle();
-            $est->value = $detail->getAmount();
+            $est->value = $detail->getValue();
             $ests[] = $est;
-            $balance += $detail->getAmount();
+            $balance += $detail->getValue();
             if (count($objectives) && $balance < 0) {
                 if (($balance + $objectives[$objectiveIndex]->getValue()) < 0) {
                     $est = new stdClass();
                     $est->id = $estId++;
                     $est->date = $detail->getDate()->format('c');
-                    $est->name = $objectives[$objectiveIndex]->getName();
+                    $est->name = $objectives[$objectiveIndex]->getTitle();
                     $est->value = $objectives[$objectiveIndex]->getValue();
                     $ests[] = $est;
                     $balance += $objectives[$objectiveIndex]->getValue();

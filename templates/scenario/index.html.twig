@@ -19,9 +19,10 @@
                 <td>{{ scenario.id }}</td>
                 <td>{{ scenario.title }}</td>
                 <td>
-                    <a href="{{ path('scenario_show', {'id': scenario.id}) }}">show</a>
-                    <a href="{{ path('scenario_edit', {'id': scenario.id}) }}">edit</a>
-                    <a href="{{ path('scenario_details_index', {'scenario': scenario}) }}">Details</a>
+                    <div class="btn btn-group btn-group-sm">
+                        <a href="{{ path('scenario_show', {'id': scenario.id}) }}" class="btn btn-primary">Show</a>
+                        <a href="{{ path('scenario_edit', {'id': scenario.id}) }}" class="btn btn-primary">Edit</a>
+                    </div>
                 </td>
             </tr>
         {% else %}

@@ -1,6 +1,5 @@
 <section id="details" class="card flex-fill">
     <form action="{{ path('scenario_delete_details', {'id':scenario}) }}" method="post">
-
         <div class="card-header d-flex justify-content-between">
             <div class="flex-fill">
                 <button class="text-white bg-transparent border-0 p-0" type="button" data-toggle="collapse"
@@ -9,38 +8,26 @@
                     Details
                 </button>
             </div>
-            <div>
-                <div class="btn-group btn-group-sm">
-                    <a href="{{ path('scenario_generate_details',  {"id": scenario}) }}" class="btn btn-primary">Generate
-                        Scenario
-                        details</a>
+            <div class="btn-group btn-group-sm">
+                <a href="{{ path('scenario_generate_details',  {"id": scenario}) }}" class="btn btn-primary">Generate
+                    Scenario
+                    details</a>
 
-                    <a href="{{ path('scenario_details_new', {'scenario': scenario.id}) }}" class="btn btn-primary">Add
-                        Scenario
-                        Details</a>
-                    <button type="submit" class="btn btn-confirm btn-danger"
-                            id="btn-scenario-delete-details">Delete Details
-                    </button>
-                </div>
+                <a href="{{ path('scenario_details_new', {'scenario': scenario.id}) }}" class="btn btn-primary">Add
+                    Scenario
+                    Details</a>
+                <button type="submit" class="btn btn-confirm btn-danger"
+                        id="btn-scenario-delete-details">Delete Details
+                </button>
             </div>
         </div><!-- .card-header -->
-        <style>
-            #scenario-details th:first-child {
-                width: 1%;
-            }
-
-            #scenario-details th:nth-child(3),
-            #scenario-details td:nth-child(3) {
-                text-align: left;
-            }
-        </style>
         <table class="table table-striped datatable text-right collapse" id="scenario-details">
             <thead>
             <tr>
                 <th></th>
                 <th>Date</th>
                 <th>Title</th>
-                <th>Amount</th>
+                <th>value</th>
                 <th>Balance</th>
                 <th></th>
             </tr>
@@ -48,7 +35,7 @@
             <tbody>
             {% set balance = 0 %}
             {% for scenario_details in scenario.scenarioDetails %}
-                {% set balance = balance + scenario_details.amount %}
+                {% set balance = balance + scenario_details.value %}
                 <tr data-id="{{ scenario_details.id }}" class="text-{{ (0 > balance)? "success":"danger" }}">
                     <td>
                         <label class="d-block form-check m-0">
@@ -62,7 +49,7 @@
                             {{ scenario_details.title }}
                         </a>
                     </td>
-                    <td>{{ scenario_details.amount|number_format }}</td>
+                    <td>{{ scenario_details.value|number_format }}</td>
                     <td>{{ balance|number_format }}</td>
                 </tr>
             {% endfor %}
