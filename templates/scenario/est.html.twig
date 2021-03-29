@@ -91,7 +91,39 @@
         $(function () {
             table = $('#scenario-est').DataTable({
                 // data: data,
-                ajax: "{{ path('scenario_est_get', {'id': scenario.id}) }}",
+                "ajax": {
+                    "url": "{{ path('scenario_est_get', {'id': scenario.id}) }}",
+                    "dataSrc": function (json) {
+                        console.log('here');
+                        let balance = 0;
+                        let ests = [];
+                        json.data['details'].forEach(function (detail, detailIndex, detailArray) {
+                            balance += parseInt(detail.value, 10);
+                            detail.balance = balance;
+                            ests.push(detail);
+                            if (0 > balance) {
+                                json.data['objectives'].forEach(function (objective, objectiveIndex, objectiveArray) {
+                                    $tmpBalance = balance + parseInt(objective.value, 10);
+                                    if (0 > $tmpBalance) {
+                                        balance = objective.balance = $tmpBalance;
+                                        objective.date = detail.date;
+                                        ests.push(objective);
+                                        objectiveArray.splice(objectiveIndex, 1);
+                                    }
+                                });
+                            }
+                        });
+                        // return the data that DataTables is to use to draw the table
+                        return ests;
+                    }
+                },
+                "createdRow": function (row, data, dataIndex) {
+                    if (0 < data.balance) {
+                        $(row).addClass('text-danger');
+                    } else {
+                        $(row).addClass('text-success');
+                    }
+                },
                 columns: [
                     {data: "id"},
                     {data: "date"},
@@ -100,7 +132,9 @@
                     {data: "value"},
                     {data: "balance"}
                 ],
+                //@todo:[bugfix] rowReorder
                 rowReorder: true,
+                order: [],
                 select: true,
                 paging: false,
             });

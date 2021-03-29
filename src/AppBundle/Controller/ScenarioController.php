@@ -213,11 +213,11 @@ class ScenarioController extends Controller
     {
         $ests = [];
         $estId = 0;
-        foreach ($scenario->getScenarioObjectives() as $objective) {
-            $ests[] = new ScenarioEst($estId++, null, $objective->getTitle(), 'objective', $objective->getValue());
-        }
         foreach ($scenario->getScenarioDetails() as $detail) {
-            $ests[] = new ScenarioEst($estId++, $detail->getDate()->format('c'), $detail->getTitle(), 'detail', $detail->getValue());
+            $ests['details'][] = new ScenarioEst('d' . $detail->getId(), $detail->getDate()->format('c'), $detail->getTitle(), 'detail', $detail->getValue());
+        }
+        foreach ($scenario->getScenarioObjectives() as $objective) {
+            $ests['objectives'][] = new ScenarioEst('o' . $objective->getId(), null, $objective->getTitle(), 'objective', $objective->getValue());
         }
         return new JsonResponse(["data" => $ests]);
     }
