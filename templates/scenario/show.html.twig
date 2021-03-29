@@ -1,7 +1,10 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Scenario{% endblock %}
-
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/scenario.css') }}"/>
+{% endblock %}
 {% block content %}
     <a href="{{ path('scenario_index') }}">back to list</a>
     <div class="card">

@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Scenario;
 use AppBundle\Entity\ScenarioDetails;
 use AppBundle\Form\ScenarioType;
+use AppBundle\Model\ScenarioEst;
 use AppBundle\Repository\ScenarioDetailsRepository;
 use AppBundle\Repository\ScenarioObjectiveRepository;
 use AppBundle\Repository\ScenarioRepository;
@@ -13,6 +14,7 @@ use stdClass;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -183,22 +185,14 @@ class ScenarioController extends Controller
         $ests = [];
         $estId = 0;
         foreach ($scenario->getScenarioDetails() as $detail) {
-            $est = new stdClass();
-            $est->id = $estId++;
-            $est->date = $detail->getDate()->format('c');
-            $est->name = $detail->getTitle();
-            $est->value = $detail->getValue();
+            $est = new ScenarioEst($estId++, $detail->getDate()->format('c'), $detail->getTitle(), 'detail', $detail->getValue());
             $ests[] = $est;
-            $balance += $detail->getValue();
-            if (count($objectives) && $balance < 0) {
+            $balance += $est->getValue();
+            if (0 < $balance && count($objectives)) {
                 if (($balance + $objectives[$objectiveIndex]->getValue()) < 0) {
-                    $est = new stdClass();
-                    $est->id = $estId++;
-                    $est->date = $detail->getDate()->format('c');
-                    $est->name = $objectives[$objectiveIndex]->getTitle();
-                    $est->value = $objectives[$objectiveIndex]->getValue();
+                    $est = new ScenarioEst($estId++, $detail->getDate()->format('c'), $objectives[$objectiveIndex]->getTitle(), 'objective', $objectives[$objectiveIndex]->getValue());
                     $ests[] = $est;
-                    $balance += $objectives[$objectiveIndex]->getValue();
+                    $balance += $est->getValue();
                     unset($objectives[$objectiveIndex]);
                     $objectiveIndex++;
                 }
@@ -208,6 +202,24 @@ class ScenarioController extends Controller
             'scenario' => $scenario,
             'ests' => $ests
         ]);
+    }
+
+    /**
+     * @Route("/{id}/getEst", name="scenario_est_get", methods={"GET"})
+     * @param Scenario $scenario
+     * @return JsonResponse
+     */
+    public function getEst(Scenario $scenario): JsonResponse
+    {
+        $ests = [];
+        $estId = 0;
+        foreach ($scenario->getScenarioObjectives() as $objective) {
+            $ests[] = new ScenarioEst($estId++, null, $objective->getTitle(), 'objective', $objective->getValue());
+        }
+        foreach ($scenario->getScenarioDetails() as $detail) {
+            $ests[] = new ScenarioEst($estId++, $detail->getDate()->format('c'), $detail->getTitle(), 'detail', $detail->getValue());
+        }
+        return new JsonResponse(["data" => $ests]);
     }
 
     /**

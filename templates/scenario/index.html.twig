@@ -1,7 +1,10 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Scenario index{% endblock %}
-
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/scenario.css') }}"/>
+{% endblock %}
 {% block content %}
     <h1>Scenario index</h1>
 
