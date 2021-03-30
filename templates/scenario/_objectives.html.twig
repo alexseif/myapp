@@ -8,31 +8,19 @@
                     Objectives
                 </button>
             </div>
-            <div>
-                <div class="btn-group btn-group-sm">
-                    <a href="{{ path('scenario_objective_new', {'scenario': scenario.id}) }}" class="btn btn-primary">Add
-                        Objective</a>
-                    <button type="submit" class="btn btn-confirm btn-danger"
-                            id="btn-scenario-delete-objectives">Delete Objectives
-                    </button>
-                </div>
+            <div class="btn-group btn-group-sm">
+                <a href="{{ path('scenario_objective_new', {'scenario': scenario.id}) }}" class="btn btn-primary">Add
+                    Objective</a>
+                <button type="submit" class="btn btn-confirm btn-danger"
+                        id="btn-scenario-delete-objectives">Delete Objectives
+                </button>
             </div>
-        </div>
-        <style>
-            #scenario-objective th:first-child {
-                width: 1%;
-            }
-
-            #scenario-objective th:nth-child(3),
-            #scenario-objective td:nth-child(3) {
-                text-align: left;
-            }
-        </style>
+        </div><!-- .card-header -->
         <table class="table table-striped datatable text-right collapse" id="scenario-objectives">
             <thead>
             <tr>
                 <th></th>
-                <th>Name</th>
+                <th>title</th>
                 <th>Value</th>
                 <th>Priority</th>
                 <th>Urgency</th>
@@ -47,13 +35,13 @@
                 <tr data-id="{{ scenario_objective.id }}">
                     <td>
                         <label class="d-block form-check m-0">
-                            <input type="checkbox" name="scenarioObjectives[]"
+                            <input type="checkbox" title="scenarioObjectives[]"
                                    value="{{ scenario_objective.id }}" id="check-{{ scenario_objective.id }}"/>
                         </label>
                     </td>
                     <td>
                         <a href="{{ path('scenario_objective_edit', {'scenario': scenario, 'id': scenario_objective.id}) }}">
-                            {{ scenario_objective.name }}
+                            {{ scenario_objective.title }}
                         </a>
                     </td>
                     <td>{{ scenario_objective.value|number_format }}</td>

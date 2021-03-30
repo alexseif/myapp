@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use AppBundle\Repository\ScenarioObjectiveRepository;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -20,7 +21,7 @@ class ScenarioObjective
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    private $title;
 
     /**
      * @ORM\Column(type="float")
@@ -38,24 +39,30 @@ class ScenarioObjective
     private $urgency;
 
     /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $date;
+
+    /**
      * @ORM\ManyToOne(targetEntity=Scenario::class, inversedBy="scenarioObjectives")
      * @ORM\JoinColumn(nullable=false)
      */
     private $scenario;
+
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getTitle(): ?string
     {
-        return $this->name;
+        return $this->title;
     }
 
-    public function setName(string $name): self
+    public function setTitle(string $title): self
     {
-        $this->name = $name;
+        $this->title = $title;
 
         return $this;
     }
@@ -104,6 +111,18 @@ class ScenarioObjective
     public function setScenario(?Scenario $scenario): self
     {
         $this->scenario = $scenario;
+
+        return $this;
+    }
+
+    public function getDate(): ?DateTimeInterface
+    {
+        return $this->date;
+    }
+
+    public function setDate(DateTimeInterface $date): self
+    {
+        $this->date = $date;
 
         return $this;
     }

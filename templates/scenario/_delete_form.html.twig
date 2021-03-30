@@ -3,7 +3,9 @@
     <input type="hidden" name="_method" value="DELETE">
     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ scenario.id) }}">
     <div class="btn-group btn-group-sm">
-        <a href="{{ path('scenario_edit', {'id': scenario.id}) }}" class="btn btn-primary">edit</a>
+        <a href="{{ path('scenario_est', {"id":scenario}) }}" class="btn btn-success">EST</a>
+        <a href="{{ path('scenario_edit', {'id': scenario.id}) }}" class="btn btn-primary">Edit</a>
         <button class="btn btn-danger ">Delete</button>
     </div>
+
 </form>

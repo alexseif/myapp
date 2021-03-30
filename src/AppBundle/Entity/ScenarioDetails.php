@@ -32,7 +32,7 @@ class ScenarioDetails
     /**
      * @ORM\Column(type="float")
      */
-    private $amount;
+    private $value;
 
     /**
      * @ORM\ManyToOne(targetEntity=Scenario::class, inversedBy="scenarioDetails")
@@ -78,14 +78,14 @@ class ScenarioDetails
         return $this;
     }
 
-    public function getAmount(): ?float
+    public function getValue(): ?float
     {
-        return $this->amount;
+        return $this->value;
     }
 
-    public function setAmount(float $amount): self
+    public function setValue(float $value): self
     {
-        $this->amount = $amount;
+        $this->value = $value;
 
         return $this;
     }

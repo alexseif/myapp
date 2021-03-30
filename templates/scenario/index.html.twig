@@ -1,7 +1,10 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Scenario index{% endblock %}
-
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/scenario.css') }}"/>
+{% endblock %}
 {% block content %}
     <h1>Scenario index</h1>
 
@@ -19,9 +22,10 @@
                 <td>{{ scenario.id }}</td>
                 <td>{{ scenario.title }}</td>
                 <td>
-                    <a href="{{ path('scenario_show', {'id': scenario.id}) }}">show</a>
-                    <a href="{{ path('scenario_edit', {'id': scenario.id}) }}">edit</a>
-                    <a href="{{ path('scenario_details_index', {'scenario': scenario}) }}">Details</a>
+                    <div class="btn btn-group btn-group-sm">
+                        <a href="{{ path('scenario_show', {'id': scenario.id}) }}" class="btn btn-primary">Show</a>
+                        <a href="{{ path('scenario_edit', {'id': scenario.id}) }}" class="btn btn-primary">Edit</a>
+                    </div>
                 </td>
             </tr>
         {% else %}
