@@ -6,7 +6,7 @@
         {% set widgetBody %}
             <!-- https://codepen.io/jasonleewilson/pen/gPrxwX -->
             <!-- https://www.timeanddate.com/worldclock/egypt/cairo -->
-            <sup class="float-left">{{ ("now"|date("d")  / "now"|date("t") * 100)|round }}%</sup>
+            <sup class="float-left">{{ day_manager.monthPercentage }}%</sup>
             <div id="timedate" class="text-right text-nowrap">
                 <div class="h3">
                     <strong><a id="h">{{ "now"|date("H") }}</a>:<a id="m">{{ "now"|date("i") }}</a></strong>
