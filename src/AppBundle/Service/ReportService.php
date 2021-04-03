@@ -7,6 +7,7 @@ namespace AppBundle\Service;
 
 
 use AppBundle\Repository\AccountTransactionsRepository;
+use AppBundle\Repository\TasksRepository;
 use stdClass;
 
 class ReportService
@@ -16,15 +17,21 @@ class ReportService
      * @var AccountTransactionsRepository $accountTransactionRepository
      */
     protected $accountTransactionRepository;
+    /**
+     * @var TasksRepository $tasksRepository
+     */
+    protected $tasksRepository;
 
 
     /**
      * ReportService constructor.
      * @param AccountTransactionsRepository $accountTransactionRepository
+     * @param TasksRepository $tasksRepository
      */
-    public function __construct(AccountTransactionsRepository $accountTransactionRepository)
+    public function __construct(AccountTransactionsRepository $accountTransactionRepository, TasksRepository $tasksRepository)
     {
         $this->setAccountTransactionRepository($accountTransactionRepository);
+        $this->setTasksRepository($tasksRepository);
     }
 
     /**
@@ -41,6 +48,22 @@ class ReportService
     public function setAccountTransactionRepository(AccountTransactionsRepository $accountTransactionRepository): void
     {
         $this->accountTransactionRepository = $accountTransactionRepository;
+    }
+
+    /**
+     * @return TasksRepository
+     */
+    public function getTasksRepository(): TasksRepository
+    {
+        return $this->tasksRepository;
+    }
+
+    /**
+     * @param TasksRepository $tasksRepository
+     */
+    public function setTasksRepository(TasksRepository $tasksRepository): void
+    {
+        $this->tasksRepository = $tasksRepository;
     }
 
     /**
@@ -85,6 +108,35 @@ class ReportService
         $IssuedAtCol->type = "date";
         $AmountCol = new stdClass();
         $AmountCol->label = "Amount";
+        $AmountCol->type = "number";
+        $columns = [$IssuedAtCol, $AmountCol];
+
+        return [
+            "cols" => $columns,
+            "rows" => $rows
+        ];
+    }
+
+
+    public function getHoursPerMonthGoogleChart()
+    {
+        $hoursPerMonths = $this->getTasksRepository()->findWorkingHoursPerMonth();
+        $rows = [];
+        foreach ($hoursPerMonths as $hoursPerMonth) {
+            $completedAt = new stdClass();
+            $completedAt->v = "Date(" . $hoursPerMonth['completedAt']->format('Y') . "," . ($hoursPerMonth['completedAt']->format("m") - 1) . ",1)";
+            $duration = new stdClass();
+            $duration->v = $hoursPerMonth['duration'];
+            $row = new stdClass();
+            $row->c = [$completedAt, $duration];
+            $rows[] = $row;
+        }
+
+        $IssuedAtCol = new stdClass();
+        $IssuedAtCol->label = "CompletedAt";
+        $IssuedAtCol->type = "date";
+        $AmountCol = new stdClass();
+        $AmountCol->label = "Duration";
         $AmountCol->type = "number";
         $columns = [$IssuedAtCol, $AmountCol];
 

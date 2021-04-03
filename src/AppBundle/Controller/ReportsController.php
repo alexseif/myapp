@@ -167,6 +167,23 @@ class ReportsController extends Controller
     }
 
     /**
+     * @Route("/hours_per_month", name="reports_hours_per_month")
+     */
+    public function hoursPerMonthAction()
+    {
+        return $this->render('AppBundle:Reports:hoursPerMonth.html.twig');
+    }
+
+    /**
+     * @Route("/hours_per_month/data", name="reports_hours_per_month_data")
+     */
+    public function hoursPerMonthDataAction(ReportService $reportService)
+    {
+
+        return JsonResponse::create($reportService->getHoursPerMonthGoogleChart());
+    }
+
+    /**
      * @Route("/clients_by_year/{year}", name="reports_clients_by_years")
      */
     public function clientsByYearAction($year)

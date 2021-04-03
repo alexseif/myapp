@@ -695,6 +695,23 @@ class TasksRepository extends ServiceEntityRepository
     }
 
     /**
+     *
+     * @return array The objects.
+     */
+    public function findWorkingHoursPerMonth()
+    {
+        return $this
+            ->createQueryBuilder('t')
+            ->select('t.completedAt, SUM(t.duration)/60 as duration, CONCAT(YEAR(t.completedAt), MONTH(t.completedAt)) as DayCompletedAt')
+            ->where('t.completedAt is not null')
+            ->andWhere('t.duration is not null')
+            ->orderBy('t.completedAt')
+            ->groupBy('DayCompletedAt')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
      * List of completed tasks on a date
      *
      * @param DateTime $date
