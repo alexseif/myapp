@@ -57,15 +57,17 @@
         </table>
         <div class="card-footer">
             <div class="d-flex justify-content-around text-{{ (0 > balance)? "success":"danger" }}">
-                <div>{{ scenario.scenarioDetails|first.date|date }}
-                    - {{ scenario.scenarioDetails|last.date|date }}
-                </div>
-                <div>
-                    <b>Total</b>
-                    <b>EGP {{ balance|number_format }}</b>
-                </div>
-            </div>
-        </div>
+                {% if scenario.scenarioDetails|length %}
+                    <div>{{ scenario.scenarioDetails|first.date|date }}
+                        - {{ scenario.scenarioDetails|last.date|date }}
+                    </div>
+                    <div>
+                        <b>Total</b>
+                        <b>EGP {{ balance|number_format }}</b>
+                    </div>
+                {% endif %}
+            </div><!-- .d-flex -->
+        </div><!-- .card-footer -->
     </form>
 
 </section><!-- #details -->
