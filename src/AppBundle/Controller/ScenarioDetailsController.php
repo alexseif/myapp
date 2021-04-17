@@ -33,6 +33,7 @@ class ScenarioDetailsController extends Controller
     public function new(Request $request, Scenario $scenario): Response
     {
         $scenarioDetail = new ScenarioDetails();
+        $scenarioDetail->setScenario($scenario);
         $form = $this->createForm(ScenarioDetailsType::class, $scenarioDetail);
         $form->handleRequest($request);
 
@@ -94,6 +95,6 @@ class ScenarioDetailsController extends Controller
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('scenario_details_index', ["scenario" => $scenario]);
+        return $this->redirectToRoute('scenario_show', ["scenario" => $scenario]);
     }
 }

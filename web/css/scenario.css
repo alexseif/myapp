@@ -1,6 +1,7 @@
 /**
   * The following content was designed & implemented under AlexSeif.com
  **/
+table{width:100%;}
 #scenario-details th:first-child,
 #scenario-objective th:first-child {
     width: 1%;

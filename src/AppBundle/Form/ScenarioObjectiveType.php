@@ -16,7 +16,7 @@ class ScenarioObjectiveType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
+            ->add('title')
             ->add('value', MoneyType::class)
             ->add('priority', ChoiceType::class, array(
                 'label' => false,

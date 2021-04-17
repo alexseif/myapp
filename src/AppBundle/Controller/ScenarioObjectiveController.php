@@ -33,6 +33,7 @@ class ScenarioObjectiveController extends Controller
     public function new(Request $request, Scenario $scenario): Response
     {
         $scenarioObjective = new ScenarioObjective();
+        $scenarioObjective->setScenario($scenario);
         $form = $this->createForm(ScenarioObjectiveType::class, $scenarioObjective);
         $form->handleRequest($request);
 
@@ -94,6 +95,6 @@ class ScenarioObjectiveController extends Controller
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('scenario_objective_index', ["scenario" => $scenario]);
+        return $this->redirectToRoute('scenario_show', ["scenario" => $scenario]);
     }
 }

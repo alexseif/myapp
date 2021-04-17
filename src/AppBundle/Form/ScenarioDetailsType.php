@@ -27,7 +27,7 @@ class ScenarioDetailsType extends AbstractType
                     'data-date-format' => 'yyyy-MM-dd',
                 )
             ])
-            ->add('amount', MoneyType::class)
+            ->add('value', MoneyType::class)
             ->add('scenario', EntityType::class, [
                 'class' => Scenario::class,
                 'choice_label' => 'title'

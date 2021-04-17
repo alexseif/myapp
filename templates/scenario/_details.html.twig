@@ -2,26 +2,19 @@
     <form action="{{ path('scenario_delete_details', {'id':scenario}) }}" method="post">
         <div class="card-header d-flex justify-content-between">
             <div class="flex-fill">
-                <button class="text-white bg-transparent border-0 p-0" type="button" data-toggle="collapse"
+                <button class="text-white bg-transparent border-0 p-0 btn btn-link btn-sm" type="button" data-toggle="collapse"
                         data-target="#scenario-details" aria-expanded="false"
                         aria-controls="scenario-details">
                     Details
                 </button>
             </div>
             <div class="btn-group btn-group-sm">
-                <a href="{{ path('scenario_generate_details',  {"id": scenario}) }}" class="btn btn-primary">Generate
-                    Scenario
-                    details</a>
-
-                <a href="{{ path('scenario_details_new', {'scenario': scenario.id}) }}" class="btn btn-primary">Add
-                    Scenario
-                    Details</a>
-                <button type="submit" class="btn btn-confirm btn-danger"
-                        id="btn-scenario-delete-details">Delete Details
-                </button>
+                <a href="{{ path('scenario_details_new', {'scenario': scenario.id}) }}" class="btn btn-link btn-sm">Add Scenario Details</a>
+                <a href="{{ path('scenario_generate_details',  {"id": scenario}) }}" class="btn btn-link btn-sm">Generate Scenario details</a>
+                <button type="submit" id="btn-scenario-delete-details" class="btn btn-link btn-sm">Delete Details</button>
             </div>
         </div><!-- .card-header -->
-        <table class="table table-striped datatable text-right collapse" id="scenario-details">
+        <table class="text-right collapse" id="scenario-details">
             <thead>
             <tr>
                 <th></th>
@@ -29,7 +22,6 @@
                 <th>Title</th>
                 <th>value</th>
                 <th>Balance</th>
-                <th></th>
             </tr>
             </thead>
             <tbody>
