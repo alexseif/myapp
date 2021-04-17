@@ -2,7 +2,7 @@
 {% import "macros/forms.html.twig" as forms %}
 {% import "macros/a.html.twig" as a %}
 {% block stylesheets %}
-    {{ parent('tasks_new') }}
+    {{ parent() }}
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css"/>
     <style>
         table.dataTable tbody tr {
@@ -104,7 +104,7 @@
     <script type="text/javascript" src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
     <script>
         $(document).ready(function () {
-            var tasksTable = $('#tasks').DataTable({
+            let tasksTable = $('#tasks').DataTable({
                 "stateSave": true,
             });
             $('#tasks tbody').on('dblclick', 'tr', function () {
@@ -121,7 +121,7 @@
 
             //Autolog
             $('#log').click(function () {
-                var data = [];
+                let data = [];
                 $('input[name="tasks[]"]:checked').each(
                     function (i) {
                         data[i] = $(this).val();
@@ -133,7 +133,7 @@
 
             //unloggable
             $('#unloggable').click(function () {
-                var data = [];
+                let data = [];
                 $('input[name="tasks[]"]:checked').each(
                     function (i) {
                         data[i] = $(this).val();
@@ -145,7 +145,7 @@
 
             // Delete worklog
             $('#delete').click(function () {
-                var data = [];
+                let data = [];
                 $('input[name="tasks[]"]:checked').each(
                     function (i) {
                         data[i] = $(this).val();

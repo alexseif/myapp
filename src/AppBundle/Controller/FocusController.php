@@ -6,6 +6,7 @@ use AppBundle\Service\FocusService;
 use AppBundle\Util\WorkWeek;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\TaskLists;
@@ -39,21 +40,15 @@ class FocusController extends Controller
     /**
      *
      * @Route("/focus/{name}", name="focus_tasklist")
+     * @param TaskLists $tasklist
+     * @param FocusService $focusService
+     * @return Response|null
      */
-    public function focusByTaskListAction(TaskLists $taskList)
+    public function focusByTaskListAction(TaskLists $tasklist, FocusService $focusService): ?Response
     {
-        $em = $this->getDoctrine()->getManager();
-        $todayHours = WorkWeek::getDayHours(date('l'));
+        $focusService->setTasksByTaskList($tasklist);
 
-        $tasks = $em->getRepository('AppBundle:Tasks')->focusByTasklist($taskList);
-        $completedToday = $em->getRepository('AppBundle:Tasks')->getCompletedToday();
-
-        return $this->render("AppBundle:focus:index.html.twig", array(
-            'todayHours' => $todayHours,
-            'taskList' => $taskList,
-            'tasks' => $tasks,
-            'completed' => $completedToday,
-        ));
+        return $this->render("AppBundle:focus:index.html.twig", $focusService->get());
     }
 
     /**
@@ -93,7 +88,7 @@ class FocusController extends Controller
     /**
      *
      * @Route("/beta", name="beta")
-     * @return \Symfony\Component\HttpFoundation\Response|null
+     * @return Response|null
      */
     public function betaAction()
     {

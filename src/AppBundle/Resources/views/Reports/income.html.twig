@@ -1,9 +1,9 @@
-{% extends "::base.html.twig" %}
+{% extends "base.html.twig" %}
 
 {% block title %}Income Reports{% endblock %}
 
 {% block content %}
-    <div id="chart_div" style="height: 83vh;"></div>
+    <div id="chart_div" style="height: 80vh;"></div>
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
@@ -13,28 +13,23 @@
         google.charts.setOnLoadCallback(drawTrendlines);
 
         function drawTrendlines() {
-            var data = new google.visualization.DataTable();
-            data.addColumn('date', 'IssuedAt');
-            data.addColumn('number', 'amount');
-
-            data.addRows([{% for year, txns in income %}
-                {% for month, txn in txns %}
-                [new Date({{ year }}, {{ month }}, 1),{{ income[year][month] }} ]
-                {% if not loop.last %}
-                ,
-                {% endif %}
-                {% endfor %}
-                {% if not loop.last %}
-                ,
-                {% endif %}
-                {% endfor %}
-            ]);
+            var jsonData = $.ajax({
+                url: "{{ path('reports_income_data') }}",
+                dataType: "json",
+                async: false
+            }).responseText;
+            let data = new google.visualization.DataTable(jsonData);
 
             var options = {
                 legendTextStyle: {color: '#FFF'},
                 titleTextStyle: {color: '#FFF'},
                 backgroundColor: '#222',
-                hAxis: {title: 'Date', textStyle: {color: '#FFF'}, titleTextStyle: {color: '#FFF'}},
+                hAxis: {
+                    title: 'Date',
+                    textStyle: {color: '#FFF'},
+                    titleTextStyle: {color: '#FFF'},
+                    maxValue: "Date({{ "now"|date('Y') }}, 12, 1)"
+                },
                 vAxis: {
                     title: 'Income',
                     textStyle: {color: '#FFF'},
@@ -42,7 +37,9 @@
                     gridlines: {color: 'transparent'}
                 },
                 crosshair: {color: 'pink', trigger: 'both'},
-                trendlines: {0: {type: 'exponential', color: 'green', visibleInLegend: true, opacity: 1}}
+                trendlines: {
+                    0: {type: 'exponential', visibleInLegend: true}
+                }
             };
 
             var chart = new google.visualization.LineChart(document.getElementById('chart_div'));

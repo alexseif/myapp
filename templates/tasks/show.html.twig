@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+{% import "macros/forms.html.twig" as forms %}
+{% import "macros/a.html.twig" as a %}
+{% import "AppBundle:tasks:tasks_macros.html.twig" as tasks_view %}
+
+{% block floatingActions %}
+    {{ a.add('tasks_new') }}
+{% endblock %}
+{% block content %}
+    {{ a.back('tasks_index') }}
+    <div class="container">
+        <div class="text-right">
+      <span class="btn btn-danger mb-4">
+{# {{ forms.delete(delete_form) }} #}
+          {{ include('tasks/_delete_form.html.twig') }}
+      </span>
+        </div>
+        {{ tasks_view.show(task) }}
+    </div><!-- container -->
+{% endblock %}

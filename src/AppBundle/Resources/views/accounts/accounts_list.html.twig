@@ -1,56 +1,56 @@
 {% import "macros/a.html.twig" as a %}
 {% import "macros/badges.html.twig" as badge %}
-<div class="table-responsive">
-    <table class="table table-striped table-hover table-dark">
-        <thead>
-        <tr>
-            <th scope="col">Account</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% set total = 0 %}
-        {% for account in accounts %}
-            {% if account.balance or not hideEmpty %}
-                {% set total = total + account.balance %}
-                <tr scope="row"
-                    class="text-{{ (account.balance == 0) ? "default" : (account.balance) < 0 ? "success": "danger" }}">
-                    <td class='text-'>
-                        <div class="row">
-                            <div class="col">
-                                <h5>{{ account.name }}</h5>
-                            </div>
-                            <div class="col">
-                                {% if(account.client) %}
-                                    <div class="mb-3">
-                                        {{ account.client.name }}
-                                        <span class="float-right">{{ badge.status(account.client.enabled) }}</span>
-                                    </div>
+<table class="table table-striped table-hover table-dark datatable" id="accounts">
+    <thead>
+    <tr>
+        <th scope="col">Account</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% set total = 0 %}
+    {% for account in accounts %}
+        {% if account.balance or not hideEmpty %}
+            {% set total = total + account.balance %}
+            <tr class="text-{{ (account.balance == 0) ? "default" : (account.balance) < 0 ? "success": "danger" }}"
+                data-active="{{ account.client.enabled }}">
+                <td class='text-'>
+                    <div class="row">
+                        <div class="col">
+                            <h5>{{ account.name }}</h5>
+                        </div>
+                        <div class="col">
+                            {% if(account.client) %}
+                                <div class="mb-3">
+                                    <a href="{{ path('client_show', {'id':account.client.id}) }}">{{ account.client.name }}</a>
+                                    <span class="float-right">{{ badge.status(account.client.enabled) }}</span>
+                                </div>
+                            {% endif %}
+                            {% if (account.conceal) %}
+                            <del>
                                 {% endif %}
+                                <div class="money-egp mb-2">{{ account.balance|number_format }}</div>
                                 {% if (account.conceal) %}
-                                <del>
-                                    {% endif %}
-                                    <div class="money-egp mb-2">{{ account.balance|number_format }}</div>
-                                    {% if (account.conceal) %}
-                                </del>
-                                {% endif %}
-                            </div><!-- end col -->
-                        </div><!-- end row -->
-                        {{ a.show('accounts_show', { 'id': account.id }) }}
-                        {{ a.edit('accounts_edit', { 'id': account.id }) }}
-                        {{ a.add('accounttransactions_new', { 'account': account.id }) }}
-                    </td>
-                </tr>
-            {% endif %}
-        {% endfor %}
-        </tbody>
-        <tfoot>
-        <tr class="text-{{ total <= 0 ? "success" : "danger" }}">
-            <th>
-                <div class="money-egp" style="width: 125px; margin: 0 auto;">
-                    {{ total|number_format }}
-                </div>
-            </th>
-        </tr>
-        </tfoot>
-    </table>
-</div>
+                            </del>
+                            {% endif %}
+                        </div><!-- end col -->
+                    </div><!-- end row -->
+                    {{ a.show('accounts_show', { 'id': account.id }) }}
+                    {{ a.edit('accounts_edit', { 'id': account.id }) }}
+                    {{ a.linkGlyph('success', 'New Transaction','accounttransactions_new', { 'account': account.id }) }}
+                    {{ a.linkGlyph('primary', 'New List','tasklists_new', { 'account': account.id }) }}
+                    {{ a.linkGlyph('primary', 'New Sizing', 'sizing_index', { 'account': account.id }) }}
+                </td>
+            </tr>
+        {% endif %}
+    {% endfor %}
+    </tbody>
+    <tfoot>
+    <tr class="text-{{ total <= 0 ? "success" : "danger" }}">
+        <th>
+            <div class="money-egp" style="width: 125px; margin: 0 auto;">
+                {{ total|number_format }}
+            </div>
+        </th>
+    </tr>
+    </tfoot>
+</table>

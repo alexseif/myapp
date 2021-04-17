@@ -1,0 +1,26 @@
+{{ form_start(form) }}
+<div class="card-body">
+    {{ form_row(form.task) }}
+    {{ form_row(form.taskList) }}
+    <div class="d-flex justify-content-between">
+        {{ form_row(form.priority) }}
+        {{ form_row(form.urgency) }}
+    </div>
+    <div class="d-flex justify-content-between">
+        {{ form_row(form.est) }}
+        {{ form_row(form.eta) }}
+    </div>
+    <div class="d-flex justify-content-between">
+        {{ form_row(form.duration) }}
+        <div>
+            {{ form_row(form.completedAt) }}
+        </div>
+    </div>
+</div>
+<div class="card-footer text-right">
+    <span class="float-left">
+    {{ form_row(form.completed) }}
+    </span>
+    <button class="btn">{{ button_label|default('Save') }}</button>
+</div>
+{{ form_end(form) }}

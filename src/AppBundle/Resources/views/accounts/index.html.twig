@@ -2,10 +2,47 @@
 {% import "macros/a.html.twig" as a %}
 {% block floatingActions %}{{ a.add('accounts_new') }}{% endblock %}
 {% block panelTitle %}Accounts{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css"/>
+    <style>
+        table.dataTable tbody tr {
+            background-color: transparent;
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: black;
+        }
+
+        table tbody tr td {
+            text-align: left;
+        }
+    </style>
+{% endblock %}
 {% block content %}
     <div class="container">
+        <a class="btn btn-sm btn-secondary float-right" id="reset"
+           href="{{ path('accounts_index') }}">Reset View</a>
         <h2>Accounts</h2>
         {% set hideEmpty = false %}
         {% include 'AppBundle:accounts:accounts_list.html.twig' %}
     </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var tasksTable = $('#accounts').DataTable({
+                "stateSave": true,
+                "aaSorting": [],
+                "pageLength": 100
+            });
+            //reset view
+            $('#reset').click(function () {
+                tasksTable.state.clear();
+                return true;
+            });
+        });
+    </script>
 {% endblock %}

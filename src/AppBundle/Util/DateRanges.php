@@ -6,6 +6,11 @@ namespace AppBundle\Util;
  * The following content was designed & implemented under AlexSeif.com
  */
 
+use DateInterval;
+use DatePeriod;
+use DateTime;
+use DOMDocument;
+
 /**
  * Utility class for DateRanges Operations
  *
@@ -26,8 +31,8 @@ class DateRanges
     {
         $start = self::getMonthStart($startDate);
         $end = self::getMonthEnd($endDate);
-        $interval = \DateInterval::createFromDateString('1 month');
-        $period = new \DatePeriod($start, $interval, $end);
+        $interval = DateInterval::createFromDateString('1 month');
+        $period = new DatePeriod($start, $interval, $end);
         $dateArray = array();
 
         $index = 0;
@@ -47,8 +52,8 @@ class DateRanges
     /**
      * Returns number of working days
      * https://stackoverflow.com/a/19221403/1030170
-     * @param \DateTime $from
-     * @param \DateTime $to
+     * @param DateTime $from
+     * @param DateTime $to
      * @return int
      */
     public static function numberOfWorkingDays($from, $to)
@@ -58,8 +63,8 @@ class DateRanges
 //    $from = new \DateTime($from);
 //    $to = new \DateTime($to);
 //    $to->modify('+1 day');
-        $interval = new \DateInterval('P1D');
-        $periods = new \DatePeriod($from, $interval, $to);
+        $interval = new DateInterval('P1D');
+        $periods = new DatePeriod($from, $interval, $to);
 
         $days = 0;
         foreach ($periods as $period) {
@@ -93,32 +98,32 @@ class DateRanges
             echo "startdate is in the future! <br />";
 
             return 0;
-        } else {
-            $no_days = 0;
-            $weekends = 0;
-            while ($begin <= $end) {
-                $no_days++; // no of days in the given interval
-                $what_day = date("N", $begin);
-                if (in_array($what_day, [5, 6])) { // 6 and 7 are weekend days
-                    $weekends++;
-                };
-                $begin += 86400; // +1 day
-            };
-            $working_days = $no_days - $weekends;
-
-            $holiday_days = 0;
-            $beginDT = new \DateTime($startDate);
-            $endDT = new \DateTime($endDate);
-            foreach ($holidays as $holiday) {
-                $dt = new \DateTime($holiday[0]);
-                if (($dt->getTimestamp() >= $beginDT->getTimestamp()) && ($dt->getTimestamp() <= $endDT->getTimestamp()) && (in_array($dt->format("N"), [
-                        5, 6]))) {
-                    $holiday_days++;
-                }
-            }
-            $working_days -= $holiday_days;
-            return $working_days;
         }
+
+        $no_days = 0;
+        $weekends = 0;
+        while ($begin <= $end) {
+            $no_days++; // no of days in the given interval
+            $what_day = date("N", $begin);
+            if (in_array($what_day, [5, 6])) { // 6 and 7 are weekend days
+                $weekends++;
+            }
+            $begin += 86400; // +1 day
+        }
+        $working_days = $no_days - $weekends;
+
+        $holiday_days = 0;
+        $beginDT = new DateTime($startDate);
+        $endDT = new DateTime($endDate);
+        foreach ($holidays as $holiday) {
+            $dt = new DateTime($holiday[0]);
+            if (($dt->getTimestamp() >= $beginDT->getTimestamp()) && ($dt->getTimestamp() <= $endDT->getTimestamp()) && (in_array($dt->format("N"), [
+                    5, 6]))) {
+                $holiday_days++;
+            }
+        }
+        $working_days -= $holiday_days;
+        return $working_days;
     }
 
     /**
@@ -139,7 +144,7 @@ class DateRanges
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
         $html = curl_exec($ch);
         curl_close($ch);
-        $dom = new \DOMDocument();
+        $dom = new DOMDocument();
 # The @ before the method call suppresses any warnings that
 # loadHTML might throw because of invalid HTML in the page.
         @$dom->loadHTML($html);
@@ -178,11 +183,11 @@ class DateRanges
     /**
      *
      * @param mixed $date Optional to specify which month start
-     * @return \DateTime
+     * @return DateTime
      */
     public static function getMonthStart($date = "now")
     {
-        $monthStart = new \DateTime($date);
+        $monthStart = new DateTime($date);
         if ($monthStart->format('d') < 25)
             $monthStart->modify("-1 month");
         $monthStart->setTime(0, 0, 0);
@@ -194,11 +199,11 @@ class DateRanges
     /**
      *
      * @param mixed $date Optional to specify which month start
-     * @return \DateTime
+     * @return DateTime
      */
     public static function getMonthEnd($date = "now")
     {
-        $monthEnd = new \DateTime($date);
+        $monthEnd = new DateTime($date);
         if ($monthEnd->format('d') >= 25)
             $monthEnd->modify("+1 month");
         $monthEnd->setTime(23, 59, 59);
@@ -207,4 +212,31 @@ class DateRanges
         return $monthEnd;
     }
 
+    /**
+     * @param DateTime $start
+     * @param DateTime $end
+     * @return array
+     */
+    public static function getDatesFromRange(DateTime $start, DateTime $end): array
+    {
+
+        // Declare an empty array
+        $array = array();
+
+        // Variable that store the date interval
+        // of period 1 day
+            $interval = new DateInterval('P1D');
+
+        $end->add($interval);
+
+        $period = new DatePeriod($start, $interval, $end);
+
+        // Use loop to store date into array
+        foreach ($period as $date) {
+            $array[] = $date;
+        }
+
+        // Return the array elements
+        return $array;
+    }
 }

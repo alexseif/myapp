@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use AppBundle\Entity\TaskLists;
 
 class TaskListsType extends AbstractType
 {
@@ -33,9 +34,9 @@ class TaskListsType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\TaskLists'
-        ));
+        $resolver->setDefaults([
+            'data_class' => TaskLists::class
+        ]);
     }
 
 }

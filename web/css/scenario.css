@@ -1,0 +1,28 @@
+/**
+  * The following content was designed & implemented under AlexSeif.com
+ **/
+table{width:100%;}
+#scenario-details th:first-child,
+#scenario-objective th:first-child {
+    width: 1%;
+}
+
+#scenario-details th:nth-child(3),
+#scenario-details td:nth-child(3),
+#scenario-objective th:nth-child(3),
+#scenario-objective td:nth-child(3) {
+    text-align: left;
+}
+
+table.dataTable tbody tr {
+    background-color: transparent;
+}
+
+.table-hover tbody tr:hover {
+    background-color: black;
+}
+
+
+#scenario-est th:first-child {
+    width: 1%;
+}

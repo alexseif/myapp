@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Scenario{% endblock %}
+
+{% block content %}
+    <h1>Create new Scenario</h1>
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="btn">{{ button_label|default('Save') }}</button>
+    {{ form_end(form) }}
+
+    <a href="{{ path('scenario_show', {"id": scenario}) }}">back to list</a>
+{% endblock %}

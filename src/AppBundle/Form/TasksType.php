@@ -2,47 +2,26 @@
 
 namespace AppBundle\Form;
 
+use AppBundle\Entity\Tasks;
+use AppBundle\Repository\TaskListsRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class TasksType extends AbstractType
 {
-
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('task')
-            ->add('duration')
-            ->add('est')
-            ->add('priority', ChoiceType::class, array(
-                'choices' => array(
-                    'Low' => -1,
-                    'Normal' => 0,
-                    'Important' => 1,
-                ),
-                'expanded' => true,
-                'label_attr' => array('class' => 'radio-inline')
-            ))
-            ->add('urgency', ChoiceType::class, array(
-                'choices' => array(
-                    'Normal' => 0,
-                    'Urgent' => 1
-                ),
-                'expanded' => true,
-                'label_attr' => array('class' => 'radio-inline')
-            ))
             ->add('taskList', EntityType::class, array(
                 'class' => 'AppBundle:TaskLists',
-                'query_builder' => function (\AppBundle\Repository\TaskListsRepository $er) {
+                'label' => false,
+                'query_builder' => function (TaskListsRepository $er) {
                     return $er->createQueryBuilder('tl')
                         ->where('tl.status <> \'archive\'');
                 },
@@ -59,6 +38,27 @@ class TasksType extends AbstractType
                 'attr' => array(
                     'class' => 'chosen',
                 )
+            ))
+            ->add('est')
+            ->add('duration')
+            ->add('priority', ChoiceType::class, array(
+                'label' => false,
+                'choices' => array(
+                    'Low' => -1,
+                    'Normal' => 0,
+                    'Important' => 1,
+                ),
+                'expanded' => true,
+                'label_attr' => array('class' => 'radio-inline')
+            ))
+            ->add('urgency', ChoiceType::class, array(
+                'label' => false,
+                'choices' => array(
+                    'Normal' => 0,
+                    'Urgent' => 1
+                ),
+                'expanded' => true,
+                'label_attr' => array('class' => 'radio-inline')
             ))
             ->add('order', HiddenType::class)
             ->add('eta', DateTimeType::class, array(
@@ -81,14 +81,10 @@ class TasksType extends AbstractType
             ));
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => \AppBundle\Entity\Tasks::class
-        ));
+        $resolver->setDefaults([
+            'data_class' => Tasks::class,
+        ]);
     }
-
 }

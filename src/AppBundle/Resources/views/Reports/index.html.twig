@@ -1,4 +1,4 @@
-{% extends "::base.html.twig" %}
+{% extends "base.html.twig" %}
 
 {% block title %}AppBundle:Reports:index{% endblock %}
 
@@ -13,6 +13,9 @@
         </div>
         <div class="col">
             <a href="{{ path('reports_income') }}" class="btn btn-block btn-primary">Monthly Income</a>
+        </div>
+        <div class="col">
+            <a href="{{ path('reports_hours_per_month') }}" class="btn btn-block btn-primary">Hours Per Month</a>
         </div>
         <div class="col">
             <a href="{{ path('reports_diff') }}" class="btn btn-block btn-primary">Monthly Diff</a>

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New ScenarioObjective{% endblock %}
+
+{% block content %}
+    <h1>Create new ScenarioObjective</h1>
+
+    {{ include('scenario_objective/_form.html.twig') }}
+
+    <a href="{{ path('scenario_show', {'id': scenario}) }}">back to list</a>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Hours Per Month Reports{% endblock %}
+
+{% block content %}
+    <div id="chart_div" style="height: 80vh;"></div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', {packages: ['corechart', 'line']});
+        google.charts.setOnLoadCallback(drawTrendlines);
+
+        function drawTrendlines() {
+            var jsonData = $.ajax({
+                url: "{{ path('reports_hours_per_month_data') }}",
+                dataType: "json",
+                async: false
+            }).responseText;
+            let data = new google.visualization.DataTable(jsonData);
+
+            var options = {
+                legendTextStyle: {color: '#FFF'},
+                titleTextStyle: {color: '#FFF'},
+                backgroundColor: '#222',
+                hAxis: {
+                    title: 'Date',
+                    textStyle: {color: '#FFF'},
+                    titleTextStyle: {color: '#FFF'},
+                    maxValue: "Date({{ "now"|date('Y') }}, 12, 1)"
+                },
+                vAxis: {
+                    title: 'Income',
+                    textStyle: {color: '#FFF'},
+                    titleTextStyle: {color: '#FFF'},
+                    gridlines: {color: 'transparent'}
+                },
+                crosshair: {color: 'pink', trigger: 'both'},
+                trendlines: {
+                    0: {type: 'exponential', visibleInLegend: true}
+                }
+            };
+
+            var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+            chart.draw(data, options);
+        }
+    </script>
+{% endblock %}

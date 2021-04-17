@@ -6,7 +6,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Entity\Accounts;
-use AppBundle\Form\AccountsType;
 
 /**
  * Accounts controller.
@@ -25,7 +24,7 @@ class AccountsController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $accounts = $em->getRepository('AppBundle:Accounts')->findAll();
+        $accounts = $em->getRepository('AppBundle:Accounts')->findAllSorted();
 
         return $this->render("AppBundle:accounts:index.html.twig", array(
             'accounts' => $accounts,
@@ -122,7 +121,7 @@ class AccountsController extends Controller
      *
      * @param Accounts $account The Accounts entity
      *
-     * @return \Symfony\Component\Form\Form The form
+     * @return \Symfony\Component\Form\FormInterface The form
      */
     private function createDeleteForm(Accounts $account)
     {

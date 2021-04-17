@@ -2,9 +2,10 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Service\ReportService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Client;
 use AppBundle\Entity\TaskLists;
 
@@ -41,25 +42,21 @@ class ReportsController extends Controller
     /**
      * @Route("/hourly/{client}", name="reports_client_hourly")
      * @param Client $client
-     * @return type
      */
     public function hourlyAction(Client $client)
     {
         $em = $this->getDoctrine()->getManager();
         $durations = $em->getRepository('AppBundle:Tasks')->findCompletedByClient($client);
         $hourly = array();
-        $year = 0;
-        $month = 0;
         foreach ($durations as $duration) {
-            if (!key_exists($duration['yr'], $hourly)) {
+            if (!array_key_exists($duration['yr'], $hourly)) {
                 $hourly[$duration['yr']] = array();
             }
-            if (!key_exists($duration['mnth'], $hourly[$duration['yr']])) {
+            if (!array_key_exists($duration['mnth'], $hourly[$duration['yr']])) {
                 $hourly[$duration['yr']][$duration['mnth']] = 0;
             }
             $hourly[$duration['yr']][$duration['mnth']] += $duration['duration'];
         }
-        $yearAverage = 0;
         foreach ($hourly as $year => $hour) {
             $hourly[$year]['average'] = array_sum($hour) / count($hour);
         }
@@ -99,7 +96,7 @@ class ReportsController extends Controller
         $income = [];
         $months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
         foreach ($txns as $txn) {
-            if (!key_exists($txn->getIssuedAt()->format('Y'), $income)) {
+            if (!array_key_exists($txn->getIssuedAt()->format('Y'), $income)) {
                 $income[$txn->getIssuedAt()->format('Y')] = [];
                 foreach ($months as $month) {
                     $income[$txn->getIssuedAt()->format('Y')][$month] = 0;
@@ -117,25 +114,22 @@ class ReportsController extends Controller
      *
      * @Route("/income", name="reports_income")
      */
-    public function incomeAction()
+    public function incomeAction(ReportService $reportService)
     {
-        $em = $this->getDoctrine()->getManager();
-        $txns = $em->getRepository('AppBundle:AccountTransactions')->queryIncome();
 
-        $income = [];
-        foreach ($txns as $txn) {
-            if (!key_exists($txn->getIssuedAt()->format('Y'), $income)) {
-                $income[$txn->getIssuedAt()->format('Y')] = [];
-            }
-            if (!key_exists($txn->getIssuedAt()->format('m'), $income[$txn->getIssuedAt()->format('Y')])) {
-                $income[$txn->getIssuedAt()->format('Y')][$txn->getIssuedAt()->format('m')] = 0;
-            }
-            $income[$txn->getIssuedAt()->format('Y')][$txn->getIssuedAt()->format('m')] += $txn->getAmount();
-        }
 
         return $this->render('AppBundle:Reports:income.html.twig', array(
-            "income" => $income
+            "income" => $reportService->getIncome()
         ));
+    }
+
+    /**
+     *
+     * @Route("/income/data", name="reports_income_data")
+     */
+    public function incomeDataAction(ReportService $reportService)
+    {
+        return JsonResponse::create($reportService->getIncomeGoogleChart());
     }
 
     /**
@@ -149,7 +143,7 @@ class ReportsController extends Controller
 
         $income = [];
         foreach ($txns as $txn) {
-            if (!key_exists($txn->getIssuedAt()->format('Y'), $income)) {
+            if (!array_key_exists($txn->getIssuedAt()->format('Y'), $income)) {
                 $income[$txn->getIssuedAt()->format('Y')] = 0;
             }
             $income[$txn->getIssuedAt()->format('Y')] += $txn->getAmount();
@@ -170,6 +164,23 @@ class ReportsController extends Controller
         return $this->render('AppBundle:Reports:tasksYears.html.twig', array(
             "tasksYears" => $tasksYears
         ));
+    }
+
+    /**
+     * @Route("/hours_per_month", name="reports_hours_per_month")
+     */
+    public function hoursPerMonthAction()
+    {
+        return $this->render('AppBundle:Reports:hoursPerMonth.html.twig');
+    }
+
+    /**
+     * @Route("/hours_per_month/data", name="reports_hours_per_month_data")
+     */
+    public function hoursPerMonthDataAction(ReportService $reportService)
+    {
+
+        return JsonResponse::create($reportService->getHoursPerMonthGoogleChart());
     }
 
     /**

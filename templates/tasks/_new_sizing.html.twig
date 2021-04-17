@@ -1,0 +1,24 @@
+{% extends '_modal.html.twig' %}
+{% block modal_header %}New Task{% endblock %}
+{% block form_start %}
+    {{ form_start(form) }}
+{% endblock %}
+{% block modal_body %}
+    {{ form_errors(form) }}
+
+    {{ form_row(form.task) }}
+    <div class="d-flex justify-content-between">
+        {{ form_row(form.est) }}
+        {{ form_row(form.eta) }}
+    </div>
+    <div class="d-flex justify-content-between">
+        {{ form_row(form.priority) }}
+        {{ form_row(form.urgency) }}
+    </div>
+{% endblock %}
+{% block modal_footer %}
+    <button class="btn">{{ button_label|default('Save') }}</button>
+{% endblock %}
+{% block form_end %}
+    {{ form_end(form) }}
+{% endblock %}

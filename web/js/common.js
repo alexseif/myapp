@@ -93,6 +93,34 @@ $(document).ready(function () {
     $('.btn-confirm').click(function () {
         return confirm('Are you sure you want to perform this action?');
     });
+
+    $('.btn-modal').click(function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        $.ajax({
+            type: "GET",
+            url: $(this).attr("href"),
+            dataType: "json"
+        }).done(function (data) {
+            $('#ajax-container').html(data);
+            $('.modal').modal('show');
+        });
+    });
+
+    $('.btn-ajax-delete').click(function (event) {
+        _self = this;
+        event.preventDefault();
+        event.stopPropagation();
+        $.ajax({
+            type: "DELETE",
+            url: $(this).data("delete-url"),
+            // dataType: "json",
+            data: $(this).data('data')
+        }).done(function () {
+            $(_self).parents('tr').remove();
+        });
+    });
+
 //TODO: timer
     $.ajax({
         url: "https://api.sunrise-sunset.org/json",
@@ -154,7 +182,7 @@ function updateClock() {
         yr = now.getFullYear();
     // var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     var tags = ["mon", "d", "y", "h", "m", "s"],
-        corr = [(mo+1).pad(2), dy, yr, hou.pad(2), min.pad(2), sec.pad(2)];
+        corr = [(mo + 1).pad(2), dy, yr, hou.pad(2), min.pad(2), sec.pad(2)];
     for (var i = 0; i < tags.length; i++) {
         if (document.getElementById(tags[i]))
             document.getElementById(tags[i]).firstChild.nodeValue = corr[i];
