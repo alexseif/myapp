@@ -15,8 +15,8 @@ class ProposalDetailsType extends AbstractType
         $builder
             ->add('type', ChoiceType::class, [
                 'choices' => [
-                    'section' => true,
-                    'milestone' => false,
+                    'section' => 'section',
+                    'milestone' => 'milestone',
                 ],
             ])
             ->add('title')

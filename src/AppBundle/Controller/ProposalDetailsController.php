@@ -33,6 +33,7 @@ class ProposalDetailsController extends Controller
     public function new(Request $request, Proposal $proposal): Response
     {
         $proposalDetail = new ProposalDetails();
+        $proposalDetail->setProposal($proposal);
         $form = $this->createForm(ProposalDetailsType::class, $proposalDetail);
         $form->handleRequest($request);
 
@@ -41,7 +42,7 @@ class ProposalDetailsController extends Controller
             $entityManager->persist($proposalDetail);
             $entityManager->flush();
 
-            return $this->redirectToRoute('proposal_details_index');
+            return $this->redirectToRoute('proposal_show', ['id' => $proposal->getId()]);
         }
 
         return $this->render('proposal_details/new.html.twig', [
@@ -73,7 +74,7 @@ class ProposalDetailsController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('proposal_details_index', ['proposal' => $proposal]);
+            return $this->redirectToRoute('proposal_show', ['id' => $proposal->getId()]);
         }
 
         return $this->render('proposal_details/edit.html.twig', [
@@ -94,6 +95,6 @@ class ProposalDetailsController extends Controller
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('proposal_details_index', ['proposal' => $proposal]);
+        return $this->redirectToRoute('proposal_show', ['id' => $proposal->getId()]);
     }
 }

@@ -1,0 +1,30 @@
+{% import "macros/a.html.twig" as a %}
+<table class="table">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Title</th>
+        <th>Body</th>
+        <th>Type</th>
+        <th>actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for section in sections %}
+        <tr>
+            <td>{{ section.id }}</td>
+            <td>{{ section.title }}</td>
+            <td>{{ section.body }}</td>
+            <td>{{ section.type }}</td>
+            <td>
+                {{ a.show('proposal_details_show', {'proposal':proposal.id, 'id': section.id}) }}
+                {{ a.edit('proposal_details_edit', {'proposal':proposal.id, 'id': section.id}) }}
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="5">no records found</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

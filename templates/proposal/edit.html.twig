@@ -2,7 +2,7 @@
 {% import "macros/forms.html.twig" as forms %}
 {% import "macros/a.html.twig" as a %}
 {% block title %}Edit {{ proposal.title }}{% endblock %}
-{% block panelBack %}{{ a.back('proposal_index') }}{% endblock %}
+{% block panelBack %}{{ a.back('proposal_show', {'id':proposal.id}) }}{% endblock %}
 {% block panelTitle %}{{ proposal.title }}{% endblock %}
 {% block panelHeadingRight %}{{ include('proposal/_delete_form.html.twig') }}{% endblock %}
 {% block panelBody %}

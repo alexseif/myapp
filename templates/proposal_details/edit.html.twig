@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 {% import "macros/forms.html.twig" as forms %}
 {% import "macros/a.html.twig" as a %}
-{% block title %}Edit {{ proposal_details.title }}{% endblock %}
+{% block title %}Edit {{ proposal_detail.title }}{% endblock %}
 {% block panelBack %}{{ a.back('proposal_details_index', {'proposal':proposal.id}) }}{% endblock %}
-{% block panelTitle %}{{ proposal_details.title }}{% endblock %}
+{% block panelTitle %}{{ proposal_detail.title }}{% endblock %}
 {% block panelHeadingRight %}{{ include('proposal_details/_delete_form.html.twig') }}{% endblock %}
 {% block panelBody %}
     {{ forms.panel(form, false) }}

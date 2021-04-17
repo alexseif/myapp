@@ -1,0 +1,30 @@
+{% import "macros/a.html.twig" as a %}
+<table class="table">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Title</th>
+        <th>Body</th>
+        <th>Type</th>
+        <th>actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for milestone in milestones %}
+        <tr>
+            <td>{{ milestone.id }}</td>
+            <td>{{ milestone.title }}</td>
+            <td>{{ milestone.body }}</td>
+            <td>{{ milestone.type }}</td>
+            <td>
+                {{ a.show('proposal_details_show', {'proposal':proposal.id, 'id': milestone.id}) }}
+                {{ a.edit('proposal_details_edit', {'proposal':proposal.id, 'id': milestone.id}) }}
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="5">no records found</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

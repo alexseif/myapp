@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Proposal;
 use AppBundle\Form\ProposalType;
+use AppBundle\Repository\ProposalDetailsRepository;
 use AppBundle\Repository\ProposalRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -53,8 +54,19 @@ class ProposalController extends Controller
      */
     public function show(Proposal $proposal): Response
     {
+        $proposalDetailsRepo = $this->get(ProposalDetailsRepository::class);
+        $sections = $proposalDetailsRepo->findBy([
+            'proposal' => $proposal->getId(),
+            'type' => 'section'
+        ]);
+        $milestones = $proposalDetailsRepo->findBy([
+            'proposal' => $proposal->getId(),
+            'type' => 'milestone'
+        ]);
         return $this->render('proposal/show.html.twig', [
             'proposal' => $proposal,
+            'sections' => $sections,
+            'milestones' => $milestones
         ]);
     }
 
@@ -83,7 +95,7 @@ class ProposalController extends Controller
      */
     public function delete(Request $request, Proposal $proposal): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$proposal->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $proposal->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($proposal);
             $entityManager->flush();
