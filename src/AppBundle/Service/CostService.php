@@ -7,7 +7,6 @@
 namespace AppBundle\Service;
 
 use Doctrine\ORM\EntityManager;
-use AppBundle\Service\CurrencyService;
 
 /**
  * Description of CostCalculator
@@ -22,6 +21,7 @@ class CostService
     protected $currencies;
     protected $cost;
     protected $EGP;
+    protected $col = [];
     protected $units = [
         "cost" => ["factor" => 1, "precision" => 0],
         "profit" => ["factor" => 0.2, "precision" => 0],
@@ -73,9 +73,14 @@ class CostService
         return $this->col['hour']['EGP'];
     }
 
-    function getCurrencies()
+    public function getCurrencies()
     {
         return $this->currencies;
+    }
+
+    public function getCol()
+    {
+        return $this->col;
     }
 
 }

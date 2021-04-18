@@ -4,11 +4,6 @@ namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Entity\Tasks;
-use AppBundle\Entity\TaskLists;
-use AppBundle\Form\TasksType;
-use AppBundle\Model\ActionItem;
 
 /**
  * Inbox controller.
@@ -18,25 +13,7 @@ use AppBundle\Model\ActionItem;
 class InboxController extends Controller
 {
 
-    /**
-     *
-     * @Route("/", name="inbox_index")
-     */
-    public function indexAction()
-    {
-        $em = $this->getDoctrine()->getManager();
-        $taskLists = $em->getRepository('AppBundle:TaskLists')->findAllWithActiveTasks();
-        $days = $em->getRepository('AppBundle:Days')->getActiveCards();
-        $holidays = $em->getRepository('AppBundle:Holiday')->getComingHolidays();
 
-        $urgentTasks = [];
-        return $this->render("AppBundle:inbox:index.html.twig", [
-            'days' => $days,
-            'holidays' => $holidays,
-            'taskLists' => $taskLists,
-            'urgentTasks' => $urgentTasks,
-        ]);
-    }
 
     /**
      * Get Inbox Tasks and render view
