@@ -1,5 +1,5 @@
 {% import "macros/a.html.twig" as a %}
-<div class="days-list card-deck">
+<div class="days-list">
     {% for day in days %}
         {# {% if (0 == (loop.index0 % 2))%} #}
         {# <div class="w-100"></div> #}
@@ -13,18 +13,25 @@
              data-id="day-{{ day.id }}"
         >
             <div class="card-body ">
-                <a href="{{ path('days_edit', { 'id': day.id }) }}" class="float-right text-info">
-                    <i class="fa fa-calendar-day"></i>
-                </a>
+                <div class="float-right d-flex flex-column text-right">
+                    <a href="{{ path('days_edit', { 'id': day.id }) }}" class="text-info">
+                        <i class="fa fa-calendar-day"></i>
+                    </a>
+                    <span>
+                        <i class="fa fa-arrow-{{ diff.invert ? 'up':'down' }}"></i>
+                    </span>
+                    <span>
+                    <a href="#" class="delete-me">
+                        <i class="fa fa-eye-slash" aria-hidden="true"></i></a>
+                    </span>
+
+
+                </div>
                 <strong>{{ day.name }}</strong><br/>
                 {{ day.deadline|date('D M d, Y') }}<br/>
-                <span class="float-right">
-                    <i class="fa fa-arrow-{{ diff.invert ? 'up':'down' }}"></i>
-                </span>
                 {{ diff.days }}
                 days {{ diff.invert ? "left" : "passed" }}
             </div> <!-- end card-body-->
-            <a href="#" class="btn btn-muted delete-me m-1"><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
         </div> <!-- end card-->
         {# </div> #}
     {% endfor %}

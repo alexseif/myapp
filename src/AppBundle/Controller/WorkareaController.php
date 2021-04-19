@@ -27,7 +27,7 @@ class WorkareaController extends Controller
      * @param AccountTransactionsRepository $accountTransactionsRepository
      * @return Response
      */
-    public function workarea(TasksRepository $tasksRepository, DaysRepository $daysRepository, AccountsRepository $accountsRepository, AccountTransactionsRepository $accountTransactionsRepository): Response
+    public function workarea(TasksRepository $tasksRepository, DaysRepository $daysRepository, AccountsRepository $accountsRepository, AccountTransactionsRepository $accountTransactionsRepository, TaskListsRepository $taskListsRepository): Response
     {
         $focusTasks = $tasksRepository->focusLimitList();
         $days = $daysRepository->getImportantCards();
@@ -50,7 +50,10 @@ class WorkareaController extends Controller
             'earned' => $earned,
             'issuedThisMonth' => $earnedLogic->getIssuedThisMonth(),
             'costOfLife' => $costOfLife,
-            'issued' => $issued,]);
+            'issued' => $issued,
+            'taskLists' => $taskListsRepository->findAllWithActiveTasks()
+
+        ]);
     }
 
     /**
