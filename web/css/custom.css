@@ -51,12 +51,7 @@ overflow: hidden;
     font-size: 2em;
 }
 
-/** lis **/
-.task-list .task-item {
-    padding: 0.3rem;
-    /*white-space: nowrap;*/
-    min-height: 35px;
-}
+/** list **/
 
 .task-list > .completed {
     opacity: 0.6;

@@ -9,109 +9,6 @@
     {% endif %}
 {% endmacro %}
 
-{% macro li(task, attributes) %}
-    {% import _self as taskUI %}
-    <div class="card card-default task-item p-0 {{ task.completed ? "completed" }}"
-         data-order="id_{{ task.id }}"
-         id="task_{{ task.id }}"
-         data-id="{{ task.id }}"
-         data-est="{{ task.est }}"
-         data-duration="{{ task.duration }}"
-         data-order-no="{{ task.order }}"
-            {% if (task.taskList.account) %}
-                data-account="{{ task.taskList.account.id }}"
-                {% if (task.taskList.account.client) %}
-                    data-client="{{ task.taskList.account.client.id }}"
-                {% endif %}
-            {% endif %}
-         data-list="{{ task.taskList.id }}"
-    >
-        <div class="card-header py-1" id="task-header-{{ task.id }}">
-            <div class="form-check-inline">
-                <label class="form-check-label mr-2 {{ task.completed ? "completed" }} task">
-                    <input type="checkbox" data-taskid="{{ task.id }}" class="form-check-input"
-                            {{ task.completed ? "checked" : "" }}/>
-                    {{ task.task|truncate(50) }}
-                </label>
-            </div>
-            <div class="card-info">
-                {{ taskUI.taskIcons(task.urgency, task.priority) }}
-                <a class="badge badge-default d-none d-md-inline"
-                   data-tasklist="{{ task.taskList.name }}"
-                   href="{{ path("focus_tasklist", {'name':task.taskList.name}) }}">{{ task.taskList.name }}</a>
-                {% if task.duration %}
-                    <small class="text-info" title="Duration">{{ task.duration ~ "m" }}</small>
-                {% endif %}
-                {% if task.est %}
-                    <small class="text-success" title="EST">{{ task.est ~ "m" }}</small>
-                {% endif %}
-            </div>
-            <div class="card-tools">
-                <button class="btn btn-default btn-sm sort-button">
-                    <i class="fa fa-grip-lines"></i>
-                </button>
-                <button class="btn btn-default btn-sm" type="button" data-toggle="collapse"
-                        data-target="#task-body-{{ task.id }}" aria-expanded="false"
-                        aria-controls="task-body-{{ task.id }}">
-                    <i class="fa fa-plus"></i>
-                </button>
-            </div>
-        </div>
-        <div class="collapse" id="task-body-{{ task.id }}" aria-labelledby="task-header-{{ task.id }}"
-             data-parent=".accordion">
-            <div class="card-body">
-                <div class="float-md-left">
-                    {% if attributes.displayListName is defined %}
-                        {% if attributes.displayListName != false %}
-                            <a class="badge badge-default"
-                               data-tasklist="{{ task.taskList.name }}"
-                               href="{{ path("tasklists_show", {'id':task.taskList.id}) }}">{{ task.taskList.name }}</a>
-                            {% if (task.taskList.account) %}
-                                <a href="{{ path('accounts_show', {'id': task.taskList.account.id}) }}"
-                                   class="badge badge-info">{{ task.taskList.account.name }}</a>
-                                {% if (task.taskList.account.client) %}
-                                    <a href="{{ path('client_show', {'id': task.taskList.account.client.id}) }}"
-                                       class="badge badge-primary">{{ task.taskList.account.client.name }}</a>
-                                {% endif %}
-                            {% endif %}
-                        {% endif %}
-                        <br/>
-                    {% endif %}
-                    {% if task.eta %}
-                        <small class="text-info" title="ETA">{{ task.eta|date }}</small><br/>
-                    {% endif %}
-                    <small class="text-primary" title="Created">{{ task.createdAt|date }}</small><br/>
-                </div>
-                <div class="float-md-right">
-                    <a class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#"
-                       href="{{ path('task_show_modal', {"id":task.id}) }}">
-                        <i class="fas fa-folder-open"></i></a>
-                    <a class="btn btn-secondary btn-sm" data-target="#"
-                       href="{{ path('tasks_show', {"id":task.id}) }}">
-                        <i class="fas fa-file"></i></a>
-                    {% if(not task.completed) %}
-                        <a data-taskid="{{ task.id }}"
-                           data-postpone="+1 hour"
-                           title="5 mins"
-                           class="btn btn-secondary postpone btn-sm">
-                            <img src="{{ asset('/images/snooze_white_18x18.png') }}" width="18px" alt="snooze"/>
-                        </a>
-                        <a data-taskid="{{ task.id }}"
-                           data-postpone="tomorrow"
-                           title="tomorrow"
-                           class="btn btn-secondary postpone btn-sm">
-                            <img src="{{ asset('/images/zzz.png') }}" width="18px" alt="snooze"/>
-                        </a>
-                    {% endif %}
-                    <a href="{{ path('tasks_edit', { 'id': task.id }) }}"
-                       class="btn btn-secondary btn-sm">
-                        Edit</a>
-                </div>
-            </div>
-        </div>
-    </div>
-{% endmacro %}
-
 {% macro ul(tasks, attributes) %}
     {% import _self as taskUI %}
     <div class="task-list {{ (attributes.class is defined) ? attributes.class }}" {{ (attributes.id is defined) ? 'id='~ attributes.id }}>
@@ -182,13 +79,12 @@
                 />
                 <span class="h5 font-weight-normal m-0 d-inline" title="{{ task.task }}">{{ task.task }}</span>
             </label>
-            &nbsp;
-            <a title="Task List" class="badge badge-default d-none d-md-inline"
-               data-tasklist="{{ task.taskList.name }}"
-               href="{{ path("focus_tasklist", {'name':task.taskList.name}) }}">
-                {{ task.taskList.name }}
-            </a>
-        </div>
+                <a title="Task List" class="badge badge-default d-none d-md-inline"
+                   data-tasklist="{{ task.taskList.name }}"
+                   href="{{ path("focus_tasklist", {'name':task.taskList.name}) }}">
+                    {{ task.taskList.name }}
+                </a>
+        </div><!-- .card-header -->
         <div class="collapse" id="task-body-{{ task.id }}" aria-labelledby="task-header-{{ task.id }}">
             <div class="card-body d-flex justify-content-around">
                 <div class="d-flex flex-column justify-content-around m-1">

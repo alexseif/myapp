@@ -582,3 +582,10 @@ table.income-progress tr td:last-child {
 .flex-form .form-group{
   flex: 1;
 }
+
+/** tasks **/
+.card, .card-header{
+    border-radius: 0;
+}
+.card{padding: 0;}
+.card-header{padding: 0.5rem 1rem 0;}
