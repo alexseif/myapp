@@ -4,6 +4,10 @@ body {
     /*background: linear-gradient(to bottom right, #222 0%, #303030 100%);*/
     padding-bottom: 6rem;
 }
+body.workarea_workarea{
+    padding-bottom: 0;
+    height: 100vh;
+}
 
 footer {
     margin-bottom: 3em;

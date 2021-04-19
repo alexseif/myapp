@@ -57,7 +57,7 @@
                     </ul>
                 </div><!-- .col-wrapper -->
             </div><!-- .col-2 -->
-            <div class="col-xs-12 col-sm-6 col-md-8 col-lg-8 scrollable">
+            <div class="col-xs-12 col-sm-6 col-md-8 col-lg-8">
                 <div class="col-wrapper" id='inbox-tasks'>
                     <div id="focus"></div>
                     <div id="urgent"></div>
@@ -65,7 +65,7 @@
                     {{ tasks_view.ul(focus, {displayListName: 'workarea'}) }}
                 </div>
             </div><!-- .col-8 -->
-            <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 scrollable">
+            <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2">
                 <div class="col-wrapper" id='inbox-days'>
                     {% if days|length %}
                         {# {% include 'AppBundle:days:days_list.html.twig' %} #}
@@ -83,36 +83,9 @@
                             {% endif %}
                         {% endfor %}
                         {% include 'AppBundle:accounts:accounts_list.html.twig' %}
-                        <table class="table table-bordered">
-                            <thead>
-                            <tr>
-                                <th></th>
-                                {% for currency in costOfLife.currencies %}
-                                    <th>{{ currency.code }}</th>
-                                {% endfor %}
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for key,col in costOfLife.col %}
-                                <tr>
-                                    <td>{{ key|capitalize }}</td>
-                                    {% for code, value in col %}
-                                        <td class="text-right"><span
-                                                    class="float-left">{{ code|upper }} </span> {{ value|number_format }}
-                                        </td>
-                                    {% endfor %}
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                            <tfoot>
-                            <tr>
-                                <td colspan="4" class="text-center">USD 50 Per Day</td>
-                            </tr>
-                            </tfoot>
-                        </table>
                     {% endif %}
                     <!-- END OF ACCOUNTS -->
-                </div>
+                </div><!-- .col-wrapper -->
             </div><!-- .col-2 -->
         </div><!-- .row -->
     </div><!-- #inbox -->
