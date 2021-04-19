@@ -46,24 +46,11 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
                     <div class="d-flex flex-row">
-
                         {% if(not task.completed) %}
-                            <a
-                                    href="javascript:void(0);"
-                                    class="postpone dropdown-item"
-                                    data-taskid="{{ task.id }}"
-                                    data-postpone="+20 min"
-                                    title="20 mins">
-                                <i class="fas fa-stopwatch"></i>
-                            </a>
-                            <a
-                                    href="javascript:void(0);"
-                                    class="postpone dropdown-item"
-                                    data-taskid="{{ task.id }}"
-                                    data-postpone="tomorrow"
-                                    title="tomorrow">
-                                <i class="fas fa-bed"></i>
-                            </a>
+                            <a href="javascript:void(0);" class="postpone dropdown-item" data-taskid="{{ task.id }}"
+                                    data-postpone="+20 min" title="20 mins"><i class="fas fa-stopwatch"></i></a>
+                            <a href="javascript:void(0);" class="postpone dropdown-item" data-taskid="{{ task.id }}"
+                                    data-postpone="tomorrow" title="tomorrow"><i class="fas fa-bed"></i></a>
                         {% endif %}
                         <!-- item-->
                         <a href="{{ path('tasks_edit', { 'id': task.id }) }}"
@@ -75,15 +62,11 @@
             </div><!-- task-actions dropdown -->
             <label class="m-0 task-label">
                 <input type="checkbox" data-taskid="{{ task.id }}" {{ task.completed ? "checked" : "" }} class="mr-1"
-                       data-duration="{{ task.duration }}"
-                />
-                <span class="h5 font-weight-normal m-0 d-inline" title="{{ task.task }}">{{ task.task }}</span>
+                       data-duration="{{ task.duration }}"/>
+                <span class="font-weight-normal m-0 d-inline" title="{{ task.task }}">{{ task.task }}</span>
             </label>
-                <a title="Task List" class="badge badge-default d-none d-md-inline"
-                   data-tasklist="{{ task.taskList.name }}"
-                   href="{{ path("focus_tasklist", {'name':task.taskList.name}) }}">
-                    {{ task.taskList.name }}
-                </a>
+            <a title="Task List" class="badge badge-default d-none d-md-inline" data-tasklist="{{ task.taskList.name }}"
+               href="{{ path("focus_tasklist", {'name':task.taskList.name}) }}">{{ task.taskList.name }}</a>
         </div><!-- .card-header -->
         <div class="collapse" id="task-body-{{ task.id }}" aria-labelledby="task-header-{{ task.id }}">
             <div class="card-body d-flex justify-content-around">
