@@ -74,4 +74,37 @@ class WorkareaController extends Controller
             'urgentTasks' => $urgentTasks,
         ]);
     }
+
+
+    /**
+     * Get Inbox Tasks and render view
+     * @todo refactor to service
+     * @param string $taskListName
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @Route("/getTasks/{taskListName}", name="get_tasks")
+     */
+    public function getTasksAction(TasksRepository $tasksRepository, TaskListsRepository $taskListsRepository, $taskListName)
+    {
+        $inboxTasks = [];
+        switch ($taskListName) {
+            case 'focus':
+                $inboxTasks = $tasksRepository->focusLimitList();
+                break;
+            case 'urgent':
+                break;
+            case 'completedToday':
+                $inboxTasks = $tasksRepository->getCompletedToday();
+
+                break;
+            default:
+                // @TODO: Not found handler
+                $taskList = $taskListsRepository->findOneBy(['name' => $taskListName]);
+                $inboxTasks = $tasksRepository->focusByTasklist($taskList);
+                break;
+        }
+        return $this->render("AppBundle:inbox:inboxTasks.html.twig", [
+            'inboxTasks' => $inboxTasks
+        ]);
+    }
 }
