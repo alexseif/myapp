@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+{% import "macros/a.html.twig" as a %}
+
+{% block panelTitle %}New ShoppingList{% endblock %}
+{% block panelBack %}{{ a.back('shopping_list_index') }}{% endblock %}
+
+{% block panelBody %}
+
+    {{ include('shopping_list/_form.html.twig') }}
+
+{% endblock %}

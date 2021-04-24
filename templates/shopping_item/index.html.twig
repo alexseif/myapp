@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+{% import "macros/a.html.twig" as a %}
+
+{% block panelTitle %}ShoppingItem index{% endblock %}
+{% block floatingActions %}{{ a.add('shopping_item_new') }}{% endblock %}
+
+{% block panelBody %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Est</th>
+                <th>Priority</th>
+                <th>Urgency</th>
+                <th>Completed</th>
+                <th>CompletedAt</th>
+                <th>Eta</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for shopping_item in shopping_items %}
+            <tr>
+                <td>{{ shopping_item.id }}</td>
+                <td>{{ shopping_item.name }}</td>
+                <td>{{ shopping_item.est }}</td>
+                <td>{{ shopping_item.priority }}</td>
+                <td>{{ shopping_item.urgency }}</td>
+                <td>{{ shopping_item.completed ? 'Yes' : 'No' }}</td>
+                <td>{{ shopping_item.completedAt ? shopping_item.completedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ shopping_item.eta ? shopping_item.eta|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('shopping_item_show', {'id': shopping_item.id}) }}">show</a>
+                    <a href="{{ path('shopping_item_edit', {'id': shopping_item.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

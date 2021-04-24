@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+{% import "macros/a.html.twig" as a %}
+
+{% block panelTitle %}ShoppingList index{% endblock %}
+{% block floatingActions %}{{ a.add('shopping_list_new') }}{% endblock %}
+
+{% block panelBody %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for shopping_list in shopping_lists %}
+            <tr>
+                <td>{{ shopping_list.id }}</td>
+                <td>{{ shopping_list.name }}</td>
+                <td>
+                    <a href="{{ path('shopping_list_show', {'id': shopping_list.id}) }}">show</a>
+                    <a href="{{ path('shopping_list_edit', {'id': shopping_list.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
