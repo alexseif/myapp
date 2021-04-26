@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 {% import "AppBundle:tasks:tasks_macros.html.twig" as tasks_view %}
-{% block title %}Dashboard{% endblock %}
+{% block title %}Workarea{% endblock %}
 {# TODO: http://bootsnipp.com/user/favorites #}
 {% block stylesheets %}
     {{ parent() }}
@@ -81,7 +81,7 @@
                                 {% include 'AppBundle:Dashboard:progressBars.html.twig' with {'total': attribute(costOfLife, key), 'progress': progress} %}
                             {% endif %}
                         {% endfor %}
-                        {% include 'AppBundle:accounts:accounts_list.html.twig' %}
+                        {% include 'AppBundle:accounts:accounts_list_summary.html.twig' %}
                     {% endif %}
                     <!-- END OF ACCOUNTS -->
                 </div><!-- .col-wrapper -->
