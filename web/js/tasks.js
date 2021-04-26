@@ -119,6 +119,7 @@ let Tasks = {
             if (isCompleted) {
                 $(taskEl).parents('.task-item')
                     .addClass('completed');
+
             } else {
                 $(taskEl).parents('.task-item')
                     .removeClass('completed');
