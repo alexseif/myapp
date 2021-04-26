@@ -7,18 +7,16 @@
     {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('focus') }}">Focus</a>
-                </li>
+                <li class="nav-item"><a class="nav-link" href="{{ path('workarea_workarea') }}">Workarea</a></li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="viewsDropdown" role="button" data-toggle="dropdown"
                        aria-haspopup="true" aria-expanded="false">
                         Views
                     </a>
                     <div class="dropdown-menu" aria-labelledby="viewsDropdown">
+                        <a class="dropdown-item" href="{{ path('focus') }}">Focus</a>
                         <a class="dropdown-item" href="{{ path('workarea_inbox') }}">Inbox</a>
                         <a class="dropdown-item" href="{{ path('singleTask') }}">Single Task</a>
-                        <a class="dropdown-item" href="{{ path('workarea_workarea') }}">Workarea</a>
                         <a class="dropdown-item" href="{{ path('beta') }}">Beta</a>
                     </div>
                 </li>
