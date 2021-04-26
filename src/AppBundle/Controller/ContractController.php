@@ -7,10 +7,14 @@ use AppBundle\Util\DateRanges;
 use DateInterval;
 use DatePeriod;
 use DateTime;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Form;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Form\ContractType;
 
 /**
  * Contract controller.
@@ -25,7 +29,7 @@ class ContractController extends Controller
      *
      * @Route("/", name="contract_index", methods={"GET"})
      */
-    public function indexAction()
+    public function indexAction(): ?Response
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -44,7 +48,7 @@ class ContractController extends Controller
     public function newAction(Request $request)
     {
         $contract = new Contract();
-        $form = $this->createForm('AppBundle\Form\ContractType', $contract);
+        $form = $this->createForm(ContractType::class, $contract);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -66,7 +70,7 @@ class ContractController extends Controller
      *
      * @Route("/{id}", name="contract_show", methods={"GET"})
      */
-    public function showAction(Contract $contract)
+    public function showAction(Contract $contract): ?Response
     {
         $deleteForm = $this->createDeleteForm($contract);
 
@@ -81,7 +85,7 @@ class ContractController extends Controller
      *
      * @Route("/{id}/log-summary", name="contract_log_summary", methods={"GET"})
      */
-    public function logSummaryAction(Contract $contract)
+    public function logSummaryAction(Contract $contract): ?Response
     {
 
         $today = new DateTime();
@@ -98,8 +102,9 @@ class ContractController extends Controller
      * Finds and displays a report for contract entity.
      *
      * @Route("/{id}/log/{from}/{to}", name="contract_log", methods={"GET"})
+     * @throws Exception
      */
-    public function logAction(Contract $contract, $from, $to)
+    public function logAction(Contract $contract, $from, $to): ?Response
     {
         $em = $this->getDoctrine()->getManager();
         $tasksRepo = $em->getRepository('AppBundle:Tasks');
@@ -147,7 +152,7 @@ class ContractController extends Controller
     /**
      * @Route("/{id}/report", name="contract_report")
      */
-    public function reportAction(Contract $contract, Request $request)
+    public function reportAction(Contract $contract, Request $request): ?Response
     {
         $reportFilterFormBuider = $this->createFormBuilder()
             ->add('test');
@@ -179,8 +184,9 @@ class ContractController extends Controller
 
     /**
      * @Route("/{id}/{from}/{to}", name="contract_timesheet")
+     * @throws Exception
      */
-    public function timesheetAction(Contract $contract, Request $request, $from, $to)
+    public function timesheetAction(Contract $contract, $from, $to): ?Response
     {
         $em = $this->getDoctrine()->getManager();
         $fromDate = new DateTime($from);
@@ -232,13 +238,14 @@ class ContractController extends Controller
     public function editAction(Request $request, Contract $contract)
     {
         $deleteForm = $this->createDeleteForm($contract);
-        $editForm = $this->createForm('AppBundle\Form\ContractType', $contract);
+        $editForm = $this->createForm(ContractType::class, $contract);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             if ($contract->getIsCompleted()) {
-                if (is_null($contract->getCompletedAt()))
+                if (is_null($contract->getCompletedAt())) {
                     $contract->setCompletedAt(new DateTime());
+                }
             } else {
                 $contract->setCompletedAt(null);
             }
@@ -259,7 +266,7 @@ class ContractController extends Controller
      *
      * @Route("/{id}", name="contract_delete", methods={"DELETE"})
      */
-    public function deleteAction(Request $request, Contract $contract)
+    public function deleteAction(Request $request, Contract $contract): RedirectResponse
     {
         $form = $this->createDeleteForm($contract);
         $form->handleRequest($request);
@@ -278,9 +285,9 @@ class ContractController extends Controller
      *
      * @param Contract $contract The contract entity
      *
-     * @return Form The form
+     * @return FormInterface
      */
-    private function createDeleteForm(Contract $contract)
+    private function createDeleteForm(Contract $contract): FormInterface
     {
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('contract_delete', ['id' => $contract->getId()]))
