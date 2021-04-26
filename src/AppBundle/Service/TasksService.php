@@ -6,6 +6,7 @@
 
 namespace AppBundle\Service;
 
+use AppBundle\Entity\TaskLists;
 use AppBundle\Entity\Tasks;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -41,6 +42,32 @@ class TasksService
     public function getDashboardTasklists()
     {
         return $this->getEm()->getRepository('AppBundle:DashboardTaskLists')->findAll();
+    }
+
+    public function getWorkareaTasks($taskListName)
+    {
+        $inboxTasks = [];
+        switch ($taskListName) {
+            case 'focus':
+                $inboxTasks = $this->getRepository()->focusLimitList();
+                break;
+            case 'urgent':
+                break;
+            case 'completedToday':
+                $inboxTasks = $this->getRepository()->getCompletedToday();
+                break;
+            default:
+                $inboxTasks = $this->getFocusByTaskListName($taskListName);
+                break;
+        }
+        return $inboxTasks;
+    }
+
+    public function getFocusByTaskListName($taskListName)
+    {
+        // @TODO: Not found handler
+        $taskList = $this->getEm()->getRepository(TaskLists::class)->findOneBy(['name' => $taskListName]);
+        return $this->getRepository()->focusByTasklist($taskList);
     }
 
     /**
@@ -81,7 +108,7 @@ class TasksService
         $piechart['Important'] = 0;
         $piechart['Normal'] = 0;
         $piechart['Low'] = 0;
-        foreach ($countByUrgenctAndPriority as $key => $row) {
+        foreach ($countByUrgenctAndPriority as $row) {
             $row['duration'] = (int)$row['duration'];
             if ($row['urgency']) {
                 if ($row['priority']) {

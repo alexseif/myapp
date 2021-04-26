@@ -81,8 +81,9 @@
 {% endblock %}
 {% block javascripts %}
     <script type="text/javascript">
-        var tasks_path = '{{ path('tasks_index') }}';
-        var tasks_order = '{{ path('tasks_order') }}';
+        const tasks_path = '{{ path('tasks_index') }}';
+        const tasks_get_tasks_completedToday_count_path = '{{ path('tasks_get_tasks_count', {'taskListName': 'completedToday'}) }}';
+        const tasks_order = '{{ path('tasks_order') }}';
     </script>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="{{ asset('/assets/jquery-3.4.1/jquery-3.4.1.min.js') }}"></script>

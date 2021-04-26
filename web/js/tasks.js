@@ -119,7 +119,9 @@ let Tasks = {
             if (isCompleted) {
                 $(taskEl).parents('.task-item')
                     .addClass('completed');
-
+                $.get(tasks_get_tasks_completedToday_count_path, function (data) {
+                    $('#completedToday-pill').text(data);
+                });
             } else {
                 $(taskEl).parents('.task-item')
                     .removeClass('completed');

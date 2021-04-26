@@ -41,7 +41,7 @@
                                href="#urgent">Urgent</a>
                         </li>
                         <li class="nav-item">
-                            <span class="badge badge-pill" id="completed-pill"></span>
+                            <span class="badge badge-pill" id="completedToday-pill">{{ completedTodayCount }}</span>
                             <a class="nav-link" data-ajax='true' data-target='#inbox-tasks'
                                data-url='{{ path('workarea_get_tasks', {'taskListName': 'completedToday'}) }}'
                                href="#completedToday">Completed Today</a>
@@ -62,7 +62,7 @@
                     <div id="focus"></div>
                     <div id="urgent"></div>
                     <div id="completedToday"></div>
-                    {{ tasks_view.ul(focus, {displayListName: 'workarea'}) }}
+{#                    {{ tasks_view.ul(focus, {displayListName: 'workarea'}) }}#}
                 </div>
             </div><!-- .col-8 -->
             <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2">

@@ -127,6 +127,32 @@ class TasksRepository extends ServiceEntityRepository
     }
 
     /**
+     * Count of completed tasks after date
+     *
+     * @param DateTime $date
+     * @return array The objects.
+     */
+    public function getCompletedAfterCount(DateTime $date)
+    {
+        return $this
+            ->createQueryBuilder('t')
+            ->select('COUNT(t)')
+            ->leftJoin('t.workLog', 'wl')
+            ->leftJoin('t.taskList', 'tl')
+            ->leftJoin('tl.account', 'a')
+            ->leftJoin('a.client', 'c')
+            ->leftJoin('c.rates', 'r')
+            ->where('t.completedAt >= :date')
+            ->orderBy("t.urgency", "DESC")
+            ->addOrderBy("t.priority", "DESC")
+            ->addOrderBy("t.completedAt", "ASC")
+            ->addOrderBy("t.order", "ASC")
+            ->setParameter(':date', $date)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    /**
      * List of completed tasks today
      *
      * @return array The objects.
@@ -137,6 +163,19 @@ class TasksRepository extends ServiceEntityRepository
         $date->setTime(00, 00, 00);
 
         return $this->getCompletedAfter($date);
+    }
+
+    /**
+     * Count of completed tasks today
+     *
+     * @return array The objects.
+     */
+    public function getCompletedTodayCount()
+    {
+        $date = new DateTime();
+        $date->setTime(00, 00, 00);
+
+        return $this->getCompletedAfterCount($date);
     }
 
     /**

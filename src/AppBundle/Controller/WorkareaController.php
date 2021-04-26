@@ -9,6 +9,7 @@ use AppBundle\Repository\DaysRepository;
 use AppBundle\Repository\HolidayRepository;
 use AppBundle\Repository\TaskListsRepository;
 use AppBundle\Repository\TasksRepository;
+use AppBundle\Service\TasksService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -29,7 +30,6 @@ class WorkareaController extends Controller
      */
     public function workarea(TasksRepository $tasksRepository, DaysRepository $daysRepository, AccountsRepository $accountsRepository, AccountTransactionsRepository $accountTransactionsRepository, TaskListsRepository $taskListsRepository): Response
     {
-        $focusTasks = $tasksRepository->focusLimitList();
         $days = $daysRepository->getImportantCards();
         $accounts = $accountsRepository->findBy(array('conceal' => false));
         /** Cost Of Life * */
@@ -42,16 +42,16 @@ class WorkareaController extends Controller
         foreach ($issuedThisMonth as $tm) {
             $issued += abs($tm->getAmount());
         }
-
+        $completedTodayCount = $tasksRepository->getCompletedTodayCount();
         return $this->render('workarea/workarea.html.twig', [
-            'focus' => $focusTasks,
             'days' => $days,
             'accounts' => $accounts,
             'earned' => $earned,
             'issuedThisMonth' => $earnedLogic->getIssuedThisMonth(),
             'costOfLife' => $costOfLife,
             'issued' => $issued,
-            'taskLists' => $taskListsRepository->findAllWithActiveTasks()
+            'taskLists' => $taskListsRepository->findAllWithActiveTasks(),
+            'completedTodayCount' => $completedTodayCount
 
         ]);
     }
@@ -78,33 +78,15 @@ class WorkareaController extends Controller
 
     /**
      * Get Inbox Tasks and render view
-     * @todo refactor to service
      * @param string $taskListName
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @Route("/getTasks/{taskListName}", name="get_tasks")
      */
-    public function getTasksAction(TasksRepository $tasksRepository, TaskListsRepository $taskListsRepository, $taskListName)
+    public function getTasksAction(TasksService $tasksService, $taskListName)
     {
-        $inboxTasks = [];
-        switch ($taskListName) {
-            case 'focus':
-                $inboxTasks = $tasksRepository->focusLimitList();
-                break;
-            case 'urgent':
-                break;
-            case 'completedToday':
-                $inboxTasks = $tasksRepository->getCompletedToday();
-
-                break;
-            default:
-                // @TODO: Not found handler
-                $taskList = $taskListsRepository->findOneBy(['name' => $taskListName]);
-                $inboxTasks = $tasksRepository->focusByTasklist($taskList);
-                break;
-        }
         return $this->render("AppBundle:inbox:inboxTasks.html.twig", [
-            'inboxTasks' => $inboxTasks
+            'inboxTasks' => $tasksService->getWorkareaTasks($taskListName)
         ]);
     }
 }
