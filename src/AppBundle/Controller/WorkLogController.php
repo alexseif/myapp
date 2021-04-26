@@ -2,10 +2,18 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\AccountTransactions;
+use AppBundle\Entity\TaskLists;
 use AppBundle\Entity\WorkLog;
+use AppBundle\Logic\CostOfLifeLogic;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Form\WorkLogType;
 
 /**
  * Worklog controller.
@@ -20,7 +28,7 @@ class WorkLogController extends Controller
      *
      * @Route("/", name="worklog_index", methods={"GET"})
      */
-    public function indexAction()
+    public function indexAction(): ?Response
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -36,7 +44,7 @@ class WorkLogController extends Controller
      *
      * @Route("/tasklist/{tasklist}", name="worklog_tasklist", methods={"GET"})
      */
-    public function tasklistAction(\AppBundle\Entity\TaskLists $tasklist)
+    public function tasklistAction(TaskLists $tasklist): ?Response
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -50,7 +58,7 @@ class WorkLogController extends Controller
     /**
      * @Route("/completedTasks", name="completed_tasks")
      */
-    public function completedTasksAction(Request $request)
+    public function completedTasksAction(Request $request): ?Response
     {
         $em = $this->getDoctrine()->getManager();
         $tasksRepo = $em->getRepository('AppBundle:Tasks');
@@ -58,7 +66,7 @@ class WorkLogController extends Controller
         $taskListName = $request->get('taskList');
         $accountName = $request->get('account');
         $clientName = $request->get('client');
-        $log = (is_null($request->get('unlog'))) ? TRUE : FALSE;
+        $log = is_null($request->get('unlog'));
 
         $criteria = array('completed' => TRUE, 'workLoggable' => $log);
         $orderBy = array('completedAt' => 'DESC');
@@ -112,6 +120,7 @@ class WorkLogController extends Controller
      * Creates a new workLog entity.
      *
      * @Route("/new", name="worklog_new", methods={"GET", "POST"})
+     * @todo: move to service
      */
     public function newAction(Request $request)
     {
@@ -122,7 +131,7 @@ class WorkLogController extends Controller
         $currencies = $em->getRepository('AppBundle:Currency')->findAll();
         $cost = $em->getRepository('AppBundle:CostOfLife')->sumCostOfLife()["cost"];
 
-        $costOfLife = new \AppBundle\Logic\CostOfLifeLogic($cost, $currencies);
+        $costOfLife = new CostOfLifeLogic($cost, $currencies);
 
         $workLog = new Worklog();
         $workLog->setPricePerUnit($costOfLife->getHourly());
@@ -131,7 +140,7 @@ class WorkLogController extends Controller
         if ($request->get('task')) {
             $task = $em->getRepository('AppBundle:Tasks')->find($request->get('task'));
             if (!$task) {
-                throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
+                throw new NotFoundHttpException();
             }
 
             $thisRates = $em->getRepository("AppBundle:Rate")->findOneBy(array("active" => true, "client" => $task->getTaskList()->getAccount()->getClient()));
@@ -145,12 +154,12 @@ class WorkLogController extends Controller
             $workLog->setTotal($workLog->getPricePerUnit() / 60 * $workLog->getDuration());
         }
 
-        $form = $this->createForm('AppBundle\Form\WorkLogType', $workLog);
+        $form = $this->createForm(WorkLogType::class, $workLog);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $task = $workLog->getTask();
-            $AccountTransaction = new \AppBundle\Entity\AccountTransactions();
+            $AccountTransaction = new AccountTransactions();
             $AccountTransaction->setNote($workLog->getTask());
             $AccountTransaction->setAmount($workLog->getTotal() * -1);
             $AccountTransaction->setAccount($task->getAccount());
@@ -176,37 +185,45 @@ class WorkLogController extends Controller
      * Auto Creates a new workLog entity.
      *
      * @Route("/autolog", name="worklog_autolog", methods={"GET", "POST"})
+     * @todo: move to service
      */
-    public function autologAction(Request $request)
+    public function autologAction(Request $request): Response
     {
         $em = $this->getDoctrine()->getManager();
+        $createNewTransaction = false;
 
         /** Cost Of Life * */
         $currencies = $em->getRepository('AppBundle:Currency')->findAll();
         $cost = $em->getRepository('AppBundle:CostOfLife')->sumCostOfLife()["cost"];
 
-        $costOfLife = new \AppBundle\Logic\CostOfLifeLogic($cost, $currencies);
+        $costOfLife = new CostOfLifeLogic($cost, $currencies);
 
         $taskIds = $request->get('task_ids');
         foreach ($taskIds as $taskId) {
             $task = $em->getRepository('AppBundle:Tasks')->find($taskId);
             if (!$task) {
-                throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
+                throw new NotFoundHttpException();
             }
+
             if ($task->getDuration() > 0) {
                 if (is_null($task->getWorkLog())) {
                     $createNewTransaction = true;
                     $task->setWorkLog(new WorkLog());
                 }
+
                 $task->setWorkLoggable(true);
                 $task->getWorklog()->setTask($task);
                 $task->getWorklog()->setPricePerUnit($costOfLife->getHourly());
+                $thisRates = $em->getRepository("AppBundle:Rate")->findOneBy(array("active" => true, "client" => $task->getTaskList()->getAccount()->getClient()));
+                if ($thisRates) {
+                    $task->getWorklog()->setPricePerUnit($thisRates->getRate());
+                }
                 $task->getWorklog()->setName($task->getTask());
                 $task->getWorklog()->setDuration($task->getDuration());
                 $task->getWorklog()->setTotal($task->getWorklog()->getPricePerUnit() / 60 * $task->getWorklog()->getDuration());
                 if ($createNewTransaction) {
                     $workLog = $task->getWorklog();
-                    $AccountTransaction = new \AppBundle\Entity\AccountTransactions();
+                    $AccountTransaction = new AccountTransactions();
                     $AccountTransaction->setNote($workLog->getTask());
                     $AccountTransaction->setAmount($workLog->getTotal() * -1);
                     $AccountTransaction->setAccount($task->getAccount());
@@ -219,7 +236,7 @@ class WorkLogController extends Controller
             }
             $em->flush();
         }
-        return new \Symfony\Component\HttpFoundation\Response();
+        return new Response();
     }
 
     /**
@@ -227,7 +244,7 @@ class WorkLogController extends Controller
      *
      * @Route("/unloggable", name="worklog_unloggable", methods={"GET", "POST"})
      */
-    public function unloggableAction(Request $request)
+    public function unloggableAction(Request $request): Response
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -235,7 +252,7 @@ class WorkLogController extends Controller
         foreach ($taskIds as $taskId) {
             $task = $em->getRepository('AppBundle:Tasks')->find($taskId);
             if (!$task) {
-                throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
+                throw new NotFoundHttpException();
             }
 
             if ($task->getWorklog()) {
@@ -243,11 +260,11 @@ class WorkLogController extends Controller
                 $em->remove($worklog);
             }
 
-            $task->setWorklog(NULL);
+            $task->setWorklog();
             $task->setWorkLoggable(FALSE);
             $em->flush();
         }
-        return new \Symfony\Component\HttpFoundation\Response();
+        return new Response();
     }
 
     /**
@@ -255,7 +272,7 @@ class WorkLogController extends Controller
      *
      * @Route("/autodelete", name="worklog_autodelete", methods={"GET", "POST"})
      */
-    public function autodeleteAction(Request $request)
+    public function autodeleteAction(Request $request): Response
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -263,14 +280,14 @@ class WorkLogController extends Controller
         foreach ($taskIds as $taskId) {
             $task = $em->getRepository('AppBundle:Tasks')->find($taskId);
             if (!$task) {
-                throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
+                throw new NotFoundHttpException();
             }
             if ($task->getWorklog()) {
                 $em->remove($task->getWorklog());
             }
-            $em->flush($task);
         }
-        return new \Symfony\Component\HttpFoundation\Response();
+        $em->flush();
+        return new Response();
     }
 
     /**
@@ -278,7 +295,7 @@ class WorkLogController extends Controller
      *
      * @Route("/{id}", name="worklog_show", methods={"GET"})
      */
-    public function showAction(WorkLog $workLog)
+    public function showAction(WorkLog $workLog): ?Response
     {
         $deleteForm = $this->createDeleteForm($workLog);
 
@@ -296,7 +313,7 @@ class WorkLogController extends Controller
     public function editAction(Request $request, WorkLog $workLog)
     {
         $deleteForm = $this->createDeleteForm($workLog);
-        $editForm = $this->createForm('AppBundle\Form\WorkLogType', $workLog);
+        $editForm = $this->createForm(WorkLogType::class, $workLog);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
@@ -317,7 +334,7 @@ class WorkLogController extends Controller
      *
      * @Route("/{id}", name="worklog_delete", methods={"DELETE"})
      */
-    public function deleteAction(Request $request, WorkLog $workLog)
+    public function deleteAction(Request $request, WorkLog $workLog): RedirectResponse
     {
         $form = $this->createDeleteForm($workLog);
         $form->handleRequest($request);
@@ -325,7 +342,7 @@ class WorkLogController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($workLog);
-            $em->flush($workLog);
+            $em->flush();
         }
 
         return $this->redirectToRoute('worklog_index');
@@ -336,9 +353,9 @@ class WorkLogController extends Controller
      *
      * @param WorkLog $workLog The workLog entity
      *
-     * @return \Symfony\Component\Form\Form The form
+     * @return FormInterface The form
      */
-    private function createDeleteForm(WorkLog $workLog)
+    private function createDeleteForm(WorkLog $workLog): FormInterface
     {
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('worklog_delete', array('id' => $workLog->getId())))
