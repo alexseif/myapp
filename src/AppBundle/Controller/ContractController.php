@@ -3,9 +3,18 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Contract;
+use AppBundle\Util\DateRanges;
+use DateInterval;
+use DatePeriod;
+use DateTime;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Form\ContractType;
 
 /**
  * Contract controller.
@@ -20,7 +29,7 @@ class ContractController extends Controller
      *
      * @Route("/", name="contract_index", methods={"GET"})
      */
-    public function indexAction()
+    public function indexAction(): ?Response
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -39,7 +48,7 @@ class ContractController extends Controller
     public function newAction(Request $request)
     {
         $contract = new Contract();
-        $form = $this->createForm('AppBundle\Form\ContractType', $contract);
+        $form = $this->createForm(ContractType::class, $contract);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -61,7 +70,7 @@ class ContractController extends Controller
      *
      * @Route("/{id}", name="contract_show", methods={"GET"})
      */
-    public function showAction(Contract $contract)
+    public function showAction(Contract $contract): ?Response
     {
         $deleteForm = $this->createDeleteForm($contract);
 
@@ -76,13 +85,12 @@ class ContractController extends Controller
      *
      * @Route("/{id}/log-summary", name="contract_log_summary", methods={"GET"})
      */
-    public function logSummaryAction(Contract $contract)
+    public function logSummaryAction(Contract $contract): ?Response
     {
-        $em = $this->getDoctrine()->getManager();
 
-        $today = new \DateTime();
+        $today = new DateTime();
 
-        $months = \AppBundle\Util\DateRanges::populateMonths($contract->getStartedAt()->format('Ymd'), $today->format('Ymd'), 25);
+        $months = DateRanges::populateMonths($contract->getStartedAt()->format('Ymd'), $today->format('Ymd'), 25);
 
         return $this->render('AppBundle:contract:log-summary.html.twig', [
             'contract' => $contract,
@@ -94,22 +102,23 @@ class ContractController extends Controller
      * Finds and displays a report for contract entity.
      *
      * @Route("/{id}/log/{from}/{to}", name="contract_log", methods={"GET"})
+     * @throws Exception
      */
-    public function logAction(Contract $contract, $from, $to)
+    public function logAction(Contract $contract, $from, $to): ?Response
     {
         $em = $this->getDoctrine()->getManager();
         $tasksRepo = $em->getRepository('AppBundle:Tasks');
-        $fromDate = new \DateTime($from);
+        $fromDate = new DateTime($from);
         $fromDate->setTime(0, 0, 0);
-        $toDate = new \DateTime($to);
+        $toDate = new DateTime($to);
         $toDate->setTime(23, 23, 59);
         $workweek = [1, 2, 3, 4, 7];
         //TODO: Include holidays
         //TODO: Calculate and display total
 
-        $dayInterval = new \DateInterval("P1D");
+        $dayInterval = new DateInterval("P1D");
 
-        $contractDays = new \DatePeriod($fromDate, $dayInterval, $toDate);
+        $contractDays = new DatePeriod($fromDate, $dayInterval, $toDate);
 
         $holidays = [];
         $contractDetails = [];
@@ -121,7 +130,7 @@ class ContractController extends Controller
                 }
 
                 $dayKey = (int)$day->format('Ymd');
-                if (!key_exists($dayKey, $contractDetails)) {
+                if (!array_key_exists($dayKey, $contractDetails)) {
                     $contractDetails[$dayKey] = [];
                 }
                 $contractDetails[$dayKey]['title'] = $day->format('D Y-m-d');
@@ -143,16 +152,15 @@ class ContractController extends Controller
     /**
      * @Route("/{id}/report", name="contract_report")
      */
-    public function reportAction(Contract $contract, Request $request)
+    public function reportAction(Contract $contract, Request $request): ?Response
     {
         $reportFilterFormBuider = $this->createFormBuilder()
             ->add('test');
         $reportFilterForm = $reportFilterFormBuider->getForm();
 
         $reportFilterForm->handleRequest($request);
-        $monthsArray = [];
-        $today = new \DateTime();
-        $monthsArray = \AppBundle\Util\DateRanges::populateMonths($contract->getStartedAt()->format('Ymd'), $today->format('Ymd'), 25);
+        $today = new DateTime();
+        $monthsArray = DateRanges::populateMonths($contract->getStartedAt()->format('Ymd'), $today->format('Ymd'), 25);
 
         if ($reportFilterForm->isSubmitted() && $reportFilterForm->isValid()) {
             $accountingFilterData = $reportFilterForm->getData();
@@ -160,9 +168,6 @@ class ContractController extends Controller
 
             $em = $this->getDoctrine()->getManager();
             $txnRepo = $em->getRepository('AppBundle:AccountTransactions');
-            $txnPeriod = $txnRepo->queryAccountRange($contract);
-
-            $overdue = $txnRepo->queryOverdueAccount($contract);
 
             foreach ($monthsArray as $key => $range) {
                 $monthsArray[$key]['forward_balance'] = $txnRepo->queryCurrentBalanceByAccountAndRange($contract, $range)['amount'];
@@ -179,17 +184,18 @@ class ContractController extends Controller
 
     /**
      * @Route("/{id}/{from}/{to}", name="contract_timesheet")
+     * @throws Exception
      */
-    public function timesheetAction(Contract $contract, Request $request, $from, $to)
+    public function timesheetAction(Contract $contract, $from, $to): ?Response
     {
         $em = $this->getDoctrine()->getManager();
-        $fromDate = new \DateTime($from);
+        $fromDate = new DateTime($from);
         $fromDate->setTime(0, 0, 0);
-        $toDate = new \DateTime($to);
+        $toDate = new DateTime($to);
         $toDate->setTime(23, 23, 59);
         $tasks = $em->getRepository('AppBundle:Tasks')->findCompletedByClientByRange($contract->getClient(), $fromDate, $toDate);
-        $monthHolidays = $em->getRepository('AppBundle:Holiday')->findByRange(new \DateTime($from), new \DateTime($to));
-        $workingDays = \AppBundle\Util\DateRanges::getWorkingDays($from, $to);
+        $monthHolidays = $em->getRepository('AppBundle:Holiday')->findByRange(new DateTime($from), new DateTime($to));
+        $workingDays = DateRanges::getWorkingDays($from, $to);
         //TODO: get from contract
         $expected = ($workingDays * $contract->getHoursPerDay());
         $total = 0;
@@ -199,7 +205,7 @@ class ContractController extends Controller
         foreach ($monthHolidays as $holiday) {
             if (in_array($holiday->getDate()->format('N'), $workweek)) {
                 $holidays[] = $holiday;
-                $total += $contract->getHoursPerDay();
+                $total += $contract->getHoursPerDay() * 60;
             }
         }
 
@@ -232,13 +238,14 @@ class ContractController extends Controller
     public function editAction(Request $request, Contract $contract)
     {
         $deleteForm = $this->createDeleteForm($contract);
-        $editForm = $this->createForm('AppBundle\Form\ContractType', $contract);
+        $editForm = $this->createForm(ContractType::class, $contract);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             if ($contract->getIsCompleted()) {
-                if (is_null($contract->getCompletedAt()))
-                    $contract->setCompletedAt(new \DateTime());
+                if (is_null($contract->getCompletedAt())) {
+                    $contract->setCompletedAt(new DateTime());
+                }
             } else {
                 $contract->setCompletedAt(null);
             }
@@ -259,7 +266,7 @@ class ContractController extends Controller
      *
      * @Route("/{id}", name="contract_delete", methods={"DELETE"})
      */
-    public function deleteAction(Request $request, Contract $contract)
+    public function deleteAction(Request $request, Contract $contract): RedirectResponse
     {
         $form = $this->createDeleteForm($contract);
         $form->handleRequest($request);
@@ -278,9 +285,9 @@ class ContractController extends Controller
      *
      * @param Contract $contract The contract entity
      *
-     * @return \Symfony\Component\Form\Form The form
+     * @return FormInterface
      */
-    private function createDeleteForm(Contract $contract)
+    private function createDeleteForm(Contract $contract): FormInterface
     {
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('contract_delete', ['id' => $contract->getId()]))
