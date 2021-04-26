@@ -1,5 +1,5 @@
 // Tasks Object
-var Tasks = {
+let Tasks = {
     isFocus: (window.location.pathname.indexOf('focus') !== -1),
     day: {
         completed: 0,
@@ -12,7 +12,7 @@ var Tasks = {
             $('<div class="task-list m-4" id="focus"></div>').prependTo('.container');
             this.drawFocus();
             if (!touch) {
-                $("#focus").sortable({
+                $(".task-list").sortable({
                     connectWith: ".task-list",
                     items: ".task-item:not(.completed)",
                     update: this.updateOrder
@@ -27,7 +27,7 @@ var Tasks = {
         $('[data-toggle="modal"]').click(this.showModal);
 
         if (!touch) {
-            $("#tasks").sortable({
+            $(".task-list").sortable({
                 connectWith: ".task-list",
                 items: ".task-item:not(.completed)",
                 update: this.updateOrder
@@ -35,40 +35,40 @@ var Tasks = {
         }
     },
     postponeTask: function () {
-        var taskEl = this;
+        const self = this;
         //TODO: handle errors
-        var taskId = $(taskEl).data('taskid');
-        var postpone = $(taskEl).data('postpone');
+        const taskId = $(self).data('taskid');
+        const postpone = $(self).data('postpone');
         $.ajax({
             type: "POST",
-            url: tasks_path + $(taskEl).data('taskid') + "/edit",
+            url: tasks_path + $(self).data('taskid') + "/edit",
             dataType: "json",
             data: {
-                "id": $(taskEl).data('taskid'),
+                "id": $(self).data('taskid'),
                 "postpone": postpone
             }
         }).done(function () {
 
             if (self.isFocus) {
-                var undoLink = $('<a class="undo"><strong>Undo</strong></a>')
+                const undoLink = $('<a class="undo"><strong>Undo</strong></a>')
                     .data('taskid', taskId);
-                var div = $('<div/>')
+                const div = $('<div/>')
                     .addClass("alert alert-success alert-dismissable")
                     .css("margin-bottom", 0)
                     .append('<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Postponed!</strong>&nbsp;')
                     .append(undoLink);
-                var li = $('<div/>')
+                const li = $('<div/>')
                     .append(div);
-                console.log($(taskEl).parents('.task-item'));
-                $(taskEl).parents('.task-item').after(li);
+                console.log($(self).parents('.task-item'));
+                $(self).parents('.task-item').after(li);
                 $('a.undo').click(Tasks.undoPostponeTask);
-                $(taskEl).parents('.task-item').remove();
+                $(self).parents('.task-item').remove();
                 self.drawFocus();
             }
         });
     },
     undoPostponeTask: function () {
-        var taskEl = this;
+        const taskEl = this;
         //TODO: handle errors
         $.ajax({
             type: "POST",
@@ -85,10 +85,10 @@ var Tasks = {
             }
         });
     },
-    updateTask: function () {
-        var taskEl = this;
-        var isCompleted = $(taskEl).is(':checked') ? 1 : 0;
-        var duration;
+    updateTask: function (event) {
+        const taskEl = this;
+        const isCompleted = $(taskEl).is(':checked') ? 1 : 0;
+        let duration;
         duration = $(taskEl).data('duration');
         if (isCompleted) {
             duration = prompt("Duration", duration);
@@ -131,7 +131,7 @@ var Tasks = {
     },
     drawFocus: function () {
         self = this;
-        completed = $('.completed.task-item');
+        let completed = $('.completed.task-item');
         $('#completed').append(completed);
         $('.task-item:not(.completed)').prependTo('#tasks');
         if (todayHours >= 0) {
@@ -148,17 +148,17 @@ var Tasks = {
         });
         this.day.remaining = this.day.time - this.day.completed;
         while (this.day.remaining > 0) {
-            task = $('#tasks .task-item:first-child');
+            let task = $('#tasks .task-item:first-child');
             if (task.length) {
-                $taskTime = (task.data("est")) ? task.data("est") : 60;
-                $remainingTime = this.day.remaining - $taskTime;
+                let $taskTime = (task.data("est")) ? task.data("est") : 60;
+                let $remainingTime = this.day.remaining - $taskTime;
                 if (($remainingTime >= 0)) {
                     this.day.remaining = $remainingTime;
                     $('#focus').append(task);
                 } else {
                     //Break Task
                     $taskTime = $remainingTime + $taskTime;
-                    var taskDuplicate = task.clone();
+                    const taskDuplicate = task.clone();
                     taskDuplicate.data("est", $taskTime);
                     taskDuplicate.children('small.text-info').text($taskTime + "m");
                     taskDuplicate.data("id", null);
@@ -185,7 +185,7 @@ var Tasks = {
     },
 //Update order of tasks based on sorting
     updateOrder: function () {
-        var dataString = "";
+        let dataString = "";
         $('.task-list .task-item:not(.completed)').each(function () {
             dataString += "tasks[][id]=" + $(this).data('id') + "&";
         });
@@ -206,7 +206,7 @@ var Tasks = {
 // Support for AJAX loaded modal window.
 // Focuses on first input textbox after it loads the window.
         e.preventDefault();
-        var url = $(this).attr('href');
+        const url = $(this).attr('href');
         if (url.indexOf('#') === 0) {
             $(url).modal('open');
         } else {
@@ -218,6 +218,54 @@ var Tasks = {
                 $('input:text:visible:first').focus();
             });
         }
-    }
-}
+    },
+    /**
+     * Inbox Tasks
+     */
+    bindInbox: function () {
+        //Inbox Tasks
+        $('#inbox .nav-link').click(this.loadTasks);
+        // $('#inbox .nav-link').first().click();
+    },
+    loadTasks: function () {
+        self = this;
+        const dataUrl = $(this).data('url');
+        const dataTarget = $(this).data('target');
+        $('#inbox .nav-item').removeClass('active-trail');
+        $(this).parent('.nav-item').addClass('active-trail');
+        //@TODO: Error handling
+        $.ajax({
+            url: dataUrl
+        })
+            .done(function (html) {
+                $(dataTarget).html(html);
+                Tasks.init();
+                // Tasks.bindEvents();
+                $(".task-list").sortable({
+                    connectWith: ".task-list",
+                    items: ".task-item:not(.completed)",
+                    update: function () {
+                        let dataString = "";
+                        $('.task-list .task-item:not(.completed)').each(function () {
+                            dataString += "tasks[][id]=" + $(this).data('id') + "&";
+                        });
+                        $.ajax({
+                            data: dataString,
+                            dataType: "json",
+                            type: 'POST',
+                            url: tasks_order
+                        }).done(function () {
+                        });
+                    }
+                });
+            })
+            .fail(function () {
+                alert("error");
+            })
+            .always(function () {
+//              alert("complete");
+            });
+        $('title').text($(this).text().trim() + " | myApp");
+    },
+};
 Tasks.init();

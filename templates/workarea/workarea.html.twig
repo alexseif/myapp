@@ -91,5 +91,5 @@
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('/js/inbox.js') }}"></script>
+    <script> Tasks.bindInbox();</script>
 {% endblock %}
