@@ -39,7 +39,7 @@ class ShoppingListController extends Controller
             $entityManager->persist($shoppingList);
             $entityManager->flush();
 
-            return $this->redirectToRoute('shopping_list_index');
+            return $this->redirectToRoute('shopping_index');
         }
 
         return $this->render('shopping_list/new.html.twig', [
@@ -69,7 +69,7 @@ class ShoppingListController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('shopping_list_index');
+            return $this->redirectToRoute('shopping_index');
         }
 
         return $this->render('shopping_list/edit.html.twig', [
@@ -89,6 +89,6 @@ class ShoppingListController extends Controller
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('shopping_list_index');
+        return $this->redirectToRoute('shopping_index');
     }
 }

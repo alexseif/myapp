@@ -11,12 +11,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/shopping/item")
+ * @Route("/shopping/item", name="shopping_item_")
  */
 class ShoppingItemController extends Controller
 {
     /**
-     * @Route("/", name="shopping_item_index", methods={"GET"})
+     * @Route("/", name="index", methods={"GET"})
      */
     public function index(ShoppingItemRepository $shoppingItemRepository): Response
     {
@@ -26,7 +26,7 @@ class ShoppingItemController extends Controller
     }
 
     /**
-     * @Route("/new", name="shopping_item_new", methods={"GET","POST"})
+     * @Route("/new", name="new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -39,7 +39,7 @@ class ShoppingItemController extends Controller
             $entityManager->persist($shoppingItem);
             $entityManager->flush();
 
-            return $this->redirectToRoute('shopping_item_index');
+            return $this->redirectToRoute('shopping_index');
         }
 
         return $this->render('shopping_item/new.html.twig', [
@@ -48,18 +48,9 @@ class ShoppingItemController extends Controller
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="shopping_item_show", methods={"GET"})
-     */
-    public function show(ShoppingItem $shoppingItem): Response
-    {
-        return $this->render('shopping_item/show.html.twig', [
-            'shopping_item' => $shoppingItem,
-        ]);
-    }
 
     /**
-     * @Route("/{id}/edit", name="shopping_item_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit", name="edit", methods={"GET","POST"})
      */
     public function edit(Request $request, ShoppingItem $shoppingItem): Response
     {
@@ -69,7 +60,7 @@ class ShoppingItemController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('shopping_item_index');
+            return $this->redirectToRoute('shopping_index');
         }
 
         return $this->render('shopping_item/edit.html.twig', [
@@ -79,7 +70,7 @@ class ShoppingItemController extends Controller
     }
 
     /**
-     * @Route("/{id}", name="shopping_item_delete", methods={"DELETE"})
+     * @Route("/{id}", name="delete", methods={"DELETE"})
      */
     public function delete(Request $request, ShoppingItem $shoppingItem): Response
     {
@@ -89,6 +80,6 @@ class ShoppingItemController extends Controller
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('shopping_item_index');
+        return $this->redirectToRoute('shopping_index');
     }
 }

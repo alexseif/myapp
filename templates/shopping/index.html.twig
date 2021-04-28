@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+{% import 'shopping_item/_macros.html.twig' as shoppingMacro %}
+{% import 'macros/a.html.twig' as a %}
+{% block floatingActions %}
+    {{ a.add('shopping_item_new') }}
+{% endblock %}
+{% block panelTitle %}Hello ShoppingController!{% endblock %}
+{% block panelBody %}
+    <div class="card-deck">
+        {% for shopping_list in shopping_lists %}
+            <div class="card">
+                <div class="card-header">
+                    <span>{{ shopping_list.name }}</span>
+                    <div class="float-right">{{ a.show('shopping_list_show', {'id':shopping_list.id}) }}</div>
+                </div>
+                <div class="card-body">
+                    {{ shoppingMacro.ul(shopping_list.shoppingItems) }}
+                </div>
+            </div>
+        {% endfor %}
+        <div class="card">
+            <div class="card-body">
+                {{ a.add('shopping_list_new') }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

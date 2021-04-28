@@ -72,7 +72,7 @@
             </a>
           </span>
                     {% if item.est %}
-                        <span title="EST">EST: {{ item.est ~ "m" }}</span>
+                        <span title="EST" class="text-success">EGP {{ item.est|number_format }}</span>
                     {% endif %}
                     {% if item.eta %}
                         <span title="ETA: {{ item.eta|date('D M,j Y') }}">ETA: {{ item.eta|date }}</span>
