@@ -36,9 +36,11 @@ tr:hover .edit-link {
     display: inline;
 }
 
+.item-item:hover .edit-link,
 .task-item:hover .edit-link {
     display: inline;
 }
+.item-item .item-label,
 .task-item .task-label{
 overflow: hidden;
     max-width: 90%;
@@ -53,10 +55,12 @@ overflow: hidden;
 
 /** list **/
 
+.item-list > .completed,
 .task-list > .completed {
     opacity: 0.6;
 }
 
+.item-list .item-item,
 .task-list .task-item {
     overflow: hidden;
 }

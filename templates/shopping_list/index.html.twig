@@ -7,20 +7,17 @@
 {% block panelBody %}
     <table class="table">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>actions</th>
-            </tr>
+        <tr>
+            <th>Name</th>
+        </tr>
         </thead>
         <tbody>
         {% for shopping_list in shopping_lists %}
             <tr>
-                <td>{{ shopping_list.id }}</td>
-                <td>{{ shopping_list.name }}</td>
                 <td>
-                    <a href="{{ path('shopping_list_show', {'id': shopping_list.id}) }}">show</a>
-                    <a href="{{ path('shopping_list_edit', {'id': shopping_list.id}) }}">edit</a>
+                    <a href="{{ path('shopping_list_show', { 'id' : shopping_list.id }) }}">
+                        {{ shopping_list.name }}
+                    </a>
                 </td>
             </tr>
         {% else %}

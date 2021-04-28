@@ -228,12 +228,14 @@ select {
     padding: 0.3rem;
 }
 
+label.item,
 label.task {
     max-width: 65vw;
     overflow: hidden;
 }
 
 @media (min-width: 768px) {
+    label.item,
     label.task {
         max-width: 35vw;
     }
@@ -417,6 +419,7 @@ label.checkbox-inline {
 /* @todo: better animation */
 /* @todo: click div open postion. 
 maybe group dots in child div and rotate div */
+.item-actions,
 .task-actions {
     position: relative;
 }
