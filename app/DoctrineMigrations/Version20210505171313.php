@@ -15,7 +15,6 @@ final class Version20210505171313 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('DROP TABLE service');
     }
 
     public function down(Schema $schema) : void
@@ -23,7 +22,5 @@ final class Version20210505171313 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('CREATE TABLE service (id INT AUTO_INCREMENT NOT NULL, currency INT DEFAULT NULL, name VARCHAR(255) CHARACTER SET utf8 NOT NULL COLLATE `utf8_unicode_ci`, price INT NOT NULL, created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, UNIQUE INDEX UNIQ_E19D9AD26956883F (currency), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB COMMENT = \'\' ');
-        $this->addSql('ALTER TABLE service ADD CONSTRAINT FK_E19D9AD26956883F FOREIGN KEY (currency) REFERENCES currency (id) ON UPDATE NO ACTION ON DELETE NO ACTION');
     }
 }
