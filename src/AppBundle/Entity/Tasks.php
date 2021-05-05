@@ -7,12 +7,13 @@ use DateTime as datetimeAlias;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use AppBundle\Repository\TasksRepository;
 
 /**
  * Tasks
  *
  * @ORM\Table(name="tasks")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\TasksRepository")
+ * @ORM\Entity(repositoryClass=TasksRepository::class)
  */
 class Tasks
 {
