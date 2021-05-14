@@ -19,7 +19,7 @@
                 </strong>
             </div>
         {% endset %}
-        {% include('AppBundle:Dashboard:_widget_flat.html.twig') %}
+        {% include('dashboard/_widget_flat.html.twig') %}
     </div><!-- col -->
     <div class="col">
         {% set widgetClass = daysDiff  > 20 ? "widget-info" : daysDiff  > 10 ? "widget-warning" : "widget-danger" %}
@@ -44,7 +44,7 @@
                 </tbody>
             </table>
         {% endset %}
-        {% include('AppBundle:Dashboard:_widget_flat.html.twig') %}
+        {% include('dashboard/_widget_flat.html.twig') %}
     </div><!-- col -->
     <div class="col">
         {% set widgetClass = pm.accountsProgress > 0 ? 'widget-success' : 'widget-danger' %}
@@ -54,7 +54,7 @@
                 {{ pm.clientsCount }} <i class="fa fa-users" title="Clients"></i>
             </div>
         {% endset %}
-        {% include('AppBundle:Dashboard:_widget_flat.html.twig') %}
+        {% include('dashboard/_widget_flat.html.twig') %}
     </div><!-- col -->
     <div class="col">
         {% set widgetClass = pm.accountsProgress > 0 ? 'widget-success' : 'widget-danger' %}
@@ -64,7 +64,7 @@
                 {{ pm.accountsCount }} <i class="fa fa-briefcase" title="Accounts"></i>
             </div>
         {% endset %}
-        {% include('AppBundle:Dashboard:_widget_flat.html.twig') %}
+        {% include('dashboard/_widget_flat.html.twig') %}
     </div><!-- col -->
     <div class="col">
         {% set widgetClass = pm.tasksCompletedProgress > 0 ? 'widget-success' : 'widget-danger' %}
@@ -74,7 +74,7 @@
                 {{ pm.tasksCompletedCount }} <i class="fa fa-tasks" title="Tasks"></i>
             </div>
         {% endset %}
-        {% include('AppBundle:Dashboard:_widget_flat.html.twig') %}
+        {% include('dashboard/_widget_flat.html.twig') %}
     </div><!-- col -->
     <div class="col">
         {% set widgetClass = pm.durationProgress > 0 ? 'widget-success' : 'widget-danger' %}
@@ -84,7 +84,7 @@
                 {{ pm.durationSum }} <i class="fa fa-stopwatch" title="Duration"></i>
             </div>
         {% endset %}
-        {% include('AppBundle:Dashboard:_widget_flat.html.twig') %}
+        {% include('dashboard/_widget_flat.html.twig') %}
     </div><!-- col -->
     <div class="col">
         {% set widgetClass = pm.revenueProgress > 0 ? 'widget-success' : 'widget-danger' %}
@@ -94,7 +94,7 @@
                 {{ pm.revenueSum }} <i class="fa fa-egp" title="Duration"></i>
             </div>
         {% endset %}
-        {% include('AppBundle:Dashboard:_widget_flat.html.twig') %}
+        {% include('dashboard/_widget_flat.html.twig') %}
     </div><!-- col -->
     {% if(pm.currentRoutine) %}
         <div class="col">

@@ -18,9 +18,9 @@
                 {% set issuedThisMonth = progressBar['issuedThisMonth'] %}
                 {% for key, progress in progressBar['earned'] %}
                     {% if 'monthly' == key %}
-                        {% include 'AppBundle:Dashboard:progressBars.html.twig' with {'total': attribute(costOfLife, key), 'progress': progress, 'issued': issuedThisMonth} %}
+                        {% include 'dashboard/progressBars.html.twig' with {'total': attribute(costOfLife, key), 'progress': progress, 'issued': issuedThisMonth} %}
                     {% else %}
-                        {% include 'AppBundle:Dashboard:progressBars.html.twig' with {'total': attribute(costOfLife, key), 'progress': progress} %}
+                        {% include 'dashboard/progressBars.html.twig' with {'total': attribute(costOfLife, key), 'progress': progress} %}
                     {% endif %}
                 {% endfor %}
             </div>

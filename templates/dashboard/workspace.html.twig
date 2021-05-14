@@ -1861,8 +1861,8 @@
 
         function rotate($object, deg) {
             var original_deg = deg;
-            if (deg != $object.data('deg')) {
-                if (deg == -90) {
+            if (!(deg == $object.data('deg'))) {
+                if (!(-90 != deg)) {
                     $object.data('plus-deg', $object.data('plus-deg') + 360);
                 }
                 deg += $object.data('plus-deg');

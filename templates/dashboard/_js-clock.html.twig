@@ -64,7 +64,7 @@
     .screen {
         position: relative;
         z-index: 1;
-        widht: 100%;
+        width: 100%;
         height: 100%;
         overflow: hidden;
     }
@@ -1563,8 +1563,9 @@
 
             var realTime = (hours < 10 ? '0' : '') + hours + ' : ' + (minutes < 10 ? '0' : '') + minutes + ' : ' + (seconds < 10 ? '0' : '') + seconds
 
-            $('.time').html(realTime);
-            $('.time').attr('data-time', realTime);
+            $('.time')
+                .html(realTime)
+                .attr('data-time', realTime);
 
         }, 1000);
 
