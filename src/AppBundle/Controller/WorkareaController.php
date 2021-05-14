@@ -6,7 +6,6 @@ use AppBundle\Logic\EarnedLogic;
 use AppBundle\Repository\AccountsRepository;
 use AppBundle\Repository\AccountTransactionsRepository;
 use AppBundle\Repository\DaysRepository;
-use AppBundle\Repository\HolidayRepository;
 use AppBundle\Repository\TaskListsRepository;
 use AppBundle\Repository\TasksRepository;
 use AppBundle\Service\TasksService;
@@ -53,25 +52,6 @@ class WorkareaController extends Controller
             'taskLists' => $taskListsRepository->findAllWithActiveTasks(),
             'completedTodayCount' => $completedTodayCount
 
-        ]);
-    }
-
-    /**
-     *
-     * @Route("/inbox", name="inbox")
-     */
-    public function inboxAction(TaskListsRepository $taskListsRepository, DaysRepository $daysRepository, HolidayRepository $holidayRepository)
-    {
-        $taskLists = $taskListsRepository->findAllWithActiveTasks();
-        $days = $daysRepository->getActiveCards();
-        $holidays = $holidayRepository->getComingHolidays();
-
-        $urgentTasks = [];
-        return $this->render("workarea/inbox.html.twig", [
-            'days' => $days,
-            'holidays' => $holidays,
-            'taskLists' => $taskLists,
-            'urgentTasks' => $urgentTasks,
         ]);
     }
 
