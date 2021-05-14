@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+{% import "macros/a.html.twig" as a %}
+{%  block floatingActions %} {{ a.add('habit_new') }}{%  endblock %}
+{% block panelTitle %}Habit index{% endblock %}
+{% block panelBody %}
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Status</th>
+            <th>actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for habit in habits %}
+            <tr>
+                <td>{{ habit.id }}</td>
+                <td>{{ habit.name }}</td>
+                <td>{{ habit.status }}</td>
+                <td>
+                    {{ a.show('habit_show',  {'id': habit.id}) }}
+                    {{ a.edit('habit_edit',  {'id': habit.id}) }}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

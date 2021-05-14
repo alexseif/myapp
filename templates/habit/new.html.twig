@@ -1,0 +1,8 @@
+{% extends 'base.html.twig' %}
+{% import "macros/forms.html.twig" as forms %}
+{% import "macros/a.html.twig" as a %}
+{% block panelBack %}{{ a.back('habit_index') }}{% endblock %}
+{% block panelTitle %}New Habit{% endblock %}
+{% block panelBody %}
+    {{ include('habit/_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit HabitLog{% endblock %}
+
+{% block body %}
+    <h1>Edit HabitLog</h1>
+
+    {{ include('habit_log/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('habit_log_index') }}">back to list</a>
+
+    {{ include('habit_log/_delete_form.html.twig') }}
+{% endblock %}
