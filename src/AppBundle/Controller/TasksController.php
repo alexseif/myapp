@@ -372,7 +372,7 @@ class TasksController extends Controller
         if ($request->isXMLHttpRequest()) {
             return JsonResponse::create();
         }
-        $redirect = $this->generateUrl('focus');
+        $redirect = $this->generateUrl('workarea_focus');
         return $this->redirect($redirect);
     }
 

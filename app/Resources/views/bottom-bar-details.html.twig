@@ -36,7 +36,7 @@
         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
             {% for contract in contracts %}
                 <a class="dropdown-item"
-                   href="{{ path('focus', {'client': contract.client.id}) }}">
+                   href="{{ path('workarea_focus', {'client': contract.client.id}) }}">
                     {{ contract.name }}
                 </a>
                 <div class="progress">
@@ -58,7 +58,7 @@
         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
             {% for task in tasks %}
                 <a class="dropdown-item"
-                   href="{{ path('focus') }}#task_{{ task.id }}">
+                   href="{{ path('workarea_focus') }}#task_{{ task.id }}">
                     {{ task.task }}
                     <span class="badge badge-info float-right">{{ task.taskList }}</span>
                 </a>
