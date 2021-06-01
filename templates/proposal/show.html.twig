@@ -3,44 +3,41 @@
 {% import "macros/a.html.twig" as a %}
 {% import "macros/badges.html.twig" as badge %}
 {% block title %}{{ proposal.title }}{% endblock %}
+{% block floatingActions %}
+    {{ a.add('proposal_details_new', {'proposal':proposal.id}) }}
+{% endblock %}
 {% block content %}
-    <div class="btn-toolbar">
-
+    <div class="btn-toolbar float-right">
         {{ a.back('proposal_index') }}
         {{ a.edit('proposal_edit', {'id':proposal.id}) }}
         {{ include('proposal/_delete_form.html.twig') }}
     </div>
-    <div class="container">
+    <div class="container proposal-details">
         <section id="page0">
             <header>
-                <h1>Proposal: <strong>{{ proposal.title }}</strong></h1>
-
+                <h1>Proposal #{{ proposal.id }}: <strong>{{ proposal.title }}</strong></h1>
             </header>
-            {% set widgetClass = "widget-info" %}
+            {% set widgetClass = "widget-default" %}
             {% set widgetBody %}
-                <div class="d-flex justify-content-around">
+                <div class="d-flex justify-content-between text-white">
                     <div>
-                        #{{ proposal.id }}<br/>
-                        <label class="label label-default">{{ proposal.client }}</label><br/>
+                        <div>for: <strong>{{ proposal.client }}</strong></div>
+                        <div>status: <strong>{{ proposal.status }}</strong></div>
                     </div>
                     <div>
-                        Status {{ proposal.status }}<br/>
-                        Enabled {{ proposal.enabled ? 'Yes' : 'No' }}
-                    </div>
-                    <div>
-                        CreatedAt {{ proposal.createdAt ? proposal.createdAt|date : '' }}<br/>
-                        UpdatedAt {{ proposal.updatedAt ? proposal.updatedAt|date : '' }}
+                        <div>created: <strong>{{ proposal.createdAt ? proposal.createdAt|date : '' }}</strong></div>
+                        <div>expires:
+                            <strong>{{ proposal.updatedAt ? proposal.createdAt|date_modify('+1 month')|date : '' }}</strong>
+                        </div>
                     </div>
                 </div>
             {% endset %}
             {% include '@App/Dashboard/_widget_flat.html.twig' %}
+            <hr/>
         </section>
-        <hr/>
-        <h2>Sections</h2>
         {{ include('proposal/_sections.html.twig', {'proposal_details':proposal.details}) }}
         <h2>Milestones</h2>
         {{ include('proposal/_milestones.html.twig', {'proposal_details':proposal.details}) }}
 
     </div><!-- .container -->
-    {{ a.add('proposal_details_new', {'proposal':proposal.id}) }}
 {% endblock %}

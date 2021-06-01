@@ -586,8 +586,8 @@ table.income-progress tr td:last-child {
     }
 }
 
-.flex-form .form-group{
-  flex: 1;
+.flex-form .form-group {
+    flex: 1;
 }
 
 /** tasks **/
@@ -596,3 +596,19 @@ table.income-progress tr td:last-child {
 }
 .card{padding: 0;}
 .card-header{padding: 0.5rem 1rem;}
+
+
+/************* Proposals *****************/
+.proposal-details section {
+    margin-top: 4rem;
+}
+
+.proposal-details section header h1 {
+    margin-bottom: 1.5rem;
+}
+
+@media print {
+    .proposal-details section {
+        page-break-after: always;
+    }
+}
