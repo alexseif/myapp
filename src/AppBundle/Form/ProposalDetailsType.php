@@ -5,6 +5,8 @@ namespace AppBundle\Form;
 use AppBundle\Entity\ProposalDetails;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -18,11 +20,12 @@ class ProposalDetailsType extends AbstractType
                     'section' => 'section',
                     'milestone' => 'milestone',
                 ],
+                'expanded' => true
             ])
             ->add('title')
-            ->add('body')
-            ->add('proposal')
-        ;
+            ->add('body', TextareaType::class, [
+                'required' => false
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

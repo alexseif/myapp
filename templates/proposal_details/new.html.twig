@@ -7,6 +7,8 @@
     {{ forms.panel(form) }}
 {#    {{ include('proposal_details/_form.html.twig') }}#}
 {% endblock %}
-
-
-
+{% block javascripts %}
+    {{ parent() }}
+    <script src="/js/tinymce/tinymce.min.js"></script>
+    <script>tinymce.init({selector: '#proposal_details_body'});</script>
+{% endblock %}
