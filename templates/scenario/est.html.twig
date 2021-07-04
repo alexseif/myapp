@@ -94,7 +94,6 @@
                 "ajax": {
                     "url": "{{ path('scenario_est_get', {'id': scenario.id}) }}",
                     "dataSrc": function (json) {
-                        console.log('here');
                         let balance = 0;
                         let ests = [];
                         json.data['details'].forEach(function (detail, detailIndex, detailArray) {
@@ -139,7 +138,7 @@
                 paging: false,
             });
             table.on('row-reorder', calcBalance);
-
+//@todo: save objective dates
         });
     </script>
 {% endblock %}

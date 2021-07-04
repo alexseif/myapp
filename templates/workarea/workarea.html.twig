@@ -62,7 +62,7 @@
                     <div id="focus"></div>
                     <div id="urgent"></div>
                     <div id="completedToday"></div>
-{#                    {{ tasks_view.ul(focus, {displayListName: 'workarea'}) }}#}
+                    {# {{ tasks_view.ul(focus, {displayListName: 'workarea'}) }} #}
                 </div>
             </div><!-- .col-8 -->
             <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2">
@@ -71,16 +71,30 @@
                         {# {% include 'AppBundle:days:days_list.html.twig' %} #}
                         {% include 'AppBundle:days:_list_summary.html.twig' %}
                     {% endif %}
+                    {% set hideEmpty = true %}
+                    {% for key, progress in earned %}
+                        {% if 'monthly' == key %}
+                            {% include 'AppBundle:Dashboard:progressBars.html.twig' with {'total': attribute(costOfLife, key), 'progress': progress, 'issued': issuedThisMonth} %}
+                        {% else %}
+                            {% include 'AppBundle:Dashboard:progressBars.html.twig' with {'total': attribute(costOfLife, key), 'progress': progress} %}
+                        {% endif %}
+                    {% endfor %}
+                    <div class="card widget-flat mb-3">
+                        <div class="card-body">
+                            {% for detail in scenario_details %}
+                                <div class="text-{{ detail.value < 0 ? 'success':'danger' }}">
+                                    <label>{{ detail.title }}</label> <strong>{{ detail.value }}</strong><br/>
+                                </div>
+                            {% endfor %}
+                            {% for objective in scenario_objectives %}
+                                <div class="text-{{ objective.value < 0 ? 'success':'danger' }}">
+                                    <label>{{ objective.title }}</label> <strong>{{ objective.value }}</strong><br/>
+                                </div>
+                            {% endfor %}
+                        </div> <!-- end card-body-->
+                    </div> <!-- end card-->
                     <!-- END OF ACCOUNTS -->
                     {% if accounts|length %}
-                        {% set hideEmpty = true %}
-                        {% for key, progress in earned %}
-                            {% if 'monthly' == key %}
-                                {% include 'AppBundle:Dashboard:progressBars.html.twig' with {'total': attribute(costOfLife, key), 'progress': progress, 'issued': issuedThisMonth} %}
-                            {% else %}
-                                {% include 'AppBundle:Dashboard:progressBars.html.twig' with {'total': attribute(costOfLife, key), 'progress': progress} %}
-                            {% endif %}
-                        {% endfor %}
                         {% include 'AppBundle:accounts:accounts_list_summary.html.twig' %}
                     {% endif %}
                     <!-- END OF ACCOUNTS -->

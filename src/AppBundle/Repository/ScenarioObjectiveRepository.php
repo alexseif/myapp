@@ -19,6 +19,26 @@ class ScenarioObjectiveRepository extends ServiceEntityRepository
         parent::__construct($registry, ScenarioObjective::class);
     }
 
+    public function getToday()
+    {
+        return $this->createQueryBuilder('so')
+            ->where('so.date = date(now())')
+            ->orderBy('so.urgency')
+            ->addOrderBy('so.priority')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function getAnObjective()
+    {
+        return $this->createQueryBuilder('so')
+            ->where('so.date is null')
+            ->orderBy('so.urgency')
+            ->addOrderBy('so.priority')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getResult();
+    }
     // /**
     //  * @return ScenarioObjective[] Returns an array of ScenarioObjective objects
     //  */

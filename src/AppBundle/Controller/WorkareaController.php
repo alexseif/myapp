@@ -7,6 +7,8 @@ use AppBundle\Repository\AccountsRepository;
 use AppBundle\Repository\AccountTransactionsRepository;
 use AppBundle\Repository\DaysRepository;
 use AppBundle\Repository\HolidayRepository;
+use AppBundle\Repository\ScenarioDetailsRepository;
+use AppBundle\Repository\ScenarioObjectiveRepository;
 use AppBundle\Repository\TaskListsRepository;
 use AppBundle\Repository\TasksRepository;
 use AppBundle\Service\TasksService;
@@ -28,7 +30,7 @@ class WorkareaController extends Controller
      * @param AccountTransactionsRepository $accountTransactionsRepository
      * @return Response
      */
-    public function workarea(TasksRepository $tasksRepository, DaysRepository $daysRepository, AccountsRepository $accountsRepository, AccountTransactionsRepository $accountTransactionsRepository, TaskListsRepository $taskListsRepository): Response
+    public function workarea(TasksRepository $tasksRepository, DaysRepository $daysRepository, AccountsRepository $accountsRepository, AccountTransactionsRepository $accountTransactionsRepository, TaskListsRepository $taskListsRepository, ScenarioDetailsRepository $scenarioDetailsRepository, ScenarioObjectiveRepository $scenarioObjectiveRepository): Response
     {
         $days = $daysRepository->getImportantCards();
         $accounts = $accountsRepository->findBy(array('conceal' => false));
@@ -43,6 +45,12 @@ class WorkareaController extends Controller
             $issued += abs($tm->getAmount());
         }
         $completedTodayCount = $tasksRepository->getCompletedTodayCount();
+//        @todo move to js load from scenario controller
+        $scenarioDetails = $scenarioDetailsRepository->getToday();
+        $scenarioObjectives = $scenarioObjectiveRepository->getToday();
+        if (1 > count($scenarioObjectives)) {
+            $scenarioObjectives = $scenarioObjectiveRepository->getAnObjective();
+        }
         return $this->render('workarea/workarea.html.twig', [
             'days' => $days,
             'accounts' => $accounts,
@@ -51,7 +59,9 @@ class WorkareaController extends Controller
             'costOfLife' => $costOfLife,
             'issued' => $issued,
             'taskLists' => $taskListsRepository->findAllWithActiveTasks(),
-            'completedTodayCount' => $completedTodayCount
+            'completedTodayCount' => $completedTodayCount,
+            'scenario_details' => $scenarioDetails,
+            'scenario_objectives' => $scenarioObjectives,
 
         ]);
     }

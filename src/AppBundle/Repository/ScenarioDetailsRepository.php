@@ -19,6 +19,14 @@ class ScenarioDetailsRepository extends ServiceEntityRepository
         parent::__construct($registry, ScenarioDetails::class);
     }
 
+    public function getToday()
+    {
+        return $this->createQueryBuilder('sd')
+            ->where('sd.date = date(now())')
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return ScenarioDetails[] Returns an array of ScenarioDetails objects
     //  */
