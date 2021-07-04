@@ -23,8 +23,8 @@ class ScenarioObjectiveRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('so')
             ->where('so.date = date(now())')
-            ->orderBy('so.urgency')
-            ->addOrderBy('so.priority')
+            ->orderBy('so.urgency', 'DESC')
+            ->addOrderBy('so.priority', 'DESC')
             ->getQuery()
             ->getResult();
     }
@@ -33,8 +33,8 @@ class ScenarioObjectiveRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('so')
             ->where('so.date is null')
-            ->orderBy('so.urgency')
-            ->addOrderBy('so.priority')
+            ->orderBy('so.urgency', 'DESC')
+            ->addOrderBy('so.priority', 'DESC')
             ->setMaxResults(1)
             ->getQuery()
             ->getResult();
