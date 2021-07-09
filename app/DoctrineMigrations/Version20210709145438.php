@@ -8,14 +8,14 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20210709105605 extends AbstractMigration
+final class Version20210709145438 extends AbstractMigration
 {
     public function up(Schema $schema) : void
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE accounts ADD billing_type JSON NOT NULL');
+        $this->addSql('ALTER TABLE client ADD billing_option LONGTEXT DEFAULT NULL COMMENT \'(DC2Type:array)\'');
     }
 
     public function down(Schema $schema) : void
@@ -23,6 +23,6 @@ final class Version20210709105605 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE accounts DROP billing_type');
+        $this->addSql('ALTER TABLE client DROP billing_option');
     }
 }
