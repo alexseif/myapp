@@ -3,4 +3,6 @@
 {% import "macros/a.html.twig" as a %}
 {% block panelTitle %}New Client{% endblock %}
 {% block panelBack %}{{ a.back('client_index') }}{% endblock %}
-{% block panelBody %}{{ forms.panel(form) }}{% endblock %}
+{% block panelBody %}
+    {% include '@App/client/_form.html.twig' with {'button_label':'Update'} %}
+{% endblock %}

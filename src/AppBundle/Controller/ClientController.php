@@ -91,7 +91,7 @@ class ClientController extends Controller
 
         return $this->render("AppBundle:client:edit.html.twig", array(
             'client' => $client,
-            'edit_form' => $editForm->createView(),
+            'form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
     }

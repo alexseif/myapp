@@ -5,7 +5,9 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\AccountTransactions;
 use AppBundle\Entity\TaskLists;
 use AppBundle\Entity\WorkLog;
+use AppBundle\Logic\BillingCalculator;
 use AppBundle\Logic\CostOfLifeLogic;
+use AppBundle\Util\DateRanges;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -132,9 +134,8 @@ class WorkLogController extends Controller
         $cost = $em->getRepository('AppBundle:CostOfLife')->sumCostOfLife()["cost"];
 
         $costOfLife = new CostOfLifeLogic($cost, $currencies);
-
+        $pricePerUnit = $costOfLife->getHourly();
         $workLog = new Worklog();
-        $workLog->setPricePerUnit($costOfLife->getHourly());
 
 
         if ($request->get('task')) {
@@ -145,9 +146,17 @@ class WorkLogController extends Controller
 
             $thisRates = $em->getRepository("AppBundle:Rate")->findOneBy(array("active" => true, "client" => $task->getTaskList()->getAccount()->getClient()));
             if ($thisRates) {
-                $workLog->setPricePerUnit($thisRates->getRate());
+                $pricePerUnit = $thisRates->getRate();
             }
 
+
+            $billingType = $task->getAccount()->getClient()->getBillingType();
+            if ($billingType) {
+                $billingCalculator = new BillingCalculator();
+                $pricePerUnit = $billingCalculator->getPricePerUnit($billingType);
+            }
+
+            $workLog->setPricePerUnit($pricePerUnit);
             $workLog->setTask($task);
             $workLog->setName($task->getTask());
             $workLog->setDuration($task->getDuration());
@@ -213,11 +222,18 @@ class WorkLogController extends Controller
 
                 $task->setWorkLoggable(true);
                 $task->getWorklog()->setTask($task);
-                $task->getWorklog()->setPricePerUnit($costOfLife->getHourly());
+                $pricePerUnit = $costOfLife->getHourly();
+
                 $thisRates = $em->getRepository("AppBundle:Rate")->findOneBy(array("active" => true, "client" => $task->getTaskList()->getAccount()->getClient()));
                 if ($thisRates) {
-                    $task->getWorklog()->setPricePerUnit($thisRates->getRate());
+                    $pricePerUnit = $thisRates->getRate();
                 }
+                $billingType = $task->getAccount()->getClient()->getBillingType();
+                if ($billingType) {
+                    $billingCalculator = new BillingCalculator();
+                    $pricePerUnit = $billingCalculator->getPricePerUnit($billingType);
+                }
+                $task->getWorkLog()->setPricePerUnit($pricePerUnit);
                 $task->getWorklog()->setName($task->getTask());
                 $task->getWorklog()->setDuration($task->getDuration());
                 $task->getWorklog()->setTotal($task->getWorklog()->getPricePerUnit() / 60 * $task->getWorklog()->getDuration());

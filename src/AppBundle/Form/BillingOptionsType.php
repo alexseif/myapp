@@ -9,7 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class BillingTypeType extends AbstractType
+class BillingOptionsType extends AbstractType
 {
 
     /**
@@ -17,14 +17,17 @@ class BillingTypeType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-
+        $days = [];
+        for ($i = 1; $i <= 30; $i++) {
+            $days[$i] = $i;
+        }
         $builder
             ->add('hours', NumberType::class)
             ->add('hoursPer', ChoiceType::class, [
                 'choices' => [
-                    'every' => 'every',
-                    'month' => 'month',
                     'day' => 'day',
+                    'month' => 'month',
+                    'every' => 'every',
                 ],
                 'expanded' => true,
                 'label_attr' => [
@@ -34,15 +37,20 @@ class BillingTypeType extends AbstractType
             ->add('amount', MoneyType::class)
             ->add('amountPer', ChoiceType::class, [
                 'choices' => [
-                    'every' => 'every',
-                    'month' => 'month',
                     'day' => 'day',
+                    'month' => 'month',
+                    'every' => 'every',
                 ],
                 'expanded' => true,
                 'label_attr' => [
                     'class' => 'radio-inline'
                 ]
-            ]);
+            ])
+            ->add('billingOn', ChoiceType::class, [
+                'choices' => $days
+            ])
+            //@todo calculate discounts
+            ->add('discount', NumberType::class);
     }
 
     /**
@@ -60,7 +68,7 @@ class BillingTypeType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'appbundle_billing_type';
+        return 'appbundle_billing_options';
     }
 
 }

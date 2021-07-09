@@ -1,20 +1,37 @@
 {% import "macros/a.html.twig" as a %}
 {% import "macros/badges.html.twig" as badge %}
-<div class="card" id="client-details">
-    <div class="card-header">Client Details</div>
-    <ul class="list-group">
-        <li class="list-group-item">
-            Name: {{ client.name }}
-            <span class="float-right">{{ a.show('client_show', {'id': client.id}) }}</span>
-        </li>
-        <li class="list-group-item">
-            Status: {{ badge.status(client.enabled) }}
-        </li>
-        <li class="list-group-item">
-            Rate: <span class="money-egp pl-5">{{ client.rate|number_format }}</span>
-        </li>
-        <li class="list-group-item">
-            Contract: //TODO: Client contract
-        </li>
-    </ul>
-</div><!-- end card -->
+<div class="card-group">
+
+    <div class="card" id="client-details">
+        <div class="card-header">Client Details</div>
+        <ul class="list-group">
+            <li class="list-group-item">
+                Name: {{ client.name }}
+                <span class="float-right">{{ a.show('client_show', {'id': client.id}) }}</span>
+            </li>
+            <li class="list-group-item">
+                Status: {{ badge.status(client.enabled) }}
+            </li>
+            <li class="list-group-item">
+                Rate: <span class="money-egp pl-5">{{ client.rate|number_format }}</span>
+            </li>
+            <li class="list-group-item">
+                Contract: //TODO: Client contract
+            </li>
+        </ul>
+    </div><!-- end card -->
+    <div class="card">
+        <div class="card-header">Billing Details</div>
+        <ul class="list-group">
+            <li class="list-group-item">
+                Hours: {{ client.billingType.hours }}h / {{ client.billingType.hoursPer }}
+            </li>
+            <li class="list-group-item">
+                Amount: EGP {{ client.billingType.amount|number_format }} / {{ client.billingType.amountPer }}
+            </li>
+            <li class="list-group-item">
+                Billing On:  {{ client.billingType.billingOn }}
+            </li>
+        </ul>
+    </div><!-- end card -->
+</div>

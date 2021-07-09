@@ -43,19 +43,6 @@
                     </div><!-- end card -->
                 </div><!-- end col -->
                 <div class="col">
-                    <div class="card">
-                        <div class="card-header">Billing Details</div>
-                        <ul class="list-group">
-                            <li class="list-group-item">
-                                Hours: {{ account.billingType.hours }}h / {{ account.billingType.hoursPer }}
-                            </li>
-                            <li class="list-group-item">
-                                Amount: EGP {{ account.billingType.amount|number_format }} / {{ account.billingType.amountPer }}
-                            </li>
-                        </ul>
-                    </div><!-- end card -->
-                </div><!-- end col -->
-                <div class="col">
                     {% if (account.client) %}
                         {% set client = account.client %}
                         {% include 'AppBundle:client:client_details.html.twig' %}

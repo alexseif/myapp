@@ -20,7 +20,8 @@ class ClientType extends AbstractType
             ->add('enabled', CheckboxType::class, [
                 'required' => false,
                 'label_attr' => ['class' => 'switch_box']
-            ]);
+            ])
+            ->add('billingType', BillingOptionsType::class);
     }
 
     /**

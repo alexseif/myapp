@@ -57,6 +57,11 @@ class Client
     private $proposals;
 
     /**
+     * @ORM\Column(type="json")
+     */
+    private $billingType = [];
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -227,4 +232,15 @@ class Client
         return $this;
     }
 
+    public function getBillingType(): ?array
+    {
+        return $this->billingType;
+    }
+
+    public function setBillingType(array $billingType): self
+    {
+        $this->billingType = $billingType;
+
+        return $this;
+    }
 }

@@ -58,11 +58,6 @@ class Accounts
     private $taskLists;
 
     /**
-     * @ORM\Column(type="json")
-     */
-    private $billingType = [];
-
-    /**
      * Constructor
      */
     public function __construct()
@@ -234,16 +229,5 @@ class Accounts
         return $this->getName();
     }
 
-    public function getBillingType(): ?array
-    {
-        return $this->billingType;
-    }
-
-    public function setBillingType(array $billingType): self
-    {
-        $this->billingType = $billingType;
-
-        return $this;
-    }
 
 }

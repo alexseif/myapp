@@ -6,4 +6,6 @@
 {% block panelBack %}{{ a.back('client_index') }}{% endblock %}
 {% block panelTitle %}{{ client.name }}{% endblock %}
 {% block panelHeadingRight %}{{ forms.delete(delete_form) }}{% endblock %}
-{% block panelBody %}{{ forms.panel(edit_form, false) }}{% endblock %}
+{% block panelBody %}
+    {% include '@App/client/_form.html.twig' %}
+{% endblock %}

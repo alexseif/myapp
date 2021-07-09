@@ -1,12 +1,13 @@
 {% import "macros/forms.html.twig" as forms %}
 
- {{ form_start(account_form) }}
+ {{ form_start(form) }}
 <div class="card-body">
     <div class="d-flex justify-content-around">
         <div class="account-details d-flex flex-column">
-            {{ form_row(account_form.name) }}
-            {{ form_row(account_form.client) }}
-            {{ form_row(account_form.conceal) }}
+            {{ form_row(form.name) }}
+        </div>
+        <div class="billing-details d-flex flex-column">
+            {{ form_row(form.billingType) }}
         </div>
     </div>
 </div>
@@ -14,4 +15,4 @@
     <button class="btn" type="submit">{{ button_label|default('Save') }}</button>
     {# <button type="submit" value="Save" class="btn btn-success">Save</button> #}
 </div>
-{{ form_end(account_form) }}
+{{ form_end(form) }}
