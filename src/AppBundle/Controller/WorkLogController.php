@@ -149,9 +149,9 @@ class WorkLogController extends Controller
             }
 
 
-            $billingType = $task->getAccount()->getClient()->getBillingType();
-            if ($billingType) {
-                $billingCalculator = new BillingCalculator($billingType);
+            $billingOption = $task->getAccount()->getClient()->getBillingOption();
+            if ($billingOption && $billingOption['amount']) {
+                $billingCalculator = new BillingCalculator($billingOption);
                 $pricePerUnit = $billingCalculator->getPricePerUnit();
             }
 
@@ -227,9 +227,9 @@ class WorkLogController extends Controller
                 if ($thisRates) {
                     $pricePerUnit = $thisRates->getRate();
                 }
-                $billingType = $task->getAccount()->getClient()->getBillingType();
-                if ($billingType) {
-                    $billingCalculator = new BillingCalculator($billingType);
+                $billingOption = $task->getAccount()->getClient()->getBillingOption();
+                if ($billingOption) {
+                    $billingCalculator = new BillingCalculator($billingOption);
                     $pricePerUnit = $billingCalculator->getPricePerUnit();
                 }
                 $task->getWorkLog()->setPricePerUnit($pricePerUnit);

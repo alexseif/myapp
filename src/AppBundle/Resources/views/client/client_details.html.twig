@@ -24,13 +24,13 @@
         <div class="card-header">Billing Details</div>
         <ul class="list-group">
             <li class="list-group-item">
-                Hours: {{ client.billingType.hours }}h / {{ client.billingType.hoursPer }}
+                Hours: {{ client.billingOption.hours }}h / {{ client.billingOption.hoursPer }}
             </li>
             <li class="list-group-item">
-                Amount: EGP {{ client.billingType.amount|number_format }} / {{ client.billingType.amountPer }}
+                Amount: EGP {{ client.billingOption.amount|number_format }} / {{ client.billingOption.amountPer }}
             </li>
             <li class="list-group-item">
-                Billing On:  {{ client.billingType.billingOn }}
+                Billing On:  {{ client.billingOption.billingOn }}
             </li>
         </ul>
     </div><!-- end card -->

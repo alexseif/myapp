@@ -56,10 +56,11 @@ class Client
      */
     private $proposals;
 
+
     /**
-     * @ORM\Column(type="json")
+     * @ORM\Column(type="array", nullable=true)
      */
-    private $billingType = [];
+    private $billingOption = [];
 
     /**
      * Constructor
@@ -232,14 +233,14 @@ class Client
         return $this;
     }
 
-    public function getBillingType(): ?array
+    public function getBillingOption(): ?array
     {
-        return $this->billingType;
+        return $this->billingOption;
     }
 
-    public function setBillingType(array $billingType): self
+    public function setBillingOption(?array $billingOption): self
     {
-        $this->billingType = $billingType;
+        $this->billingOption = $billingOption;
 
         return $this;
     }

@@ -89,7 +89,7 @@ class ContractController extends Controller
     {
 
         $today = new DateTime();
-        $billingType = $contract->getAccount()->getBillingType();
+        $billingType = $contract->getClient()->getBillingOption();
         $day = $billingType['billingOn'] ?: 25;
 
         $months = DateRanges::populateMonths($contract->getStartedAt()->format('Ymd'), $today->format('Ymd'), $day);
@@ -161,7 +161,7 @@ class ContractController extends Controller
         $reportFilterForm = $reportFilterFormBuider->getForm();
 
         $reportFilterForm->handleRequest($request);
-        $billingType = $contract->getAccount()->getBillingType();
+        $billingType = $contract->getClient()->getBillingOption();
         $day = $billingType['billingOn'] ?: 25;
         $today = new DateTime();
         $monthsArray = DateRanges::populateMonths($contract->getStartedAt()->format('Ymd'), $today->format('Ymd'), $day);

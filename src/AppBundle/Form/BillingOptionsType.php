@@ -22,8 +22,11 @@ class BillingOptionsType extends AbstractType
             $days[$i] = $i;
         }
         $builder
-            ->add('hours', NumberType::class)
+            ->add('hours', NumberType::class, [
+                'required' => false
+            ])
             ->add('hoursPer', ChoiceType::class, [
+                'required' => false,
                 'choices' => [
                     'day' => 'day',
                     'month' => 'month',
@@ -34,8 +37,11 @@ class BillingOptionsType extends AbstractType
                     'class' => 'radio-inline'
                 ]
             ])
-            ->add('amount', MoneyType::class)
+            ->add('amount', MoneyType::class, [
+                'required' => false
+            ])
             ->add('amountPer', ChoiceType::class, [
+                'required' => false,
                 'choices' => [
                     'day' => 'day',
                     'month' => 'month',
@@ -47,11 +53,14 @@ class BillingOptionsType extends AbstractType
                 ]
             ])
             ->add('billingOn', ChoiceType::class, [
+                'required' => false,
                 'choices' => $days
             ])
             //@todo calculate discounts
 
-            ->add('discount', NumberType::class);
+            ->add('discount', NumberType::class, [
+                'required' => false
+            ]);
     }
 
     /**

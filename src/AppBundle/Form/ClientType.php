@@ -5,7 +5,6 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class ClientType extends AbstractType
@@ -21,7 +20,7 @@ class ClientType extends AbstractType
                 'required' => false,
                 'label_attr' => ['class' => 'switch_box']
             ])
-            ->add('billingType', BillingOptionsType::class);
+            ->add('billingOption', BillingOptionsType::class);
     }
 
     /**
