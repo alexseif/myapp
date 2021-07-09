@@ -29,6 +29,8 @@
                         <div class="card-header">Account Details</div>
                         <ul class="list-group">
                             <li class="list-group-item">
+                                {{ account.name }}
+                            </li><li class="list-group-item">
                                 CreatedAt: {{ account.createdAt|date('Y-m-d') }}
                             </li>
                             <li class="list-group-item">
@@ -36,6 +38,19 @@
                             </li>
                             <li class="list-group-item">
                                 Conceal: {{ badge.status(account.conceal) }}
+                            </li>
+                        </ul>
+                    </div><!-- end card -->
+                </div><!-- end col -->
+                <div class="col">
+                    <div class="card">
+                        <div class="card-header">Billing Details</div>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                Hours: {{ account.billingType.hours }}h / {{ account.billingType.hoursPer }}
+                            </li>
+                            <li class="list-group-item">
+                                Amount: EGP {{ account.billingType.amount|number_format }} / {{ account.billingType.amountPer }}
                             </li>
                         </ul>
                     </div><!-- end card -->
@@ -93,5 +108,3 @@
     </div><!-- end list-group -->
 
 {% endblock %}
-
-{# TODO: show account info     #}

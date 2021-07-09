@@ -1,8 +1,11 @@
 {% extends 'base.html.twig' %}
 {% import "macros/forms.html.twig" as forms %}
 {% import "macros/a.html.twig" as a %}
+{% block panelWrapperClass %}container{% endblock %}
 {% block panelTitle %}Edit Account{% endblock %}
 {% block panelTitleSmall %}{{ account.name }}{% endblock %}
 {% block panelBack %}{{ a.back('accounts_index') }}{% endblock %}
 {% block panelHeadingRight %}{{ forms.delete(delete_form) }}{% endblock %}
-{% block panelBody %}{{ forms.panel(account_form, false) }}{% endblock %}
+{% block panelBody %}
+    {% include 'AppBundle:accounts:_form.html.twig' with {'button_label':'Update'} %}
+{% endblock %}

@@ -27,7 +27,8 @@ class AccountsType extends AbstractType
                     'attr' => array(
                         'class' => 'chosen',
                     ))
-            );
+            )
+            ->add('billingType', BillingTypeType::class);
     }
 
     /**
