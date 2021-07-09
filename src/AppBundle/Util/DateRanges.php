@@ -82,15 +82,13 @@ class DateRanges
     /**
      * The function returns the no. of business days between two dates and it skips the holidays
      *
-     * @param type $startDate
-     * @param type $endDate
-     * @param type $holidays
+     * @param string $startDate
+     * @param string $endDate
      * @return int
      */
     public static function getWorkingDays($startDate, $endDate)
     {
         $holidays = self::getHolidays("egypt");
-        $holidays = [];
 
         $begin = strtotime($startDate);
         $end = strtotime($endDate);
@@ -117,7 +115,8 @@ class DateRanges
         $endDT = new DateTime($endDate);
         foreach ($holidays as $holiday) {
             $dt = new DateTime($holiday[0]);
-            if (($dt->getTimestamp() >= $beginDT->getTimestamp()) && ($dt->getTimestamp() <= $endDT->getTimestamp()) && (in_array($dt->format("N"), [
+            $dtTimestamp = $dt->getTimestamp();
+            if (($dtTimestamp >= $beginDT->getTimestamp()) && ($dtTimestamp <= $endDT->getTimestamp()) && (in_array($dt->format("N"), [
                     5, 6]))) {
                 $holiday_days++;
             }
@@ -151,18 +150,20 @@ class DateRanges
         $holidays = array();
         $items = $dom->getElementsByTagName('tr');
 
-        function tdrows($elements)
-        {
-            $str = "";
-            foreach ($elements as $element) {
-                $str .= $element->nodeValue . ", ";
+        if (!function_exists('AppBundle\Util\tdrows')) {
+            function tdrows($elements)
+            {
+                $str = "";
+                foreach ($elements as $element) {
+                    $str .= $element->nodeValue . ", ";
+                }
+                //This pplaces the items into an array
+                $tempArray = explode(',', $str);
+                //This gets rid of empty array elements
+                unset($tempArray[4]);
+                unset($tempArray[5]);
+                return $tempArray;
             }
-            //This pplaces the items into an array
-            $tempArray = explode(',', $str);
-            //This gets rid of empty array elements
-            unset($tempArray[4]);
-            unset($tempArray[5]);
-            return $tempArray;
         }
 
         foreach ($items as $node) {
@@ -225,7 +226,7 @@ class DateRanges
 
         // Variable that store the date interval
         // of period 1 day
-            $interval = new DateInterval('P1D');
+        $interval = new DateInterval('P1D');
 
         $end->add($interval);
 

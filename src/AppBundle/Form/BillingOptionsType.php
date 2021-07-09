@@ -50,6 +50,7 @@ class BillingOptionsType extends AbstractType
                 'choices' => $days
             ])
             //@todo calculate discounts
+
             ->add('discount', NumberType::class);
     }
 

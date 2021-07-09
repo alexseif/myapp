@@ -7,7 +7,6 @@ use AppBundle\Entity\TaskLists;
 use AppBundle\Entity\WorkLog;
 use AppBundle\Logic\BillingCalculator;
 use AppBundle\Logic\CostOfLifeLogic;
-use AppBundle\Util\DateRanges;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -152,8 +151,8 @@ class WorkLogController extends Controller
 
             $billingType = $task->getAccount()->getClient()->getBillingType();
             if ($billingType) {
-                $billingCalculator = new BillingCalculator();
-                $pricePerUnit = $billingCalculator->getPricePerUnit($billingType);
+                $billingCalculator = new BillingCalculator($billingType);
+                $pricePerUnit = $billingCalculator->getPricePerUnit();
             }
 
             $workLog->setPricePerUnit($pricePerUnit);
@@ -230,8 +229,8 @@ class WorkLogController extends Controller
                 }
                 $billingType = $task->getAccount()->getClient()->getBillingType();
                 if ($billingType) {
-                    $billingCalculator = new BillingCalculator();
-                    $pricePerUnit = $billingCalculator->getPricePerUnit($billingType);
+                    $billingCalculator = new BillingCalculator($billingType);
+                    $pricePerUnit = $billingCalculator->getPricePerUnit();
                 }
                 $task->getWorkLog()->setPricePerUnit($pricePerUnit);
                 $task->getWorklog()->setName($task->getTask());

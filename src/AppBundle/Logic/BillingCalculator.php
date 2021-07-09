@@ -7,37 +7,53 @@ namespace AppBundle\Logic;
 
 
 use AppBundle\Util\DateRanges;
+use DateTime;
 
 class BillingCalculator
 {
+    protected $workingDays;
+    protected $billingType;
+    protected $pricePerUnit;
 
-    public function calculateAmountPerMonthHoursPerDay($billingType)
+    public function __construct($billingType)
     {
-        $fromDate = new \DateTime();
-        $fromDate->setDate($fromDate->format('Y'), $fromDate->format('m'), $billingType['billingOn']);
-        $fromDate->setTime(0, 0, 0);
-        $toDate = new \DateTime();
-        $toDate->setDate($toDate->format('Y'), $toDate->format('m'), $billingType['billingOn']);
-        $toDate->setTime(23, 23, 59);
-        $toDate->modify('+1 month');
-        $workingDays = DateRanges::getWorkingDays($fromDate->format('c'), $toDate->format('c'));
-        $thisMonthHours = ($workingDays * $billingType['hours']);
-        return $billingType['amount'] / $thisMonthHours;
+        $this->billingType = $billingType;
+        $this->setWorkingDays();
 
-    }
-
-    public function getPricePerUnit($billingType)
-    {
-        switch ($billingType['amountPer']) {
+        switch ($this->billingType['amountPer']) {
             case'month':
-                switch ($billingType['hoursPer']) {
+                switch ($this->billingType['hoursPer']) {
                     case 'day':
-                        $pricePerUnit = $this->calculateAmountPerMonthHoursPerDay($billingType);
+                        $this->calculateAmountPerMonthHoursPerDay();
                         break;
                 }
                 break;
         }
-        return $pricePerUnit;
+    }
+
+    public function setWorkingDays()
+    {
+        $fromDate = new DateTime();
+        $fromDate->setDate($fromDate->format('Y'), $fromDate->format('m'), $this->billingType['billingOn']);
+        $fromDate->setTime(0, 0, 0);
+        $toDate = new DateTime();
+        $toDate->setDate($toDate->format('Y'), $toDate->format('m'), $this->billingType['billingOn']);
+        $toDate->setTime(23, 23, 59);
+        $toDate->modify('+1 month');
+        $this->workingDays = DateRanges::getWorkingDays($fromDate->format('c'), $toDate->format('c'));
+    }
+
+    public function calculateAmountPerMonthHoursPerDay()
+    {
+
+        $thisMonthHours = ($this->workingDays * $this->billingType['hours']);
+        $this->pricePerUnit = $this->billingType['amount'] / $thisMonthHours;
+
+    }
+
+    public function getPricePerUnit()
+    {
+        return $this->pricePerUnit;
     }
 
 }

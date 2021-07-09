@@ -7,13 +7,18 @@
     "psr-4": {
       "AppBundle\\": "src/AppBundle"
     },
-    "classmap": ["app/AppKernel.php", "app/AppCache.php"]
+    "classmap": [
+      "app/AppKernel.php",
+      "app/AppCache.php"
+    ]
   },
   "autoload-dev": {
     "psr-4": {
       "Tests\\": "tests/"
     },
-    "files": ["vendor/symfony/symfony/src/Symfony/Component/VarDumper/Resources/functions/dump.php"]
+    "files": [
+      "vendor/symfony/symfony/src/Symfony/Component/VarDumper/Resources/functions/dump.php"
+    ]
   },
   "require": {
     "php": ">=7.2",
@@ -37,9 +42,12 @@
     "symfony/symfony": "^3.4",
     "twig/extensions": "^1.5",
     "twig/twig": "^1.0||^2.0",
-    "zenstruck/backup-bundle": "^1.2"
+    "zenstruck/backup-bundle": "^1.2",
+    "ext-dom": "*",
+    "ext-curl": "*"
   },
   "require-dev": {
+    "roave/security-advisories": "dev-latest",
     "symfony/maker-bundle": "^1.16",
     "symfony/phpunit-bridge": "^3.0"
   },
