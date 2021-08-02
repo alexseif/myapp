@@ -1,57 +1,29 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Hello PlanController!{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/planner.css') }}"/>
+{% endblock %}
 {% block content %}
-    <style>
-        #planner {
-            width: 100%;
-            height: calc(100vh - calc(70px + 6rem));
-            display: flex;
-        }
-
-        #planner #elements {
-            display: none;
-        }
-
-        #planner #canvas {
-            width: 80%;
-            height: 100%;
-            border: 1px solid #0bcb9a;
-            overflow-x: auto;
-            overflow-y: auto;
-        }
-
-        #planner #tools {
-            width: 20%;
-            height: 100%;
-            border: 1px solid #0ebeff;
-        }
-
-        #planner #canvas .item {
-            border: 1px solid #fff;
-            padding: 12px;
-            display: inline-block;
-            min-height: 150px;
-            min-width: 200px;
-            background-color: rgba(0, 0, 0, 0.6);
-        }
-
-        #planner #canvas .item .title {
-            font-weight: bold;
-        }
-    </style>
     <div id="planner">
         <div id="elements">
             <div class="item-template">
                 <div class="item draggable">
                     <div class="title">Title</div>
                     <div class="details">Details</div>
+                    <div class="tools">
+                        <button class="edit-me">Edit Me</button>
+                        <button class="save-me">Save Me</button>
+                    </div>
                 </div><!-- .item -->
             </div><!-- .item-template -->
         </div><!-- #elements -->
         <div id="canvas"></div><!-- #canvas -->
         <div id="tools">
-            <button href="#add" data-template=".item-template" class="add-item btn btn-default">Add Item</button>
+            <div class="btn-group">
+                <button href="#add" data-template=".item-template" class="add-item btn btn-default">Add Item</button>
+            </div>
         </div><!-- #tools -->
     </div><!-- #planner -->
 
@@ -60,54 +32,5 @@
 {% block javascripts %}
     {{ parent() }}
     <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
-    <script>
-        function addItem() {
-            $($($(this).data('template')).html()).clone().appendTo('#canvas');
-        }
-
-        $(function () {
-            $('.add-item').click(addItem);
-        });
-
-        // target elements with the "draggable" class
-        interact('.draggable')
-            .draggable({
-                // enable inertial throwing
-                inertia: true,
-                // keep the element within the area of it's parent
-                modifiers: [
-                    interact.modifiers.restrictRect({
-                        restriction: 'parent',
-                        endOnly: true
-                    })
-                ],
-                // enable autoScroll
-                autoScroll: true,
-
-                listeners: {
-                    // call this function on every dragmove event
-                    move: dragMoveListener,
-
-                    // call this function on every dragend event
-                    end(event) {}
-                }
-            })
-
-        function dragMoveListener(event) {
-            var target = event.target
-            // keep the dragged position in the data-x/data-y attributes
-            var x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx
-            var y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy
-
-            // translate the element
-            target.style.transform = 'translate(' + x + 'px, ' + y + 'px)'
-
-            // update the posiion attributes
-            target.setAttribute('data-x', x)
-            target.setAttribute('data-y', y)
-        }
-
-        // this function is used later in the resizing and gesture demos
-        window.dragMoveListener = dragMoveListener
-    </script>
+    <script src="{{ asset('js/planner.js') }}"></script>
 {% endblock %}
