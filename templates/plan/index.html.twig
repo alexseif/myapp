@@ -23,6 +23,7 @@
         <div id="tools">
             <div class="btn-group">
                 <button href="#add" data-template=".item-template" class="add-item btn btn-default">Add Item</button>
+                <button href="#add" data-template=".item-template" class="add-connection btn btn-default">Add Connection</button>
             </div>
         </div><!-- #tools -->
     </div><!-- #planner -->
@@ -32,5 +33,6 @@
 {% block javascripts %}
     {{ parent() }}
     <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
+    <script src="{{ asset('js/jquery.connections.js') }}"></script>
     <script src="{{ asset('js/planner.js') }}"></script>
 {% endblock %}

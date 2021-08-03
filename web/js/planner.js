@@ -10,6 +10,7 @@ let planner = {
     },
     bindEvents: function () {
         $('.add-item').click(this.addItem);
+        $('.add-connection').click(this.addConnection);
     },
     bindDraggable: function () {
         _self = this;
@@ -44,19 +45,23 @@ let planner = {
             .appendTo('#canvas');
         $('.edit-me').click(planner.editItem);
         $('.save-me').click(planner.saveItem);
+        $('.item').connections();
     },
-    editItem: function (e) {
+    editItem: function () {
         let editingItem = $(this).parents('.item');
         editingItem.children(':not(.tools)').each(function () {
             $(this).data('html', $(this).html());
             $(this).html($('<input name="' + $(this).attr('class') + '" value="' + $(this).text() + '"/>'));
         });
     },
-    saveItem: function (e) {
+    saveItem: function () {
         let savedItem = $(this).parents('.item');
         savedItem.find('input').each(function () {
             $(this).parent().text($(this).val());
         });
+    },
+    addConnection: function () {
+    // add connection code
     },
     dragMoveListener: function (event) {
         var target = event.target;
@@ -70,6 +75,8 @@ let planner = {
         // update the posiion attributes
         target.setAttribute('data-x', x);
         target.setAttribute('data-y', y);
+        $('.item').connections('update');
+
     },
 };
 
@@ -78,3 +85,4 @@ planner.init();
 
 // this function is used later in the resizing and gesture demos
 window.dragMoveListener = planner.dragMoveListener;
+
