@@ -877,4 +877,28 @@ class TasksRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * List of created tasks on a date
+     *
+     * @param DateTime $date
+     * @return array The objects.
+     */
+    public function getOpenCreatedBeforeDate(DateTime $date)
+    {
+        return $this
+            ->createQueryBuilder('t')
+            ->select('t, tl, a, c, r, wl')
+            ->leftJoin('t.workLog', 'wl')
+            ->leftJoin('t.taskList', 'tl')
+            ->leftJoin('tl.account', 'a')
+            ->leftJoin('a.client', 'c')
+            ->leftJoin('c.rates', 'r')
+            ->where('DATE(t.createdAt) >= :date')
+            ->andWhere('t.completed <> TRUE')
+            ->orderBy('t.createdAt')
+            ->setParameter(':date', $date->format('Y-m-d'))
+            ->getQuery()
+            ->getResult();
+    }
+
 }
