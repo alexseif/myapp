@@ -121,6 +121,26 @@ class TasksController extends Controller
     }
 
     /**
+     * Backlog Tasks created earlier than 6 months.
+     *
+     * @Route("/backlog", name="tasks_backlog", methods={"GET"})
+     * @param TasksRepository $tasksRepository
+     * @param Request $request
+     * @return Response
+     */
+    public function backlogAction(TasksRepository $tasksRepository, Request $request): Response
+    {
+        $sixMonthsAgo = new DateTime();
+        $sixMonthsAgo->modify('-6 months');
+        $backlog = $tasksRepository->getOpenCreatedBeforeDate($sixMonthsAgo);
+
+
+        return $this->render("AppBundle:tasks:backlog.html.twig", [
+            'backlog' => $backlog,
+        ]);
+    }
+
+    /**
      * Search all Tasks entities.
      *
      * @Route("/search", name="tasks_search", methods={"GET"})
