@@ -10,6 +10,7 @@ let planner = {
     },
     bindEvents: function () {
         $('.add-item').click(this.addItem);
+        $('.add-tasklist').click(this.addTasklist);
         $('.add-connection').click(this.addConnection);
     },
     bindDraggable: function () {
@@ -61,8 +62,9 @@ let planner = {
         });
     },
     addConnection: function () {
-    // add connection code
+        // add connection code
     },
+
     dragMoveListener: function (event) {
         var target = event.target;
         // keep the dragged position in the data-x/data-y attributes
