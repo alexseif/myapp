@@ -25,7 +25,7 @@
 {# Generic render for link with glyphicon #}
 {% macro linkGlyph(btnClass = 'link', text, path, parameters = {}) %}
     <a href="{{ path(path, parameters) }}" role="button"
-       class="d-print-none hidden-print btn btn-sm  btn-{{ btnClass }}" title="">
+       class="d-print-none hidden-print btn  btn-{{ btnClass }}" title="{{ text }}">
         {% if text starts with 'fa ' or text starts with 'fas ' %}
             <i class="{{ text }}"></i>
         {% else %}

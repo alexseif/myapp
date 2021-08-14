@@ -4,7 +4,8 @@ body {
     /*background: linear-gradient(to bottom right, #222 0%, #303030 100%);*/
     padding-bottom: 6rem;
 }
-body.workarea_workarea{
+
+body.workarea_workarea {
     padding-bottom: 0;
     height: 100vh;
 }
@@ -591,11 +592,26 @@ table.income-progress tr td:last-child {
 }
 
 /** tasks **/
-.card, .card-header{
+.card, .card-header {
     border-radius: 0;
 }
-.card{padding: 0;}
-.card-header{padding: 0.5rem 1rem;}
+
+.card {
+    padding: 0;
+}
+
+.card-header {
+    padding: 0.5rem 1rem;
+}
+
+.card-header h1,
+.card-header h2,
+.card-header h3,
+.card-header h4,
+.card-header h5,
+.card-header form{
+    display: inline-block;
+}
 
 
 /************* Proposals *****************/
@@ -611,4 +627,19 @@ table.income-progress tr td:last-child {
     .proposal-details section {
         page-break-after: always;
     }
+}
+
+/** form-control **/
+.form-control {
+    border: 0;
+    border-bottom: 1px solid #fff;
+    background-color: transparent;
+    color: #fff;
+    border-radius: 0;
+}
+
+.form-control:focus {
+    color: #fff;
+    background-color: transparent;
+    box-shadow: none;
 }

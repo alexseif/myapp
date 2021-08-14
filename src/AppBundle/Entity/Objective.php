@@ -2,6 +2,8 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
@@ -38,6 +40,16 @@ class Objective
      * @ORM\Column(name="description", type="text", nullable=true)
      */
     private $description;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Planner::class, mappedBy="objectives")
+     */
+    private $planners;
+
+    public function __construct()
+    {
+        $this->planners = new ArrayCollection();
+    }
 
     /**
      * Get id.
@@ -95,6 +107,33 @@ class Objective
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * @return Collection|Planner[]
+     */
+    public function getPlanners(): Collection
+    {
+        return $this->planners;
+    }
+
+    public function addPlanner(Planner $planner): self
+    {
+        if (!$this->planners->contains($planner)) {
+            $this->planners[] = $planner;
+            $planner->addObjective($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlanner(Planner $planner): self
+    {
+        if ($this->planners->removeElement($planner)) {
+            $planner->removeObjective($this);
+        }
+
+        return $this;
     }
 
 }

@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+{% import "macros/a.html.twig" as a %}
+
+{% block panelTitle %}Planner: {{ planner.name }}{% endblock %}
+
+{% block panelBack %}{{ a.back('planner_index') }}{% endblock %}
+{% block panelHeadingRight %}
+    {{ a.edit('planner_edit', {'id':planner.id}) }}
+    {{ include('planner/_delete_form.html.twig') }}
+{% endblock %}
+{% block panelBody %}
+    <div class="card-body planner-wrapper">
+        <div class="card-deck">
+            <div class="objectives card">
+                <div class="card-header">
+                    <h3>Objectives</h3>
+                </div>
+                <ul class="list-group">
+                    {% for objective in planner.objectives %}
+                        <li class="list-group-item">
+                            {{ a.show('objective_show', {'id':objective.id}) }}
+                            {{ objective.name }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div><!-- .objectives -->
+            <div class="things card">
+                <div class="card-header">
+                    <h3>Things</h3>
+                </div>
+                <ul class="list-group">
+                    {% for thing in planner.things %}
+                        <li class="list-group-item">
+                            {{ a.show('thing_show', {'id':thing.id}) }}
+                            {{ thing.name }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div><!-- .things -->
+            <div class="tasklists card">
+                <div class="card-header">
+                    <h3>Tasklists</h3>
+                </div>
+                <ul class="list-group">
+                    {% for tasklist in planner.tasklists %}
+                        <li class="list-group-item">
+                            {{ a.show('tasklists_show', {'id':tasklist.id}) }}
+                            {{ tasklist.name }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div><!-- .tasklists -->
+
+
+        </div><!-- .card-deck -->
+    </div><!-- .planner-wrapper -->
+{% endblock %}

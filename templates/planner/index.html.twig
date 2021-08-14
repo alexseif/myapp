@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+{% import "macros/a.html.twig" as a %}
+
+{% block panelTitle %}Planner{% endblock %}
+
+{% block floatingActions %}{{ a.add('planner_new') }}{% endblock %}
+{% block panelBack %} {{ a.back('planner_index') }} {% endblock %}
+{% block panelBody %}
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for planner in planners %}
+            <tr>
+                <td>{{ planner.name }}</td>
+                <td>
+                    {{ a.show('planner_show', {'id':planner.id}) }}
+                    {{ a.edit('planner_edit', {'id':planner.id}) }}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
