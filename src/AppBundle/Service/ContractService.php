@@ -46,6 +46,9 @@ class ContractService
             $monthRemaining = 0;
 
             $monthStart = \AppBundle\Util\DateRanges::getMonthStart();
+            if ($contract->getBilledOn()) {
+                $monthStart->setDate($monthStart->format('Y'), $monthStart->format('m'), $contract->getBilledOn());
+            }
             $monthEnd = new \DateTime();
             if ($contract->getStartedAt() > $monthStart) {
                 $monthStart->setDate($contract->getStartedAt()->format('Y'), $contract->getStartedAt()->format('m'), $contract->getStartedAt()->format('d'));

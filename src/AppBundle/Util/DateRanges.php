@@ -188,7 +188,7 @@ class DateRanges
      */
     public static function getMonthStart($date = "now")
     {
-        $monthStart = new DateTime($date);
+        $monthStart = new \DateTime($date);
         if ($monthStart->format('d') < 25)
             $monthStart->modify("-1 month");
         $monthStart->setTime(0, 0, 0);
