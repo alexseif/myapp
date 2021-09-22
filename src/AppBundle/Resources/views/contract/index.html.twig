@@ -13,6 +13,7 @@
             <th>Name</th>
             <th>Hours per day</th>
             <th>Started At</th>
+            <th>Billed On</th>
             <th>Actions</th>
         </tr>
         </thead>
@@ -22,6 +23,7 @@
                 <td><a href="{{ path('contract_show', { 'id': contract.id }) }}">{{ contract.name }}</a></td>
                 <td>{{ contract.hoursPerDay }}</td>
                 <td>{{ contract.startedAt|date }}</td>
+                <td>{{ contract.billedOn }}</td>
                 <td>
                     {{ a.show('contract_show', { 'id': contract.id }) }}
                     {{ a.linkGlyph('info', 'Log','contract_log_summary', { 'id': contract.id }) }}

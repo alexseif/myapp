@@ -46,7 +46,7 @@ class Contract
     private $hoursPerDay;
 
     /**
-     * @var datetime
+     * @var \DateTime
      *
      * @ORM\Column(name="startedAt", type="date")
      */
@@ -61,6 +61,12 @@ class Contract
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $completedAt;
+
+    /**
+     * Day of month to issue bill
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $billedOn = 25;
 
     /**
      * Get id.
@@ -235,6 +241,18 @@ class Contract
     public function setCompletedAt($completedAt)
     {
         $this->completedAt = $completedAt;
+
+        return $this;
+    }
+
+    public function getBilledOn(): ?int
+    {
+        return $this->billedOn;
+    }
+
+    public function setBilledOn(?int $billedOn): self
+    {
+        $this->billedOn = $billedOn;
 
         return $this;
     }

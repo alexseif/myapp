@@ -3,6 +3,7 @@
 namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -32,6 +33,10 @@ class ContractType extends AbstractType
                 'time_widget' => 'single_text',
                 'date_format' => 'yyyy-MM-dd',
             ))
+            ->add('billedOn', NumberType::class, [
+                'required' => false,
+                'attr' => ['min' => 1, 'max' => 30]
+            ])
             ->add('isCompleted')
             ->add('completedAt', DateTimeType::class, array(
                 'date_widget' => 'single_text',

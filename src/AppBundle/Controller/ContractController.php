@@ -254,8 +254,8 @@ class ContractController extends Controller
                 $contract->setCompletedAt(null);
             }
             $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('contract_edit', ['id' => $contract->getId()]);
+            $this->addFlash('success', 'Contract updated');
+            return $this->redirectToRoute('contract_index');
         }
 
         return $this->render('AppBundle:contract:edit.html.twig', [
