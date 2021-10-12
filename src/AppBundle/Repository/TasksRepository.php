@@ -901,4 +901,21 @@ class TasksRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * Task average duration
+     *
+     * @return float Task average duration.
+     */
+    public function getTaskAverageDuration()
+    {
+        return $this
+            ->createQueryBuilder('t')
+            ->select('avg(t.duration)')
+            ->where('t.completed = TRUE')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+
+
 }

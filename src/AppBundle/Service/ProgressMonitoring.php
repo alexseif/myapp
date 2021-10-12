@@ -6,6 +6,8 @@
 
 namespace AppBundle\Service;
 
+use AppBundle\Entity\AccountTransactions;
+use AppBundle\Entity\Tasks;
 use AppBundle\Util\DateRanges;
 use AppBundle\Util\Formatting;
 use DateTime;
@@ -98,6 +100,12 @@ class ProgressMonitoring
     private $earnedProgress;
 
     /**
+     * @todo move to seperate service
+     * @var array
+     */
+    private $averageReport;
+
+    /**
      * @var RoutineService
      */
     protected $routineService;
@@ -126,6 +134,7 @@ class ProgressMonitoring
         $this->setEarnedThisMonth();
         $this->setEarnedThisWeek();
         $this->setEarnedToday();
+        $this->setAverageReport();
     }
 
     /**
@@ -481,4 +490,26 @@ class ProgressMonitoring
     {
         return $this->routineService->getCurrent();
     }
+
+    /**
+     * @return array
+     */
+    public function getAverageReport(): array
+    {
+        return $this->averageReport;
+    }
+
+    /**
+     * @param array $averageReport
+     */
+    public function setAverageReport(): void
+    {
+
+        $this->averageReport = [
+            "avgDur" => $this->em->getRepository(Tasks::class)->getTaskAverageDuration(),
+            "avgIncome" => $this->em->getRepository(AccountTransactions::class)->getAverage(),
+        ];
+
+    }
+
 }

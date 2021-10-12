@@ -96,6 +96,18 @@
         {% endset %}
         {% include('AppBundle:Dashboard:_widget_flat.html.twig') %}
     </div><!-- col -->
+    <div class="col">
+        {% set widgetClass = 'widget-info' %}
+        {% set widgetBody %}
+            <div class="text-center text-nowrap">
+                <span>{{ pm.averageReport.avgDur }}</span> <i class="fa fa-stopwatch" title="Duration"></i>
+            </div>
+            <div class="text-center text-nowrap">
+                <span>{{ pm.averageReport.avgIncome }}</span> <i class="fa fa-egp" title="Duration"></i>
+            </div>
+        {% endset %}
+        {% include('AppBundle:Dashboard:_widget_flat.html.twig') %}
+    </div><!-- col -->
     {% if(pm.currentRoutine) %}
         <div class="col">
             <div class="card widget-flat widget-primary mb-4">

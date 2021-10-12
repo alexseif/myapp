@@ -19,7 +19,7 @@
 {% endmacro %}
 
 {% macro show(task) %}
-    <div class="card widget-flat widget-{{ (task.urgency)? 'warning' : (task.priority>0)? 'danger': (task.priority<0)?'default':'info' }} task-item {{ task.completed ? "completed" }}"
+    <div class="card widget-flat task-item widget-{{ (task.urgency)? 'warning' : (task.priority>0)? 'danger': (task.priority<0)?'default':'info' }} {{ task.completed ? "completed" }}"
          data-order="id_{{ task.id }}"
          id="task_{{ task.id }}"
          data-id="{{ task.id }}"
@@ -103,12 +103,11 @@
                 </div>
             </div><!-- card-body -->
             <div class="card-footer">
-                <div class="d-flex flex-row justify-content-around text-center">
-
+                <div class="btn-group btn-group-sm d-flex flex-row justify-content-around text-center">
                     {% if(not task.completed) %}
                         <a
                                 href="javascript:void(0);"
-                                class="postpone"
+                                class="postpone btn btn-block btn-outline-info"
                                 data-taskid="{{ task.id }}"
                                 data-postpone="+20 min"
                                 title="20 mins">
@@ -116,7 +115,7 @@
                         </a>
                         <a
                                 href="javascript:void(0);"
-                                class="postpone"
+                                class="postpone btn btn-block btn-outline-info"
                                 data-taskid="{{ task.id }}"
                                 data-postpone="tomorrow"
                                 title="tomorrow">
@@ -124,11 +123,11 @@
                         </a>
                     {% endif %}
                     <!-- item-->
-                    <a href="{{ path('tasks_edit', { 'id': task.id }) }}" title="Edit">
+                    <a href="{{ path('tasks_edit', { 'id': task.id }) }}" title="Edit" class=" btn btn-block btn-outline-info">
                         <i class="fas fa-pencil-alt"></i>
                     </a>
                     <!-- item-->
-                    <a href="{{ path('tasks_show', { 'id': task.id }) }}" title="Show">
+                    <a href="{{ path('tasks_show', { 'id': task.id }) }}" title="Show" class=" btn btn-block btn-outline-info">
                         <i class="fas fa-eye"></i>
                     </a>
                 </div><!-- d-flex -->

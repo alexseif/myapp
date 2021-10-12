@@ -33,13 +33,13 @@
            aria-expanded="false">
             Contracts
         </a>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+        <div class="dropdown-menu p-2" aria-labelledby="dropdownMenuLink">
             {% for contract in contracts %}
                 <a class="dropdown-item"
                    href="{{ path('focus', {'client': contract.client.id}) }}">
                     {{ contract.name }}
                 </a>
-                <div class="progress">
+                <div class="progress p-2">
                     <div class="progress-bar" role="progressbar" aria-valuenow="{{ contract.percentage }}"
                          aria-valuemin="0" aria-valuemax="100" style="width:{{ contract.percentage }}%">
                         {{ contract.percentage|number_format }}%

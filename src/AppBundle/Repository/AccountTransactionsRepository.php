@@ -173,5 +173,19 @@ class AccountTransactionsRepository extends ServiceEntityRepository
         return $qb->getQuery()
             ->getSingleScalarResult();
     }
+    /**
+     *
+     * @return float
+     */
+    public function getAverage()
+    {
+        $qb = $this
+            ->createQueryBuilder('at')
+            ->select('avg(at.amount)')
+            ->where('at.amount < 0');
+
+        return $qb->getQuery()
+            ->getSingleScalarResult();
+    }
 
 }

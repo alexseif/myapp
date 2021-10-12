@@ -45,6 +45,7 @@ tr:hover .edit-link {
 overflow: hidden;
     max-width: 90%;
 }
+.task-item .card-footer,
 .days-table td {
     position: relative;
 }
