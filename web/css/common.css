@@ -234,7 +234,9 @@ label.task {
     max-width: 65vw;
     overflow: hidden;
 }
-
+.btn-group .btn {
+    margin-top: 0.5rem;
+}
 @media (min-width: 768px) {
     label.item,
     label.task {

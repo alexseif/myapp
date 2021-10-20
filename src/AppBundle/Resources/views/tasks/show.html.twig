@@ -10,9 +10,7 @@
     {{ a.back('tasks_index') }}
     <div class="container">
         <div class="text-right">
-      <span class="btn btn-danger mb-4">
-        {{ forms.delete(delete_form) }}
-      </span>
+            {{ forms.delete(delete_form) }}
         </div>
         {{ tasks_view.show(task) }}
     </div><!-- container -->
