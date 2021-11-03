@@ -582,7 +582,7 @@ class TasksRepository extends ServiceEntityRepository
             ->setParameter(':client', $client)
             ->setParameter(':date', $date->format('Y-m-d H:i'))
             ->getQuery()
-            ->getSingleResult();
+            ->getSingleScalarResult();
     }
 
     public function sumDurationByClientByDate($client, $date)

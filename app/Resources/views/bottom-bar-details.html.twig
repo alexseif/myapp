@@ -39,10 +39,16 @@
                    href="{{ path('focus', {'client': contract.client.id}) }}">
                     {{ contract.name }}
                 </a>
-                <div class="progress p-2">
-                    <div class="progress-bar" role="progressbar" aria-valuenow="{{ contract.percentage }}"
-                         aria-valuemin="0" aria-valuemax="100" style="width:{{ contract.percentage }}%">
-                        {{ contract.percentage|number_format }}%
+                <div class="progress" title="todaysProgress - {{ contract.progress.dailyTarget/60 }}">
+                    <div class="progress-bar" role="progressbar" aria-valuenow="{{ contract.progress.todaysProgress }}"
+                         aria-valuemin="0" aria-valuemax="100" style="width:{{ contract.progress.todaysProgress }}%">
+                        {{ contract.progress.todaysProgress|number_format }}%
+                    </div>
+                </div>
+                <div class="progress" title="contractProgress - {{ contract.progress.monthlyMinutes/60 }}">
+                    <div class="progress-bar" role="progressbar" aria-valuenow="{{ contract.progress.contractProgress }}"
+                         aria-valuemin="0" aria-valuemax="100" style="width:{{ contract.progress.contractProgress }}%">
+                        {{ contract.progress.contractProgress|number_format }}%
                     </div>
                 </div>
             {% endfor %}

@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Model\ContractProgress;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
@@ -67,6 +68,11 @@ class Contract
      * @ORM\Column(type="integer", nullable=true)
      */
     private $billedOn = 25;
+
+    /**
+     * @var ContractProgress
+     */
+    private $progress;
 
     /**
      * Get id.
@@ -255,6 +261,22 @@ class Contract
         $this->billedOn = $billedOn;
 
         return $this;
+    }
+
+    /**
+     * @return ContractProgress
+     */
+    public function getProgress(): ContractProgress
+    {
+        return $this->progress;
+    }
+
+    /**
+     * @param ContractProgress $progress
+     */
+    public function setProgress(ContractProgress $progress): void
+    {
+        $this->progress = $progress;
     }
 
 }

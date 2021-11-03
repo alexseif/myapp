@@ -50,6 +50,7 @@ class DateRanges
     }
 
     /**
+     * @TODO remove and usages migrating to new function
      * Returns number of working days
      * https://stackoverflow.com/a/19221403/1030170
      * @param DateTime $from
@@ -59,10 +60,7 @@ class DateRanges
     public static function numberOfWorkingDays($from, $to)
     {
         $workingDays = [1, 2, 3, 4, 7]; # date format = N (1 = Monday, ...)
-        $holidayDays = ['*-12-25', '*-01-01', '2013-12-23']; # variable and fixed holidays
-//    $from = new \DateTime($from);
-//    $to = new \DateTime($to);
-//    $to->modify('+1 day');
+        $holidayDays = ['*-12-25', '*-01-01', '*-10-29']; # variable and fixed holidays
         $interval = new DateInterval('P1D');
         $periods = new DatePeriod($from, $interval, $to);
 
