@@ -22,16 +22,22 @@
     </div><!-- end card -->
     <div class="card">
         <div class="card-header">Billing Details</div>
-        <ul class="list-group">
-            <li class="list-group-item">
-                Hours: {{ client.billingOption.hours }}h / {{ client.billingOption.hoursPer }}
-            </li>
-            <li class="list-group-item">
-                Amount: EGP {{ client.billingOption.amount|number_format }} / {{ client.billingOption.amountPer }}
-            </li>
-            <li class="list-group-item">
-                Billing On:  {{ client.billingOption.billingOn }}
-            </li>
-        </ul>
+        {% if client.billingOption %}
+            <ul class="list-group">
+                <li class="list-group-item">
+                    Hours: {{ client.billingOption.hours }}h / {{ client.billingOption.hoursPer }}
+                </li>
+                <li class="list-group-item">
+                    Amount: EGP {{ client.billingOption.amount|number_format }} / {{ client.billingOption.amountPer }}
+                </li>
+                <li class="list-group-item">
+                    Billing On: {{ client.billingOption.billingOn }}
+                </li>
+            </ul>
+        {% else %}
+            <div class="card-body">
+                No billing Options
+            </div>
+        {% endif %}
     </div><!-- end card -->
 </div>
