@@ -835,6 +835,13 @@ class TasksRepository extends ServiceEntityRepository
             ->getSingleScalarResult();
     }
 
+    /**
+     * @param $from
+     * @param $to
+     * @return int
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
     public function getDurationSumByRange($from, $to)
     {
         $qb = $this->createQueryBuilder('t')
@@ -843,7 +850,7 @@ class TasksRepository extends ServiceEntityRepository
             ->setParameter(":from", $from)
             ->setParameter(":to", $to);
 
-        return $qb->getQuery()
+        return (int)$qb->getQuery()
             ->getSingleScalarResult();
     }
 
@@ -915,7 +922,6 @@ class TasksRepository extends ServiceEntityRepository
             ->getQuery()
             ->getSingleScalarResult();
     }
-
 
 
 }

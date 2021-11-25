@@ -28,6 +28,7 @@ class ContractProgress
      */
     private $dailyTarget, $monthlyMinutes, $workedMinutes, $workingDaysSoFar, $remainingDays, $minutesPerDay, $workedMinutesToday;
 
+
     /**
      * @var \DateTime
      */
@@ -46,7 +47,7 @@ class ContractProgress
         }
         $this->monthEnd = clone $this->monthStart;
         $this->monthEnd->modify('+1 month');
-        $this->workedMinutes = $tasksRepository->getDurationSumByRange($this->getMonthStart(), $this->getMonthEnd());
+        $this->setWorkedMinutes($tasksRepository->getDurationSumByRange($this->getMonthStart(), $this->getMonthEnd()));
         $this->workedMinutesToday = $tasksRepository->findCompletedByClientToday($contract->getClient());
         $this->calcContractProgress();
 
