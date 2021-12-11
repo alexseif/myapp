@@ -24,7 +24,7 @@
             <th>Date</th>
             <td>
                 {{ holiday.date ? holiday.date|date('Y-m-d', timezone) : '' }}
-                <span class="badge badge-info">{{ holiday.date ? holiday.date|time_diff : '' }}</span>
+                <span class="badge badge-info">{{ holiday.date ? holiday.date|ago : '' }}</span>
             </td>
         </tr>
         </tbody>

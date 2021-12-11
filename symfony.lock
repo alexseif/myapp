@@ -1,0 +1,38 @@
+{
+    "friendsofphp/proxy-manager-lts": {
+        "version": "v1.0.5"
+    },
+    "knplabs/knp-time-bundle": {
+        "version": "1.17.0"
+    },
+    "laminas/laminas-code": {
+        "version": "3.4.1"
+    },
+    "laminas/laminas-eventmanager": {
+        "version": "3.4.0"
+    },
+    "laminas/laminas-zendframework-bridge": {
+        "version": "1.4.0"
+    },
+    "psr/link": {
+        "version": "1.0.0"
+    },
+    "symfony/contracts": {
+        "version": "v1.1.11"
+    },
+    "symfony/flex": {
+        "version": "1.17",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "1.0",
+            "ref": "c0eeb50665f0f77226616b6038a9b06c03752d8e"
+        },
+        "files": [
+            ".env"
+        ]
+    },
+    "symfony/symfony": {
+        "version": "v4.4.35"
+    }
+}

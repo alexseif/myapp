@@ -3,7 +3,8 @@
 {% import "macros/a.html.twig" as a %}
 {% block panelBack %}{{ a.back('notes_show', {'id':note.id}) }}{% endblock %}
 {% block panelTitle %}Edit note{% endblock %}
-{% block panelTitleSmall %}{{ note.note|truncate(10) }}{% endblock %}
+{#{% block panelTitleSmall %}{{ note.note|truncate(10) }}{% endblock %}#}
+{% block panelTitleSmall %}{{ note.note }}{% endblock %}
 {% block panelTitleLabels %}
     <span class="badge badge-info">{{ note.type|title }}</span>
     <span class="badge badge-primary">

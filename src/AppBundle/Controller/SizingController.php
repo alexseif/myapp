@@ -26,12 +26,12 @@ class SizingController extends Controller
      * @param Request $request
      * @return Response
      */
-    public function index(Request $request): Response
+    public function index(Request $request, TaskListsRepository $taskListsRepository): Response
     {
-        $tasklists = $this->get(TaskListsRepository::class)->findActive();
+        $tasklists = $taskListsRepository->findActive();
         if ($request->get('account')) {
             $account = $request->get('account');
-            $tasklists = $this->get(TaskListsRepository::class)->findBy([
+            $tasklists = $taskListsRepository->findBy([
                 'account' => $account
             ]);
         }

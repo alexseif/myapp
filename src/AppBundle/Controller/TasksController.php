@@ -264,10 +264,10 @@ class TasksController extends Controller
      * @return Response
      * @throws Exception
      */
-    public function new(Request $request): Response
+    public function new(Request $request, TaskListsRepository $taskListsRepository): Response
     {
 
-        $task = $this->createNewTask($this->get(TaskListsRepository::class), $request);
+        $task = $this->createNewTask($taskListsRepository, $request);
 
         $form = $this->createForm(TasksType::class, $task);
         $form->handleRequest($request);
@@ -307,6 +307,36 @@ class TasksController extends Controller
         ]);
     }
 
+    public function editXML(Request $request, Tasks $task)
+    {
+
+        if (!is_null($request->get('postpone'))) {
+            $postpone = $request->get('postpone');
+            $eta = new DateTime($request->get('postpone'));
+            if ("tomorrow" === $postpone) {
+                $eta->setTime(8, 0);
+            }
+            $task->setEta($eta);
+        }
+
+        if (!is_null($request->get('undo'))) {
+            $task->setEta(null);
+        }
+        if (!is_null($request->get('completed'))) {
+            $task->setCompleted($request->get('completed'));
+            $task->setDuration($request->get('duration'));
+            if ($task->getCompleted()) {
+                $task->setCompletedAt(new DateTime());
+            } else {
+                $task->setCompletedAt(null);
+            }
+        }
+        $this->getDoctrine()->getManager()->flush();
+
+        return new JsonResponse();
+
+    }
+
     /**
      * @Route("/{id}/edit", name="tasks_edit", methods={"GET","POST"})
      * @param Request $request
@@ -316,33 +346,9 @@ class TasksController extends Controller
      */
     public function edit(Request $request, Tasks $task): Response
     {
-        $em = $this->getDoctrine()->getManager();
 
         if ($request->isXMLHttpRequest()) {
-
-            if (!is_null($request->get('postpone'))) {
-                $postpone = $request->get('postpone');
-                $eta = new DateTime($request->get('postpone'));
-                if ("tomorrow" === $postpone) {
-                    $eta->setTime(8, 0);
-                }
-                $task->setEta($eta);
-            }
-
-            if (!is_null($request->get('undo'))) {
-                $task->setEta(null);
-            }
-            if (!is_null($request->get('completed'))) {
-                $task->setCompleted($request->get('completed'));
-                $task->setDuration($request->get('duration'));
-                if ($task->getCompleted()) {
-                    $task->setCompletedAt(new DateTime());
-                } else {
-                    $task->setCompletedAt(null);
-                }
-            }
-            $em->flush();
-            return new JsonResponse();
+            return $this->editXML($request, $task);
         }
 
         $form = $this->createForm(TasksType::class, $task);
@@ -367,7 +373,6 @@ class TasksController extends Controller
 
             return $this->redirectToRoute('tasks_show', array('id' => $task->getId()));
 
-//            return $this->redirectToRoute('tasks_index');
         }
 
         return $this->render('tasks/edit.html.twig', [

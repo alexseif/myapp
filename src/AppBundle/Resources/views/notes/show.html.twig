@@ -3,7 +3,8 @@
 {% import "macros/a.html.twig" as a %}
 {% block floatingActions %}{{ a.add('notes_new') }}{% endblock %}
 {% block panelBack %}{{ a.back('notes_index') }}{% endblock %}
-{% block panelTitle %}{{ note.note|striptags|truncate(50)|title }}{% endblock %}
+{#{% block panelTitle %}{{ note.note|striptags|truncate(50)|title }}{% endblock %}#}
+{% block panelTitle %}{{ note.note|striptags|title }}{% endblock %}
 {% block panelTitleLabels %}
     <span class="badge badge-info">{{ note.type|title }}</span>
     {% if note.createdAt %}

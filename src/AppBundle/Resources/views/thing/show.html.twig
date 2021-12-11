@@ -14,7 +14,7 @@
         <div class="d-flex w-100 justify-content-between">
             <h5 class="mb-1">{{ thing.name }}</h5>
             {% if thing.createdAt %}<small class="text-muted"
-                                           title="{{ thing.createdAt|date }}">{{ thing.createdAt|time_diff }}</small>{% endif %}
+                                           title="{{ thing.createdAt|date }}">{{ thing.createdAt|ago }}</small>{% endif %}
         </div>
     </div>
 {% endblock %}

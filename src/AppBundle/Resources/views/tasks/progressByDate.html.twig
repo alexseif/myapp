@@ -18,7 +18,7 @@
     </style>
     <div class='row'>
         <div class='col-lg-6'>
-            <h3>{{ date|time_diff }} Activity</h3>
+            <h3>{{ date|ago }} Activity</h3>
         </div>
         <div class='col-lg-6 text-right'>
             {{ form(form, {'attr': {'class': 'form-inline float-right'} }) }}
@@ -27,19 +27,19 @@
     <hr/>
     <div class="card-deck">
         <div class="card">
-            <div class="card-header">Completed {{ date|time_diff }}</div>
+            <div class="card-header">Completed {{ date|ago }}</div>
             <div class="card-body">
                 {{ tasks_view.ul(completedYesterday) }}
             </div>
         </div>
         <div class="card">
-            <div class="card-header">Added {{ date|time_diff }}</div>
+            <div class="card-header">Added {{ date|ago }}</div>
             <div class="card-body">
                 {{ tasks_view.ul(createdYesterday) }}
             </div>
         </div>
         <div class="card">
-            <div class="card-header">Updated {{ date|time_diff }}</div>
+            <div class="card-header">Updated {{ date|ago }}</div>
             <div class="card-body">
                 {{ tasks_view.ul(updatedYesterday) }}
             </div>

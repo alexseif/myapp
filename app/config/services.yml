@@ -33,52 +33,43 @@ services:
     # AppBundle\Service\ExampleService:
     #     arguments:
     #         $someArgument: 'some_value'
-    
-    twig.extension.text:
-      class: Twig_Extensions_Extension_Text
-      tags:
-          - { name: twig.extension }
-    
-    twig.extension.date:
-      class: Twig_Extensions_Extension_Date
-      tags:
-          - { name: twig.extension }
-          
+
+
     myapp.currency:
       class:  AppBundle\Service\CurrencyService
       arguments: [ '@doctrine.orm.entity_manager' ]
       public: true
-    
+
     myapp.cost:
       class:  AppBundle\Service\CostService
       arguments: [ '@doctrine.orm.entity_manager', '@myapp.currency' ]
       public: true
-      
+
     myapp.rate.calculator:
       class:  AppBundle\Service\RateCalculator
       arguments: [ '@doctrine.orm.entity_manager' ]
       public: true
-      
+
     myapp.contract:
       class:  AppBundle\Service\ContractService
       arguments: [ '@doctrine.orm.entity_manager', '@myapp.cost' ]
       public: true
-      
+
     myapp.bottomBar:
       class:  AppBundle\Service\BottomBar
       arguments: [ '@doctrine.orm.entity_manager', '@myapp.cost', '@myapp.contract' ]
       public: true
-      
+
     myapp.progressMonitoring:
       class: AppBundle\Service\ProgressMonitoring
       arguments: [ '@doctrine.orm.entity_manager', '@myapp.cost' ]
       public: true
-      
+
     myapp.workingdays:
       class:  AppBundle\Service\WorkingDays
       arguments: [ '@doctrine.orm.entity_manager' ]
       public: true
-      
+
     myapp.dayManager:
       class: AppBundle\Service\DayManager
       arguments: []
