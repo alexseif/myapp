@@ -8,6 +8,7 @@ namespace AppBundle\Service;
 
 use AppBundle\Entity\TaskLists;
 use AppBundle\Entity\Tasks;
+use AppBundle\Repository\TasksRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
@@ -19,10 +20,12 @@ class TasksService
 {
 
     protected $em;
+    protected $tasksRepository;
 
-    function __construct(EntityManagerInterface $em)
+    function __construct(EntityManagerInterface $em, TasksRepository $tasksRepository)
     {
         $this->em = $em;
+        $this->tasksRepository = $tasksRepository;
     }
 
     /**
@@ -31,7 +34,7 @@ class TasksService
      */
     public function getRepository()
     {
-        return $this->getEm()->getRepository(Tasks::class);
+        return $this->tasksRepository;
     }
 
     function getEm()
@@ -126,4 +129,5 @@ class TasksService
         }
         return $piechart;
     }
+
 }

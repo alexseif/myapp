@@ -16,17 +16,29 @@ class SchedulerController extends AbstractController
      */
     public function index(TasksRepository $tasksRepository): Response
     {
-        $focusTasks = $tasksRepository->focusList(30);
+        $date = new \DateTime();
+        $focusTasks = $tasksRepository->focusListWithMeAndDate($date);
         $tasksCount = count($focusTasks);
         $week_days = DateRanges::getWorkWeek();
+        $day = date('w');
+        $week_start = new \DateTime(date('Y-m-d', strtotime('-' . $day . ' days')));
+        $week_end = new \DateTime(date('Y-m-d', strtotime('+' . (5 - $day) . ' days')));
+        $interval = \DateInterval::createFromDateString('1 day');
+        $period = new \DatePeriod($week_start, $interval, $week_end);
+        $focus = [];
         $i = 0;
-        foreach ($week_days as $dayKey => $week_day) {
-            $focus['days'][$dayKey] = [];
+        foreach ($period as $dt) {
             $dayLength = 8 * 60;
+            $completedTasks = $tasksRepository->getCompletedByDate($dt);
+            $focus[$dt->format('l')] = [];
+            foreach ($completedTasks as $task) {
+                $focus[$dt->format('l')][] = $task;
+            }
+            $focusTasks = $tasksRepository->focusListWithMeAndDate($dt);
             while ($i < $tasksCount) {
                 if ($dayLength > 0) {
                     $dayLength -= ($focusTasks[$i]->getEst()) ?: 60;
-                    $focus['days'][$dayKey][] = $focusTasks[$i];
+                    $focus[$dt->format('l')][] = $focusTasks[$i];
                     $i++;
                 } else {
                     break;

@@ -198,7 +198,7 @@ label#focus-switch:active:after {
     flex-direction: row;
 }
 .week .day{
-    flex: 1 1 auto;
+    flex: 1 1 100%;
     border-right: 1px dashed #ccc;
     min-height: 70vh;
 }
