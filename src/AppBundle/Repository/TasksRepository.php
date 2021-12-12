@@ -26,7 +26,7 @@ class TasksRepository extends ServiceEntityRepository
     const SELECT = 't, tl, a, c, r, wl';
     const MYSQL_DATE_FORMAT = 'Y-m-d H:i';
     const TASKLIST = 't.taskList';
-    const WORKLOG = 't.worklog';
+    const WORKLOG = 't.workLog';
     const ETA_TODAY = 't.eta <= :today OR t.eta IS NULL';
     const TODAY = ':today';
     const DATE = ':date';
