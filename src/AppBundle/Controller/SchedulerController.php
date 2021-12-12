@@ -16,8 +16,9 @@ class SchedulerController extends AbstractController
      */
     public function index(TasksRepository $tasksRepository): Response
     {
+        $tasked = [];
         $date = new \DateTime();
-        $focusTasks = $tasksRepository->focusListWithMeAndDate($date);
+        $focusTasks = $tasksRepository->focusListWithMeAndDateAndNotTasks($date, $tasked);
         $tasksCount = count($focusTasks);
         $week_days = DateRanges::getWorkWeek();
         $day = date('w');
@@ -33,12 +34,14 @@ class SchedulerController extends AbstractController
             $focus[$dt->format('l')] = [];
             foreach ($completedTasks as $task) {
                 $focus[$dt->format('l')][] = $task;
+                $dayLength -= $task->getDuration();
             }
-            $focusTasks = $tasksRepository->focusListWithMeAndDate($dt);
+            $focusTasks = $tasksRepository->focusListWithMeAndDateAndNotTasks($dt, $tasked);
             while ($i < $tasksCount) {
                 if ($dayLength > 0) {
                     $dayLength -= ($focusTasks[$i]->getEst()) ?: 60;
                     $focus[$dt->format('l')][] = $focusTasks[$i];
+                    $tasked[] = $focusTasks[$i]->getId();
                     $i++;
                 } else {
                     break;
