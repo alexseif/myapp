@@ -66,12 +66,15 @@ class DateRanges
 
         $days = 0;
         foreach ($periods as $period) {
-            if (!in_array($period->format('N'), $workingDays))
+            if (!in_array($period->format('N'), $workingDays)) {
                 continue;
-            if (in_array($period->format('Y-m-d'), $holidayDays))
+            }
+            if (in_array($period->format('Y-m-d'), $holidayDays)) {
                 continue;
-            if (in_array($period->format('*-m-d'), $holidayDays))
+            }
+            if (in_array($period->format('*-m-d'), $holidayDays)) {
                 continue;
+            }
             $days++;
         }
         return $days - 1;
@@ -169,7 +172,7 @@ class DateRanges
                 $holidays[] = tdrows($node->childNodes);
             }
         }
-//The first and second items in the array were the titles of the table and a blank row 
+//The first and second items in the array were the titles of the table and a blank row
 //so we unset them
         unset($holidays[0]);
 //    unset($holidays[1]);
@@ -187,8 +190,9 @@ class DateRanges
     public static function getMonthStart($date = "now")
     {
         $monthStart = new \DateTime($date);
-        if ($monthStart->format('d') < 25)
+        if ($monthStart->format('d') < 25) {
             $monthStart->modify("-1 month");
+        }
         $monthStart->setTime(0, 0, 0);
         $monthStart->setDate($monthStart->format("Y"), $monthStart->format("m"), 25);
 
@@ -203,8 +207,9 @@ class DateRanges
     public static function getMonthEnd($date = "now")
     {
         $monthEnd = new DateTime($date);
-        if ($monthEnd->format('d') >= 25)
+        if ($monthEnd->format('d') >= 25) {
             $monthEnd->modify("+1 month");
+        }
         $monthEnd->setTime(23, 59, 59);
         $monthEnd->setDate($monthEnd->format('Y'), $monthEnd->format('m'), 24);
 
@@ -238,4 +243,17 @@ class DateRanges
         // Return the array elements
         return $array;
     }
+
+    /**
+     * @return array of days in a working week starting Sunday
+     */
+    public static function getWorkWeek()
+    {
+        $day_start = date("d", strtotime("next Sunday")); // get next Sunday
+        for ($x = 0; $x < 5; $x++) {
+            $week_days[] = date("l", mktime(0, 0, 0, date("m"), $day_start + $x, date("y")));
+        } // create weekdays array.
+        return $week_days;
+    }
+
 }

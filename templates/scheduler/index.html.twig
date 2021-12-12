@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+{% import "macros/forms.html.twig" as forms %}
+{% import "macros/a.html.twig" as a %}
+{% import "AppBundle:tasks:tasks_macros.html.twig" as tasks_view %}
+
+{% block floatingActions %}{{ a.add('tasks_new') }}{% endblock %}
+
+{% block panelTitle %}Scheduler{% endblock %}
+
+{% block panelBody %}
+    <div class="week">
+        {% for day_key, week_day in week_days %}
+            <div class="day">
+                <div class="day-title">{{ week_day }}</div>
+{#                <ul class="list-group day-body" data-day-lenght="{{ 8 * 60 }}">#}
+{#                    {% for day in  %}#}
+                        {{ tasks_view.ul(focus.days[day_key]) }}
+
+{#                        <li class="list-group-item task" data-est="{{ task.est }}">#}
+{#                            {{ task.task }}#}
+{#                            <span class="tasklist badge badge-primary">{{ task.taskList.name }}</span>#}
+{#                            <span class="eta badge badge-info">{{ task.est }}</span>#}
+{#                            {{ a.edit('tasks_edit', {'id': task.id}) }}#}
+{#                        </li>#}
+{#                    {% endfor %}#}
+{#                </ul>#}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

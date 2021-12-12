@@ -190,3 +190,22 @@ input#focus-switch:checked + label:after {
 label#focus-switch:active:after {
     width: 52px;
 }
+
+
+/** Scheduler **/
+.week{
+    display: flex;
+    flex-direction: row;
+}
+.week .day{
+    flex: 1 1 auto;
+    border-right: 1px dashed #ccc;
+    min-height: 70vh;
+}
+.week .day:last-child {
+    border-right: 0;
+}
+.week .day .day-title{
+    border-bottom: 1px dashed #ccc;
+    text-align: center;
+}
