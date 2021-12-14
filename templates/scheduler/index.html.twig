@@ -9,21 +9,10 @@
 
 {% block panelBody %}
     <div class="week">
-        {% for day, tasks in focus %}
+        {% for day, scheduler in schedulers %}
             <div class="day">
-                <div class="day-title">{{ day }}</div>
-                {#                <ul class="list-group day-body" data-day-lenght="{{ 8 * 60 }}"> #}
-                {#                    {% for day in  %} #}
-                {{ tasks_view.ul(tasks) }}
-
-                {#                        <li class="list-group-item task" data-est="{{ task.est }}"> #}
-                {#                            {{ task.task }} #}
-                {#                            <span class="tasklist badge badge-primary">{{ task.taskList.name }}</span> #}
-                {#                            <span class="eta badge badge-info">{{ task.est }}</span> #}
-                {#                            {{ a.edit('tasks_edit', {'id': task.id}) }} #}
-                {#                        </li> #}
-                {#                    {% endfor %} #}
-                {#                </ul> #}
+                <div class="day-title">{{ scheduler.dayName }}</div>
+                {{ tasks_view.ul(scheduler.tasks) }}
             </div>
         {% endfor %}
     </div>

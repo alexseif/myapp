@@ -315,14 +315,16 @@ class TasksRepository extends ServiceEntityRepository
             ->leftJoin(self::CLIENT, 'c')
             ->leftJoin(self::WORKLOG, 'wl')
             ->where(self::NOT_COMPLETED)
-            ->andWhere('DATE(t.eta) <= :date OR t.eta IS NULL')
-            ->andWhere('t.id NOT IN (:taskIds)')
-            ->orderBy(self::URGENCY, "DESC")
+            ->andWhere('DATE(t.eta) <= :date OR t.eta IS NULL');
+        if (count($taskIds)) {
+            $queryBuilder->andWhere('t.id NOT IN (:taskIds)')
+                ->setParameter(':taskIds', $taskIds);
+        }
+        $queryBuilder->orderBy(self::URGENCY, "DESC")
             ->addOrderBy(self::PRIORTIY, "DESC")
             ->addOrderBy(self::ORDER, "ASC")
             ->addOrderBy("tl.id", "ASC")
-            ->setParameter(self::DATE, $date->format('Y-m-d'))
-            ->setParameter(':taskIds', implode(',', $taskIds));
+            ->setParameter(self::DATE, $date->format('Y-m-d'));
 
         if ($limit > 0 && is_int($limit)) {
             $queryBuilder->setMaxResults($limit);
