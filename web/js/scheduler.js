@@ -12,7 +12,7 @@ let pad = function (num, size = 2) {
 $(function () {
     let today = new Date();
     $('.today .task-item:not(.completed)').each(function () {
-        $est = ($(this).data('est'));
+        let $est = ($(this).data('est'));
         $est = ($est) ? $est : 60;
         today = add_minutes(today, $est);
         $(this).attr('title', today.getHours() + ":" + today.getMinutes());
