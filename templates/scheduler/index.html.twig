@@ -12,7 +12,7 @@
         {% for day, scheduler in schedulers %}
             <div class="day {{ (scheduler.date < scheduler.today)? "past" : "future" }} {{ (scheduler.date == scheduler.today)? "today" }}">
                 <div class="day-title">{{ scheduler.dayName }}</div>
-                {{ tasks_view.ul(scheduler.tasks) }}
+                {{ tasks_view.ul(scheduler.tasks, {'id': scheduler.dayName|lower}) }}
             </div>
         {% endfor %}
     </div>
