@@ -40,11 +40,13 @@ tr:hover .edit-link {
 .task-item:hover .edit-link {
     display: inline;
 }
+
 .item-item .item-label,
-.task-item .task-label{
-overflow: hidden;
+.task-item .task-label {
+    overflow: hidden;
     max-width: 90%;
 }
+
 .task-item .card-footer,
 .days-table td {
     position: relative;
@@ -65,6 +67,7 @@ overflow: hidden;
 .task-list .task-item {
     overflow: hidden;
 }
+
 /** Notes **/
 body.notes {
     background: #e8e8e8
@@ -193,19 +196,34 @@ label#focus-switch:active:after {
 
 
 /** Scheduler **/
-.week{
+.week {
     display: flex;
     flex-direction: row;
 }
-.week .day{
+
+.week .day {
     flex: 1 1 100%;
     border-right: 1px dashed #ccc;
     min-height: 70vh;
 }
+
+.week .day.past {
+    opacity: 0.4;
+}
+
+.week .day.future {
+    opacity: 0.8;
+}
+
+.week .day.today {
+    opacity: 1;
+}
+
 .week .day:last-child {
     border-right: 0;
 }
-.week .day .day-title{
+
+.week .day .day-title {
     border-bottom: 1px dashed #ccc;
     text-align: center;
 }

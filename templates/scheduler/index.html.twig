@@ -10,10 +10,14 @@
 {% block panelBody %}
     <div class="week">
         {% for day, scheduler in schedulers %}
-            <div class="day">
+            <div class="day {{ (scheduler.date < scheduler.today)? "past" : "future" }} {{ (scheduler.date == scheduler.today)? "today" }}">
                 <div class="day-title">{{ scheduler.dayName }}</div>
                 {{ tasks_view.ul(scheduler.tasks) }}
             </div>
         {% endfor %}
     </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('/js/scheduler.js') }}"></script>
 {% endblock %}
