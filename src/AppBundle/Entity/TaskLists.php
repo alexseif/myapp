@@ -174,13 +174,24 @@ class TaskLists
     public function getDurationTotal($showComplete = true)
     {
         $durationTotal = 0;
-        $tasks = $this->getTasks($showComplete);
-        foreach ($tasks as $task) {
+        foreach ($this->getTasks($showComplete) as $task) {
             $durationTotal += $task->getDuration();
         }
         $today = new DateTime();
         $endDay = new DateTime();
         $endDay->add(DateInterval::createFromDateString($durationTotal . " minutes"));
+        return $endDay->diff($today);
+    }
+
+    public function getEstTotal($showComplete = false)
+    {
+        $estTotal = 0;
+        foreach ($this->getTasks($showComplete) as $task) {
+            $estTotal += ($task->getEst()) ?: 60;
+        }
+        $today = new DateTime();
+        $endDay = new DateTime();
+        $endDay->add(DateInterval::createFromDateString($estTotal . " minutes"));
         return $endDay->diff($today);
     }
 

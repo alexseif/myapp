@@ -12,29 +12,29 @@
         {% if taskList.tasks|length %}
             {% set tasks = taskList.tasks(false) %}
             <div class="card">
-                <button class="text-left bg-transparent border-0 p-0" type="button" data-toggle="collapse"
-                        data-target="#taskList-{{ taskList.id }}" aria-expanded="false"
-                        aria-controls="taskList-{{ taskList.id }}">
-                    <div class="card-header px-3 py-2">
-            <span class="card-title mr-2">
-              <a href="{{ path('tasklists_show', {"id":taskList.id}) }}">{{ taskList.name }}</a>
-            </span>
+                <div class="card-header px-3 py-2">
+                    <button class="btn btn-block text-left bg-transparent border-0 p-0" type="button" data-toggle="collapse"
+                            data-target="#taskList-{{ taskList.id }}" aria-expanded="false"
+                            aria-controls="taskList-{{ taskList.id }}">
+                        <span class="card-title mr-2">
+                          <a href="{{ path('tasklists_show', {"id":taskList.id}) }}">{{ taskList.name }}</a>
+                        </span>
                         <span class="card-title-labels">
-              {% if (taskList.account) %}
-                  <a href="{{ path('accounts_show', {'id': taskList.account.id}) }}"
-                     class="badge badge-info">{{ taskList.account.name }}</a>
-                {% if (taskList.account.client) %}
-                  <a href="{{ path('client_show', {'id': taskList.account.client.id}) }}"
-                     class="badge badge-primary">{{ taskList.account.client.name }}</a>
-              {% endif %}
-              {% endif %}
-            </span>
-                        <div class="float-right">
+                          {% if (taskList.account) %}
+                              <a href="{{ path('accounts_show', {'id': taskList.account.id}) }}"
+                                 class="badge badge-info">{{ taskList.account.name }}</a>
+                            {% if (taskList.account.client) %}
+                              <a href="{{ path('client_show', {'id': taskList.account.client.id}) }}"
+                                 class="badge badge-primary">{{ taskList.account.client.name }}</a>
+                          {% endif %}
+                          {% endif %}
+                        </span>
+                        <span class="float-right">
                             <span class="badge badge-dark">{{ tasks.count }}</span>
-                            <span class="badge badge-info">{{ taskList.durationTotal(false)|date("%d %H:%I") }}</span>
-                        </div>
-                    </div>
-                </button>
+                            <span class="badge badge-primary">{{ taskList.estTotal|date("%d %H:%I") }}</span>
+                        </span>
+                    </button>
+                </div>
                 <div class="collapse" id="taskList-{{ taskList.id }}">
                     {{ tasks_view.ul(tasks, {displayListName: false}) }}
                 </div>

@@ -6,6 +6,7 @@
             <a class="btn btn-secondary" href="{{ path('tasklists_show', { 'id': taskList.id }) }}">
                 {{ taskList.name }}
                 <span class="badge badge-secondary">{{ taskList.tasks(false)|length }}</span>
+                <span class="badge badge-primary">{{ taskList.estTotal|date("%d %H:%I") }}</span>
                 <span class="badge badge-default">{{ taskList.status|capitalize }}</span>
                 <span class="badge badge-default">{{ taskList.createdAt ? taskList.createdAt|date('Y-m-d H:i') }}</span>
             </a>
