@@ -315,7 +315,50 @@ class TasksRepository extends ServiceEntityRepository
             ->leftJoin(self::CLIENT, 'c')
             ->leftJoin(self::WORKLOG, 'wl')
             ->where(self::NOT_COMPLETED)
-            ->andWhere('DATE(t.eta) <= :date OR t.eta IS NULL');
+            ->andWhere('DATE(t.eta) <= :date OR t.eta IS NULL')
+            ->andWhere('c.id <> 30');
+        if (count($taskIds)) {
+            $queryBuilder->andWhere('t.id NOT IN (:taskIds)')
+                ->setParameter(':taskIds', $taskIds);
+        }
+        $queryBuilder->orderBy(self::URGENCY, "DESC")
+            ->addOrderBy(self::PRIORTIY, "DESC")
+            ->addOrderBy(self::ORDER, "ASC")
+            ->addOrderBy("tl.id", "ASC")
+            ->setParameter(self::DATE, $date->format('Y-m-d'));
+
+        if ($limit > 0 && is_int($limit)) {
+            $queryBuilder->setMaxResults($limit);
+        }
+        if ($offset > 0 && is_int($offset)) {
+            $queryBuilder->setFirstResult($offset);
+        }
+
+        return $queryBuilder
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @param \DateTime $date
+     * @param int $limit
+     * @param int $offset
+     * @return Tasks[]
+     */
+    public function focusListWithMeAndDateAndNotTasksiSoft($date, $taskIds = [])
+    {
+        $limit = 25;
+        $offset = 0;
+        $queryBuilder = $this
+            ->createQueryBuilder('t')
+            ->select('t, tl, a, c, wl')
+            ->leftJoin(self::TASKLIST, 'tl')
+            ->leftJoin(self::ACCOUNT, 'a')
+            ->leftJoin(self::CLIENT, 'c')
+            ->leftJoin(self::WORKLOG, 'wl')
+            ->where(self::NOT_COMPLETED)
+            ->andWhere('DATE(t.eta) <= :date OR t.eta IS NULL')
+            ->andWhere('c.id = 30');
         if (count($taskIds)) {
             $queryBuilder->andWhere('t.id NOT IN (:taskIds)')
                 ->setParameter(':taskIds', $taskIds);

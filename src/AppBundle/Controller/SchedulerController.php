@@ -42,7 +42,7 @@ class SchedulerController extends AbstractController
         $schedulers = [];
         $tasked = [];
         foreach ($period as $dt) {
-            $scheduler = new Scheduler($tasksRepository, 8 * 60, $dt, $tasked);
+            $scheduler = new Scheduler($tasksRepository, $dt, $tasked);
             $tasked += $scheduler->tasked;
             $schedulers[] = $scheduler;
         }
