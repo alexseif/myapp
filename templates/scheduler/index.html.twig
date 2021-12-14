@@ -6,12 +6,21 @@
 {% block floatingActions %}{{ a.add('tasks_new') }}{% endblock %}
 
 {% block panelTitle %}Scheduler{% endblock %}
+{% block panelTitleSmall %}{{ week }}{% endblock %}
+{% block panelHeadingRight %}
+    <a class="btn btn-link btn-sm" href="{{ path('scheduler', {'year': year, 'week': week-1}) }}">Prev</a>
+    <a class="btn btn-link btn-sm" href="{{ path('scheduler', {'year': 'now'|date('Y'), 'week': 'now'|date('W')}) }}">Reset</a>
+    <a class="btn btn-link btn-sm" href="{{ path('scheduler', {'year': year, 'week': week+1}) }}">Next</a>
+{% endblock %}
 
 {% block panelBody %}
     <div class="week">
         {% for day, scheduler in schedulers %}
             <div class="day {{ (scheduler.date < scheduler.today)? "past" : "future" }} {{ (scheduler.date == scheduler.today)? "today" }}">
-                <div class="day-title">{{ scheduler.dayName }}</div>
+                <div class="day-title">
+                    {{ scheduler.dayName }}
+                    {{ scheduler.date|date }}
+                </div>
                 {{ tasks_view.ul(scheduler.tasks, {'id': scheduler.dayName|lower}) }}
             </div>
         {% endfor %}

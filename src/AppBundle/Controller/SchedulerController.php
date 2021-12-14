@@ -7,6 +7,7 @@ use AppBundle\Repository\TasksRepository;
 use AppBundle\Service\FocusService;
 use AppBundle\Util\DateRanges;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -15,26 +16,29 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class SchedulerController extends AbstractController
 {
-    function getPeriod()
+    function getPeriod($year, $week)
     {
-        $day = date('w');
-        $week_start = new \DateTime(date('Y-m-d', strtotime('-' . $day . ' days')));
-        $week_end = new \DateTime(date('Y-m-d', strtotime('+' . (5 - $day) . ' days')));
+        $dto = new \DateTime();
+        $dto->setISODate($year, $week);
+        $dto->modify('-1 days');
+        $week_start = clone $dto;
+        $dto->modify('+5 days');
+        $week_end = clone $dto;
         $interval = \DateInterval::createFromDateString('1 day');
         return new \DatePeriod($week_start, $interval, $week_end);
     }
 
     /**
-     * @Route("/", name="scheduler")
+     * @Route("/{year}/{week}", name="scheduler")
      */
-    public function index(TasksRepository $tasksRepository): Response
+    public function index(TasksRepository $tasksRepository, $year, $week): Response
     {
         //@todo: scheduler service to populate scheduling items
         //@todo: calendar -> view -> week
         //@todo: calendar to view schedule
         //@todo: Scheduler to schedule items in calendar
 
-        $period = $this->getPeriod();
+        $period = $this->getPeriod(date('Y'), $week);
         $schedulers = [];
         $tasked = [];
         foreach ($period as $dt) {
@@ -42,8 +46,9 @@ class SchedulerController extends AbstractController
             $tasked += $scheduler->tasked;
             $schedulers[] = $scheduler;
         }
-
         return $this->render('scheduler/index.html.twig', [
+            'week' => $week,
+            'year' => $year,
             'schedulers' => $schedulers
         ]);
     }
