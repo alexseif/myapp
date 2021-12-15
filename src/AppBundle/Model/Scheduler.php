@@ -16,6 +16,7 @@ class Scheduler
     public $tasks;
     public $tasked = [];
     public $date, $today;
+    public $isToday;
     public $tasksRepository;
 
     /**
@@ -33,6 +34,7 @@ class Scheduler
         $this->loadCompletedTasks();
 
         if ($this->date >= $this->today) {
+            $this->loadScheduledTasks();
             $this->loadIsoftTasks();
             $this->loadTasks();
         }
@@ -43,7 +45,9 @@ class Scheduler
     {
         $this->today = new \DateTime();
         $this->today->setTime(0, 0, 0);
+        $this->isToday = ($this->today->format('Y-m-d') == $this->date->format('Y-m-d'));
         $this->dayName = $this->date->format('l');
+
     }
 
     public function loadCompletedTasks()
@@ -54,6 +58,18 @@ class Scheduler
             $this->dayLength -= $task->getDuration();
             if (30 == $task->getClient()->getId()) {
                 $this->iSoftLength -= $task->getDuration();
+            }
+        }
+    }
+
+    public function loadScheduledTasks()
+    {
+        $scheduledTasks = $this->tasksRepository->findBySchedule($this->date);
+        foreach ($scheduledTasks as $scheduledTask) {
+            $this->tasks[] = $scheduledTask;
+            $this->dayLength -= $scheduledTask->getSchedule()->getEst();
+            if (30 == $scheduledTask->getClient()->getId()) {
+                $this->iSoftLength -= $scheduledTask->getSchedule()->getEst();
             }
         }
     }

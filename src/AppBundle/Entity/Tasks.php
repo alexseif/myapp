@@ -117,6 +117,11 @@ class Tasks
     private $workLoggable;
 
     /**
+     * @ORM\OneToOne(targetEntity=Schedule::class, mappedBy="task", cascade={"persist", "remove"})
+     */
+    private $schedule;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -438,13 +443,6 @@ class Tasks
         return $this->workLog;
     }
 
-    public function getTaskString()
-    {
-
-        return $this->getTask();
-//    return ($this->getCompleted() ? "x " : "") . $this->getTask() . ' | ' . $this->getTaskList()->getName();
-    }
-
     /**
      * Set workLoggable
      *
@@ -476,7 +474,7 @@ class Tasks
 
     public function __toString()
     {
-        return $this->getTaskString();
+        return $this->getName();
     }
 
     /**
@@ -501,6 +499,23 @@ class Tasks
     public function getEst()
     {
         return $this->est;
+    }
+
+    public function getSchedule(): ?Schedule
+    {
+        return $this->schedule;
+    }
+
+    public function setSchedule(Schedule $schedule): self
+    {
+        // set the owning side of the relation if necessary
+        if ($schedule->getTask() !== $this) {
+            $schedule->setTask($this);
+        }
+
+        $this->schedule = $schedule;
+
+        return $this;
     }
 
 }

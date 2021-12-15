@@ -14,8 +14,6 @@ use Doctrine\Persistence\ManagerRegistry;
 /**
  * @method Tasks|null find($id, $lockMode = null, $lockVersion = null)
  * @method Tasks|null findOneBy(array $criteria, array $orderBy = null)
- * @method Tasks[]    findAll()
- * @method Tasks[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class TasksRepository extends ServiceEntityRepository
 {
@@ -309,14 +307,16 @@ class TasksRepository extends ServiceEntityRepository
         $offset = 0;
         $queryBuilder = $this
             ->createQueryBuilder('t')
-            ->select('t, tl, a, c, wl')
+            ->select('t, tl, a, c, wl, s')
             ->leftJoin(self::TASKLIST, 'tl')
             ->leftJoin(self::ACCOUNT, 'a')
             ->leftJoin(self::CLIENT, 'c')
             ->leftJoin(self::WORKLOG, 'wl')
+            ->leftJoin('t.schedule', 's')
             ->where(self::NOT_COMPLETED)
             ->andWhere('DATE(t.eta) <= :date OR t.eta IS NULL')
-            ->andWhere('c.id <> 30');
+            ->andWhere('c.id <> 30')
+            ->andWhere('s.id IS NULL');
         if (count($taskIds)) {
             $queryBuilder->andWhere('t.id NOT IN (:taskIds)')
                 ->setParameter(':taskIds', $taskIds);
@@ -347,36 +347,57 @@ class TasksRepository extends ServiceEntityRepository
      */
     public function focusListWithMeAndDateAndNotTasksiSoft($date, $taskIds = [])
     {
-        $limit = 25;
-        $offset = 0;
         $queryBuilder = $this
             ->createQueryBuilder('t')
-            ->select('t, tl, a, c, wl')
+            ->select('t, tl, a, c, wl, s')
             ->leftJoin(self::TASKLIST, 'tl')
             ->leftJoin(self::ACCOUNT, 'a')
             ->leftJoin(self::CLIENT, 'c')
             ->leftJoin(self::WORKLOG, 'wl')
+            ->leftJoin('t.schedule', 's')
             ->where(self::NOT_COMPLETED)
             ->andWhere('DATE(t.eta) <= :date OR t.eta IS NULL')
-            ->andWhere('c.id = 30');
+            ->andWhere('c.id = 30')
+            ->andWhere('s.id IS NULL');
         if (count($taskIds)) {
             $queryBuilder->andWhere('t.id NOT IN (:taskIds)')
                 ->setParameter(':taskIds', $taskIds);
         }
-        $queryBuilder->orderBy(self::URGENCY, "DESC")
+        return $queryBuilder->orderBy(self::URGENCY, "DESC")
             ->addOrderBy(self::PRIORTIY, "DESC")
             ->addOrderBy(self::ORDER, "ASC")
             ->addOrderBy("tl.id", "ASC")
-            ->setParameter(self::DATE, $date->format('Y-m-d'));
+            ->setParameter(self::DATE, $date->format('Y-m-d'))
+            ->getQuery()
+            ->getResult();
+    }
 
-        if ($limit > 0 && is_int($limit)) {
-            $queryBuilder->setMaxResults($limit);
-        }
-        if ($offset > 0 && is_int($offset)) {
-            $queryBuilder->setFirstResult($offset);
-        }
-
-        return $queryBuilder
+    /**
+     * @param \DateTime $date
+     * @param int $limit
+     * @param int $offset
+     * @return Tasks[]
+     * @todo: Refactor common createQueryBuilder
+     *
+     */
+    public function findBySchedule($date)
+    {
+        return $this
+            ->createQueryBuilder('t')
+            ->select('t, tl, a, c, wl, s')
+            ->leftJoin(self::TASKLIST, 'tl')
+            ->leftJoin(self::ACCOUNT, 'a')
+            ->leftJoin(self::CLIENT, 'c')
+            ->leftJoin(self::WORKLOG, 'wl')
+            ->leftJoin('t.schedule', 's')
+            ->where(self::NOT_COMPLETED)
+            ->andWhere('DATE(s.eta) = DATE(:date)')
+            ->andWhere('s.id IS NOT NULL')
+            ->orderBy(self::URGENCY, "DESC")
+            ->addOrderBy(self::PRIORTIY, "DESC")
+            ->addOrderBy(self::ORDER, "ASC")
+            ->addOrderBy("tl.id", "ASC")
+            ->setParameter(self::DATE, $date)
             ->getQuery()
             ->getResult();
     }
