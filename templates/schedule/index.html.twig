@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+{% import "macros/a.html.twig" as a %}
+{% block panelTitle %}Schedule index{% endblock %}
+{% block floatingActions %}
+    {{ a.add('schedule_new') }}
+{% endblock %}
+{% block panelHeadingRight %}
+    <a href="{{ path('schedule_delete_all') }}">Delete All</a>
+{% endblock %}
+{% block panelBody %}
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Task</th>
+            <th>Est</th>
+            <th>Eta</th>
+            <th>actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for schedule in schedules %}
+            <tr>
+                <td>{{ schedule.task }}</td>
+                <td>{{ schedule.est }}</td>
+                <td>{{ schedule.eta ? schedule.eta|date('Y-m-d') : '' }}</td>
+                <td>
+                    {{ a.show('schedule_show', {'id': schedule.id}) }}
+                    {{ a.edit('schedule_edit', {'id': schedule.id}) }}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

@@ -66,8 +66,11 @@ class SchedulerController extends AbstractController
             foreach ($request->get("data") as $scheduleItem) {
                 $task = $tasksRepository->find($scheduleItem['task']);
                 if (!$task->getCompleted()) {
-                    $schedule = new Schedule($scheduleItem['id'], $task, $scheduleItem['est'], new \DateTime($scheduleItem['eta']));
-                    $entityManager->persist($schedule);
+                    $schedule = new Schedule();
+                    $schedule->setSchedule($scheduleItem['id']?:null, $task, $scheduleItem['est'], new \DateTime($scheduleItem['eta']));
+                    if (is_null($schedule->getId())) {
+                        $entityManager->persist($schedule);
+                    }
                 }
             }
             $entityManager->flush();

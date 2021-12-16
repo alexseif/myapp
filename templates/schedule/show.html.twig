@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+{% import "macros/a.html.twig" as a %}
+
+{% block panelTitle %}Schedule{% endblock %}
+{% block panelBack %}
+    {{ a.back('schedule_index') }}
+{% endblock %}
+{% block panelHeadingRight %}
+    {{ a.edit('schedule_edit', {'id': schedule.id}) }}
+
+    {{ include('schedule/_delete_form.html.twig') }}
+{% endblock %}
+{% block panelBody %}
+    <table class="table">
+        <tbody>
+        <tr>
+            <th>Task</th>
+            <td>{{ schedule.task }}</td>
+        </tr>
+        <tr>
+            <th>Est</th>
+            <td>{{ schedule.est }}</td>
+        </tr>
+        <tr>
+            <th>Eta</th>
+            <td>{{ schedule.eta ? schedule.eta|date('Y-m-d') : '' }}</td>
+        </tr>
+        </tbody>
+    </table>
+{% endblock %}

@@ -18,7 +18,7 @@ class Schedule
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity=Tasks::class, inversedBy="schedule", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Tasks::class, inversedBy="schedule")
      * @ORM\JoinColumn(nullable=false)
      */
     private $task;
@@ -39,7 +39,7 @@ class Schedule
      * @param $est
      * @param $eta
      */
-    public function __construct($id, $task, $est, $eta)
+    public function setSchedule($id, $task, $est, $eta)
     {
         $this->id = $id;
         $this->task = $task;

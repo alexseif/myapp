@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+{% import "macros/a.html.twig" as a %}
+
+{% block panelTitle %}New Schedule{% endblock %}
+{% block panelBack %}
+    {{ a.back('schedule_index') }}
+{% endblock %}
+{% block panelBody %}
+    {{ include('schedule/_form.html.twig') }}
+
+{% endblock %}

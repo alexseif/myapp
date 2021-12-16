@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+{% import "macros/a.html.twig" as a %}
+
+{% block panelTitle %}Edit Schedule{% endblock %}
+{% block panelBack %}
+    {{ a.back('schedule_index') }}
+{% endblock %}
+{% block panelHeadingRight %}
+    {{ include('schedule/_delete_form.html.twig') }}
+{% endblock %}
+{% block panelBody %}
+    {{ include('schedule/_form.html.twig', {'button_label': 'Update'}) }}
+{% endblock %}
