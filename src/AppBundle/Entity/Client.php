@@ -51,11 +51,6 @@ class Client
      */
     private $rates;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Proposal::class, mappedBy="client")
-     */
-    private $proposals;
-
 
     /**
      * @ORM\Column(type="array", nullable=true)
@@ -68,7 +63,6 @@ class Client
     public function __construct()
     {
         $this->accounts = new ArrayCollection();
-        $this->proposals = new ArrayCollection();
     }
 
     /**
@@ -203,34 +197,6 @@ class Client
     public function setContracts($contracts): void
     {
         $this->contracts = $contracts;
-    }
-
-    /**
-     * @return Collection|Proposal[]
-     */
-    public function getProposals(): Collection
-    {
-        return $this->proposals;
-    }
-
-    public function addProposal(Proposal $proposal): self
-    {
-        if (!$this->proposals->contains($proposal)) {
-            $this->proposals[] = $proposal;
-            $proposal->setClient($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProposal(Proposal $proposal): self
-    {
-        // set the owning side to null (unless already changed)
-        if ($this->proposals->removeElement($proposal) && $proposal->getClient() === $this) {
-            $proposal->setClient(null);
-        }
-
-        return $this;
     }
 
     public function getBillingOption(): ?array

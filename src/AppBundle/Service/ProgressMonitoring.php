@@ -105,22 +105,16 @@ class ProgressMonitoring
      */
     private $averageReport;
 
-    /**
-     * @var RoutineService
-     */
-    protected $routineService;
 
     /**
      * ProgressMonitoring constructor.
      * @param EntityManager $em
      * @param CostService $cs
-     * @param RoutineService $routineService
      */
-    public function __construct(EntityManager $em, CostService $cs, RoutineService $routineService)
+    public function __construct(EntityManager $em, CostService $cs)
     {
         $this->em = $em;
         $this->cs = $cs;
-        $this->routineService = $routineService;
         $this->setClientsCount();
         $this->setClientsProgress();
         $this->setAccountsCount();
@@ -224,7 +218,7 @@ class ProgressMonitoring
      */
     function getAccountsProgress()
     {
-        return $this->formatNumber($this->clientsProgress);
+        return $this->formatNumber($this->accountsProgress);
     }
 
     /**
@@ -233,7 +227,7 @@ class ProgressMonitoring
     public function setTasksCompletedCount()
     {
         $date = DateRanges::getMonthStart();
-        $this->tasksCompletedCount = $this->em->getRepository('AppBundle:Tasks')
+        $this->tasksCompletedCount = $this->em->getRepository(Tasks::class)
             ->getCompletedByMonthOrDay($date->format('Y'), $date->format('m'));
     }
 
@@ -251,7 +245,7 @@ class ProgressMonitoring
     public function setTasksCompletedProgress()
     {
         $date = DateRanges::getMonthStart();
-        $tasksLastMonth = $this->em->getRepository('AppBundle:Tasks')
+        $tasksLastMonth = $this->em->getRepository(Tasks::class)
             ->getCompletedByMonthOrDay($date->format('Y'), $date->format('m'), $date->format('d'));
         $divisionByZero = $tasksLastMonth ? $tasksLastMonth : 1;
 
@@ -326,7 +320,7 @@ class ProgressMonitoring
         $from->modify("-1 month");
         $to = DateRanges::getMonthStart();
 
-        $this->durationSum = $this->em->getRepository('AppBundle:Tasks')
+        $this->durationSum = $this->em->getRepository(Tasks::class)
             ->getDurationSumByRange($from, $to);
     }
 
@@ -347,7 +341,7 @@ class ProgressMonitoring
         $from->modify("-2 months");
         $to = DateRanges::getMonthStart();
         $to->modify("-1 month");
-        $durationLastMonth = $this->em->getRepository('AppBundle:Tasks')
+        $durationLastMonth = $this->em->getRepository(Tasks::class)
             ->getDurationSumByRange($from, $to);
         $divisionByZero = $durationLastMonth ? $durationLastMonth : 1;
         $this->durationProgress = ((($this->durationSum - $durationLastMonth) / $divisionByZero) * 100);
@@ -366,7 +360,7 @@ class ProgressMonitoring
      */
     public function setEarnedToday()
     {
-        $completedTasks = $this->em->getRepository('AppBundle:Tasks')->getCompletedToday();
+        $completedTasks = $this->em->getRepository(Tasks::class)->getCompletedToday();
         $total = 0;
         foreach ($completedTasks as $task) {
             $rate = (null != $task->getRate()) ? $task->getRate() : $this->getCostOfLife()->getHourly();
@@ -388,7 +382,7 @@ class ProgressMonitoring
      */
     public function setEarnedThisWeek()
     {
-        $completedTasks = $this->em->getRepository('AppBundle:Tasks')->getCompletedThisWeek();
+        $completedTasks = $this->em->getRepository(Tasks::class)->getCompletedThisWeek();
         $total = 0;
         foreach ($completedTasks as $task) {
             $rate = (null == $task->getRate()) ? $task->getRate() : $this->getCostOfLife()->getHourly();
@@ -410,7 +404,7 @@ class ProgressMonitoring
      */
     public function setEarnedThisMonth()
     {
-        $completedTasks = $this->em->getRepository('AppBundle:Tasks')->getCompletedThisMonth();
+        $completedTasks = $this->em->getRepository(Tasks::class)->getCompletedThisMonth();
         $total = 0;
         foreach ($completedTasks as $task) {
             $rate = (null == $task->getRate()) ? $task->getRate() : $this->getCostOfLife()->getHourly();
@@ -481,14 +475,6 @@ class ProgressMonitoring
     public function getTodayProgress()
     {
         return $this->formatNumber($this->earnedProgress['today'] / $this->getCostOfLife()->getDaily() * 100);
-    }
-
-    /**
-     * @return \AppBundle\Entity\Routine|null
-     */
-    public function getCurrentRoutine()
-    {
-        return $this->routineService->getCurrent();
     }
 
     /**
