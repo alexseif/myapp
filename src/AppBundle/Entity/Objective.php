@@ -41,15 +41,6 @@ class Objective
      */
     private $description;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=Planner::class, mappedBy="objectives")
-     */
-    private $planners;
-
-    public function __construct()
-    {
-        $this->planners = new ArrayCollection();
-    }
 
     /**
      * Get id.
@@ -107,33 +98,6 @@ class Objective
     public function getDescription()
     {
         return $this->description;
-    }
-
-    /**
-     * @return Collection|Planner[]
-     */
-    public function getPlanners(): Collection
-    {
-        return $this->planners;
-    }
-
-    public function addPlanner(Planner $planner): self
-    {
-        if (!$this->planners->contains($planner)) {
-            $this->planners[] = $planner;
-            $planner->addObjective($this);
-        }
-
-        return $this;
-    }
-
-    public function removePlanner(Planner $planner): self
-    {
-        if ($this->planners->removeElement($planner)) {
-            $planner->removeObjective($this);
-        }
-
-        return $this;
     }
 
 }

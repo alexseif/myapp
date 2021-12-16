@@ -6,7 +6,6 @@
 
 namespace AppBundle\Service;
 
-use AppBundle\Entity\Planner;
 use Doctrine\ORM\EntityManager;
 use AppBundle\Service\CostService;
 use AppBundle\Service\ContractService;
@@ -59,11 +58,7 @@ class BottomBar
         return $this->contractService;
     }
 
-    public function getPlanner()
-    {
-        $planner = $this->getEm()->getRepository(Planner::class)->findOneBy([], ['createdAt' => 'desc']);
-        return $planner;
-    }
+
 
     /**
      *
@@ -71,8 +66,7 @@ class BottomBar
      */
     public function getThings()
     {
-        $things = $this->getEm()->getRepository('AppBundle:Thing')->findBy([], ['createdAt' => 'asc'], 5);
-        return $things;
+        return $this->getEm()->getRepository('AppBundle:Thing')->findBy([], ['createdAt' => 'asc'], 5);
     }
 
     /**
@@ -106,8 +100,7 @@ class BottomBar
 
     public function getObjectives()
     {
-        $objectives = $this->getEm()->getRepository('AppBundle:Objective')->findBy([], ['createdAt' => 'asc'], 5);
-        return $objectives;
+        return $this->getEm()->getRepository('AppBundle:Objective')->findBy([], ['createdAt' => 'asc'], 5);
     }
 
 }

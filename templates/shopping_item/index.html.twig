@@ -1,9 +1,0 @@
-{% extends 'base.html.twig' %}
-{% import "macros/a.html.twig" as a %}
-
-{% block panelTitle %}ShoppingItem index{% endblock %}
-{% block floatingActions %}{{ a.add('shopping_item_new') }}{% endblock %}
-
-{% block panelBody %}
-    {% include "shopping_item/_list.html.twig" %}
-{% endblock %}

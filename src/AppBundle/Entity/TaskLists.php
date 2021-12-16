@@ -56,10 +56,6 @@ class TaskLists
      */
     private $tasks;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=Planner::class, mappedBy="tasklists")
-     */
-    private $planners;
 
 
     /**
@@ -69,7 +65,6 @@ class TaskLists
     {
         $this->tasks = new ArrayCollection();
         $this->status = "start";
-        $this->planners = new ArrayCollection();
     }
 
     /**
@@ -224,32 +219,7 @@ class TaskLists
         return $this->getName();
     }
 
-    /**
-     * @return Collection|Planner[]
-     */
-    public function getPlanners(): Collection
-    {
-        return $this->planners;
-    }
 
-    public function addPlanner(Planner $planner): self
-    {
-        if (!$this->planners->contains($planner)) {
-            $this->planners[] = $planner;
-            $planner->addTasklist($this);
-        }
-
-        return $this;
-    }
-
-    public function removePlanner(Planner $planner): self
-    {
-        if ($this->planners->removeElement($planner)) {
-            $planner->removeTasklist($this);
-        }
-
-        return $this;
-    }
 
 
 }

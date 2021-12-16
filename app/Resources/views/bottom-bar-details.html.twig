@@ -46,7 +46,8 @@
                     </div>
                 </div>
                 <div class="progress" title="contractProgress - {{ contract.progress.monthlyMinutes/60 }}">
-                    <div class="progress-bar" role="progressbar" aria-valuenow="{{ contract.progress.contractProgress }}"
+                    <div class="progress-bar" role="progressbar"
+                         aria-valuenow="{{ contract.progress.contractProgress }}"
                          aria-valuemin="0" aria-valuemax="100" style="width:{{ contract.progress.contractProgress }}%">
                         {{ contract.progress.contractProgress|number_format }}%
                     </div>
@@ -67,34 +68,6 @@
                    href="{{ path('focus') }}#task_{{ task.id }}">
                     {{ task.task }}
                     <span class="badge badge-info float-right">{{ task.taskList }}</span>
-                </a>
-            {% endfor %}
-        </div>
-    </li>
-    <li class="dropdown">
-        {% set planner = bb.getPlanner() %}
-        <a class="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button"
-           id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
-           aria-expanded="false">
-            {{ planner.name }}
-        </a>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-            {% for objective in planner.objectives %}
-                <a class="dropdown-item"
-                   href="{{ path('objective_show', {'id': objective.id}) }}">
-                    {{ objective.name }}
-                </a>
-            {% endfor %}
-            {% for thing in planner.things %}
-                <a class="dropdown-item"
-                   href="{{ path('thing_show', {'id': thing.id}) }}">
-                    {{ thing.name }}
-                </a>
-            {% endfor %}
-            {% for tasklist in planner.tasklists %}
-                <a class="dropdown-item"
-                   href="{{ path('tasklists_show', {'id': tasklist.id}) }}">
-                    {{ tasklist.name }}
                 </a>
             {% endfor %}
         </div>

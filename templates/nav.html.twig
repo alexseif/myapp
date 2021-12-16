@@ -36,9 +36,6 @@
                            title="Tasks Progress By Date">
                             Progress By Date
                         </a>
-                        <a class="dropdown-item" href="{{ path('shopping_index') }}" title="Shopping index">
-                            Shopping
-                        </a>
                         <a class="dropdown-item" href="{{ path('tasks_backlog') }}" title="Shopping index">
                             Backlog
                         </a>
@@ -78,7 +75,6 @@
                             Contracts</a>
                     </div>
                 </li>
-                <li class="nav-item"><a class="nav-link" href="{{ path('planner_index') }}">Planner</a></li>
                 <li class="nav-item">
                     <a class="nav-link"
                        href="{{ path('scheduler', {'year': 'now'|date('Y'), 'week': 'now'|date('W')}) }}">Scheduler</a>
