@@ -21,22 +21,26 @@
 
 {% block panelBody %}
     <div id="ajax-results"></div>
-    <div class="week">
-        {% for day, scheduler in schedulers %}
-            <div class="day {{ (scheduler.date < scheduler.today)? "past" : "future" }} {{ (scheduler.isToday)? "today" }}">
-                <div class="day-title">
-                    {{ scheduler.dayName }}
-                    {{ scheduler.date|date }}
+    <div class="card-body">
+        <div class="week">
+            {% for day, scheduler in schedulers %}
+                <div class="day {{ (scheduler.date < scheduler.today)? "past" : "future" }} {{ (scheduler.isToday)? "today" }}">
+                    <div class="day-title">
+                        {{ scheduler.dayName }}
+                        {{ scheduler.date|date }}
+                    </div>
+                    {{ tasks_view.ul(scheduler.tasks, {'id': scheduler.date|date('Y-m-d')}) }}
                 </div>
-                {{ tasks_view.ul(scheduler.tasks, {'id': scheduler.date|date('Y-m-d')}) }}
-            </div>
-        {% endfor %}
+            {% endfor %}
+        </div>
     </div>
+    <div id="garbage" class="card-footer"><p></p></div>
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
     <script>
         let scheduler_save_route = "{{ path('scheduler_save')|escape('js') }}";
+        let scheduler_delete_route = "{{ path('scheduler_delete')|escape('js') }}";
     </script>
     <script src="{{ asset('/js/scheduler.js') }}"></script>
 {% endblock %}

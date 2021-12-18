@@ -21,6 +21,10 @@ let Scheduler = {
     bindEvents: function () {
         const self = this;
         $('#save_schedule').click(Scheduler.saveSchedule);
+        $("#garbage").droppable({
+            hoverClass: "ui-state-active",
+            drop: Scheduler.removeFromSchedule
+        });
     },
     displayTime: function () {
         const self = this;
@@ -35,28 +39,36 @@ let Scheduler = {
     },
     saveSchedule: function () {
         const self = this;
-        Scheduler.schedule = [];
-        $('.task-item:not(.completed)').each(function () {
-            that = $(this);
-            Scheduler.schedule.push({
-                "id": that.data('schedule'),
-                "task": that.data('id'),
-                "est": that.data('est'),
-                "eta": that.parent().attr("id")
+        Scheduler.schedule = {};
+        $('.task-list').each(function () {
+            thisTaskList = $(this);
+            dayId = thisTaskList.attr('id');
+            $dayList = [];
+            thisTaskList.children('.task-item:not(.completed)').each(function () {
+                thisTask = $(this);
+                $dayList.push({
+                    "id": thisTask.data('schedule'),
+                    "task": thisTask.data('id'),
+                    "est": thisTask.data('est'),
+                    "eta": dayId
+                });
             });
-            console.log(Scheduler.schedule);
+            Scheduler.schedule[dayId] = $dayList;
         });
-        $.ajax({
-            url: scheduler_save_route,
-            type: "POST",
-            dataType: "json",
-            data: {"data": Scheduler.schedule},
-            async: true,
-            success: function (data) {
-                console.log(data)
-                $('div#ajax-results').html(data.output);
-            }
-        });
+        let data = {"data": Scheduler.schedule};
+        $.post(scheduler_save_route, data);
+    },
+    removeFromSchedule: function (event, ui) {
+        $task = $(ui.draggable);
+        $scheduleId = $task.data('schedule');
+        if ($scheduleId) {
+            $.post(scheduler_delete_route, {"schedule_id": $scheduleId});
+        }
+        $task.remove();
+        $(this)
+            .addClass("ui-state-highlight")
+            .find("p")
+            .html("Removed!");
     }
 };
 $(function () {

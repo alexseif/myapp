@@ -227,3 +227,13 @@ label#focus-switch:active:after {
     border-bottom: 1px dashed #ccc;
     text-align: center;
 }
+
+#garbage {
+    transition: height 1s ease-out;
+}
+
+#garbage.ui-state-active {
+    height: 10vh;
+    transition: height 1s ease-in;
+
+}

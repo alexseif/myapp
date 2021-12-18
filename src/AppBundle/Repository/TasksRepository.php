@@ -317,7 +317,7 @@ class TasksRepository extends ServiceEntityRepository
      * @return Tasks[]
      *
      */
-    public function findBySchedule($date)
+    public function findBySchedule(\DateTime $date)
     {
         return $this
             ->createQueryBuilder('t')

@@ -56,13 +56,15 @@ class SchedulerController extends AbstractController
     public function save(Request $request, TasksRepository $tasksRepository, EntityManagerInterface $entityManager)
     {
         if ($request->isXmlHttpRequest()) {
-            foreach ($request->get("data") as $scheduleItem) {
-                $task = $tasksRepository->find($scheduleItem['task']);
-                if (!$task->getCompleted()) {
-                    $schedule = new Schedule();
-                    $schedule->setSchedule($scheduleItem['id'] ?: null, $task, $scheduleItem['est'], new \DateTime($scheduleItem['eta']));
-                    if (is_null($schedule->getId())) {
-                        $entityManager->persist($schedule);
+            foreach ($request->get("data") as $dayId => $scheduleItems) {
+                foreach ($scheduleItems as $scheduleItem) {
+                    $task = $tasksRepository->find($scheduleItem['task']);
+                    if (!$task->getCompleted()) {
+                        $schedule = new Schedule();
+                        $schedule->setSchedule($scheduleItem['id'] ?: null, $task, $scheduleItem['est'], new \DateTime($scheduleItem['eta']));
+                        if (is_null($schedule->getId())) {
+                            $entityManager->persist($schedule);
+                        }
                     }
                 }
             }
@@ -70,4 +72,19 @@ class SchedulerController extends AbstractController
         }
         return new JsonResponse();
     }
+
+    /**
+     * @Route("/delete", name="scheduler_delete")
+     */
+    public function delete(Request $request, TasksRepository $tasksRepository, EntityManagerInterface $entityManager)
+    {
+        if ($request->isXmlHttpRequest()) {
+            $scheduleId = $request->get('schedule_id');
+            $schedule = $entityManager->getRepository(Schedule::class)->find($scheduleId);
+            $entityManager->remove($schedule);
+            $entityManager->flush();
+        }
+        return new JsonResponse();
+    }
+
 }
