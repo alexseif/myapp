@@ -6,36 +6,40 @@
 namespace AppBundle\Model;
 
 
-use AppBundle\Repository\TasksRepository;
+use AppBundle\Entity\Contract;
+use AppBundle\Entity\Tasks;
+use Doctrine\ORM\EntityManagerInterface;
 
 class Scheduler
 {
-    public $dayLength = 360;
+    public $dayLength = 540;
     public $iSoftLength = 120;
+    public $contractDayLength = [];
     public $dayName;
     public $tasks;
     public $tasked = [];
     public $date, $today;
     public $isToday;
     public $tasksRepository;
+    public $contractRepository;
 
     /**
      * @param $dayLength
      * @param $tasks
      * @param $date
      */
-    public function __construct(TasksRepository $tasksRepository, $date, $tasked)
+    public function __construct(EntityManagerInterface $entityManager, $date, $tasked)
     {
         $this->date = $date;
         $this->tasked = $tasked;
-        $this->tasksRepository = $tasksRepository;
-
+        $this->tasksRepository = $entityManager->getRepository(Tasks::class);
+        $this->contractRepository = $entityManager->getRepository(Contract::class);
         $this->setToday();
         $this->loadCompletedTasks();
 
         if ($this->date >= $this->today) {
             $this->loadScheduledTasks();
-            $this->loadIsoftTasks();
+            $this->loadContractTasks();
             $this->loadTasks();
         }
     }
@@ -54,11 +58,7 @@ class Scheduler
     {
         $completedTasks = $this->tasksRepository->getCompletedByDate($this->date);
         foreach ($completedTasks as $task) {
-            $this->tasks[] = $task;
-            $this->dayLength -= $task->getDuration();
-            if (30 == $task->getClient()->getId()) {
-                $this->iSoftLength -= $task->getDuration();
-            }
+            $this->updateTasks($task);
         }
     }
 
@@ -66,38 +66,50 @@ class Scheduler
     {
         $scheduledTasks = $this->tasksRepository->findBySchedule($this->date);
         foreach ($scheduledTasks as $scheduledTask) {
-            $this->tasks[] = $scheduledTask;
-            $this->dayLength -= $scheduledTask->getSchedule()->getEst();
-            if (30 == $scheduledTask->getClient()->getId()) {
-                $this->iSoftLength -= $scheduledTask->getSchedule()->getEst();
+            $this->updateTasks($scheduledTask);
+        }
+    }
+
+    public function loadContractTasks()
+    {
+        $contracts = $this->contractRepository->findBy(["isCompleted" => false]);
+        foreach ($contracts as $contract) {
+            $this->contractDayLength[$contract->getClient()->getId()] = $contract->getHoursPerDay() * 60;
+            $contractTasks = $this->tasksRepository->focusListByClientAndDate($contract->getClient(), $this->date, $this->tasked);
+            foreach ($contractTasks as $task) {
+                if ($this->dayLength <= 0 || $this->contractDayLength[$contract->getClient()->getId()] <= 0) {
+                    break;
+                }
+                $this->updateTasks($task);
+
             }
         }
     }
 
-    //@todo: this is bad it's locked to a client
-    public function loadIsoftTasks()
+    public function updateTasks(Tasks $task)
     {
-        $iSoftTasks = $this->tasksRepository->focusListWithMeAndDateAndNotTasksiSoft($this->date, $this->tasked);
-        foreach ($iSoftTasks as $task) {
-            if ($this->iSoftLength <= 0) {
-                break;
-            }
-            $this->iSoftLength -= ($task->getEst()) ?: 60;
-            $this->tasks[] = $task;
+        $this->tasks[] = $task;
+        if ($task->getCompleted()) {
+            $mins = $task->getDuration();
+        } else {
             $this->tasked[] = $task->getId();
+            $mins = ($task->getEst()) ?: 60;
         }
+        $this->dayLength -= $mins;
+        if (array_key_exists($task->getClient()->getId(), $this->contractDayLength)) {
+            $this->contractDayLength[$task->getClient()->getId()] -= $mins;
+        }
+
     }
 
     public function loadTasks()
     {
-        $focusTasks = $this->tasksRepository->focusListWithMeAndDateAndNotTasks($this->date, $this->tasked);
+        $focusTasks = $this->tasksRepository->focusListScheduler($this->date, $this->tasked);
         foreach ($focusTasks as $task) {
             if ($this->dayLength <= 0) {
                 break;
             }
-            $this->dayLength -= ($task->getEst()) ?: 60;
-            $this->tasks[] = $task;
-            $this->tasked[] = $task->getId();
+            $this->updateTasks($task);
         }
 
     }

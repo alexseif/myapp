@@ -206,28 +206,6 @@ class TasksRepository extends ServiceEntityRepository
         return $this->getCompletedAfter($date);
     }
 
-    /**
-     * Sums the duration of completed tasks after date
-     *
-     * @param DateTime $date
-     * @return array The sum.
-     */
-    public function sumCompletedDurationAfter($date)
-    {
-        return $this
-            ->createQueryBuilder('t')
-            ->select(self::DURATION_SUM)
-            ->where(self::COMPLETED_AFTER_DATE)
-            ->addOrderBy(self::ORDER, "ASC")
-            ->setParameter(self::DATE, $date->format(self::MYSQL_DATE_FORMAT))
-            ->getQuery()
-            ->getSingleResult();
-    }
-
-
-
-
-
 
     /**
      *
@@ -274,22 +252,13 @@ class TasksRepository extends ServiceEntityRepository
      * @param int $offset
      * @return Tasks[]
      */
-    public function focusListWithMeAndDateAndNotTasks($date, $taskIds = [])
+    public function focusListScheduler($date, $taskIds = [])
     {
         $limit = 25;
         $offset = 0;
-        $queryBuilder = $this
-            ->createQueryBuilder('t')
-            ->select(self::SELECT)
-            ->leftJoin(self::TASKLIST, 'tl')
-            ->leftJoin(self::ACCOUNT, 'a')
-            ->leftJoin(self::CLIENT, 'c')
-            ->leftJoin(self::WORKLOG, 'wl')
-            ->leftJoin(self::RATES, 'r')
-            ->leftJoin(self::SCHEDULE, 's')
+        $queryBuilder = $this->getQueryBuilder()
             ->where(self::NOT_COMPLETED)
             ->andWhere(self::ETA_DATE)
-            ->andWhere('c.id <> 30')
             ->andWhere('s.id IS NULL');
         if (count($taskIds)) {
             $queryBuilder->andWhere('t.id NOT IN (:taskIds)')
@@ -319,20 +288,15 @@ class TasksRepository extends ServiceEntityRepository
      * @param int $offset
      * @return Tasks[]
      */
-    public function focusListWithMeAndDateAndNotTasksiSoft($date, $taskIds = [])
+    public function focusListByClientAndDate($client, $date, $taskIds = [])
     {
-        $queryBuilder = $this
-            ->createQueryBuilder('t')
-            ->select('t, tl, a, c, wl, s')
-            ->leftJoin(self::TASKLIST, 'tl')
-            ->leftJoin(self::ACCOUNT, 'a')
-            ->leftJoin(self::CLIENT, 'c')
-            ->leftJoin(self::WORKLOG, 'wl')
-            ->leftJoin(self::SCHEDULE, 's')
+        $queryBuilder = $this->getQueryBuilder()
             ->where(self::NOT_COMPLETED)
             ->andWhere(self::ETA_DATE)
-            ->andWhere('c.id = 30')
-            ->andWhere('s.id IS NULL');
+            ->andWhere(self::CLIENT_CLAUSE)
+            ->andWhere('s.id IS NULL')
+            ->setParameter(self::CLIENT_VAR, $client);
+
         if (count($taskIds)) {
             $queryBuilder->andWhere('t.id NOT IN (:taskIds)')
                 ->setParameter(':taskIds', $taskIds);

@@ -4,10 +4,8 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Schedule;
 use AppBundle\Model\Scheduler;
-use AppBundle\Repository\ScheduleRepository;
+use AppBundle\Repository\ContractRepository;
 use AppBundle\Repository\TasksRepository;
-use AppBundle\Service\FocusService;
-use AppBundle\Util\DateRanges;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -35,18 +33,13 @@ class SchedulerController extends AbstractController
     /**
      * @Route("/{year}/{week}", name="scheduler")
      */
-    public function index(TasksRepository $tasksRepository, $year, $week): Response
+    public function index(EntityManagerInterface $entityManager, $year, $week): Response
     {
-        //@todo: scheduler service to populate scheduling items
-        //@todo: calendar -> view -> week
-        //@todo: calendar to view schedule
-        //@todo: Scheduler to schedule items in calendar
-
         $period = $this->getPeriod(date('Y'), $week);
         $schedulers = [];
         $tasked = [];
         foreach ($period as $dt) {
-            $scheduler = new Scheduler($tasksRepository, $dt, $tasked);
+            $scheduler = new Scheduler($entityManager, $dt, $tasked);
             $tasked += $scheduler->tasked;
             $schedulers[] = $scheduler;
         }
@@ -67,7 +60,7 @@ class SchedulerController extends AbstractController
                 $task = $tasksRepository->find($scheduleItem['task']);
                 if (!$task->getCompleted()) {
                     $schedule = new Schedule();
-                    $schedule->setSchedule($scheduleItem['id']?:null, $task, $scheduleItem['est'], new \DateTime($scheduleItem['eta']));
+                    $schedule->setSchedule($scheduleItem['id'] ?: null, $task, $scheduleItem['est'], new \DateTime($scheduleItem['eta']));
                     if (is_null($schedule->getId())) {
                         $entityManager->persist($schedule);
                     }
