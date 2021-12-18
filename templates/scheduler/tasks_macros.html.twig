@@ -27,7 +27,9 @@
          data-duration="{{ task.duration }}"
          data-order-no="{{ task.order }}"
          data-account="{{ task.taskList.account.id }}"
+         {% if not task.completed %}
          data-schedule="{{ (task.schedule)? task.schedule.id }}"
+         {% endif %}
             {% if (task.taskList.account.client) %}
                 data-client="{{ task.taskList.account.client.id }}"
             {% endif %}

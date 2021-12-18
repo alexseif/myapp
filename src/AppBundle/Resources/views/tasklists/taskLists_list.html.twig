@@ -46,6 +46,10 @@
 
                 {{ a.edit('tasklists_edit', { 'id': taskList.id }) }}
             </div>
+            <div class="d-inline">
+                <span class="badge badge-info">est: {{ taskList.estTotal|date("%d %H:%I") }}</span>
+                <span class="badge badge-primary">dur: {{ taskList.durationTotal|date("%d %H:%I") }}</span>
+            </div>
         </li>
     {% endfor %}
 </ul>
