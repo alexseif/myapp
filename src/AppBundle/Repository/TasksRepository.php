@@ -21,24 +21,44 @@ class TasksRepository extends ServiceEntityRepository
     const URGENCY = 't.urgency';
     const PRIORTIY = 't.priority';
     const ORDER = 't.order';
-    const SELECT = 't, tl, a, c, r, wl';
+    const SELECT = 't, tl, a, c, r, wl, s';
     const MYSQL_DATE_FORMAT = 'Y-m-d H:i';
     const TASKLIST = 't.taskList';
     const WORKLOG = 't.workLog';
+    const SCHEDULE = 't.schedule';
     const ETA_TODAY = 't.eta <= :today OR t.eta IS NULL';
+    const ETA_DATE = 'DATE(t.eta) <= :date OR t.eta IS NULL';
+    const COMPLETED_RANGE = 't.completedAt BETWEEN :from AND :to';
     const TODAY = ':today';
     const DATE = ':date';
+    const FROM = ':from';
     const COMPLETED_AFTER_DATE = 't.completedAt > :date';
     const ACCOUNT = 'tl.account';
     const CLIENT = 'a.client';
+    const CLIENT_VAR = ':client';
+    const CLIENT_CLAUSE = self::CLIENT . ' = ' . self::CLIENT_VAR;
     const RATES = 'c.rates';
     const COMPLETEDAT = 't.completedAt';
+    const TASKLISTID = "tl.id";
+    const DURATION_SUM = 'SUM(t.duration) as duration';
 
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Tasks::class);
     }
 
+    public function getQueryBuilder()
+    {
+        return $this
+            ->createQueryBuilder('t')
+            ->select(self::SELECT)
+            ->leftJoin(self::WORKLOG, 'wl')
+            ->leftJoin(self::TASKLIST, 'tl')
+            ->leftJoin(self::ACCOUNT, 'a')
+            ->leftJoin(self::CLIENT, 'c')
+            ->leftJoin(self::RATES, 'r')
+            ->leftJoin(self::SCHEDULE, 's');
+    }
 
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
@@ -96,14 +116,7 @@ class TasksRepository extends ServiceEntityRepository
      */
     public function getCompletedAfter(DateTime $date)
     {
-        return $this
-            ->createQueryBuilder('t')
-            ->select(self::SELECT)
-            ->leftJoin(self::WORKLOG, 'wl')
-            ->leftJoin(self::TASKLIST, 'tl')
-            ->leftJoin(self::ACCOUNT, 'a')
-            ->leftJoin(self::CLIENT, 'c')
-            ->leftJoin(self::RATES, 'r')
+        return $this->getQueryBuilder()
             ->where('t.completedAt >= :date')
             ->orderBy(self::URGENCY, "DESC")
             ->addOrderBy(self::PRIORTIY, "DESC")
@@ -203,7 +216,7 @@ class TasksRepository extends ServiceEntityRepository
     {
         return $this
             ->createQueryBuilder('t')
-            ->select('sum(t.duration) as duration')
+            ->select(self::DURATION_SUM)
             ->where(self::COMPLETED_AFTER_DATE)
             ->addOrderBy(self::ORDER, "ASC")
             ->setParameter(self::DATE, $date->format(self::MYSQL_DATE_FORMAT))
@@ -211,52 +224,10 @@ class TasksRepository extends ServiceEntityRepository
             ->getSingleResult();
     }
 
-    /**
-     * List of completed tasks today
-     *
-     * @return array The objects.
-     */
-    public function sumCompletedDurationToday()
-    {
-        $date = new DateTime();
-        $date->setTime(00, 00, 00);
 
-        return $this->sumCompletedDurationAfter($date);
-    }
 
-    /**
-     * List of completed tasks this week
-     *
-     * @return array The objects.
-     */
-    public function sumCompletedDurationThisWeek()
-    {
-//    https://stackoverflow.com/a/11905818/1030170
-        $day = date('w');
 
-        $date = new DateTime();
-        $date->sub(new DateInterval("P" . $day . "D"));
-        $date->setTime(00, 00, 00);
-        return $this->sumCompletedDurationAfter($date);
-    }
 
-    /**
-     * List of completed tasks this week
-     *
-     * @return array The objects.
-     */
-    public function sumCompletedDurationThisMonth()
-    {
-//    https://stackoverflow.com/a/11905818/1030170
-//    $day = date('d');
-//    $week_start = date(self::MYSQL_DATE_FORMAT, strtotime('-' . $day . ' days'));
-//    $week_end = date(self::MYSQL_DATE_FORMAT, strtotime('+' . (6 - $day) . ' days'));
-
-        $date = new DateTime();
-        $date->setDate($date->format('Y'), $date->format('m'), 1);
-        $date->setTime(00, 00, 00);
-        return $this->sumCompletedDurationAfter($date);
-    }
 
     /**
      *
@@ -268,17 +239,19 @@ class TasksRepository extends ServiceEntityRepository
         $today = new DateTime();
         $queryBuilder = $this
             ->createQueryBuilder('t')
-            ->select('t, tl, a, c, wl')
+            ->select(self::SELECT)
             ->leftJoin(self::TASKLIST, 'tl')
             ->leftJoin(self::ACCOUNT, 'a')
             ->leftJoin(self::CLIENT, 'c')
             ->leftJoin(self::WORKLOG, 'wl')
+            ->leftJoin(self::RATES, 'r')
+            ->leftJoin(self::SCHEDULE, 's')
             ->where(self::NOT_COMPLETED)
             ->andWhere(self::ETA_TODAY)
             ->orderBy(self::URGENCY, "DESC")
             ->addOrderBy(self::PRIORTIY, "DESC")
             ->addOrderBy(self::ORDER, "ASC")
-            ->addOrderBy("tl.id", "ASC")
+            ->addOrderBy(self::TASKLISTID, "ASC")
             ->setParameter(self::TODAY, $today->format(self::MYSQL_DATE_FORMAT));
 
         $queryBuilder->andWhere('c.id <> 28');
@@ -307,14 +280,15 @@ class TasksRepository extends ServiceEntityRepository
         $offset = 0;
         $queryBuilder = $this
             ->createQueryBuilder('t')
-            ->select('t, tl, a, c, wl, s')
+            ->select(self::SELECT)
             ->leftJoin(self::TASKLIST, 'tl')
             ->leftJoin(self::ACCOUNT, 'a')
             ->leftJoin(self::CLIENT, 'c')
             ->leftJoin(self::WORKLOG, 'wl')
-            ->leftJoin('t.schedule', 's')
+            ->leftJoin(self::RATES, 'r')
+            ->leftJoin(self::SCHEDULE, 's')
             ->where(self::NOT_COMPLETED)
-            ->andWhere('DATE(t.eta) <= :date OR t.eta IS NULL')
+            ->andWhere(self::ETA_DATE)
             ->andWhere('c.id <> 30')
             ->andWhere('s.id IS NULL');
         if (count($taskIds)) {
@@ -324,7 +298,7 @@ class TasksRepository extends ServiceEntityRepository
         $queryBuilder->orderBy(self::URGENCY, "DESC")
             ->addOrderBy(self::PRIORTIY, "DESC")
             ->addOrderBy(self::ORDER, "ASC")
-            ->addOrderBy("tl.id", "ASC")
+            ->addOrderBy(self::TASKLISTID, "ASC")
             ->setParameter(self::DATE, $date->format('Y-m-d'));
 
         if ($limit > 0 && is_int($limit)) {
@@ -354,9 +328,9 @@ class TasksRepository extends ServiceEntityRepository
             ->leftJoin(self::ACCOUNT, 'a')
             ->leftJoin(self::CLIENT, 'c')
             ->leftJoin(self::WORKLOG, 'wl')
-            ->leftJoin('t.schedule', 's')
+            ->leftJoin(self::SCHEDULE, 's')
             ->where(self::NOT_COMPLETED)
-            ->andWhere('DATE(t.eta) <= :date OR t.eta IS NULL')
+            ->andWhere(self::ETA_DATE)
             ->andWhere('c.id = 30')
             ->andWhere('s.id IS NULL');
         if (count($taskIds)) {
@@ -366,7 +340,7 @@ class TasksRepository extends ServiceEntityRepository
         return $queryBuilder->orderBy(self::URGENCY, "DESC")
             ->addOrderBy(self::PRIORTIY, "DESC")
             ->addOrderBy(self::ORDER, "ASC")
-            ->addOrderBy("tl.id", "ASC")
+            ->addOrderBy(self::TASKLISTID, "ASC")
             ->setParameter(self::DATE, $date->format('Y-m-d'))
             ->getQuery()
             ->getResult();
@@ -377,7 +351,6 @@ class TasksRepository extends ServiceEntityRepository
      * @param int $limit
      * @param int $offset
      * @return Tasks[]
-     * @todo: Refactor common createQueryBuilder
      *
      */
     public function findBySchedule($date)
@@ -389,14 +362,14 @@ class TasksRepository extends ServiceEntityRepository
             ->leftJoin(self::ACCOUNT, 'a')
             ->leftJoin(self::CLIENT, 'c')
             ->leftJoin(self::WORKLOG, 'wl')
-            ->leftJoin('t.schedule', 's')
+            ->leftJoin(self::SCHEDULE, 's')
             ->where(self::NOT_COMPLETED)
             ->andWhere('DATE(s.eta) = DATE(:date)')
             ->andWhere('s.id IS NOT NULL')
             ->orderBy(self::URGENCY, "DESC")
             ->addOrderBy(self::PRIORTIY, "DESC")
             ->addOrderBy(self::ORDER, "ASC")
-            ->addOrderBy("tl.id", "ASC")
+            ->addOrderBy(self::TASKLISTID, "ASC")
             ->setParameter(self::DATE, $date)
             ->getQuery()
             ->getResult();
@@ -453,12 +426,12 @@ class TasksRepository extends ServiceEntityRepository
             ->leftJoin(self::WORKLOG, 'wl')
             ->where(self::NOT_COMPLETED)
             ->andWhere(self::ETA_TODAY)
-            ->andWhere('a.client = :client')
+            ->andWhere(self::CLIENT_CLAUSE)
             ->orderBy(self::URGENCY, "DESC")
             ->addOrderBy(self::PRIORTIY, "DESC")
             ->addOrderBy(self::ORDER, "ASC")
             ->setParameter(self::TODAY, $today->format(self::MYSQL_DATE_FORMAT))
-            ->setParameter(':client', $client)
+            ->setParameter(self::CLIENT_VAR, $client)
             ->getQuery()
             ->getResult();
     }
@@ -489,20 +462,6 @@ class TasksRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function sumByUrgenctAndPriority()
-    {
-        return $this
-            ->createQueryBuilder('t')
-            ->select('SUM(t.duration), t.urgency, t.priority')
-            ->where(self::NOT_COMPLETED)
-            ->orderBy(self::URGENCY, "DESC")
-            ->addOrderBy(self::PRIORTIY, "DESC")
-            ->groupBy(self::URGENCY)
-            ->addGroupBy(self::PRIORTIY)
-            ->getQuery()
-            ->getResult();
-    }
-
     public function randomTasks()
     {
         $today = new DateTime();
@@ -519,21 +478,6 @@ class TasksRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function singleTaskList()
-    {
-        $today = new DateTime();
-        return $this
-            ->createQueryBuilder('t')
-            ->select('t')
-            ->where(self::NOT_COMPLETED)
-            ->andWhere(self::ETA_TODAY)
-            ->orderBy(self::URGENCY, "DESC")
-            ->addOrderBy(self::PRIORTIY, "DESC")
-            ->addOrderBy("t.taskList", "DESC")
-            ->setParameter(self::TODAY, $today->format(self::MYSQL_DATE_FORMAT))
-            ->getQuery()
-            ->getResult();
-    }
 
     public function weightedList()
     {
@@ -571,9 +515,9 @@ class TasksRepository extends ServiceEntityRepository
             ->select('t.duration, MONTH(t.completedAt) as mnth, YEAR(t.completedAt) as yr')
             ->leftJoin(self::TASKLIST, 'tl')
             ->leftJoin(self::ACCOUNT, 'a')
-            ->where('a.client = :client')
+            ->where(self::CLIENT_CLAUSE)
             ->andWhere('t.completedAt IS NOT NULL')
-            ->setParameter(':client', $client)
+            ->setParameter(self::CLIENT_VAR, $client)
             ->orderBy(self::COMPLETEDAT)
             ->getQuery()
             ->getResult();
@@ -581,36 +525,20 @@ class TasksRepository extends ServiceEntityRepository
 
     public function findDurationCompletedByClientByRange($client, $from, $to)
     {
-        return $this
+        return (int)$this
             ->createQueryBuilder('t')
-            ->select('SUM(t.duration) as duration')
+            ->select(self::DURATION_SUM)
             ->leftJoin(self::TASKLIST, 'tl')
             ->leftJoin(self::ACCOUNT, 'a')
-            ->where('a.client = :client')
-            ->andWhere('t.completedAt BETWEEN :from AND :to')
-            ->setParameter(':client', $client)
-            ->setParameter(':from', $from)
+            ->where(self::CLIENT_CLAUSE)
+            ->andWhere(self::COMPLETED_RANGE)
+            ->setParameter(self::CLIENT_VAR, $client)
+            ->setParameter(self::FROM, $from)
             ->setParameter(':to', $to)
             ->getQuery()
-            ->getSingleResult();
+            ->getSingleScalarResult();
     }
 
-    public function findCompletedByClientThisMonth($client)
-    {
-        $date = new DateTime();
-        $date->setDate($date->format('Y'), $date->format('m'), 1);
-        $date->setTime(00, 00, 00);
-        return $this
-            ->createQueryBuilder('t')
-            ->leftJoin(self::TASKLIST, 'tl')
-            ->leftJoin(self::ACCOUNT, 'a')
-            ->where('a.client = :client')
-            ->andWhere(self::COMPLETED_AFTER_DATE)
-            ->setParameter(':client', $client)
-            ->setParameter(self::DATE, $date->format(self::MYSQL_DATE_FORMAT))
-            ->getQuery()
-            ->getResult();
-    }
 
     public function findCompletedByClientByDate($client, $date)
     {
@@ -618,10 +546,10 @@ class TasksRepository extends ServiceEntityRepository
             ->createQueryBuilder('t')
             ->leftJoin(self::TASKLIST, 'tl')
             ->leftJoin(self::ACCOUNT, 'a')
-            ->where('a.client = :client')
+            ->where(self::CLIENT_CLAUSE)
             ->andWhere('date(t.completedAt) = :date')
             ->orderBy(self::COMPLETEDAT)
-            ->setParameter(':client', $client)
+            ->setParameter(self::CLIENT_VAR, $client)
             ->setParameter(self::DATE, $date->format('Y-m-d'))
             ->getQuery()
             ->getResult();
@@ -633,32 +561,16 @@ class TasksRepository extends ServiceEntityRepository
             ->createQueryBuilder('t')
             ->leftJoin(self::TASKLIST, 'tl')
             ->leftJoin(self::ACCOUNT, 'a')
-            ->where('a.client = :client')
-            ->andWhere('t.completedAt BETWEEN :from AND :to')
+            ->where(self::CLIENT_CLAUSE)
+            ->andWhere(self::COMPLETED_RANGE)
             ->orderBy(self::COMPLETEDAT)
-            ->setParameter(':client', $client)
-            ->setParameter(':from', $from)
+            ->setParameter(self::CLIENT_VAR, $client)
+            ->setParameter(self::FROM, $from)
             ->setParameter(':to', $to)
             ->getQuery()
             ->getResult();
     }
 
-    public function findCompletedByClientByMonth($client, $month)
-    {
-        return $this
-            ->createQueryBuilder('t')
-            ->leftJoin(self::TASKLIST, 'tl')
-            ->leftJoin(self::ACCOUNT, 'a')
-            ->where('a.client = :client')
-            ->andWhere('YEAR(t.completedAt) = :year')
-            ->andWhere('MONTH(t.completedAt) = :month')
-            ->orderBy(self::COMPLETEDAT)
-            ->setParameter(':client', $client)
-            ->setParameter(':month', $month->format('m'))
-            ->setParameter(':year', $month->format('Y'))
-            ->getQuery()
-            ->getResult();
-    }
 
     public function findCompletedByClientToday($client)
     {
@@ -666,12 +578,12 @@ class TasksRepository extends ServiceEntityRepository
         $date->setTime(00, 00, 00);
         return $this
             ->createQueryBuilder('t')
-            ->select('SUM(t.duration) as duration')
+            ->select(self::DURATION_SUM)
             ->leftJoin(self::TASKLIST, 'tl')
             ->leftJoin(self::ACCOUNT, 'a')
-            ->where('a.client = :client')
+            ->where(self::CLIENT_CLAUSE)
             ->andWhere(self::COMPLETED_AFTER_DATE)
-            ->setParameter(':client', $client)
+            ->setParameter(self::CLIENT_VAR, $client)
             ->setParameter(self::DATE, $date->format(self::MYSQL_DATE_FORMAT))
             ->getQuery()
             ->getSingleScalarResult();
@@ -681,12 +593,12 @@ class TasksRepository extends ServiceEntityRepository
     {
         return $this
             ->createQueryBuilder('t')
-            ->select('SUM(t.duration) as duration')
+            ->select(self::DURATION_SUM)
             ->leftJoin(self::TASKLIST, 'tl')
             ->leftJoin(self::ACCOUNT, 'a')
-            ->where('a.client = :client')
+            ->where(self::CLIENT_CLAUSE)
             ->andWhere('date(t.completedAt) = :date')
-            ->setParameter(':client', $client)
+            ->setParameter(self::CLIENT_VAR, $client)
             ->setParameter(self::DATE, $date->format('Y-m-d'))
             ->getQuery()
             ->getSingleResult();
@@ -779,13 +691,7 @@ class TasksRepository extends ServiceEntityRepository
 
     public function findByAccountNoWorklog(Accounts $account)
     {
-        return $this->createQueryBuilder('t')
-            ->select(self::SELECT)
-            ->leftJoin(self::WORKLOG, 'wl')
-            ->leftJoin(self::TASKLIST, 'tl')
-            ->leftJoin(self::ACCOUNT, 'a')
-            ->leftJoin(self::CLIENT, 'c')
-            ->leftJoin(self::RATES, 'r')
+        return $this->getQueryBuilder()
             ->where('wl.id IS NULL')
             ->andWhere('a.id = :account')
             ->setParameter(':account', $account)
@@ -839,14 +745,7 @@ class TasksRepository extends ServiceEntityRepository
      */
     public function getCompletedByDate(DateTime $date)
     {
-        return $this
-            ->createQueryBuilder('t')
-            ->select(self::SELECT)
-            ->leftJoin(self::WORKLOG, 'wl')
-            ->leftJoin(self::TASKLIST, 'tl')
-            ->leftJoin(self::ACCOUNT, 'a')
-            ->leftJoin(self::CLIENT, 'c')
-            ->leftJoin(self::RATES, 'r')
+        return $this->getQueryBuilder()
             ->where('DATE(t.completedAt) = :date')
             ->setParameter(self::DATE, $date->format('Y-m-d'))
             ->getQuery()
@@ -861,14 +760,7 @@ class TasksRepository extends ServiceEntityRepository
      */
     public function getCreatedByDate(DateTime $date)
     {
-        return $this
-            ->createQueryBuilder('t')
-            ->select(self::SELECT)
-            ->leftJoin(self::WORKLOG, 'wl')
-            ->leftJoin(self::TASKLIST, 'tl')
-            ->leftJoin(self::ACCOUNT, 'a')
-            ->leftJoin(self::CLIENT, 'c')
-            ->leftJoin(self::RATES, 'r')
+        return $this->getQueryBuilder()
             ->where('DATE(t.createdAt) = :date')
             ->andWhere(self::NOT_COMPLETED)
             ->setParameter(self::DATE, $date->format('Y-m-d'))
@@ -884,14 +776,7 @@ class TasksRepository extends ServiceEntityRepository
      */
     public function getUpdatedByDate(DateTime $date)
     {
-        return $this
-            ->createQueryBuilder('t')
-            ->select(self::SELECT)
-            ->leftJoin(self::WORKLOG, 'wl')
-            ->leftJoin(self::TASKLIST, 'tl')
-            ->leftJoin(self::ACCOUNT, 'a')
-            ->leftJoin(self::CLIENT, 'c')
-            ->leftJoin(self::RATES, 'r')
+        return $this->getQueryBuilder()
             ->where('DATE(t.updatedAt) = :date')
             ->andWhere(self::NOT_COMPLETED)
             ->setParameter(self::DATE, $date->format('Y-m-d'))
@@ -926,43 +811,13 @@ class TasksRepository extends ServiceEntityRepository
     public function getDurationSumByRange($from, $to)
     {
         $qb = $this->createQueryBuilder('t')
-            ->select('SUM(t.duration)')
-            ->where('t.completedAt BETWEEN :from AND :to')
+            ->select(self::DURATION_SUM)
+            ->where(self::COMPLETED_RANGE)
             ->setParameter(":from", $from)
             ->setParameter(":to", $to);
 
         return (int)$qb->getQuery()
             ->getSingleScalarResult();
-    }
-
-    /**
-     *
-     * @param int $limit
-     * @return Tasks[]
-     */
-    public function findFocusByEta($date, $limit = 0)
-    {
-        $query = $this
-            ->createQueryBuilder('t')
-            ->select('t, tl, a, c, wl')
-            ->leftJoin(self::TASKLIST, 'tl')
-            ->leftJoin(self::ACCOUNT, 'a')
-            ->leftJoin(self::CLIENT, 'c')
-            ->leftJoin(self::WORKLOG, 'wl')
-            ->where(self::NOT_COMPLETED)
-            ->andWhere('DATE(t.eta) <= :date OR t.eta IS NULL')
-            ->orderBy(self::URGENCY, "DESC")
-            ->addOrderBy(self::PRIORTIY, "DESC")
-            ->addOrderBy(self::ORDER, "ASC")
-            ->setParameter(self::DATE, $date->format('Y-m-d'));
-
-        if ($limit > 0 && is_int($limit)) {
-            $query->setMaxResults($limit);
-        }
-
-        return $query
-            ->getQuery()
-            ->getResult();
     }
 
     /**
@@ -973,14 +828,7 @@ class TasksRepository extends ServiceEntityRepository
      */
     public function getOpenCreatedBeforeDate(DateTime $date)
     {
-        return $this
-            ->createQueryBuilder('t')
-            ->select(self::SELECT)
-            ->leftJoin(self::WORKLOG, 'wl')
-            ->leftJoin(self::TASKLIST, 'tl')
-            ->leftJoin(self::ACCOUNT, 'a')
-            ->leftJoin(self::CLIENT, 'c')
-            ->leftJoin(self::RATES, 'r')
+        return $this->getQueryBuilder()
             ->where('DATE(t.createdAt) >= :date')
             ->andWhere(self::NOT_COMPLETED)
             ->orderBy('t.createdAt')

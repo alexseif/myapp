@@ -47,7 +47,7 @@ class ContractProgress
         }
         $this->monthEnd = clone $this->monthStart;
         $this->monthEnd->modify('+1 month');
-        $this->setWorkedMinutes($tasksRepository->getDurationSumByRange($this->getMonthStart(), $this->getMonthEnd()));
+        $this->workedMinutes = $tasksRepository->findDurationCompletedByClientByRange($contract->getClient(), $this->getMonthStart(), $this->getMonthEnd());
         $this->workedMinutesToday = $tasksRepository->findCompletedByClientToday($contract->getClient());
         $this->calcContractProgress();
 
@@ -55,7 +55,7 @@ class ContractProgress
         $this->workingDaysSoFar = DateRanges::numberOfWorkingDays($this->getMonthStart(), new \DateTime());
         $this->remainingDays = (self::DAYS_PER_MONTH - $this->getWorkingDaysSoFar()) ?: 1;
         $this->dailyTarget = ($this->getMonthlyMinutes() - $this->getWorkedMinutes()) / $this->getRemainingDays();
-        $this->setTodaysProgress($this->workedMinutesToday / $this->getDailyTarget() * 100);
+        $this->todaysProgress = $this->workedMinutesToday / $this->getDailyTarget() * 100;
 
 
     }
@@ -68,13 +68,6 @@ class ContractProgress
         return $this->contractProgress;
     }
 
-    /**
-     * @param float $contractProgress
-     */
-    public function setContractProgress(float $contractProgress): void
-    {
-        $this->contractProgress = $contractProgress;
-    }
 
     /**
      *
@@ -93,14 +86,6 @@ class ContractProgress
     }
 
     /**
-     * @param float $todaysProgress
-     */
-    public function setTodaysProgress(float $todaysProgress): void
-    {
-        $this->todaysProgress = $todaysProgress;
-    }
-
-    /**
      * @return int
      */
     public function getDailyTarget(): int
@@ -108,13 +93,6 @@ class ContractProgress
         return $this->dailyTarget;
     }
 
-    /**
-     * @param int $dailyTarget
-     */
-    public function setDailyTarget(int $dailyTarget): void
-    {
-        $this->dailyTarget = $dailyTarget;
-    }
 
     /**
      * @return \DateTime
@@ -124,13 +102,6 @@ class ContractProgress
         return $this->monthStart;
     }
 
-    /**
-     * @param \DateTime $monthStart
-     */
-    public function setMonthStart(\DateTime $monthStart): void
-    {
-        $this->monthStart = $monthStart;
-    }
 
     /**
      * @return \DateTime
@@ -140,13 +111,6 @@ class ContractProgress
         return $this->monthEnd;
     }
 
-    /**
-     * @param \DateTime $monthEnd
-     */
-    public function setMonthEnd(\DateTime $monthEnd): void
-    {
-        $this->monthEnd = $monthEnd;
-    }
 
     /**
      * @return int
@@ -156,13 +120,6 @@ class ContractProgress
         return $this->monthlyMinutes;
     }
 
-    /**
-     * @param int $monthlyMinutes
-     */
-    public function setMonthlyMinutes(int $monthlyMinutes): void
-    {
-        $this->monthlyMinutes = $monthlyMinutes;
-    }
 
     /**
      * @return int
@@ -172,13 +129,6 @@ class ContractProgress
         return $this->workedMinutes;
     }
 
-    /**
-     * @param int $workedMinutes
-     */
-    public function setWorkedMinutes(int $workedMinutes): void
-    {
-        $this->workedMinutes = $workedMinutes;
-    }
 
     /**
      * @return int
@@ -188,13 +138,6 @@ class ContractProgress
         return $this->workingDaysSoFar;
     }
 
-    /**
-     * @param int $workingDaysSoFar
-     */
-    public function setWorkingDaysSoFar(int $workingDaysSoFar): void
-    {
-        $this->workingDaysSoFar = $workingDaysSoFar;
-    }
 
     /**
      * @return int
@@ -202,46 +145,6 @@ class ContractProgress
     public function getRemainingDays(): int
     {
         return $this->remainingDays;
-    }
-
-    /**
-     * @param int $remainingDays
-     */
-    public function setRemainingDays(int $remainingDays): void
-    {
-        $this->remainingDays = $remainingDays;
-    }
-
-    /**
-     * @return int
-     */
-    public function getMinutesPerDay(): int
-    {
-        return $this->minutesPerDay;
-    }
-
-    /**
-     * @param int $minutesPerDay
-     */
-    public function setMinutesPerDay(int $minutesPerDay): void
-    {
-        $this->minutesPerDay = $minutesPerDay;
-    }
-
-    /**
-     * @return int
-     */
-    public function getWorkedMinutesToday(): int
-    {
-        return $this->workedMinutesToday;
-    }
-
-    /**
-     * @param int $workedMinutesToday
-     */
-    public function setWorkedMinutesToday(int $workedMinutesToday): void
-    {
-        $this->workedMinutesToday = $workedMinutesToday;
     }
 
 

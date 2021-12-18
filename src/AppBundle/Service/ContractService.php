@@ -6,6 +6,7 @@
 
 namespace AppBundle\Service;
 
+use AppBundle\Entity\Tasks;
 use AppBundle\Model\ContractProgress;
 use AppBundle\Util\DateRanges;
 use Doctrine\ORM\EntityManager;
@@ -38,7 +39,7 @@ class ContractService
     {
         $contracts = $this->em->getRepository('AppBundle:Contract')->findBy(["isCompleted" => false]);
         foreach ($contracts as $contract) {
-            $contract->setProgress(new ContractProgress($contract, $this->em->getRepository('AppBundle:Tasks')));
+            $contract->setProgress(new ContractProgress($contract, $this->em->getRepository(Tasks::class)));
         }
         return $contracts;
     }
