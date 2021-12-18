@@ -59,16 +59,6 @@ class BottomBar
     }
 
 
-
-    /**
-     *
-     * @return array Thing[]
-     */
-    public function getThings()
-    {
-        return $this->getEm()->getRepository('AppBundle:Thing')->findBy([], ['createdAt' => 'asc'], 5);
-    }
-
     /**
      *
      * @return array Tasks[]
