@@ -430,8 +430,7 @@ class TasksRepository extends ServiceEntityRepository
     {
         $today = new DateTime();
         return $this
-            ->createQueryBuilder('t')
-            ->select('t')
+            ->getQueryBuilder()
             ->addSelect('RAND() as HIDDEN rand')
             ->where(self::NOT_COMPLETED)
             ->andWhere(self::ETA_TODAY)

@@ -31,10 +31,25 @@ class SchedulerController extends AbstractController
     }
 
     /**
+     * @Route("/", name="scheduler_landing")
+     */
+    public function landing(): Response
+    {
+        $date = new \DateTime();
+        $year = $date->format('Y');
+        $week = $date->format('W');
+        if (7 == $date->format("N")) {
+            $week++;
+        }
+        return $this->redirect($this->generateUrl('scheduler', ["year" => $year, "week" => $week]));
+    }
+
+    /**
      * @Route("/{year}/{week}", name="scheduler")
      */
     public function index(EntityManagerInterface $entityManager, $year, $week): Response
     {
+        $date = new \DateTime();
         $period = $this->getPeriod(date('Y'), $week);
         $schedulers = [];
         $tasked = [];
