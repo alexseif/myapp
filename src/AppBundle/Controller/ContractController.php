@@ -91,10 +91,8 @@ class ContractController extends Controller
         $today = new DateTime();
         $billingType = $contract->getClient()->getBillingOption();
         $day = 25;
-        if ($billingType) {
-            if (array_key_exists('billingOn', $billingType)) {
-                $day = $billingType['billingOn'];
-            }
+        if ($billingType && array_key_exists('billingOn', $billingType)) {
+            $day = $billingType['billingOn'];
         }
         if ($contract->getBilledOn()) {
             $day = $contract->getBilledOn();
@@ -171,10 +169,8 @@ class ContractController extends Controller
         $reportFilterForm->handleRequest($request);
         $billingType = $contract->getClient()->getBillingOption();
         $day = 25;
-        if ($billingType) {
-            if (array_key_exists('billingOn', $billingType)) {
-                $day = $billingType['billingOn'];
-            }
+        if ($billingType && array_key_exists('billingOn', $billingType)) {
+            $day = $billingType['billingOn'];
         }
         if ($contract->getBilledOn()) {
             $day = $contract->getBilledOn();
@@ -215,7 +211,7 @@ class ContractController extends Controller
         $toDate->setTime(23, 23, 59);
         $tasks = $em->getRepository('AppBundle:Tasks')->findCompletedByClientByRange($contract->getClient(), $fromDate, $toDate);
         $monthHolidays = $em->getRepository('AppBundle:Holiday')->findByRange(new DateTime($from), new DateTime($to));
-        $workingDays = DateRanges::getWorkingDays($from, $to);
+        $workingDays = 22;
         //TODO: get from contract
         $expected = ($workingDays * $contract->getHoursPerDay());
         $total = 0;

@@ -520,10 +520,7 @@ class TasksRepository extends ServiceEntityRepository
 
     public function findCompletedByClientByRange($client, $from, $to)
     {
-        return $this
-            ->createQueryBuilder('t')
-            ->leftJoin(self::TASKLIST, 'tl')
-            ->leftJoin(self::ACCOUNT, 'a')
+        return $this->getQueryBuilder()
             ->where(self::CLIENT_CLAUSE)
             ->andWhere(self::COMPLETED_RANGE)
             ->orderBy(self::COMPLETEDAT)
