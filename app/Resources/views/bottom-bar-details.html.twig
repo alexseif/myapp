@@ -37,9 +37,9 @@
             {% for contract in contracts %}
                 <a class="dropdown-item"
                    href="{{ path('focus', {'client': contract.client.id}) }}">
-                    {{ contract.name }}
+                    {{ contract.name }} - {{ (contract.progress.dailyTarget/60)|round }}
                 </a>
-                <div class="progress" title="todaysProgress - {{ contract.progress.dailyTarget/60 }}">
+                <div class="progress" title="dailyTarget - {{ (contract.progress.dailyTarget/60)|round }}">
                     <div class="progress-bar" role="progressbar" aria-valuenow="{{ contract.progress.todaysProgress }}"
                          aria-valuemin="0" aria-valuemax="100" style="width:{{ contract.progress.todaysProgress }}%">
                         {{ contract.progress.todaysProgress|number_format }}%

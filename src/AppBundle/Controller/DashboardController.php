@@ -39,7 +39,7 @@ class DashboardController extends Controller
 
     /**
      *
-     * @Route("elements", name="elements")
+     * @Route("/elements", name="elements")
      */
     public function elementsAction()
     {
@@ -48,7 +48,7 @@ class DashboardController extends Controller
 
     /**
      *
-     * @Route("workspace", name="workspace")
+     * @Route("/workspace", name="workspace")
      */
     public function workspaceAction()
     {
@@ -57,11 +57,20 @@ class DashboardController extends Controller
 
     /**
      *
-     * @Route("remind", name="remind")
+     * @Route("/remind", name="remind")
      */
     public function remindAction()
     {
         return $this->render("AppBundle:Dashboard:remindMe.html.twig");
+    }
+
+    /**
+     *
+     * @Route("/empty", name="empty")
+     */
+    public function emptyAction()
+    {
+        return $this->render("empty.html.twig");
     }
 
 }

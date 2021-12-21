@@ -51,11 +51,14 @@ class ContractProgress
         $this->workedMinutesToday = $tasksRepository->findCompletedByClientToday($contract->getClient());
         $this->calcContractProgress();
 
-//@TODO: holidays and stuff
+        //@TODO: holidays and stuff
+        //@TODO: WorkingDaySoFar by billing date
         $this->workingDaysSoFar = DateRanges::numberOfWorkingDays($this->getMonthStart(), new \DateTime());
         $this->remainingDays = (self::DAYS_PER_MONTH - $this->getWorkingDaysSoFar()) ?: 1;
         $this->dailyTarget = ($this->getMonthlyMinutes() - $this->getWorkedMinutes()) / $this->getRemainingDays();
-        $this->todaysProgress = $this->workedMinutesToday / $this->getDailyTarget() * 100;
+
+
+        $this->todaysProgress = $this->workedMinutesToday / $this->minutesPerDay * 100;
 
 
     }
