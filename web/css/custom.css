@@ -228,6 +228,10 @@ label#focus-switch:active:after {
     text-align: center;
 }
 
+.week .past .task-item:not(.completed) {
+    border: 1px solid red;
+}
+
 #garbage {
     transition: height 1s ease-out;
 }

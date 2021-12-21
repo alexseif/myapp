@@ -23,13 +23,13 @@
     <div id="ajax-results"></div>
     <div class="card-body">
         <div class="week">
-            {% for day, scheduler in schedulers %}
-                <div class="day {{ (scheduler.date < scheduler.today)? "past" : "future" }} {{ (scheduler.isToday)? "today" }}">
+            {% for dayKey, day in scheduler.days %}
+                <div class="day {{ (day.date < scheduler.today)? "past" : "future" }} {{ (day.isToday)? "today" }}">
                     <div class="day-title">
-                        {{ scheduler.dayName }}
-                        {{ scheduler.date|date }}
+                        {{ day.date|date('W') }}
+                        {{ day.date|date }}
                     </div>
-                    {{ tasks_view.ul(scheduler.tasks, {'id': scheduler.date|date('Y-m-d')}) }}
+                    {{ tasks_view.ul(day.tasks, {'id': day.date|date('Y-m-d')}) }}
                 </div>
             {% endfor %}
         </div>
