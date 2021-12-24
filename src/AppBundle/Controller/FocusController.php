@@ -61,22 +61,21 @@ class FocusController extends Controller
         $tasksRepo = $em->getRepository('AppBundle:Tasks');
         $weightedList = $tasksRepo->weightedList();
         $taskListsOrder = [];
-        foreach ($weightedList as $key => $row) {
+        foreach ($weightedList as $row) {
             if (!in_array($row['id'], $taskListsOrder)) {
                 $taskListsOrder[] = $row['id'];
             }
         }
         $tasks = [];
         foreach ($taskListsOrder as $taskListId) {
-            $reorderTasks = $tasksRepo->findBy(
-                array(
-                    'taskList' => $taskListId,
-                    'completed' => false
-                ), array(
+            $reorderTasks = $tasksRepo->findBy([
+                'taskList' => $taskListId,
+                'completed' => false
+            ], [
                 'urgency' => 'DESC',
                 'priority' => 'DESC',
                 'order' => 'ASC'
-            ), 10
+            ], 10
             );
             $tasks = array_merge($tasks, $reorderTasks);
         }
@@ -85,34 +84,5 @@ class FocusController extends Controller
         ));
     }
 
-    /**
-     *
-     * @Route("/beta", name="beta")
-     * @return Response|null
-     */
-    public function betaAction()
-    {
-        $em = $this->getDoctrine()->getManager();
-        $tasksRepo = $em->getRepository('AppBundle:Tasks');
-        $tasks = $tasksRepo->getIncopmleteTasks();
-//    $tasksCompletedToday = $tasksRepo->getCompletedToday();
-        $days = $em->getRepository('AppBundle:Days')->getImportantCards();
-
-        $today = new DateTime();
-        $actionItems = array();
-        foreach ($days as $day) {
-            $actionItems[] = new ActionItem($day->getId(), 'day', $day->getName(), $day->getDeadline()->diff($today)->format('%R%a days'));
-        }
-        foreach ($tasks as $task) {
-            $actionItems[] = new ActionItem($task->getId(), 'task', $task->getTask(), $task->getDuration() . "m", $task->getTaskList()->getName(), $task->getPriority(), $task->getUrgency());
-        }
-
-        return $this->render("AppBundle:focus:beta.html.twig", array(
-            'actionItems' => $actionItems,
-            'tasks' => $tasks,
-            'days' => $days,
-            'today' => $today,
-        ));
-    }
 
 }
