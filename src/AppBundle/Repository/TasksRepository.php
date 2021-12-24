@@ -36,7 +36,7 @@ class TasksRepository extends ServiceEntityRepository
     public const ACCOUNT = 'tl.account';
     public const CLIENT = 'a.client';
     public const CLIENT_VAR = ':client';
-    public const CLIENT_CLAUSE = self::CLIENT.' = '.self::CLIENT_VAR;
+    public const CLIENT_CLAUSE = self::CLIENT . ' = ' . self::CLIENT_VAR;
     public const RATES = 'c.rates';
     public const COMPLETEDAT = 't.completedAt';
     public const TASKLISTID = 'tl.id';
@@ -74,37 +74,14 @@ class TasksRepository extends ServiceEntityRepository
         return $this->findBy([]);
     }
 
-    public function findUnListed()
-    {
-        return $this->findBy(['taskList' => null]);
-    }
-
     public function getIncomplete()
     {
         return $this
-            ->createQueryBuilder('t')
-            ->select('t')
+            ->getQueryBuilder()
             ->where(self::NOT_COMPLETED)
             ->orderBy(self::URGENCY, 'DESC')
             ->addOrderBy(self::PRIORTIY, 'DESC')
             ->addOrderBy(self::ORDER, 'ASC')
-            ->getQuery()
-            ->getResult();
-    }
-
-    public function getIncopmleteTasks()
-    {
-        $today = new DateTime();
-
-        return $this
-            ->createQueryBuilder('t')
-            ->select('t')
-            ->where(self::NOT_COMPLETED)
-            ->andWhere(self::ETA_TODAY)
-            ->orderBy(self::URGENCY, 'DESC')
-            ->addOrderBy(self::PRIORTIY, 'DESC')
-            ->addOrderBy(self::ORDER, 'ASC')
-            ->setParameter(self::TODAY, $today->format(self::MYSQL_DATE_FORMAT))
             ->getQuery()
             ->getResult();
     }
@@ -189,7 +166,7 @@ class TasksRepository extends ServiceEntityRepository
         $day = date('w');
 
         $date = new DateTime();
-        $date->sub(new DateInterval('P'.$day.'D'));
+        $date->sub(new DateInterval('P' . $day . 'D'));
         $date->setTime(00, 00, 00);
 
         return $this->getCompletedAfter($date);
@@ -247,8 +224,8 @@ class TasksRepository extends ServiceEntityRepository
 
     /**
      * @param \DateTime $date
-     * @param int       $limit
-     * @param int       $offset
+     * @param int $limit
+     * @param int $offset
      *
      * @return Tasks[]
      */
@@ -284,8 +261,8 @@ class TasksRepository extends ServiceEntityRepository
 
     /**
      * @param \DateTime $date
-     * @param int       $limit
-     * @param int       $offset
+     * @param int $limit
+     * @param int $offset
      *
      * @return Tasks[]
      */
@@ -345,8 +322,7 @@ class TasksRepository extends ServiceEntityRepository
         $today = new DateTime();
 
         return $this
-            ->createQueryBuilder('t')
-            ->select('t')
+            ->getQueryBuilder()
             ->where(self::NOT_COMPLETED)
             ->andWhere(self::ETA_TODAY)
             ->orderBy(self::URGENCY, 'DESC')
@@ -358,17 +334,26 @@ class TasksRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function getUrgentTasks()
+    {
+        return $this
+            ->getQueryBuilder()
+            ->where('t.urgency = 1')
+            ->andWhere(self::NOT_COMPLETED)
+            ->orderBy(self::URGENCY, 'DESC')
+            ->addOrderBy(self::PRIORTIY, 'DESC')
+            ->addOrderBy(self::ORDER, 'ASC')
+            ->setMaxResults(30)
+            ->getQuery()
+            ->getResult();
+    }
+
     public function focusByTasklist($taskList)
     {
         $today = new DateTime();
 
         return $this
-            ->createQueryBuilder('t')
-            ->select('t, tl, a, c, wl')
-            ->leftJoin(self::TASKLIST, 'tl')
-            ->leftJoin(self::ACCOUNT, 'a')
-            ->leftJoin(self::CLIENT, 'c')
-            ->leftJoin(self::WORKLOG, 'wl')
+            ->getQueryBuilder()
             ->where(self::NOT_COMPLETED)
             ->andWhere(self::ETA_TODAY)
             ->andWhere('t.taskList = :tasklist')
@@ -471,7 +456,7 @@ class TasksRepository extends ServiceEntityRepository
             ->createQueryBuilder('t')
             ->select()
             ->where('t.task LIKE :searchTerm')
-            ->setParameter(':searchTerm', '%'.$searchTerm.'%')
+            ->setParameter(':searchTerm', '%' . $searchTerm . '%')
             ->getQuery()
             ->getResult();
     }
@@ -493,7 +478,7 @@ class TasksRepository extends ServiceEntityRepository
 
     public function findDurationCompletedByClientByRange($client, $from, $to)
     {
-        return (int) $this
+        return (int)$this
             ->createQueryBuilder('t')
             ->select(self::DURATION_SUM)
             ->leftJoin(self::TASKLIST, 'tl')
@@ -662,10 +647,6 @@ class TasksRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function focusListLimit()
-    {
-        return $this->getIncopmleteTasks();
-    }
 
     /**
      * @return array the objects
@@ -777,7 +758,7 @@ class TasksRepository extends ServiceEntityRepository
             ->setParameter(':from', $from)
             ->setParameter(':to', $to);
 
-        return (int) $qb->getQuery()
+        return (int)$qb->getQuery()
             ->getSingleScalarResult();
     }
 

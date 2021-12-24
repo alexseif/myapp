@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\TaskLists;
+use AppBundle\Entity\Tasks;
 use AppBundle\Service\FocusService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -48,7 +49,7 @@ class FocusController extends Controller
     public function singleTaskAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $tasksRepo = $em->getRepository('AppBundle:Tasks');
+        $tasksRepo = $em->getRepository(Tasks::class);
         $weightedList = $tasksRepo->weightedList();
         $taskListsOrder = [];
         foreach ($weightedList as $row) {

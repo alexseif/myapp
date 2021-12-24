@@ -6,6 +6,7 @@
 
 namespace AppBundle\Service;
 
+use AppBundle\Entity\DashboardTaskLists;
 use AppBundle\Entity\TaskLists;
 use AppBundle\Repository\TasksRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -41,7 +42,7 @@ class TasksService
 
     public function getDashboardTasklists()
     {
-        return $this->getEm()->getRepository('AppBundle:DashboardTaskLists')->findAll();
+        return $this->getEm()->getRepository(DashboardTaskLists::class)->findAll();
     }
 
     public function getWorkareaTasks($taskListName)
@@ -52,6 +53,7 @@ class TasksService
                 $inboxTasks = $this->getRepository()->focusLimitList();
                 break;
             case 'urgent':
+                $inboxTasks = $this->getRepository()->getUrgentTasks();
                 break;
             case 'completedToday':
                 $inboxTasks = $this->getRepository()->getCompletedToday();
@@ -66,21 +68,11 @@ class TasksService
 
     public function getFocusByTaskListName($taskListName)
     {
-        // @TODO: Not found handler
         $taskList = $this->getEm()->getRepository(TaskLists::class)->findOneBy(['name' => $taskListName]);
 
         return $this->getRepository()->focusByTasklist($taskList);
     }
 
-    /**
-     * @return \Doctrine\Common\Collections\ArrayCollection
-     *
-     * @deprecated since version number
-     */
-    public function getUnlisted()
-    {
-        return $this->getRepository()->findUnListed();
-    }
 
     public function getRandom()
     {
@@ -113,7 +105,7 @@ class TasksService
         $piechart['Normal'] = 0;
         $piechart['Low'] = 0;
         foreach ($countByUrgenctAndPriority as $row) {
-            $row['duration'] = (int) $row['duration'];
+            $row['duration'] = (int)$row['duration'];
             if ($row['urgency']) {
                 if ($row['priority']) {
                     $piechart['Urgent & Important'] = $row['duration'];

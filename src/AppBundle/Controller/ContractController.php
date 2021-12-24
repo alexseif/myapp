@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Contract;
+use AppBundle\Entity\Tasks;
 use AppBundle\Form\ContractType;
 use AppBundle\Util\DateRanges;
 use DateInterval;
@@ -114,7 +115,7 @@ class ContractController extends Controller
     public function logAction(Contract $contract, $from, $to): ?Response
     {
         $em = $this->getDoctrine()->getManager();
-        $tasksRepo = $em->getRepository('AppBundle:Tasks');
+        $tasksRepo = $em->getRepository(Tasks::class);
         $fromDate = new DateTime($from);
         $fromDate->setTime(0, 0, 0);
         $toDate = new DateTime($to);
@@ -210,7 +211,7 @@ class ContractController extends Controller
         $fromDate->setTime(0, 0, 0);
         $toDate = new DateTime($to);
         $toDate->setTime(23, 23, 59);
-        $tasks = $em->getRepository('AppBundle:Tasks')->findCompletedByClientByRange($contract->getClient(), $fromDate, $toDate);
+        $tasks = $em->getRepository(Tasks::class)->findCompletedByClientByRange($contract->getClient(), $fromDate, $toDate);
         $monthHolidays = $em->getRepository('AppBundle:Holiday')->findByRange(new DateTime($from), new DateTime($to));
         $workingDays = 22;
         $expected = ($workingDays * $contract->getHoursPerDay());

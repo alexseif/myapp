@@ -6,6 +6,7 @@
 
 namespace AppBundle\Service;
 
+use AppBundle\Entity\Tasks;
 use Doctrine\ORM\EntityManager;
 
 /**
@@ -57,7 +58,7 @@ class BottomBar
      */
     public function getTasks()
     {
-        return $this->getEm()->getRepository('AppBundle:Tasks')->focusList(5);
+        return $this->getEm()->getRepository(Tasks::class)->focusList(5);
     }
 
     /**

@@ -72,7 +72,7 @@ class ReportsController extends Controller
     public function tasklistAction(TaskLists $tasklist)
     {
         $em = $this->getDoctrine()->getManager();
-        $tasks = $em->getRepository('AppBundle:Tasks')->findBy([
+        $tasks = $em->getRepository(Tasks::class)->findBy([
             'taskList' => $tasklist,
             'completed' => true,
         ], ['completedAt' => 'DESC']);
@@ -153,7 +153,7 @@ class ReportsController extends Controller
     public function tasksYearsAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $tasksYears = $em->getRepository('AppBundle:Tasks')->findTasksYears();
+        $tasksYears = $em->getRepository(Tasks::class)->findTasksYears();
 
         return $this->render('AppBundle:Reports:tasksYears.html.twig', [
             'tasksYears' => $tasksYears,

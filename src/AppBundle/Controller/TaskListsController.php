@@ -30,7 +30,7 @@ class TaskListsController extends Controller
         $form = $this->createForm('AppBundle\Form\TasksMassEditType', $taskTemplate);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $tasks = $em->getRepository('AppBundle:Tasks')->findBy(['taskList' => $taskTemplate->getTaskList()]);
+            $tasks = $em->getRepository(Tasks::class)->findBy(['taskList' => $taskTemplate->getTaskList()]);
             foreach ($tasks as $task) {
                 $task->setPriority($taskTemplate->getPriority());
                 $task->setUrgency($taskTemplate->getUrgency());

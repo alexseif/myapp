@@ -23,7 +23,6 @@ class DashboardController extends Controller
         return $this->render('AppBundle:Dashboard:dashboard.html.twig', [
             'taskLists' => $ts->getDashboardTasklists(),
             'randomTasks' => $ts->getRandom(),
-            'unlistedTasks' => $ts->getUnlisted(),
             'days' => $rs->getActiveReminders(),
             'holidays' => $em->getRepository('AppBundle:Holiday')->getComingHolidays(),
             'accounts' => $as->getDashboard(),

@@ -2,6 +2,11 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Accounts;
+use AppBundle\Entity\Client;
+use AppBundle\Entity\Days;
+use AppBundle\Entity\Notes;
+use AppBundle\Entity\TaskLists;
 use AppBundle\Entity\Tasks;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,7 +26,7 @@ class ManagementController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $tasks = $em->getRepository(Tasks::class)->getIncopmleteTasks();
+        $tasks = $em->getRepository(Tasks::class)->getIncomplete();
         $form = $this->createForm(\AppBundle\Form\ManagementSearchType::class, $request->get('management_search'), [
             'method' => 'GET',
             'action' => $this->generateUrl('management_search_page'),
@@ -40,7 +45,7 @@ class ManagementController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $tasks = $em->getRepository('AppBundle:Tasks')->getIncomplete();
+        $tasks = $em->getRepository(Tasks::class)->getIncomplete();
 
         return $this->render('AppBundle:management:priority.html.twig', [
             'tasks' => $tasks,
@@ -63,12 +68,12 @@ class ManagementController extends Controller
         $filters = [];
         if ($request->query->has($form->getName())) {
             $filters = $request->get('management_search');
-            $results['days'] = $em->getRepository('AppBundle:Days')->search($filters['search']);
-            $results['clients'] = $em->getRepository('AppBundle:Client')->search($filters['search']);
-            $results['accounts'] = $em->getRepository('AppBundle:Accounts')->search($filters['search']);
-            $results['taskLists'] = $em->getRepository('AppBundle:TaskLists')->search($filters['search']);
-            $results['tasks'] = $em->getRepository('AppBundle:Tasks')->search($filters['search']);
-            $results['notes'] = $em->getRepository('AppBundle:Notes')->search($filters['search']);
+            $results['days'] = $em->getRepository(Days::class)->search($filters['search']);
+            $results['clients'] = $em->getRepository(Client::class)->search($filters['search']);
+            $results['accounts'] = $em->getRepository(Accounts::class)->search($filters['search']);
+            $results['taskLists'] = $em->getRepository(TaskLists::class)->search($filters['search']);
+            $results['tasks'] = $em->getRepository(Tasks::class)->search($filters['search']);
+            $results['notes'] = $em->getRepository(Notes::class)->search($filters['search']);
         }
 
         return $this->render('AppBundle:management:search.html.twig', [

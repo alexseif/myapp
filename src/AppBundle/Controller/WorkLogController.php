@@ -137,7 +137,7 @@ class WorkLogController extends Controller
         $workLog = new Worklog();
 
         if ($request->get('task')) {
-            $task = $em->getRepository('AppBundle:Tasks')->find($request->get('task'));
+            $task = $em->getRepository(Tasks::class)->find($request->get('task'));
             if (!$task) {
                 throw new NotFoundHttpException();
             }
@@ -206,7 +206,7 @@ class WorkLogController extends Controller
 
         $taskIds = $request->get('task_ids');
         foreach ($taskIds as $taskId) {
-            $task = $em->getRepository('AppBundle:Tasks')->find($taskId);
+            $task = $em->getRepository(Tasks::class)->find($taskId);
             if (!$task) {
                 throw new NotFoundHttpException();
             }
@@ -264,7 +264,7 @@ class WorkLogController extends Controller
 
         $taskIds = $request->get('task_ids');
         foreach ($taskIds as $taskId) {
-            $task = $em->getRepository('AppBundle:Tasks')->find($taskId);
+            $task = $em->getRepository(Tasks::class)->find($taskId);
             if (!$task) {
                 throw new NotFoundHttpException();
             }
@@ -293,7 +293,7 @@ class WorkLogController extends Controller
 
         $taskIds = $request->get('task_ids');
         foreach ($taskIds as $taskId) {
-            $task = $em->getRepository('AppBundle:Tasks')->find($taskId);
+            $task = $em->getRepository(Tasks::class)->find($taskId);
             if (!$task) {
                 throw new NotFoundHttpException();
             }

@@ -64,7 +64,7 @@ class EarnedLogic
 
     public function calculateWeekly()
     {
-        $completedTasks = $this->em->getRepository('AppBundle:Tasks')->getCompletedThisWeek();
+        $completedTasks = $this->em->getRepository(Tasks::class)->getCompletedThisWeek();
         $total = 0;
         foreach ($completedTasks as $task) {
             $rate = (null == $task->getRate()) ? $task->getRate() : $this->costOfLife->getHourly();
@@ -75,7 +75,7 @@ class EarnedLogic
 
     public function calculateDaily()
     {
-        $completedTasks = $this->em->getRepository('AppBundle:Tasks')->getCompletedToday();
+        $completedTasks = $this->em->getRepository(Tasks::class)->getCompletedToday();
         $total = 0;
         foreach ($completedTasks as $task) {
             $rate = (null != $task->getRate()) ? $task->getRate() : $this->costOfLife->getHourly();

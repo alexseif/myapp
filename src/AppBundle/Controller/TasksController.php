@@ -55,7 +55,7 @@ class TasksController extends Controller
     public function reorderAction(): JsonResponse
     {
         $em = $this->getDoctrine()->getManager();
-        $tasksRepo = $em->getRepository('AppBundle:Tasks');
+        $tasksRepo = $em->getRepository(Tasks::class);
         $weightedList = $tasksRepo->weightedList();
         $taskListsOrder = [];
         foreach ($weightedList as $row) {
@@ -185,7 +185,7 @@ class TasksController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $tasks = $em->getRepository('AppBundle:Tasks')->findBy([
+        $tasks = $em->getRepository(Tasks::class)->findBy([
             'completed' => false,
         ], [
             'priority' => 'DESC',
@@ -403,7 +403,6 @@ class TasksController extends Controller
                 $inboxTasksCount = $tasksRepository->getCompletedTodayCount();
                 break;
             default:
-                // @TODO: Not found handler
                 $taskList = $taskListsRepository->findOneBy(['name' => $taskListName]);
                 $inboxTasksCount = count($tasksRepository->focusByTasklist($taskList));
                 break;
