@@ -6,7 +6,6 @@ use AppBundle\Logic\EarnedLogic;
 use AppBundle\Repository\AccountsRepository;
 use AppBundle\Repository\AccountTransactionsRepository;
 use AppBundle\Repository\DaysRepository;
-use AppBundle\Repository\HolidayRepository;
 use AppBundle\Repository\TaskListsRepository;
 use AppBundle\Repository\TasksRepository;
 use AppBundle\Service\TasksService;
@@ -22,8 +21,13 @@ class WorkareaController extends Controller
     /**
      * @Route("/workarea", name="workarea")
      */
-    public function workarea(TasksRepository $tasksRepository, DaysRepository $daysRepository, AccountsRepository $accountsRepository, AccountTransactionsRepository $accountTransactionsRepository, TaskListsRepository $taskListsRepository): Response
-    {
+    public function workarea(
+        TasksRepository $tasksRepository,
+        DaysRepository $daysRepository,
+        AccountsRepository $accountsRepository,
+        AccountTransactionsRepository $accountTransactionsRepository,
+        TaskListsRepository $taskListsRepository
+    ): Response {
         $days = $daysRepository->getImportantCards();
         $accounts = $accountsRepository->findBy(['conceal' => false]);
         /** Cost Of Life * */
@@ -51,25 +55,6 @@ class WorkareaController extends Controller
     }
 
     /**
-     * @Route("/inbox", name="inbox")
-     */
-    public function inboxAction(TaskListsRepository $taskListsRepository, DaysRepository $daysRepository, HolidayRepository $holidayRepository)
-    {
-        $taskLists = $taskListsRepository->findAllWithActiveTasks();
-        $days = $daysRepository->getActiveCards();
-        $holidays = $holidayRepository->getComingHolidays();
-
-        $urgentTasks = [];
-
-        return $this->render('workarea/inbox.html.twig', [
-            'days' => $days,
-            'holidays' => $holidays,
-            'taskLists' => $taskLists,
-            'urgentTasks' => $urgentTasks,
-        ]);
-    }
-
-    /**
      * Get Inbox Tasks and render view.
      *
      * @param string $taskListName
@@ -80,7 +65,7 @@ class WorkareaController extends Controller
      */
     public function getTasksAction(TasksService $tasksService, $taskListName)
     {
-        return $this->render('AppBundle:inbox:inboxTasks.html.twig', [
+        return $this->render('workarea/inboxTasks.html.twig', [
             'inboxTasks' => $tasksService->getWorkareaTasks($taskListName),
         ]);
     }
