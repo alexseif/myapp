@@ -20,7 +20,7 @@ class DashboardController extends Controller
 
         $earnedLogic = new EarnedLogic($em, $this->get('myapp.cost'));
 
-        return $this->render('AppBundle:Dashboard:dashboard.html.twig', [
+        return $this->render('dashboard/dashboard.html.twig', [
             'taskLists' => $ts->getDashboardTasklists(),
             'randomTasks' => $ts->getRandom(),
             'days' => $rs->getActiveReminders(),
@@ -39,7 +39,7 @@ class DashboardController extends Controller
      */
     public function elementsAction()
     {
-        return $this->render('AppBundle:Dashboard:elements.html.twig');
+        return $this->render('dashboard/elements.html.twig');
     }
 
     /**
@@ -47,7 +47,7 @@ class DashboardController extends Controller
      */
     public function workspaceAction()
     {
-        return $this->render('AppBundle:Dashboard:workspace.html.twig');
+        return $this->render('dashboard/workspace.html.twig');
     }
 
     /**
@@ -55,7 +55,7 @@ class DashboardController extends Controller
      */
     public function remindAction()
     {
-        return $this->render('AppBundle:Dashboard:remindMe.html.twig');
+        return $this->render('dashboard/remindMe.html.twig');
     }
 
     /**

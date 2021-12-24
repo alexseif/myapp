@@ -31,6 +31,8 @@ class BottomBar
      */
     protected $contractService;
 
+    protected $progressMonitoring;
+
     public function __construct(EntityManager $em, CostService $costService, ContractService $contractService)
     {
         $this->em = $em;

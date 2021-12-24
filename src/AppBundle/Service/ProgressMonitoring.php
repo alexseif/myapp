@@ -15,11 +15,13 @@ use Doctrine\ORM\EntityManager;
 
 /**
  * Description of Bottom Bar Service.
+ * @todo: Refactor with AppBundle\Logic\EarnedLogic & AppBundle\Service\BottomBar
  *
  * @author Alex Seif <me@alexseif.com>
  */
 class ProgressMonitoring
 {
+    const MODIFY_MONTH = '-1 month';
     /**
      * @todo: remove and use repository in entity service
      *
@@ -164,7 +166,8 @@ class ProgressMonitoring
     public function setClientsCount()
     {
         $this->clientsCount = count($this->em->getRepository('AppBundle:Client')->findBy([
-            'enabled' => true, ]));
+            'enabled' => true,
+        ]));
     }
 
     /**
@@ -268,7 +271,7 @@ class ProgressMonitoring
     public function getTasksCompletedProgress()
     {
         if ($this->tasksCompletedProgress >= 1000) {
-            return $this->formatNumber($this->tasksCompletedProgress / 1000).'k';
+            return $this->formatNumber($this->tasksCompletedProgress / 1000) . 'k';
         }
 
         return $this->formatNumber($this->tasksCompletedProgress);
@@ -280,7 +283,7 @@ class ProgressMonitoring
     public function setRevenueSum()
     {
         $from = DateRanges::getMonthStart();
-        $from->modify('-1 month');
+        $from->modify(self::MODIFY_MONTH);
         $to = DateRanges::getMonthStart();
         $this->revenueSum = $this->em->getRepository('AppBundle:AccountTransactions')
             ->getRevenueSumByDateRange($from, $to);
@@ -292,7 +295,7 @@ class ProgressMonitoring
     public function getRevenueSum()
     {
         if ($this->revenueSum <= 1000) {
-            return $this->formatNumber($this->revenueSum / 1000).'k';
+            return $this->formatNumber($this->revenueSum / 1000) . 'k';
         }
 
         return $this->formatNumber($this->revenueSum);
@@ -307,7 +310,7 @@ class ProgressMonitoring
             DateRanges::getMonthStart();
         $from->modify('-2 months');
         $to = DateRanges::getMonthStart();
-        $to->modify('-1 month');
+        $to->modify(self::MODIFY_MONTH);
         $revenueLastMonth = $this->em->getRepository('AppBundle:AccountTransactions')
             ->getRevenueSumByDateRange($from, $to);
 
@@ -329,7 +332,7 @@ class ProgressMonitoring
     public function setDurationSum()
     {
         $from = DateRanges::getMonthStart();
-        $from->modify('-1 month');
+        $from->modify(self::MODIFY_MONTH);
         $to = DateRanges::getMonthStart();
 
         $this->durationSum = $this->em->getRepository(Tasks::class)
@@ -341,7 +344,7 @@ class ProgressMonitoring
      */
     public function getDurationSum()
     {
-        return $this->formatNumber($this->durationSum / 60).':'.($this->durationSum % 60);
+        return $this->formatNumber($this->durationSum / 60) . ':' . ($this->durationSum % 60);
     }
 
     /**
@@ -352,7 +355,7 @@ class ProgressMonitoring
         $from = DateRanges::getMonthStart();
         $from->modify('-2 months');
         $to = DateRanges::getMonthStart();
-        $to->modify('-1 month');
+        $to->modify(self::MODIFY_MONTH);
         $durationLastMonth = $this->em->getRepository(Tasks::class)
             ->getDurationSumByRange($from, $to);
         $divisionByZero = $durationLastMonth ? $durationLastMonth : 1;
@@ -375,7 +378,7 @@ class ProgressMonitoring
         $completedTasks = $this->em->getRepository(Tasks::class)->getCompletedToday();
         $total = 0;
         foreach ($completedTasks as $task) {
-            $rate = (null != $task->getRate()) ? $task->getRate() : $this->getCostOfLife()->getHourly();
+            $rate = (is_numeric($task->getRate())) ? $task->getRate() : $this->getCostOfLife()->getHourly();
             $total += $task->getDuration() / 60 * $rate;
         }
         $this->earnedProgress['today'] = $total;
@@ -390,14 +393,14 @@ class ProgressMonitoring
     }
 
     /**
-     * @todo
+     * @todo: revise
      */
     public function setEarnedThisWeek()
     {
         $completedTasks = $this->em->getRepository(Tasks::class)->getCompletedThisWeek();
         $total = 0;
         foreach ($completedTasks as $task) {
-            $rate = (null == $task->getRate()) ? $task->getRate() : $this->getCostOfLife()->getHourly();
+            $rate = (is_numeric($task->getRate())) ?: $this->getCostOfLife()->getHourly();
             $total += $task->getDuration() / 60 * $rate;
         }
         $this->earnedProgress['week'] = $total;
@@ -419,7 +422,7 @@ class ProgressMonitoring
         $completedTasks = $this->em->getRepository(Tasks::class)->getCompletedThisMonth();
         $total = 0;
         foreach ($completedTasks as $task) {
-            $rate = (null == $task->getRate()) ? $task->getRate() : $this->getCostOfLife()->getHourly();
+            $rate = (is_numeric($task->getRate())) ?: $this->getCostOfLife()->getHourly();
             $total += $task->getDuration() / 60 * $rate;
         }
         $this->earnedProgress['month'] = $total;
