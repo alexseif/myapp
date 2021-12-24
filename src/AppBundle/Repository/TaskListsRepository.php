@@ -54,17 +54,15 @@ class TaskListsRepository extends ServiceEntityRepository
 
     public function findAllWithActiveTasks()
     {
-        $today = new DateTime();
 
         return $this
             ->createQueryBuilder('tl')
-            ->select('tl, t')
+            ->select('tl, t, w, s')
             ->leftJoin('tl.tasks', 't')
-            ->where('t.completedAt > :today')
-            ->orWhere('t.completed <> true')
-            ->addOrderBy('t.completed', 'ASC')
+            ->leftJoin('t.workLog', 'w')
+            ->leftJoin('t.schedule', 's')
+            ->where('t.completed <> true')
             ->addOrderBy('t.order', 'ASC')
-            ->setParameter(':today', $today->format('Y-m-d'))
             ->getQuery()
             ->getResult();
     }

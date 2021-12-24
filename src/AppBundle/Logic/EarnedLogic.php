@@ -6,6 +6,7 @@
 
 namespace AppBundle\Logic;
 
+use AppBundle\Entity\AccountTransactions;
 use AppBundle\Entity\Tasks;
 
 /**
@@ -43,9 +44,8 @@ class EarnedLogic
 
     public function calculateIssued()
     {
-        $issuedThisMonth = $this->em->getRepository('AppBundle:AccountTransactions')->issuedThisMonth();
         $issued = 0;
-        foreach ($issuedThisMonth as $tm) {
+        foreach ($this->em->getRepository(AccountTransactions::class)->issuedThisMonth() as $tm) {
             $issued += abs($tm->getAmount());
         }
         $this->setIssuedThisMonth($issued);
