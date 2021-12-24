@@ -7,32 +7,26 @@
 namespace AppBundle\Service;
 
 use Doctrine\ORM\EntityManager;
-use AppBundle\Service\CostService;
-use AppBundle\Service\ContractService;
 
 /**
- * Description of Bottom Bar Service
+ * Description of Bottom Bar Service.
  *
  * @author Alex Seif <me@alexseif.com>
  */
 class BottomBar
 {
-
     /**
-     *
-     * @var EntityManager $em
+     * @var EntityManager
      */
     protected $em;
 
     /**
-     *
-     * @var CostService $cs
+     * @var CostService
      */
     protected $costService;
 
     /**
-     *
-     * @var ContractService $c
+     * @var ContractService
      */
     protected $contractService;
 
@@ -43,24 +37,22 @@ class BottomBar
         $this->contractService = $contractService;
     }
 
-    function getEm(): EntityManager
+    public function getEm(): EntityManager
     {
         return $this->em;
     }
 
-    function getCostService(): CostService
+    public function getCostService(): CostService
     {
         return $this->costService;
     }
 
-    function getContractService(): ContractService
+    public function getContractService(): ContractService
     {
         return $this->contractService;
     }
 
-
     /**
-     *
      * @return array Tasks[]
      */
     public function getTasks()
@@ -69,7 +61,6 @@ class BottomBar
     }
 
     /**
-     *
      * @return array Contract[]
      */
     public function getContractsProgress()
@@ -81,6 +72,7 @@ class BottomBar
     {
         $earnedLogic = new \AppBundle\Logic\EarnedLogic($this->getEm(), $this->getCostService());
         $earned = $earnedLogic->getEarned();
+
         return [
             'earned' => $earned,
             'issuedThisMonth' => $earnedLogic->getIssuedThisMonth(),
@@ -92,5 +84,4 @@ class BottomBar
     {
         return $this->getEm()->getRepository('AppBundle:Objective')->findBy([], ['createdAt' => 'asc'], 5);
     }
-
 }

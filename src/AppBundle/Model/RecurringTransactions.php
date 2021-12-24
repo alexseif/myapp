@@ -8,27 +8,23 @@ namespace AppBundle\Model;
 
 /**
  * Description of Recurring Transactions
- * Class assumes monthly recurrences for now
+ * Class assumes monthly recurrences for now.
  *
  * @author Alex Seif <me@alexseif.com>
  */
 class RecurringTransactions
 {
-
     /**
-     *
      * @var string title
      */
     private $title;
 
     /**
-     *
      * @var int amount
      */
     private $amount;
 
     /**
-     *
      * @var \DateTime date
      */
     private $date;
@@ -41,7 +37,6 @@ class RecurringTransactions
     }
 
     /**
-     *
      * @return string
      */
     public function getTitle()
@@ -50,7 +45,6 @@ class RecurringTransactions
     }
 
     /**
-     *
      * @return int
      */
     public function getAmount()
@@ -59,7 +53,6 @@ class RecurringTransactions
     }
 
     /**
-     *
      * @return \DateTime
      */
     public function getDate()
@@ -68,7 +61,6 @@ class RecurringTransactions
     }
 
     /**
-     *
      * @param string $title
      */
     public function setTitle($title)
@@ -77,7 +69,6 @@ class RecurringTransactions
     }
 
     /**
-     *
      * @param int $amount
      */
     public function setAmount($amount)
@@ -85,13 +76,8 @@ class RecurringTransactions
         $this->amount = $amount;
     }
 
-    /**
-     *
-     * @param \DateTime $date
-     */
     public function setDate(\DateTime $date)
     {
         $this->date = $date;
     }
-
 }

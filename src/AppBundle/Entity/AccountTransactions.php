@@ -7,14 +7,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
- * AccountTransactions
+ * AccountTransactions.
  *
  * @ORM\Table(name="account_transactions")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\AccountTransactionsRepository")
  */
 class AccountTransactions
 {
-
     use TimestampableEntity;
 
     /**
@@ -62,9 +61,9 @@ class AccountTransactions
     }
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -72,9 +71,10 @@ class AccountTransactions
     }
 
     /**
-     * Set amount
+     * Set amount.
      *
-     * @param integer $amount
+     * @param int $amount
+     *
      * @return AccountTransactions
      */
     public function setAmount($amount)
@@ -85,9 +85,9 @@ class AccountTransactions
     }
 
     /**
-     * Get amount
+     * Get amount.
      *
-     * @return integer
+     * @return int
      */
     public function getAmount()
     {
@@ -95,9 +95,10 @@ class AccountTransactions
     }
 
     /**
-     * Set note
+     * Set note.
      *
      * @param string $note
+     *
      * @return AccountTransactions
      */
     public function setNote($note)
@@ -108,7 +109,7 @@ class AccountTransactions
     }
 
     /**
-     * Get note
+     * Get note.
      *
      * @return string
      */
@@ -118,9 +119,10 @@ class AccountTransactions
     }
 
     /**
-     * Set account
+     * Set account.
      *
      * @param Accounts $account
+     *
      * @return AccountTransactions
      */
     public function setAccount(Accounts $account = null)
@@ -131,7 +133,7 @@ class AccountTransactions
     }
 
     /**
-     * Get account
+     * Get account.
      *
      * @return Accounts
      */
@@ -141,9 +143,10 @@ class AccountTransactions
     }
 
     /**
-     * Set issuedAt
+     * Set issuedAt.
      *
      * @param DateTime $issuedAt
+     *
      * @return AccountTransactions
      */
     public function setIssuedAt($issuedAt)
@@ -154,7 +157,7 @@ class AccountTransactions
     }
 
     /**
-     * Get issuedAt
+     * Get issuedAt.
      *
      * @return DateTime
      */
@@ -162,5 +165,4 @@ class AccountTransactions
     {
         return $this->issuedAt;
     }
-
 }

@@ -1,10 +1,9 @@
 <?php
 /**
- * The following content was designed & implemented under AlexSeif.com
+ * The following content was designed & implemented under AlexSeif.com.
  **/
 
 namespace AppBundle\Service;
-
 
 use AppBundle\Entity\Client;
 use AppBundle\Entity\Contract;
@@ -16,14 +15,12 @@ use AppBundle\Util\WorkWeek;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
- * Class FocusService
+ * Class FocusService.
  *
  * @author Alex Seif <me@alexseif.com>
- * @package AppBundle\Service
  */
 class FocusService
 {
-
     /**
      * @var EntityManagerInterface
      */
@@ -34,12 +31,10 @@ class FocusService
      */
     protected $focus = [];
 
-
     /**
      * FocusService constructor.
-     * @param EntityManagerInterface $em
      */
-    function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
         $this->setTodayHours();
@@ -47,9 +42,6 @@ class FocusService
         $this->setDayCards();
     }
 
-    /**
-     * @return EntityManagerInterface
-     */
     public function getEm(): EntityManagerInterface
     {
         return $this->em;
@@ -63,9 +55,6 @@ class FocusService
         return $this->getEm()->getRepository(Tasks::class);
     }
 
-    /**
-     * @param EntityManagerInterface $em
-     */
     public function setEm(EntityManagerInterface $em): void
     {
         $this->em = $em;
@@ -78,7 +67,6 @@ class FocusService
     {
         return $this->focus;
     }
-
 
     /**
      * @param $focus
@@ -108,7 +96,7 @@ class FocusService
         if ($client) {
             $this->focus['client'] = $client;
             $this->focus['tasks'] = $this->getTasksRepository()->focusByClient($client);
-            $contract = $this->getEm()->getRepository(Contract::class)->findOneBy(["client" => $client]);
+            $contract = $this->getEm()->getRepository(Contract::class)->findOneBy(['client' => $client]);
             if ($contract) {
                 $this->focus['contract'] = $contract;
                 $this->focus['todayHours'] = $this->focus['contract']->getHoursPerDay();

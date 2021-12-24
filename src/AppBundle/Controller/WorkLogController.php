@@ -3,18 +3,20 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\AccountTransactions;
+use AppBundle\Entity\Rate;
 use AppBundle\Entity\TaskLists;
+use AppBundle\Entity\Tasks;
 use AppBundle\Entity\WorkLog;
+use AppBundle\Form\WorkLogType;
 use AppBundle\Logic\BillingCalculator;
 use AppBundle\Logic\CostOfLifeLogic;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Form\WorkLogType;
 
 /**
  * Worklog controller.
@@ -23,7 +25,6 @@ use AppBundle\Form\WorkLogType;
  */
 class WorkLogController extends Controller
 {
-
     /**
      * Lists all workLog entities.
      *
@@ -35,9 +36,9 @@ class WorkLogController extends Controller
 
         $tasklists = $em->getRepository('AppBundle:TaskLists')->findAll();
 
-        return $this->render("AppBundle:worklog:index.html.twig", array(
+        return $this->render('AppBundle:worklog:index.html.twig', [
             'tasklists' => $tasklists,
-        ));
+        ]);
     }
 
     /**
@@ -51,9 +52,9 @@ class WorkLogController extends Controller
 
         $workLogs = $em->getRepository('AppBundle:WorkLog')->getByTaskList($tasklist);
 
-        return $this->render("AppBundle:worklog:tasklist.html.twig", array(
+        return $this->render('AppBundle:worklog:tasklist.html.twig', [
             'workLogs' => $workLogs,
-        ));
+        ]);
     }
 
     /**
@@ -62,20 +63,20 @@ class WorkLogController extends Controller
     public function completedTasksAction(Request $request): ?Response
     {
         $em = $this->getDoctrine()->getManager();
-        $tasksRepo = $em->getRepository('AppBundle:Tasks');
+        $tasksRepo = $em->getRepository(Tasks::class);
 
         $taskListName = $request->get('taskList');
         $accountName = $request->get('account');
         $clientName = $request->get('client');
         $log = is_null($request->get('unlog'));
 
-        $criteria = array('completed' => TRUE, 'workLoggable' => $log);
-        $orderBy = array('completedAt' => 'DESC');
+        $criteria = ['completed' => true, 'workLoggable' => $log];
+        $orderBy = ['completedAt' => 'DESC'];
         $limitBy = 500;
         $offset = null;
 
         if ($taskListName) {
-            $taskList = $em->getRepository('AppBundle:TaskLists')->findBy(array('name' => $taskListName));
+            $taskList = $em->getRepository('AppBundle:TaskLists')->findBy(['name' => $taskListName]);
             $criteria['taskList'] = $taskList;
             $tasks = $tasksRepo->findBy($criteria, $orderBy, $limitBy, $offset);
         } elseif ($accountName) {
@@ -88,7 +89,7 @@ class WorkLogController extends Controller
                 ->andWhere('a.name = :account')
                 ->setParameter('log', $log)
                 ->setParameter('account', $accountName)
-                ->orderBy("t.completedAt", "DESC")
+                ->orderBy('t.completedAt', 'DESC')
                 ->setMaxResults($limitBy)
                 ->getQuery()
                 ->getResult();
@@ -103,7 +104,7 @@ class WorkLogController extends Controller
                 ->andWhere('c.name = :client')
                 ->setParameter('log', $log)
                 ->setParameter('client', $clientName)
-                ->orderBy("t.completedAt", "DESC")
+                ->orderBy('t.completedAt', 'DESC')
                 ->setMaxResults($limitBy)
                 ->getQuery()
                 ->getResult();
@@ -111,10 +112,10 @@ class WorkLogController extends Controller
             $tasks = $tasksRepo->findByWithJoins($criteria, $orderBy, $limitBy, $offset);
         }
 
-        return $this->render("AppBundle:worklog:completedTasks.html.twig", array(
+        return $this->render('AppBundle:worklog:completedTasks.html.twig', [
             'unlog' => $log,
             'tasks' => $tasks,
-        ));
+        ]);
     }
 
     /**
@@ -127,15 +128,13 @@ class WorkLogController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-
         /** Cost Of Life * */
         $currencies = $em->getRepository('AppBundle:Currency')->findAll();
-        $cost = $em->getRepository('AppBundle:CostOfLife')->sumCostOfLife()["cost"];
+        $cost = $em->getRepository('AppBundle:CostOfLife')->sumCostOfLife()['cost'];
 
         $costOfLife = new CostOfLifeLogic($cost, $currencies);
         $pricePerUnit = $costOfLife->getHourly();
         $workLog = new Worklog();
-
 
         if ($request->get('task')) {
             $task = $em->getRepository('AppBundle:Tasks')->find($request->get('task'));
@@ -143,11 +142,10 @@ class WorkLogController extends Controller
                 throw new NotFoundHttpException();
             }
 
-            $thisRates = $em->getRepository("AppBundle:Rate")->findOneBy(array("active" => true, "client" => $task->getTaskList()->getAccount()->getClient()));
+            $thisRates = $em->getRepository(Rate::class)->findOneBy(['active' => true, 'client' => $task->getTaskList()->getAccount()->getClient()]);
             if ($thisRates) {
                 $pricePerUnit = $thisRates->getRate();
             }
-
 
             $billingOption = $task->getAccount()->getClient()->getBillingOption();
             if ($billingOption && $billingOption['amount']) {
@@ -177,16 +175,16 @@ class WorkLogController extends Controller
             $em->persist($AccountTransaction);
             $em->flush();
 
-            return $this->redirectToRoute('worklog_show', array('id' => $workLog->getId()));
+            return $this->redirectToRoute('worklog_show', ['id' => $workLog->getId()]);
         }
-        $clientRates = $em->getRepository("AppBundle:Rate")->findBy(array("active" => true));
+        $clientRates = $em->getRepository('AppBundle:Rate')->findBy(['active' => true]);
 
-        return $this->render("AppBundle:worklog:new.html.twig", array(
+        return $this->render('AppBundle:worklog:new.html.twig', [
             'workLog' => $workLog,
             'costOfLife' => $costOfLife,
             'form' => $form->createView(),
-            'clientRates' => $clientRates
-        ));
+            'clientRates' => $clientRates,
+        ]);
     }
 
     /**
@@ -202,7 +200,7 @@ class WorkLogController extends Controller
 
         /** Cost Of Life * */
         $currencies = $em->getRepository('AppBundle:Currency')->findAll();
-        $cost = $em->getRepository('AppBundle:CostOfLife')->sumCostOfLife()["cost"];
+        $cost = $em->getRepository('AppBundle:CostOfLife')->sumCostOfLife()['cost'];
 
         $costOfLife = new CostOfLifeLogic($cost, $currencies);
 
@@ -223,7 +221,7 @@ class WorkLogController extends Controller
                 $task->getWorklog()->setTask($task);
                 $pricePerUnit = $costOfLife->getHourly();
 
-                $thisRates = $em->getRepository("AppBundle:Rate")->findOneBy(array("active" => true, "client" => $task->getTaskList()->getAccount()->getClient()));
+                $thisRates = $em->getRepository('AppBundle:Rate')->findOneBy(['active' => true, 'client' => $task->getTaskList()->getAccount()->getClient()]);
                 if ($thisRates) {
                     $pricePerUnit = $thisRates->getRate();
                 }
@@ -247,15 +245,16 @@ class WorkLogController extends Controller
                 }
                 $em->persist($task->getWorklog());
             } else {
-                $this->addFlash('warning_raw', 'Task  <a href="' . $this->generateUrl('tasks_show', array("id" => $taskId)) . '" target="_new">' . $taskId . '</a> has 0 est');
+                $this->addFlash('warning_raw', 'Task  <a href="'.$this->generateUrl('tasks_show', ['id' => $taskId]).'" target="_new">'.$taskId.'</a> has 0 est');
             }
             $em->flush();
         }
+
         return new Response();
     }
 
     /**
-     * Marks tasks as unloggale
+     * Marks tasks as unloggale.
      *
      * @Route("/unloggable", name="worklog_unloggable", methods={"GET", "POST"})
      */
@@ -276,9 +275,10 @@ class WorkLogController extends Controller
             }
 
             $task->setWorklog();
-            $task->setWorkLoggable(FALSE);
+            $task->setWorkLoggable(false);
             $em->flush();
         }
+
         return new Response();
     }
 
@@ -302,6 +302,7 @@ class WorkLogController extends Controller
             }
         }
         $em->flush();
+
         return new Response();
     }
 
@@ -314,10 +315,10 @@ class WorkLogController extends Controller
     {
         $deleteForm = $this->createDeleteForm($workLog);
 
-        return $this->render("AppBundle:worklog:show.html.twig", array(
+        return $this->render('AppBundle:worklog:show.html.twig', [
             'workLog' => $workLog,
             'delete_form' => $deleteForm->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -334,14 +335,14 @@ class WorkLogController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('worklog_edit', array('id' => $workLog->getId()));
+            return $this->redirectToRoute('worklog_edit', ['id' => $workLog->getId()]);
         }
 
-        return $this->render("AppBundle:worklog:edit.html.twig", array(
+        return $this->render('AppBundle:worklog:edit.html.twig', [
             'workLog' => $workLog,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -373,9 +374,8 @@ class WorkLogController extends Controller
     private function createDeleteForm(WorkLog $workLog): FormInterface
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('worklog_delete', array('id' => $workLog->getId())))
+            ->setAction($this->generateUrl('worklog_delete', ['id' => $workLog->getId()]))
             ->setMethod('DELETE')
             ->getForm();
     }
-
 }

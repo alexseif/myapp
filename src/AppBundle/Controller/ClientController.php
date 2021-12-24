@@ -4,8 +4,8 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Client;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Client controller.
@@ -14,7 +14,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class ClientController extends Controller
 {
-
     /**
      * Lists all client entities.
      *
@@ -26,9 +25,9 @@ class ClientController extends Controller
 
         $clients = $em->getRepository('AppBundle:Client')->findAll();
 
-        return $this->render("AppBundle:client:index.html.twig", array(
+        return $this->render('AppBundle:client:index.html.twig', [
             'clients' => $clients,
-        ));
+        ]);
     }
 
     /**
@@ -48,13 +47,13 @@ class ClientController extends Controller
             $em->flush($client);
             $this->addFlash('success', 'Client saved');
 
-            return $this->redirectToRoute('client_show', array('id' => $client->getId()));
+            return $this->redirectToRoute('client_show', ['id' => $client->getId()]);
         }
 
-        return $this->render("AppBundle:client:new.html.twig", array(
+        return $this->render('AppBundle:client:new.html.twig', [
             'client' => $client,
             'form' => $form->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -66,10 +65,10 @@ class ClientController extends Controller
     {
         $deleteForm = $this->createDeleteForm($client);
 
-        return $this->render("AppBundle:client:show.html.twig", array(
+        return $this->render('AppBundle:client:show.html.twig', [
             'client' => $client,
             'delete_form' => $deleteForm->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -86,14 +85,15 @@ class ClientController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
             $this->addFlash('success', 'Client updated');
-            return $this->redirectToRoute('client_show', array('id' => $client->getId()));
+
+            return $this->redirectToRoute('client_show', ['id' => $client->getId()]);
         }
 
-        return $this->render("AppBundle:client:edit.html.twig", array(
+        return $this->render('AppBundle:client:edit.html.twig', [
             'client' => $client,
             'form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -126,9 +126,8 @@ class ClientController extends Controller
     private function createDeleteForm(Client $client)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('client_delete', array('id' => $client->getId())))
+            ->setAction($this->generateUrl('client_delete', ['id' => $client->getId()]))
             ->setMethod('DELETE')
             ->getForm();
     }
-
 }

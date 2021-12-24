@@ -17,30 +17,30 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class TasksRepository extends ServiceEntityRepository
 {
-    const NOT_COMPLETED = 't.completed <> true';
-    const URGENCY = 't.urgency';
-    const PRIORTIY = 't.priority';
-    const ORDER = 't.order';
-    const SELECT = 't, tl, a, c, r, wl, s';
-    const MYSQL_DATE_FORMAT = 'Y-m-d H:i';
-    const TASKLIST = 't.taskList';
-    const WORKLOG = 't.workLog';
-    const SCHEDULE = 't.schedule';
-    const ETA_TODAY = 't.eta <= :today OR t.eta IS NULL';
-    const ETA_DATE = 'DATE(t.eta) <= :date OR t.eta IS NULL';
-    const COMPLETED_RANGE = 't.completedAt BETWEEN :from AND :to';
-    const TODAY = ':today';
-    const DATE = ':date';
-    const FROM = ':from';
-    const COMPLETED_AFTER_DATE = 't.completedAt > :date';
-    const ACCOUNT = 'tl.account';
-    const CLIENT = 'a.client';
-    const CLIENT_VAR = ':client';
-    const CLIENT_CLAUSE = self::CLIENT . ' = ' . self::CLIENT_VAR;
-    const RATES = 'c.rates';
-    const COMPLETEDAT = 't.completedAt';
-    const TASKLISTID = "tl.id";
-    const DURATION_SUM = 'SUM(t.duration) as duration';
+    public const NOT_COMPLETED = 't.completed <> true';
+    public const URGENCY = 't.urgency';
+    public const PRIORTIY = 't.priority';
+    public const ORDER = 't.order';
+    public const SELECT = 't, tl, a, c, r, wl, s';
+    public const MYSQL_DATE_FORMAT = 'Y-m-d H:i';
+    public const TASKLIST = 't.taskList';
+    public const WORKLOG = 't.workLog';
+    public const SCHEDULE = 't.schedule';
+    public const ETA_TODAY = 't.eta <= :today OR t.eta IS NULL';
+    public const ETA_DATE = 'DATE(t.eta) <= :date OR t.eta IS NULL';
+    public const COMPLETED_RANGE = 't.completedAt BETWEEN :from AND :to';
+    public const TODAY = ':today';
+    public const DATE = ':date';
+    public const FROM = ':from';
+    public const COMPLETED_AFTER_DATE = 't.completedAt > :date';
+    public const ACCOUNT = 'tl.account';
+    public const CLIENT = 'a.client';
+    public const CLIENT_VAR = ':client';
+    public const CLIENT_CLAUSE = self::CLIENT.' = '.self::CLIENT_VAR;
+    public const RATES = 'c.rates';
+    public const COMPLETEDAT = 't.completedAt';
+    public const TASKLISTID = 'tl.id';
+    public const DURATION_SUM = 'SUM(t.duration) as duration';
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -63,19 +63,20 @@ class TasksRepository extends ServiceEntityRepository
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         if (is_null($orderBy)) {
-            $orderBy = ["completed" => "ASC", "order" => "ASC"];
+            $orderBy = ['completed' => 'ASC', 'order' => 'ASC'];
         }
+
         return parent::findBy($criteria, $orderBy, $limit, $offset);
     }
 
     public function findAll()
     {
-        return $this->findBy(array());
+        return $this->findBy([]);
     }
 
     public function findUnListed()
     {
-        return $this->findBy(array("taskList" => null));
+        return $this->findBy(['taskList' => null]);
     }
 
     public function getIncomplete()
@@ -84,54 +85,52 @@ class TasksRepository extends ServiceEntityRepository
             ->createQueryBuilder('t')
             ->select('t')
             ->where(self::NOT_COMPLETED)
-            ->orderBy(self::URGENCY, "DESC")
-            ->addOrderBy(self::PRIORTIY, "DESC")
-            ->addOrderBy(self::ORDER, "ASC")
+            ->orderBy(self::URGENCY, 'DESC')
+            ->addOrderBy(self::PRIORTIY, 'DESC')
+            ->addOrderBy(self::ORDER, 'ASC')
             ->getQuery()
             ->getResult();
     }
 
-
     public function getIncopmleteTasks()
     {
         $today = new DateTime();
+
         return $this
             ->createQueryBuilder('t')
             ->select('t')
             ->where(self::NOT_COMPLETED)
             ->andWhere(self::ETA_TODAY)
-            ->orderBy(self::URGENCY, "DESC")
-            ->addOrderBy(self::PRIORTIY, "DESC")
-            ->addOrderBy(self::ORDER, "ASC")
+            ->orderBy(self::URGENCY, 'DESC')
+            ->addOrderBy(self::PRIORTIY, 'DESC')
+            ->addOrderBy(self::ORDER, 'ASC')
             ->setParameter(self::TODAY, $today->format(self::MYSQL_DATE_FORMAT))
             ->getQuery()
             ->getResult();
     }
 
     /**
-     * List of completed tasks after date
+     * List of completed tasks after date.
      *
-     * @param DateTime $date
-     * @return array The objects.
+     * @return array the objects
      */
     public function getCompletedAfter(DateTime $date)
     {
         return $this->getQueryBuilder()
             ->where('t.completedAt >= :date')
-            ->orderBy(self::URGENCY, "DESC")
-            ->addOrderBy(self::PRIORTIY, "DESC")
-            ->addOrderBy(self::COMPLETEDAT, "ASC")
-            ->addOrderBy(self::ORDER, "ASC")
+            ->orderBy(self::URGENCY, 'DESC')
+            ->addOrderBy(self::PRIORTIY, 'DESC')
+            ->addOrderBy(self::COMPLETEDAT, 'ASC')
+            ->addOrderBy(self::ORDER, 'ASC')
             ->setParameter(self::DATE, $date)
             ->getQuery()
             ->getResult();
     }
 
     /**
-     * Count of completed tasks after date
+     * Count of completed tasks after date.
      *
-     * @param DateTime $date
-     * @return array The objects.
+     * @return array the objects
      */
     public function getCompletedAfterCount(DateTime $date)
     {
@@ -144,19 +143,19 @@ class TasksRepository extends ServiceEntityRepository
             ->leftJoin(self::CLIENT, 'c')
             ->leftJoin(self::RATES, 'r')
             ->where('t.completedAt >= :date')
-            ->orderBy(self::URGENCY, "DESC")
-            ->addOrderBy(self::PRIORTIY, "DESC")
-            ->addOrderBy(self::COMPLETEDAT, "ASC")
-            ->addOrderBy(self::ORDER, "ASC")
+            ->orderBy(self::URGENCY, 'DESC')
+            ->addOrderBy(self::PRIORTIY, 'DESC')
+            ->addOrderBy(self::COMPLETEDAT, 'ASC')
+            ->addOrderBy(self::ORDER, 'ASC')
             ->setParameter(self::DATE, $date)
             ->getQuery()
             ->getSingleScalarResult();
     }
 
     /**
-     * List of completed tasks today
+     * List of completed tasks today.
      *
-     * @return array The objects.
+     * @return array the objects
      */
     public function getCompletedToday()
     {
@@ -167,9 +166,9 @@ class TasksRepository extends ServiceEntityRepository
     }
 
     /**
-     * Count of completed tasks today
+     * Count of completed tasks today.
      *
-     * @return array The objects.
+     * @return array the objects
      */
     public function getCompletedTodayCount()
     {
@@ -180,9 +179,9 @@ class TasksRepository extends ServiceEntityRepository
     }
 
     /**
-     * List of completed tasks this week
+     * List of completed tasks this week.
      *
-     * @return array The objects.
+     * @return array the objects
      */
     public function getCompletedThisWeek()
     {
@@ -190,26 +189,27 @@ class TasksRepository extends ServiceEntityRepository
         $day = date('w');
 
         $date = new DateTime();
-        $date->sub(new DateInterval("P" . $day . "D"));
+        $date->sub(new DateInterval('P'.$day.'D'));
         $date->setTime(00, 00, 00);
+
         return $this->getCompletedAfter($date);
     }
 
     /**
-     * List of completed tasks this Month
+     * List of completed tasks this Month.
      *
-     * @return array The objects.
+     * @return array the objects
      */
     public function getCompletedThisMonth()
     {
         $date = DateRanges::getMonthStart();
+
         return $this->getCompletedAfter($date);
     }
 
-
     /**
-     *
      * @param int $limit
+     *
      * @return Tasks[]
      */
     public function focusList($limit = 20, $offset = 0)
@@ -226,10 +226,10 @@ class TasksRepository extends ServiceEntityRepository
             ->leftJoin(self::SCHEDULE, 's')
             ->where(self::NOT_COMPLETED)
             ->andWhere(self::ETA_TODAY)
-            ->orderBy(self::URGENCY, "DESC")
-            ->addOrderBy(self::PRIORTIY, "DESC")
-            ->addOrderBy(self::ORDER, "ASC")
-            ->addOrderBy(self::TASKLISTID, "ASC")
+            ->orderBy(self::URGENCY, 'DESC')
+            ->addOrderBy(self::PRIORTIY, 'DESC')
+            ->addOrderBy(self::ORDER, 'ASC')
+            ->addOrderBy(self::TASKLISTID, 'ASC')
             ->setParameter(self::TODAY, $today->format(self::MYSQL_DATE_FORMAT));
 
         $queryBuilder->andWhere('c.id <> 28');
@@ -245,11 +245,11 @@ class TasksRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-
     /**
      * @param \DateTime $date
-     * @param int $limit
-     * @param int $offset
+     * @param int       $limit
+     * @param int       $offset
+     *
      * @return Tasks[]
      */
     public function focusListScheduler($date, $taskIds = [])
@@ -264,10 +264,10 @@ class TasksRepository extends ServiceEntityRepository
             $queryBuilder->andWhere('t.id NOT IN (:taskIds)')
                 ->setParameter(':taskIds', $taskIds);
         }
-        $queryBuilder->orderBy(self::URGENCY, "DESC")
-            ->addOrderBy(self::PRIORTIY, "DESC")
-            ->addOrderBy(self::ORDER, "ASC")
-            ->addOrderBy(self::TASKLISTID, "ASC")
+        $queryBuilder->orderBy(self::URGENCY, 'DESC')
+            ->addOrderBy(self::PRIORTIY, 'DESC')
+            ->addOrderBy(self::ORDER, 'ASC')
+            ->addOrderBy(self::TASKLISTID, 'ASC')
             ->setParameter(self::DATE, $date->format('Y-m-d'));
 
         if ($limit > 0 && is_int($limit)) {
@@ -284,8 +284,9 @@ class TasksRepository extends ServiceEntityRepository
 
     /**
      * @param \DateTime $date
-     * @param int $limit
-     * @param int $offset
+     * @param int       $limit
+     * @param int       $offset
+     *
      * @return Tasks[]
      */
     public function focusListByClientAndDate($client, $date, $taskIds = [])
@@ -301,23 +302,23 @@ class TasksRepository extends ServiceEntityRepository
             $queryBuilder->andWhere('t.id NOT IN (:taskIds)')
                 ->setParameter(':taskIds', $taskIds);
         }
-        return $queryBuilder->orderBy(self::URGENCY, "DESC")
-            ->addOrderBy(self::PRIORTIY, "DESC")
-            ->addOrderBy(self::ORDER, "ASC")
-            ->addOrderBy(self::TASKLISTID, "ASC")
+
+        return $queryBuilder->orderBy(self::URGENCY, 'DESC')
+            ->addOrderBy(self::PRIORTIY, 'DESC')
+            ->addOrderBy(self::ORDER, 'ASC')
+            ->addOrderBy(self::TASKLISTID, 'ASC')
             ->setParameter(self::DATE, $date->format('Y-m-d'))
             ->getQuery()
             ->getResult();
     }
 
     /**
-     * @param \DateTime $date
      * @param int $limit
      * @param int $offset
-     * @return Tasks[]
      *
+     * @return Tasks[]
      */
-    public function findBySchedule(\DateTime $date)
+    public function findBySchedule(DateTime $date)
     {
         return $this
             ->createQueryBuilder('t')
@@ -330,10 +331,10 @@ class TasksRepository extends ServiceEntityRepository
             ->where(self::NOT_COMPLETED)
             ->andWhere('DATE(s.eta) = DATE(:date)')
             ->andWhere('s.id IS NOT NULL')
-            ->orderBy(self::URGENCY, "DESC")
-            ->addOrderBy(self::PRIORTIY, "DESC")
-            ->addOrderBy(self::ORDER, "ASC")
-            ->addOrderBy(self::TASKLISTID, "ASC")
+            ->orderBy(self::URGENCY, 'DESC')
+            ->addOrderBy(self::PRIORTIY, 'DESC')
+            ->addOrderBy(self::ORDER, 'ASC')
+            ->addOrderBy(self::TASKLISTID, 'ASC')
             ->setParameter(self::DATE, $date)
             ->getQuery()
             ->getResult();
@@ -342,14 +343,15 @@ class TasksRepository extends ServiceEntityRepository
     public function focusLimitList()
     {
         $today = new DateTime();
+
         return $this
             ->createQueryBuilder('t')
             ->select('t')
             ->where(self::NOT_COMPLETED)
             ->andWhere(self::ETA_TODAY)
-            ->orderBy(self::URGENCY, "DESC")
-            ->addOrderBy(self::PRIORTIY, "DESC")
-            ->addOrderBy(self::ORDER, "ASC")
+            ->orderBy(self::URGENCY, 'DESC')
+            ->addOrderBy(self::PRIORTIY, 'DESC')
+            ->addOrderBy(self::ORDER, 'ASC')
             ->setMaxResults(30)
             ->setParameter(self::TODAY, $today->format(self::MYSQL_DATE_FORMAT))
             ->getQuery()
@@ -359,6 +361,7 @@ class TasksRepository extends ServiceEntityRepository
     public function focusByTasklist($taskList)
     {
         $today = new DateTime();
+
         return $this
             ->createQueryBuilder('t')
             ->select('t, tl, a, c, wl')
@@ -369,9 +372,9 @@ class TasksRepository extends ServiceEntityRepository
             ->where(self::NOT_COMPLETED)
             ->andWhere(self::ETA_TODAY)
             ->andWhere('t.taskList = :tasklist')
-            ->orderBy(self::URGENCY, "DESC")
-            ->addOrderBy(self::PRIORTIY, "DESC")
-            ->addOrderBy(self::ORDER, "ASC")
+            ->orderBy(self::URGENCY, 'DESC')
+            ->addOrderBy(self::PRIORTIY, 'DESC')
+            ->addOrderBy(self::ORDER, 'ASC')
             ->setParameter(self::TODAY, $today->format(self::MYSQL_DATE_FORMAT))
             ->setParameter(':tasklist', $taskList)
             ->getQuery()
@@ -381,6 +384,7 @@ class TasksRepository extends ServiceEntityRepository
     public function focusByClient($client)
     {
         $today = new DateTime();
+
         return $this
             ->createQueryBuilder('t')
             ->select('t, tl, a, c, wl')
@@ -391,9 +395,9 @@ class TasksRepository extends ServiceEntityRepository
             ->where(self::NOT_COMPLETED)
             ->andWhere(self::ETA_TODAY)
             ->andWhere(self::CLIENT_CLAUSE)
-            ->orderBy(self::URGENCY, "DESC")
-            ->addOrderBy(self::PRIORTIY, "DESC")
-            ->addOrderBy(self::ORDER, "ASC")
+            ->orderBy(self::URGENCY, 'DESC')
+            ->addOrderBy(self::PRIORTIY, 'DESC')
+            ->addOrderBy(self::ORDER, 'ASC')
             ->setParameter(self::TODAY, $today->format(self::MYSQL_DATE_FORMAT))
             ->setParameter(self::CLIENT_VAR, $client)
             ->getQuery()
@@ -418,8 +422,8 @@ class TasksRepository extends ServiceEntityRepository
             ->createQueryBuilder('t')
             ->select('COUNT(t.id) as cnt, SUM(t.duration) as duration, t.urgency, t.priority')
             ->where(self::NOT_COMPLETED)
-            ->orderBy(self::URGENCY, "DESC")
-            ->addOrderBy(self::PRIORTIY, "DESC")
+            ->orderBy(self::URGENCY, 'DESC')
+            ->addOrderBy(self::PRIORTIY, 'DESC')
             ->groupBy(self::URGENCY)
             ->addGroupBy(self::PRIORTIY)
             ->getQuery()
@@ -429,22 +433,23 @@ class TasksRepository extends ServiceEntityRepository
     public function randomTasks()
     {
         $today = new DateTime();
+
         return $this
             ->getQueryBuilder()
             ->addSelect('RAND() as HIDDEN rand')
             ->where(self::NOT_COMPLETED)
             ->andWhere(self::ETA_TODAY)
-            ->addOrderBy("rand", "ASC")
+            ->addOrderBy('rand', 'ASC')
             ->setMaxResults(5)
             ->setParameter(self::TODAY, $today->format(self::MYSQL_DATE_FORMAT))
             ->getQuery()
             ->getResult();
     }
 
-
     public function weightedList()
     {
         $today = new DateTime();
+
         return $this
             ->createQueryBuilder('t')
             ->select('COUNT(t.urgency) as cnt, t.urgency, t.priority, tl.id')
@@ -466,7 +471,7 @@ class TasksRepository extends ServiceEntityRepository
             ->createQueryBuilder('t')
             ->select()
             ->where('t.task LIKE :searchTerm')
-            ->setParameter(":searchTerm", '%' . $searchTerm . '%')
+            ->setParameter(':searchTerm', '%'.$searchTerm.'%')
             ->getQuery()
             ->getResult();
     }
@@ -488,7 +493,7 @@ class TasksRepository extends ServiceEntityRepository
 
     public function findDurationCompletedByClientByRange($client, $from, $to)
     {
-        return (int)$this
+        return (int) $this
             ->createQueryBuilder('t')
             ->select(self::DURATION_SUM)
             ->leftJoin(self::TASKLIST, 'tl')
@@ -501,7 +506,6 @@ class TasksRepository extends ServiceEntityRepository
             ->getQuery()
             ->getSingleScalarResult();
     }
-
 
     public function findCompletedByClientByDate($client, $date)
     {
@@ -531,11 +535,11 @@ class TasksRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-
     public function findCompletedByClientToday($client)
     {
         $date = new DateTime();
         $date->setTime(00, 00, 00);
+
         return $this
             ->createQueryBuilder('t')
             ->select(self::DURATION_SUM)
@@ -565,9 +569,8 @@ class TasksRepository extends ServiceEntityRepository
     }
 
     /**
-     * Finds Tasks entities with joins to increase performance
+     * Finds Tasks entities with joins to increase performance.
      *
-     * @param array $criteria
      * @param array|null $orderBy
      *
      * @return QueryBuilder
@@ -614,39 +617,39 @@ class TasksRepository extends ServiceEntityRepository
     }
 
     /**
-     * Finds Tasks entities with joins to increase performance
+     * Finds Tasks entities with joins to increase performance.
      *
-     * @param array $criteria
      * @param array|null $orderBy
      *
-     * @return array The objects.
+     * @return array the objects
      */
     public function findByWithJoins(array $criteria, array $orderBy = [], $limit = null, $offset = null)
     {
         $queryBuilder = $this->findByWithJoinsQuery($criteria, $orderBy, $limit, $offset);
+
         return $queryBuilder
             ->getQuery()
             ->getResult();
     }
 
     /**
-     * Finds all Tasks entities in the repository with joins to increase performance
+     * Finds all Tasks entities in the repository with joins to increase performance.
      *
-     * @return array The entities.
+     * @return array the entities
      */
     public function findAllWithJoinsQuery(int $limit = 100, int $offset = 0)
     {
-        return $this->findByWithJoinsQuery([], ["completed" => "ASC"], $limit, $offset);
+        return $this->findByWithJoinsQuery([], ['completed' => 'ASC'], $limit, $offset);
     }
 
     /**
-     * Finds all Tasks entities in the repository with joins to increase performance
+     * Finds all Tasks entities in the repository with joins to increase performance.
      *
-     * @return array The entities.
+     * @return array the entities
      */
     public function findAllWithJoins(int $limit = 100, int $offset = 0)
     {
-        return $this->findByWithJoins([], ["completed" => "ASC"], $limit, $offset);
+        return $this->findByWithJoins([], ['completed' => 'ASC'], $limit, $offset);
     }
 
     public function findByAccountNoWorklog(Accounts $account)
@@ -665,8 +668,7 @@ class TasksRepository extends ServiceEntityRepository
     }
 
     /**
-     *
-     * @return array The objects.
+     * @return array the objects
      */
     public function findTasksYears()
     {
@@ -681,8 +683,7 @@ class TasksRepository extends ServiceEntityRepository
     }
 
     /**
-     *
-     * @return array The objects.
+     * @return array the objects
      */
     public function findWorkingHoursPerMonth()
     {
@@ -698,10 +699,9 @@ class TasksRepository extends ServiceEntityRepository
     }
 
     /**
-     * List of completed tasks on a date
+     * List of completed tasks on a date.
      *
-     * @param DateTime $date
-     * @return array The objects.
+     * @return array the objects
      */
     public function getCompletedByDate(DateTime $date)
     {
@@ -713,10 +713,9 @@ class TasksRepository extends ServiceEntityRepository
     }
 
     /**
-     * List of created tasks on a date
+     * List of created tasks on a date.
      *
-     * @param DateTime $date
-     * @return array The objects.
+     * @return array the objects
      */
     public function getCreatedByDate(DateTime $date)
     {
@@ -729,10 +728,9 @@ class TasksRepository extends ServiceEntityRepository
     }
 
     /**
-     * List of updated tasks on a date
+     * List of updated tasks on a date.
      *
-     * @param DateTime $date
-     * @return array The objects.
+     * @return array the objects
      */
     public function getUpdatedByDate(DateTime $date)
     {
@@ -750,13 +748,14 @@ class TasksRepository extends ServiceEntityRepository
             ->select('count(t.id)')
             ->where('YEAR(t.completedAt) = :year')
             ->andWhere('MONTH(t.completedAt) = :month')
-            ->setParameter(":year", $year)
-            ->setParameter(":month", $month);
+            ->setParameter(':year', $year)
+            ->setParameter(':month', $month);
 
         if ($day) {
             $qb->andWhere('DAY(t.completedAt) = :day')
                 ->setParameter('day', $day);
         }
+
         return $qb->getQuery()
             ->getSingleScalarResult();
     }
@@ -764,7 +763,9 @@ class TasksRepository extends ServiceEntityRepository
     /**
      * @param $from
      * @param $to
+     *
      * @return int
+     *
      * @throws \Doctrine\ORM\NoResultException
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
@@ -773,18 +774,17 @@ class TasksRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('t')
             ->select(self::DURATION_SUM)
             ->where(self::COMPLETED_RANGE)
-            ->setParameter(":from", $from)
-            ->setParameter(":to", $to);
+            ->setParameter(':from', $from)
+            ->setParameter(':to', $to);
 
-        return (int)$qb->getQuery()
+        return (int) $qb->getQuery()
             ->getSingleScalarResult();
     }
 
     /**
-     * List of created tasks on a date
+     * List of created tasks on a date.
      *
-     * @param DateTime $date
-     * @return array The objects.
+     * @return array the objects
      */
     public function getOpenCreatedBeforeDate(DateTime $date)
     {
@@ -798,9 +798,9 @@ class TasksRepository extends ServiceEntityRepository
     }
 
     /**
-     * Task average duration
+     * Task average duration.
      *
-     * @return float Task average duration.
+     * @return float task average duration
      */
     public function getTaskAverageDuration()
     {
@@ -811,6 +811,4 @@ class TasksRepository extends ServiceEntityRepository
             ->getQuery()
             ->getSingleScalarResult();
     }
-
-
 }

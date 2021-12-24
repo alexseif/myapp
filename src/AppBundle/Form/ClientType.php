@@ -3,13 +3,12 @@
 namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class ClientType extends AbstractType
 {
-
     /**
      * {@inheritdoc}
      */
@@ -18,7 +17,7 @@ class ClientType extends AbstractType
         $builder->add('name')
             ->add('enabled', CheckboxType::class, [
                 'required' => false,
-                'label_attr' => ['class' => 'switch_box']
+                'label_attr' => ['class' => 'switch_box'],
             ])
             ->add('billingOption', BillingOptionsType::class);
     }
@@ -28,9 +27,9 @@ class ClientType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Client'
-        ));
+        $resolver->setDefaults([
+            'data_class' => 'AppBundle\Entity\Client',
+        ]);
     }
 
     /**
@@ -40,5 +39,4 @@ class ClientType extends AbstractType
     {
         return 'appbundle_client';
     }
-
 }

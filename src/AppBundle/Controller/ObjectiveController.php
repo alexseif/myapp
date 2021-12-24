@@ -4,8 +4,8 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Objective;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Objective controller.
@@ -14,7 +14,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class ObjectiveController extends Controller
 {
-
     /**
      * Lists all objective entities.
      *
@@ -26,9 +25,9 @@ class ObjectiveController extends Controller
 
         $objectives = $em->getRepository('AppBundle:Objective')->findAll();
 
-        return $this->render('AppBundle:objective:index.html.twig', array(
+        return $this->render('AppBundle:objective:index.html.twig', [
             'objectives' => $objectives,
-        ));
+        ]);
     }
 
     /**
@@ -47,13 +46,13 @@ class ObjectiveController extends Controller
             $em->persist($objective);
             $em->flush();
 
-            return $this->redirectToRoute('objective_show', array('id' => $objective->getId()));
+            return $this->redirectToRoute('objective_show', ['id' => $objective->getId()]);
         }
 
-        return $this->render('AppBundle:objective:new.html.twig', array(
+        return $this->render('AppBundle:objective:new.html.twig', [
             'objective' => $objective,
             'form' => $form->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -65,10 +64,10 @@ class ObjectiveController extends Controller
     {
         $deleteForm = $this->createDeleteForm($objective);
 
-        return $this->render('AppBundle:objective:show.html.twig', array(
+        return $this->render('AppBundle:objective:show.html.twig', [
             'objective' => $objective,
             'delete_form' => $deleteForm->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -85,14 +84,14 @@ class ObjectiveController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('objective_edit', array('id' => $objective->getId()));
+            return $this->redirectToRoute('objective_edit', ['id' => $objective->getId()]);
         }
 
-        return $this->render('AppBundle:objective:edit.html.twig', array(
+        return $this->render('AppBundle:objective:edit.html.twig', [
             'objective' => $objective,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -124,9 +123,8 @@ class ObjectiveController extends Controller
     private function createDeleteForm(Objective $objective)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('objective_delete', array('id' => $objective->getId())))
+            ->setAction($this->generateUrl('objective_delete', ['id' => $objective->getId()]))
             ->setMethod('DELETE')
             ->getForm();
     }
-
 }

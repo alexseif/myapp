@@ -21,9 +21,9 @@ class ObjectiveType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Objective'
-        ));
+        $resolver->setDefaults([
+            'data_class' => 'AppBundle\Entity\Objective',
+        ]);
     }
 
     /**
@@ -33,6 +33,4 @@ class ObjectiveType extends AbstractType
     {
         return 'appbundle_objective';
     }
-
-
 }

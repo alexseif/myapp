@@ -6,14 +6,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
- * Currency
+ * Currency.
  *
  * @ORM\Table(name="currency")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CurrencyRepository")
  */
 class Currency
 {
-
     use TimestampableEntity;
 
     /**
@@ -47,7 +46,7 @@ class Currency
     private $EGP;
 
     /**
-     * Get id
+     * Get id.
      *
      * @return int
      */
@@ -57,7 +56,7 @@ class Currency
     }
 
     /**
-     * Set code
+     * Set code.
      *
      * @param string $code
      *
@@ -71,7 +70,7 @@ class Currency
     }
 
     /**
-     * Get code
+     * Get code.
      *
      * @return string
      */
@@ -81,7 +80,7 @@ class Currency
     }
 
     /**
-     * Set name
+     * Set name.
      *
      * @param string $name
      *
@@ -95,7 +94,7 @@ class Currency
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string
      */
@@ -105,7 +104,7 @@ class Currency
     }
 
     /**
-     * Set usd
+     * Set usd.
      *
      * @param float $egp
      *
@@ -119,7 +118,7 @@ class Currency
     }
 
     /**
-     * Get usd
+     * Get usd.
      *
      * @return float
      */
@@ -132,5 +131,4 @@ class Currency
     {
         return $this->code;
     }
-
 }

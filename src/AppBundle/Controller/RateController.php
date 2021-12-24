@@ -7,8 +7,8 @@ use AppBundle\Logic\CostOfLifeLogic;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\PercentType;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Rate controller.
@@ -17,7 +17,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class RateController extends Controller
 {
-
     /**
      * Lists all rate entities.
      *
@@ -29,11 +28,10 @@ class RateController extends Controller
         $rateCalculator = $this->get('myapp.rate.calculator');
         $rates = $rateCalculator->getActive();
 
-
-        return $this->render('AppBundle:rate:index.html.twig', array(
+        return $this->render('AppBundle:rate:index.html.twig', [
             'costOfLife' => $costOfLife,
             'rates' => $rates,
-        ));
+        ]);
     }
 
     /**
@@ -47,11 +45,10 @@ class RateController extends Controller
 
         $em = $this->getDoctrine()->getManager();
         $currencies = $em->getRepository('AppBundle:Currency')->findAll();
-        $cost = $em->getRepository('AppBundle:CostOfLife')->sumCostOfLife()["cost"];
+        $cost = $em->getRepository('AppBundle:CostOfLife')->sumCostOfLife()['cost'];
 
         $costOfLife = new CostOfLifeLogic($cost, $currencies);
         $rate->setRate($costOfLife->getHourly());
-
 
         $form = $this->createForm('AppBundle\Form\RateType', $rate);
         $form->handleRequest($request);
@@ -59,19 +56,19 @@ class RateController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $rate->setActive(true);
             $em->persist($rate);
-            $rates = $em->getRepository("AppBundle:Rate")->findBy(array("client" => $rate->getClient()));
+            $rates = $em->getRepository('AppBundle:Rate')->findBy(['client' => $rate->getClient()]);
             foreach ($rates as $oldRate) {
                 $oldRate->setActive(false);
             }
             $em->flush();
 
-            return $this->redirectToRoute('rate_show', array('id' => $rate->getId()));
+            return $this->redirectToRoute('rate_show', ['id' => $rate->getId()]);
         }
 
-        return $this->render('AppBundle:rate:new.html.twig', array(
+        return $this->render('AppBundle:rate:new.html.twig', [
             'rate' => $rate,
             'form' => $form->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -93,23 +90,24 @@ class RateController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $increase = $form->getData();
             $note = $increase['note'];
-            if (null != $increase['percent']) {
+            if (null !== $increase['percent']) {
                 $percent = 1 + $increase['percent'];
                 $rateCalculator->increaseByPercent($percent);
-                $this->addFlash('success', 'Rates increase by ' . $percent . "%");
-            } elseif (null != $increase['fixedValue']) {
+                $this->addFlash('success', 'Rates increase by '.$percent.'%');
+            } elseif (null !== $increase['fixedValue']) {
                 $fixedValue = $increase['fixedValue'];
                 $rateCalculator->increaseByFixedValue($fixedValue, $note);
-                $this->addFlash('success', 'Rates increase by EGP ' . $fixedValue);
+                $this->addFlash('success', 'Rates increase by EGP '.$fixedValue);
             } else {
                 $this->addFlash('error', 'Invalide From');
             }
             $this->redirect($this->generateUrl('rate_increase_all'));
         }
-        return $this->render('AppBundle:rate:increaseAll.html.twig', array(
+
+        return $this->render('AppBundle:rate:increaseAll.html.twig', [
             'rates' => $rateCalculator->getActive(),
             'form' => $form->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -121,13 +119,13 @@ class RateController extends Controller
     {
         $deleteForm = $this->createDeleteForm($rate);
         $em = $this->getDoctrine()->getManager();
-        $historyRates = $em->getRepository("AppBundle:Rate")->findBy(array("client" => $rate->getClient()));
+        $historyRates = $em->getRepository('AppBundle:Rate')->findBy(['client' => $rate->getClient()]);
 
-        return $this->render('AppBundle:rate:show.html.twig', array(
+        return $this->render('AppBundle:rate:show.html.twig', [
             'rate' => $rate,
             'historyRates' => $historyRates,
             'delete_form' => $deleteForm->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -146,14 +144,14 @@ class RateController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('rate_edit', array('id' => $rate->getId()));
+            return $this->redirectToRoute('rate_edit', ['id' => $rate->getId()]);
         }
 
-        return $this->render('AppBundle:rate:edit.html.twig', array(
+        return $this->render('AppBundle:rate:edit.html.twig', [
             'rate' => $rate,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -185,9 +183,8 @@ class RateController extends Controller
     private function createDeleteForm(Rate $rate)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('rate_delete', array('id' => $rate->getId())))
+            ->setAction($this->generateUrl('rate_delete', ['id' => $rate->getId()]))
             ->setMethod('DELETE')
             ->getForm();
     }
-
 }

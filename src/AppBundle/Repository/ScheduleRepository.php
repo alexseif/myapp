@@ -29,5 +29,4 @@ class ScheduleRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-
 }

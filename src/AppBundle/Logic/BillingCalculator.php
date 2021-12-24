@@ -1,10 +1,9 @@
 <?php
 /**
- * The following content was designed & implemented under AlexSeif.com
+ * The following content was designed & implemented under AlexSeif.com.
  **/
 
 namespace AppBundle\Logic;
-
 
 use AppBundle\Util\DateRanges;
 use DateTime;
@@ -20,14 +19,10 @@ class BillingCalculator
         $this->billingType = $billingType;
         $this->setWorkingDays();
 
-        switch ($this->billingType['amountPer']) {
-            case'month':
-                switch ($this->billingType['hoursPer']) {
-                    case 'day':
-                        $this->calculateAmountPerMonthHoursPerDay();
-                        break;
-                }
-                break;
+        if ($this->billingType['amountPer'] == 'month') {
+            if ($this->billingType['hoursPer'] == 'day') {
+                $this->calculateAmountPerMonthHoursPerDay();
+            }
         }
     }
 
@@ -45,15 +40,12 @@ class BillingCalculator
 
     public function calculateAmountPerMonthHoursPerDay()
     {
-
         $thisMonthHours = ($this->workingDays * $this->billingType['hours']);
         $this->pricePerUnit = $this->billingType['amount'] / $thisMonthHours;
-
     }
 
     public function getPricePerUnit()
     {
         return $this->pricePerUnit;
     }
-
 }

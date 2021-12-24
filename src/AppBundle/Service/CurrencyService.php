@@ -9,13 +9,12 @@ namespace AppBundle\Service;
 use Doctrine\ORM\EntityManager;
 
 /**
- * Description of CurrencyService
+ * Description of CurrencyService.
  *
  * @author Alex Seif <me@alexseif.com>
  */
 class CurrencyService
 {
-
     protected $em;
     protected $currency;
     protected $currencies;
@@ -41,14 +40,13 @@ class CurrencyService
         return $this->EGP;
     }
 
-    function getCurrencies()
+    public function getCurrencies()
     {
         return $this->currencies;
     }
 
-    function setCurrencies($currencies)
+    public function setCurrencies($currencies)
     {
         $this->currencies = $currencies;
     }
-
 }

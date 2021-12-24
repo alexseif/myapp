@@ -3,17 +3,15 @@
 namespace AppBundle\Entity\Traits;
 
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * Status Trait
+ * Status Trait.
  *
  * @author Alex Seif <alex.seif@gmail.com>
  * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 trait Status
 {
-
     /**
      * @var string
      *
@@ -28,24 +26,23 @@ trait Status
      */
     private $enabled = true;
 
-    function getStatus()
+    public function getStatus()
     {
         return $this->status;
     }
 
-    function setStatus($status)
+    public function setStatus($status)
     {
         $this->status = $status;
     }
 
-    function getEnabled()
+    public function getEnabled()
     {
         return $this->enabled;
     }
 
-    function setEnabled($enabled)
+    public function setEnabled($enabled)
     {
         $this->enabled = $enabled;
     }
-
 }

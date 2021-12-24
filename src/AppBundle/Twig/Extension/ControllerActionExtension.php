@@ -14,7 +14,6 @@ use Twig\Extension\AbstractExtension;
  */
 class ControllerActionExtension extends AbstractExtension
 {
-
     /**
      * @var Request
      */
@@ -32,40 +31,43 @@ class ControllerActionExtension extends AbstractExtension
 
     public function getFunctions()
     {
-        return array(
+        return [
             new \Twig\TwigFunction('get_controller_name', [$this, 'getControllerName']),
             new \Twig\TwigFunction('get_action_name', [$this, 'getActionName']),
-        );
+        ];
     }
 
     /**
-     * Get current controller name
+     * Get current controller name.
      */
     public function getControllerName()
     {
         if (null !== $this->request) {
             $pattern = "#Controller\\\([a-zA-Z]*)Controller#";
-            $matches = array();
+            $matches = [];
             $result = preg_match($pattern, $this->request->get('_controller'), $matches);
-            if ($result)
+            if ($result) {
                 return strtolower($matches[1]);
+            }
+
             return null;
         }
     }
 
     /**
-     * Get current action name
+     * Get current action name.
      */
     public function getActionName()
     {
         if (null !== $this->request) {
-            $pattern = "#::([a-zA-Z]*)Action#";
-            $matches = array();
+            $pattern = '#::([a-zA-Z]*)Action#';
+            $matches = [];
             $result = preg_match($pattern, $this->request->get('_controller'), $matches);
-            if ($result)
+            if ($result) {
                 return $matches[1];
+            }
+
             return null;
         }
     }
-
 }

@@ -12,5 +12,4 @@ class AccountingControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/index');
     }
-
 }

@@ -23,8 +23,6 @@ class SizingController extends Controller
 {
     /**
      * @Route("/", name="_index")
-     * @param Request $request
-     * @return Response
      */
     public function index(Request $request, TaskListsRepository $taskListsRepository): Response
     {
@@ -32,7 +30,7 @@ class SizingController extends Controller
         if ($request->get('account')) {
             $account = $request->get('account');
             $tasklists = $taskListsRepository->findBy([
-                'account' => $account
+                'account' => $account,
             ]);
         }
         foreach ($tasklists as $tasklist) {
@@ -43,16 +41,14 @@ class SizingController extends Controller
             }
             $tasklist->sizing = number_format($tasklist->estTotal * $tasklist->rate / 60, 0);
         }
+
         return $this->render('sizing/index.html.twig', [
             'tasklists' => $tasklists,
-            'query' => $request->query->all()
+            'query' => $request->query->all(),
         ]);
     }
 
-
     /**
-     * @param TaskLists $tasklist
-     * @return Response|null
      * @Route ("/{id}", name="_by_tasklist")
      */
     public function sizingByTasklist(TaskLists $tasklist, Request $request): ?Response
@@ -62,25 +58,27 @@ class SizingController extends Controller
         $tasks = $tasklist->getTasks(false);
         $form = $this->createForm(TasklistSizingType::class, $tasklist, [
             'action' => $this->generateUrl('sizing_by_tasklist', $query),
-            'tasks' => $tasks
+            'tasks' => $tasks,
         ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
             $this->addFlash('success', 'Sizing saved');
+
             return $this->redirect($this->generateUrl('sizing_by_tasklist', $query));
         }
+
         return $this->render('sizing/tasklist.html.twig', [
             'tasklist' => $tasklist,
             'form' => $form->createView(),
-            'query' => $query
+            'query' => $query,
         ]);
     }
 
     /**
      * @Route("/{id}/new_task", name="_new_task", methods={"GET","POST"})
-     * @param Request $request
+     *
      * @return JsonResponse|RedirectResponse
      */
     public function newTask(TaskLists $tasklist, Request $request)
@@ -92,7 +90,7 @@ class SizingController extends Controller
         $task->setTaskList($tasklist);
 
         $form = $this->createForm(TaskSizingType::class, $task, [
-            'action' => $this->generateUrl('sizing_new_task', $query)
+            'action' => $this->generateUrl('sizing_new_task', $query),
         ]);
         $form->handleRequest($request);
 
@@ -101,19 +99,19 @@ class SizingController extends Controller
             $entityManager->persist($task);
             $entityManager->flush();
             $this->addFlash('success', 'Task saved');
+
             return $this->redirect($this->generateUrl('sizing_by_tasklist', $query));
         }
 
         return JsonResponse::create($this->renderView('tasks/_new_sizing.html.twig', [
             'form' => $form->createView(),
-            'query' => $query
+            'query' => $query,
         ]));
     }
 
-
     /**
      * @Route("/new/tasklist", name="_new_tasklist", methods={"GET","POST"})
-     * @param Request $request
+     *
      * @return JsonResponse|RedirectResponse
      */
     public function newTasklist(Request $request)
@@ -125,7 +123,7 @@ class SizingController extends Controller
             $tasklist->setAccount($this->get(AccountsRepository::class)->find($query['account']));
         }
         $form = $this->createForm(TaskListsType::class, $tasklist, [
-            'action' => $this->generateUrl('sizing_new_tasklist', $query)
+            'action' => $this->generateUrl('sizing_new_tasklist', $query),
         ]);
         $form->handleRequest($request);
 
@@ -134,12 +132,13 @@ class SizingController extends Controller
             $entityManager->persist($tasklist);
             $entityManager->flush();
             $this->addFlash('success', 'New Task List saved');
+
             return $this->redirect($this->generateUrl('sizing_by_tasklist', array_merge(['id' => $tasklist->getId()], $query)));
         }
 
         return JsonResponse::create($this->renderView('@App/tasklists/_new_modal.html.twig', [
             'form' => $form->createView(),
-            'query' => $query
+            'query' => $query,
         ]));
     }
 }

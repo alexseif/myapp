@@ -2,16 +2,15 @@
 
 namespace AppBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Finder\Finder;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\BufferedOutput;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Backups controller.
@@ -20,7 +19,6 @@ use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
  */
 class BackupsController extends Controller
 {
-
     /**
      * @Route("/", name="backups")
      */
@@ -29,14 +27,14 @@ class BackupsController extends Controller
         $finder = new Finder();
 
         try {
-            $finder->files()->in($this->get('kernel')->getRootDir() . '/../backups')->sortByModifiedTime();
+            $finder->files()->in($this->get('kernel')->getRootDir().'/../backups')->sortByModifiedTime();
         } catch (\Exception $exc) {
             $finder = null;
         }
 
-        return $this->render("AppBundle:backups:index.html.twig", array(
-            'finder' => $finder
-        ));
+        return $this->render('AppBundle:backups:index.html.twig', [
+            'finder' => $finder,
+        ]);
     }
 
     /**
@@ -47,7 +45,7 @@ class BackupsController extends Controller
         $finder = new Finder();
 
         try {
-            $finder->files()->in($this->get('kernel')->getRootDir() . '/../backups')->sortByModifiedTime();
+            $finder->files()->in($this->get('kernel')->getRootDir().'/../backups')->sortByModifiedTime();
         } catch (\Exception $exc) {
             $finder = null;
         }
@@ -60,9 +58,9 @@ class BackupsController extends Controller
                     try {
                         $fs->remove($file);
                     } catch (IOExceptionInterface $e) {
-                        echo "An error occurred while creating your directory at " . $e->getPath();
+                        echo 'An error occurred while creating your directory at '.$e->getPath();
                     }
-                    $count--;
+                    --$count;
                 }
             }
         }
@@ -71,17 +69,18 @@ class BackupsController extends Controller
         $application = new Application($kernel);
         $application->setAutoExit(false);
 
-        $input = new ArrayInput(array(
+        $input = new ArrayInput([
             'command' => 'zenstruck:backup:run',
             'profile' => 'daily',
             '-e' => 'prod',
             '--clear',
-        ));
+        ]);
         $output = new BufferedOutput();
         $application->run($input, $output);
-        $content = $output->fetch();
+        $output->fetch();
 
         $this->addFlash('success', 'Backup generated');
+
         return $this->redirectToRoute('backups');
     }
 
@@ -90,16 +89,16 @@ class BackupsController extends Controller
      */
     public function downloadAction($file)
     {
-        $content = file_get_contents($this->get('kernel')->getRootDir() . '/../backups/' . $file);
+        $content = file_get_contents($this->get('kernel')->getRootDir().'/../backups/'.$file);
 
         $response = new Response();
 
         //set headers
         $response->headers->set('Content-Type', 'application/gzip');
-        $response->headers->set('Content-Disposition', 'attachment;filename="' . $file);
+        $response->headers->set('Content-Disposition', 'attachment;filename="'.$file);
 
         $response->setContent($content);
+
         return $response;
     }
-
 }

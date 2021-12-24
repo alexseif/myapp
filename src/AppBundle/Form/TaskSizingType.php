@@ -20,40 +20,40 @@ class TaskSizingType extends AbstractType
                 'label' => false,
                 'attr' => [
                     'placeholder' => 'Est',
-                    'class' => 'est'
-                ]
+                    'class' => 'est',
+                ],
             ])
-            ->add('priority', ChoiceType::class, array(
+            ->add('priority', ChoiceType::class, [
                 'label' => false,
-                'choices' => array(
+                'choices' => [
                     'Low' => -1,
                     'Normal' => 0,
                     'Important' => 1,
-                ),
+                ],
                 'expanded' => true,
-                'label_attr' => array('class' => 'radio-inline')
-            ))
-            ->add('urgency', ChoiceType::class, array(
+                'label_attr' => ['class' => 'radio-inline'],
+            ])
+            ->add('urgency', ChoiceType::class, [
                 'label' => false,
-                'choices' => array(
+                'choices' => [
                     'Normal' => 0,
-                    'Urgent' => 1
-                ),
+                    'Urgent' => 1,
+                ],
                 'expanded' => true,
-                'label_attr' => array('class' => 'radio-inline')
-            ))
-            ->add('eta', DateTimeType::class, array(
+                'label_attr' => ['class' => 'radio-inline'],
+            ])
+            ->add('eta', DateTimeType::class, [
                 'label' => false,
                 'date_widget' => 'single_text',
                 'time_widget' => 'single_text',
                 'date_format' => 'yyyy - MM - dd',
                 'required' => false,
-                'attr' => array(
+                'attr' => [
                     'class' => 'datepicker',
                     'data - provide' => 'datepicker',
                     'data - date - format' => 'yyyy - MM - dd',
-                )
-            ));
+                ],
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

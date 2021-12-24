@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Contract;
+use AppBundle\Form\ContractType;
 use AppBundle\Util\DateRanges;
 use DateInterval;
 use DatePeriod;
@@ -11,10 +12,9 @@ use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Form\ContractType;
 
 /**
  * Contract controller.
@@ -23,7 +23,6 @@ use AppBundle\Form\ContractType;
  */
 class ContractController extends Controller
 {
-
     /**
      * Lists all contract entities.
      *
@@ -87,7 +86,6 @@ class ContractController extends Controller
      */
     public function logSummaryAction(Contract $contract): ?Response
     {
-
         $today = new DateTime();
         $billingType = $contract->getClient()->getBillingOption();
         $day = 25;
@@ -102,7 +100,7 @@ class ContractController extends Controller
 
         return $this->render('AppBundle:contract:log-summary.html.twig', [
             'contract' => $contract,
-            'months' => $months
+            'months' => $months,
         ]);
     }
 
@@ -110,6 +108,7 @@ class ContractController extends Controller
      * Finds and displays a report for contract entity.
      *
      * @Route("/{id}/log/{from}/{to}", name="contract_log", methods={"GET"})
+     *
      * @throws Exception
      */
     public function logAction(Contract $contract, $from, $to): ?Response
@@ -124,7 +123,7 @@ class ContractController extends Controller
         //TODO: Include holidays
         //TODO: Calculate and display total
 
-        $dayInterval = new DateInterval("P1D");
+        $dayInterval = new DateInterval('P1D');
 
         $contractDays = new DatePeriod($fromDate, $dayInterval, $toDate);
 
@@ -137,7 +136,7 @@ class ContractController extends Controller
                     continue;
                 }
 
-                $dayKey = (int)$day->format('Ymd');
+                $dayKey = (int) $day->format('Ymd');
                 if (!array_key_exists($dayKey, $contractDetails)) {
                     $contractDetails[$dayKey] = [];
                 }
@@ -148,12 +147,13 @@ class ContractController extends Controller
             }
         }
         ksort($contractDetails);
+
         return $this->render('AppBundle:contract:log.html.twig', [
             'contract' => $contract,
             'from' => $from,
             'to' => $to,
             'contractDetails' => $contractDetails,
-            'holidays' => $holidays
+            'holidays' => $holidays,
         ]);
     }
 
@@ -191,15 +191,16 @@ class ContractController extends Controller
             }
         }
 
-        return $this->render("AppBundle:contract:report.html.twig", [
+        return $this->render('AppBundle:contract:report.html.twig', [
             'report_filter_form' => $reportFilterForm->createView(),
             'contract' => $contract,
-            'monthsArray' => $monthsArray
+            'monthsArray' => $monthsArray,
         ]);
     }
 
     /**
      * @Route("/{id}/{from}/{to}", name="contract_timesheet")
+     *
      * @throws Exception
      */
     public function timesheetAction(Contract $contract, $from, $to): ?Response
@@ -212,7 +213,6 @@ class ContractController extends Controller
         $tasks = $em->getRepository('AppBundle:Tasks')->findCompletedByClientByRange($contract->getClient(), $fromDate, $toDate);
         $monthHolidays = $em->getRepository('AppBundle:Holiday')->findByRange(new DateTime($from), new DateTime($to));
         $workingDays = 22;
-        //TODO: get from contract
         $expected = ($workingDays * $contract->getHoursPerDay());
         $total = 0;
 
@@ -225,24 +225,23 @@ class ContractController extends Controller
             }
         }
 
-
         foreach ($tasks as $task) {
             $total += $task->getDuration();
         }
         $totalHours = $total / 60;
         $totalMins = $total % 60;
         $remaining = $expected - $totalHours;
-        $remaining = floor($remaining) . ":" . $totalMins;
+        $remaining = floor($remaining).':'.$totalMins;
 
-        return $this->render("AppBundle:contract:timesheet.html.twig", [
-            "contract" => $contract,
-            "from" => $from,
-            "to" => $to,
-            "tasks" => $tasks,
-            "total" => $total,
-            "expected" => $expected,
-            "remaining" => $remaining,
-            "holidays" => $holidays
+        return $this->render('AppBundle:contract:timesheet.html.twig', [
+            'contract' => $contract,
+            'from' => $from,
+            'to' => $to,
+            'tasks' => $tasks,
+            'total' => $total,
+            'expected' => $expected,
+            'remaining' => $remaining,
+            'holidays' => $holidays,
         ]);
     }
 
@@ -267,6 +266,7 @@ class ContractController extends Controller
             }
             $this->getDoctrine()->getManager()->flush();
             $this->addFlash('success', 'Contract updated');
+
             return $this->redirectToRoute('contract_index');
         }
 
@@ -300,8 +300,6 @@ class ContractController extends Controller
      * Creates a form to delete a contract entity.
      *
      * @param Contract $contract The contract entity
-     *
-     * @return FormInterface
      */
     private function createDeleteForm(Contract $contract): FormInterface
     {
@@ -310,5 +308,4 @@ class ContractController extends Controller
             ->setMethod('DELETE')
             ->getForm();
     }
-
 }

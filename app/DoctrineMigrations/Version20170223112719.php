@@ -10,13 +10,10 @@ use Doctrine\DBAL\Schema\Schema;
  */
 class Version20170223112719 extends AbstractMigration
 {
-    /**
-     * @param Schema $schema
-     */
     public function up(Schema $schema)
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE account_costs DROP FOREIGN KEY FK_99928ED91DBF857F');
         $this->addSql('ALTER TABLE tasks_costs DROP FOREIGN KEY FK_16916C0F1DBF857F');
@@ -25,13 +22,10 @@ class Version20170223112719 extends AbstractMigration
         $this->addSql('DROP TABLE tasks_costs');
     }
 
-    /**
-     * @param Schema $schema
-     */
     public function down(Schema $schema)
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('CREATE TABLE account_costs (account_id INT NOT NULL, cost_id INT NOT NULL, UNIQUE INDEX UNIQ_99928ED91DBF857F (cost_id), INDEX IDX_99928ED99B6B5FBA (account_id), PRIMARY KEY(account_id, cost_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE cost (id INT AUTO_INCREMENT NOT NULL, currency_id INT DEFAULT NULL, name VARCHAR(255) NOT NULL COLLATE utf8_unicode_ci, value DOUBLE PRECISION NOT NULL, generatedAt DATETIME NOT NULL, createdAt DATETIME NOT NULL, note LONGTEXT DEFAULT NULL COLLATE utf8_unicode_ci, INDEX IDX_182694FC38248176 (currency_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');

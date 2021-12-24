@@ -12,8 +12,4 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class InboxController extends Controller
 {
-
-
-
-
 }

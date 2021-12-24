@@ -7,13 +7,12 @@
 namespace AppBundle\Model;
 
 /**
- * Description of ActionItem
+ * Description of ActionItem.
  *
  * @author Alex Seif <me@alexseif.com>
  */
 class ActionItem
 {
-
     protected $id;
     protected $type;
     protected $title;
@@ -102,5 +101,4 @@ class ActionItem
     {
         $this->urgency = $urgency;
     }
-
 }

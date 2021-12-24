@@ -12,5 +12,4 @@ class BudgetControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/index');
     }
-
 }

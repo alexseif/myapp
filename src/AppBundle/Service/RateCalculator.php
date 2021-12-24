@@ -7,28 +7,30 @@
 namespace AppBundle\Service;
 
 use AppBundle\Entity\Client;
-use AppBundle\Entity\Tasks;
 use AppBundle\Entity\Rate;
+use AppBundle\Entity\Tasks;
 use AppBundle\Logic\CostOfLifeLogic;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 
 /**
- * Description of RateCalculator
+ * Description of RateCalculator.
  *
  * @author Alex Seif <me@alexseif.com>
  */
 class RateCalculator
 {
-
     protected $em;
-    protected $currencies, $costOfLife, $defaultRate, $cost;
+    protected $currencies;
+    protected $costOfLife;
+    protected $defaultRate;
+    protected $cost;
 
     public function __construct(EntityManager $em)
     {
         $this->setEm($em);
         $this->setCurrencies($this->getEm()->getRepository('AppBundle:Currency')->findAll());
-        $this->setCost($this->getEm()->getRepository('AppBundle:CostOfLife')->sumCostOfLife()["cost"]);
+        $this->setCost($this->getEm()->getRepository('AppBundle:CostOfLife')->sumCostOfLife()['cost']);
         $this->setCostOfLife(new CostOfLifeLogic($this->getCost(), $this->getCurrencies()));
         $this->setDefaultRate($this->getCostOfLife()->getHourly());
     }
@@ -42,116 +44,103 @@ class RateCalculator
                 }
             }
         }
+
         return $this->getDefaultRate();
     }
 
-    public
-    function getRateByTask(Tasks $task)
+    public function getRateByTask(Tasks $task)
     {
         return $this->getRate($task->getTaskList()->getAccount()->getClient());
     }
 
-    public
-    function task(Tasks $task)
+    public function task(Tasks $task)
     {
-
         $client = $task->getTaskList()->getAccount()->getClient();
 
         if ($task->getDuration()) {
-            $this->getRate($client) * $task->getDuration();
+            return $this->getRate($client) * $task->getDuration();
         }
+
         return null;
     }
 
-    public
-    function tasks($tasks)
+    public function tasks($tasks)
     {
         $total = 0;
         foreach ($tasks as $task) {
             $rate = $this->getRateByTask($task);
             $total += $task->getDuration() / 60 * $rate;
         }
+
         return $total;
     }
 
     /**
-     *
      * @return EntityManager
      */
-    public
-    function getEm()
+    public function getEm()
     {
         return $this->em;
     }
 
     /**
-     *
      * @param EntityManager $em
      */
-    public
-    function setEm($em)
+    public function setEm($em)
     {
         $this->em = $em;
     }
 
-    function getCurrencies()
+    public function getCurrencies()
     {
         return $this->currencies;
     }
 
-    function getDefaultRate()
+    public function getDefaultRate()
     {
         return $this->defaultRate;
     }
 
-    function setCurrencies($currencies)
+    public function setCurrencies($currencies)
     {
         $this->currencies = $currencies;
     }
 
-    function setDefaultRate($defaultRate)
+    public function setDefaultRate($defaultRate)
     {
         $this->defaultRate = $defaultRate;
     }
 
-    function getCostOfLife()
+    public function getCostOfLife()
     {
         return $this->costOfLife;
     }
 
-    function setCostOfLife($costOfLife)
+    public function setCostOfLife($costOfLife)
     {
         $this->costOfLife = $costOfLife;
     }
 
-    function getCost()
+    public function getCost()
     {
         return $this->cost;
     }
 
-    function setCost($cost)
+    public function setCost($cost)
     {
         $this->cost = $cost;
     }
 
     /**
-     *
      * @return ArrayCollection Rates
      */
-    public
-    function getActive()
+    public function getActive()
     {
         return $this->em->getRepository('AppBundle:Rate')->getActiveRates();
     }
 
-    /**
-     *
-     * @param float $percent
-     */
-    public
-    function increaseByPercent(float $percent)
+    public function increaseByPercent(float $percent)
     {
-        $em = $this->em;
         $rates = $this->getActive();
         foreach ($rates as $rate) {
             $newRate = new Rate();
@@ -160,19 +149,16 @@ class RateCalculator
                 ->setClient($rate->getClient())
                 ->setRate($rate->getRate() * $percent);
             $rate->setActive(false);
-            $em->persist($newRate);
+            $this->em->persist($newRate);
         }
-        $em->flush();
+        $this->em->flush();
     }
 
     /**
-     *
      * @param float $fixedValue
      */
-    public
-    function increaseByFixedValue($fixedValue, $note)
+    public function increaseByFixedValue($fixedValue, $note)
     {
-        $em = $this->em;
         $rates = $this->getActive();
         foreach ($rates as $rate) {
             $newRate = new Rate();
@@ -182,9 +168,8 @@ class RateCalculator
                 ->setClient($rate->getClient())
                 ->setRate($rate->getRate() + $fixedValue);
             $rate->setActive(false);
-            $em->persist($newRate);
+            $this->em->persist($newRate);
         }
-        $em->flush();
+        $this->em->flush();
     }
-
 }

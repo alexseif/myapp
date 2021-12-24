@@ -7,13 +7,12 @@ namespace AppBundle\Util;
  */
 
 /**
- * Utility class for WorkWeek Operations
+ * Utility class for WorkWeek Operations.
  *
  * @author Alex Seif <me@alexseif.com>
  */
 class WorkWeek
 {
-
     private static $workWeek = [
         'Friday' => 0,
         'Saturday' => 4,
@@ -34,7 +33,7 @@ class WorkWeek
         if (key_exists($day, self::$workWeek)) {
             return self::$workWeek[$day];
         }
+
         return null;
     }
-
 }

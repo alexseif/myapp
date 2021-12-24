@@ -2,11 +2,10 @@
 
 namespace AppBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Entity\Notes;
-use AppBundle\Form\NotesType;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Notes controller.
@@ -15,7 +14,6 @@ use AppBundle\Form\NotesType;
  */
 class NotesController extends Controller
 {
-
     /**
      * Lists all Notes entities.
      *
@@ -27,9 +25,9 @@ class NotesController extends Controller
 
         $notes = $em->getRepository('AppBundle:Notes')->findAll();
 
-        return $this->render("AppBundle:notes:index.html.twig", array(
+        return $this->render('AppBundle:notes:index.html.twig', [
             'notes' => $notes,
-        ));
+        ]);
     }
 
     /**
@@ -48,13 +46,13 @@ class NotesController extends Controller
             $em->persist($note);
             $em->flush();
 
-            return $this->redirectToRoute('notes_show', array('id' => $note->getId()));
+            return $this->redirectToRoute('notes_show', ['id' => $note->getId()]);
         }
 
-        return $this->render("AppBundle:notes:new.html.twig", array(
+        return $this->render('AppBundle:notes:new.html.twig', [
             'note' => $note,
             'notes_form' => $form->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -66,10 +64,10 @@ class NotesController extends Controller
     {
         $deleteForm = $this->createDeleteForm($note);
 
-        return $this->render("AppBundle:notes:show.html.twig", array(
+        return $this->render('AppBundle:notes:show.html.twig', [
             'note' => $note,
             'delete_form' => $deleteForm->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -88,14 +86,14 @@ class NotesController extends Controller
             $em->persist($note);
             $em->flush();
 
-            return $this->redirectToRoute('notes_show', array('id' => $note->getId()));
+            return $this->redirectToRoute('notes_show', ['id' => $note->getId()]);
         }
 
-        return $this->render("AppBundle:notes:edit.html.twig", array(
+        return $this->render('AppBundle:notes:edit.html.twig', [
             'note' => $note,
             'notes_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -127,9 +125,8 @@ class NotesController extends Controller
     private function createDeleteForm(Notes $note)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('notes_delete', array('id' => $note->getId())))
+            ->setAction($this->generateUrl('notes_delete', ['id' => $note->getId()]))
             ->setMethod('DELETE')
             ->getForm();
     }
-
 }

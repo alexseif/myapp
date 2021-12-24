@@ -6,14 +6,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
- * Notes
+ * Notes.
  *
  * @ORM\Table(name="notes")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\NotesRepository")
  */
 class Notes
 {
-
     use TimestampableEntity;
 
     /**
@@ -39,15 +38,15 @@ class Notes
      */
     private $type;
 
-    function __construct()
+    public function __construct()
     {
         $this->type = 'general';
     }
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -55,9 +54,10 @@ class Notes
     }
 
     /**
-     * Set note
+     * Set note.
      *
      * @param string $note
+     *
      * @return Notes
      */
     public function setNote($note)
@@ -68,7 +68,7 @@ class Notes
     }
 
     /**
-     * Get note
+     * Get note.
      *
      * @return string
      */
@@ -78,9 +78,10 @@ class Notes
     }
 
     /**
-     * Set type
+     * Set type.
      *
      * @param string $type
+     *
      * @return Notes
      */
     public function setType($type)
@@ -91,7 +92,7 @@ class Notes
     }
 
     /**
-     * Get type
+     * Get type.
      *
      * @return string
      */
@@ -99,5 +100,4 @@ class Notes
     {
         return $this->type;
     }
-
 }

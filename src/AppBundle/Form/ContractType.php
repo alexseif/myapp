@@ -2,16 +2,15 @@
 
 namespace AppBundle\Form;
 
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
 class ContractType extends AbstractType
 {
-
     /**
      * {@inheritdoc}
      */
@@ -19,31 +18,31 @@ class ContractType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('client', EntityType::class, array(
+            ->add('client', EntityType::class, [
                     'required' => false,
                     'class' => 'AppBundle:Client',
                     'choice_label' => 'name',
-                    'attr' => array(
+                    'attr' => [
                         'class' => 'chosen',
-                    ))
+                    ], ]
             )
             ->add('hoursPerDay')
-            ->add('startedAt', DateTimeType::class, array(
+            ->add('startedAt', DateTimeType::class, [
                 'date_widget' => 'single_text',
                 'time_widget' => 'single_text',
                 'date_format' => 'yyyy-MM-dd',
-            ))
+            ])
             ->add('billedOn', NumberType::class, [
                 'required' => false,
-                'attr' => ['min' => 1, 'max' => 30]
+                'attr' => ['min' => 1, 'max' => 30],
             ])
             ->add('isCompleted')
-            ->add('completedAt', DateTimeType::class, array(
+            ->add('completedAt', DateTimeType::class, [
                 'date_widget' => 'single_text',
                 'time_widget' => 'single_text',
                 'date_format' => 'yyyy-MM-dd',
-                'required' => false
-            ));
+                'required' => false,
+            ]);
     }
 
     /**
@@ -51,9 +50,9 @@ class ContractType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Contract'
-        ));
+        $resolver->setDefaults([
+            'data_class' => 'AppBundle\Entity\Contract',
+        ]);
     }
 
     /**
@@ -63,5 +62,4 @@ class ContractType extends AbstractType
     {
         return 'appbundle_contract';
     }
-
 }

@@ -8,14 +8,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
- * Client
+ * Client.
  *
  * @ORM\Table(name="client")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ClientRepository")
  */
 class Client
 {
-
     use TimestampableEntity;
     use Traits\Status;
 
@@ -51,14 +50,13 @@ class Client
      */
     private $rates;
 
-
     /**
      * @ORM\Column(type="array", nullable=true)
      */
     private $billingOption = [];
 
     /**
-     * Constructor
+     * Constructor.
      */
     public function __construct()
     {
@@ -66,9 +64,7 @@ class Client
     }
 
     /**
-     * Get id
-     *
-     * @return int
+     * Get id.
      */
     public function getId(): int
     {
@@ -76,11 +72,7 @@ class Client
     }
 
     /**
-     * Set name
-     *
-     * @param string $name
-     *
-     * @return Client
+     * Set name.
      */
     public function setName(string $name): Client
     {
@@ -90,9 +82,7 @@ class Client
     }
 
     /**
-     * Get name
-     *
-     * @return string
+     * Get name.
      */
     public function getName(): string
     {
@@ -100,11 +90,7 @@ class Client
     }
 
     /**
-     * Add account
-     *
-     * @param Accounts $account
-     *
-     * @return Client
+     * Add account.
      */
     public function addAccount(Accounts $account): Client
     {
@@ -114,9 +100,7 @@ class Client
     }
 
     /**
-     * Remove account
-     *
-     * @param Accounts $account
+     * Remove account.
      */
     public function removeAccount(Accounts $account): void
     {
@@ -124,7 +108,7 @@ class Client
     }
 
     /**
-     * Get accounts
+     * Get accounts.
      *
      * @return Collection
      */
@@ -140,10 +124,6 @@ class Client
 
     /**
      * Add rate.
-     *
-     * @param Rate $rate
-     *
-     * @return Client
      */
     public function addRate(Rate $rate): Client
     {
@@ -155,9 +135,7 @@ class Client
     /**
      * Remove rate.
      *
-     * @param Rate $rate
-     *
-     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     * @return bool TRUE if this collection contained the specified element, FALSE otherwise
      */
     public function removeRate(Rate $rate): bool
     {
@@ -166,8 +144,6 @@ class Client
 
     /**
      * Get rates.
-     *
-     * @return Collection
      */
     public function getRates(): Collection
     {
@@ -175,9 +151,7 @@ class Client
     }
 
     /**
-     * Check rates
-     *
-     * @return int
+     * Check rates.
      */
     public function hasRates(): int
     {

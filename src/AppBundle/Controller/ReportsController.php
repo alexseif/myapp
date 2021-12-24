@@ -2,12 +2,13 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Client;
+use AppBundle\Entity\TaskLists;
+use AppBundle\Entity\Tasks;
 use AppBundle\Service\ReportService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
-use AppBundle\Entity\Client;
-use AppBundle\Entity\TaskLists;
 
 /**
  * Rate controller.
@@ -16,14 +17,13 @@ use AppBundle\Entity\TaskLists;
  */
 class ReportsController extends Controller
 {
-
     /**
      * @Route("/", name="reports_index")
      */
     public function indexAction()
     {
-        return $this->render('AppBundle:Reports:index.html.twig', array(// ...
-        ));
+        return $this->render('AppBundle:Reports:index.html.twig', [// ...
+        ]);
     }
 
     /**
@@ -34,23 +34,22 @@ class ReportsController extends Controller
         $em = $this->getDoctrine()->getManager();
         $clients = $em->getRepository('AppBundle:Client')->findAll();
 
-        return $this->render('AppBundle:Reports:clients.html.twig', array(
-            "clients" => $clients
-        ));
+        return $this->render('AppBundle:Reports:clients.html.twig', [
+            'clients' => $clients,
+        ]);
     }
 
     /**
      * @Route("/hourly/{client}", name="reports_client_hourly")
-     * @param Client $client
      */
     public function hourlyAction(Client $client)
     {
         $em = $this->getDoctrine()->getManager();
-        $durations = $em->getRepository('AppBundle:Tasks')->findCompletedByClient($client);
-        $hourly = array();
+        $durations = $em->getRepository(Tasks::class)->findCompletedByClient($client);
+        $hourly = [];
         foreach ($durations as $duration) {
             if (!array_key_exists($duration['yr'], $hourly)) {
-                $hourly[$duration['yr']] = array();
+                $hourly[$duration['yr']] = [];
             }
             if (!array_key_exists($duration['mnth'], $hourly[$duration['yr']])) {
                 $hourly[$duration['yr']][$duration['mnth']] = 0;
@@ -61,10 +60,10 @@ class ReportsController extends Controller
             $hourly[$year]['average'] = array_sum($hour) / count($hour);
         }
 
-        return $this->render('AppBundle:Reports:hourly.html.twig', array(
-            "client" => $client,
-            'hourly' => $hourly
-        ));
+        return $this->render('AppBundle:Reports:hourly.html.twig', [
+            'client' => $client,
+            'hourly' => $hourly,
+        ]);
     }
 
     /**
@@ -73,19 +72,18 @@ class ReportsController extends Controller
     public function tasklistAction(TaskLists $tasklist)
     {
         $em = $this->getDoctrine()->getManager();
-        $tasks = $em->getRepository('AppBundle:Tasks')->findBy(array(
-            "taskList" => $tasklist,
-            "completed" => true
-        ), array("completedAt" => "DESC"));
+        $tasks = $em->getRepository('AppBundle:Tasks')->findBy([
+            'taskList' => $tasklist,
+            'completed' => true,
+        ], ['completedAt' => 'DESC']);
 
-        return $this->render('AppBundle:Reports:tasks.html.twig', array(
-            "tasklist" => $tasklist,
-            "tasks" => $tasks
-        ));
+        return $this->render('AppBundle:Reports:tasks.html.twig', [
+            'tasklist' => $tasklist,
+            'tasks' => $tasks,
+        ]);
     }
 
     /**
-     *
      * @Route("/diff", name="reports_diff")
      */
     public function diffAction()
@@ -105,26 +103,22 @@ class ReportsController extends Controller
             $income[$txn->getIssuedAt()->format('Y')][$txn->getIssuedAt()->format('m')] += $txn->getAmount();
         }
 
-        return $this->render('AppBundle:Reports:diff.html.twig', array(
-            "income" => $income
-        ));
+        return $this->render('AppBundle:Reports:diff.html.twig', [
+            'income' => $income,
+        ]);
     }
 
     /**
-     *
      * @Route("/income", name="reports_income")
      */
     public function incomeAction(ReportService $reportService)
     {
-
-
-        return $this->render('AppBundle:Reports:income.html.twig', array(
-            "income" => $reportService->getIncome()
-        ));
+        return $this->render('AppBundle:Reports:income.html.twig', [
+            'income' => $reportService->getIncome(),
+        ]);
     }
 
     /**
-     *
      * @Route("/income/data", name="reports_income_data")
      */
     public function incomeDataAction(ReportService $reportService)
@@ -133,7 +127,6 @@ class ReportsController extends Controller
     }
 
     /**
-     *
      * @Route("/annual_income", name="reports_annual_income")
      */
     public function annualIncomeAction()
@@ -149,9 +142,9 @@ class ReportsController extends Controller
             $income[$txn->getIssuedAt()->format('Y')] += $txn->getAmount();
         }
 
-        return $this->render('AppBundle:Reports:annual_income.html.twig', array(
-            "income" => $income
-        ));
+        return $this->render('AppBundle:Reports:annual_income.html.twig', [
+            'income' => $income,
+        ]);
     }
 
     /**
@@ -161,9 +154,10 @@ class ReportsController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $tasksYears = $em->getRepository('AppBundle:Tasks')->findTasksYears();
-        return $this->render('AppBundle:Reports:tasksYears.html.twig', array(
-            "tasksYears" => $tasksYears
-        ));
+
+        return $this->render('AppBundle:Reports:tasksYears.html.twig', [
+            'tasksYears' => $tasksYears,
+        ]);
     }
 
     /**
@@ -179,7 +173,6 @@ class ReportsController extends Controller
      */
     public function hoursPerMonthDataAction(ReportService $reportService)
     {
-
         return JsonResponse::create($reportService->getHoursPerMonthGoogleChart());
     }
 
@@ -196,15 +189,14 @@ class ReportsController extends Controller
             $accounts = $em->getRepository('AppBundle:Accounts')
                 ->findByYearAndClient($year, $client);
             $report = [
-                "client" => $client,
-                "accounts" => $accounts,
+                'client' => $client,
+                'accounts' => $accounts,
             ];
             $reports[] = $report;
         }
 
-        return $this->render('AppBundle:Reports:clientsByYear.html.twig', array(
-            "reports" => $reports
-        ));
+        return $this->render('AppBundle:Reports:clientsByYear.html.twig', [
+            'reports' => $reports,
+        ]);
     }
-
 }

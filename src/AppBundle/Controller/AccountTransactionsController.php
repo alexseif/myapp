@@ -2,11 +2,10 @@
 
 namespace AppBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Entity\AccountTransactions;
-use AppBundle\Form\AccountTransactionsType;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * AccountTransactions controller.
@@ -15,7 +14,6 @@ use AppBundle\Form\AccountTransactionsType;
  */
 class AccountTransactionsController extends Controller
 {
-
     /**
      * Lists all AccountTransactions entities.
      *
@@ -27,9 +25,9 @@ class AccountTransactionsController extends Controller
 
         $accountTransactions = $em->getRepository('AppBundle:AccountTransactions')->findAll();
 
-        return $this->render("AppBundle:accounttransactions:index.html.twig", array(
+        return $this->render('AppBundle:accounttransactions:index.html.twig', [
             'accountTransactions' => $accountTransactions,
-        ));
+        ]);
     }
 
     /**
@@ -41,8 +39,8 @@ class AccountTransactionsController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $accountTransaction = new AccountTransactions();
-        if (!empty($request->get("account"))) {
-            $account = $em->getRepository('AppBundle:Accounts')->find($request->get("account"));
+        if (!empty($request->get('account'))) {
+            $account = $em->getRepository('AppBundle:Accounts')->find($request->get('account'));
             $accountTransaction->setAccount($account);
         }
         $form = $this->createForm('AppBundle\Form\AccountTransactionsType', $accountTransaction);
@@ -52,13 +50,13 @@ class AccountTransactionsController extends Controller
             $em->persist($accountTransaction);
             $em->flush();
 
-            return $this->redirectToRoute('accounttransactions_show', array('id' => $accountTransaction->getId()));
+            return $this->redirectToRoute('accounttransactions_show', ['id' => $accountTransaction->getId()]);
         }
 
-        return $this->render("AppBundle:accounttransactions:new.html.twig", array(
+        return $this->render('AppBundle:accounttransactions:new.html.twig', [
             'accountTransaction' => $accountTransaction,
             'transaction_form' => $form->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -70,10 +68,10 @@ class AccountTransactionsController extends Controller
     {
         $deleteForm = $this->createDeleteForm($accountTransaction);
 
-        return $this->render("AppBundle:accounttransactions:show.html.twig", array(
+        return $this->render('AppBundle:accounttransactions:show.html.twig', [
             'accountTransaction' => $accountTransaction,
             'delete_form' => $deleteForm->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -83,7 +81,6 @@ class AccountTransactionsController extends Controller
      */
     public function editAction(Request $request, AccountTransactions $accountTransaction)
     {
-
         $deleteForm = $this->createDeleteForm($accountTransaction);
         $editForm = $this->createForm('AppBundle\Form\AccountTransactionsType', $accountTransaction);
         $editForm->handleRequest($request);
@@ -93,14 +90,14 @@ class AccountTransactionsController extends Controller
             $em->persist($accountTransaction);
             $em->flush();
 
-            return $this->redirectToRoute('accounttransactions_edit', array('id' => $accountTransaction->getId()));
+            return $this->redirectToRoute('accounttransactions_edit', ['id' => $accountTransaction->getId()]);
         }
 
-        return $this->render("AppBundle:accounttransactions:edit.html.twig", array(
+        return $this->render('AppBundle:accounttransactions:edit.html.twig', [
             'accountTransaction' => $accountTransaction,
             'transaction_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -132,9 +129,8 @@ class AccountTransactionsController extends Controller
     private function createDeleteForm(AccountTransactions $accountTransaction)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('accounttransactions_delete', array('id' => $accountTransaction->getId())))
+            ->setAction($this->generateUrl('accounttransactions_delete', ['id' => $accountTransaction->getId()]))
             ->setMethod('DELETE')
             ->getForm();
     }
-
 }

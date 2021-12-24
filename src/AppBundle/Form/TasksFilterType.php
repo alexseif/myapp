@@ -2,84 +2,75 @@
 
 namespace AppBundle\Form;
 
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class TasksFilterType extends AbstractType
 {
-
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('priority', ChoiceType::class, array(
-                'choices' => array(
+            ->add('priority', ChoiceType::class, [
+                'choices' => [
                     'Low' => -1,
                     'Normal' => 0,
                     'Important' => 1,
-                ),
+                ],
                 'expanded' => true,
                 'multiple' => true,
                 'required' => false,
-                'label_attr' => array('class' => 'checkbox-inline')
-            ))
-            ->add('urgency', ChoiceType::class, array(
-                'choices' => array(
+                'label_attr' => ['class' => 'checkbox-inline'],
+            ])
+            ->add('urgency', ChoiceType::class, [
+                'choices' => [
                     'Normal' => 0,
-                    'Urgent' => 1
-                ),
+                    'Urgent' => 1,
+                ],
                 'expanded' => true,
                 'multiple' => true,
                 'required' => false,
-                'label_attr' => array('class' => 'checkbox-inline')
-            ))
-            ->add('completed', ChoiceType::class, array(
-                'choices' => array(
+                'label_attr' => ['class' => 'checkbox-inline'],
+            ])
+            ->add('completed', ChoiceType::class, [
+                'choices' => [
                     'Completed' => 1,
                     'Not Completed' => 0,
-                ),
+                ],
                 'expanded' => true,
                 'multiple' => true,
                 'required' => false,
-                'label_attr' => array('class' => 'checkbox-inline')
-            ))
-            ->add('taskList', EntityType::class, array(
+                'label_attr' => ['class' => 'checkbox-inline'],
+            ])
+            ->add('taskList', EntityType::class, [
                 'class' => 'AppBundle:TaskLists',
                 'group_by' => function ($taskList) {
                     if ($taskList->getAccount()) {
                         if ($taskList->getAccount()->getClient()) {
                             return $taskList->getAccount()->getClient()->getName();
                         }
+
                         return $taskList->getAccount()->getName();
                     }
-                    return "N/A";
+
+                    return 'N/A';
                 },
                 'choice_label' => 'name',
                 'multiple' => true,
                 'required' => false,
-                'attr' => array(
+                'attr' => [
                     'class' => 'chosen',
-                )
-            ));
+                ],
+            ]);
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'csrf_protection' => false,
 //      'data_class' => \AppBundle\Entity\Tasks::class
-        ));
+        ]);
     }
-
 }

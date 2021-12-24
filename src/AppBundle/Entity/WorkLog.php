@@ -6,14 +6,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
- * WorkLog
+ * WorkLog.
  *
  * @ORM\Table(name="work_log")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\WorkLogRepository")
  */
 class WorkLog
 {
-
     use TimestampableEntity;
 
     /**
@@ -55,13 +54,14 @@ class WorkLog
 
     /**
      * One Task has One WorkLog.
+     *
      * @ORM\OneToOne(targetEntity="Tasks", inversedBy="workLog")
      * @ORM\JoinColumn(name="task_id", referencedColumnName="id")
      */
     private $task;
 
     /**
-     * Get id
+     * Get id.
      *
      * @return int
      */
@@ -71,9 +71,9 @@ class WorkLog
     }
 
     /**
-     * Set duration
+     * Set duration.
      *
-     * @param integer $duration
+     * @param int $duration
      *
      * @return WorkLog
      */
@@ -85,7 +85,7 @@ class WorkLog
     }
 
     /**
-     * Get duration
+     * Get duration.
      *
      * @return int
      */
@@ -95,7 +95,7 @@ class WorkLog
     }
 
     /**
-     * Set pricePerUnit
+     * Set pricePerUnit.
      *
      * @param float $pricePerUnit
      *
@@ -109,7 +109,7 @@ class WorkLog
     }
 
     /**
-     * Get pricePerUnit
+     * Get pricePerUnit.
      *
      * @return float
      */
@@ -119,7 +119,7 @@ class WorkLog
     }
 
     /**
-     * Set total
+     * Set total.
      *
      * @param float $total
      *
@@ -133,7 +133,7 @@ class WorkLog
     }
 
     /**
-     * Get total
+     * Get total.
      *
      * @return float
      */
@@ -143,13 +143,13 @@ class WorkLog
     }
 
     /**
-     * Set task
+     * Set task.
      *
      * @param \AppBundle\Entity\Tasks $task
      *
      * @return WorkLog
      */
-    public function setTask(\AppBundle\Entity\Tasks $task = null)
+    public function setTask(Tasks $task = null)
     {
         $this->task = $task;
 
@@ -157,7 +157,7 @@ class WorkLog
     }
 
     /**
-     * Get task
+     * Get task.
      *
      * @return \AppBundle\Entity\Tasks
      */
@@ -167,7 +167,7 @@ class WorkLog
     }
 
     /**
-     * Set name
+     * Set name.
      *
      * @param string $name
      *
@@ -181,7 +181,7 @@ class WorkLog
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string
      */
@@ -189,5 +189,4 @@ class WorkLog
     {
         return $this->name;
     }
-
 }

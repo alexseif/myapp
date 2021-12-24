@@ -9,7 +9,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class HolidayType extends AbstractType
 {
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -24,5 +23,4 @@ class HolidayType extends AbstractType
             'data_class' => Holiday::class,
         ]);
     }
-
 }

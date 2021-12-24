@@ -21,9 +21,9 @@ class DashboardTaskListsType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\DashboardTaskLists'
-        ));
+        $resolver->setDefaults([
+            'data_class' => 'AppBundle\Entity\DashboardTaskLists',
+        ]);
     }
 
     /**
@@ -33,6 +33,4 @@ class DashboardTaskListsType extends AbstractType
     {
         return 'appbundle_dashboardtasklists';
     }
-
-
 }

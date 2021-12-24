@@ -97,13 +97,11 @@ class ScheduleController extends AbstractController
      */
     public function delete(Request $request, Schedule $schedule, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete' . $schedule->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$schedule->getId(), $request->request->get('_token'))) {
             $entityManager->remove($schedule);
             $entityManager->flush();
         }
 
         return $this->redirectToRoute('schedule_index', [], Response::HTTP_SEE_OTHER);
     }
-
-
 }

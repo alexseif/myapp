@@ -2,33 +2,32 @@
 
 namespace AppBundle\Form;
 
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 
 class WorkLogType extends AbstractType
 {
-
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('task', EntityType::class, array(
+            ->add('task', EntityType::class, [
                 'class' => 'AppBundle:Tasks',
                 'group_by' => function ($tasks) {
                     return $tasks->getTaskList()->getName();
                 },
-                'choice_attr' => function ($tasks, $key, $index) {
+                'choice_attr' => function ($tasks) {
                     return ['data-duration' => $tasks->getDuration(), 'data-client' => $tasks->getClient()];
                 },
-                'attr' => array(
-                    'class' => 'chosen'
-                )
-            ))
+                'attr' => [
+                    'class' => 'chosen',
+                ],
+            ])
             ->add('name')
             ->add('duration')
             ->add('pricePerUnit', MoneyType::class)
@@ -40,9 +39,9 @@ class WorkLogType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\WorkLog'
-        ));
+        $resolver->setDefaults([
+            'data_class' => 'AppBundle\Entity\WorkLog',
+        ]);
     }
 
     /**
@@ -52,5 +51,4 @@ class WorkLogType extends AbstractType
     {
         return 'appbundle_worklog';
     }
-
 }

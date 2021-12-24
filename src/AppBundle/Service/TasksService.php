@@ -7,29 +7,26 @@
 namespace AppBundle\Service;
 
 use AppBundle\Entity\TaskLists;
-use AppBundle\Entity\Tasks;
 use AppBundle\Repository\TasksRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
- * Description of TasksService
+ * Description of TasksService.
  *
  * @author Alex Seif <me@alexseif.com>
  */
 class TasksService
 {
-
     protected $em;
     protected $tasksRepository;
 
-    function __construct(EntityManagerInterface $em, TasksRepository $tasksRepository)
+    public function __construct(EntityManagerInterface $em, TasksRepository $tasksRepository)
     {
         $this->em = $em;
         $this->tasksRepository = $tasksRepository;
     }
 
     /**
-     *
      * @return \AppBundle\Repository\TasksRepository
      */
     public function getRepository()
@@ -37,7 +34,7 @@ class TasksService
         return $this->tasksRepository;
     }
 
-    function getEm()
+    public function getEm()
     {
         return $this->em;
     }
@@ -63,6 +60,7 @@ class TasksService
                 $inboxTasks = $this->getFocusByTaskListName($taskListName);
                 break;
         }
+
         return $inboxTasks;
     }
 
@@ -70,11 +68,13 @@ class TasksService
     {
         // @TODO: Not found handler
         $taskList = $this->getEm()->getRepository(TaskLists::class)->findOneBy(['name' => $taskListName]);
+
         return $this->getRepository()->focusByTasklist($taskList);
     }
 
     /**
      * @return \Doctrine\Common\Collections\ArrayCollection
+     *
      * @deprecated since version number
      */
     public function getUnlisted()
@@ -90,10 +90,11 @@ class TasksService
     public function getCompletedCountPerDayOfTheWeek()
     {
         $tsksCntDay = $this->getRepository()->findTasksCountByDay();
-        $tskCnt = array();
+        $tskCnt = [];
         foreach ($tsksCntDay as $t) {
             $tskCnt[$t['day_name']] = $t['cnt'];
         }
+
         return $tskCnt;
     }
 
@@ -112,7 +113,7 @@ class TasksService
         $piechart['Normal'] = 0;
         $piechart['Low'] = 0;
         foreach ($countByUrgenctAndPriority as $row) {
-            $row['duration'] = (int)$row['duration'];
+            $row['duration'] = (int) $row['duration'];
             if ($row['urgency']) {
                 if ($row['priority']) {
                     $piechart['Urgent & Important'] = $row['duration'];
@@ -127,7 +128,7 @@ class TasksService
                 $piechart['Normal'] = $row['duration'];
             }
         }
+
         return $piechart;
     }
-
 }

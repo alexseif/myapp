@@ -2,9 +2,9 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Util\WorkWeek;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
-use AppBundle\Util\WorkWeek;
 
 /**
  * WorkDays  controller.
@@ -13,13 +13,12 @@ use AppBundle\Util\WorkWeek;
  */
 class WorkDaysController extends Controller
 {
-
     /**
      * @Route("/", name="workdays_index")
      */
     public function indexAction()
     {
-        return $this->render('AppBundle:WorkDays:index.html.twig', array());
+        return $this->render('AppBundle:WorkDays:index.html.twig', []);
     }
 
     /**
@@ -28,9 +27,10 @@ class WorkDaysController extends Controller
     public function displayWorkWeekAction()
     {
         $workWeek = WorkWeek::getWorkWeek();
-        return $this->render('AppBundle:WorkDays:display_work_week.html.twig', array(
-            'workWeek' => $workWeek
-        ));
+
+        return $this->render('AppBundle:WorkDays:display_work_week.html.twig', [
+            'workWeek' => $workWeek,
+        ]);
     }
 
     /**
@@ -72,18 +72,18 @@ class WorkDaysController extends Controller
             if ($holiday) {
                 $dateRow->holiday = true;
                 $dateRow->workday = false;
-                $dateRow->comment = $holiday->getType() . " - " . $holiday->getName();
+                $dateRow->comment = $holiday->getType().' - '.$holiday->getName();
             }
             $dateTable[] = $dateRow;
             if ($dateRow->workday) {
-                $monthTotal->daysTotal += 1;
+                ++$monthTotal->daysTotal;
                 $monthTotal->hoursTotal += 4;
             }
         }
+
         return $this->render('AppBundle:WorkDays:display_work_month.html.twig', [
             'dateTable' => $dateTable,
-            'monthTotal' => $monthTotal
+            'monthTotal' => $monthTotal,
         ]);
     }
-
 }

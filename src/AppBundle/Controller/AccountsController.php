@@ -2,10 +2,10 @@
 
 namespace AppBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Entity\Accounts;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Accounts controller.
@@ -14,7 +14,6 @@ use AppBundle\Entity\Accounts;
  */
 class AccountsController extends Controller
 {
-
     /**
      * Lists all Accounts entities.
      *
@@ -26,9 +25,9 @@ class AccountsController extends Controller
 
         $accounts = $em->getRepository('AppBundle:Accounts')->findAllSorted();
 
-        return $this->render("AppBundle:accounts:index.html.twig", array(
+        return $this->render('AppBundle:accounts:index.html.twig', [
             'accounts' => $accounts,
-        ));
+        ]);
     }
 
     /**
@@ -47,13 +46,13 @@ class AccountsController extends Controller
             $em->persist($account);
             $em->flush();
 
-            return $this->redirectToRoute('accounts_show', array('id' => $account->getId()));
+            return $this->redirectToRoute('accounts_show', ['id' => $account->getId()]);
         }
 
-        return $this->render("AppBundle:accounts:new.html.twig", array(
+        return $this->render('AppBundle:accounts:new.html.twig', [
             'account' => $account,
             'account_form' => $form->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -65,10 +64,10 @@ class AccountsController extends Controller
     {
         $deleteForm = $this->createDeleteForm($account);
 
-        return $this->render("AppBundle:accounts:show.html.twig", array(
+        return $this->render('AppBundle:accounts:show.html.twig', [
             'account' => $account,
             'delete_form' => $deleteForm->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -87,14 +86,14 @@ class AccountsController extends Controller
             $em->persist($account);
             $em->flush();
 
-            return $this->redirectToRoute('accounts_edit', array('id' => $account->getId()));
+            return $this->redirectToRoute('accounts_edit', ['id' => $account->getId()]);
         }
 
-        return $this->render("AppBundle:accounts:edit.html.twig", array(
+        return $this->render('AppBundle:accounts:edit.html.twig', [
             'account' => $account,
             'account_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -126,9 +125,8 @@ class AccountsController extends Controller
     private function createDeleteForm(Accounts $account)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('accounts_delete', array('id' => $account->getId())))
+            ->setAction($this->generateUrl('accounts_delete', ['id' => $account->getId()]))
             ->setMethod('DELETE')
             ->getForm();
     }
-
 }

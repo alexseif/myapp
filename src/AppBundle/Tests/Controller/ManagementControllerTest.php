@@ -12,5 +12,4 @@ class ManagementControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/index');
     }
-
 }

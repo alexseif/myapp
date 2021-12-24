@@ -6,14 +6,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
- * CostOfLife
+ * CostOfLife.
  *
  * @ORM\Table(name="cost_of_life")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CostOfLifeRepository")
  */
 class CostOfLife
 {
-
     use TimestampableEntity;
 
     /**
@@ -46,7 +45,7 @@ class CostOfLife
     private $currency;
 
     /**
-     * Get id
+     * Get id.
      *
      * @return int
      */
@@ -56,7 +55,7 @@ class CostOfLife
     }
 
     /**
-     * Set name
+     * Set name.
      *
      * @param string $name
      *
@@ -70,7 +69,7 @@ class CostOfLife
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string
      */
@@ -80,7 +79,7 @@ class CostOfLife
     }
 
     /**
-     * Set value
+     * Set value.
      *
      * @param float $value
      *
@@ -94,7 +93,7 @@ class CostOfLife
     }
 
     /**
-     * Get value
+     * Get value.
      *
      * @return float
      */
@@ -104,13 +103,13 @@ class CostOfLife
     }
 
     /**
-     * Set currency
+     * Set currency.
      *
-     * @param integer $currency
+     * @param int $currency
      *
      * @return CostOfLife
      */
-    public function setCurrency(\AppBundle\Entity\Currency $currency)
+    public function setCurrency(Currency $currency)
     {
         $this->currency = $currency;
 
@@ -118,7 +117,7 @@ class CostOfLife
     }
 
     /**
-     * Get currency
+     * Get currency.
      *
      * @return int
      */
@@ -126,5 +125,4 @@ class CostOfLife
     {
         return $this->currency;
     }
-
 }

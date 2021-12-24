@@ -2,13 +2,14 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Tasks;
 use AppBundle\Repository\AccountsRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Experiments controller.
@@ -17,21 +18,21 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class ExperimentsController extends Controller
 {
-
     /**
      * @Route("/", name="experiments_index")
      */
     public function indexAction()
     {
         $experiments = [
-            "Reports" => "reports_index",
-            "Tasks" => "experiment_tasks",
-            "Accounts" => "experiment_accounts",
-            "Cash" => "scenario_index"
+            'Reports' => 'reports_index',
+            'Tasks' => 'experiment_tasks',
+            'Accounts' => 'experiment_accounts',
+            'Cash' => 'scenario_index',
         ];
-        return $this->render('AppBundle:Experiments:index.html.twig', array(
-            "experiments" => $experiments,
-        ));
+
+        return $this->render('AppBundle:Experiments:index.html.twig', [
+            'experiments' => $experiments,
+        ]);
     }
 
     /**
@@ -40,30 +41,30 @@ class ExperimentsController extends Controller
     public function listTasksAction(Request $request)
     {
         $data = [
-            "experiments" => ["Rate Task" => "experiment_tasks"],
-            "tasks" => $this->getDoctrine()->getRepository('AppBundle:Tasks')->findAll()
+            'experiments' => ['Rate Task' => 'experiment_tasks'],
+            'tasks' => $this->getDoctrine()->getRepository(Tasks::class)->findAll(),
         ];
         $form = $this->createFormBuilder($data)
-            ->add("experiments", ChoiceType::class, array(
-                'mapped' => FALSE,
+            ->add('experiments', ChoiceType::class, [
+                'mapped' => false,
                 'choices' => $data['experiments'],
                 'placeholder' => 'Select an experiment',
-                'attr' => array(
+                'attr' => [
                     'class' => 'chosen',
-                )
-            ))
-            ->add("tasks", EntityType::class, array(
+                ],
+            ])
+            ->add('tasks', EntityType::class, [
                 'class' => 'AppBundle:Tasks',
                 'placeholder' => 'Select a task',
-                'attr' => array(
+                'attr' => [
                     'class' => 'chosen',
-                )
-            ))
-            ->add('Yalla', SubmitType::class, array(
-                'attr' => array(
+                ],
+            ])
+            ->add('Yalla', SubmitType::class, [
+                'attr' => [
                     'class' => 'btn btn-success float-right',
-                )
-            ))
+                ],
+            ])
             ->getForm();
 
         $form->handleRequest($request);
@@ -78,10 +79,10 @@ class ExperimentsController extends Controller
             $data['result']['price'] = $rateCaltulcator->task($formData['tasks']);
         }
 
-        return $this->render('AppBundle:Experiments:tasks.html.twig', array(
-            "form" => $form->createView(),
-            "data" => $data,
-        ));
+        return $this->render('AppBundle:Experiments:tasks.html.twig', [
+            'form' => $form->createView(),
+            'data' => $data,
+        ]);
     }
 
     /**
@@ -90,18 +91,18 @@ class ExperimentsController extends Controller
     public function accountsAction(Request $request)
     {
         $data = [
-            "experiments" => ["Account" => "experiment_accounts"],
+            'experiments' => ['Account' => 'experiment_accounts'],
         ];
         $form = $this->createFormBuilder($data)
-            ->add("experiments", ChoiceType::class, array(
-                'mapped' => FALSE,
+            ->add('experiments', ChoiceType::class, [
+                'mapped' => false,
                 'choices' => $data['experiments'],
                 'placeholder' => 'Select an experiment',
-                'attr' => array(
+                'attr' => [
                     'class' => 'chosen',
-                )
-            ))
-            ->add("account", EntityType::class, array(
+                ],
+            ])
+            ->add('account', EntityType::class, [
                 'class' => 'AppBundle:Accounts',
                 'placeholder' => 'Select an Account',
                 'query_builder' => function (AccountsRepository $ar) {
@@ -113,17 +114,18 @@ class ExperimentsController extends Controller
                     if ($account->getClient()) {
                         return $account->getClient()->getName();
                     }
-                    return "N/A";
+
+                    return 'N/A';
                 },
-                'attr' => array(
+                'attr' => [
                     'class' => 'chosen',
-                )
-            ))
-            ->add('Yalla', SubmitType::class, array(
-                'attr' => array(
+                ],
+            ])
+            ->add('Yalla', SubmitType::class, [
+                'attr' => [
                     'class' => 'btn btn-success float-right',
-                )
-            ))
+                ],
+            ])
             ->getForm();
 
         $form->handleRequest($request);
@@ -138,10 +140,9 @@ class ExperimentsController extends Controller
             $data['result']['price'] = $rateCalculator->tasks($data['result']['tasks']);
         }
 
-        return $this->render('AppBundle:Experiments:accounts.html.twig', array(
-            "form" => $form->createView(),
-            "data" => $data,
-        ));
+        return $this->render('AppBundle:Experiments:accounts.html.twig', [
+            'form' => $form->createView(),
+            'data' => $data,
+        ]);
     }
-
 }

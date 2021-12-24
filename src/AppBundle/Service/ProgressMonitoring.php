@@ -14,107 +14,116 @@ use DateTime;
 use Doctrine\ORM\EntityManager;
 
 /**
- * Description of Bottom Bar Service
+ * Description of Bottom Bar Service.
  *
  * @author Alex Seif <me@alexseif.com>
  */
 class ProgressMonitoring
 {
-
     /**
      * @todo: remove and use repository in entity service
-     * @var EntityManager $em
+     *
+     * @var EntityManager
      */
     protected $em;
 
     /**
-     * @todo rename
-     * @var CostService $cs
+     *
+     * @var CostService
      */
-    protected $cs;
+    protected $costService;
 
     /**
      * @todo move to seperate service
+     *
      * @var int total number of clients
      */
     private $clientsCount;
 
     /**
      * @todo move to seperate service
+     *
      * @var float clients annual increase
      */
     private $clientsProgress;
 
     /**
      * @todo move to seperate service
+     *
      * @var int total number of accounts
      */
     private $accountsCount;
 
     /**
      * @todo move to seperate service
+     *
      * @var float accounts annual increase
      */
     private $accountsProgress;
 
     /**
      * @todo move to seperate service
+     *
      * @var int total number of tasks this month
      */
     private $tasksCompletedCount;
 
     /**
      * @todo move to seperate service
+     *
      * @var float tasks this month increase
      */
     private $tasksCompletedProgress;
 
     /**
      * @todo move to seperate service
+     *
      * @var float revenue sum this month
      */
     private $revenueSum;
 
     /**
      * @todo move to seperate service
+     *
      * @var float revenue this month increase
      */
     private $revenueProgress;
 
     /**
      * @todo move to seperate service
+     *
      * @var int duration sum this month
      */
     private $durationSum;
 
     /**
      * @todo move to seperate service
+     *
      * @var int duration this month increase
      */
     private $durationProgress;
 
     /**
      * @todo move to seperate service
+     *
      * @var array
      */
     private $earnedProgress;
 
     /**
      * @todo move to seperate service
+     *
      * @var array
      */
     private $averageReport;
 
-
     /**
      * ProgressMonitoring constructor.
-     * @param EntityManager $em
-     * @param CostService $cs
      */
-    public function __construct(EntityManager $em, CostService $cs)
+    public function __construct(EntityManager $em, CostService $costService)
     {
         $this->em = $em;
-        $this->cs = $cs;
+        $this->costService = $costService;
         $this->setClientsCount();
         $this->setClientsProgress();
         $this->setAccountsCount();
@@ -136,11 +145,12 @@ class ProgressMonitoring
      */
     public function getCostOfLife()
     {
-        return $this->cs;
+        return $this->costService;
     }
 
     /**
      * @param $number
+     *
      * @return string
      */
     public function formatNumber($number)
@@ -154,7 +164,7 @@ class ProgressMonitoring
     public function setClientsCount()
     {
         $this->clientsCount = count($this->em->getRepository('AppBundle:Client')->findBy([
-            "enabled" => true]));
+            'enabled' => true, ]));
     }
 
     /**
@@ -171,7 +181,7 @@ class ProgressMonitoring
     public function setClientsProgress()
     {
         $date = new DateTime();
-        $date->modify("-1 year");
+        $date->modify('-1 year');
         $clientsLastYear = $this->em->getRepository('AppBundle:Client')
             ->getCreatedTillYear($date->format('Y'));
         $this->clientsProgress = (($this->clientsCount - $clientsLastYear) / $clientsLastYear) * 100;
@@ -180,7 +190,7 @@ class ProgressMonitoring
     /**
      * @return string
      */
-    function getClientsProgress()
+    public function getClientsProgress()
     {
         return $this->formatNumber($this->clientsProgress);
     }
@@ -207,7 +217,7 @@ class ProgressMonitoring
     public function setAccountsProgress()
     {
         $date = new DateTime();
-        $date->modify("-1 year");
+        $date->modify('-1 year');
         $accountsLastYear = $this->em->getRepository('AppBundle:Accounts')
             ->getCreatedTillYear($date->format('Y'));
         $this->accountsProgress = (($this->accountsCount - $accountsLastYear) / $accountsLastYear) * 100;
@@ -216,7 +226,7 @@ class ProgressMonitoring
     /**
      * @return string
      */
-    function getAccountsProgress()
+    public function getAccountsProgress()
     {
         return $this->formatNumber($this->accountsProgress);
     }
@@ -234,7 +244,7 @@ class ProgressMonitoring
     /**
      * @return int
      */
-    function getTasksCompletedCount()
+    public function getTasksCompletedCount()
     {
         return $this->tasksCompletedCount;
     }
@@ -255,11 +265,12 @@ class ProgressMonitoring
     /**
      * @return string
      */
-    function getTasksCompletedProgress()
+    public function getTasksCompletedProgress()
     {
         if ($this->tasksCompletedProgress >= 1000) {
-            return $this->formatNumber($this->tasksCompletedProgress / 1000) . 'k';
+            return $this->formatNumber($this->tasksCompletedProgress / 1000).'k';
         }
+
         return $this->formatNumber($this->tasksCompletedProgress);
     }
 
@@ -269,7 +280,7 @@ class ProgressMonitoring
     public function setRevenueSum()
     {
         $from = DateRanges::getMonthStart();
-        $from->modify("-1 month");
+        $from->modify('-1 month');
         $to = DateRanges::getMonthStart();
         $this->revenueSum = $this->em->getRepository('AppBundle:AccountTransactions')
             ->getRevenueSumByDateRange($from, $to);
@@ -278,24 +289,25 @@ class ProgressMonitoring
     /**
      * @return string
      */
-    function getRevenueSum()
+    public function getRevenueSum()
     {
         if ($this->revenueSum <= 1000) {
-            return $this->formatNumber($this->revenueSum / 1000) . 'k';
+            return $this->formatNumber($this->revenueSum / 1000).'k';
         }
+
         return $this->formatNumber($this->revenueSum);
     }
 
     /**
      * @todo
      */
-    function setRevenueProgress()
+    public function setRevenueProgress()
     {
         $from =
             DateRanges::getMonthStart();
-        $from->modify("-2 months");
+        $from->modify('-2 months');
         $to = DateRanges::getMonthStart();
-        $to->modify("-1 month");
+        $to->modify('-1 month');
         $revenueLastMonth = $this->em->getRepository('AppBundle:AccountTransactions')
             ->getRevenueSumByDateRange($from, $to);
 
@@ -306,7 +318,7 @@ class ProgressMonitoring
     /**
      * @return string
      */
-    function getRevenueProgress()
+    public function getRevenueProgress()
     {
         return $this->formatNumber($this->revenueProgress);
     }
@@ -314,10 +326,10 @@ class ProgressMonitoring
     /**
      * @todo
      */
-    function setDurationSum()
+    public function setDurationSum()
     {
         $from = DateRanges::getMonthStart();
-        $from->modify("-1 month");
+        $from->modify('-1 month');
         $to = DateRanges::getMonthStart();
 
         $this->durationSum = $this->em->getRepository(Tasks::class)
@@ -327,20 +339,20 @@ class ProgressMonitoring
     /**
      * @return string
      */
-    function getDurationSum()
+    public function getDurationSum()
     {
-        return $this->formatNumber($this->durationSum / 60) . ':' . ($this->durationSum % 60);
+        return $this->formatNumber($this->durationSum / 60).':'.($this->durationSum % 60);
     }
 
     /**
      * @todo
      */
-    function setDurationProgress()
+    public function setDurationProgress()
     {
         $from = DateRanges::getMonthStart();
-        $from->modify("-2 months");
+        $from->modify('-2 months');
         $to = DateRanges::getMonthStart();
-        $to->modify("-1 month");
+        $to->modify('-1 month');
         $durationLastMonth = $this->em->getRepository(Tasks::class)
             ->getDurationSumByRange($from, $to);
         $divisionByZero = $durationLastMonth ? $durationLastMonth : 1;
@@ -350,7 +362,7 @@ class ProgressMonitoring
     /**
      * @return string
      */
-    function getDurationProgress()
+    public function getDurationProgress()
     {
         return $this->formatNumber($this->durationProgress);
     }
@@ -477,9 +489,6 @@ class ProgressMonitoring
         return $this->formatNumber($this->earnedProgress['today'] / $this->getCostOfLife()->getDaily() * 100);
     }
 
-    /**
-     * @return array
-     */
     public function getAverageReport(): array
     {
         return $this->averageReport;
@@ -490,12 +499,9 @@ class ProgressMonitoring
      */
     public function setAverageReport(): void
     {
-
         $this->averageReport = [
-            "avgDur" => $this->em->getRepository(Tasks::class)->getTaskAverageDuration(),
-            "avgIncome" => $this->em->getRepository(AccountTransactions::class)->getAverage(),
+            'avgDur' => $this->em->getRepository(Tasks::class)->getTaskAverageDuration(),
+            'avgIncome' => $this->em->getRepository(AccountTransactions::class)->getAverage(),
         ];
-
     }
-
 }

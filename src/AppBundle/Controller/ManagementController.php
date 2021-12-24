@@ -2,10 +2,10 @@
 
 namespace AppBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Entity\Tasks;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Management controller.
@@ -14,7 +14,6 @@ use AppBundle\Entity\Tasks;
  */
 class ManagementController extends Controller
 {
-
     /**
      * @Route("/", name="management_index")
      */
@@ -22,15 +21,16 @@ class ManagementController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $tasks = $em->getRepository('AppBundle:Tasks')->getIncopmleteTasks();
-        $form = $this->createForm(\AppBundle\Form\ManagementSearchType::class, $request->get('management_search'), array(
+        $tasks = $em->getRepository(Tasks::class)->getIncopmleteTasks();
+        $form = $this->createForm(\AppBundle\Form\ManagementSearchType::class, $request->get('management_search'), [
             'method' => 'GET',
-            'action' => $this->generateUrl('management_search_page')
-        ));
-        return $this->render("AppBundle:management:index.html.twig", array(
+            'action' => $this->generateUrl('management_search_page'),
+        ]);
+
+        return $this->render('AppBundle:management:index.html.twig', [
             'tasks' => $tasks,
-            'management_search_form' => $form->createView()
-        ));
+            'management_search_form' => $form->createView(),
+        ]);
     }
 
     /**
@@ -42,9 +42,9 @@ class ManagementController extends Controller
 
         $tasks = $em->getRepository('AppBundle:Tasks')->getIncomplete();
 
-        return $this->render("AppBundle:management:priority.html.twig", array(
+        return $this->render('AppBundle:management:priority.html.twig', [
             'tasks' => $tasks,
-        ));
+        ]);
     }
 
     /**
@@ -55,12 +55,12 @@ class ManagementController extends Controller
     public function searchAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $form = $this->createForm(\AppBundle\Form\ManagementSearchType::class, $request->get('management_search'), array(
+        $form = $this->createForm(\AppBundle\Form\ManagementSearchType::class, $request->get('management_search'), [
             'method' => 'GET',
-            'action' => $this->generateUrl('management_search_page')
-        ));
-        $results = array();
-        $filters = array();
+            'action' => $this->generateUrl('management_search_page'),
+        ]);
+        $results = [];
+        $filters = [];
         if ($request->query->has($form->getName())) {
             $filters = $request->get('management_search');
             $results['days'] = $em->getRepository('AppBundle:Days')->search($filters['search']);
@@ -71,11 +71,10 @@ class ManagementController extends Controller
             $results['notes'] = $em->getRepository('AppBundle:Notes')->search($filters['search']);
         }
 
-        return $this->render("AppBundle:management:search.html.twig", array(
+        return $this->render('AppBundle:management:search.html.twig', [
             'filters' => $filters,
             'results' => $results,
             'management_search_form' => $form->createView(),
-        ));
+        ]);
     }
-
 }

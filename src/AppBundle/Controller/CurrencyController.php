@@ -4,8 +4,8 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Currency;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Currency controller.
@@ -14,7 +14,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class CurrencyController extends Controller
 {
-
     /**
      * Lists all currency entities.
      *
@@ -26,9 +25,9 @@ class CurrencyController extends Controller
 
         $currencies = $em->getRepository('AppBundle:Currency')->findAll();
 
-        return $this->render("AppBundle:currency:index.html.twig", array(
+        return $this->render('AppBundle:currency:index.html.twig', [
             'currencies' => $currencies,
-        ));
+        ]);
     }
 
     /**
@@ -47,13 +46,13 @@ class CurrencyController extends Controller
             $em->persist($currency);
             $em->flush($currency);
 
-            return $this->redirectToRoute('currency_show', array('id' => $currency->getId()));
+            return $this->redirectToRoute('currency_show', ['id' => $currency->getId()]);
         }
 
-        return $this->render("AppBundle:currency:new.html.twig", array(
+        return $this->render('AppBundle:currency:new.html.twig', [
             'currency' => $currency,
             'form' => $form->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -65,10 +64,10 @@ class CurrencyController extends Controller
     {
         $deleteForm = $this->createDeleteForm($currency);
 
-        return $this->render("AppBundle:currency:show.html.twig", array(
+        return $this->render('AppBundle:currency:show.html.twig', [
             'currency' => $currency,
             'delete_form' => $deleteForm->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -85,14 +84,14 @@ class CurrencyController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('currency_edit', array('id' => $currency->getId()));
+            return $this->redirectToRoute('currency_edit', ['id' => $currency->getId()]);
         }
 
-        return $this->render("AppBundle:currency:edit.html.twig", array(
+        return $this->render('AppBundle:currency:edit.html.twig', [
             'currency' => $currency,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -124,9 +123,8 @@ class CurrencyController extends Controller
     private function createDeleteForm(Currency $currency)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('currency_delete', array('id' => $currency->getId())))
+            ->setAction($this->generateUrl('currency_delete', ['id' => $currency->getId()]))
             ->setMethod('DELETE')
             ->getForm();
     }
-
 }

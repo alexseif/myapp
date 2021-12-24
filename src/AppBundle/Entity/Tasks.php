@@ -2,29 +2,28 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Repository\TasksRepository;
 use DateTime;
 use DateTime as datetimeAlias;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use AppBundle\Repository\TasksRepository;
 
 /**
- * Tasks
+ * Tasks.
  *
  * @ORM\Table(name="tasks")
  * @ORM\Entity(repositoryClass=TasksRepository::class)
  */
 class Tasks
 {
-
     use TimestampableEntity;
 
-    const LOW_PRIORITY = -1;
-    const NORMAL_PRIORITY = 0;
-    const HIGH_PRIORITY = 1;
-    const NORMAL_URGENCY = 0;
-    const HIGH_URGENCY = 1;
+    public const LOW_PRIORITY = -1;
+    public const NORMAL_PRIORITY = 0;
+    public const HIGH_PRIORITY = 1;
+    public const NORMAL_URGENCY = 0;
+    public const HIGH_URGENCY = 1;
 
     /**
      * @var int
@@ -43,35 +42,35 @@ class Tasks
     private $task;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="torder", type="integer")
      */
     private $order;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="priority", type="integer")
      */
     private $priority;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="urgency", type="integer")
      */
     private $urgency;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="duration", type="integer", nullable=true)
      */
     private $duration;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="est", type="integer", nullable=true)
      */
@@ -85,7 +84,7 @@ class Tasks
     private $eta;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="completed", type="boolean")
      */
@@ -106,12 +105,14 @@ class Tasks
 
     /**
      * One Task has One WorkLog.
+     *
      * @ORM\OneToOne(targetEntity="WorkLog", mappedBy="task")
      */
     private $workLog;
 
     /**
      * If task is available for WorkLog.
+     *
      * @ORM\Column(name="work_loggable", type="boolean", options={"default": TRUE})
      */
     private $workLoggable;
@@ -122,7 +123,7 @@ class Tasks
     private $schedule;
 
     /**
-     * Constructor
+     * Constructor.
      */
     public function __construct()
     {
@@ -130,22 +131,22 @@ class Tasks
         $this->order = 0;
         $this->priority = Tasks::NORMAL_PRIORITY;
         $this->urgency = Tasks::NORMAL_URGENCY;
-        $this->workLoggable = TRUE;
-        $this->priorityName = array(
-            -1 => "Low",
-            0 => "Normal",
-            1 => "Important"
-        );
-        $this->urgencyName = array(
-            0 => "Normal",
-            1 => "Urgent"
-        );
+        $this->workLoggable = true;
+        $this->priorityName = [
+            -1 => 'Low',
+            0 => 'Normal',
+            1 => 'Important',
+        ];
+        $this->urgencyName = [
+            0 => 'Normal',
+            1 => 'Urgent',
+        ];
     }
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -153,9 +154,10 @@ class Tasks
     }
 
     /**
-     * Set task
+     * Set task.
      *
      * @param string $task
+     *
      * @return Tasks
      */
     public function setTask($task)
@@ -166,7 +168,7 @@ class Tasks
     }
 
     /**
-     * Get task
+     * Get task.
      *
      * @return string
      */
@@ -176,9 +178,10 @@ class Tasks
     }
 
     /**
-     * Set completed
+     * Set completed.
      *
      * @param bool $completed
+     *
      * @return Tasks
      */
     public function setCompleted($completed)
@@ -189,7 +192,7 @@ class Tasks
     }
 
     /**
-     * Get completed
+     * Get completed.
      *
      * @return bool
      */
@@ -199,9 +202,10 @@ class Tasks
     }
 
     /**
-     * Set completedAt
+     * Set completedAt.
      *
      * @param \DateTime $completedAt
+     *
      * @return Tasks
      */
     public function setCompletedAt($completedAt)
@@ -212,7 +216,7 @@ class Tasks
     }
 
     /**
-     * Get completedAt
+     * Get completedAt.
      *
      * @return DateTime
      */
@@ -222,9 +226,10 @@ class Tasks
     }
 
     /**
-     * Set taskList
+     * Set taskList.
      *
      * @param TaskLists $taskList
+     *
      * @return Tasks
      */
     public function setTaskList(TaskLists $taskList = null)
@@ -235,7 +240,7 @@ class Tasks
     }
 
     /**
-     * Get taskList
+     * Get taskList.
      *
      * @return TaskLists
      */
@@ -245,7 +250,7 @@ class Tasks
     }
 
     /**
-     * Get Account
+     * Get Account.
      *
      * @return \AppBundle\Entity\Accounts
      */
@@ -255,7 +260,7 @@ class Tasks
     }
 
     /**
-     * Get Client
+     * Get Client.
      *
      * @return \AppBundle\Entity\Client
      */
@@ -265,7 +270,7 @@ class Tasks
     }
 
     /**
-     * Get Rate
+     * Get Rate.
      *
      * @return \AppBundle\Entity\Rate
      */
@@ -275,9 +280,10 @@ class Tasks
     }
 
     /**
-     * Set order
+     * Set order.
      *
-     * @param integer $order
+     * @param int $order
+     *
      * @return Tasks
      */
     public function setOrder($order)
@@ -288,9 +294,9 @@ class Tasks
     }
 
     /**
-     * Get order
+     * Get order.
      *
-     * @return integer
+     * @return int
      */
     public function getOrder()
     {
@@ -298,9 +304,10 @@ class Tasks
     }
 
     /**
-     * Set priority
+     * Set priority.
      *
-     * @param integer $priority
+     * @param int $priority
+     *
      * @return Tasks
      */
     public function setPriority($priority)
@@ -311,9 +318,9 @@ class Tasks
     }
 
     /**
-     * Get priority
+     * Get priority.
      *
-     * @return integer
+     * @return int
      */
     public function getPriority()
     {
@@ -321,24 +328,26 @@ class Tasks
     }
 
     /**
-     * Get priority
+     * Get priority.
      *
      * @return string
      */
     public function getPriorityName()
     {
-        $priorityName = array(
-            -1 => "Low",
-            0 => "Normal",
-            1 => "Important"
-        );
+        $priorityName = [
+            -1 => 'Low',
+            0 => 'Normal',
+            1 => 'Important',
+        ];
+
         return $priorityName[$this->priority];
     }
 
     /**
-     * Set urgency
+     * Set urgency.
      *
-     * @param integer $urgency
+     * @param int $urgency
+     *
      * @return Tasks
      */
     public function setUrgency($urgency)
@@ -349,9 +358,9 @@ class Tasks
     }
 
     /**
-     * Get urgency
+     * Get urgency.
      *
-     * @return integer
+     * @return int
      */
     public function getUrgency()
     {
@@ -359,23 +368,25 @@ class Tasks
     }
 
     /**
-     * Get urgency
+     * Get urgency.
      *
      * @return string
      */
     public function getUrgencyName()
     {
-        $urgencyName = array(
-            0 => "Normal",
-            1 => "Urgent"
-        );
+        $urgencyName = [
+            0 => 'Normal',
+            1 => 'Urgent',
+        ];
+
         return $urgencyName[$this->urgency];
     }
 
     /**
-     * Set duration
+     * Set duration.
      *
-     * @param integer $duration
+     * @param int $duration
+     *
      * @return Tasks
      */
     public function setDuration($duration)
@@ -386,9 +397,9 @@ class Tasks
     }
 
     /**
-     * Get duration
+     * Get duration.
      *
-     * @return integer
+     * @return int
      */
     public function getDuration()
     {
@@ -396,7 +407,7 @@ class Tasks
     }
 
     /**
-     * Set eta
+     * Set eta.
      *
      * @param \DateTime $eta
      *
@@ -410,7 +421,7 @@ class Tasks
     }
 
     /**
-     * Get eta
+     * Get eta.
      *
      * @return DateTime
      */
@@ -420,7 +431,7 @@ class Tasks
     }
 
     /**
-     * Set workLog
+     * Set workLog.
      *
      * @param WorkLog $workLog
      *
@@ -434,7 +445,7 @@ class Tasks
     }
 
     /**
-     * Get workLog
+     * Get workLog.
      *
      * @return WorkLog
      */
@@ -444,9 +455,9 @@ class Tasks
     }
 
     /**
-     * Set workLoggable
+     * Set workLoggable.
      *
-     * @param boolean $workLoggable
+     * @param bool $workLoggable
      *
      * @return Tasks
      */
@@ -458,9 +469,9 @@ class Tasks
     }
 
     /**
-     * Get workLoggable
+     * Get workLoggable.
      *
-     * @return boolean
+     * @return bool
      */
     public function getWorkLoggable()
     {
@@ -517,5 +528,4 @@ class Tasks
 
         return $this;
     }
-
 }

@@ -4,8 +4,8 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\DashboardTaskLists;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Dashboardtasklist controller.
@@ -14,7 +14,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class DashboardTaskListsController extends Controller
 {
-
     /**
      * Lists all dashboardTaskList entities.
      *
@@ -25,10 +24,10 @@ class DashboardTaskListsController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $dashboardTaskLists = $em->getRepository('AppBundle:DashboardTaskLists')->findAllTaskLists();
-        $taskLists = $em->getRepository('AppBundle:TaskLists')->findAll();
-        return $this->render("AppBundle:Settings:Dashboard/Tasklists/index.html.twig", array(
+
+        return $this->render('AppBundle:Settings:Dashboard/Tasklists/index.html.twig', [
             'dashboardTaskLists' => $dashboardTaskLists,
-        ));
+        ]);
     }
 
     /**
@@ -50,10 +49,10 @@ class DashboardTaskListsController extends Controller
             return $this->redirectToRoute('dashboardtasklists_index');
         }
 
-        return $this->render("AppBundle:Settings:Dashboard/Tasklists/new.html.twig", array(
+        return $this->render('AppBundle:Settings:Dashboard/Tasklists/new.html.twig', [
             'dashboardTaskList' => $dashboardTaskList,
             'form' => $form->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -70,14 +69,14 @@ class DashboardTaskListsController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('dashboardtasklists_edit', array('id' => $dashboardTaskList->getId()));
+            return $this->redirectToRoute('dashboardtasklists_edit', ['id' => $dashboardTaskList->getId()]);
         }
 
-        return $this->render("AppBundle:Settings:Dashboard/Tasklists/edit.html.twig", array(
+        return $this->render('AppBundle:Settings:Dashboard/Tasklists/edit.html.twig', [
             'dashboardTaskList' => $dashboardTaskList,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -99,6 +98,7 @@ class DashboardTaskListsController extends Controller
         } else {
             throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
         }
+
         return new \Symfony\Component\HttpFoundation\Response();
     }
 
@@ -119,6 +119,7 @@ class DashboardTaskListsController extends Controller
         } else {
             throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
         }
+
         return new \Symfony\Component\HttpFoundation\Response();
     }
 
@@ -151,9 +152,8 @@ class DashboardTaskListsController extends Controller
     private function createDeleteForm(DashboardTaskLists $dashboardTaskList)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('dashboardtasklists_delete', array('id' => $dashboardTaskList->getId())))
+            ->setAction($this->generateUrl('dashboardtasklists_delete', ['id' => $dashboardTaskList->getId()]))
             ->setMethod('DELETE')
             ->getForm();
     }
-
 }

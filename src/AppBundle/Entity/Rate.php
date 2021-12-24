@@ -6,14 +6,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
- * Rate
+ * Rate.
  *
  * @ORM\Table(name="rate")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\RateRepository")
  */
 class Rate
 {
-
     use TimestampableEntity;
 
     /**
@@ -93,7 +92,7 @@ class Rate
      *
      * @return Rate
      */
-    public function setClient(\AppBundle\Entity\Client $client = null)
+    public function setClient(Client $client = null)
     {
         $this->client = $client;
 
@@ -133,7 +132,6 @@ class Rate
     {
         return $this->active;
     }
-
 
     /**
      * Set note.

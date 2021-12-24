@@ -2,11 +2,11 @@
 
 namespace AppBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Form\AccountingMainFilterType;
 use AppBundle\Entity\Accounts;
+use AppBundle\Form\AccountingMainFilterType;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Accounting controller.
@@ -15,7 +15,6 @@ use AppBundle\Entity\Accounts;
  */
 class AccountingController extends Controller
 {
-
     /**
      * @Route("/", name="accounting_index", methods={"GET"})
      */
@@ -23,12 +22,12 @@ class AccountingController extends Controller
     {
         $accountingFilterForm = $this->getFilterFunction($request);
         $em = $this->getDoctrine()->getManager();
-        $accounts = $em->getRepository('AppBundle:Accounts')->findBy(array('conceal' => false));
+        $accounts = $em->getRepository('AppBundle:Accounts')->findBy(['conceal' => false]);
 
-        return $this->render('AppBundle:Accounting:index.html.twig', array(
+        return $this->render('AppBundle:Accounting:index.html.twig', [
             'accounts' => $accounts,
-            'accounting_filter_form' => $accountingFilterForm->createView()
-        ));
+            'accounting_filter_form' => $accountingFilterForm->createView(),
+        ]);
     }
 
     /**
@@ -44,7 +43,7 @@ class AccountingController extends Controller
             'current' => 0,
             'overdue' => 0,
             'invoices' => [],
-            'period' => $txnRepo->queryAccountRange($account)
+            'period' => $txnRepo->queryAccountRange($account),
         ];
         if ($balance['period']) {
             $balance['current'] = $txnRepo->queryCurrentBalanceByAccount($account)['amount'];
@@ -56,7 +55,7 @@ class AccountingController extends Controller
             }
         }
 
-        return $this->render("AppBundle:Accounting:account.html.twig", [
+        return $this->render('AppBundle:Accounting:account.html.twig', [
             'accounting_filter_form' => $accountingFilterForm->createView(),
             'account' => $account,
             'balance' => $balance,
@@ -76,27 +75,24 @@ class AccountingController extends Controller
         $currentBalance = $txnRepo->queryCurrentBalanceByAccount($account);
         $overdue = $txnRepo->queryOverdueAccountTo($account, $from);
         $total = $txnRepo->queryAmountFromTo($account, $from, $to);
-        $taxes = null;
 
-
-        return $this->render("AppBundle:Accounting:balance.html.twig", array(
-            "account" => $account,
-            "from" => $from,
-            "to" => $to,
-            "txns" => $txns,
-            "total" => $total,
-            "balanceTo" => $balanceTo,
-            "currentBalance" => $currentBalance,
-            "overdue" => $overdue,
-            "taxes" => $taxes
-        ));
+        return $this->render('AppBundle:Accounting:balance.html.twig', [
+            'account' => $account,
+            'from' => $from,
+            'to' => $to,
+            'txns' => $txns,
+            'total' => $total,
+            'balanceTo' => $balanceTo,
+            'currentBalance' => $currentBalance,
+            'overdue' => $overdue,
+            'taxes' => $taxes,
+        ]);
     }
 
     protected function getFilterFunction(Request $request)
     {
-        return $this->createForm(AccountingMainFilterType::class, $request->get('accounting_filter'), array(
+        return $this->createForm(AccountingMainFilterType::class, $request->get('accounting_filter'), [
             'method' => 'GET',
-        ));
+        ]);
     }
-
 }

@@ -6,19 +6,18 @@ use DateInterval;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
- * TaskLists
+ * TaskLists.
  *
  * @ORM\Table(name="task_lists")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\TaskListsRepository")
  */
 class TaskLists
 {
-
     use TimestampableEntity;
 
     /**
@@ -56,21 +55,19 @@ class TaskLists
      */
     private $tasks;
 
-
-
     /**
-     * Constructor
+     * Constructor.
      */
     public function __construct()
     {
         $this->tasks = new ArrayCollection();
-        $this->status = "start";
+        $this->status = 'start';
     }
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -78,9 +75,10 @@ class TaskLists
     }
 
     /**
-     * Set name
+     * Set name.
      *
      * @param string $name
+     *
      * @return TaskLists
      */
     public function setName($name)
@@ -91,7 +89,7 @@ class TaskLists
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string
      */
@@ -101,9 +99,10 @@ class TaskLists
     }
 
     /**
-     * Set status
+     * Set status.
      *
      * @param string $status
+     *
      * @return TaskLists
      */
     public function setStatus($status)
@@ -114,7 +113,7 @@ class TaskLists
     }
 
     /**
-     * Get status
+     * Get status.
      *
      * @return string
      */
@@ -124,9 +123,8 @@ class TaskLists
     }
 
     /**
-     * Add tasks
+     * Add tasks.
      *
-     * @param Tasks $tasks
      * @return TaskLists
      */
     public function addTask(Tasks $tasks)
@@ -138,9 +136,7 @@ class TaskLists
     }
 
     /**
-     * Remove tasks
-     *
-     * @param Tasks $tasks
+     * Remove tasks.
      */
     public function removeTask(Tasks $tasks)
     {
@@ -148,21 +144,22 @@ class TaskLists
     }
 
     /**
-     * Get tasks
+     * Get tasks.
      *
      * @return Collection
      */
     public function getTasks($showComplete = true)
     {
         $criteria = Criteria::create();
-        if ($showComplete !== true) {
+        if (true !== $showComplete) {
             $criteria->where(Criteria::expr()->eq('completed', false));
         }
-        $criteria->orderBy(array(
+        $criteria->orderBy([
             'completed' => 'asc',
             'urgency' => 'desc',
-            'priority' => 'desc'
-        ));
+            'priority' => 'desc',
+        ]);
+
         return $this->tasks->matching($criteria);
     }
 
@@ -174,7 +171,8 @@ class TaskLists
         }
         $today = new DateTime();
         $endDay = new DateTime();
-        $endDay->add(DateInterval::createFromDateString($durationTotal . " minutes"));
+        $endDay->add(DateInterval::createFromDateString($durationTotal.' minutes'));
+
         return $endDay->diff($today);
     }
 
@@ -186,12 +184,13 @@ class TaskLists
         }
         $today = new DateTime();
         $endDay = new DateTime();
-        $endDay->add(DateInterval::createFromDateString($estTotal . " minutes"));
+        $endDay->add(DateInterval::createFromDateString($estTotal.' minutes'));
+
         return $endDay->diff($today);
     }
 
     /**
-     * Set account
+     * Set account.
      *
      * @param Accounts $account
      *
@@ -205,7 +204,7 @@ class TaskLists
     }
 
     /**
-     * Get account
+     * Get account.
      *
      * @return Accounts
      */
@@ -218,8 +217,4 @@ class TaskLists
     {
         return $this->getName();
     }
-
-
-
-
 }

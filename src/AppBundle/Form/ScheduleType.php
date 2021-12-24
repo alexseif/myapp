@@ -34,20 +34,20 @@ class ScheduleType extends AbstractType
                 },
                 'attr' => [
                     'class' => 'chosen',
-                ]
+                ],
             ])
             ->add('est')
-            ->add('eta', DateTimeType::class, array(
+            ->add('eta', DateTimeType::class, [
                 'date_widget' => 'single_text',
                 'time_widget' => 'single_text',
                 'date_format' => 'yyyy-MM-dd',
                 'required' => false,
-                'attr' => array(
+                'attr' => [
                     'class' => 'datepicker',
                     'data-provide' => 'datepicker',
                     'data-date-format' => 'yyyy-MM-dd',
-                )
-            ));
+                ],
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

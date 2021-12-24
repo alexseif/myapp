@@ -2,46 +2,37 @@
 
 namespace AppBundle\Form;
 
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 
 class AccountTransactionsType extends AbstractType
 {
-
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('account', EntityType::class, array(
+            ->add('account', EntityType::class, [
                 'class' => 'AppBundle:Accounts',
                 'choice_label' => 'name',
-                'attr' => array(
+                'attr' => [
                     'class' => 'chosen',
-                )
-            ))
+                ],
+            ])
             ->add('amount', MoneyType::class)
-            ->add('issuedAt', DateType::class, array(
+            ->add('issuedAt', DateType::class, [
                 'widget' => 'single_text',
                 'format' => 'yyyy-MM-dd',
-            ))
+            ])
             ->add('note');
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\AccountTransactions'
-        ));
+        $resolver->setDefaults([
+            'data_class' => 'AppBundle\Entity\AccountTransactions',
+        ]);
     }
-
 }

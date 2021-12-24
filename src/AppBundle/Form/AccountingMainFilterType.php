@@ -4,27 +4,22 @@ namespace AppBundle\Form;
 
 use AppBundle\Entity\Accounts;
 use AppBundle\Repository\AccountsRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 
 class AccountingMainFilterType extends AbstractType
 {
-
     protected $router;
 
-    function __construct(RouterInterface $router)
+    public function __construct(RouterInterface $router)
     {
         $this->router = $router;
     }
 
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -43,18 +38,14 @@ class AccountingMainFilterType extends AbstractType
                     'choice_label' => 'name',
                     'attr' => [
                         'class' => 'chosen',
-                    ]]
+                    ], ]
             );
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'csrf_protection' => false,
-        ));
+        ]);
     }
-
 }

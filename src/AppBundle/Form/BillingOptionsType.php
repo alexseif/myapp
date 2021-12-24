@@ -11,19 +11,18 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class BillingOptionsType extends AbstractType
 {
-
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $days = [];
-        for ($i = 1; $i <= 30; $i++) {
+        for ($i = 1; $i <= 30; ++$i) {
             $days[$i] = $i;
         }
         $builder
             ->add('hours', NumberType::class, [
-                'required' => false
+                'required' => false,
             ])
             ->add('hoursPer', ChoiceType::class, [
                 'required' => false,
@@ -34,11 +33,11 @@ class BillingOptionsType extends AbstractType
                 ],
                 'expanded' => true,
                 'label_attr' => [
-                    'class' => 'radio-inline'
-                ]
+                    'class' => 'radio-inline',
+                ],
             ])
             ->add('amount', MoneyType::class, [
-                'required' => false
+                'required' => false,
             ])
             ->add('amountPer', ChoiceType::class, [
                 'required' => false,
@@ -49,17 +48,17 @@ class BillingOptionsType extends AbstractType
                 ],
                 'expanded' => true,
                 'label_attr' => [
-                    'class' => 'radio-inline'
-                ]
+                    'class' => 'radio-inline',
+                ],
             ])
             ->add('billingOn', ChoiceType::class, [
                 'required' => false,
-                'choices' => $days
+                'choices' => $days,
             ])
-            //@todo calculate discounts
 
+            //@todo calculate discounts
             ->add('discount', NumberType::class, [
-                'required' => false
+                'required' => false,
             ]);
     }
 
@@ -68,9 +67,9 @@ class BillingOptionsType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => null
-        ));
+        $resolver->setDefaults([
+            'data_class' => null,
+        ]);
     }
 
     /**
@@ -80,5 +79,4 @@ class BillingOptionsType extends AbstractType
     {
         return 'appbundle_billing_options';
     }
-
 }

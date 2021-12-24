@@ -2,20 +2,17 @@
 
 namespace AppBundle\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
- * Objective
+ * Objective.
  *
  * @ORM\Table(name="objective")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ObjectiveRepository")
  */
 class Objective
 {
-
     use TimestampableEntity;
 
     /**
@@ -40,7 +37,6 @@ class Objective
      * @ORM\Column(name="description", type="text", nullable=true)
      */
     private $description;
-
 
     /**
      * Get id.
@@ -99,5 +95,4 @@ class Objective
     {
         return $this->description;
     }
-
 }

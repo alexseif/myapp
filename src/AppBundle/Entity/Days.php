@@ -6,14 +6,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
- * Days
+ * Days.
  *
  * @ORM\Table(name="days")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\DaysRepository")
  */
 class Days
 {
-
     use TimestampableEntity;
 
     /**
@@ -47,9 +46,9 @@ class Days
     private $complete;
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -57,9 +56,10 @@ class Days
     }
 
     /**
-     * Set name
+     * Set name.
      *
      * @param string $name
+     *
      * @return Days
      */
     public function setName($name)
@@ -70,7 +70,7 @@ class Days
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string
      */
@@ -80,9 +80,10 @@ class Days
     }
 
     /**
-     * Set deadline
+     * Set deadline.
      *
      * @param \DateTime $deadline
+     *
      * @return Days
      */
     public function setDeadline($deadline)
@@ -93,7 +94,7 @@ class Days
     }
 
     /**
-     * Get deadline
+     * Get deadline.
      *
      * @return \DateTime
      */
@@ -103,9 +104,10 @@ class Days
     }
 
     /**
-     * Set complete
+     * Set complete.
      *
-     * @param boolean $complete
+     * @param bool $complete
+     *
      * @return Days
      */
     public function setComplete($complete)
@@ -116,9 +118,9 @@ class Days
     }
 
     /**
-     * Get complete
+     * Get complete.
      *
-     * @return boolean
+     * @return bool
      */
     public function getComplete()
     {
@@ -129,5 +131,4 @@ class Days
     {
         return $this->getName();
     }
-
 }

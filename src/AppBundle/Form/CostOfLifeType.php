@@ -2,15 +2,14 @@
 
 namespace AppBundle\Form;
 
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\MoneyType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class CostOfLifeType extends AbstractType
 {
-
     /**
      * {@inheritdoc}
      */
@@ -18,15 +17,15 @@ class CostOfLifeType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('value', MoneyType::class, array(
-                'currency' => ($options['data']->getCurrency() ? $options['data']->getCurrency()->getCode() : ""),
+            ->add('value', MoneyType::class, [
+                'currency' => ($options['data']->getCurrency() ? $options['data']->getCurrency()->getCode() : ''),
                 'divisor' => 100,
                 'scale' => 2,
-            ))
-            ->add('currency', EntityType::class, array(
+            ])
+            ->add('currency', EntityType::class, [
                 'class' => \AppBundle\Entity\Currency::class,
-                'choice_label' => 'code'
-            ));
+                'choice_label' => 'code',
+            ]);
     }
 
     /**
@@ -34,9 +33,9 @@ class CostOfLifeType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\CostOfLife'
-        ));
+        $resolver->setDefaults([
+            'data_class' => 'AppBundle\Entity\CostOfLife',
+        ]);
     }
 
     /**
@@ -46,5 +45,4 @@ class CostOfLifeType extends AbstractType
     {
         return 'appbundle_costoflife';
     }
-
 }

@@ -8,14 +8,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
- * Accounts
+ * Accounts.
  *
  * @ORM\Table(name="accounts")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\AccountsRepository")
  */
 class Accounts
 {
-
     use TimestampableEntity;
 
     /**
@@ -35,7 +34,7 @@ class Accounts
     private $name;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="conceal", type="boolean")
      */
@@ -58,7 +57,7 @@ class Accounts
     private $taskLists;
 
     /**
-     * Constructor
+     * Constructor.
      */
     public function __construct()
     {
@@ -67,9 +66,9 @@ class Accounts
     }
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -77,9 +76,10 @@ class Accounts
     }
 
     /**
-     * Set name
+     * Set name.
      *
      * @param string $name
+     *
      * @return Accounts
      */
     public function setName($name)
@@ -90,7 +90,7 @@ class Accounts
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string
      */
@@ -100,9 +100,8 @@ class Accounts
     }
 
     /**
-     * Add transactions
+     * Add transactions.
      *
-     * @param AccountTransactions $transactions
      * @return Accounts
      */
     public function addTransaction(AccountTransactions $transactions)
@@ -113,9 +112,7 @@ class Accounts
     }
 
     /**
-     * Remove transactions
-     *
-     * @param AccountTransactions $transactions
+     * Remove transactions.
      */
     public function removeTransaction(AccountTransactions $transactions)
     {
@@ -123,7 +120,7 @@ class Accounts
     }
 
     /**
-     * Get transactions
+     * Get transactions.
      *
      * @return Collection
      */
@@ -135,15 +132,15 @@ class Accounts
     public function getBalance()
     {
         $balance = 0;
-        $transactions = $this->getTransactions();
-        foreach ($transactions as $transaction) {
+        foreach ($this->getTransactions() as $transaction) {
             $balance += $transaction->getAmount();
         }
+
         return $balance;
     }
 
     /**
-     * Set client
+     * Set client.
      *
      * @param Client $client
      *
@@ -157,7 +154,7 @@ class Accounts
     }
 
     /**
-     * Get client
+     * Get client.
      *
      * @return Client
      */
@@ -167,9 +164,7 @@ class Accounts
     }
 
     /**
-     * Add taskList
-     *
-     * @param TaskLists $taskList
+     * Add taskList.
      *
      * @return Accounts
      */
@@ -181,9 +176,7 @@ class Accounts
     }
 
     /**
-     * Remove taskList
-     *
-     * @param TaskLists $taskList
+     * Remove taskList.
      */
     public function removeTaskList(TaskLists $taskList)
     {
@@ -191,7 +184,7 @@ class Accounts
     }
 
     /**
-     * Get taskLists
+     * Get taskLists.
      *
      * @return Collection
      */
@@ -201,9 +194,9 @@ class Accounts
     }
 
     /**
-     * Set conceal
+     * Set conceal.
      *
-     * @param boolean $conceal
+     * @param bool $conceal
      *
      * @return Accounts
      */
@@ -215,9 +208,9 @@ class Accounts
     }
 
     /**
-     * Get conceal
+     * Get conceal.
      *
-     * @return boolean
+     * @return bool
      */
     public function getConceal()
     {
@@ -228,6 +221,4 @@ class Accounts
     {
         return $this->getName();
     }
-
-
 }

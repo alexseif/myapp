@@ -2,31 +2,28 @@
 
 namespace AppBundle\Form;
 
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class AccountsType extends AbstractType
 {
-
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        //    TODO: https://github.com/ninsuo/symfony-collection
-
         $builder
             ->add('name')
             ->add('conceal')
-            ->add('client', EntityType::class, array(
+            ->add('client', EntityType::class, [
                     'required' => false,
                     'class' => 'AppBundle:Client',
                     'choice_label' => 'name',
-                    'attr' => array(
+                    'attr' => [
                         'class' => 'chosen',
-                    ))
+                    ], ]
             );
     }
 
@@ -35,9 +32,9 @@ class AccountsType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Accounts'
-        ));
+        $resolver->setDefaults([
+            'data_class' => 'AppBundle\Entity\Accounts',
+        ]);
     }
 
     /**
@@ -47,5 +44,4 @@ class AccountsType extends AbstractType
     {
         return 'appbundle_accounts';
     }
-
 }

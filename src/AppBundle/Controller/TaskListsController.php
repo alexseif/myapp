@@ -2,13 +2,11 @@
 
 namespace AppBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Entity\TaskLists;
 use AppBundle\Entity\Tasks;
-use AppBundle\Form\TaskListsType;
-use AppBundle\Form\TasksMassEditType;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * TaskLists controller.
@@ -17,7 +15,6 @@ use AppBundle\Form\TasksMassEditType;
  */
 class TaskListsController extends Controller
 {
-
     /**
      * Lists all TaskLists entities.
      *
@@ -33,7 +30,7 @@ class TaskListsController extends Controller
         $form = $this->createForm('AppBundle\Form\TasksMassEditType', $taskTemplate);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $tasks = $em->getRepository('AppBundle:Tasks')->findBy(array("taskList" => $taskTemplate->getTaskList()));
+            $tasks = $em->getRepository('AppBundle:Tasks')->findBy(['taskList' => $taskTemplate->getTaskList()]);
             foreach ($tasks as $task) {
                 $task->setPriority($taskTemplate->getPriority());
                 $task->setUrgency($taskTemplate->getUrgency());
@@ -43,10 +40,10 @@ class TaskListsController extends Controller
             return $this->redirectToRoute('tasklists_index');
         }
 
-        return $this->render("AppBundle:tasklists:index.html.twig", array(
+        return $this->render('AppBundle:tasklists:index.html.twig', [
             'taskLists' => $taskLists,
             'tasksMassEdit_form' => $form->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -68,10 +65,10 @@ class TaskListsController extends Controller
             return $this->redirectToRoute('tasklists_index');
         }
 
-        return $this->render("AppBundle:tasklists:new.html.twig", array(
+        return $this->render('AppBundle:tasklists:new.html.twig', [
             'taskList' => $taskList,
             'tasklist_form' => $form->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -83,10 +80,10 @@ class TaskListsController extends Controller
     {
         $deleteForm = $this->createDeleteForm($taskList);
 
-        return $this->render("AppBundle:tasklists:show.html.twig", array(
+        return $this->render('AppBundle:tasklists:show.html.twig', [
             'taskList' => $taskList,
             'delete_form' => $deleteForm->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -108,11 +105,11 @@ class TaskListsController extends Controller
             return $this->redirectToRoute('tasklists_index');
         }
 
-        return $this->render("AppBundle:tasklists:edit.html.twig", array(
+        return $this->render('AppBundle:tasklists:edit.html.twig', [
             'taskList' => $taskList,
             'tasklist_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -122,13 +119,13 @@ class TaskListsController extends Controller
      */
     public function archiveAction(Request $request, TaskLists $taskList)
     {
-        $taskList->setStatus("archive");
+        $taskList->setStatus('archive');
 
         $em = $this->getDoctrine()->getManager();
         $em->persist($taskList);
         $em->flush();
 
-        $this->addFlash('success', 'TaskList ' . $taskList->getName() . ' Archived');
+        $this->addFlash('success', 'TaskList '.$taskList->getName().' Archived');
 
         return $this->redirectToRoute('tasklists_index');
     }
@@ -140,13 +137,13 @@ class TaskListsController extends Controller
      */
     public function unarchiveAction(Request $request, TaskLists $taskList)
     {
-        $taskList->setStatus("start");
+        $taskList->setStatus('start');
 
         $em = $this->getDoctrine()->getManager();
         $em->persist($taskList);
         $em->flush();
 
-        $this->addFlash('success', 'TaskList ' . $taskList->getName() . ' UnArchived');
+        $this->addFlash('success', 'TaskList '.$taskList->getName().' UnArchived');
 
         return $this->redirectToRoute('tasklists_index');
     }
@@ -180,9 +177,8 @@ class TaskListsController extends Controller
     private function createDeleteForm(TaskLists $taskList)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('tasklists_delete', array('id' => $taskList->getId())))
+            ->setAction($this->generateUrl('tasklists_delete', ['id' => $taskList->getId()]))
             ->setMethod('DELETE')
             ->getForm();
     }
-
 }

@@ -7,14 +7,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * Holiday
+ * Holiday.
  *
  * @ORM\Entity(repositoryClass=HolidayRepository::class)
  * @UniqueEntity("date")
  */
 class Holiday
 {
-
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -66,14 +65,13 @@ class Holiday
         return $this;
     }
 
-    function getType()
+    public function getType()
     {
         return $this->type;
     }
 
-    function setType($type)
+    public function setType($type)
     {
         $this->type = $type;
     }
-
 }

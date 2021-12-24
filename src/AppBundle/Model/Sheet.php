@@ -7,39 +7,33 @@
 namespace AppBundle\Model;
 
 /**
- * Description of Sheet
+ * Description of Sheet.
  *
  * @author Alex Seif <me@alexseif.com>
  */
 class Sheet
 {
-
     /**
-     *
      * @var string title
      */
     private $title;
 
     /**
-     *
      * @var \DateTime date
      */
     private $date;
 
     /**
-     *
      * @var \DateInterval days
      */
     private $days;
 
     /**
-     *
      * @var int amount
      */
     private $amount;
 
     /**
-     *
      * @var int balance
      */
     private $balance;
@@ -54,7 +48,6 @@ class Sheet
     }
 
     /**
-     *
      * @return string
      */
     public function getTitle()
@@ -63,7 +56,6 @@ class Sheet
     }
 
     /**
-     *
      * @return \DateTime
      */
     public function getDate()
@@ -72,7 +64,6 @@ class Sheet
     }
 
     /**
-     *
      * @return \DateInterval
      */
     public function getDays()
@@ -81,7 +72,6 @@ class Sheet
     }
 
     /**
-     *
      * @return int
      */
     public function getAmount()
@@ -90,7 +80,6 @@ class Sheet
     }
 
     /**
-     *
      * @return int
      */
     public function getBalance()
@@ -99,7 +88,6 @@ class Sheet
     }
 
     /**
-     *
      * @param string $title
      */
     public function setTitle($title)
@@ -107,26 +95,17 @@ class Sheet
         $this->title = $title;
     }
 
-    /**
-     *
-     * @param \DateTime $date
-     */
     public function setDate(\DateTime $date)
     {
         $this->date = $date;
     }
 
-    /**
-     *
-     * @param \DateInterval $days
-     */
     public function setDays(\DateInterval $days)
     {
         $this->days = $days;
     }
 
     /**
-     *
      * @param int $amount
      */
     public function setAmount($amount)
@@ -135,12 +114,10 @@ class Sheet
     }
 
     /**
-     *
      * @param int $balance
      */
     public function setBalance($balance)
     {
         $this->balance = $balance;
     }
-
 }

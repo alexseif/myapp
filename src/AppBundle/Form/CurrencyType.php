@@ -3,13 +3,12 @@
 namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 
 class CurrencyType extends AbstractType
 {
-
     /**
      * {@inheritdoc}
      */
@@ -17,10 +16,10 @@ class CurrencyType extends AbstractType
     {
         $builder->add('code')
             ->add('name')
-            ->add('egp', MoneyType::class, array('currency' => 'EGP',
+            ->add('egp', MoneyType::class, ['currency' => 'EGP',
                 'divisor' => 100,
                 'scale' => 3,
-                'label' => 'EGP'));
+                'label' => 'EGP', ]);
     }
 
     /**
@@ -28,9 +27,9 @@ class CurrencyType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Currency'
-        ));
+        $resolver->setDefaults([
+            'data_class' => 'AppBundle\Entity\Currency',
+        ]);
     }
 
     /**
@@ -40,5 +39,4 @@ class CurrencyType extends AbstractType
     {
         return 'appbundle_currency';
     }
-
 }

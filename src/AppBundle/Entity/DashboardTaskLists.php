@@ -6,14 +6,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
- * DashboardTaskLists
+ * DashboardTaskLists.
  *
  * @ORM\Table(name="dashboard_task_lists")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\DashboardTaskListsRepository")
  */
 class DashboardTaskLists
 {
-
     use TimestampableEntity;
 
     /**
@@ -26,14 +25,13 @@ class DashboardTaskLists
     private $id;
 
     /**
-     *
      * @ORM\OneToOne(targetEntity="TaskLists")
      * @ORM\JoinColumn(name="taskLists_id", referencedColumnName="id")
      */
     private $taskList;
 
     /**
-     * Get id
+     * Get id.
      *
      * @return int
      */
@@ -43,13 +41,13 @@ class DashboardTaskLists
     }
 
     /**
-     * Set taskList
+     * Set taskList.
      *
      * @param \AppBundle\Entity\TaskLists $taskList
      *
      * @return DashboardTaskLists
      */
-    public function setTaskList(\AppBundle\Entity\TaskLists $taskList = null)
+    public function setTaskList(TaskLists $taskList = null)
     {
         $this->taskList = $taskList;
 
@@ -57,7 +55,7 @@ class DashboardTaskLists
     }
 
     /**
-     * Get taskList
+     * Get taskList.
      *
      * @return \AppBundle\Entity\TaskLists
      */
@@ -70,5 +68,4 @@ class DashboardTaskLists
     {
         return $this->taskList->getName();
     }
-
 }

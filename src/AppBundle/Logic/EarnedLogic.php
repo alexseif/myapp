@@ -6,17 +6,21 @@
 
 namespace AppBundle\Logic;
 
+use AppBundle\Entity\Tasks;
+
 /**
- * Description of CostOfLifeLogic
+ * Description of CostOfLifeLogic.
  *
  * @author Alex Seif <me@alexseif.com>
  */
 class EarnedLogic
 {
-
     protected $em;
     protected $costOfLife;
-    protected $issuedThisMonth, $monthly, $weekly, $daily = 0;
+    protected $issuedThisMonth;
+    protected $monthly;
+    protected $weekly;
+    protected $daily = 0;
 
     public function __construct($em, $costOfLife)
     {
@@ -33,7 +37,7 @@ class EarnedLogic
         return [
             'daily' => $this->getDaily(),
             'weekly' => $this->getWeekly(),
-            'monthly' => $this->getMonthly()
+            'monthly' => $this->getMonthly(),
         ];
     }
 
@@ -49,7 +53,7 @@ class EarnedLogic
 
     public function calculateMonthly()
     {
-        $completedTasks = $this->em->getRepository('AppBundle:Tasks')->getCompletedThisMonth();
+        $completedTasks = $this->em->getRepository(Tasks::class)->getCompletedThisMonth();
         $total = 0;
         foreach ($completedTasks as $task) {
             $rate = (null == $task->getRate()) ? $task->getRate() : $this->costOfLife->getHourly();
@@ -80,44 +84,43 @@ class EarnedLogic
         $this->setDaily($total);
     }
 
-    function getMonthly()
+    public function getMonthly()
     {
         return $this->monthly;
     }
 
-    function getWeekly()
+    public function getWeekly()
     {
         return $this->weekly;
     }
 
-    function getDaily()
+    public function getDaily()
     {
         return $this->daily;
     }
 
-    function setMonthly($monthly)
+    public function setMonthly($monthly)
     {
         $this->monthly = $monthly;
     }
 
-    function setWeekly($weekly)
+    public function setWeekly($weekly)
     {
         $this->weekly = $weekly;
     }
 
-    function setDaily($daily)
+    public function setDaily($daily)
     {
         $this->daily = $daily;
     }
 
-    function getIssuedThisMonth()
+    public function getIssuedThisMonth()
     {
         return $this->issuedThisMonth;
     }
 
-    function setIssuedThisMonth($issuedThisMonth)
+    public function setIssuedThisMonth($issuedThisMonth)
     {
         $this->issuedThisMonth = $issuedThisMonth;
     }
-
 }

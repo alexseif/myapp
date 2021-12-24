@@ -7,14 +7,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
- * Contract
+ * Contract.
  *
  * @ORM\Table(name="contract")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ContractRepository")
  */
 class Contract
 {
-
     use TimestampableEntity;
 
     /**
@@ -64,7 +63,8 @@ class Contract
     private $completedAt;
 
     /**
-     * Day of month to issue bill
+     * Day of month to issue bill.
+     *
      * @ORM\Column(type="integer", nullable=true)
      */
     private $billedOn = 25;
@@ -163,7 +163,7 @@ class Contract
      *
      * @return Contract
      */
-    public function setClient(\AppBundle\Entity\Client $client = null)
+    public function setClient(Client $client = null)
     {
         $this->client = $client;
 
@@ -210,7 +210,6 @@ class Contract
     }
 
     /**
-     *
      * @return bool $isCompleted
      */
     public function getIsCompleted()
@@ -219,8 +218,6 @@ class Contract
     }
 
     /**
-     *
-     * @param bool $isCompleted
      * @return self
      */
     public function setIsCompleted(bool $isCompleted)
@@ -231,7 +228,6 @@ class Contract
     }
 
     /**
-     *
      * @return \DateTimeInterface $completedAt
      */
     public function getCompletedAt()
@@ -240,8 +236,8 @@ class Contract
     }
 
     /**
-     *
      * @param \DateTimeInterface $completedAt
+     *
      * @return self
      */
     public function setCompletedAt($completedAt)
@@ -263,20 +259,13 @@ class Contract
         return $this;
     }
 
-    /**
-     * @return ContractProgress
-     */
     public function getProgress(): ContractProgress
     {
         return $this->progress;
     }
 
-    /**
-     * @param ContractProgress $progress
-     */
     public function setProgress(ContractProgress $progress): void
     {
         $this->progress = $progress;
     }
-
 }

@@ -8,40 +8,35 @@ namespace AppBundle\Service;
 
 use AppBundle\Entity\Tasks;
 use AppBundle\Model\ContractProgress;
-use AppBundle\Util\DateRanges;
 use Doctrine\ORM\EntityManager;
 
 /**
- * Description of Contract Service
+ * Description of Contract Service.
  *
  * @author Alex Seif <me@alexseif.com>
  */
 class ContractService
 {
-
     /**
-     *
-     * @var EntityManager $em
+     * @var EntityManager
      */
     protected $em;
-
 
     public function __construct(EntityManager $em)
     {
         $this->em = $em;
     }
 
-
     /**
      * @return array progress of contracts
      */
     public function progress()
     {
-        $contracts = $this->em->getRepository('AppBundle:Contract')->findBy(["isCompleted" => false]);
+        $contracts = $this->em->getRepository('AppBundle:Contract')->findBy(['isCompleted' => false]);
         foreach ($contracts as $contract) {
             $contract->setProgress(new ContractProgress($contract, $this->em->getRepository(Tasks::class)));
         }
+
         return $contracts;
     }
-
 }

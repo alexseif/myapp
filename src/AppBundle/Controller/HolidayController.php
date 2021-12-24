@@ -2,11 +2,10 @@
 
 namespace AppBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Routing\Annotation\Route;
-use AppBundle\Form\HolidayType;
 use AppBundle\Entity\Holiday;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Holiday controller.
@@ -15,7 +14,6 @@ use AppBundle\Entity\Holiday;
  */
 class HolidayController extends Controller
 {
-
     /**
      * Lists all Holiday entities.
      *
@@ -26,9 +24,10 @@ class HolidayController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $holidays = $em->getRepository('AppBundle:Holiday')->findAll();
-        return $this->render("AppBundle:holiday:index.html.twig", array(
-            'holidays' => $holidays
-        ));
+
+        return $this->render('AppBundle:holiday:index.html.twig', [
+            'holidays' => $holidays,
+        ]);
     }
 
     /**
@@ -40,6 +39,7 @@ class HolidayController extends Controller
     {
         $this->get('myapp.workingdays')->updateHolidays();
         $this->addFlash('Success', 'Holidays Updated');
+
         return $this->redirect($this->generateUrl('holiday_index'));
     }
 
@@ -59,13 +59,13 @@ class HolidayController extends Controller
             $em->persist($note);
             $em->flush();
 
-            return $this->redirectToRoute('holiday_show', array('id' => $note->getId()));
+            return $this->redirectToRoute('holiday_show', ['id' => $note->getId()]);
         }
 
-        return $this->render("AppBundle:holiday:new.html.twig", array(
+        return $this->render('AppBundle:holiday:new.html.twig', [
             'note' => $note,
             'holiday_form' => $form->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -73,14 +73,14 @@ class HolidayController extends Controller
      *
      * @Route("/{id}", name="holiday_show", methods={"GET"})
      */
-    public function showAction(\AppBundle\Entity\Holiday $holiday)
+    public function showAction(Holiday $holiday)
     {
         $deleteForm = $this->createDeleteForm($holiday);
 
-        return $this->render("AppBundle:holiday:show.html.twig", array(
+        return $this->render('AppBundle:holiday:show.html.twig', [
             'holiday' => $holiday,
             'delete_form' => $deleteForm->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -99,14 +99,14 @@ class HolidayController extends Controller
             $em->persist($holiday);
             $em->flush();
 
-            return $this->redirectToRoute('holiday_show', array('id' => $holiday->getId()));
+            return $this->redirectToRoute('holiday_show', ['id' => $holiday->getId()]);
         }
 
-        return $this->render("AppBundle:holiday:edit.html.twig", array(
+        return $this->render('AppBundle:holiday:edit.html.twig', [
             'holiday' => $holiday,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -138,9 +138,8 @@ class HolidayController extends Controller
     private function createDeleteForm(Holiday $note)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('holiday_delete', array('id' => $note->getId())))
+            ->setAction($this->generateUrl('holiday_delete', ['id' => $note->getId()]))
             ->setMethod('DELETE')
             ->getForm();
     }
-
 }

@@ -47,7 +47,6 @@ class Schedule
         $this->eta = $eta;
     }
 
-
     public function getId(): ?int
     {
         return $this->id;

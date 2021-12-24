@@ -1,16 +1,14 @@
 <?php
 /**
- * The following content was designed & implemented under AlexSeif.com
+ * The following content was designed & implemented under AlexSeif.com.
  **/
 
 namespace AppBundle\Model;
 
-
 use AppBundle\Entity\Contract;
-use AppBundle\Entity\Schedule;
 use AppBundle\Entity\Tasks;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityManagerInterface;
 
 class Scheduler
 {
@@ -22,10 +20,12 @@ class Scheduler
      */
     public $days;
     public $tasked = [];
-    public $date, $today;
+    public $date;
+    public $today;
     public $tasksRepository;
     public $contractRepository;
-    public $year, $week;
+    public $year;
+    public $week;
     public $period;
 
     public function __construct(EntityManagerInterface $entityManager, $year, $week)
@@ -44,8 +44,9 @@ class Scheduler
             $this->addDay($this->generateDay($dt));
         }
     }
-//TODO: Refactor
-//TODO: Load sorted by contract per week
+
+    //TODO: Refactor
+    //TODO: Load sorted by contract per week
     public function generateDay($date): Day
     {
         $day = new Day();
@@ -81,7 +82,7 @@ class Scheduler
         }
 
         if ($day->getDate() >= $this->today) {
-//Contract Tasks
+            //Contract Tasks
             foreach ($this->contract as $contract) {
                 if ($this->contractDayLength[$contract->getClient()->getId()] > 0) {
                     $contractTasks = $this->tasksRepository->focusListByClientAndDate($contract->getClient(), $date, $this->tasked);
@@ -122,11 +123,11 @@ class Scheduler
                 }
             }
         }
+
         return $day;
     }
 
-
-    function getPeriod()
+    public function getPeriod()
     {
         $dto = new \DateTime();
         $dto->setISODate($this->year, $this->week);
@@ -135,9 +136,9 @@ class Scheduler
         $dto->modify('+5 days');
         $week_end = clone $dto;
         $interval = \DateInterval::createFromDateString('1 day');
+
         return new \DatePeriod($week_start, $interval, $week_end);
     }
-
 
     public function setToday()
     {
@@ -160,7 +161,7 @@ class Scheduler
 
     public function loadContracts()
     {
-        $this->contract = $this->contractRepository->findBy(["isCompleted" => false]);
+        $this->contract = $this->contractRepository->findBy(['isCompleted' => false]);
     }
 
     public function loadContractDayLength()
@@ -179,7 +180,6 @@ class Scheduler
                     break;
                 }
                 $this->updateTasks($task);
-
             }
         }
     }
@@ -210,32 +210,23 @@ class Scheduler
             }
             $this->updateTasks($task);
         }
-
     }
 
-    /**
-     * @return ArrayCollection
-     */
     public function getDays(): ArrayCollection
     {
         return $this->days;
     }
 
-    /**
-     * @param ArrayCollection $days
-     */
     public function setDays(ArrayCollection $days): void
     {
         $this->days = $days;
     }
 
     /**
-     * @param Day $day
      * @return void
      */
     public function addDay(Day $day)
     {
         $this->days->add($day);
     }
-
 }

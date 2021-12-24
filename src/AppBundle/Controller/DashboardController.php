@@ -3,17 +3,15 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Logic\EarnedLogic;
+use AppBundle\Service\AccountsService;
+use AppBundle\Service\ReminderService;
+use AppBundle\Service\TasksService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
-use AppBundle\Service\TasksService;
-use AppBundle\Service\ReminderService;
-use AppBundle\Service\AccountsService;
 
 class DashboardController extends Controller
 {
-
     /**
-     *
      * @Route("/", name="dashboard")
      */
     public function dashboardAction(TasksService $ts, ReminderService $rs, AccountsService $as)
@@ -22,7 +20,7 @@ class DashboardController extends Controller
 
         $earnedLogic = new EarnedLogic($em, $this->get('myapp.cost'));
 
-        return $this->render("AppBundle:Dashboard:dashboard.html.twig", array(
+        return $this->render('AppBundle:Dashboard:dashboard.html.twig', [
             'taskLists' => $ts->getDashboardTasklists(),
             'randomTasks' => $ts->getRandom(),
             'unlistedTasks' => $ts->getUnlisted(),
@@ -34,43 +32,38 @@ class DashboardController extends Controller
             'tskCnt' => $ts->getCompletedCountPerDayOfTheWeek(),
             'costOfLife' => $this->get('myapp.cost'),
             'piechart' => $ts->getPieChartByUrgencyAndPriority(),
-        ));
+        ]);
     }
 
     /**
-     *
      * @Route("/elements", name="elements")
      */
     public function elementsAction()
     {
-        return $this->render("AppBundle:Dashboard:elements.html.twig");
+        return $this->render('AppBundle:Dashboard:elements.html.twig');
     }
 
     /**
-     *
      * @Route("/workspace", name="workspace")
      */
     public function workspaceAction()
     {
-        return $this->render("AppBundle:Dashboard:workspace.html.twig");
+        return $this->render('AppBundle:Dashboard:workspace.html.twig');
     }
 
     /**
-     *
      * @Route("/remind", name="remind")
      */
     public function remindAction()
     {
-        return $this->render("AppBundle:Dashboard:remindMe.html.twig");
+        return $this->render('AppBundle:Dashboard:remindMe.html.twig');
     }
 
     /**
-     *
      * @Route("/empty", name="empty")
      */
     public function emptyAction()
     {
-        return $this->render("empty.html.twig");
+        return $this->render('empty.html.twig');
     }
-
 }
