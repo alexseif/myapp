@@ -3,7 +3,6 @@
 namespace AppBundle\Repository;
 
 use AppBundle\Entity\TaskLists;
-use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -54,7 +53,6 @@ class TaskListsRepository extends ServiceEntityRepository
 
     public function findAllWithActiveTasks()
     {
-
         return $this
             ->createQueryBuilder('tl')
             ->select('tl, t, w, s')

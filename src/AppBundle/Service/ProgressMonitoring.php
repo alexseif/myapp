@@ -15,13 +15,14 @@ use Doctrine\ORM\EntityManager;
 
 /**
  * Description of Bottom Bar Service.
+ *
  * @todo: Refactor with AppBundle\Logic\EarnedLogic & AppBundle\Service\BottomBar
  *
  * @author Alex Seif <me@alexseif.com>
  */
 class ProgressMonitoring
 {
-    const MODIFY_MONTH = '-1 month';
+    public const MODIFY_MONTH = '-1 month';
     /**
      * @todo: remove and use repository in entity service
      *
@@ -30,7 +31,6 @@ class ProgressMonitoring
     protected $em;
 
     /**
-     *
      * @var CostService
      */
     protected $costService;
@@ -271,7 +271,7 @@ class ProgressMonitoring
     public function getTasksCompletedProgress()
     {
         if ($this->tasksCompletedProgress >= 1000) {
-            return $this->formatNumber($this->tasksCompletedProgress / 1000) . 'k';
+            return $this->formatNumber($this->tasksCompletedProgress / 1000).'k';
         }
 
         return $this->formatNumber($this->tasksCompletedProgress);
@@ -295,7 +295,7 @@ class ProgressMonitoring
     public function getRevenueSum()
     {
         if ($this->revenueSum <= 1000) {
-            return $this->formatNumber($this->revenueSum / 1000) . 'k';
+            return $this->formatNumber($this->revenueSum / 1000).'k';
         }
 
         return $this->formatNumber($this->revenueSum);
@@ -344,7 +344,7 @@ class ProgressMonitoring
      */
     public function getDurationSum()
     {
-        return $this->formatNumber($this->durationSum / 60) . ':' . ($this->durationSum % 60);
+        return $this->formatNumber($this->durationSum / 60).':'.($this->durationSum % 60);
     }
 
     /**

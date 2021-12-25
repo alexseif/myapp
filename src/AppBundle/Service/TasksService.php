@@ -59,20 +59,35 @@ class TasksService
                 $inboxTasks = $this->getRepository()->getCompletedToday();
                 break;
             default:
-                $inboxTasks = $this->getFocusByTaskListName($taskListName);
+                $taskList = $this->getEm()->getRepository(TaskLists::class)->findOneBy(['name' => $taskListName]);
+                $inboxTasks = $this->getRepository()->focusByTasklist($taskList);
                 break;
         }
 
         return $inboxTasks;
     }
 
-    public function getFocusByTaskListName($taskListName)
+    public function getWorkareaTasksCount($taskListName)
     {
-        $taskList = $this->getEm()->getRepository(TaskLists::class)->findOneBy(['name' => $taskListName]);
+        $inboxTasksCount = 0;
+        switch ($taskListName) {
+            case 'focus':
+                $inboxTasksCount = 30;
+                break;
+            case 'urgent':
+                $inboxTasksCount = count($this->getRepository()->getUrgentTasks());
+                break;
+            case 'completedToday':
+                $inboxTasksCount = $this->getRepository()->getCompletedTodayCount();
+                break;
+            default:
+                $taskList = $this->getRepository()->findOneBy(['name' => $taskListName]);
+                $inboxTasksCount = count($this->getRepository()->focusByTasklist($taskList));
+                break;
+        }
 
-        return $this->getRepository()->focusByTasklist($taskList);
+        return $inboxTasksCount;
     }
-
 
     public function getRandom()
     {
@@ -105,7 +120,7 @@ class TasksService
         $piechart['Normal'] = 0;
         $piechart['Low'] = 0;
         foreach ($countByUrgenctAndPriority as $row) {
-            $row['duration'] = (int)$row['duration'];
+            $row['duration'] = (int) $row['duration'];
             if ($row['urgency']) {
                 if ($row['priority']) {
                     $piechart['Urgent & Important'] = $row['duration'];

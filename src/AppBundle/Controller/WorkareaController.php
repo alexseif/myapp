@@ -10,6 +10,7 @@ use AppBundle\Repository\TaskListsRepository;
 use AppBundle\Repository\TasksRepository;
 use AppBundle\Service\TasksService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -68,5 +69,21 @@ class WorkareaController extends Controller
         return $this->render('workarea/inboxTasks.html.twig', [
             'inboxTasks' => $tasksService->getWorkareaTasks($taskListName),
         ]);
+    }
+
+    /**
+     * Get Inbox Tasks and render view.
+     *
+     * @param string $taskListName
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @Route("/getTasksCount/{taskListName}", name="get_tasks_count")
+     */
+    public function getTasksCountAction(
+        TasksService $tasksService,
+        $taskListName
+    ) {
+        return JsonResponse::create($tasksService->getWorkareaTasksCount($taskListName));
     }
 }

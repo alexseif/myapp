@@ -26,7 +26,7 @@ class AccountsRepository extends ServiceEntityRepository
             ->createQueryBuilder('a')
             ->select()
             ->where('a.name LIKE :searchTerm')
-            ->setParameter(':searchTerm', '%' . $searchTerm . '%')
+            ->setParameter(':searchTerm', '%'.$searchTerm.'%')
             ->getQuery()
             ->getResult();
     }

@@ -374,40 +374,4 @@ class TasksController extends Controller
 
         return $this->redirect($redirect);
     }
-
-    /**
-     * Get Inbox Tasks and render view.
-     *
-     * @param string $taskListName
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     *
-     * @Route("/getTasksCount/{taskListName}", name="tasks_get_tasks_count")
-     *
-     * @todo [wip] finish counting
-     * @todo refactor to service
-     */
-    public function getTasksCountAction(
-        TasksRepository $tasksRepository,
-        TaskListsRepository $taskListsRepository,
-        $taskListName
-    ) {
-        $inboxTasksCount = 0;
-        switch ($taskListName) {
-            case 'focus':
-                $inboxTasksCount = 30;
-                break;
-            case 'urgent':
-                break;
-            case 'completedToday':
-                $inboxTasksCount = $tasksRepository->getCompletedTodayCount();
-                break;
-            default:
-                $taskList = $taskListsRepository->findOneBy(['name' => $taskListName]);
-                $inboxTasksCount = count($tasksRepository->focusByTasklist($taskList));
-                break;
-        }
-
-        return JsonResponse::create($inboxTasksCount);
-    }
 }

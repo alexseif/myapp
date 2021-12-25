@@ -1,26 +1,19 @@
 // Tasks Object
 let Tasks = {
-    isFocus: (window.location.pathname.indexOf('focus') !== -1),
-    day: {
-        completed: 0,
-        time: 300,
-        remaining: 0
-    },
-    init: function () {
+    isFocus: (window.location.pathname.indexOf('focus') !== -1), day: {
+        completed: 0, time: 300, remaining: 0
+    }, init: function () {
         this.bindEvents();
         if (this.isFocus) {
             $('<div class="task-list m-4" id="focus"></div>').prependTo('.container');
             this.drawFocus();
             if (!touch) {
                 $(".task-list").sortable({
-                    connectWith: ".task-list",
-                    items: ".task-item:not(.completed)",
-                    update: this.updateOrder
+                    connectWith: ".task-list", items: ".task-item:not(.completed)", update: this.updateOrder
                 });
             }
         }
-    },
-    bindEvents: function () {
+    }, bindEvents: function () {
         $('.task-item input[type="checkbox"]').change(this.updateTask);
         $('.task-item .postpone').click(Tasks.postponeTask);
         $('[data-toggle="popover"]').popover({html: true, container: "body"});
@@ -28,24 +21,17 @@ let Tasks = {
 
         if (!touch) {
             $(".task-list").sortable({
-                connectWith: ".task-list",
-                items: ".task-item:not(.completed)",
-                update: this.updateOrder
+                connectWith: ".task-list", items: ".task-item:not(.completed)", update: this.updateOrder
             });
         }
-    },
-    postponeTask: function () {
+    }, postponeTask: function () {
         const self = this;
         //TODO: handle errors
         const taskId = $(self).data('taskid');
         const postpone = $(self).data('postpone');
         $.ajax({
-            type: "POST",
-            url: tasks_path + $(self).data('taskid') + "/edit",
-            dataType: "json",
-            data: {
-                "id": $(self).data('taskid'),
-                "postpone": postpone
+            type: "POST", url: tasks_path + $(self).data('taskid') + "/edit", dataType: "json", data: {
+                "id": $(self).data('taskid'), "postpone": postpone
             }
         }).done(function () {
 
@@ -66,17 +52,12 @@ let Tasks = {
                 self.drawFocus();
             }
         });
-    },
-    undoPostponeTask: function () {
+    }, undoPostponeTask: function () {
         const taskEl = this;
         //TODO: handle errors
         $.ajax({
-            type: "POST",
-            url: tasks_path + $(taskEl).data('taskid') + "/edit",
-            dataType: "json",
-            data: {
-                "id": $(taskEl).data('taskid'),
-                "undo": true
+            type: "POST", url: tasks_path + $(taskEl).data('taskid') + "/edit", dataType: "json", data: {
+                "id": $(taskEl).data('taskid'), "undo": true
             }
         }).done(function () {
             location.reload();
@@ -84,21 +65,15 @@ let Tasks = {
                 self.drawFocus();
             }
         });
-    },
-    updateTask: function (event) {
+    }, updateTask: function (event) {
         const taskEl = this;
         const isCompleted = $(taskEl).is(':checked') ? 1 : 0;
         let duration;
         duration = $(taskEl).data('duration');
         if (isCompleted) {
             duration = prompt("Duration", duration);
-            console.log(duration);
             if (1 > duration) {
-                if (null === duration) {
-
-                } else {
-                    alert('khara');
-                }
+                alert('khara');
                 taskEl.checked = !isCompleted;
                 event.preventDefault();
                 event.stopPropagation();
@@ -107,19 +82,14 @@ let Tasks = {
         }
         //TODO: handle errors
         $.ajax({
-            type: "POST",
-            url: tasks_path + $(taskEl).data('taskid') + "/edit",
-            dataType: "json",
-            data: {
-                "id": $(taskEl).data('taskid'),
-                "completed": isCompleted,
-                "duration": duration
+            type: "POST", url: tasks_path + $(taskEl).data('taskid') + "/edit", dataType: "json", data: {
+                "id": $(taskEl).data('taskid'), "completed": isCompleted, "duration": duration
             }
         }).done(function () {
             if (isCompleted) {
                 $(taskEl).parents('.task-item')
                     .addClass('completed');
-                $.get(tasks_get_tasks_completedToday_count_path, function (data) {
+                $.get(workarea_get_tasks_completedToday_count_path, function (data) {
                     $('#completedToday-pill').text(data);
                 });
             } else {
@@ -174,29 +144,18 @@ let Tasks = {
                 break;
             }
         }
-        this.setFocusTaskHeight();
         this.focusTitle();
     },
     focusTitle: function () {
         $('title').text($('#focus .task-item:first-child label').text().trim() + "| myApp");
-    },
-//Update Tasks size to fit screen
-    setFocusTaskHeight: function () {
-//    $('#focus .task-item .card-header').css('min-height', ((1 - ($('#completed').height() / $(window).height())) * 80 / $('#focus .task-item').length + 'vh'));
-//    $('#completed .task-item .card-header').css('min-height', 'auto');
-//    $('#tasks .task-item .card-header').css('min-height', 'auto');
-    },
-//Update order of tasks based on sorting
+    }, //Update order of tasks based on sorting
     updateOrder: function () {
         let dataString = "";
         $('.task-list .task-item:not(.completed)').each(function () {
             dataString += "tasks[][id]=" + $(this).data('id') + "&";
         });
         $.ajax({
-            data: dataString,
-            dataType: "json",
-            type: 'POST',
-            url: tasks_order
+            data: dataString, dataType: "json", type: 'POST', url: tasks_order
         }).done(function () {
             if (self.isFocus) {
                 self.drawFocus();
@@ -221,53 +180,37 @@ let Tasks = {
                 $('input:text:visible:first').focus();
             });
         }
-    },
-    /**
+    }, /**
      * Inbox Tasks
      */
     bindInbox: function () {
         //Inbox Tasks
         $('#inbox .nav-link').click(this.loadTasks);
-        // $('#inbox .nav-link').first().click();
-    },
-    loadTasks: function () {
+    }, loadTasks: function () {
         self = this;
         const dataUrl = $(this).data('url');
         const dataTarget = $(this).data('target');
         $('#inbox .nav-item').removeClass('active-trail');
         $(this).parent('.nav-item').addClass('active-trail');
-        //@TODO: Error handling
         $.ajax({
             url: dataUrl
-        })
-            .done(function (html) {
-                $(dataTarget).html(html);
-                Tasks.init();
-                // Tasks.bindEvents();
-                $(".task-list").sortable({
-                    connectWith: ".task-list",
-                    items: ".task-item:not(.completed)",
-                    update: function () {
-                        let dataString = "";
-                        $('.task-list .task-item:not(.completed)').each(function () {
-                            dataString += "tasks[][id]=" + $(this).data('id') + "&";
-                        });
-                        $.ajax({
-                            data: dataString,
-                            dataType: "json",
-                            type: 'POST',
-                            url: tasks_order
-                        }).done(function () {
-                        });
-                    }
-                });
-            })
-            .fail(function () {
-                alert("error");
-            })
-            .always(function () {
-//              alert("complete");
+        }).done(function (html) {
+            $(dataTarget).html(html);
+            Tasks.init();
+            $(".task-list").sortable({
+                connectWith: ".task-list", items: ".task-item:not(.completed)", update: function () {
+                    let dataString = "";
+                    $('.task-list .task-item:not(.completed)').each(function () {
+                        dataString += "tasks[][id]=" + $(this).data('id') + "&";
+                    });
+                    $.ajax({
+                        data: dataString, dataType: "json", type: 'POST', url: tasks_order
+                    });
+                }
             });
+        }).fail(function () {
+            alert("error");
+        });
         $('title').text($(this).text().trim() + " | myApp");
     },
 };
