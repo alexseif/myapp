@@ -30,6 +30,7 @@ class DateRanges
     public static function populateMonths($startDate, $endDate, $setDayTo = 0)
     {
         $start = self::getMonthStart($startDate);
+        $start->setDate($start->format('Y'), $start->format('m'), $setDayTo);
         $end = self::getMonthEnd($endDate);
         $interval = DateInterval::createFromDateString('1 month');
         $period = new DatePeriod($start, $interval, $end);

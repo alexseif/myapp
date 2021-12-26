@@ -88,14 +88,7 @@ class ContractController extends Controller
     public function logSummaryAction(Contract $contract): ?Response
     {
         $today = new DateTime();
-        $billingType = $contract->getClient()->getBillingOption();
-        $day = 25;
-        if ($billingType && array_key_exists('billingOn', $billingType)) {
-            $day = $billingType['billingOn'];
-        }
-        if ($contract->getBilledOn()) {
-            $day = $contract->getBilledOn();
-        }
+        $day = $contract->getBilledOn() ?: 25;
 
         $months = DateRanges::populateMonths($contract->getStartedAt()->format('Ymd'), $today->format('Ymd'), $day);
 
@@ -137,14 +130,16 @@ class ContractController extends Controller
                     continue;
                 }
 
-                $dayKey = (int) $day->format('Ymd');
+                $dayKey = (int)$day->format('Ymd');
                 if (!array_key_exists($dayKey, $contractDetails)) {
                     $contractDetails[$dayKey] = [];
                 }
                 $contractDetails[$dayKey]['title'] = $day->format('D Y-m-d');
                 $contractDetails[$dayKey]['day'] = $day;
-                $contractDetails[$dayKey]['tasks'] = $tasksRepo->findCompletedByClientByDate($contract->getClient(), $day);
-                $contractDetails[$dayKey]['total'] = $tasksRepo->sumDurationByClientByDate($contract->getClient(), $day);
+                $contractDetails[$dayKey]['tasks'] = $tasksRepo->findCompletedByClientByDate($contract->getClient(),
+                    $day);
+                $contractDetails[$dayKey]['total'] = $tasksRepo->sumDurationByClientByDate($contract->getClient(),
+                    $day);
             }
         }
         ksort($contractDetails);
@@ -168,16 +163,12 @@ class ContractController extends Controller
         $reportFilterForm = $reportFilterFormBuider->getForm();
 
         $reportFilterForm->handleRequest($request);
-        $billingType = $contract->getClient()->getBillingOption();
-        $day = 25;
-        if ($billingType && array_key_exists('billingOn', $billingType)) {
-            $day = $billingType['billingOn'];
-        }
-        if ($contract->getBilledOn()) {
-            $day = $contract->getBilledOn();
-        }
+
+        $day = $contract->getBilledOn() ?: 25;
+
         $today = new DateTime();
-        $monthsArray = DateRanges::populateMonths($contract->getStartedAt()->format('Ymd'), $today->format('Ymd'), $day);
+        $monthsArray = DateRanges::populateMonths($contract->getStartedAt()->format('Ymd'), $today->format('Ymd'),
+            $day);
 
         if ($reportFilterForm->isSubmitted() && $reportFilterForm->isValid()) {
             $accountingFilterData = $reportFilterForm->getData();
@@ -187,8 +178,10 @@ class ContractController extends Controller
             $txnRepo = $em->getRepository('AppBundle:AccountTransactions');
 
             foreach ($monthsArray as $key => $range) {
-                $monthsArray[$key]['forward_balance'] = $txnRepo->queryCurrentBalanceByAccountAndRange($contract, $range)['amount'];
-                $monthsArray[$key]['ending_balance'] = $txnRepo->queryOverdueAccountTo($contract, $range['end'])['amount'];
+                $monthsArray[$key]['forward_balance'] = $txnRepo->queryCurrentBalanceByAccountAndRange($contract,
+                    $range)['amount'];
+                $monthsArray[$key]['ending_balance'] = $txnRepo->queryOverdueAccountTo($contract,
+                    $range['end'])['amount'];
             }
         }
 
@@ -211,7 +204,8 @@ class ContractController extends Controller
         $fromDate->setTime(0, 0, 0);
         $toDate = new DateTime($to);
         $toDate->setTime(23, 23, 59);
-        $tasks = $em->getRepository(Tasks::class)->findCompletedByClientByRange($contract->getClient(), $fromDate, $toDate);
+        $tasks = $em->getRepository(Tasks::class)->findCompletedByClientByRange($contract->getClient(), $fromDate,
+            $toDate);
         $monthHolidays = $em->getRepository('AppBundle:Holiday')->findByRange(new DateTime($from), new DateTime($to));
         $workingDays = 22;
         $expected = ($workingDays * $contract->getHoursPerDay());
@@ -232,7 +226,8 @@ class ContractController extends Controller
         $totalHours = $total / 60;
         $totalMins = $total % 60;
         $remaining = $expected - $totalHours;
-        $remaining = floor($remaining).':'.$totalMins;
+        $sign = ($remaining < 0);
+        $remaining = (($sign) ? "" : "-") . floor(abs($remaining)) . ':' . $totalMins;
 
         return $this->render('AppBundle:contract:timesheet.html.twig', [
             'contract' => $contract,
