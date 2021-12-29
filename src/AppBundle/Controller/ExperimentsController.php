@@ -27,7 +27,6 @@ class ExperimentsController extends Controller
             'Reports' => 'reports_index',
             'Tasks' => 'experiment_tasks',
             'Accounts' => 'experiment_accounts',
-            'Cash' => 'scenario_index',
         ];
 
         return $this->render('AppBundle:Experiments:index.html.twig', [
@@ -136,7 +135,8 @@ class ExperimentsController extends Controller
 
             $data['result']['experiment'] = $formData['experiments'];
             $data['result']['account'] = $formData['account'];
-            $data['result']['tasks'] = $this->getDoctrine()->getRepository(Tasks::class)->findByAccountNoWorklog($data['result']['account']);
+            $data['result']['tasks'] = $this->getDoctrine()->getRepository(Tasks::class)
+                ->findByAccountNoWorklog($data['result']['account']);
             $data['result']['price'] = $rateCalculator->tasks($data['result']['tasks']);
         }
 
