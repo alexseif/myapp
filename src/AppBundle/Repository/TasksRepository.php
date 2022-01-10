@@ -36,7 +36,7 @@ class TasksRepository extends ServiceEntityRepository
     public const ACCOUNT = 'tl.account';
     public const CLIENT = 'a.client';
     public const CLIENT_VAR = ':client';
-    public const CLIENT_CLAUSE = self::CLIENT.' = '.self::CLIENT_VAR;
+    public const CLIENT_CLAUSE = self::CLIENT . ' = ' . self::CLIENT_VAR;
     public const RATES = 'c.rates';
     public const COMPLETEDAT = 't.completedAt';
     public const TASKLISTID = 'tl.id';
@@ -166,7 +166,7 @@ class TasksRepository extends ServiceEntityRepository
         $day = date('w');
 
         $date = new DateTime();
-        $date->sub(new DateInterval('P'.$day.'D'));
+        $date->sub(new DateInterval('P' . $day . 'D'));
         $date->setTime(00, 00, 00);
 
         return $this->getCompletedAfter($date);
@@ -224,8 +224,8 @@ class TasksRepository extends ServiceEntityRepository
 
     /**
      * @param \DateTime $date
-     * @param int       $limit
-     * @param int       $offset
+     * @param int $limit
+     * @param int $offset
      *
      * @return Tasks[]
      */
@@ -260,9 +260,9 @@ class TasksRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param \DateTime $date
-     * @param int       $limit
-     * @param int       $offset
+     * @param $client
+     * @param $date
+     * @param $taskIds
      *
      * @return Tasks[]
      */
@@ -456,7 +456,7 @@ class TasksRepository extends ServiceEntityRepository
             ->createQueryBuilder('t')
             ->select()
             ->where('t.task LIKE :searchTerm')
-            ->setParameter(':searchTerm', '%'.$searchTerm.'%')
+            ->setParameter(':searchTerm', '%' . $searchTerm . '%')
             ->getQuery()
             ->getResult();
     }
@@ -478,7 +478,7 @@ class TasksRepository extends ServiceEntityRepository
 
     public function findDurationCompletedByClientByRange($client, $from, $to)
     {
-        return (int) $this
+        return (int)$this
             ->createQueryBuilder('t')
             ->select(self::DURATION_SUM)
             ->leftJoin(self::TASKLIST, 'tl')
@@ -757,7 +757,7 @@ class TasksRepository extends ServiceEntityRepository
             ->setParameter(':from', $from)
             ->setParameter(':to', $to);
 
-        return (int) $qb->getQuery()
+        return (int)$qb->getQuery()
             ->getSingleScalarResult();
     }
 

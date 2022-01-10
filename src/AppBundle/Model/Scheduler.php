@@ -14,6 +14,7 @@ class Scheduler
 {
     public $dayLength = [];
     public $contractDayLength = [];
+    public $contractWeekLength = [];
     public $contracts;
     /**
      * @var ArrayCollection
@@ -39,14 +40,13 @@ class Scheduler
         $this->setToday();
         $this->loadContracts();
 
+        $this->loadContractWeekLength();
         foreach ($this->period as $dt) {
             $this->loadContractDayLength();
             $this->addDay($this->generateDay($dt));
         }
     }
 
-    //TODO: Refactor
-    //TODO: Load sorted by contract per week
     public function generateDay($date): Day
     {
         $day = new Day();
@@ -63,65 +63,12 @@ class Scheduler
                 $this->contractDayLength[$task->getClient()->getId()] -= $mins;
             }
         }
-        //Scheduled Tasks
-        $scheduledTasks = $this->tasksRepository->findBySchedule($date);
-        foreach ($scheduledTasks as $task) {
-            if ($day->addTask($task)) {
-                $this->tasked[] = $task->getId();
-                if (array_key_exists($task->getClient()->getId(), $this->contractDayLength)) {
-                    if ($task->getCompleted()) {
-                        $mins = $task->getDuration();
-                    } else {
-                        $mins = ($task->getEst()) ?: 60;
-                    }
-                    $this->contractDayLength[$task->getClient()->getId()] -= $mins;
-                }
-            } else {
-                break;
-            }
-        }
+
+        $this->loadScheduledTasks($day);
 
         if ($day->getDate() >= $this->today) {
-            //Contract Tasks
-            foreach ($this->contract as $contract) {
-                if ($this->contractDayLength[$contract->getClient()->getId()] > 0) {
-                    $contractTasks = $this->tasksRepository->focusListByClientAndDate($contract->getClient(), $date, $this->tasked);
-                    foreach ($contractTasks as $task) {
-                        if ($this->contractDayLength[$task->getClient()->getId()] > 0) {
-                            if ($day->addTask($task)) {
-                                $this->tasked[] = $task->getId();
-                                if ($task->getCompleted()) {
-                                    $mins = $task->getDuration();
-                                } else {
-                                    $mins = ($task->getEst()) ?: 60;
-                                }
-                                $this->contractDayLength[$task->getClient()->getId()] -= $mins;
-                            } else {
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-            //Tasks (unscheduled)
-            $focusTasks = $this->tasksRepository->focusListScheduler($date, $this->tasked);
-            foreach ($focusTasks as $task) {
-                if ((array_key_exists($task->getClient()->getId(), $this->contractDayLength) && $this->contractDayLength[$task->getClient()->getId()] > 0) || $day->getDayLength() > 0) {
-                    if ($day->addTask($task)) {
-                        $this->tasked[] = $task->getId();
-                        if (array_key_exists($task->getClient()->getId(), $this->contractDayLength)) {
-                            if ($task->getCompleted()) {
-                                $mins = $task->getDuration();
-                            } else {
-                                $mins = ($task->getEst()) ?: 60;
-                            }
-                            $this->contractDayLength[$task->getClient()->getId()] -= $mins;
-                        }
-                    } else {
-                        break;
-                    }
-                }
-            }
+            $this->loadContractsTasks($day);
+            $this->loadTasks($day);
         }
 
         return $day;
@@ -151,66 +98,94 @@ class Scheduler
         return $this->tasksRepository->getCompletedByDate($date);
     }
 
-    public function loadScheduledTasks()
+    public function loadScheduledTasks(Day &$day)
     {
-        $scheduledTasks = $this->tasksRepository->findBySchedule($this->date);
-        foreach ($scheduledTasks as $scheduledTask) {
-            $this->updateTasks($scheduledTask);
+        //Scheduled Tasks
+        $scheduledTasks = $this->tasksRepository->findBySchedule($day->getDate());
+        foreach ($scheduledTasks as $task) {
+            if ($day->addTask($task)) {
+                $this->updateTasks($task);
+            } else {
+                break;
+            }
+        }
+    }
+
+    public function loadContractTasks(Day &$day, $contract)
+    {
+        $contractTasks = $this->tasksRepository->focusListByClientAndDate($contract->getClient(),
+            $day->getDate(),
+            $this->tasked);
+        foreach ($contractTasks as $task) {
+            if ($this->contractWeekLength[$task->getClient()->getId()] > 0) {
+                if ($day->addTask($task)) {
+                    $this->updateTasks($task);
+                } else {
+                    break;
+                }
+            }
+        }
+    }
+
+    public function loadContractsTasks(Day &$day)
+    {
+        //Contract Tasks
+        foreach ($this->contracts as $contract) {
+            if ($this->contractWeekLength[$contract->getClient()->getId()] > 0) {
+                $this->loadContractTasks($day, $contract);
+            }
+        }
+    }
+
+    public function loadTasks(&$day)
+    {
+        //Tasks (unscheduled)
+        $focusTasks = $this->tasksRepository->focusListScheduler($day->getDate(), $this->tasked);
+        foreach ($focusTasks as $task) {
+            if ((array_key_exists($task->getClient()->getId(),
+                        $this->contractDayLength) && $this->contractDayLength[$task->getClient()->getId()] > 0) || $day->getDayLength() > 0) {
+                if ($day->addTask($task)) {
+                    $this->updateTasks($task);
+                } else {
+                    break;
+                }
+            }
+        }
+    }
+
+    function updateTasks(Tasks $task)
+    {
+        $this->tasked[] = $task->getId();
+        if (array_key_exists($task->getClient()->getId(), $this->contractDayLength)) {
+            if ($task->getCompleted()) {
+                $mins = $task->getDuration();
+            } else {
+                $mins = ($task->getEst()) ?: 60;
+            }
+            $this->contractDayLength[$task->getClient()->getId()] -= $mins;
+            $this->contractWeekLength[$task->getClient()->getId()] -= $mins;
         }
     }
 
     public function loadContracts()
     {
-        $this->contract = $this->contractRepository->findBy(['isCompleted' => false]);
+        $this->contracts = $this->contractRepository->findBy(['isCompleted' => false]);
     }
 
     public function loadContractDayLength()
     {
-        foreach ($this->contract as $contract) {
+        foreach ($this->contracts as $contract) {
             $this->contractDayLength[$contract->getClient()->getId()] = $contract->getHoursPerDay() * 60;
         }
     }
 
-    public function loadContractTasks()
+    public function loadContractWeekLength()
     {
-        foreach ($this->contract as $contract) {
-            $contractTasks = $this->tasksRepository->focusListByClientAndDate($contract->getClient(), $this->date, $this->tasked);
-            foreach ($contractTasks as $task) {
-                if ($this->dayLength <= 0 || $this->contractDayLength[$contract->getClient()->getId()] <= 0) {
-                    break;
-                }
-                $this->updateTasks($task);
-            }
+        foreach ($this->contracts as $contract) {
+            $this->contractWeekLength[$contract->getClient()->getId()] = ($contract->getHoursPerDay() * 60 * 5);
         }
     }
 
-    public function updateTasks(Tasks $task)
-    {
-        if ($this->dayLength <= 0) {
-            $this->tasks[] = $task;
-            if ($task->getCompleted()) {
-                $mins = $task->getDuration();
-            } else {
-                $this->tasked[] = $task->getId();
-                $mins = ($task->getEst()) ?: 60;
-            }
-            $this->dayLength -= $mins;
-            if (array_key_exists($task->getClient()->getId(), $this->contractDayLength)) {
-                $this->contractDayLength[$task->getClient()->getId()] -= $mins;
-            }
-        }
-    }
-
-    public function loadTasks()
-    {
-        $focusTasks = $this->tasksRepository->focusListScheduler($this->date, $this->tasked);
-        foreach ($focusTasks as $task) {
-            if ($this->dayLength <= 0) {
-                break;
-            }
-            $this->updateTasks($task);
-        }
-    }
 
     public function getDays(): ArrayCollection
     {
