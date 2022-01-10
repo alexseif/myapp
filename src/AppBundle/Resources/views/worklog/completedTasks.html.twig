@@ -59,7 +59,7 @@
                        target="_new">
                         Open
                     </a>
-{#                    {{ task.task|truncate(100) }}#}
+                    {#                    {{ task.task|truncate(100) }} #}
                     {{ task.task }}
                 </td>
                 <td>
@@ -111,7 +111,7 @@
                 "stateSave": true,
             });
             $('#tasks tbody').on('dblclick', 'tr', function () {
-                $(this).children('td').first().children('input')[0].click();
+                $(this).children('td').first().children('label').children('input')[0].click();
             });
 
             // Select all

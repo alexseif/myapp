@@ -142,7 +142,10 @@ class WorkLogController extends Controller
                 throw new NotFoundHttpException();
             }
 
-            $thisRates = $em->getRepository(Rate::class)->findOneBy(['active' => true, 'client' => $task->getTaskList()->getAccount()->getClient()]);
+            $thisRates = $em->getRepository(Rate::class)->findOneBy([
+                'active' => true,
+                'client' => $task->getTaskList()->getAccount()->getClient()
+            ]);
             if ($thisRates) {
                 $pricePerUnit = $thisRates->getRate();
             }
@@ -221,7 +224,10 @@ class WorkLogController extends Controller
                 $task->getWorklog()->setTask($task);
                 $pricePerUnit = $costOfLife->getHourly();
 
-                $thisRates = $em->getRepository('AppBundle:Rate')->findOneBy(['active' => true, 'client' => $task->getTaskList()->getAccount()->getClient()]);
+                $thisRates = $em->getRepository('AppBundle:Rate')->findOneBy([
+                    'active' => true,
+                    'client' => $task->getTaskList()->getAccount()->getClient()
+                ]);
                 if ($thisRates) {
                     $pricePerUnit = $thisRates->getRate();
                 }
@@ -230,7 +236,7 @@ class WorkLogController extends Controller
                     $billingCalculator = new BillingCalculator($billingOption);
                     $pricePerUnit = $billingCalculator->getPricePerUnit();
                 }
-                $task->getWorkLog()->setPricePerUnit($pricePerUnit);
+                $task->getWorkLog()->setPricePerUnit(($pricePerUnit) ?: 0);
                 $task->getWorklog()->setName($task->getTask());
                 $task->getWorklog()->setDuration($task->getDuration());
                 $task->getWorklog()->setTotal($task->getWorklog()->getPricePerUnit() / 60 * $task->getWorklog()->getDuration());
@@ -245,7 +251,8 @@ class WorkLogController extends Controller
                 }
                 $em->persist($task->getWorklog());
             } else {
-                $this->addFlash('warning_raw', 'Task  <a href="'.$this->generateUrl('tasks_show', ['id' => $taskId]).'" target="_new">'.$taskId.'</a> has 0 est');
+                $this->addFlash('warning_raw', 'Task  <a href="' . $this->generateUrl('tasks_show',
+                        ['id' => $taskId]) . '" target="_new">' . $taskId . '</a> has 0 est');
             }
             $em->flush();
         }
