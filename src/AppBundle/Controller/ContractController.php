@@ -227,7 +227,7 @@ class ContractController extends Controller
         $totalMins = $total % 60;
         $remaining = $expected - $totalHours;
         $sign = ($remaining < 0);
-        $remaining = (($sign) ? "" : "-") . floor(abs($remaining)) . ':' . $totalMins;
+        $remaining = (($sign) ? "+" : "-") . floor(abs($remaining)) . ':' . $totalMins;
 
         return $this->render('AppBundle:contract:timesheet.html.twig', [
             'contract' => $contract,
