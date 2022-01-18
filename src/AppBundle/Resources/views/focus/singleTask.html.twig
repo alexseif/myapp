@@ -46,29 +46,31 @@
                             {% else %}
                                 <span class="badge badge-secondary">?</span>
                             {% endif %}
-                            </span>
-                            <h3 class="text-info">{{ task.duration ? task.duration ~ "m" }}</h3>
-                            {% if (task.taskList.account) %}
-                                <p>{{ task.taskList.account.name }}</p>
-                                {% if (task.taskList.account.client) %}
-                                    <p>{{ task.taskList.account.client.name }}</p>
-                                {% endif %}
-                            {% endif %}
-                            <a href="{{ path('tasks_edit', { 'id': task.id }) }}"
-                               class="btn btn-secondary btn-{{ task.completed ? "xs":"sm" }}">
-                                Edit</a>
                         </div>
-                        <h2 class="task">
+                        <h3 class="text-info">{{ task.duration ? task.duration ~ "m" }}</h3>
+                        {% if (task.taskList.account) %}
+                            <p>{{ task.taskList.account.name }}</p>
+                            {% if (task.taskList.account.client) %}
+                                <p>{{ task.taskList.account.client.name }}</p>
+                            {% endif %}
+                        {% endif %}
+                        <a href="{{ path('tasks_edit', { 'id': task.id }) }}"
+                           class="btn btn-secondary btn-{{ task.completed ? "xs":"sm" }}">
+                            Edit</a>
+                    </div>
+                    <h2 class="task">
+                        <label>
                             <input type="checkbox" data-taskid="{{ task.id }}" class="checkbox-inline"
                                     {{ task.completed ? "checked" : "" }}/>
                             {{ task.task }}
-                            <small>{{ task.taskList.name }}</small>
-                        </h2>
-                    </div>
+                        </label>
+                        <small>{{ task.taskList.name }}</small>
+                    </h2>
                 </div>
-                {% endfor %}
             </div>
+            {% endfor %}
         </div>
+    </div>
     </div>
 
 {% endblock %}

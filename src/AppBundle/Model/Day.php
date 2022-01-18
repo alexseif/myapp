@@ -6,6 +6,7 @@
 namespace AppBundle\Model;
 
 use AppBundle\Entity\Tasks;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class Day
@@ -17,7 +18,7 @@ class Day
     public $tasks;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      */
     public $date;
     public $today;
@@ -71,22 +72,22 @@ class Day
         $this->tasks = $tasks;
     }
 
-    public function getDate(): \DateTime
+    public function getDate(): DateTime
     {
         return $this->date;
     }
 
-    public function setDate(\DateTime $date): void
+    public function setDate(DateTime $date): void
     {
         $this->date = $date;
     }
 
-    public function getToday(): \DateTime
+    public function getToday(): DateTime
     {
         return $this->today;
     }
 
-    public function setToday(\DateTime $today): void
+    public function setToday(DateTime $today): void
     {
         $this->today = $today;
     }

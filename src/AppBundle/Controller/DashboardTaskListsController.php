@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\DashboardTaskLists;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -147,7 +148,7 @@ class DashboardTaskListsController extends Controller
      *
      * @param DashboardTaskLists $dashboardTaskList The dashboardTaskList entity
      *
-     * @return \Symfony\Component\Form\Form The form
+     * @return FormInterface The form
      */
     private function createDeleteForm(DashboardTaskLists $dashboardTaskList)
     {

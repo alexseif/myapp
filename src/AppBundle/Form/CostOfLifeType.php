@@ -2,6 +2,7 @@
 
 namespace AppBundle\Form;
 
+use AppBundle\Entity\Currency;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
@@ -23,7 +24,7 @@ class CostOfLifeType extends AbstractType
                 'scale' => 2,
             ])
             ->add('currency', EntityType::class, [
-                'class' => \AppBundle\Entity\Currency::class,
+                'class' => Currency::class,
                 'choice_label' => 'code',
             ]);
     }

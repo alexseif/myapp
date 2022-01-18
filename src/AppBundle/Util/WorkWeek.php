@@ -30,7 +30,7 @@ class WorkWeek
 
     public static function getDayHours($day)
     {
-        if (key_exists($day, self::$workWeek)) {
+        if (array_key_exists($day, self::$workWeek)) {
             return self::$workWeek[$day];
         }
 

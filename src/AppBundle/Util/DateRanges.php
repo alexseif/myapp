@@ -21,9 +21,10 @@ class DateRanges
     /**
      * Function to populate months between 2 dates.
      *
-     * @param string     $startDate
-     * @param string     $endDate
-     * @param int|string $setDayTo  Set day of month (for eg. 01/12) if set to 0 the dates use the initial date if int between 0 and 32 set date, if string then modify is run on end of month ("+2"|"-5")
+     * @param string $startDate
+     * @param string $endDate
+     * @param int|string $setDayTo Set day of month (for eg. 01/12) if set to 0 the dates use the initial date if int
+     * between 0 and 32 set date, if string then modify is run on end of month ("+2"|"-5")
      *
      * @return array Array of months between $startDate & $endDate
      */
@@ -123,8 +124,9 @@ class DateRanges
         foreach ($holidays as $holiday) {
             $dt = new DateTime($holiday[0]);
             $dtTimestamp = $dt->getTimestamp();
-            if (($dtTimestamp >= $beginDT->getTimestamp()) && ($dtTimestamp <= $endDT->getTimestamp()) && (in_array($dt->format('N'), [
-                    5, 6, ]))) {
+            if (($dtTimestamp >= $beginDT->getTimestamp())
+                && ($dtTimestamp <= $endDT->getTimestamp())
+                && (in_array($dt->format('N'), [5, 6], true))) {
                 ++$holiday_days;
             }
         }
@@ -143,7 +145,7 @@ class DateRanges
     public static function getHolidays($country)
     {
         //Url of Site with list
-        $url = 'https://www.timeanddate.com/holidays/'.$country.'/';
+        $url = 'https://www.timeanddate.com/holidays/' . $country . '/';
         //Use curl to get the page
         $ch = curl_init();
         $timeout = 5;
@@ -164,7 +166,7 @@ class DateRanges
             {
                 $str = '';
                 foreach ($elements as $element) {
-                    $str .= $element->nodeValue.', ';
+                    $str .= $element->nodeValue . ', ';
                 }
                 //This pplaces the items into an array
                 $tempArray = explode(',', $str);
@@ -199,7 +201,7 @@ class DateRanges
      */
     public static function getMonthStart($date = 'now')
     {
-        $monthStart = new \DateTime($date);
+        $monthStart = new DateTime($date);
         if ($monthStart->format('d') < 25) {
             $monthStart->modify('-1 month');
         }

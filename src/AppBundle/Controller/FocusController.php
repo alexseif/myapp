@@ -68,6 +68,7 @@ class FocusController extends Controller
                 'order' => 'ASC',
             ], 10
             );
+//            @todo: refactor & test
             $tasks = array_merge($tasks, $reorderTasks);
         }
 

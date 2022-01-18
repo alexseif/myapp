@@ -4,6 +4,8 @@ namespace AppBundle\Twig\Extension;
 
 use Symfony\Component\HttpFoundation\Request;
 use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
+use Twig_Environment;
 
 /**
  * A TWIG Extension which allows to show Controller and Action name in a TWIG view.
@@ -20,7 +22,7 @@ class ControllerActionExtension extends AbstractExtension
     protected $request;
 
     /**
-     * @var \Twig_Environment
+     * @var Twig_Environment
      */
     protected $environment;
 
@@ -32,8 +34,8 @@ class ControllerActionExtension extends AbstractExtension
     public function getFunctions()
     {
         return [
-            new \Twig\TwigFunction('get_controller_name', [$this, 'getControllerName']),
-            new \Twig\TwigFunction('get_action_name', [$this, 'getActionName']),
+            new TwigFunction('get_controller_name', [$this, 'getControllerName']),
+            new TwigFunction('get_action_name', [$this, 'getActionName']),
         ];
     }
 
@@ -49,9 +51,8 @@ class ControllerActionExtension extends AbstractExtension
             if ($result) {
                 return strtolower($matches[1]);
             }
-
-            return null;
         }
+        return null;
     }
 
     /**
@@ -66,8 +67,7 @@ class ControllerActionExtension extends AbstractExtension
             if ($result) {
                 return $matches[1];
             }
-
-            return null;
         }
+        return null;
     }
 }

@@ -6,6 +6,8 @@
 
 namespace AppBundle\Model;
 
+use DateTime;
+
 /**
  * Description of Recurring Transactions
  * Class assumes monthly recurrences for now.
@@ -25,11 +27,11 @@ class RecurringTransactions
     private $amount;
 
     /**
-     * @var \DateTime date
+     * @var DateTime date
      */
     private $date;
 
-    public function __construct($title, $amount, \DateTime $date)
+    public function __construct($title, $amount, DateTime $date)
     {
         $this->setTitle($title);
         $this->setAmount($amount);
@@ -53,7 +55,7 @@ class RecurringTransactions
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
     public function getDate()
     {
@@ -76,7 +78,7 @@ class RecurringTransactions
         $this->amount = $amount;
     }
 
-    public function setDate(\DateTime $date)
+    public function setDate(DateTime $date)
     {
         $this->date = $date;
     }

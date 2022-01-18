@@ -6,6 +6,9 @@
 
 namespace AppBundle\Model;
 
+use DateInterval;
+use DateTime;
+
 /**
  * Description of Sheet.
  *
@@ -19,12 +22,12 @@ class Sheet
     private $title;
 
     /**
-     * @var \DateTime date
+     * @var DateTime date
      */
     private $date;
 
     /**
-     * @var \DateInterval days
+     * @var DateInterval days
      */
     private $days;
 
@@ -38,7 +41,7 @@ class Sheet
      */
     private $balance;
 
-    public function __construct($title, \DateTime $date, \DateInterval $days, $amount, $balance)
+    public function __construct($title, DateTime $date, DateInterval $days, $amount, $balance)
     {
         $this->setTitle($title);
         $this->setDate($date);
@@ -56,7 +59,7 @@ class Sheet
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
     public function getDate()
     {
@@ -64,7 +67,7 @@ class Sheet
     }
 
     /**
-     * @return \DateInterval
+     * @return DateInterval
      */
     public function getDays()
     {
@@ -95,12 +98,12 @@ class Sheet
         $this->title = $title;
     }
 
-    public function setDate(\DateTime $date)
+    public function setDate(DateTime $date)
     {
         $this->date = $date;
     }
 
-    public function setDays(\DateInterval $days)
+    public function setDays(DateInterval $days)
     {
         $this->days = $days;
     }

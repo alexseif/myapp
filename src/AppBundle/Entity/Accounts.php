@@ -164,23 +164,23 @@ class Accounts
     }
 
     /**
-     * Add taskList.
+     * Add taskLists.
      *
      * @return Accounts
      */
     public function addTaskList(TaskLists $taskList)
     {
-        $this->taskList[] = $taskList;
+        $this->taskLists[] = $taskList;
 
         return $this;
     }
 
     /**
-     * Remove taskList.
+     * Remove taskLists.
      */
     public function removeTaskList(TaskLists $taskList)
     {
-        $this->taskList->removeElement($taskList);
+        $this->taskLists->removeElement($taskList);
     }
 
     /**

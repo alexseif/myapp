@@ -108,29 +108,7 @@ class Contract
         return $this->name;
     }
 
-    /**
-     * Set account.
-     *
-     * @param \stdClass|null $account
-     *
-     * @return Contract
-     */
-    public function setAccount($account = null)
-    {
-        $this->account = $account;
 
-        return $this;
-    }
-
-    /**
-     * Get account.
-     *
-     * @return \stdClass|null
-     */
-    public function getAccount()
-    {
-        return $this->account;
-    }
 
     /**
      * Set hoursPerDay.

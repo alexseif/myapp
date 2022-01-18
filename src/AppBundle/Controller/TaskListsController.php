@@ -172,7 +172,7 @@ class TaskListsController extends Controller
      *
      * @param TaskLists $taskList The TaskLists entity
      *
-     * @return \Symfony\Component\Form\Form The form
+     * @return \Symfony\Component\Form\Form|\Symfony\Component\Form\FormInterface
      */
     private function createDeleteForm(TaskLists $taskList)
     {

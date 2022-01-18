@@ -5,7 +5,6 @@ namespace AppBundle\Entity;
 use AppBundle\Repository\TasksRepository;
 use DateTime;
 use DateTime as datetimeAlias;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
@@ -121,13 +120,20 @@ class Tasks
      * @ORM\OneToOne(targetEntity=Schedule::class, mappedBy="task", cascade={"persist", "remove"})
      */
     private $schedule;
+    /**
+     * @var string[]
+     */
+    public $priorityName;
+    /**
+     * @var string[]
+     */
+    public $urgencyName;
 
     /**
      * Constructor.
      */
     public function __construct()
     {
-        $this->costs = new ArrayCollection();
         $this->order = 0;
         $this->priority = Tasks::NORMAL_PRIORITY;
         $this->urgency = Tasks::NORMAL_URGENCY;
@@ -334,13 +340,7 @@ class Tasks
      */
     public function getPriorityName()
     {
-        $priorityName = [
-            -1 => 'Low',
-            0 => 'Normal',
-            1 => 'Important',
-        ];
-
-        return $priorityName[$this->priority];
+        return $this->priorityName[$this->priority];
     }
 
     /**
@@ -374,12 +374,8 @@ class Tasks
      */
     public function getUrgencyName()
     {
-        $urgencyName = [
-            0 => 'Normal',
-            1 => 'Urgent',
-        ];
 
-        return $urgencyName[$this->urgency];
+        return $this->urgencyName[$this->urgency];
     }
 
     /**

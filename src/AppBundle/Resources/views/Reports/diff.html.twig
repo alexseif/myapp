@@ -20,22 +20,13 @@
             data.addColumn('number', '{{ year }}');
             {% endfor %}
 
-            data.addRows([{% for month in 1..12 %}{% for year, txns in income %}
-                {% if(loop.first) %}
-                ['{{ month }}',              {% endif %}
-                    {{ income[year]["%02d"|format(month)] }}
-                    {% if not loop.last %}
-                    ,
-                    {% endif %}
-                    {% endfor %}
-                    {% if not loop.last %}
-                ],
-                {% else %}
-            ]
-            {% endif %}
-            {% endfor %}
-        ])
-            ;
+            data.addRows(
+                [{% for month in 1..12 %}
+                    {% for year, txns in income %}
+                        {% if(loop.first) %}['{{ month }}',{% endif %}
+                        {{ income[year]["%02d"|format(month)] }}
+                        {% if not loop.last %}, {% endif %}
+                        {% endfor %}] {% if not loop.last %},{% endif %} {% endfor %}]);
 
             var options = {
                 legendTextStyle: {color: '#FFF'},
