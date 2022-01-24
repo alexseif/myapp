@@ -8,6 +8,7 @@
 {% block panelTitle %}Scheduler{% endblock %}
 {% block panelTitleSmall %}{{ week }}{% endblock %}
 {% block panelHeadingRight %}
+    {{ form(form) }}
     <div>
         <a class="btn btn-link btn-sm" href="{{ path('scheduler', {'year': year, 'week': week-1}) }}">Prev</a>
         <a class="btn btn-link btn-sm"

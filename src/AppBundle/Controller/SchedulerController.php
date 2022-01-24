@@ -8,6 +8,7 @@ use AppBundle\Repository\TasksRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,15 +37,43 @@ class SchedulerController extends AbstractController
     /**
      * @Route("/{year}/{week}", name="scheduler")
      */
-    public function index(EntityManagerInterface $entityManager, $year, $week): Response
+    public function index(Request $request, EntityManagerInterface $entityManager, $year, $week): Response
     {
-        $scheduler = new Scheduler($entityManager, $year, $week);
 
+        $form = $this->createFormBuilder()
+            ->add('concatenate', CheckboxType::class)
+            ->setMethod('GET')
+            ->getForm();
+        $form->handleRequest($request);
+        $data = $form->getData();
+        $scheduler = new Scheduler($entityManager, $year, $week);
+        $scheduler->generate($data['concatenate']);
         return $this->render('scheduler/index.html.twig', [
+            'form' => $form->createView(),
             'week' => $week,
             'year' => $year,
             'scheduler' => $scheduler,
         ]);
+    }
+
+    private function saveSchedules(
+        TasksRepository $tasksRepository,
+        EntityManagerInterface $entityManager,
+        $scheduleItem
+    ) {
+        $task = $tasksRepository->find($scheduleItem['task']);
+        if (!$task->getCompleted()) {
+            $schedule = new Schedule();
+            $schedule->setSchedule(
+                $scheduleItem['id'] ?: null,
+                $task,
+                $scheduleItem['est'],
+                new DateTime($scheduleItem['eta'])
+            );
+            if (is_null($schedule->getId())) {
+                $entityManager->persist($schedule);
+            }
+        }
     }
 
     /**
@@ -55,19 +84,7 @@ class SchedulerController extends AbstractController
         if ($request->isXmlHttpRequest()) {
             foreach ($request->get('data') as $scheduleItems) {
                 foreach ($scheduleItems as $scheduleItem) {
-                    $task = $tasksRepository->find($scheduleItem['task']);
-                    if (!$task->getCompleted()) {
-                        $schedule = new Schedule();
-                        $schedule->setSchedule(
-                            $scheduleItem['id'] ?: null,
-                            $task,
-                            $scheduleItem['est'],
-                            new DateTime($scheduleItem['eta'])
-                        );
-                        if (is_null($schedule->getId())) {
-                            $entityManager->persist($schedule);
-                        }
-                    }
+                    $this->saveSchedules($tasksRepository, $entityManager, $scheduleItem);
                 }
             }
             $entityManager->flush();

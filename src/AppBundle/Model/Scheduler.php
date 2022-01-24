@@ -39,39 +39,30 @@ class Scheduler
         $this->period = $this->getPeriod();
         $this->setToday();
         $this->loadContracts();
-
         $this->loadContractWeekLength();
+    }
+
+    public function generate($concatenated = false)
+    {
         foreach ($this->period as $dt) {
-            $this->loadContractDayLength();
-            $this->addDay($this->generateDay($dt));
+            $day = new Day();
+            $this->dayPreset($day, $dt);
+            if ($day->getDate() >= $this->today) {
+                $this->loadContractsTasks($day, $concatenated);
+                $this->loadTasks($day);
+            }
+            $this->addDay($day);
         }
     }
 
-    public function generateDay($date): Day
+    public function dayPreset(Day &$day, $date)
     {
-        $day = new Day();
+        $this->loadContractDayLength();
         $day->setDate($date);
         $day->setIsToday(($this->today->format('Y-m-d') == $day->getDate()->format('Y-m-d')));
-        //Completed Tasks
-        $completedTasks = $this->getCompletedTasks($date);
-        foreach ($completedTasks as $task) {
-            $day->addTask($task);
-            if (array_key_exists($task->getClient()->getId(), $this->contractDayLength)) {
-                if ($task->getCompleted()) {
-                    $mins = $task->getDuration();
-                }
-                $this->contractDayLength[$task->getClient()->getId()] -= $mins;
-            }
-        }
-
+        $this->loadCompletedTasks($day);
         $this->loadScheduledTasks($day);
 
-        if ($day->getDate() >= $this->today) {
-            $this->loadContractsTasks($day);
-            $this->loadTasks($day);
-        }
-
-        return $day;
     }
 
     public function getPeriod()
@@ -98,6 +89,21 @@ class Scheduler
         return $this->tasksRepository->getCompletedByDate($date);
     }
 
+    public function loadCompletedTasks(Day &$day)
+    {
+        //Completed Tasks
+        $completedTasks = $this->getCompletedTasks($day->getDate());
+        foreach ($completedTasks as $task) {
+            $day->addTask($task);
+            if (array_key_exists($task->getClient()->getId(), $this->contractDayLength)) {
+                if ($task->getCompleted()) {
+                    $mins = $task->getDuration();
+                }
+                $this->contractDayLength[$task->getClient()->getId()] -= $mins;
+            }
+        }
+    }
+
     public function loadScheduledTasks(Day &$day)
     {
         //Scheduled Tasks
@@ -111,31 +117,26 @@ class Scheduler
         }
     }
 
-    public function loadContractTasks(Day &$day, $contract)
+
+    public function loadContractsTasks(Day &$day, $concatenated)
     {
-        $contractTasks = $this->tasksRepository->focusListByClientAndDate($contract->getClient(),
-            $day->getDate(),
-            $this->tasked);
-        foreach ($contractTasks as $task) {
-            if ($this->contractWeekLength[$task->getClient()->getId()] > 0) {
-                if ($day->addTask($task)) {
-                    $this->updateTasks($task);
-                } else {
-                    break;
+        //Contract Tasks
+        foreach ($this->contracts as $contract) {
+            $contractTasks = $this->tasksRepository->focusListByClientAndDate($contract->getClient(),
+                $day->getDate(),
+                $this->tasked);
+            foreach ($contractTasks as $task) {
+                if ((($this->contractWeekLength[$task->getClient()->getId()] > 0) && $concatenated) || (($this->contractDayLength[$task->getClient()->getId()] > 0) && !$concatenated)) {
+                    if ($day->addTask($task)) {
+                        $this->updateTasks($task);
+                    } else {
+                        break;
+                    }
                 }
             }
         }
     }
 
-    public function loadContractsTasks(Day &$day)
-    {
-        //Contract Tasks
-        foreach ($this->contracts as $contract) {
-            if ($this->contractWeekLength[$contract->getClient()->getId()] > 0) {
-                $this->loadContractTasks($day, $contract);
-            }
-        }
-    }
 
     public function loadTasks(&$day)
     {
