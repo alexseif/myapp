@@ -199,6 +199,7 @@ label#focus-switch:active:after {
 .week {
     display: flex;
     flex-direction: row;
+    word-break: break-word;
 }
 
 .week .day {
