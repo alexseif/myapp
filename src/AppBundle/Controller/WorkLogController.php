@@ -151,7 +151,7 @@ class WorkLogController extends Controller
             }
 
             $billingOption = $task->getAccount()->getClient()->getBillingOption();
-            if ($billingOption && $billingOption['amount']) {
+            if ($billingOption && $billingOption['amount'] > 0) {
                 $billingCalculator = new BillingCalculator($billingOption);
                 $pricePerUnit = $billingCalculator->getPricePerUnit();
             }
@@ -232,7 +232,7 @@ class WorkLogController extends Controller
                     $pricePerUnit = $thisRates->getRate();
                 }
                 $billingOption = $task->getAccount()->getClient()->getBillingOption();
-                if ($billingOption) {
+                if ($billingOption && $billingOption['amount'] > 0) {
                     $billingCalculator = new BillingCalculator($billingOption);
                     $pricePerUnit = $billingCalculator->getPricePerUnit();
                 }

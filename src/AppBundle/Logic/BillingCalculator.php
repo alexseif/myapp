@@ -5,9 +5,6 @@
 
 namespace AppBundle\Logic;
 
-use AppBundle\Util\DateRanges;
-use DateTime;
-
 class BillingCalculator
 {
     protected $workingDays;
@@ -26,14 +23,7 @@ class BillingCalculator
 
     public function setWorkingDays()
     {
-        $fromDate = new DateTime();
-        $fromDate->setDate($fromDate->format('Y'), $fromDate->format('m'), $this->billingType['billingOn']);
-        $fromDate->setTime(0, 0, 0);
-        $toDate = new DateTime();
-        $toDate->setDate($toDate->format('Y'), $toDate->format('m'), $this->billingType['billingOn']);
-        $toDate->setTime(23, 23, 59);
-        $toDate->modify('+1 month');
-        $this->workingDays = DateRanges::getWorkingDays($fromDate->format('c'), $toDate->format('c'));
+        $this->workingDays = 22;
     }
 
     public function calculateAmountPerMonthHoursPerDay()

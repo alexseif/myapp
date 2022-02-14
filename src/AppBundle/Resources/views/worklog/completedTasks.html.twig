@@ -40,6 +40,7 @@
             <th>Task</th>
             <th>TaskList - Account - Client</th>
             <th>EST</th>
+            <th>EGP</th>
             <th>Created At</th>
             <th>Completed At</th>
             <th>Logged</th>
@@ -49,9 +50,7 @@
         {% for task in tasks %}
             <tr>
                 <td>
-                    <label>
-                        <input type="checkbox" name="tasks[]" value="{{ task.id }}"/>
-                    </label>
+                    <label><input type="checkbox" name="tasks[]" value="{{ task.id }}"/></label>
                 </td>
                 <td>
                     <a href="{{ path('tasks_show', { 'id' : task.id }) }}"
@@ -59,7 +58,6 @@
                        target="_new">
                         Open
                     </a>
-                    {#                    {{ task.task|truncate(100) }} #}
                     {{ task.task }}
                 </td>
                 <td>
@@ -82,6 +80,7 @@
                     {% endif %}
                 </td>
                 <td class="text-right">{{ task.duration ? task.duration : 0 }}m</td>
+                <td class="text-right">{{ task.workLog ? task.workLog.total : 0 }}</td>
                 <td>{{ (task.createdAt) ? task.createdAt|date }}</td>
                 <td data-order="{{ (task.completedAt) ? task.completedAt.timestamp }}">{{ (task.completedAt) ? task.completedAt|date }}</td>
                 <td>
