@@ -2,6 +2,7 @@
 
 namespace AppBundle\Form;
 
+use AppBundle\Repository\TasksRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
@@ -18,6 +19,18 @@ class WorkLogType extends AbstractType
         $builder
             ->add('task', EntityType::class, [
                 'class' => 'AppBundle:Tasks',
+                'query_builder' => function (TasksRepository $er) {
+                    return $er->createQueryBuilder('t')
+                        ->select('t, tl, a, c, r, wl, s')
+                        ->leftJoin('t.taskList', 'tl')
+                        ->leftJoin('tl.account', 'a')
+                        ->leftJoin('a.client', 'c')
+                        ->leftJoin('t.workLog', 'wl')
+                        ->leftJoin('c.rates', 'r')
+                        ->leftJoin('t.schedule', 's')
+                        ->where('t.completed = 1')
+                        ->andWhere('tl.status <> \'archive\'');
+                },
                 'group_by' => function ($tasks) {
                     return $tasks->getTaskList()->getName();
                 },
