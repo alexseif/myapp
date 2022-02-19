@@ -47,7 +47,7 @@ class SchedulerController extends AbstractController
         $form->handleRequest($request);
         $data = $form->getData();
         $scheduler = new Scheduler($entityManager, $year, $week);
-        $scheduler->generate($data['concatenate']);
+        $scheduler->generate($data ? $data['concatenate']: false);
         return $this->render('scheduler/index.html.twig', [
             'form' => $form->createView(),
             'week' => $week,
