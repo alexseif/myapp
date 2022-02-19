@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Accounts;
 use AppBundle\Form\AccountingMainFilterType;
+use AppBundle\Util\DateRanges;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -24,7 +25,7 @@ class AccountingController extends Controller
         $em = $this->getDoctrine()->getManager();
         $accounts = $em->getRepository('AppBundle:Accounts')->findBy(['conceal' => false]);
 
-        return $this->render('AppBundle:Accounting:index.html.twig', [
+        return $this->render('Accounting/index.html.twig', [
             'accounts' => $accounts,
             'accounting_filter_form' => $accountingFilterForm->createView(),
         ]);
@@ -48,14 +49,17 @@ class AccountingController extends Controller
         if ($balance['period']) {
             $balance['current'] = $txnRepo->queryCurrentBalanceByAccount($account)['amount'];
             $balance['overdue'] = $txnRepo->queryOverdueAccount($account)['amount'];
-            $balance['invoices'] = \AppBundle\Util\DateRanges::populateMonths($balance['period']['rangeStart'], $balance['period']['rangeEnd'], 25);
+            $balance['invoices'] = DateRanges::populateMonths($balance['period']['rangeStart'],
+                $balance['period']['rangeEnd'], 25);
             foreach ($balance['invoices'] as $key => $range) {
-                $balance['invoices'][$key]['forward_balance'] = $txnRepo->queryCurrentBalanceByAccountAndRange($account, $range)['amount'];
-                $balance['invoices'][$key]['ending_balance'] = $txnRepo->queryOverdueAccountTo($account, $range['end'])['amount'];
+                $balance['invoices'][$key]['forward_balance'] = $txnRepo
+                    ->queryCurrentBalanceByAccountAndRange($account, $range)['amount'];
+                $balance['invoices'][$key]['ending_balance'] = $txnRepo
+                    ->queryOverdueAccountTo($account, $range['end'])['amount'];
             }
         }
 
-        return $this->render('AppBundle:Accounting:account.html.twig', [
+        return $this->render('Accounting/account.html.twig', [
             'accounting_filter_form' => $accountingFilterForm->createView(),
             'account' => $account,
             'balance' => $balance,
@@ -76,7 +80,7 @@ class AccountingController extends Controller
         $overdue = $txnRepo->queryOverdueAccountTo($account, $from);
         $total = $txnRepo->queryAmountFromTo($account, $from, $to);
 
-        return $this->render('AppBundle:Accounting:balance.html.twig', [
+        return $this->render('Accounting/balance.html.twig', [
             'account' => $account,
             'from' => $from,
             'to' => $to,
