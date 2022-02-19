@@ -15,6 +15,13 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class AccountTransactionsRepository extends ServiceEntityRepository
 {
+    public const FROM = ':from';
+    public const ISSUED_AT = 'at.issuedAt';
+    public const ISSUED_AT_BETWEEN = self::ISSUED_AT . ' BETWEEN :from AND :to';
+    public const AMOUNT_SUM = 'SUM(at.amount) as amount';
+    public const ACCOUNT_PARAMETER = ':account';
+    public const ACCOUNT_EQUAL = 'at.account = ' . self::ACCOUNT_PARAMETER;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, AccountTransactions::class);
@@ -31,7 +38,7 @@ class AccountTransactionsRepository extends ServiceEntityRepository
             ->select('at')
             ->where('at.issuedAt >= :today')
             ->andWhere('at.amount > 0')
-            ->orderBy('at.issuedAt')
+            ->orderBy(self::ISSUED_AT)
             ->setParameter(':today', $today)
             ->getQuery()
             ->getResult();
@@ -42,9 +49,9 @@ class AccountTransactionsRepository extends ServiceEntityRepository
         return $this
             ->createQueryBuilder('at')
             ->select('MIN(at.issuedAt) as rangeStart, MAX(at.issuedAt) as rangeEnd')
-            ->where('at.account = :account')
+            ->where(self::ACCOUNT_EQUAL)
             ->groupBy('at.account')
-            ->setParameter(':account', $account)
+            ->setParameter(self::ACCOUNT_PARAMETER, $account)
             ->getQuery()
             ->getOneOrNullResult();
     }
@@ -53,11 +60,11 @@ class AccountTransactionsRepository extends ServiceEntityRepository
     {
         return $this
             ->createQueryBuilder('at')
-            ->where('at.account = :account')
-            ->andWhere('at.issuedAt BETWEEN :from AND :to')
-            ->orderBy('at.issuedAt')
-            ->setParameter(':account', $account)
-            ->setParameter(':from', $from)
+            ->where(self::ACCOUNT_EQUAL)
+            ->andWhere(self::ISSUED_AT_BETWEEN)
+            ->orderBy(self::ISSUED_AT)
+            ->setParameter(self::ACCOUNT_PARAMETER, $account)
+            ->setParameter(self::FROM, $from)
             ->setParameter(':to', $to)
             ->getQuery()
             ->getResult();
@@ -67,12 +74,12 @@ class AccountTransactionsRepository extends ServiceEntityRepository
     {
         return $this
             ->createQueryBuilder('at')
-            ->select('SUM(at.amount) as amount')
-            ->where('at.account = :account')
-            ->andWhere('at.issuedAt BETWEEN :from AND :to')
-            ->orderBy('at.issuedAt')
-            ->setParameter(':account', $account)
-            ->setParameter(':from', $from)
+            ->select(self::AMOUNT_SUM)
+            ->where(self::ACCOUNT_EQUAL)
+            ->andWhere(self::ISSUED_AT_BETWEEN)
+            ->orderBy(self::ISSUED_AT)
+            ->setParameter(self::ACCOUNT_PARAMETER, $account)
+            ->setParameter(self::FROM, $from)
             ->setParameter(':to', $to)
             ->getQuery()
             ->getSingleResult();
@@ -82,12 +89,12 @@ class AccountTransactionsRepository extends ServiceEntityRepository
     {
         return $this
             ->createQueryBuilder('at')
-            ->select('SUM(at.amount) as amount')
-            ->where('at.account = :account')
-            ->andWhere('at.issuedAt BETWEEN :from AND :to')
-            ->orderBy('at.issuedAt')
-            ->setParameter(':account', $account)
-            ->setParameter(':from', $range['start'])
+            ->select(self::AMOUNT_SUM)
+            ->where(self::ACCOUNT_EQUAL)
+            ->andWhere(self::ISSUED_AT_BETWEEN)
+            ->orderBy(self::ISSUED_AT)
+            ->setParameter(self::ACCOUNT_PARAMETER, $account)
+            ->setParameter(self::FROM, $range['start'])
             ->setParameter(':to', $range['end'])
             ->getQuery()
             ->getSingleResult();
@@ -97,10 +104,10 @@ class AccountTransactionsRepository extends ServiceEntityRepository
     {
         return $this
             ->createQueryBuilder('at')
-            ->select('SUM(at.amount) as amount')
-            ->where('at.account = :account')
-            ->orderBy('at.issuedAt')
-            ->setParameter(':account', $account)
+            ->select(self::AMOUNT_SUM)
+            ->where(self::ACCOUNT_EQUAL)
+            ->orderBy(self::ISSUED_AT)
+            ->setParameter(self::ACCOUNT_PARAMETER, $account)
             ->getQuery()
             ->getSingleResult();
     }
@@ -109,11 +116,11 @@ class AccountTransactionsRepository extends ServiceEntityRepository
     {
         return $this
             ->createQueryBuilder('at')
-            ->select('SUM(at.amount) as amount')
-            ->where('at.account = :account')
+            ->select(self::AMOUNT_SUM)
+            ->where(self::ACCOUNT_EQUAL)
             ->andWhere('at.issuedAt <= :to')
-            ->orderBy('at.issuedAt')
-            ->setParameter(':account', $account)
+            ->orderBy(self::ISSUED_AT)
+            ->setParameter(self::ACCOUNT_PARAMETER, $account)
             ->setParameter(':to', $to)
             ->getQuery()
             ->getSingleResult();
@@ -123,11 +130,11 @@ class AccountTransactionsRepository extends ServiceEntityRepository
     {
         return $this
             ->createQueryBuilder('at')
-            ->select('SUM(at.amount) as amount')
-            ->where('at.account = :account')
+            ->select(self::AMOUNT_SUM)
+            ->where(self::ACCOUNT_EQUAL)
             ->andWhere('at.issuedAt <= :to')
-            ->orderBy('at.issuedAt')
-            ->setParameter(':account', $account)
+            ->orderBy(self::ISSUED_AT)
+            ->setParameter(self::ACCOUNT_PARAMETER, $account)
             ->setParameter(':to', $to)
             ->getQuery()
             ->getSingleResult();
@@ -137,10 +144,10 @@ class AccountTransactionsRepository extends ServiceEntityRepository
     {
         return $this
             ->createQueryBuilder('at')
-            ->select('SUM(at.amount) as amount')
-            ->where('at.account = :account')
-            ->orderBy('at.issuedAt')
-            ->setParameter(':account', $account)
+            ->select(self::AMOUNT_SUM)
+            ->where(self::ACCOUNT_EQUAL)
+            ->orderBy(self::ISSUED_AT)
+            ->setParameter(self::ACCOUNT_PARAMETER, $account)
             ->getQuery()
             ->getSingleResult();
     }
@@ -150,7 +157,7 @@ class AccountTransactionsRepository extends ServiceEntityRepository
         return $this
             ->createQueryBuilder('at')
             ->where('at.amount > 0')
-            ->orderBy('at.issuedAt')
+            ->orderBy(self::ISSUED_AT)
             ->getQuery()
             ->getResult();
     }
@@ -167,8 +174,8 @@ class AccountTransactionsRepository extends ServiceEntityRepository
             ->createQueryBuilder('at')
             ->select('SUM(at.amount)')
             ->where('at.amount < 0')
-            ->andWhere('at.issuedAt BETWEEN :from AND :to')
-            ->setParameter(':from', $from)
+            ->andWhere(self::ISSUED_AT_BETWEEN)
+            ->setParameter(self::FROM, $from)
             ->setParameter(':to', $to);
 
         return $qb->getQuery()

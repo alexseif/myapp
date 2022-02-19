@@ -13,7 +13,8 @@ use Doctrine\Persistence\ManagerRegistry;
  * repository methods below.
  */
 class DaysRepository extends ServiceEntityRepository
-{
+{    public const DEADLINE = 'd.deadline';
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Days::class);
@@ -24,7 +25,7 @@ class DaysRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('d')
             ->where('d.complete = 0')
             ->orWhere('d.deadline >= CURRENT_TIMESTAMP()')
-            ->orderBy('d.deadline', 'ASC')
+            ->orderBy(self::DEADLINE, 'ASC')
             ->getQuery()
             ->getResult();
     }
@@ -34,7 +35,7 @@ class DaysRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('d')
             ->where('d.complete = 0')
             ->andWhere('DATEDIFF(d.deadline, CURRENT_TIMESTAMP() ) <= 30')
-            ->orderBy('d.deadline', 'ASC')
+            ->orderBy(self::DEADLINE, 'ASC')
             ->getQuery()
             ->getResult();
     }
@@ -44,7 +45,7 @@ class DaysRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('d')
             ->where('d.complete = 1')
             ->andWhere('d.deadline < CURRENT_TIMESTAMP()')
-            ->orderBy('d.deadline', 'DESC')
+            ->orderBy(self::DEADLINE, 'DESC')
             ->getQuery()
             ->getResult();
     }
