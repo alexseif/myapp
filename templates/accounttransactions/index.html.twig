@@ -20,7 +20,7 @@
     <div class="floating-action">
         {{ a.add('accounttransactions_new') }}
     </div>
-    {% include 'AppBundle:accounttransactions:transactions_list.html.twig' %}
+    {% include 'accounttransactions/transactions_list.html.twig' %}
 {% endblock %}
 
 {% block javascripts %}
@@ -28,10 +28,10 @@
     <script type="text/javascript" src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
     <script>
         $(document).ready(function () {
-                var txnsTable = $('#txns').DataTable({
+                $('#txns').DataTable({
                     "stateSave": true,
-                    "footerCallback": function (row, data, start, end, display) {
-                        var api = this.api(), data;
+                    "footerCallback": function () {
+                        var api = this.api();
                         // Remove the formatting to get integer data for summation
                         var intVal = function (i) {
                             return typeof i === 'string' ?

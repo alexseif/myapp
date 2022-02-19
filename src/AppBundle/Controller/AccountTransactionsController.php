@@ -26,7 +26,7 @@ class AccountTransactionsController extends Controller
 
         $accountTransactions = $em->getRepository('AppBundle:AccountTransactions')->findAll();
 
-        return $this->render('AppBundle:accounttransactions:index.html.twig', [
+        return $this->render('accounttransactions/index.html.twig', [
             'accountTransactions' => $accountTransactions,
         ]);
     }
@@ -54,7 +54,7 @@ class AccountTransactionsController extends Controller
             return $this->redirectToRoute('accounttransactions_show', ['id' => $accountTransaction->getId()]);
         }
 
-        return $this->render('AppBundle:accounttransactions:new.html.twig', [
+        return $this->render('accounttransactions/new.html.twig', [
             'accountTransaction' => $accountTransaction,
             'transaction_form' => $form->createView(),
         ]);
@@ -69,7 +69,7 @@ class AccountTransactionsController extends Controller
     {
         $deleteForm = $this->createDeleteForm($accountTransaction);
 
-        return $this->render('AppBundle:accounttransactions:show.html.twig', [
+        return $this->render('accounttransactions/show.html.twig', [
             'accountTransaction' => $accountTransaction,
             'delete_form' => $deleteForm->createView(),
         ]);
@@ -94,7 +94,7 @@ class AccountTransactionsController extends Controller
             return $this->redirectToRoute('accounttransactions_edit', ['id' => $accountTransaction->getId()]);
         }
 
-        return $this->render('AppBundle:accounttransactions:edit.html.twig', [
+        return $this->render('accounttransactions/edit.html.twig', [
             'accountTransaction' => $accountTransaction,
             'transaction_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
