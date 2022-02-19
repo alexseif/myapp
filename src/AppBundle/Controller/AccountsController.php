@@ -25,7 +25,7 @@ class AccountsController extends Controller
 
         $accounts = $em->getRepository('AppBundle:Accounts')->findAllSorted();
 
-        return $this->render('AppBundle:accounts:index.html.twig', [
+        return $this->render('accounts/index.html.twig', [
             'accounts' => $accounts,
         ]);
     }
@@ -49,7 +49,7 @@ class AccountsController extends Controller
             return $this->redirectToRoute('accounts_show', ['id' => $account->getId()]);
         }
 
-        return $this->render('AppBundle:accounts:new.html.twig', [
+        return $this->render('accounts/new.html.twig', [
             'account' => $account,
             'account_form' => $form->createView(),
         ]);
@@ -64,7 +64,7 @@ class AccountsController extends Controller
     {
         $deleteForm = $this->createDeleteForm($account);
 
-        return $this->render('AppBundle:accounts:show.html.twig', [
+        return $this->render('accounts/show.html.twig', [
             'account' => $account,
             'delete_form' => $deleteForm->createView(),
         ]);
@@ -89,7 +89,7 @@ class AccountsController extends Controller
             return $this->redirectToRoute('accounts_edit', ['id' => $account->getId()]);
         }
 
-        return $this->render('AppBundle:accounts:edit.html.twig', [
+        return $this->render('accounts/edit.html.twig', [
             'account' => $account,
             'account_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),

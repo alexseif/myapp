@@ -8,7 +8,7 @@
             border: 1px dotted #444;
             border-radius: 4px;
             list-style-type: none;
-            padding: 0px;
+            padding: 0;
         }
 
         ol li {
@@ -67,7 +67,7 @@
         {% endif %}
         {% if type == 'accounts' %}
             {% set accounts = result %}
-            {% include 'AppBundle:accounts:accounts_list.html.twig' %}
+            {% include 'accounts/accounts_list.html.twig' %}
         {% endif %}
         {% if type == 'taskLists' %}
             {% set taskLists = result %}

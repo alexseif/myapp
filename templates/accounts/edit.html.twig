@@ -7,5 +7,5 @@
 {% block panelBack %}{{ a.back('accounts_index') }}{% endblock %}
 {% block panelHeadingRight %}{{ forms.delete(delete_form) }}{% endblock %}
 {% block panelBody %}
-    {% include 'AppBundle:accounts:_form.html.twig' with {'button_label':'Update'} %}
+    {% include 'accounts/_form.html.twig' with {'button_label':'Update'} %}
 {% endblock %}

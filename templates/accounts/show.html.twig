@@ -56,31 +56,31 @@
                 <div class="card-header">Task lists</div>
                 <div class="card-deck">
                     {% for taskList in account.taskLists %}
-                        {% if (0 == (loop.index0 % 5)) %}
-                            <div class="w-100"></div>
-                        {% endif %}
-                        <div class="card widget-flat mb-3">
-                            <div class="card-body">
-                                <div class="float-right">
-                                    <i class="fa fa fa-tasks widget-icon"></i>
-                                </div>
-                                <h5 class="font-weight-normal mt-0" title="">{{ taskList.name }}</h5>
-                                <!-- @todo: count completedTasks -->
-                                <h3 class="mt-3 mb-3">{{ taskList.tasks(false)|length }}/{{ taskList.tasks|length }} Tasks</h3>
-                                <p class="mb-0 text-muted ">
-                                    <span class="float-right">{{ a.show('tasklists_show', {'id':taskList.id}) }}</span>
-                                <div><span class="text-success mr-2"><i
-                                                class="mdi mdi-arrow-up-bold"></i> {{ taskList.durationTotal|date("%d %H:%I") }}</span>
-                                    <span class="text-nowrap">Duration</span></div>
-                                <div><span class="text-primary mr-2"><i
-                                                class="mdi mdi-arrow-up-bold"></i> {{ taskList.estTotal|date("%d %H:%I") }}</span>
-                                    <span class="text-nowrap">Estimate</span></div>
-                                </div>
-                            </div> <!-- end card-body-->
-                        </div> <!-- end card-->
-                    {% endfor %}
-                </div><!-- end card-deck -->
-            </div>
+                    {% if (0 == (loop.index0 % 5)) %}
+                        <div class="w-100"></div>
+                    {% endif %}
+                    <div class="card widget-flat mb-3">
+                        <div class="card-body">
+                            <div class="float-right">
+                                <i class="fa fa fa-tasks widget-icon"></i>
+                            </div>
+                            <h5 class="font-weight-normal mt-0" title="">{{ taskList.name }}</h5>
+                            <!-- @todo: count completedTasks -->
+                            <h3 class="mt-3 mb-3">{{ taskList.tasks(false)|length }}/{{ taskList.tasks|length }}
+                                Tasks</h3>
+                            <p class="mb-0 text-muted ">
+                                <span class="float-right">{{ a.show('tasklists_show', {'id':taskList.id}) }}</span>
+                            <div><span class="text-success mr-2"><i
+                                            class="mdi mdi-arrow-up-bold"></i> {{ taskList.durationTotal|date("%d %H:%I") }}</span>
+                                <span class="text-nowrap">Duration</span></div>
+                            <div><span class="text-primary mr-2"><i
+                                            class="mdi mdi-arrow-up-bold"></i> {{ taskList.estTotal|date("%d %H:%I") }}</span>
+                                <span class="text-nowrap">Estimate</span></div>
+                        </div>
+                    </div> <!-- end card-body-->
+                </div> <!-- end card-->
+                {% endfor %}
+            </div><!-- end card-deck -->
         </div><!-- end list-group-item -->
         <div class="list-group-item" id="account-transactions">
             <div class="card">
