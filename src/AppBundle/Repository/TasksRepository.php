@@ -192,15 +192,7 @@ class TasksRepository extends ServiceEntityRepository
     public function focusList($limit = 20, $offset = 0)
     {
         $today = new DateTime();
-        $queryBuilder = $this
-            ->createQueryBuilder('t')
-            ->select(self::SELECT)
-            ->leftJoin(self::TASKLIST, 'tl')
-            ->leftJoin(self::ACCOUNT, 'a')
-            ->leftJoin(self::CLIENT, 'c')
-            ->leftJoin(self::WORKLOG, 'wl')
-            ->leftJoin(self::RATES, 'r')
-            ->leftJoin(self::SCHEDULE, 's')
+        $queryBuilder = $this->getQueryBuilder()
             ->where(self::NOT_COMPLETED)
             ->andWhere(self::ETA_TODAY)
             ->orderBy(self::URGENCY, 'DESC')
@@ -494,10 +486,7 @@ class TasksRepository extends ServiceEntityRepository
 
     public function findCompletedByClientByDate($client, $date)
     {
-        return $this
-            ->createQueryBuilder('t')
-            ->leftJoin(self::TASKLIST, 'tl')
-            ->leftJoin(self::ACCOUNT, 'a')
+        return $this->getQueryBuilder()
             ->where(self::CLIENT_CLAUSE)
             ->andWhere('date(t.completedAt) = :date')
             ->orderBy(self::COMPLETEDAT)

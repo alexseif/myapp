@@ -19,6 +19,9 @@
 {% endblock %}
 
 {% block panelBody %}
+    <div>
+        <span class="h4">{{ (total/60)|round(0, 'floor') }}:{{ total%60 }} / {{ expected }}:00 = {{ remaining }}</span>
+    </div>
     {% set contractDuration = contract.hoursPerDay * 60 %}
     {% for dayKey, log in contractDetails %}
         <table class="table table-bordered table-condensed table-striped">

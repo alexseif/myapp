@@ -114,8 +114,6 @@ class ContractController extends Controller
         $toDate = new DateTime($to);
         $toDate->setTime(23, 23, 59);
         $workweek = [1, 2, 3, 4, 7];
-        //TODO: Include holidays
-        //TODO: Calculate and display total
 
         $dayInterval = new DateInterval('P1D');
 
@@ -123,10 +121,14 @@ class ContractController extends Controller
 
         $holidays = [];
         $contractDetails = [];
+        $workingDays = 22;
+        $expected = ($workingDays * $contract->getHoursPerDay());
+        $total = 0;
         foreach ($contractDays as $day) {
             if (in_array($day->format('N'), $workweek)) {
                 $holidays = $em->getRepository('AppBundle:Holiday')->findByRange($day, $day);
                 if ($holidays) {
+                    $total += $contract->getHoursPerDay() * 60;
                     continue;
                 }
 
@@ -140,16 +142,24 @@ class ContractController extends Controller
                     $day);
                 $contractDetails[$dayKey]['total'] = $tasksRepo->sumDurationByClientByDate($contract->getClient(),
                     $day);
+                $total += $contractDetails[$dayKey]['total']['duration'];
             }
         }
         ksort($contractDetails);
-
+        $totalHours = $total / 60;
+        $totalMins = $total % 60;
+        $remaining = $expected - $totalHours;
+        $sign = ($remaining < 0);
+        $remaining = (($sign) ? "+" : "-") . floor(abs($remaining)) . ':' . $totalMins;
         return $this->render('AppBundle:contract:log.html.twig', [
             'contract' => $contract,
             'from' => $from,
             'to' => $to,
             'contractDetails' => $contractDetails,
             'holidays' => $holidays,
+            'expected' => $expected,
+            'total' => $total,
+            'remaining' => $remaining
         ]);
     }
 

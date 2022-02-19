@@ -7,6 +7,7 @@
 namespace AppBundle\Model;
 
 use AppBundle\Entity\Contract;
+use AppBundle\Repository\TasksRepository;
 use AppBundle\Util\DateRanges;
 
 /**
@@ -41,7 +42,7 @@ class ContractProgress
 
     public const DAYS_PER_MONTH = 22;
 
-    public function __construct(Contract $contract, $tasksRepository)
+    public function __construct(Contract $contract, TasksRepository $tasksRepository)
     {
         $this->minutesPerDay = $contract->getHoursPerDay() * 60;
         $this->monthlyMinutes = self::DAYS_PER_MONTH * $this->minutesPerDay;
