@@ -26,7 +26,7 @@ class ClientController extends Controller
 
         $clients = $em->getRepository('AppBundle:Client')->findAll();
 
-        return $this->render('AppBundle:client:index.html.twig', [
+        return $this->render('client/index.html.twig', [
             'clients' => $clients,
         ]);
     }
@@ -51,7 +51,7 @@ class ClientController extends Controller
             return $this->redirectToRoute('client_show', ['id' => $client->getId()]);
         }
 
-        return $this->render('AppBundle:client:new.html.twig', [
+        return $this->render('client/new.html.twig', [
             'client' => $client,
             'form' => $form->createView(),
         ]);
@@ -66,7 +66,7 @@ class ClientController extends Controller
     {
         $deleteForm = $this->createDeleteForm($client);
 
-        return $this->render('AppBundle:client:show.html.twig', [
+        return $this->render('client/show.html.twig', [
             'client' => $client,
             'delete_form' => $deleteForm->createView(),
         ]);
@@ -90,7 +90,7 @@ class ClientController extends Controller
             return $this->redirectToRoute('client_show', ['id' => $client->getId()]);
         }
 
-        return $this->render('AppBundle:client:edit.html.twig', [
+        return $this->render('client/edit.html.twig', [
             'client' => $client,
             'form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),

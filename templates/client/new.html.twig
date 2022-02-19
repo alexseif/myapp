@@ -4,5 +4,5 @@
 {% block panelTitle %}New Client{% endblock %}
 {% block panelBack %}{{ a.back('client_index') }}{% endblock %}
 {% block panelBody %}
-    {% include '@App/client/_form.html.twig' with {'button_label':'Update'} %}
+    {% include 'client/_form.html.twig' with {'button_label':'Update'} %}
 {% endblock %}
