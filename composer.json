@@ -69,7 +69,10 @@
     "platform": {
       "php": "7.3"
     },
-    "sort-packages": true
+    "sort-packages": true,
+    "allow-plugins": {
+      "symfony/flex": true
+    }
   },
   "extra": {
     "symfony-app-dir": "app",
