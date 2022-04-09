@@ -10,7 +10,7 @@ use AppBundle\Entity\WorkLog;
 use AppBundle\Form\WorkLogType;
 use AppBundle\Logic\BillingCalculator;
 use AppBundle\Logic\CostOfLifeLogic;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,7 +23,7 @@ use Symfony\Component\Routing\Annotation\Route;
  *
  * @Route("worklog")
  */
-class WorkLogController extends Controller
+class WorkLogController extends AbstractController
 {
     /**
      * Lists all workLog entities.

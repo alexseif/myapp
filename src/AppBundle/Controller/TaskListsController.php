@@ -4,7 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\TaskLists;
 use AppBundle\Entity\Tasks;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
  *
  * @Route("/tasklists")
  */
-class TaskListsController extends Controller
+class TaskListsController extends AbstractController
 {
     /**
      * Lists all TaskLists entities.
@@ -125,7 +125,7 @@ class TaskListsController extends Controller
         $em->persist($taskList);
         $em->flush();
 
-        $this->addFlash('success', 'TaskList '.$taskList->getName().' Archived');
+        $this->addFlash('success', 'TaskList ' . $taskList->getName() . ' Archived');
 
         return $this->redirectToRoute('tasklists_index');
     }
@@ -143,7 +143,7 @@ class TaskListsController extends Controller
         $em->persist($taskList);
         $em->flush();
 
-        $this->addFlash('success', 'TaskList '.$taskList->getName().' UnArchived');
+        $this->addFlash('success', 'TaskList ' . $taskList->getName() . ' UnArchived');
 
         return $this->redirectToRoute('tasklists_index');
     }

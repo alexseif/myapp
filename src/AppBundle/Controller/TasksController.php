@@ -13,7 +13,7 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Exception;
 use stdClass;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -24,7 +24,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @Route("/tasks")
  */
-class TasksController extends Controller
+class TasksController extends AbstractController
 {
     /**
      * @Route("/", name="tasks_index", methods={"GET"})
@@ -159,9 +159,9 @@ class TasksController extends Controller
             foreach ($filters as $key => $value) {
                 if ($firstWhere) {
                     $firstWhere = false;
-                    $tasksQuery->where($tasksQuery->expr()->in('t.'.$key, ':'.$key));
+                    $tasksQuery->where($tasksQuery->expr()->in('t.' . $key, ':' . $key));
                 } else {
-                    $tasksQuery->andWhere($tasksQuery->expr()->in('t.'.$key, ':'.$key));
+                    $tasksQuery->andWhere($tasksQuery->expr()->in('t.' . $key, ':' . $key));
                 }
                 $tasksQuery->setParameter($key, $value);
             }
@@ -362,7 +362,7 @@ class TasksController extends Controller
      */
     public function delete(Request $request, Tasks $task): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$task->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $task->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($task);
             $entityManager->flush();

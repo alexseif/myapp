@@ -9,7 +9,7 @@ use AppBundle\Form\TaskListsType;
 use AppBundle\Form\TaskSizingType;
 use AppBundle\Repository\AccountsRepository;
 use AppBundle\Repository\TaskListsRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @Route("/sizing", name="sizing")
  */
-class SizingController extends Controller
+class SizingController extends AbstractController
 {
     /**
      * @Route("/", name="_index")
@@ -133,7 +133,8 @@ class SizingController extends Controller
             $entityManager->flush();
             $this->addFlash('success', 'New Task List saved');
 
-            return $this->redirect($this->generateUrl('sizing_by_tasklist', array_merge(['id' => $tasklist->getId()], $query)));
+            return $this->redirect($this->generateUrl('sizing_by_tasklist',
+                array_merge(['id' => $tasklist->getId()], $query)));
         }
 
         return JsonResponse::create($this->renderView('@App/tasklists/_new_modal.html.twig', [

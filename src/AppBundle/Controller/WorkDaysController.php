@@ -3,7 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Util\WorkWeek;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
  *
  * @Route("/workdays")
  */
-class WorkDaysController extends Controller
+class WorkDaysController extends AbstractController
 {
     /**
      * @Route("/", name="workdays_index")
@@ -72,7 +72,7 @@ class WorkDaysController extends Controller
             if ($holiday) {
                 $dateRow->holiday = true;
                 $dateRow->workday = false;
-                $dateRow->comment = $holiday->getType().' - '.$holiday->getName();
+                $dateRow->comment = $holiday->getType() . ' - ' . $holiday->getName();
             }
             $dateTable[] = $dateRow;
             if ($dateRow->workday) {

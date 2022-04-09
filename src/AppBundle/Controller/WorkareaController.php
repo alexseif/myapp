@@ -9,7 +9,7 @@ use AppBundle\Repository\DaysRepository;
 use AppBundle\Repository\TaskListsRepository;
 use AppBundle\Repository\TasksRepository;
 use AppBundle\Service\TasksService;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @Route("/workarea", name="workarea_")
  */
-class WorkareaController extends Controller
+class WorkareaController extends AbstractController
 {
     /**
      * @Route("/workarea", name="workarea")
