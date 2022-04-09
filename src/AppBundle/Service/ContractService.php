@@ -9,6 +9,7 @@ namespace AppBundle\Service;
 use AppBundle\Entity\Tasks;
 use AppBundle\Model\ContractProgress;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * Description of Contract Service.
@@ -22,7 +23,7 @@ class ContractService
      */
     protected $em;
 
-    public function __construct(EntityManager $em)
+    public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
     }

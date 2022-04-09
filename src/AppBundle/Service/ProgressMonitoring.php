@@ -12,6 +12,7 @@ use AppBundle\Util\DateRanges;
 use AppBundle\Util\Formatting;
 use DateTime;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * Description of Bottom Bar Service.
@@ -122,7 +123,7 @@ class ProgressMonitoring
     /**
      * ProgressMonitoring constructor.
      */
-    public function __construct(EntityManager $em, CostService $costService)
+    public function __construct(EntityManagerInterface $em, CostService $costService)
     {
         $this->em = $em;
         $this->costService = $costService;

@@ -9,6 +9,7 @@ use AppBundle\Form\TaskListsType;
 use AppBundle\Form\TaskSizingType;
 use AppBundle\Repository\AccountsRepository;
 use AppBundle\Repository\TaskListsRepository;
+use AppBundle\Service\RateCalculator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -24,7 +25,7 @@ class SizingController extends AbstractController
     /**
      * @Route("/", name="_index")
      */
-    public function index(Request $request, TaskListsRepository $taskListsRepository): Response
+    public function index(Request $request, TaskListsRepository $taskListsRepository, RateCalculator $rateCalculator): Response
     {
         $tasklists = $taskListsRepository->findActive();
         if ($request->get('account')) {
@@ -35,7 +36,7 @@ class SizingController extends AbstractController
         }
         foreach ($tasklists as $tasklist) {
             $tasklist->estTotal = 0;
-            $tasklist->rate = $this->get('myapp.rate.calculator')->getRate($tasklist->getAccount()->getClient());
+            $tasklist->rate = $rateCalculator->getRate($tasklist->getAccount()->getClient());
             foreach ($tasklist->getTasks(false) as $task) {
                 $tasklist->estTotal += $task->getEst();
             }

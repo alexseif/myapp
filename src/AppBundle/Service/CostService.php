@@ -6,7 +6,7 @@
 
 namespace AppBundle\Service;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * Description of CostCalculator.
@@ -32,7 +32,7 @@ class CostService
         'annually' => ['factor' => 1.2 * 12, 'precision' => 0],
     ];
 
-    public function __construct(EntityManager $em, CurrencyService $currencyService)
+    public function __construct(EntityManagerInterface $em, CurrencyService $currencyService)
     {
         $this->em = $em;
         $this->cost = $em->getRepository('AppBundle:CostOfLife')->sumCostOfLife()['cost'];
@@ -46,7 +46,8 @@ class CostService
         foreach ($this->currencies as $currency) {
             foreach ($this->units as $unit => $factor) {
                 $raw = $this->cost * $factor['factor'] * ($currency->getEgp() / 100);
-                $round = (round($raw, $factor['precision'])) ? round($raw, $factor['precision']) : round($raw, $factor['precision'] + 1);
+                $round = (round($raw, $factor['precision'])) ? round($raw, $factor['precision']) : round($raw,
+                    $factor['precision'] + 1);
                 $this->col[$unit][$currency->getCode()] = ($round) ? $round : $raw;
             }
         }

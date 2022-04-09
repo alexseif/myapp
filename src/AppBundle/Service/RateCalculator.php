@@ -12,6 +12,7 @@ use AppBundle\Entity\Tasks;
 use AppBundle\Logic\CostOfLifeLogic;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * Description of RateCalculator.
@@ -26,7 +27,7 @@ class RateCalculator
     protected $defaultRate;
     protected $cost;
 
-    public function __construct(EntityManager $em)
+    public function __construct(EntityManagerInterface $em)
     {
         $this->setEm($em);
         $this->setCurrencies($this->getEm()->getRepository('AppBundle:Currency')->findAll());

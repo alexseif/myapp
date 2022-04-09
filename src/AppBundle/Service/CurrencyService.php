@@ -7,6 +7,7 @@
 namespace AppBundle\Service;
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * Description of CurrencyService.
@@ -20,7 +21,7 @@ class CurrencyService
     protected $currencies;
     protected $EGP;
 
-    public function __construct(EntityManager $em)
+    public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
         $this->currencies = $this->em->getRepository('AppBundle:Currency')->findAll();

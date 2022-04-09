@@ -7,6 +7,7 @@
 namespace AppBundle\Service;
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * Service to calculate working days.
@@ -35,7 +36,7 @@ class WorkingDays
      */
     protected $cs;
 
-    public function __construct(EntityManager $em)
+    public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
     }
@@ -47,7 +48,7 @@ class WorkingDays
 
     public static function getDayHours($day)
     {
-        if (key_exists($day, self::$workWeek)) {
+        if (array_key_exists($day, self::$workWeek)) {
             return self::$workWeek[$day];
         }
 
@@ -61,7 +62,7 @@ class WorkingDays
         foreach ($curlHolidays as $curlHoliday) {
             $dt = new \DateTime($curlHoliday[0]);
             $dateKey = $dt->format('Y-m-d');
-            if (key_exists($dateKey, $holidays)) {
+            if (array_key_exists($dateKey, $holidays)) {
                 $holidays[$dateKey]->setName($holidays[$dateKey]->getName().', '.$curlHoliday[2]);
                 $holidays[$dateKey]->setType($holidays[$dateKey]->getType().', '.$curlHoliday[3]);
                 continue;

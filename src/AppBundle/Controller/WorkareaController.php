@@ -8,6 +8,7 @@ use AppBundle\Repository\AccountTransactionsRepository;
 use AppBundle\Repository\DaysRepository;
 use AppBundle\Repository\TaskListsRepository;
 use AppBundle\Repository\TasksRepository;
+use AppBundle\Service\CostService;
 use AppBundle\Service\TasksService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -27,12 +28,13 @@ class WorkareaController extends AbstractController
         DaysRepository $daysRepository,
         AccountsRepository $accountsRepository,
         AccountTransactionsRepository $accountTransactionsRepository,
-        TaskListsRepository $taskListsRepository
+        TaskListsRepository $taskListsRepository,
+        CostService $costService
     ): Response {
         $days = $daysRepository->getImportantCards();
         $accounts = $accountsRepository->findBy(['conceal' => false]);
         /** Cost Of Life * */
-        $costOfLife = $this->get('myapp.cost');
+        $costOfLife = $costService;
         $earnedLogic = new EarnedLogic($this->getDoctrine()->getManager(), $costOfLife);
         $earned = $earnedLogic->getEarned();
 

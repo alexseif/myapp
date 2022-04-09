@@ -8,6 +8,7 @@ namespace AppBundle\Service;
 
 use AppBundle\Entity\Tasks;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * Description of Bottom Bar Service.
@@ -33,7 +34,7 @@ class BottomBar
 
     protected $progressMonitoring;
 
-    public function __construct(EntityManager $em, CostService $costService, ContractService $contractService)
+    public function __construct(EntityManagerInterface $em, CostService $costService, ContractService $contractService)
     {
         $this->em = $em;
         $this->costService = $costService;
