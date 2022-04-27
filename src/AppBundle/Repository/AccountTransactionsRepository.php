@@ -100,14 +100,20 @@ class AccountTransactionsRepository extends ServiceEntityRepository
             ->getSingleResult();
     }
 
-    public function queryCurrentBalanceByAccount($account)
+    public function queryCurrentBalanceByAccount($account, $to = null)
     {
-        return $this
+        $query = $this
             ->createQueryBuilder('at')
             ->select(self::AMOUNT_SUM)
             ->where(self::ACCOUNT_EQUAL)
             ->orderBy(self::ISSUED_AT)
-            ->setParameter(self::ACCOUNT_PARAMETER, $account)
+            ->setParameter(self::ACCOUNT_PARAMETER, $account);
+        if ($to !== null) {
+            $query
+                ->andWhere('at.issuedAt <= :to')
+                ->setParameter(':to', $to);
+        }
+        return $query
             ->getQuery()
             ->getSingleResult();
     }
