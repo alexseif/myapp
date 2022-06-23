@@ -3,9 +3,4 @@
   <component name="PhpEntryPointsManager">
     <suppressed_annotations>@Route</suppressed_annotations>
   </component>
-  <component name="SwUserDefinedSpecifications">
-    <option name="specTypeByUrl">
-      <map />
-    </option>
-  </component>
 </project>
