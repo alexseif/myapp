@@ -54,6 +54,7 @@ twig:
         day_manager: '@myapp.dayManager'
         progressMonitoring: '@myapp.progressMonitoring'
         rate_calculator: '@myapp.rate.calculator'
+        WhatTodoNow: '@myapp.what_todo_now'
 # Doctrine Configuration
 doctrine:
     dbal:
@@ -167,7 +168,7 @@ swiftmailer:
 sensio_framework_extra:
    router:
         annotations: false
-        
+
 fos_user:
     db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
     firewall_name: main
@@ -175,7 +176,7 @@ fos_user:
     from_email:
         address: me@alexseif.com
         sender_name: Server Admin
-    
+
 #zenstruck_backup:
 #    namers:
 #        daily:
@@ -186,8 +187,8 @@ fos_user:
 #            timestamp:
 #                prefix: myapp-
 #    sources:
-#        database: 
-#            mysqldump: 
+#        database:
+#            mysqldump:
 #                host:       "%database_host%"
 #                database:   "%database_name%"
 #                user:       "%database_user%"
@@ -195,8 +196,8 @@ fos_user:
 #    processors:
 #        gzip: { 'gzip':~ }
 #    destinations:
-#        dir: 
-#            stream: 
+#        dir:
+#            stream:
 #                directory: "%kernel.root_dir%/../backups"
 #    profiles:
 #        daily:
@@ -205,13 +206,13 @@ fos_user:
 #            namer: daily
 #            processor: gzip
 #            destinations: [dir]
-            
+
 doctrine_migrations:
   dir_name: "%kernel.root_dir%/DoctrineMigrations"
   namespace: Application\Migrations
   table_name: migration_versions
   name: Application Migrations
-  
+
 stof_doctrine_extensions:
  orm:
     default:

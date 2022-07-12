@@ -74,3 +74,8 @@ services:
       class: AppBundle\Service\DayManager
 #      arguments: []
       public: true
+
+    myapp.what_todo_now:
+      class: AppBundle\Service\WhatTodoNow
+#      arguments: []
+      public: true
