@@ -89,30 +89,11 @@
                     <td>{{ (task.duration/60)|round(0, 'floor') }}:{{ task.duration%60 }}</td>
                 </tr>
             {% endfor %}
-            {% for holiday in holidays %}
-                <tr>
-                    <td>
-                        <span class="d-none d-print-block">#{{ holiday.id }}</span>
-                    </td>
-                    <td>{{ holiday.name }}</td>
-                    <td></td>
-                    <td>{{ holiday.date|date('Y-m-d', timezone) }}</td>
-                    <td>{{ contract.hoursPerDay }}:00</td>
-                </tr>
-            {% endfor %}
             </tbody>
             <tfoot>
             <tr>
                 <td colspan="4" class="text-right">Total</td>
-                <th>{{ (total/60)|round(0, 'floor') }}:{{ total%60 }}</th>
-            </tr>
-            <tr>
-                <td colspan="4" class="text-right">Expected</td>
-                <th>{{ expected }}:00</th>
-            </tr>
-            <tr>
-                <td colspan="4" class="text-right">Remaining</td>
-                <th>{{ remaining }}</th>
+                <td class="text-bold">{{ (total/60)|round(0, 'floor') }}:{{ total%60 }}</td>
             </tr>
             </tfoot>
         </table>

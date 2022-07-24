@@ -216,19 +216,10 @@ class ContractController extends Controller
         $toDate->setTime(23, 23, 59);
         $tasks = $em->getRepository(Tasks::class)->findCompletedByClientByRange($contract->getClient(), $fromDate,
             $toDate);
-        $monthHolidays = $em->getRepository('AppBundle:Holiday')->findByRange(new DateTime($from), new DateTime($to));
         $workingDays = 22;
         $expected = ($workingDays * $contract->getHoursPerDay());
         $total = 0;
 
-        $workweek = [1, 2, 3, 4, 7];
-        $holidays = [];
-        foreach ($monthHolidays as $holiday) {
-            if (in_array($holiday->getDate()->format('N'), $workweek)) {
-                $holidays[] = $holiday;
-                $total += $contract->getHoursPerDay() * 60;
-            }
-        }
 
         foreach ($tasks as $task) {
             $total += $task->getDuration();
@@ -247,7 +238,6 @@ class ContractController extends Controller
             'total' => $total,
             'expected' => $expected,
             'remaining' => $remaining,
-            'holidays' => $holidays,
         ]);
     }
 
