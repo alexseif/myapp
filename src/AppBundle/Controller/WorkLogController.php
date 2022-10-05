@@ -70,47 +70,19 @@ class WorkLogController extends AbstractController
         $clientName = $request->get('client');
         $log = is_null($request->get('unlog'));
 
-        $criteria = ['completed' => true, 'workLoggable' => $log];
+        $criteria = ['t.completed' => true, 't.workLoggable' => $log];
         $orderBy = ['completedAt' => 'DESC'];
         $limitBy = 500;
         $offset = null;
 
         if ($taskListName) {
-            $taskList = $em->getRepository('AppBundle:TaskLists')->findBy(['name' => $taskListName]);
-            $criteria['taskList'] = $taskList;
-            $tasks = $tasksRepo->findBy($criteria, $orderBy, $limitBy, $offset);
+            $criteria['tl.name'] = $taskListName;
         } elseif ($accountName) {
-            $tasks = $tasksRepo->createQueryBuilder('t')
-                ->select('t')
-                ->leftJoin('t.taskList', 'tl')
-                ->leftJoin('tl.account', 'a')
-                ->where('t.completed = TRUE')
-                ->andWhere('t.workLoggable = :log')
-                ->andWhere('a.name = :account')
-                ->setParameter('log', $log)
-                ->setParameter('account', $accountName)
-                ->orderBy('t.completedAt', 'DESC')
-                ->setMaxResults($limitBy)
-                ->getQuery()
-                ->getResult();
+            $criteria['a.name'] = $accountName;
         } elseif ($clientName) {
-            $tasks = $tasksRepo->createQueryBuilder('t')
-                ->select('t')
-                ->leftJoin('t.taskList', 'tl')
-                ->leftJoin('tl.account', 'a')
-                ->leftJoin('a.client', 'c')
-                ->where('t.completed = TRUE')
-                ->andWhere('t.workLoggable = :log')
-                ->andWhere('c.name = :client')
-                ->setParameter('log', $log)
-                ->setParameter('client', $clientName)
-                ->orderBy('t.completedAt', 'DESC')
-                ->setMaxResults($limitBy)
-                ->getQuery()
-                ->getResult();
-        } else {
-            $tasks = $tasksRepo->findByWithJoins($criteria, $orderBy, $limitBy, $offset);
+            $criteria['c.name'] = $clientName;
         }
+        $tasks = $tasksRepo->findByWithJoins($criteria, $orderBy, $limitBy, $offset);
 
         return $this->render('AppBundle:worklog:completedTasks.html.twig', [
             'unlog' => $log,
@@ -144,7 +116,7 @@ class WorkLogController extends AbstractController
 
             $thisRates = $em->getRepository(Rate::class)->findOneBy([
                 'active' => true,
-                'client' => $task->getTaskList()->getAccount()->getClient()
+                'client' => $task->getTaskList()->getAccount()->getClient(),
             ]);
             if ($thisRates) {
                 $pricePerUnit = $thisRates->getRate();
@@ -168,14 +140,14 @@ class WorkLogController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $task = $workLog->getTask();
-            $AccountTransaction = new AccountTransactions();
-            $AccountTransaction->setNote($workLog->getTask());
-            $AccountTransaction->setAmount($workLog->getTotal() * -1);
-            $AccountTransaction->setAccount($task->getAccount());
-            $AccountTransaction->setIssuedAt($task->getCompletedAt());
+            $accountTransactions = new AccountTransactions();
+            $accountTransactions->setNote($workLog->getTask());
+            $accountTransactions->setAmount($workLog->getTotal() * -1);
+            $accountTransactions->setAccount($task->getAccount());
+            $accountTransactions->setIssuedAt($task->getCompletedAt());
 
             $em->persist($workLog);
-            $em->persist($AccountTransaction);
+            $em->persist($accountTransactions);
             $em->flush();
 
             return $this->redirectToRoute('worklog_show', ['id' => $workLog->getId()]);
@@ -226,7 +198,7 @@ class WorkLogController extends AbstractController
 
                 $thisRates = $em->getRepository('AppBundle:Rate')->findOneBy([
                     'active' => true,
-                    'client' => $task->getTaskList()->getAccount()->getClient()
+                    'client' => $task->getTaskList()->getAccount()->getClient(),
                 ]);
                 if ($thisRates) {
                     $pricePerUnit = $thisRates->getRate();
@@ -239,20 +211,24 @@ class WorkLogController extends AbstractController
                 $task->getWorkLog()->setPricePerUnit(($pricePerUnit) ?: 0);
                 $task->getWorklog()->setName($task->getTask());
                 $task->getWorklog()->setDuration($task->getDuration());
-                $task->getWorklog()->setTotal($task->getWorklog()->getPricePerUnit() / 60 * $task->getWorklog()->getDuration());
+                $total = $task->getWorklog()->getPricePerUnit() / 60 * $task->getWorklog()->getDuration();
+                $task->getWorklog()->setTotal($total);
                 if ($createNewTransaction) {
                     $workLog = $task->getWorklog();
-                    $AccountTransaction = new AccountTransactions();
-                    $AccountTransaction->setNote($workLog->getTask());
-                    $AccountTransaction->setAmount($workLog->getTotal() * -1);
-                    $AccountTransaction->setAccount($task->getAccount());
-                    $AccountTransaction->setIssuedAt($task->getCompletedAt());
-                    $em->persist($AccountTransaction);
+                    $accountTransactions = new AccountTransactions();
+                    $accountTransactions->setNote($workLog->getTask());
+                    $accountTransactions->setAmount($workLog->getTotal() * -1);
+                    $accountTransactions->setAccount($task->getAccount());
+                    $accountTransactions->setIssuedAt($task->getCompletedAt());
+                    $em->persist($accountTransactions);
                 }
                 $em->persist($task->getWorklog());
             } else {
-                $this->addFlash('warning_raw', 'Task  <a href="' . $this->generateUrl('tasks_show',
-                        ['id' => $taskId]) . '" target="_new">' . $taskId . '</a> has 0 est');
+                $url = $this->generateUrl('tasks_show', ['id' => $taskId]);
+                $this->addFlash(
+                    'warning_raw',
+                    'Task  <a href="' . $url . '" target="_new">' . $taskId . '</a> has 0 est'
+                );
             }
             $em->flush();
         }
