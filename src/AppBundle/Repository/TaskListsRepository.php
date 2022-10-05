@@ -23,11 +23,12 @@ class TaskListsRepository extends ServiceEntityRepository
     {
         return $this
             ->createQueryBuilder('tl')
-            ->select('tl, t, a, c, w')
+            ->select('tl, t, a, c, w, s')
             ->leftJoin('tl.tasks', 't')
             ->leftJoin('tl.account', 'a')
             ->leftJoin('a.client', 'c')
             ->leftJoin('t.workLog', 'w')
+            ->leftJoin('t.schedule', 's')
             ->orderBy('tl.createdAt', 'ASC')
             ->getQuery()
             ->getResult();
