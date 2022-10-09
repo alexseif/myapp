@@ -227,7 +227,7 @@ class WorkLogController extends AbstractController
                 $url = $this->generateUrl('tasks_show', ['id' => $taskId]);
                 $this->addFlash(
                     'warning_raw',
-                    'Task  <a href="' . $url . '" target="_new">' . $taskId . '</a> has 0 est'
+                    'Task  <a href="'.$url.'" target="_new">'.$taskId.'</a> has 0 est'
                 );
             }
             $em->flush();
