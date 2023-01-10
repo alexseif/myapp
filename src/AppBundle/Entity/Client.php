@@ -45,7 +45,7 @@ class Client
     private $contracts;
 
     /**
-     * @ORM\OneToMany(targetEntity="Rate", mappedBy="client", cascade="remove")
+     * @ORM\OneToMany(targetEntity="Rate", mappedBy="client", cascade={"remove"})
      * @ORM\OrderBy({"createdAt" = "ASC"})
      */
     private $rates;

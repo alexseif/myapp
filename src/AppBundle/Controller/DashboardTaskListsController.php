@@ -3,6 +3,8 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\DashboardTaskLists;
+use AppBundle\Entity\TaskLists;
+use AppBundle\Form\DashboardTaskListsType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,7 +26,7 @@ class DashboardTaskListsController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $dashboardTaskLists = $em->getRepository('AppBundle:DashboardTaskLists')->findAllTaskLists();
+        $dashboardTaskLists = $em->getRepository(DashboardTaskLists::class)->findAllTaskLists();
 
         return $this->render('AppBundle:Settings:Dashboard/Tasklists/index.html.twig', [
             'dashboardTaskLists' => $dashboardTaskLists,
@@ -39,7 +41,7 @@ class DashboardTaskListsController extends Controller
     public function newAction(Request $request)
     {
         $dashboardTaskList = new DashboardTaskLists();
-        $form = $this->createForm('AppBundle\Form\DashboardTaskListsType', $dashboardTaskList);
+        $form = $this->createForm(DashboardTaskListsType::class, $dashboardTaskList);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -64,7 +66,7 @@ class DashboardTaskListsController extends Controller
     public function editAction(Request $request, DashboardTaskLists $dashboardTaskList)
     {
         $deleteForm = $this->createDeleteForm($dashboardTaskList);
-        $editForm = $this->createForm('AppBundle\Form\DashboardTaskListsType', $dashboardTaskList);
+        $editForm = $this->createForm(DashboardTaskListsType::class, $dashboardTaskList);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
@@ -90,7 +92,7 @@ class DashboardTaskListsController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $data = $request->get('data');
-        $taskList = $em->getRepository('AppBundle:TaskLists')->find($data['id']);
+        $taskList = $em->getRepository(TaskLists::class)->find($data['id']);
         if ($taskList) {
             $dashboardTaskList = new DashboardTaskLists();
             $dashboardTaskList->setTaskList($taskList);
@@ -113,7 +115,7 @@ class DashboardTaskListsController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $data = $request->get('data');
-        $dashboardTaskList = $em->getRepository('AppBundle:DashboardTaskLists')->findOneBy(['taskList' => $data['id']]);
+        $dashboardTaskList = $em->getRepository(DashboardTaskLists::class)->findOneBy(['taskList' => $data['id']]);
         if ($dashboardTaskList) {
             $em->remove($dashboardTaskList);
             $em->flush();

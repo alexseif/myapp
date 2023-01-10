@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Client;
 use AppBundle\Entity\TaskLists;
 use AppBundle\Entity\Tasks;
 use AppBundle\Service\FocusService;
@@ -21,7 +22,7 @@ class FocusController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         if ($request->query->has('client')) {
-            $client = $em->getRepository('AppBundle:Client')->find($request->get('client'));
+            $client = $em->getRepository(Client::class)->find($request->get('client'));
             if (empty($client)) {
                 throw new NotFoundHttpException('Client not found');
             }

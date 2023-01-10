@@ -2,6 +2,7 @@
 
 namespace AppBundle\Form;
 
+use AppBundle\Entity\Client;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -20,7 +21,7 @@ class ContractType extends AbstractType
             ->add('name')
             ->add('client', EntityType::class, [
                     'required' => false,
-                    'class' => 'AppBundle:Client',
+                    'class' => Client::class,
                     'choice_label' => 'name',
                     'attr' => [
                         'class' => 'chosen',

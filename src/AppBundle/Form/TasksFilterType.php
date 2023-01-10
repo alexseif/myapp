@@ -2,6 +2,7 @@
 
 namespace AppBundle\Form;
 
+use AppBundle\Entity\TaskLists;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -45,7 +46,7 @@ class TasksFilterType extends AbstractType
                 'label_attr' => ['class' => 'checkbox-inline'],
             ])
             ->add('taskList', EntityType::class, [
-                'class' => 'AppBundle:TaskLists',
+                'class' => TaskLists::class,
                 'group_by' => function ($taskList) {
                     if ($taskList->getAccount()) {
                         if ($taskList->getAccount()->getClient()) {

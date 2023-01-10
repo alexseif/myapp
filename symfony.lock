@@ -1,13 +1,4 @@
 {
-    "beberlei/doctrineextensions": {
-        "version": "v1.3.0"
-    },
-    "behat/transliterator": {
-        "version": "v1.3.0"
-    },
-    "composer/package-versions-deprecated": {
-        "version": "1.11.99.5"
-    },
     "composer/pcre": {
         "version": "1.0.0"
     },
@@ -42,30 +33,26 @@
         "version": "v0.5.3"
     },
     "doctrine/doctrine-bundle": {
-        "version": "1.12",
+        "version": "2.7",
         "recipe": {
             "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "1.12",
-            "ref": "3cc0efdb85531c72c2b25cbb41eec849a279aa64"
+            "branch": "main",
+            "version": "2.4",
+            "ref": "5b7882dd9d05ef9b7e71fceed66af1ea573a70d4"
         },
         "files": [
             "config/packages/doctrine.yaml",
-            "config/packages/prod/doctrine.yaml",
             "src/Entity/.gitignore",
             "src/Repository/.gitignore"
         ]
     },
-    "doctrine/doctrine-cache-bundle": {
-        "version": "1.4.0"
-    },
     "doctrine/doctrine-migrations-bundle": {
-        "version": "1.3",
+        "version": "3.2",
         "recipe": {
             "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "1.2",
-            "ref": "b609494a0ab33d79acf3ead2067e3f67c9a47bd2"
+            "branch": "main",
+            "version": "3.1",
+            "ref": "1d01ec03c6ecbd67c3375c5478c9a423ae5d6a33"
         },
         "files": [
             "config/packages/doctrine_migrations.yaml",
@@ -84,17 +71,11 @@
     "doctrine/lexer": {
         "version": "1.2.2"
     },
-    "doctrine/migrations": {
-        "version": "v1.8.1"
-    },
     "doctrine/orm": {
         "version": "2.7.5"
     },
     "doctrine/persistence": {
         "version": "1.3.8"
-    },
-    "doctrine/reflection": {
-        "version": "1.2.2"
     },
     "egulias/email-validator": {
         "version": "3.1.2"
@@ -123,26 +104,14 @@
     "friendsofsymfony/user-bundle": {
         "version": "v2.2.4"
     },
-    "gedmo/doctrine-extensions": {
-        "version": "v2.4.42"
-    },
     "incenteev/composer-parameter-handler": {
         "version": "v2.1.4"
-    },
-    "jdorn/sql-formatter": {
-        "version": "v1.2.17"
     },
     "knplabs/knp-time-bundle": {
         "version": "1.17.0"
     },
     "laminas/laminas-code": {
         "version": "3.4.1"
-    },
-    "laminas/laminas-eventmanager": {
-        "version": "3.4.0"
-    },
-    "laminas/laminas-zendframework-bridge": {
-        "version": "1.4.0"
     },
     "monolog/monolog": {
         "version": "1.26.1"
@@ -199,9 +168,9 @@
         "version": "1.7",
         "recipe": {
             "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
+            "branch": "main",
             "version": "1.2",
-            "ref": "6c1ceb662f8997085f739cd089bfbef67f245983"
+            "ref": "e805aba9eff5372e2d149a9ff56566769e22819d"
         },
         "files": [
             "config/packages/stof_doctrine_extensions.yaml"

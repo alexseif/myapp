@@ -2,6 +2,7 @@
 
 namespace AppBundle\Form;
 
+use AppBundle\Entity\Accounts;
 use AppBundle\Entity\TaskLists;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -16,7 +17,7 @@ class TaskListsType extends AbstractType
             ->add('name')
             ->add('account', EntityType::class, [
                     'required' => false,
-                    'class' => 'AppBundle:Accounts',
+                    'class' => Accounts::class,
                     'choice_label' => 'name',
                     'attr' => [
                         'class' => 'chosen',

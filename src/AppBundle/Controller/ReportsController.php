@@ -2,6 +2,8 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Accounts;
+use AppBundle\Entity\AccountTransactions;
 use AppBundle\Entity\Client;
 use AppBundle\Entity\TaskLists;
 use AppBundle\Entity\Tasks;
@@ -32,7 +34,7 @@ class ReportsController extends Controller
     public function clientsAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $clients = $em->getRepository('AppBundle:Client')->findAll();
+        $clients = $em->getRepository(Client::class)->findAll();
 
         return $this->render('AppBundle:Reports:clients.html.twig', [
             'clients' => $clients,
@@ -89,7 +91,7 @@ class ReportsController extends Controller
     public function diffAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $txns = $em->getRepository('AppBundle:AccountTransactions')->queryIncome();
+        $txns = $em->getRepository(AccountTransactions::class)->queryIncome();
 
         $income = [];
         $months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
@@ -132,7 +134,7 @@ class ReportsController extends Controller
     public function annualIncomeAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $txns = $em->getRepository('AppBundle:AccountTransactions')->queryIncome();
+        $txns = $em->getRepository(AccountTransactions::class)->queryIncome();
 
         $income = [];
         foreach ($txns as $txn) {
@@ -182,11 +184,11 @@ class ReportsController extends Controller
     public function clientsByYearAction($year)
     {
         $em = $this->getDoctrine()->getManager();
-        $clients = $em->getRepository('AppBundle:Client')->findByYear($year);
+        $clients = $em->getRepository(Client::class)->findByYear($year);
         $reports = [];
 
         foreach ($clients as $client) {
-            $accounts = $em->getRepository('AppBundle:Accounts')
+            $accounts = $em->getRepository(Accounts::class)
                 ->findByYearAndClient($year, $client);
             $report = [
                 'client' => $client,

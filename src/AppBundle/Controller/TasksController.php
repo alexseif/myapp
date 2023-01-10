@@ -91,7 +91,7 @@ class TasksController extends AbstractController
     public function progressByDateAction(TasksRepository $tasksRepository, Request $request): Response
     {
         $formData = new stdClass();
-        $formData->date = new DateTime();
+        $formData->date = new \DateTime();
         $formData->date->modify('-1 day');
 
         $form = $this->createFormBuilder($formData)

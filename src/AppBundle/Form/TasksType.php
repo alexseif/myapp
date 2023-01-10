@@ -2,6 +2,7 @@
 
 namespace AppBundle\Form;
 
+use AppBundle\Entity\TaskLists;
 use AppBundle\Entity\Tasks;
 use AppBundle\Repository\TaskListsRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -19,7 +20,7 @@ class TasksType extends AbstractType
         $builder
             ->add('task')
             ->add('taskList', EntityType::class, [
-                'class' => 'AppBundle:TaskLists',
+                'class' => TaskLists::class,
                 'label' => false,
                 'query_builder' => function (TaskListsRepository $er) {
                     return $er->createQueryBuilder('tl')

@@ -6,6 +6,7 @@
 
 namespace AppBundle\Service;
 
+use AppBundle\Entity\CostOfLife;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
@@ -35,7 +36,7 @@ class CostService
     public function __construct(EntityManagerInterface $em, CurrencyService $currencyService)
     {
         $this->em = $em;
-        $this->cost = $em->getRepository('AppBundle:CostOfLife')->sumCostOfLife()['cost'];
+        $this->cost = $em->getRepository(CostOfLife::class)->sumCostOfLife()['cost'];
         $this->currencyService = $currencyService;
         $this->currencies = $this->currencyService->getCurrencies();
         $this->calc();

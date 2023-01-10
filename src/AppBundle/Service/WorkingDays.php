@@ -6,6 +6,7 @@
 
 namespace AppBundle\Service;
 
+use AppBundle\Entity\Holiday;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -67,7 +68,7 @@ class WorkingDays
                 $holidays[$dateKey]->setType($holidays[$dateKey]->getType().', '.$curlHoliday[3]);
                 continue;
             }
-            $holiday = $this->em->getRepository('AppBundle:Holiday')->findOneBy(['date' => $dt]);
+            $holiday = $this->em->getRepository(Holiday::class)->findOneBy(['date' => $dt]);
             $holidays[$dateKey] = ($holiday) ?: new \AppBundle\Entity\Holiday();
             $holidays[$dateKey]->setDate($dt);
             $holidays[$dateKey]->setName($curlHoliday[2]);

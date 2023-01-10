@@ -2,6 +2,7 @@
 
 namespace AppBundle\Form;
 
+use AppBundle\Entity\Client;
 use AppBundle\Entity\Rate;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -19,7 +20,7 @@ class RateType extends AbstractType
         $builder
             ->add('rate', MoneyType::class)
             ->add('client', EntityType::class, [
-                'class' => 'AppBundle:Client',
+                'class' => Client::class,
                 'choice_label' => 'name',
                 'attr' => [
                     'class' => 'chosen',
