@@ -6,6 +6,7 @@
 
 namespace AppBundle\Service;
 
+use AppBundle\Entity\Objective;
 use AppBundle\Entity\Tasks;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -86,6 +87,6 @@ class BottomBar
 
     public function getObjectives()
     {
-        return $this->getEm()->getRepository('AppBundle:Objective')->findBy([], ['createdAt' => 'asc'], 5);
+        return $this->getEm()->getRepository(Objective::class)->findBy([], ['createdAt' => 'asc'], 5);
     }
 }

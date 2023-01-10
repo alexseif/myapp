@@ -6,6 +6,7 @@
 
 namespace AppBundle\Service;
 
+use AppBundle\Entity\Contract;
 use AppBundle\Entity\Tasks;
 use AppBundle\Model\ContractProgress;
 use Doctrine\ORM\EntityManager;
@@ -33,7 +34,7 @@ class ContractService
      */
     public function progress()
     {
-        $contracts = $this->em->getRepository('AppBundle:Contract')->findBy(['isCompleted' => false]);
+        $contracts = $this->em->getRepository(Contract::class)->findBy(['isCompleted' => false]);
         foreach ($contracts as $contract) {
             $contract->setProgress(new ContractProgress($contract, $this->em->getRepository(Tasks::class)));
         }

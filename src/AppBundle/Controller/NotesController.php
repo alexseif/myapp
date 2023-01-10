@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Notes;
+use AppBundle\Form\NotesType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,7 +24,7 @@ class NotesController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $notes = $em->getRepository('AppBundle:Notes')->findAll();
+        $notes = $em->getRepository(Notes::class)->findAll();
 
         return $this->render('AppBundle:notes:index.html.twig', [
             'notes' => $notes,
@@ -38,7 +39,7 @@ class NotesController extends Controller
     public function newAction(Request $request)
     {
         $note = new Notes();
-        $form = $this->createForm('AppBundle\Form\NotesType', $note);
+        $form = $this->createForm(NotesType::class, $note);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -78,7 +79,7 @@ class NotesController extends Controller
     public function editAction(Request $request, Notes $note)
     {
         $deleteForm = $this->createDeleteForm($note);
-        $editForm = $this->createForm('AppBundle\Form\NotesType', $note);
+        $editForm = $this->createForm(NotesType::class, $note);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {

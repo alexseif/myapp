@@ -6,6 +6,7 @@
 
 namespace AppBundle\Service;
 
+use AppBundle\Entity\Currency;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -24,7 +25,7 @@ class CurrencyService
     public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
-        $this->currencies = $this->em->getRepository('AppBundle:Currency')->findAll();
+        $this->currencies = $this->em->getRepository(Currency::class)->findAll();
         $this->EGP = reset($this->currencies);
         foreach ($this->currencies as $currency) {
             $this->currency[$currency->getCode()] = $currency->getEgp() / 100;

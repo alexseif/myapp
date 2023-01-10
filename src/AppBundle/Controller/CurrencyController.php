@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Currency;
+use AppBundle\Form\CurrencyType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,7 +25,7 @@ class CurrencyController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $currencies = $em->getRepository('AppBundle:Currency')->findAll();
+        $currencies = $em->getRepository(Currency::class)->findAll();
 
         return $this->render('AppBundle:currency:index.html.twig', [
             'currencies' => $currencies,
@@ -39,7 +40,7 @@ class CurrencyController extends Controller
     public function newAction(Request $request)
     {
         $currency = new Currency();
-        $form = $this->createForm('AppBundle\Form\CurrencyType', $currency);
+        $form = $this->createForm(CurrencyType::class, $currency);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -79,7 +80,7 @@ class CurrencyController extends Controller
     public function editAction(Request $request, Currency $currency)
     {
         $deleteForm = $this->createDeleteForm($currency);
-        $editForm = $this->createForm('AppBundle\Form\CurrencyType', $currency);
+        $editForm = $this->createForm(CurrencyType::class, $currency);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {

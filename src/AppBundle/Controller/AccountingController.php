@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Accounts;
+use AppBundle\Entity\AccountTransactions;
 use AppBundle\Form\AccountingMainFilterType;
 use AppBundle\Util\DateRanges;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -23,7 +24,7 @@ class AccountingController extends Controller
     {
         $accountingFilterForm = $this->getFilterFunction($request);
         $em = $this->getDoctrine()->getManager();
-        $accounts = $em->getRepository('AppBundle:Accounts')->findBy(['conceal' => false]);
+        $accounts = $em->getRepository(Accounts::class)->findBy(['conceal' => false]);
 
         return $this->render('Accounting/index.html.twig', [
             'accounts' => $accounts,
@@ -39,7 +40,7 @@ class AccountingController extends Controller
         $accountingFilterForm = $this->getFilterFunction($request);
 
         $em = $this->getDoctrine()->getManager();
-        $txnRepo = $em->getRepository('AppBundle:AccountTransactions');
+        $txnRepo = $em->getRepository(AccountTransactions::class);
         $balance = [
             'current' => 0,
             'overdue' => 0,
@@ -73,7 +74,7 @@ class AccountingController extends Controller
     public function balanceAction(Request $request, Accounts $account, $from, $to, $taxes = false)
     {
         $em = $this->getDoctrine()->getManager();
-        $txnRepo = $em->getRepository('AppBundle:AccountTransactions');
+        $txnRepo = $em->getRepository(AccountTransactions::class);
         $txns = $txnRepo->queryAccountFromTo($account, $from, $to);
         $balanceTo = $txnRepo->queryCurrentBalanceByAccountTo($account, $to);
         $currentBalance = $txnRepo->queryCurrentBalanceByAccount($account, $to);

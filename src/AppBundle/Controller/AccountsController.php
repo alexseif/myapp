@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Accounts;
+use AppBundle\Form\AccountsType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,7 +24,7 @@ class AccountsController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $accounts = $em->getRepository('AppBundle:Accounts')->findAllSorted();
+        $accounts = $em->getRepository(Accounts::class)->findAllSorted();
 
         return $this->render('accounts/index.html.twig', [
             'accounts' => $accounts,
@@ -38,7 +39,7 @@ class AccountsController extends Controller
     public function newAction(Request $request)
     {
         $account = new Accounts();
-        $form = $this->createForm('AppBundle\Form\AccountsType', $account);
+        $form = $this->createForm(AccountsType::class, $account);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -78,7 +79,7 @@ class AccountsController extends Controller
     public function editAction(Request $request, Accounts $account)
     {
         $deleteForm = $this->createDeleteForm($account);
-        $editForm = $this->createForm('AppBundle\Form\AccountsType', $account);
+        $editForm = $this->createForm(AccountsType::class, $account);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {

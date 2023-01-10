@@ -16,7 +16,7 @@ class DefaultController extends Controller
         $em = $this->getDoctrine()->getManager();
         $today = new \DateTime();
 
-        $lists = $em->getRepository('AppBundle:TaskLists')->findBy(['status' => 'start']);
+        $lists = $em->getRepository(TaskLists::class)->findBy(['status' => 'start']);
 
         return $this->render('AppBundle:default:lists.html.twig', [
             'today' => $today,

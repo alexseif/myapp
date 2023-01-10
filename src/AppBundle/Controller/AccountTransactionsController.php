@@ -2,7 +2,9 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Accounts;
 use AppBundle\Entity\AccountTransactions;
+use AppBundle\Form\AccountTransactionsType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,7 +26,7 @@ class AccountTransactionsController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $accountTransactions = $em->getRepository('AppBundle:AccountTransactions')->findAll();
+        $accountTransactions = $em->getRepository(AccountTransactions::class)->findAll();
 
         return $this->render('accounttransactions/index.html.twig', [
             'accountTransactions' => $accountTransactions,
@@ -41,10 +43,10 @@ class AccountTransactionsController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $accountTransaction = new AccountTransactions();
         if (!empty($request->get('account'))) {
-            $account = $em->getRepository('AppBundle:Accounts')->find($request->get('account'));
+            $account = $em->getRepository(Accounts::class)->find($request->get('account'));
             $accountTransaction->setAccount($account);
         }
-        $form = $this->createForm('AppBundle\Form\AccountTransactionsType', $accountTransaction);
+        $form = $this->createForm(AccountTransactionsType::class, $accountTransaction);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -83,7 +85,7 @@ class AccountTransactionsController extends AbstractController
     public function editAction(Request $request, AccountTransactions $accountTransaction)
     {
         $deleteForm = $this->createDeleteForm($accountTransaction);
-        $editForm = $this->createForm('AppBundle\Form\AccountTransactionsType', $accountTransaction);
+        $editForm = $this->createForm(AccountTransactionsType::class, $accountTransaction);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {

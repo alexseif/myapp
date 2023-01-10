@@ -2,7 +2,10 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\CostOfLife;
+use AppBundle\Entity\Currency;
 use AppBundle\Entity\Rate;
+use AppBundle\Form\RateType;
 use AppBundle\Logic\CostOfLifeLogic;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
@@ -44,19 +47,19 @@ class RateController extends Controller
         $rate = new Rate();
 
         $em = $this->getDoctrine()->getManager();
-        $currencies = $em->getRepository('AppBundle:Currency')->findAll();
-        $cost = $em->getRepository('AppBundle:CostOfLife')->sumCostOfLife()['cost'];
+        $currencies = $em->getRepository(Currency::class)->findAll();
+        $cost = $em->getRepository(CostOfLife::class)->sumCostOfLife()['cost'];
 
         $costOfLife = new CostOfLifeLogic($cost, $currencies);
         $rate->setRate($costOfLife->getHourly());
 
-        $form = $this->createForm('AppBundle\Form\RateType', $rate);
+        $form = $this->createForm(RateType::class, $rate);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $rate->setActive(true);
             $em->persist($rate);
-            $rates = $em->getRepository('AppBundle:Rate')->findBy(['client' => $rate->getClient()]);
+            $rates = $em->getRepository(Rate::class)->findBy(['client' => $rate->getClient()]);
             foreach ($rates as $oldRate) {
                 $oldRate->setActive(false);
             }
@@ -119,7 +122,7 @@ class RateController extends Controller
     {
         $deleteForm = $this->createDeleteForm($rate);
         $em = $this->getDoctrine()->getManager();
-        $historyRates = $em->getRepository('AppBundle:Rate')->findBy(['client' => $rate->getClient()]);
+        $historyRates = $em->getRepository(Rate::class)->findBy(['client' => $rate->getClient()]);
 
         return $this->render('AppBundle:rate:show.html.twig', [
             'rate' => $rate,
@@ -136,7 +139,7 @@ class RateController extends Controller
     public function editAction(Request $request, Rate $rate)
     {
         $deleteForm = $this->createDeleteForm($rate);
-        $editForm = $this->createForm('AppBundle\Form\RateType', $rate);
+        $editForm = $this->createForm(RateType::class, $rate);
         $editForm->add('createdAt');
         $editForm->add('updatedAt');
         $editForm->handleRequest($request);

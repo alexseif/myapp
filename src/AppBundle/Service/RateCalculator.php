@@ -7,6 +7,8 @@
 namespace AppBundle\Service;
 
 use AppBundle\Entity\Client;
+use AppBundle\Entity\CostOfLife;
+use AppBundle\Entity\Currency;
 use AppBundle\Entity\Rate;
 use AppBundle\Entity\Tasks;
 use AppBundle\Logic\CostOfLifeLogic;
@@ -30,8 +32,8 @@ class RateCalculator
     public function __construct(EntityManagerInterface $em)
     {
         $this->setEm($em);
-        $this->setCurrencies($this->getEm()->getRepository('AppBundle:Currency')->findAll());
-        $this->setCost($this->getEm()->getRepository('AppBundle:CostOfLife')->sumCostOfLife()['cost']);
+        $this->setCurrencies($this->getEm()->getRepository(Currency::class)->findAll());
+        $this->setCost($this->getEm()->getRepository(CostOfLife::class)->sumCostOfLife()['cost']);
         $this->setCostOfLife(new CostOfLifeLogic($this->getCost(), $this->getCurrencies()));
         $this->setDefaultRate($this->getCostOfLife()->getHourly());
     }
@@ -137,7 +139,7 @@ class RateCalculator
      */
     public function getActive()
     {
-        return $this->em->getRepository('AppBundle:Rate')->getActiveRates();
+        return $this->em->getRepository(Rate::class)->getActiveRates();
     }
 
     public function increaseByPercent(float $percent)

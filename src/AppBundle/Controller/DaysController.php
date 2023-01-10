@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Days;
+use AppBundle\Form\DaysType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,7 +25,7 @@ class DaysController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $days = $em->getRepository('AppBundle:Days')->getActiveCards();
+        $days = $em->getRepository(Days::class)->getActiveCards();
 
         return $this->render('AppBundle:days:index.html.twig', [
             'days' => $days,
@@ -40,7 +41,7 @@ class DaysController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $days = $em->getRepository('AppBundle:Days')->getArchiveCards();
+        $days = $em->getRepository(Days::class)->getArchiveCards();
 
         return $this->render('AppBundle:days:index.html.twig', [
             'days' => $days,
@@ -55,7 +56,7 @@ class DaysController extends Controller
     public function newAction(Request $request)
     {
         $day = new Days();
-        $form = $this->createForm('AppBundle\Form\DaysType', $day);
+        $form = $this->createForm(DaysType::class, $day);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -80,7 +81,7 @@ class DaysController extends Controller
     public function editAction(Request $request, Days $day)
     {
         $deleteForm = $this->createDeleteForm($day);
-        $editForm = $this->createForm('AppBundle\Form\DaysType', $day);
+        $editForm = $this->createForm(DaysType::class, $day);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {

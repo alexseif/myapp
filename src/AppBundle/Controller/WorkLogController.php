@@ -3,6 +3,8 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\AccountTransactions;
+use AppBundle\Entity\CostOfLife;
+use AppBundle\Entity\Currency;
 use AppBundle\Entity\Rate;
 use AppBundle\Entity\TaskLists;
 use AppBundle\Entity\Tasks;
@@ -34,7 +36,7 @@ class WorkLogController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $tasklists = $em->getRepository('AppBundle:TaskLists')->findAll();
+        $tasklists = $em->getRepository(TaskLists::class)->findAll();
 
         return $this->render('AppBundle:worklog:index.html.twig', [
             'tasklists' => $tasklists,
@@ -50,7 +52,7 @@ class WorkLogController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $workLogs = $em->getRepository('AppBundle:WorkLog')->getByTaskList($tasklist);
+        $workLogs = $em->getRepository(WorkLog::class)->getByTaskList($tasklist);
 
         return $this->render('AppBundle:worklog:tasklist.html.twig', [
             'workLogs' => $workLogs,
@@ -70,47 +72,19 @@ class WorkLogController extends AbstractController
         $clientName = $request->get('client');
         $log = is_null($request->get('unlog'));
 
-        $criteria = ['completed' => true, 'workLoggable' => $log];
+        $criteria = ['t.completed' => true, 't.workLoggable' => $log];
         $orderBy = ['completedAt' => 'DESC'];
         $limitBy = 500;
         $offset = null;
 
         if ($taskListName) {
-            $taskList = $em->getRepository('AppBundle:TaskLists')->findBy(['name' => $taskListName]);
-            $criteria['taskList'] = $taskList;
-            $tasks = $tasksRepo->findBy($criteria, $orderBy, $limitBy, $offset);
+            $criteria['tl.name'] = $taskListName;
         } elseif ($accountName) {
-            $tasks = $tasksRepo->createQueryBuilder('t')
-                ->select('t')
-                ->leftJoin('t.taskList', 'tl')
-                ->leftJoin('tl.account', 'a')
-                ->where('t.completed = TRUE')
-                ->andWhere('t.workLoggable = :log')
-                ->andWhere('a.name = :account')
-                ->setParameter('log', $log)
-                ->setParameter('account', $accountName)
-                ->orderBy('t.completedAt', 'DESC')
-                ->setMaxResults($limitBy)
-                ->getQuery()
-                ->getResult();
+            $criteria['a.name'] = $accountName;
         } elseif ($clientName) {
-            $tasks = $tasksRepo->createQueryBuilder('t')
-                ->select('t')
-                ->leftJoin('t.taskList', 'tl')
-                ->leftJoin('tl.account', 'a')
-                ->leftJoin('a.client', 'c')
-                ->where('t.completed = TRUE')
-                ->andWhere('t.workLoggable = :log')
-                ->andWhere('c.name = :client')
-                ->setParameter('log', $log)
-                ->setParameter('client', $clientName)
-                ->orderBy('t.completedAt', 'DESC')
-                ->setMaxResults($limitBy)
-                ->getQuery()
-                ->getResult();
-        } else {
-            $tasks = $tasksRepo->findByWithJoins($criteria, $orderBy, $limitBy, $offset);
+            $criteria['c.name'] = $clientName;
         }
+        $tasks = $tasksRepo->findByWithJoins($criteria, $orderBy, $limitBy, $offset);
 
         return $this->render('AppBundle:worklog:completedTasks.html.twig', [
             'unlog' => $log,
@@ -129,8 +103,8 @@ class WorkLogController extends AbstractController
         $em = $this->getDoctrine()->getManager();
 
         /** Cost Of Life * */
-        $currencies = $em->getRepository('AppBundle:Currency')->findAll();
-        $cost = $em->getRepository('AppBundle:CostOfLife')->sumCostOfLife()['cost'];
+        $currencies = $em->getRepository(Currency::class)->findAll();
+        $cost = $em->getRepository(CostOfLife::class)->sumCostOfLife()['cost'];
 
         $costOfLife = new CostOfLifeLogic($cost, $currencies);
         $pricePerUnit = $costOfLife->getHourly();
@@ -144,7 +118,7 @@ class WorkLogController extends AbstractController
 
             $thisRates = $em->getRepository(Rate::class)->findOneBy([
                 'active' => true,
-                'client' => $task->getTaskList()->getAccount()->getClient()
+                'client' => $task->getTaskList()->getAccount()->getClient(),
             ]);
             if ($thisRates) {
                 $pricePerUnit = $thisRates->getRate();
@@ -168,19 +142,19 @@ class WorkLogController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $task = $workLog->getTask();
-            $AccountTransaction = new AccountTransactions();
-            $AccountTransaction->setNote($workLog->getTask());
-            $AccountTransaction->setAmount($workLog->getTotal() * -1);
-            $AccountTransaction->setAccount($task->getAccount());
-            $AccountTransaction->setIssuedAt($task->getCompletedAt());
+            $accountTransactions = new AccountTransactions();
+            $accountTransactions->setNote($workLog->getTask());
+            $accountTransactions->setAmount($workLog->getTotal() * -1);
+            $accountTransactions->setAccount($task->getAccount());
+            $accountTransactions->setIssuedAt($task->getCompletedAt());
 
             $em->persist($workLog);
-            $em->persist($AccountTransaction);
+            $em->persist($accountTransactions);
             $em->flush();
 
             return $this->redirectToRoute('worklog_show', ['id' => $workLog->getId()]);
         }
-        $clientRates = $em->getRepository('AppBundle:Rate')->findBy(['active' => true]);
+        $clientRates = $em->getRepository(Rate::class)->findBy(['active' => true]);
 
         return $this->render('AppBundle:worklog:new.html.twig', [
             'workLog' => $workLog,
@@ -202,8 +176,8 @@ class WorkLogController extends AbstractController
         $createNewTransaction = false;
 
         /** Cost Of Life * */
-        $currencies = $em->getRepository('AppBundle:Currency')->findAll();
-        $cost = $em->getRepository('AppBundle:CostOfLife')->sumCostOfLife()['cost'];
+        $currencies = $em->getRepository(Currency::class)->findAll();
+        $cost = $em->getRepository(CostOfLife::class)->sumCostOfLife()['cost'];
 
         $costOfLife = new CostOfLifeLogic($cost, $currencies);
 
@@ -224,9 +198,9 @@ class WorkLogController extends AbstractController
                 $task->getWorklog()->setTask($task);
                 $pricePerUnit = $costOfLife->getHourly();
 
-                $thisRates = $em->getRepository('AppBundle:Rate')->findOneBy([
+                $thisRates = $em->getRepository(Rate::class)->findOneBy([
                     'active' => true,
-                    'client' => $task->getTaskList()->getAccount()->getClient()
+                    'client' => $task->getTaskList()->getAccount()->getClient(),
                 ]);
                 if ($thisRates) {
                     $pricePerUnit = $thisRates->getRate();
@@ -239,20 +213,24 @@ class WorkLogController extends AbstractController
                 $task->getWorkLog()->setPricePerUnit(($pricePerUnit) ?: 0);
                 $task->getWorklog()->setName($task->getTask());
                 $task->getWorklog()->setDuration($task->getDuration());
-                $task->getWorklog()->setTotal($task->getWorklog()->getPricePerUnit() / 60 * $task->getWorklog()->getDuration());
+                $total = $task->getWorklog()->getPricePerUnit() / 60 * $task->getWorklog()->getDuration();
+                $task->getWorklog()->setTotal($total);
                 if ($createNewTransaction) {
                     $workLog = $task->getWorklog();
-                    $AccountTransaction = new AccountTransactions();
-                    $AccountTransaction->setNote($workLog->getTask());
-                    $AccountTransaction->setAmount($workLog->getTotal() * -1);
-                    $AccountTransaction->setAccount($task->getAccount());
-                    $AccountTransaction->setIssuedAt($task->getCompletedAt());
-                    $em->persist($AccountTransaction);
+                    $accountTransactions = new AccountTransactions();
+                    $accountTransactions->setNote($workLog->getTask());
+                    $accountTransactions->setAmount($workLog->getTotal() * -1);
+                    $accountTransactions->setAccount($task->getAccount());
+                    $accountTransactions->setIssuedAt($task->getCompletedAt());
+                    $em->persist($accountTransactions);
                 }
                 $em->persist($task->getWorklog());
             } else {
-                $this->addFlash('warning_raw', 'Task  <a href="' . $this->generateUrl('tasks_show',
-                        ['id' => $taskId]) . '" target="_new">' . $taskId . '</a> has 0 est');
+                $url = $this->generateUrl('tasks_show', ['id' => $taskId]);
+                $this->addFlash(
+                    'warning_raw',
+                    'Task  <a href="'.$url.'" target="_new">'.$taskId.'</a> has 0 est'
+                );
             }
             $em->flush();
         }

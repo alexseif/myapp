@@ -553,21 +553,23 @@ class TasksRepository extends ServiceEntityRepository
     {
         $queryBuilder = $this
             ->createQueryBuilder('t')
-            ->select('t, tl, a, c, w')
+            ->select('t, tl, a, c, w, s')
             ->leftJoin(self::TASKLIST, 'tl')
             ->leftJoin(self::ACCOUNT, 'a')
             ->leftJoin(self::CLIENT, 'c')
-            ->leftJoin(self::WORKLOG, 'w');
+            ->leftJoin(self::WORKLOG, 'w')
+            ->leftJoin('t.schedule', 's');
 
         $first = true;
         foreach ($criteria as $column => $value) {
+            $columnName = str_replace('.', '', $column);
             if ($first) {
-                $queryBuilder->where("t.$column = :$column")
-                    ->setParameter(":$column", $value);
+                $queryBuilder->where("$column = :$columnName")
+                    ->setParameter(":$columnName", $value);
                 $first = false;
             } else {
-                $queryBuilder->andWhere("t.$column = :$column")
-                    ->setParameter(":$column", $value);
+                $queryBuilder->andWhere("$column = :$columnName")
+                    ->setParameter(":$columnName", $value);
             }
         }
         $first = true;
@@ -656,10 +658,13 @@ class TasksRepository extends ServiceEntityRepository
      */
     public function findWorkingHoursPerMonth()
     {
+        $durationColumn = 'SUM(t.duration)/60 as duration';
+        $yearColumn = 'CONCAT(YEAR(' . self::COMPLETEDAT . ')';
+        $dayColumn = 'MONTH(' . self::COMPLETEDAT . ')) as DayCompletedAt';
         return $this
             ->createQueryBuilder('t')
-            ->select('t.completedAt, SUM(t.duration)/60 as duration, CONCAT(YEAR(t.completedAt), MONTH(t.completedAt)) as DayCompletedAt')
-            ->where('t.completedAt is not null')
+            ->select(self::COMPLETEDAT . ', ' . $durationColumn . ', ' . $yearColumn . ',' . $dayColumn)
+            ->where(self::COMPLETEDAT . ' is not null')
             ->andWhere('t.duration is not null')
             ->orderBy(self::COMPLETEDAT)
             ->groupBy('DayCompletedAt')

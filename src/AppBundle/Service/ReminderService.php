@@ -6,6 +6,7 @@
 
 namespace AppBundle\Service;
 
+use AppBundle\Entity\Days;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
@@ -32,7 +33,7 @@ class ReminderService
      */
     public function getRepository()
     {
-        return $this->getEm()->getRepository('AppBundle:Days');
+        return $this->getEm()->getRepository(Days::class);
     }
 
     public function getActiveReminders()
