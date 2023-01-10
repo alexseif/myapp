@@ -176,6 +176,8 @@ fos_user:
     from_email:
         address: me@alexseif.com
         sender_name: Server Admin
+    service:
+        mailer: 'fos_user.mailer.noop'
 
 #zenstruck_backup:
 #    namers:
