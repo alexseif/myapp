@@ -52,6 +52,16 @@
                         {{ contract.progress.contractProgress|number_format }}%
                     </div>
                 </div>
+                <div class="progress" title="monthProgress - {{ contract.progress.monthProgress }}">
+                    <div class="progress-bar {{ (contract.progress.monthProgress > contract.progress.contractProgress) ?
+                        ((contract.progress.monthProgress - contract.progress.contractProgress)>10) ?
+                            "bg-danger" : "bg-warning" : "bg-success" }}"
+                         role="progressbar"
+                         aria-valuenow="{{ contract.progress.monthProgress }}"
+                         aria-valuemin="0" aria-valuemax="100" style="width:{{ contract.progress.monthProgress }}%">
+                        {{ contract.progress.monthProgress|number_format }}%
+                    </div>
+                </div>
             {% endfor %}
         </div>
     </li>
