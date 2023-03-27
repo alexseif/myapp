@@ -21,7 +21,7 @@
     ]
   },
   "require": {
-    "php": ">=7.2",
+    "php": ">=8.0",
     "ext-curl": "*",
     "ext-dom": "*",
     "beberlei/doctrineextensions": "^1.2",
@@ -67,7 +67,7 @@
   },
   "config": {
     "platform": {
-      "php": "7.3"
+      "php": "8.0"
     },
     "sort-packages": true,
     "allow-plugins": {
