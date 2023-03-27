@@ -37,6 +37,6 @@ class AccountsService
 
     public function getDashboard()
     {
-        return $this->getRepository()->findBy(['conceal' => false]);
+        return $this->getRepository()->findByNotConceal();
     }
 }

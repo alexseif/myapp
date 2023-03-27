@@ -15,6 +15,7 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class AccountsRepository extends ServiceEntityRepository
 {
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Accounts::class);
@@ -23,29 +24,29 @@ class AccountsRepository extends ServiceEntityRepository
     public function search($searchTerm)
     {
         return $this
-            ->createQueryBuilder('a')
-            ->select()
-            ->where('a.name LIKE :searchTerm')
-            ->setParameter(':searchTerm', '%'.$searchTerm.'%')
-            ->getQuery()
-            ->getResult();
+          ->createQueryBuilder('a')
+          ->select()
+          ->where('a.name LIKE :searchTerm')
+          ->setParameter(':searchTerm', '%' . $searchTerm . '%')
+          ->getQuery()
+          ->getResult();
     }
 
     public function findAllSorted()
     {
         return $this->findAllWithJoin()
-            ->getQuery()
-            ->getResult();
+          ->getQuery()
+          ->getResult();
     }
 
     public function findAllWithJoin(): QueryBuilder
     {
         return $this
-            ->createQueryBuilder('a')
-            ->select('a, c')
-            ->leftJoin('a.client', 'c')
-            ->orderBy('c.enabled', 'DESC')
-            ->addOrderBy('a.name');
+          ->createQueryBuilder('a')
+          ->select('a, c')
+          ->leftJoin('a.client', 'c')
+          ->orderBy('c.enabled', 'DESC')
+          ->addOrderBy('a.name');
     }
 
     /**
@@ -57,30 +58,42 @@ class AccountsRepository extends ServiceEntityRepository
     public function findByYearAndClient($year, $client): array
     {
         $queryBuilder = $this
-            ->createQueryBuilder('a')
-            ->select('t, tl, a, c')
-            ->leftJoin('a.taskLists', 'tl')
-            ->leftJoin('a.client', 'c')
-            ->leftJoin('tl.tasks', 't')
-            ->where('YEAR(t.completedAt) = :year')
-            ->andWhere('a.client = :client')
-            ->setParameter(':year', $year)
-            ->setParameter(':client', $client)
-            ->groupBy('tl.account');
+          ->createQueryBuilder('a')
+          ->select('t, tl, a, c')
+          ->leftJoin('a.taskLists', 'tl')
+          ->leftJoin('a.client', 'c')
+          ->leftJoin('tl.tasks', 't')
+          ->where('YEAR(t.completedAt) = :year')
+          ->andWhere('a.client = :client')
+          ->setParameter(':year', $year)
+          ->setParameter(':client', $client)
+          ->groupBy('tl.account');
 
         return $queryBuilder
-            ->getQuery()
-            ->getResult();
+          ->getQuery()
+          ->getResult();
     }
 
     public function getCreatedTillYear($year)
     {
         return $this
-            ->createQueryBuilder('a')
-            ->select('count(a.id)')
-            ->where('YEAR(a.createdAt) <= :year')
-            ->setParameter(':year', $year)
-            ->getQuery()
-            ->getSingleScalarResult();
+          ->createQueryBuilder('a')
+          ->select('count(a.id)')
+          ->where('YEAR(a.createdAt) <= :year')
+          ->setParameter(':year', $year)
+          ->getQuery()
+          ->getSingleScalarResult();
     }
+
+    public function findByNotConceal()
+    {
+        return $this
+          ->createQueryBuilder('a')
+          ->select('a, at')
+          ->leftJoin('a.transactions', 'at')
+          ->where('a.conceal = false')
+          ->getQuery()
+          ->getResult();
+    }
+
 }

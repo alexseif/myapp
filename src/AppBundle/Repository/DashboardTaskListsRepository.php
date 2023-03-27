@@ -10,9 +10,21 @@ namespace AppBundle\Repository;
  */
 class DashboardTaskListsRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findAll()
+    {
+        return $this->createQueryBuilder('dtl')
+          ->select('dtl, tl')
+          ->leftJoin('dtl.taskList', 'tl')
+          ->getQuery()
+          ->getResult();
+    }
+
     public function findAllTaskLists()
     {
-        return $this->getEntityManager()->createQuery('SELECT tl, dtl.id FROM AppBundle:TaskLists tl LEFT JOIN AppBundle:DashboardTaskLists dtl WITH dtl.taskList = tl.id  ')
-            ->getResult();
+        $queryString = "SELECT tl, dtl.id FROM AppBundle:TaskLists tl " .
+          "LEFT JOIN AppBundle:DashboardTaskLists dtl WITH dtl.taskList = tl.id";
+
+        return $this->getEntityManager()->createQuery($queryString)
+          ->getResult();
     }
 }
