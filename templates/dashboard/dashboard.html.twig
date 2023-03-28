@@ -26,7 +26,6 @@
     </div>
 {% endblock %}
 {% block content %}
-    {% include 'dashboard/_progressMonitoring.html.twig' %}
     <div class="row">
         <div class="col-lg-4 col-md-6 col-sm-12">
             {% include 'AppBundle:default:taskLists.html.twig' %}
@@ -142,7 +141,7 @@
             $('.days-list .card').each(function () {
                 breaker = $('<div class="w-100"></div>');
                 i++;
-                if (0 == (i % 2)) {
+                if (0 === (i % 2)) {
                     $(breaker).insertAfter(this);
                 }
             });
