@@ -1,7 +1,7 @@
 {% set widgetClass ="widget-info" %}
 {% set daysDiff = (("last day of this month"|date_modify("-4 days")).diff(date("now")).days) %}
 {% set pm = progressMonitoring %}
-<div class="row">
+<div class="row d-print-none">
     <div class="col">
         {% set widgetBody %}
             <!-- https://codepen.io/jasonleewilson/pen/gPrxwX -->
