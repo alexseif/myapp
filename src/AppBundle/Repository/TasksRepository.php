@@ -17,6 +17,11 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class TasksRepository extends ServiceEntityRepository
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Tasks::class);
+    }
+
     public const NOT_COMPLETED = 't.completed <> true';
     public const URGENCY = 't.urgency';
     public const PRIORTIY = 't.priority';
@@ -42,10 +47,6 @@ class TasksRepository extends ServiceEntityRepository
     public const TASKLISTID = 'tl.id';
     public const DURATION_SUM = 'SUM(t.duration) as duration';
 
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, Tasks::class);
-    }
 
     public function getQueryBuilder()
     {

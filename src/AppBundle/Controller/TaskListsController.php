@@ -4,6 +4,8 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\TaskLists;
 use AppBundle\Entity\Tasks;
+use AppBundle\Form\TaskListsType;
+use AppBundle\Form\TasksMassEditType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -24,10 +26,10 @@ class TaskListsController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $taskLists = $em->getRepository('AppBundle:TaskLists')->findAll();
+        $taskLists = $em->getRepository(TaskLists::class)->findAll();
 
         $taskTemplate = new Tasks();
-        $form = $this->createForm('AppBundle\Form\TasksMassEditType', $taskTemplate);
+        $form = $this->createForm(TasksMassEditType::class, $taskTemplate);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $tasks = $em->getRepository(Tasks::class)->findBy(['taskList' => $taskTemplate->getTaskList()]);
@@ -54,7 +56,7 @@ class TaskListsController extends AbstractController
     public function newAction(Request $request)
     {
         $taskList = new TaskLists();
-        $form = $this->createForm('AppBundle\Form\TaskListsType', $taskList);
+        $form = $this->createForm(TaskListsType::class, $taskList);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -94,7 +96,7 @@ class TaskListsController extends AbstractController
     public function editAction(Request $request, TaskLists $taskList)
     {
         $deleteForm = $this->createDeleteForm($taskList);
-        $editForm = $this->createForm('AppBundle\Form\TaskListsType', $taskList);
+        $editForm = $this->createForm(TaskListsType::class, $taskList);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {

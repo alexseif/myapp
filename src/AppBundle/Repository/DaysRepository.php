@@ -13,7 +13,8 @@ use Doctrine\Persistence\ManagerRegistry;
  * repository methods below.
  */
 class DaysRepository extends ServiceEntityRepository
-{    public const DEADLINE = 'd.deadline';
+{
+    public const DEADLINE = 'd.deadline';
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -56,7 +57,7 @@ class DaysRepository extends ServiceEntityRepository
             ->createQueryBuilder('d')
             ->select()
             ->where('d.name LIKE :searchTerm')
-            ->setParameter(':searchTerm', '%'.$searchTerm.'%')
+            ->setParameter(':searchTerm', '%' . $searchTerm . '%')
             ->getQuery()
             ->getResult();
     }

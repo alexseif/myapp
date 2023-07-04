@@ -2,6 +2,7 @@
 
 namespace AppBundle\Form;
 
+use AppBundle\Entity\Tasks;
 use AppBundle\Repository\TasksRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -18,7 +19,7 @@ class WorkLogType extends AbstractType
     {
         $builder
             ->add('task', EntityType::class, [
-                'class' => 'AppBundle:Tasks',
+                'class' => Tasks::class,
                 'query_builder' => function (TasksRepository $er) {
                     return $er->createQueryBuilder('t')
                         ->select('t, tl, a, c, r, wl, s')

@@ -6,6 +6,7 @@
 
 namespace AppBundle\Service;
 
+use AppBundle\Entity\Accounts;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
@@ -32,7 +33,7 @@ class AccountsService
      */
     public function getRepository()
     {
-        return $this->getEm()->getRepository('AppBundle:Accounts');
+        return $this->getEm()->getRepository(Accounts::class);
     }
 
     public function getDashboard()

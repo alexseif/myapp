@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Accounts;
 use AppBundle\Entity\Tasks;
 use AppBundle\Repository\AccountsRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -102,7 +103,7 @@ class ExperimentsController extends Controller
                 ],
             ])
             ->add('account', EntityType::class, [
-                'class' => 'AppBundle:Accounts',
+                'class' => Accounts::class,
                 'placeholder' => 'Select an Account',
                 'query_builder' => function (AccountsRepository $ar) {
                     return $ar->createQueryBuilder('a')

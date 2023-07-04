@@ -154,7 +154,6 @@ fabric.properties
 
 # PHPUnit
 /app/phpunit.xml
-/phpunit.xml
 
 # Build data
 /build/
@@ -181,3 +180,20 @@ tools
 .phpunit
 .phpunit.result.cache
 ###< symfony/phpunit-bridge ###
+
+###> squizlabs/php_codesniffer ###
+/.phpcs-cache
+/phpcs.xml
+###< squizlabs/php_codesniffer ###
+
+###> symfony/webpack-encore-bundle ###
+/node_modules/
+/public/build/
+npm-debug.log
+yarn-error.log
+###< symfony/webpack-encore-bundle ###
+
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###

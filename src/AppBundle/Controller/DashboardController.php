@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Holiday;
 use AppBundle\Logic\EarnedLogic;
 use AppBundle\Service\AccountsService;
 use AppBundle\Service\ReminderService;
@@ -24,7 +25,7 @@ class DashboardController extends Controller
             'taskLists' => $ts->getDashboardTasklists(),
             'randomTasks' => $ts->getRandom(),
             'days' => $rs->getActiveReminders(),
-            'holidays' => $em->getRepository('AppBundle:Holiday')->getComingHolidays(),
+            'holidays' => $em->getRepository(Holiday::class)->getComingHolidays(),
             'accounts' => $as->getDashboard(),
             'earned' => $earnedLogic->getEarned(),
             'issuedThisMonth' => $earnedLogic->getIssuedThisMonth(),

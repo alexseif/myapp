@@ -176,6 +176,8 @@ fos_user:
     from_email:
         address: me@alexseif.com
         sender_name: Server Admin
+    service:
+        mailer: 'fos_user.mailer.noop'
 
 #zenstruck_backup:
 #    namers:
@@ -207,11 +209,11 @@ fos_user:
 #            processor: gzip
 #            destinations: [dir]
 
-doctrine_migrations:
-  dir_name: "%kernel.root_dir%/DoctrineMigrations"
-  namespace: Application\Migrations
-  table_name: migration_versions
-  name: Application Migrations
+#doctrine_migrations:
+#  dir_name: "%kernel.root_dir%/DoctrineMigrations"
+#  namespace: Application\Migrations
+#  table_name: migration_versions
+#  name: Application Migrations
 
 stof_doctrine_extensions:
  orm:

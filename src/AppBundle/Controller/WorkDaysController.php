@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Holiday;
 use AppBundle\Util\WorkWeek;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -68,7 +69,7 @@ class WorkDaysController extends AbstractController
                 $dateRow->workday = false;
                 $dateRow->comment = 'Weekend';
             }
-            $holiday = $em->getRepository('AppBundle:Holiday')->findOneBy(['date' => $period]);
+            $holiday = $em->getRepository(Holiday::class)->findOneBy(['date' => $period]);
             if ($holiday) {
                 $dateRow->holiday = true;
                 $dateRow->workday = false;

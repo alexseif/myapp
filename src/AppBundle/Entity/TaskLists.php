@@ -50,7 +50,7 @@ class TaskLists
     private $status;
 
     /**
-     * @ORM\OneToMany(targetEntity="Tasks", mappedBy="taskList", cascade="remove")
+     * @ORM\OneToMany(targetEntity="Tasks", mappedBy="taskList", cascade={"remove"})
      * @ORM\OrderBy({"completed" = "ASC", "order" = "ASC"})
      */
     private $tasks;

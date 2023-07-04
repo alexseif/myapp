@@ -6,7 +6,9 @@
 
 namespace AppBundle\Service;
 
+use AppBundle\Entity\Accounts;
 use AppBundle\Entity\AccountTransactions;
+use AppBundle\Entity\Client;
 use AppBundle\Entity\Tasks;
 use AppBundle\Util\DateRanges;
 use AppBundle\Util\Formatting;
@@ -166,7 +168,7 @@ class ProgressMonitoring
      */
     public function setClientsCount()
     {
-        $this->clientsCount = count($this->em->getRepository('AppBundle:Client')->findBy([
+        $this->clientsCount = count($this->em->getRepository(Client::class)->findBy([
             'enabled' => true,
         ]));
     }
@@ -186,7 +188,7 @@ class ProgressMonitoring
     {
         $date = new DateTime();
         $date->modify('-1 year');
-        $clientsLastYear = $this->em->getRepository('AppBundle:Client')
+        $clientsLastYear = $this->em->getRepository(Client::class)
             ->getCreatedTillYear($date->format('Y'));
         $this->clientsProgress = (($this->clientsCount - $clientsLastYear) / $clientsLastYear) * 100;
     }
@@ -204,7 +206,7 @@ class ProgressMonitoring
      */
     public function setAccountsCount()
     {
-        $this->accountsCount = count($this->em->getRepository('AppBundle:Accounts')->findAll());
+        $this->accountsCount = count($this->em->getRepository(Accounts::class)->findAll());
     }
 
     /**
@@ -222,7 +224,7 @@ class ProgressMonitoring
     {
         $date = new DateTime();
         $date->modify('-1 year');
-        $accountsLastYear = $this->em->getRepository('AppBundle:Accounts')
+        $accountsLastYear = $this->em->getRepository(Accounts::class)
             ->getCreatedTillYear($date->format('Y'));
         $this->accountsProgress = (($this->accountsCount - $accountsLastYear) / $accountsLastYear) * 100;
     }
@@ -272,7 +274,7 @@ class ProgressMonitoring
     public function getTasksCompletedProgress()
     {
         if ($this->tasksCompletedProgress >= 1000) {
-            return $this->formatNumber($this->tasksCompletedProgress / 1000).'k';
+            return $this->formatNumber($this->tasksCompletedProgress / 1000) . 'k';
         }
 
         return $this->formatNumber($this->tasksCompletedProgress);
@@ -286,7 +288,7 @@ class ProgressMonitoring
         $from = DateRanges::getMonthStart();
         $from->modify(self::MODIFY_MONTH);
         $to = DateRanges::getMonthStart();
-        $this->revenueSum = $this->em->getRepository('AppBundle:AccountTransactions')
+        $this->revenueSum = $this->em->getRepository(AccountTransactions::class)
             ->getRevenueSumByDateRange($from, $to);
     }
 
@@ -296,7 +298,7 @@ class ProgressMonitoring
     public function getRevenueSum()
     {
         if ($this->revenueSum <= 1000) {
-            return $this->formatNumber($this->revenueSum / 1000).'k';
+            return $this->formatNumber($this->revenueSum / 1000) . 'k';
         }
 
         return $this->formatNumber($this->revenueSum);
@@ -312,7 +314,7 @@ class ProgressMonitoring
         $from->modify('-2 months');
         $to = DateRanges::getMonthStart();
         $to->modify(self::MODIFY_MONTH);
-        $revenueLastMonth = $this->em->getRepository('AppBundle:AccountTransactions')
+        $revenueLastMonth = $this->em->getRepository(AccountTransactions::class)
             ->getRevenueSumByDateRange($from, $to);
 
         $divisionByZero = $revenueLastMonth ? $revenueLastMonth : 1;
@@ -345,7 +347,7 @@ class ProgressMonitoring
      */
     public function getDurationSum()
     {
-        return $this->formatNumber($this->durationSum / 60).':'.($this->durationSum % 60);
+        return $this->formatNumber($this->durationSum / 60) . ':' . ($this->durationSum % 60);
     }
 
     /**

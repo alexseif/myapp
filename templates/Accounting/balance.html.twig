@@ -140,12 +140,12 @@
         </table>
     </div>
 {% endblock %}
-{% if(1 == app.request.get('taxes')) %}
     {% block footer %}
-        <div class="container">
-        </div>
+        {% if(1 == app.request.get('taxes')) %}
+            <div class="container">
+            </div>
+        {% endif %}
     {% endblock %}
-{% endif %}
 {% block javascripts %}
     {{ parent() }}
     <script type="text/javascript" src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>

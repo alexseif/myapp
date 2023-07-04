@@ -2,7 +2,9 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\AccountTransactions;
 use AppBundle\Entity\Contract;
+use AppBundle\Entity\Holiday;
 use AppBundle\Entity\Tasks;
 use AppBundle\Form\ContractType;
 use AppBundle\Util\DateRanges;
@@ -33,7 +35,7 @@ class ContractController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $contracts = $em->getRepository('AppBundle:Contract')->findAll();
+        $contracts = $em->getRepository(Contract::class)->findAll();
 
         return $this->render('AppBundle:contract:index.html.twig', [
             'contracts' => $contracts,
@@ -126,7 +128,7 @@ class ContractController extends Controller
         $total = 0;
         foreach ($contractDays as $day) {
             if (in_array($day->format('N'), $workweek)) {
-                $holidays = $em->getRepository('AppBundle:Holiday')->findByRange($day, $day);
+                $holidays = $em->getRepository(Holiday::class)->findByRange($day, $day);
                 if ($holidays) {
                     $total += $contract->getHoursPerDay() * 60;
                     continue;
@@ -185,7 +187,7 @@ class ContractController extends Controller
             $contract = $accountingFilterData['account'];
 
             $em = $this->getDoctrine()->getManager();
-            $txnRepo = $em->getRepository('AppBundle:AccountTransactions');
+            $txnRepo = $em->getRepository(AccountTransactions::class);
 
             foreach ($monthsArray as $key => $range) {
                 $monthsArray[$key]['forward_balance'] = $txnRepo->queryCurrentBalanceByAccountAndRange($contract,

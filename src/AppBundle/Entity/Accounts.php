@@ -41,7 +41,7 @@ class Accounts
     private $conceal = false;
 
     /**
-     * @ORM\OneToMany(targetEntity="AccountTransactions", mappedBy="account", cascade="remove")
+     * @ORM\OneToMany(targetEntity="AccountTransactions", mappedBy="account", cascade={"remove"})
      */
     private $transactions;
 

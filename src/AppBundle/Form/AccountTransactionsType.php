@@ -2,6 +2,7 @@
 
 namespace AppBundle\Form;
 
+use AppBundle\Entity\Accounts;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -15,7 +16,7 @@ class AccountTransactionsType extends AbstractType
     {
         $builder
             ->add('account', EntityType::class, [
-                'class' => 'AppBundle:Accounts',
+                'class' => Accounts::class,
                 'choice_label' => 'name',
                 'attr' => [
                     'class' => 'chosen',

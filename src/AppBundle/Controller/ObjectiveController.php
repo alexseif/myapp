@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Objective;
+use AppBundle\Form\ObjectiveType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,7 +24,7 @@ class ObjectiveController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $objectives = $em->getRepository('AppBundle:Objective')->findAll();
+        $objectives = $em->getRepository(Objective::class)->findAll();
 
         return $this->render('AppBundle:objective:index.html.twig', [
             'objectives' => $objectives,
@@ -38,7 +39,7 @@ class ObjectiveController extends Controller
     public function newAction(Request $request)
     {
         $objective = new Objective();
-        $form = $this->createForm('AppBundle\Form\ObjectiveType', $objective);
+        $form = $this->createForm(ObjectiveType::class, $objective);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -78,7 +79,7 @@ class ObjectiveController extends Controller
     public function editAction(Request $request, Objective $objective)
     {
         $deleteForm = $this->createDeleteForm($objective);
-        $editForm = $this->createForm('AppBundle\Form\ObjectiveType', $objective);
+        $editForm = $this->createForm(ObjectiveType::class, $objective);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {

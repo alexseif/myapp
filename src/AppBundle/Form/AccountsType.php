@@ -2,6 +2,7 @@
 
 namespace AppBundle\Form;
 
+use AppBundle\Entity\Client;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -19,7 +20,7 @@ class AccountsType extends AbstractType
             ->add('conceal')
             ->add('client', EntityType::class, [
                     'required' => false,
-                    'class' => 'AppBundle:Client',
+                    'class' => Client::class,
                     'choice_label' => 'name',
                     'attr' => [
                         'class' => 'chosen',

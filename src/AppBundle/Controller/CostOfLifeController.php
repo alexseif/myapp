@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\CostOfLife;
+use AppBundle\Form\CostOfLifeType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,7 +25,7 @@ class CostOfLifeController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $costOfLives = $em->getRepository('AppBundle:CostOfLife')->findAll();
+        $costOfLives = $em->getRepository(CostOfLife::class)->findAll();
 
         return $this->render('AppBundle:costoflife:index.html.twig', [
             'costOfLives' => $costOfLives,
@@ -39,7 +40,7 @@ class CostOfLifeController extends Controller
     public function newAction(Request $request)
     {
         $costOfLife = new Costoflife();
-        $form = $this->createForm('AppBundle\Form\CostOfLifeType', $costOfLife);
+        $form = $this->createForm(CostOfLifeType::class, $costOfLife);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -79,7 +80,7 @@ class CostOfLifeController extends Controller
     public function editAction(Request $request, CostOfLife $costOfLife)
     {
         $deleteForm = $this->createDeleteForm($costOfLife);
-        $editForm = $this->createForm('AppBundle\Form\CostOfLifeType', $costOfLife);
+        $editForm = $this->createForm(CostOfLifeType::class, $costOfLife);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {

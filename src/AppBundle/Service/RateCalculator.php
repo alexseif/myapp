@@ -7,6 +7,8 @@
 namespace AppBundle\Service;
 
 use AppBundle\Entity\Client;
+use AppBundle\Entity\CostOfLife;
+use AppBundle\Entity\Currency;
 use AppBundle\Entity\Rate;
 use AppBundle\Entity\Tasks;
 use AppBundle\Logic\CostOfLifeLogic;
@@ -21,30 +23,18 @@ use Doctrine\ORM\EntityManagerInterface;
  */
 class RateCalculator
 {
-
     protected $em;
-
     protected $currencies;
-
     protected $costOfLife;
-
     protected $defaultRate;
-
     protected $cost;
 
     public function __construct(EntityManagerInterface $em)
     {
         $this->setEm($em);
-        $this->setCurrencies(
-          $this->getEm()->getRepository('AppBundle:Currency')->findAll()
-        );
-        $this->setCost(
-          $this->getEm()->getRepository('AppBundle:CostOfLife')->sumCostOfLife(
-          )['cost']
-        );
-        $this->setCostOfLife(
-          new CostOfLifeLogic($this->getCost(), $this->getCurrencies())
-        );
+        $this->setCurrencies($this->getEm()->getRepository(Currency::class)->findAll());
+        $this->setCost($this->getEm()->getRepository(CostOfLife::class)->sumCostOfLife()['cost']);
+        $this->setCostOfLife(new CostOfLifeLogic($this->getCost(), $this->getCurrencies()));
         $this->setDefaultRate($this->getCostOfLife()->getHourly());
     }
 
@@ -57,13 +47,8 @@ class RateCalculator
                 }
             }
         }
-        $rate = $this->getDefaultRate();
-        if ($client->getBillingOption() && $client->getBillingOption(
-          )['discount']) {
-              $rate *= (1 - $client->getBillingOption()['discount'] / 100);
-          }
 
-        return $rate;
+        return $this->getDefaultRate();
     }
 
     public function getRateByTask(Tasks $task)
@@ -154,7 +139,7 @@ class RateCalculator
      */
     public function getActive()
     {
-        return $this->em->getRepository('AppBundle:Rate')->getActiveRates();
+        return $this->em->getRepository(Rate::class)->getActiveRates();
     }
 
     public function increaseByPercent(float $percent)
@@ -163,9 +148,9 @@ class RateCalculator
         foreach ($rates as $rate) {
             $newRate = new Rate();
             $newRate
-              ->setActive(true)
-              ->setClient($rate->getClient())
-              ->setRate($rate->getRate() * $percent);
+                ->setActive(true)
+                ->setClient($rate->getClient())
+                ->setRate($rate->getRate() * $percent);
             $rate->setActive(false);
             $this->em->persist($newRate);
         }
@@ -181,14 +166,13 @@ class RateCalculator
         foreach ($rates as $rate) {
             $newRate = new Rate();
             $newRate
-              ->setNote($note)
-              ->setActive(true)
-              ->setClient($rate->getClient())
-              ->setRate($rate->getRate() + $fixedValue);
+                ->setNote($note)
+                ->setActive(true)
+                ->setClient($rate->getClient())
+                ->setRate($rate->getRate() + $fixedValue);
             $rate->setActive(false);
             $this->em->persist($newRate);
         }
         $this->em->flush();
     }
-
 }

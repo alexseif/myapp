@@ -6,7 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-
+use AppBundle\Repository\ClientRepository;
 /**
  * Client.
  *
@@ -45,7 +45,7 @@ class Client
     private $contracts;
 
     /**
-     * @ORM\OneToMany(targetEntity="Rate", mappedBy="client", cascade="remove")
+     * @ORM\OneToMany(targetEntity="Rate", mappedBy="client", cascade={"remove"})
      * @ORM\OrderBy({"createdAt" = "ASC"})
      */
     private $rates;

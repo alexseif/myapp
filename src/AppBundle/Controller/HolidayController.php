@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Holiday;
+use AppBundle\Form\HolidayType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,7 +24,7 @@ class HolidayController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $holidays = $em->getRepository('AppBundle:Holiday')->findAll();
+        $holidays = $em->getRepository(Holiday::class)->findAll();
 
         return $this->render('AppBundle:holiday:index.html.twig', [
             'holidays' => $holidays,
@@ -51,7 +52,7 @@ class HolidayController extends Controller
     public function newAction(Request $request)
     {
         $note = new Holiday();
-        $form = $this->createForm('AppBundle\Form\HolidayType', $note);
+        $form = $this->createForm(HolidayType::class, $note);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -91,7 +92,7 @@ class HolidayController extends Controller
     public function editAction(Request $request, Holiday $holiday)
     {
         $deleteForm = $this->createDeleteForm($holiday);
-        $editForm = $this->createForm('AppBundle\Form\HolidayType', $holiday);
+        $editForm = $this->createForm(HolidayType::class, $holiday);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {

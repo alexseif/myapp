@@ -3,6 +3,8 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\AccountTransactions;
+use AppBundle\Entity\CostOfLife;
+use AppBundle\Entity\Currency;
 use AppBundle\Entity\Rate;
 use AppBundle\Entity\TaskLists;
 use AppBundle\Entity\Tasks;
@@ -34,7 +36,7 @@ class WorkLogController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $tasklists = $em->getRepository('AppBundle:TaskLists')->findAll();
+        $tasklists = $em->getRepository(TaskLists::class)->findAll();
 
         return $this->render('AppBundle:worklog:index.html.twig', [
             'tasklists' => $tasklists,
@@ -50,7 +52,7 @@ class WorkLogController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $workLogs = $em->getRepository('AppBundle:WorkLog')->getByTaskList($tasklist);
+        $workLogs = $em->getRepository(WorkLog::class)->getByTaskList($tasklist);
 
         return $this->render('AppBundle:worklog:tasklist.html.twig', [
             'workLogs' => $workLogs,
@@ -101,8 +103,8 @@ class WorkLogController extends AbstractController
         $em = $this->getDoctrine()->getManager();
 
         /** Cost Of Life * */
-        $currencies = $em->getRepository('AppBundle:Currency')->findAll();
-        $cost = $em->getRepository('AppBundle:CostOfLife')->sumCostOfLife()['cost'];
+        $currencies = $em->getRepository(Currency::class)->findAll();
+        $cost = $em->getRepository(CostOfLife::class)->sumCostOfLife()['cost'];
 
         $costOfLife = new CostOfLifeLogic($cost, $currencies);
         $pricePerUnit = $costOfLife->getHourly();
@@ -152,7 +154,7 @@ class WorkLogController extends AbstractController
 
             return $this->redirectToRoute('worklog_show', ['id' => $workLog->getId()]);
         }
-        $clientRates = $em->getRepository('AppBundle:Rate')->findBy(['active' => true]);
+        $clientRates = $em->getRepository(Rate::class)->findBy(['active' => true]);
 
         return $this->render('AppBundle:worklog:new.html.twig', [
             'workLog' => $workLog,
@@ -174,8 +176,8 @@ class WorkLogController extends AbstractController
         $createNewTransaction = false;
 
         /** Cost Of Life * */
-        $currencies = $em->getRepository('AppBundle:Currency')->findAll();
-        $cost = $em->getRepository('AppBundle:CostOfLife')->sumCostOfLife()['cost'];
+        $currencies = $em->getRepository(Currency::class)->findAll();
+        $cost = $em->getRepository(CostOfLife::class)->sumCostOfLife()['cost'];
 
         $costOfLife = new CostOfLifeLogic($cost, $currencies);
 
@@ -196,7 +198,7 @@ class WorkLogController extends AbstractController
                 $task->getWorklog()->setTask($task);
                 $pricePerUnit = $costOfLife->getHourly();
 
-                $thisRates = $em->getRepository('AppBundle:Rate')->findOneBy([
+                $thisRates = $em->getRepository(Rate::class)->findOneBy([
                     'active' => true,
                     'client' => $task->getTaskList()->getAccount()->getClient(),
                 ]);
