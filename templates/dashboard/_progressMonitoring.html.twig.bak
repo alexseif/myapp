@@ -1,0 +1,125 @@
+{% set widgetClass ="widget-info" %}
+{% set daysDiff = (("last day of this month"|date_modify("-4 days")).diff(date("now")).days) %}
+{% set pm = progressMonitoring %}
+<div class="row d-print-none">
+    <div class="col">
+        {% set widgetBody %}
+            <!-- https://codepen.io/jasonleewilson/pen/gPrxwX -->
+            <!-- https://www.timeanddate.com/worldclock/egypt/cairo -->
+            <sup class="float-left">{{ day_manager.monthPercentage }}%</sup>
+            <div id="timedate" class="text-right text-nowrap">
+                <div class="h3">
+                    <strong><a id="h">{{ "now"|date("H") }}</a>:<a id="m">{{ "now"|date("i") }}</a></strong>
+                    <sup><a id="s">{{ "now"|date("s") }}</a></sup>
+                </div>
+                <strong>
+                    <a id="y">{{ "now"|date("Y") }}</a>-<a id="mon">{{ "now"|date("m") }}</a>-<a
+                            id="d">{{ "now"|date("d") }}</a>
+                    <a id="day">{{ "now"|date('l') }}</a>
+                </strong>
+            </div>
+        {% endset %}
+        {% include('dashboard/_widget_flat.html.twig') %}
+    </div><!-- col -->
+    <div class="col">
+        {% set widgetClass = daysDiff  > 20 ? "widget-info" : daysDiff  > 10 ? "widget-warning" : "widget-danger" %}
+        {% set widgetBody %}
+            <table class="m-0 income-progress">
+                <caption class="d-none">Revenue Progress</caption>
+                <tbody>
+                <tr title="Day">
+                    <th></th>
+                    <td>{{ pm.earnedToday }} / {{ pm.daily }}</td>
+                    <td><i class="fa fa-egp" title="Daily Revenue"></i></td>
+                    <td><sup>{{ pm.todayProgress }}%</sup></td>
+                </tr>
+                <tr title="Week">
+                    <th></th>
+                    <td>{{ pm.earnedThisWeek }} / {{ pm.weekly }}</td>
+                    <td><i class="fa fa-egp" title="Weekly Revenue"></i></td>
+                    <td><sup>{{ pm.weekProgress }}%</sup></td>
+                </tr>
+                <tr title="Month">
+                    <th></th>
+                    <td>{{ pm.earnedThisMonth }} / {{ pm.monthly }}</td>
+                    <td><i class="fa fa-egp" title="Monthly Revenue"></i></td>
+                    <td><sup>{{ pm.monthProgress }}%</sup></td>
+                </tr>
+                </tbody>
+            </table>
+        {% endset %}
+        {% include('dashboard/_widget_flat.html.twig') %}
+    </div><!-- col -->
+    <div class="col">
+        {% set widgetClass = pm.accountsProgress > 0 ? 'widget-success' : 'widget-danger' %}
+        {% set widgetBody %}
+            <div class="d-flex justify-content-around" title="Client's Progress">
+                <div class="text-center text-nowrap">
+                    <h4>{{ pm.clientsProgress }}%</h4>
+                    {{ pm.clientsCount }} <i class="fa fa-users" title="Clients"></i>
+                </div>
+                <div class="text-center text-nowrap" title="Accounts Progress">
+                    <h4>{{ pm.accountsProgress }}%</h4>
+                    {{ pm.accountsCount }} <i class="fa fa-briefcase" title="Accounts"></i>
+                </div>
+            </div>
+        {% endset %}
+        {% include('dashboard/_widget_flat.html.twig') %}
+    </div><!-- col -->
+    <div class="col">
+        {% set widgetClass = pm.tasksCompletedProgress > 0 ? 'widget-success' : 'widget-danger' %}
+        {% set widgetBody %}
+            <div class="d-flex justify-content-around">
+                <div class="text-center text-nowrap" title="Tasks Progress">
+                    <h4>{{ pm.tasksCompletedProgress }}%</h4>
+                    {{ pm.tasksCompletedCount }} <i class="fa fa-tasks" title="Tasks"></i>
+                </div>
+                <div class="text-center text-nowrap" title="Duration Progress">
+                    <h4>{{ pm.durationProgress }}%</h4>
+                    {{ pm.durationSum }} <i class="fa fa-stopwatch" title="Duration"></i>
+                </div>
+            </div>
+        {% endset %}
+        {% include('dashboard/_widget_flat.html.twig') %}
+    </div><!-- col -->
+    <div class="col">
+        {% set widgetClass = pm.revenueProgress > 0 ? 'widget-success' : 'widget-danger' %}
+        {% set widgetBody %}
+            <div class="d-flex justify-content-around">
+                <div class="text-center text-nowrap" title="Revenue Progress">
+                    <h4>{{ pm.revenueProgress }}%</h4>
+                    {{ pm.revenueSum }} <i class="fa fa-egp" title="Revenu"></i>
+                </div>
+                <div>
+                    <div class="text-center text-nowrap">
+                        <span>{{ pm.averageReport.avgDur|number_format }}</span> <i class="fa fa-stopwatch"
+                                                                                    title="Average Duration"></i>
+                    </div>
+                    <div class="text-center text-nowrap">
+                        <span>{{ pm.averageReport.avgIncome|number_format }}</span> <i class="fa fa-egp"
+                                                                                       title="Average Income"></i>
+                    </div>
+                </div>
+            </div>
+        {% endset %}
+        {% include('dashboard/_widget_flat.html.twig') %}
+    </div><!-- col -->
+    <div class="col">
+        {% set bb = bottom_bar %}
+        {% set contracts = bb.getContractsProgress() %}
+        {% set widgetBody %}
+            {% for contract in contracts %}
+                <a href="{{ path('focus', {'client': contract.client.id}) }}">
+                    {{ contract.name }} - {{ (contract.progress.dailyTarget/60)|round }}
+                </a>
+                <div class="progress" title="dailyTarget - {{ (contract.progress.dailyTarget/60)|round }}">
+                    <div class="progress-bar" role="progressbar" aria-valuenow="{{ contract.progress.todaysProgress }}"
+                         aria-valuemin="0" aria-valuemax="100" style="width:{{ contract.progress.todaysProgress }}%">
+                        {{ contract.progress.todaysProgress|number_format }}%
+                    </div>
+                </div>
+            {% endfor %}
+        {% endset %}
+        {% include('dashboard/_widget_flat.html.twig') %}
+    </div><!-- col -->
+</div><!-- .row -->

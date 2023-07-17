@@ -90,6 +90,7 @@ class TasksController extends AbstractController
      */
     public function progressByDateAction(TasksRepository $tasksRepository, Request $request): Response
     {
+        date_default_timezone_set('Africa/Cairo');
         $formData = new stdClass();
         $formData->date = new \DateTime();
         $formData->date->modify('-1 day');

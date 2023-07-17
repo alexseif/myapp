@@ -24,6 +24,9 @@ class TasksType extends AbstractType
                 'label' => false,
                 'query_builder' => function (TaskListsRepository $er) {
                     return $er->createQueryBuilder('tl')
+                      ->select('tl, a, c')
+                      ->leftJoin('tl.account', 'a')
+                      ->leftJoin('a.client', 'c')
                         ->where('tl.status <> \'archive\'');
                 },
                 'group_by' => function ($taskList) {

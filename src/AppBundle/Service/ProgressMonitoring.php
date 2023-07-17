@@ -129,20 +129,20 @@ class ProgressMonitoring
     {
         $this->em = $em;
         $this->costService = $costService;
-        $this->setClientsCount();
-        $this->setClientsProgress();
-        $this->setAccountsCount();
-        $this->setAccountsProgress();
-        $this->setTasksCompletedCount();
-        $this->setTasksCompletedProgress();
-        $this->setRevenueSum();
-        $this->setRevenueProgress();
-        $this->setDurationSum();
-        $this->setDurationProgress();
-        $this->setEarnedThisMonth();
-        $this->setEarnedThisWeek();
-        $this->setEarnedToday();
-        $this->setAverageReport();
+//        $this->setClientsCount();
+//        $this->setClientsProgress();
+//        $this->setAccountsCount();
+//        $this->setAccountsProgress();
+//        $this->setTasksCompletedCount();
+//        $this->setTasksCompletedProgress();
+//        $this->setRevenueSum();
+//        $this->setRevenueProgress();
+//        $this->setDurationSum();
+//        $this->setDurationProgress();
+//        $this->setEarnedThisMonth();
+//        $this->setEarnedThisWeek();
+//        $this->setEarnedToday();
+//        $this->setAverageReport();
     }
 
     /**

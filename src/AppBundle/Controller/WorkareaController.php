@@ -32,26 +32,26 @@ class WorkareaController extends AbstractController
         CostService $costService
     ): Response {
         $days = $daysRepository->getImportantCards();
-        $accounts = $accountsRepository->findBy(['conceal' => false]);
+//        $accounts = $accountsRepository->findBy(['conceal' => false]);
         /** Cost Of Life * */
-        $costOfLife = $costService;
-        $earnedLogic = new EarnedLogic($this->getDoctrine()->getManager(), $costOfLife);
-        $earned = $earnedLogic->getEarned();
-
-        $issuedThisMonth = $accountTransactionsRepository->issuedThisMonth();
-        $issued = 0;
-        foreach ($issuedThisMonth as $tm) {
-            $issued += abs($tm->getAmount());
-        }
+//        $costOfLife = $costService;
+//        $earnedLogic = new EarnedLogic($this->getDoctrine()->getManager(), $costOfLife);
+//        $earned = $earnedLogic->getEarned();
+//
+//        $issuedThisMonth = $accountTransactionsRepository->issuedThisMonth();
+//        $issued = 0;
+//        foreach ($issuedThisMonth as $tm) {
+//            $issued += abs($tm->getAmount());
+//        }
         $completedTodayCount = $tasksRepository->getCompletedTodayCount();
 
         return $this->render('workarea/workarea.html.twig', [
             'days' => $days,
-            'accounts' => $accounts,
-            'earned' => $earned,
-            'issuedThisMonth' => $earnedLogic->getIssuedThisMonth(),
-            'costOfLife' => $costOfLife,
-            'issued' => $issued,
+//            'accounts' => $accounts,
+//            'earned' => $earned,
+//            'issuedThisMonth' => $earnedLogic->getIssuedThisMonth(),
+//            'costOfLife' => $costOfLife,
+//            'issued' => $issued,
             'taskLists' => $taskListsRepository->findAllWithActiveTasks(),
             'completedTodayCount' => $completedTodayCount,
         ]);

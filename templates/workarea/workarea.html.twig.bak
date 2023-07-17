@@ -72,6 +72,18 @@
                         {% include 'AppBundle:days:_list_summary.html.twig' %}
                     {% endif %}
                     {% set hideEmpty = true %}
+                    {% for key, progress in earned %}
+                        {% if 'monthly' == key %}
+                            {% include 'dashboard/progressBars.html.twig' with {'total': attribute(costOfLife, key), 'progress': progress, 'issued': issuedThisMonth} %}
+                        {% else %}
+                            {% include 'dashboard/progressBars.html.twig' with {'total': attribute(costOfLife, key), 'progress': progress} %}
+                        {% endif %}
+                    {% endfor %}
+                    <!-- END OF ACCOUNTS -->
+                    {% if accounts|length %}
+                        {% include 'accounts/accounts_list_summary.html.twig' %}
+                    {% endif %}
+                    <!-- END OF ACCOUNTS -->
                 </div><!-- .col-wrapper -->
             </div><!-- .col-2 -->
         </div><!-- .row -->
