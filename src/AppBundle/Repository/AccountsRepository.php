@@ -89,9 +89,31 @@ class AccountsRepository extends ServiceEntityRepository
     {
         return $this
           ->createQueryBuilder('a')
-          ->select('a, at')
+          ->select('a')
+          ->addSelect('c')
+          ->addSelect('at')
+          ->leftJoin('a.client', 'c')
           ->leftJoin('a.transactions', 'at')
           ->where('a.conceal = false')
+          ->groupBy('a.id')
+          ->getQuery()
+          ->getResult();
+    }
+
+    public function findWithBalance()
+    {
+        return $this
+          ->createQueryBuilder('a')
+          ->select('a')
+          ->addSelect('c')
+          ->addSelect('at')
+//          ->addSelect('SUM(at.amount) AS balance')
+          ->leftJoin('a.client', 'c')
+          ->leftJoin('a.transactions', 'at')
+          ->where('a.conceal = false')
+          ->groupBy('a.id')
+          ->orderBy('c.enabled', 'DESC')
+          ->addOrderBy('a.name')
           ->getQuery()
           ->getResult();
     }

@@ -12,9 +12,11 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
  *
  * @ORM\Table(name="accounts")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\AccountsRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Accounts
 {
+
     use TimestampableEntity;
 
     /**
@@ -41,13 +43,15 @@ class Accounts
     private $conceal = false;
 
     /**
-     * @ORM\OneToMany(targetEntity="AccountTransactions", mappedBy="account", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="AccountTransactions", mappedBy="account",
+     *   cascade={"remove"})
      */
     private $transactions;
 
     /**
      * @ORM\ManyToOne(targetEntity="Client", inversedBy="accounts")
-     * @ORM\JoinColumn(name="client_id", referencedColumnName="id", nullable=true)
+     * @ORM\JoinColumn(name="client_id", referencedColumnName="id",
+     *   nullable=true)
      */
     private $client;
 
@@ -55,6 +59,11 @@ class Accounts
      * @ORM\OneToMany(targetEntity="TaskLists", mappedBy="account")
      */
     private $taskLists;
+
+    /**
+     * @var int
+     */
+    private $balance = 0;
 
     /**
      * Constructor.
@@ -129,15 +138,28 @@ class Accounts
         return $this->transactions;
     }
 
-    public function getBalance()
+    /**
+     * @ORM\PostLoad()
+     */
+    public function calculateBalance()
     {
         $balance = 0;
+        /** @var AccountTransactions $transaction */
         foreach ($this->getTransactions() as $transaction) {
             $balance += $transaction->getAmount();
         }
 
-        return $balance;
+        $this->balance = $balance;
     }
+
+    /**
+     * @return int
+     */
+    public function getBalance(): int
+    {
+        return $this->balance;
+    }
+
 
     /**
      * Set client.
@@ -221,4 +243,5 @@ class Accounts
     {
         return $this->getName();
     }
+
 }

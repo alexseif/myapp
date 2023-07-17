@@ -12,26 +12,30 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DashboardController extends Controller
 {
+
     /**
      * @Route("/", name="dashboard")
      */
-    public function dashboardAction(TasksService $ts, ReminderService $rs, AccountsService $as)
-    {
+    public function dashboardAction(
+      TasksService $ts,
+      ReminderService $rs,
+      AccountsService $as
+    ) {
         $em = $this->getDoctrine()->getManager();
 
         $earnedLogic = new EarnedLogic($em, $this->get('myapp.cost'));
-
+        $accounts = $as->getDashboard();
         return $this->render('dashboard/dashboard.html.twig', [
-            'taskLists' => $ts->getDashboardTasklists(),
-            'randomTasks' => $ts->getRandom(),
-            'days' => $rs->getActiveReminders(),
-            'holidays' => $em->getRepository(Holiday::class)->getComingHolidays(),
-            'accounts' => $as->getDashboard(),
-            'earned' => $earnedLogic->getEarned(),
-            'issuedThisMonth' => $earnedLogic->getIssuedThisMonth(),
-            'tskCnt' => $ts->getCompletedCountPerDayOfTheWeek(),
-            'costOfLife' => $this->get('myapp.cost'),
-            'piechart' => $ts->getPieChartByUrgencyAndPriority(),
+          'taskLists' => $ts->getDashboardTasklists(),
+          'randomTasks' => $ts->getRandom(),
+          'days' => $rs->getActiveReminders(),
+          'holidays' => $em->getRepository(Holiday::class)->getComingHolidays(),
+          'accounts' => $accounts,
+          'earned' => $earnedLogic->getEarned(),
+          'issuedThisMonth' => $earnedLogic->getIssuedThisMonth(),
+          'tskCnt' => $ts->getCompletedCountPerDayOfTheWeek(),
+          'costOfLife' => $this->get('myapp.cost'),
+          'piechart' => $ts->getPieChartByUrgencyAndPriority(),
         ]);
     }
 
@@ -66,4 +70,5 @@ class DashboardController extends Controller
     {
         return $this->render('empty.html.twig');
     }
+
 }
