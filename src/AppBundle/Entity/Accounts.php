@@ -138,6 +138,9 @@ class Accounts
         return $this->transactions;
     }
 
+    /**
+     * @ORM\PostLoad()
+     */
     public function calculateBalance()
     {
         $balance = 0;
