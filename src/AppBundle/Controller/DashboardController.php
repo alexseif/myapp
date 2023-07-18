@@ -30,7 +30,7 @@ class DashboardController extends Controller
           'randomTasks' => $ts->getRandom(),
           'days' => $rs->getActiveReminders(),
           'holidays' => $em->getRepository(Holiday::class)->getComingHolidays(),
-          'accounts' => $accounts,
+//          'accounts' => $accounts,
           'earned' => $earnedLogic->getEarned(),
           'issuedThisMonth' => $earnedLogic->getIssuedThisMonth(),
           'tskCnt' => $ts->getCompletedCountPerDayOfTheWeek(),
