@@ -5,28 +5,6 @@
 </span>
 <ul class="nav" {{ 1 == app.request.cookies.get('bottom-bar-closed') ? 'style="display:none;"' }}>
     <li class="dropdown">
-        <a class="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button"
-           id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
-           aria-expanded="false">
-            Progress
-        </a>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-            <div class="d-md-block d-sm-none progress-bars">
-                {% set progressBar = bb.getProgress() %}
-                {% set costOfLife = progressBar['costOfLife'] %}
-                {% set earned = progressBar['earned'] %}
-                {% set issuedThisMonth = progressBar['issuedThisMonth'] %}
-                {% for key, progress in progressBar['earned'] %}
-                    {% if 'monthly' == key %}
-                        {% include 'dashboard/progressBars.html.twig' with {'total': attribute(costOfLife, key), 'progress': progress, 'issued': issuedThisMonth} %}
-                    {% else %}
-                        {% include 'dashboard/progressBars.html.twig' with {'total': attribute(costOfLife, key), 'progress': progress} %}
-                    {% endif %}
-                {% endfor %}
-            </div>
-        </div>
-    </li>
-    <li class="dropdown">
         {% set contracts = bb.getContractsProgress() %}
         <a class="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button"
            id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
@@ -62,39 +40,6 @@
                         {{ contract.progress.monthProgress|number_format }}%
                     </div>
                 </div>
-            {% endfor %}
-        </div>
-    </li>
-    <li class="dropdown">
-        {% set tasks = bb.getTasks() %}
-        <a class="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button"
-           id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
-           aria-expanded="false">
-            Tasks
-        </a>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-            {% for task in tasks %}
-                <a class="dropdown-item"
-                   href="{{ path('focus') }}#task_{{ task.id }}">
-                    {{ task.task }}
-                    <span class="badge badge-info float-right">{{ task.taskList }}</span>
-                </a>
-            {% endfor %}
-        </div>
-    </li>
-    <li class="dropdown">
-        {% set objectives = bb.getObjectives() %}
-        <a class="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button"
-           id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
-           aria-expanded="false">
-            Objectives
-        </a>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-            {% for objective in objectives %}
-                <a class="dropdown-item"
-                   href="{{ path('objective_show', {'id': objective.id}) }}">
-                    {{ objective.name }}
-                </a>
             {% endfor %}
         </div>
     </li>
