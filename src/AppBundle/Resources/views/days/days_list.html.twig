@@ -4,7 +4,7 @@
     {# <div class="row"> #}
     {% for day in days %}
         {# <div class="col-md-12"> #}
-        {% include 'AppBundle:days:day_card_horizontal.html.twig' with {'day': day} %}
+        {% include '@App/days/day_card_horizontal.html.twig' with {'day': day} %}
         {# </div> #}
     {% endfor %}
     {# </div> #}

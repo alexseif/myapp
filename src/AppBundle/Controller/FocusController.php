@@ -31,7 +31,7 @@ class FocusController extends Controller
             $focusService->setTasks();
         }
 
-        return $this->render('AppBundle:focus:index.html.twig', $focusService->get());
+        return $this->render('@App/focus/index.html.twig', $focusService->get());
     }
 
     /**
@@ -41,7 +41,7 @@ class FocusController extends Controller
     {
         $focusService->setTasksByTaskList($tasklist);
 
-        return $this->render('AppBundle:focus:index.html.twig', $focusService->get());
+        return $this->render('@App/focus/index.html.twig', $focusService->get());
     }
 
     /**
@@ -73,7 +73,7 @@ class FocusController extends Controller
             $tasks = array_merge($tasks, $reorderTasks);
         }
 
-        return $this->render('AppBundle:focus:singleTask.html.twig', [
+        return $this->render('@App/focus/singleTask.html.twig', [
             'tasks' => $tasks,
         ]);
     }

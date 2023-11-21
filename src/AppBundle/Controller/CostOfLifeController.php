@@ -27,7 +27,7 @@ class CostOfLifeController extends Controller
 
         $costOfLives = $em->getRepository(CostOfLife::class)->findAll();
 
-        return $this->render('AppBundle:costoflife:index.html.twig', [
+        return $this->render('@App/costoflife/index.html.twig', [
             'costOfLives' => $costOfLives,
         ]);
     }
@@ -51,7 +51,7 @@ class CostOfLifeController extends Controller
             return $this->redirectToRoute('costoflife_show', ['id' => $costOfLife->getId()]);
         }
 
-        return $this->render('AppBundle:costoflife:new.html.twig', [
+        return $this->render('@App/costoflife/new.html.twig', [
             'costOfLife' => $costOfLife,
             'form' => $form->createView(),
         ]);
@@ -66,7 +66,7 @@ class CostOfLifeController extends Controller
     {
         $deleteForm = $this->createDeleteForm($costOfLife);
 
-        return $this->render('AppBundle:costoflife:show.html.twig', [
+        return $this->render('@App/costoflife/show.html.twig', [
             'costOfLife' => $costOfLife,
             'delete_form' => $deleteForm->createView(),
         ]);
@@ -89,7 +89,7 @@ class CostOfLifeController extends Controller
             return $this->redirectToRoute('costoflife_edit', ['id' => $costOfLife->getId()]);
         }
 
-        return $this->render('AppBundle:costoflife:edit.html.twig', [
+        return $this->render('@App/costoflife/edit.html.twig', [
             'costOfLife' => $costOfLife,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),

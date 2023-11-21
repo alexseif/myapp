@@ -42,7 +42,7 @@ class TaskListsController extends AbstractController
             return $this->redirectToRoute('tasklists_index');
         }
 
-        return $this->render('AppBundle:tasklists:index.html.twig', [
+        return $this->render('@App/tasklists/index.html.twig', [
             'taskLists' => $taskLists,
             'tasksMassEdit_form' => $form->createView(),
         ]);
@@ -67,7 +67,7 @@ class TaskListsController extends AbstractController
             return $this->redirectToRoute('tasklists_index');
         }
 
-        return $this->render('AppBundle:tasklists:new.html.twig', [
+        return $this->render('@App/tasklists/new.html.twig', [
             'taskList' => $taskList,
             'tasklist_form' => $form->createView(),
         ]);
@@ -82,7 +82,7 @@ class TaskListsController extends AbstractController
     {
         $deleteForm = $this->createDeleteForm($taskList);
 
-        return $this->render('AppBundle:tasklists:show.html.twig', [
+        return $this->render('@App/tasklists/show.html.twig', [
             'taskList' => $taskList,
             'delete_form' => $deleteForm->createView(),
         ]);
@@ -107,7 +107,7 @@ class TaskListsController extends AbstractController
             return $this->redirectToRoute('tasklists_index');
         }
 
-        return $this->render('AppBundle:tasklists:edit.html.twig', [
+        return $this->render('@App/tasklists/edit.html.twig', [
             'taskList' => $taskList,
             'tasklist_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),

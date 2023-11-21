@@ -26,7 +26,7 @@ class NotesController extends Controller
 
         $notes = $em->getRepository(Notes::class)->findAll();
 
-        return $this->render('AppBundle:notes:index.html.twig', [
+        return $this->render('@App/notes/index.html.twig', [
             'notes' => $notes,
         ]);
     }
@@ -50,7 +50,7 @@ class NotesController extends Controller
             return $this->redirectToRoute('notes_show', ['id' => $note->getId()]);
         }
 
-        return $this->render('AppBundle:notes:new.html.twig', [
+        return $this->render('@App/notes/new.html.twig', [
             'note' => $note,
             'notes_form' => $form->createView(),
         ]);
@@ -65,7 +65,7 @@ class NotesController extends Controller
     {
         $deleteForm = $this->createDeleteForm($note);
 
-        return $this->render('AppBundle:notes:show.html.twig', [
+        return $this->render('@App/notes/show.html.twig', [
             'note' => $note,
             'delete_form' => $deleteForm->createView(),
         ]);
@@ -90,7 +90,7 @@ class NotesController extends Controller
             return $this->redirectToRoute('notes_show', ['id' => $note->getId()]);
         }
 
-        return $this->render('AppBundle:notes:edit.html.twig', [
+        return $this->render('@App/notes/edit.html.twig', [
             'note' => $note,
             'notes_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),

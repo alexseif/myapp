@@ -27,7 +27,7 @@ class CurrencyController extends Controller
 
         $currencies = $em->getRepository(Currency::class)->findAll();
 
-        return $this->render('AppBundle:currency:index.html.twig', [
+        return $this->render('@App/currency/index.html.twig', [
             'currencies' => $currencies,
         ]);
     }
@@ -51,7 +51,7 @@ class CurrencyController extends Controller
             return $this->redirectToRoute('currency_show', ['id' => $currency->getId()]);
         }
 
-        return $this->render('AppBundle:currency:new.html.twig', [
+        return $this->render('@App/currency/new.html.twig', [
             'currency' => $currency,
             'form' => $form->createView(),
         ]);
@@ -66,7 +66,7 @@ class CurrencyController extends Controller
     {
         $deleteForm = $this->createDeleteForm($currency);
 
-        return $this->render('AppBundle:currency:show.html.twig', [
+        return $this->render('@App/currency/show.html.twig', [
             'currency' => $currency,
             'delete_form' => $deleteForm->createView(),
         ]);
@@ -89,7 +89,7 @@ class CurrencyController extends Controller
             return $this->redirectToRoute('currency_edit', ['id' => $currency->getId()]);
         }
 
-        return $this->render('AppBundle:currency:edit.html.twig', [
+        return $this->render('@App/currency/edit.html.twig', [
             'currency' => $currency,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),

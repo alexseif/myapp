@@ -28,7 +28,7 @@ class DashboardTaskListsController extends Controller
 
         $dashboardTaskLists = $em->getRepository(DashboardTaskLists::class)->findAllTaskLists();
 
-        return $this->render('AppBundle:Settings:Dashboard/Tasklists/index.html.twig', [
+        return $this->render('@App/Settings/Dashboard/Tasklists/index.html.twig', [
             'dashboardTaskLists' => $dashboardTaskLists,
         ]);
     }
@@ -52,7 +52,7 @@ class DashboardTaskListsController extends Controller
             return $this->redirectToRoute('dashboardtasklists_index');
         }
 
-        return $this->render('AppBundle:Settings:Dashboard/Tasklists/new.html.twig', [
+        return $this->render('@App/Settings/Dashboard/Tasklists/new.html.twig', [
             'dashboardTaskList' => $dashboardTaskList,
             'form' => $form->createView(),
         ]);
@@ -75,7 +75,7 @@ class DashboardTaskListsController extends Controller
             return $this->redirectToRoute('dashboardtasklists_edit', ['id' => $dashboardTaskList->getId()]);
         }
 
-        return $this->render('AppBundle:Settings:Dashboard/Tasklists/edit.html.twig', [
+        return $this->render('@App/Settings/Dashboard/Tasklists/edit.html.twig', [
             'dashboardTaskList' => $dashboardTaskList,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),

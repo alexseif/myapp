@@ -111,7 +111,7 @@ class TasksController extends AbstractController
         $updatedYesterday = $tasksRepository->getUpdatedByDate($formData->date);
         // Starting by yesterday
 
-        return $this->render('AppBundle:tasks:progressByDate.html.twig', [
+        return $this->render('@App/tasks/progressByDate.html.twig', [
             'form' => $form->createView(),
             'date' => $formData->date,
             'completedYesterday' => $completedYesterday,
@@ -131,7 +131,7 @@ class TasksController extends AbstractController
         $sixMonthsAgo->modify('-6 months');
         $backlog = $tasksRepository->getOpenCreatedBeforeDate($sixMonthsAgo);
 
-        return $this->render('AppBundle:tasks:backlog.html.twig', [
+        return $this->render('@App/tasks/backlog.html.twig', [
             'backlog' => $backlog,
         ]);
     }
@@ -170,7 +170,7 @@ class TasksController extends AbstractController
             $tasks = $tasksQuery->getQuery()->getResult();
         }
 
-        return $this->render('AppBundle:tasks:search.html.twig', [
+        return $this->render('@App/tasks/search.html.twig', [
             'filters' => $filters,
             'tasks' => $tasks,
             'task_filter_form' => $form->createView(),
@@ -195,7 +195,7 @@ class TasksController extends AbstractController
             'duration' => 'ASC',
         ]);
 
-        return $this->render('AppBundle:tasks:advanced.html.twig', [
+        return $this->render('@App/tasks/advanced.html.twig', [
             'tasks' => $tasks,
         ]);
     }
