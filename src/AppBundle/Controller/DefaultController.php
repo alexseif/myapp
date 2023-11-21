@@ -42,6 +42,6 @@ class DefaultController extends Controller
      */
     public function getBottomBarDetails()
     {
-        return $this->render('::bottom-bar-details.html.twig');
+        return $this->render('bottom-bar-details.html.twig');
     }
 }
