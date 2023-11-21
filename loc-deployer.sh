@@ -1,7 +1,7 @@
 git pull
 composer install
-bin/console cache:clear
-bin/console doctrine:migrations:migrate --no-interaction
-bin/console make:migration
-bin/console doctrine:migrations:migrate --no-interaction
-bin/console assets:install
+php8.2 bin/console cache:clear
+php8.2 bin/console doctrine:migrations:migrate --no-interaction
+php8.2 bin/console make:migration
+php8.2 bin/console doctrine:migrations:migrate --no-interaction
+php8.2 bin/console assets:install

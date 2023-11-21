@@ -38,7 +38,7 @@ class WorkLogController extends AbstractController
 
         $tasklists = $em->getRepository(TaskLists::class)->findAll();
 
-        return $this->render('AppBundle:worklog:index.html.twig', [
+        return $this->render('@App/worklog/index.html.twig', [
             'tasklists' => $tasklists,
         ]);
     }
@@ -54,7 +54,7 @@ class WorkLogController extends AbstractController
 
         $workLogs = $em->getRepository(WorkLog::class)->getByTaskList($tasklist);
 
-        return $this->render('AppBundle:worklog:tasklist.html.twig', [
+        return $this->render('@App/worklog/tasklist.html.twig', [
             'workLogs' => $workLogs,
         ]);
     }
@@ -86,7 +86,7 @@ class WorkLogController extends AbstractController
         }
         $tasks = $tasksRepo->findByWithJoins($criteria, $orderBy, $limitBy, $offset);
 
-        return $this->render('AppBundle:worklog:completedTasks.html.twig', [
+        return $this->render('@App/worklog/completedTasks.html.twig', [
             'unlog' => $log,
             'tasks' => $tasks,
         ]);
@@ -156,7 +156,7 @@ class WorkLogController extends AbstractController
         }
         $clientRates = $em->getRepository(Rate::class)->findBy(['active' => true]);
 
-        return $this->render('AppBundle:worklog:new.html.twig', [
+        return $this->render('@App/worklog/new.html.twig', [
             'workLog' => $workLog,
             'costOfLife' => $costOfLife,
             'form' => $form->createView(),
@@ -300,7 +300,7 @@ class WorkLogController extends AbstractController
     {
         $deleteForm = $this->createDeleteForm($workLog);
 
-        return $this->render('AppBundle:worklog:show.html.twig', [
+        return $this->render('@App/worklog/show.html.twig', [
             'workLog' => $workLog,
             'delete_form' => $deleteForm->createView(),
         ]);
@@ -323,7 +323,7 @@ class WorkLogController extends AbstractController
             return $this->redirectToRoute('worklog_edit', ['id' => $workLog->getId()]);
         }
 
-        return $this->render('AppBundle:worklog:edit.html.twig', [
+        return $this->render('@App/worklog/edit.html.twig', [
             'workLog' => $workLog,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),

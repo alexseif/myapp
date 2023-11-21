@@ -1,6 +1,6 @@
 {% extends "base.html.twig" %}
 
-{% block title %}AppBundle:Management:index{% endblock %}
+{% block title %}@App/management/index{% endblock %}
 
 {% block content %}
     <style>
@@ -15,7 +15,7 @@
             margin: 10px;
             background: #444;
             padding: 5px;
-            border: 1px solid gray;
+            border: 1px solid rgb(128, 128, 128);
             word-wrap: break-word;
             position: relative;
         }
@@ -59,7 +59,7 @@
         <h3>{{ type }} | {{ result|length }}</h3>
         {% if type == 'days' %}
             {% set days = result %}
-            {% include 'AppBundle:days:days_list.html.twig' %}
+            {% include '@App/days/days_list.html.twig' %}
         {% endif %}
         {% if type == 'clients' %}
             {% set clients = result %}
@@ -71,7 +71,7 @@
         {% endif %}
         {% if type == 'taskLists' %}
             {% set taskLists = result %}
-            {% include 'AppBundle:tasklists:taskLists_list.html.twig' %}
+            {% include '@App/tasklists/taskLists_list.html.twig' %}
         {% endif %}
         {% if type == 'tasks' %}
         {% endif %}

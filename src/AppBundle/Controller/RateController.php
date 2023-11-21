@@ -31,7 +31,7 @@ class RateController extends Controller
         $rateCalculator = $this->get('myapp.rate.calculator');
         $rates = $rateCalculator->getActive();
 
-        return $this->render('AppBundle:rate:index.html.twig', [
+        return $this->render('@App/rate/index.html.twig', [
             'costOfLife' => $costOfLife,
             'rates' => $rates,
         ]);
@@ -68,7 +68,7 @@ class RateController extends Controller
             return $this->redirectToRoute('rate_show', ['id' => $rate->getId()]);
         }
 
-        return $this->render('AppBundle:rate:new.html.twig', [
+        return $this->render('@App/rate/new.html.twig', [
             'rate' => $rate,
             'form' => $form->createView(),
         ]);
@@ -107,7 +107,7 @@ class RateController extends Controller
             $this->redirect($this->generateUrl('rate_increase_all'));
         }
 
-        return $this->render('AppBundle:rate:increaseAll.html.twig', [
+        return $this->render('@App/rate/increaseAll.html.twig', [
             'rates' => $rateCalculator->getActive(),
             'form' => $form->createView(),
         ]);
@@ -124,7 +124,7 @@ class RateController extends Controller
         $em = $this->getDoctrine()->getManager();
         $historyRates = $em->getRepository(Rate::class)->findBy(['client' => $rate->getClient()]);
 
-        return $this->render('AppBundle:rate:show.html.twig', [
+        return $this->render('@App/rate/show.html.twig', [
             'rate' => $rate,
             'historyRates' => $historyRates,
             'delete_form' => $deleteForm->createView(),
@@ -150,7 +150,7 @@ class RateController extends Controller
             return $this->redirectToRoute('rate_edit', ['id' => $rate->getId()]);
         }
 
-        return $this->render('AppBundle:rate:edit.html.twig', [
+        return $this->render('@App/rate/edit.html.twig', [
             'rate' => $rate,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),

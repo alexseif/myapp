@@ -32,7 +32,7 @@ class ManagementController extends Controller
             'action' => $this->generateUrl('management_search_page'),
         ]);
 
-        return $this->render('AppBundle:management:index.html.twig', [
+        return $this->render('@App/management/index.html.twig', [
             'tasks' => $tasks,
             'management_search_form' => $form->createView(),
         ]);
@@ -47,7 +47,7 @@ class ManagementController extends Controller
 
         $tasks = $em->getRepository(Tasks::class)->getIncomplete();
 
-        return $this->render('AppBundle:management:priority.html.twig', [
+        return $this->render('@App/management/priority.html.twig', [
             'tasks' => $tasks,
         ]);
     }
@@ -76,7 +76,7 @@ class ManagementController extends Controller
             $results['notes'] = $em->getRepository(Notes::class)->search($filters['search']);
         }
 
-        return $this->render('AppBundle:management:search.html.twig', [
+        return $this->render('@App/management/search.html.twig', [
             'filters' => $filters,
             'results' => $results,
             'management_search_form' => $form->createView(),

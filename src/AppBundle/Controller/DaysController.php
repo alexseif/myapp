@@ -27,7 +27,7 @@ class DaysController extends Controller
 
         $days = $em->getRepository(Days::class)->getActiveCards();
 
-        return $this->render('AppBundle:days:index.html.twig', [
+        return $this->render('@App/days/index.html.twig', [
             'days' => $days,
         ]);
     }
@@ -43,7 +43,7 @@ class DaysController extends Controller
 
         $days = $em->getRepository(Days::class)->getArchiveCards();
 
-        return $this->render('AppBundle:days:index.html.twig', [
+        return $this->render('@App/days/index.html.twig', [
             'days' => $days,
         ]);
     }
@@ -67,7 +67,7 @@ class DaysController extends Controller
             return $this->redirectToRoute('days_index');
         }
 
-        return $this->render('AppBundle:days:new.html.twig', [
+        return $this->render('@App/days/new.html.twig', [
             'day' => $day,
             'day_form' => $form->createView(),
         ]);
@@ -92,7 +92,7 @@ class DaysController extends Controller
             return $this->redirectToRoute('days_index');
         }
 
-        return $this->render('AppBundle:days:edit.html.twig', [
+        return $this->render('@App/days/edit.html.twig', [
             'day' => $day,
             'day_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),

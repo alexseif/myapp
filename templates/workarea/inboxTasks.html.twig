@@ -1,4 +1,4 @@
-{% import "AppBundle:tasks:tasks_macros.html.twig" as tasks_view %}
+{% import "@App/tasks/tasks_macros.html.twig" as tasks_view %}
 {% if(inboxTasks) %}
     {{ tasks_view.ul(inboxTasks) }}
 {% else %}

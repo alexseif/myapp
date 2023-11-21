@@ -1,4 +1,4 @@
-{% import "AppBundle:tasks:tasks_macros.html.twig" as tasks_view %}
+{% import "@App/tasks/tasks_macros.html.twig" as tasks_view %}
 {# <div class="btn btn-secondary border border-secondary btn-sm btn-block p-0">{{ interval|date("%d %H:%I") }}</div> #}
 {% for taskList in taskLists %}
     {% set taskList = taskList.taskList %}

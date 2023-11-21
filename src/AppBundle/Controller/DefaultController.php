@@ -18,7 +18,7 @@ class DefaultController extends Controller
 
         $lists = $em->getRepository(TaskLists::class)->findBy(['status' => 'start']);
 
-        return $this->render('AppBundle:default:lists.html.twig', [
+        return $this->render('@App/default/lists.html.twig', [
             'today' => $today,
             'lists' => $lists,
         ]);
@@ -32,7 +32,7 @@ class DefaultController extends Controller
         $tasks = $taskList->getTasks(false);
         $random = random_int(0, $tasks->count() - 1);
 
-        return $this->render('AppBundle:tasks:show_modal.html.twig', [
+        return $this->render('@App/tasks/show_modal.html.twig', [
             'task' => $tasks->get($random),
         ]);
     }

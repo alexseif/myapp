@@ -26,7 +26,7 @@ class HolidayController extends Controller
 
         $holidays = $em->getRepository(Holiday::class)->findAll();
 
-        return $this->render('AppBundle:holiday:index.html.twig', [
+        return $this->render('@App/holiday/index.html.twig', [
             'holidays' => $holidays,
         ]);
     }
@@ -63,7 +63,7 @@ class HolidayController extends Controller
             return $this->redirectToRoute('holiday_show', ['id' => $note->getId()]);
         }
 
-        return $this->render('AppBundle:holiday:new.html.twig', [
+        return $this->render('@App/holiday/new.html.twig', [
             'note' => $note,
             'holiday_form' => $form->createView(),
         ]);
@@ -78,7 +78,7 @@ class HolidayController extends Controller
     {
         $deleteForm = $this->createDeleteForm($holiday);
 
-        return $this->render('AppBundle:holiday:show.html.twig', [
+        return $this->render('@App/holiday/show.html.twig', [
             'holiday' => $holiday,
             'delete_form' => $deleteForm->createView(),
         ]);
@@ -103,7 +103,7 @@ class HolidayController extends Controller
             return $this->redirectToRoute('holiday_show', ['id' => $holiday->getId()]);
         }
 
-        return $this->render('AppBundle:holiday:edit.html.twig', [
+        return $this->render('@App/holiday/edit.html.twig', [
             'holiday' => $holiday,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),

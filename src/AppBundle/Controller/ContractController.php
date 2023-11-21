@@ -37,7 +37,7 @@ class ContractController extends Controller
 
         $contracts = $em->getRepository(Contract::class)->findAll();
 
-        return $this->render('AppBundle:contract:index.html.twig', [
+        return $this->render('@App/contract/index.html.twig', [
             'contracts' => $contracts,
         ]);
     }
@@ -61,7 +61,7 @@ class ContractController extends Controller
             return $this->redirectToRoute('contract_show', ['id' => $contract->getId()]);
         }
 
-        return $this->render('AppBundle:contract:new.html.twig', [
+        return $this->render('@App/contract/new.html.twig', [
             'contract' => $contract,
             'form' => $form->createView(),
         ]);
@@ -76,7 +76,7 @@ class ContractController extends Controller
     {
         $deleteForm = $this->createDeleteForm($contract);
 
-        return $this->render('AppBundle:contract:show.html.twig', [
+        return $this->render('@App/contract/show.html.twig', [
             'contract' => $contract,
             'delete_form' => $deleteForm->createView(),
         ]);
@@ -94,7 +94,7 @@ class ContractController extends Controller
 
         $months = DateRanges::populateMonths($contract->getStartedAt()->format('Ymd'), $today->format('Ymd'), $day);
 
-        return $this->render('AppBundle:contract:log-summary.html.twig', [
+        return $this->render('@App/contract/log-summary.html.twig', [
             'contract' => $contract,
             'months' => $months,
         ]);
@@ -153,7 +153,7 @@ class ContractController extends Controller
         $remaining = $expected - $totalHours;
         $sign = ($remaining < 0);
         $remaining = (($sign) ? "+" : "-") . floor(abs($remaining)) . ':' . $totalMins;
-        return $this->render('AppBundle:contract:log.html.twig', [
+        return $this->render('@App/contract/log.html.twig', [
             'contract' => $contract,
             'from' => $from,
             'to' => $to,
@@ -197,7 +197,7 @@ class ContractController extends Controller
             }
         }
 
-        return $this->render('AppBundle:contract:report.html.twig', [
+        return $this->render('@App/contract/report.html.twig', [
             'report_filter_form' => $reportFilterForm->createView(),
             'contract' => $contract,
             'monthsArray' => $monthsArray,
@@ -232,7 +232,7 @@ class ContractController extends Controller
         $sign = ($remaining < 0);
         $remaining = (($sign) ? "+" : "-") . floor(abs($remaining)) . ':' . $totalMins;
 
-        return $this->render('AppBundle:contract:timesheet.html.twig', [
+        return $this->render('@App/contract/timesheet.html.twig', [
             'contract' => $contract,
             'from' => $from,
             'to' => $to,
@@ -268,7 +268,7 @@ class ContractController extends Controller
             return $this->redirectToRoute('contract_index');
         }
 
-        return $this->render('AppBundle:contract:edit.html.twig', [
+        return $this->render('@App/contract/edit.html.twig', [
             'contract' => $contract,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),

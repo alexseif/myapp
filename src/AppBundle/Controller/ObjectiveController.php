@@ -26,7 +26,7 @@ class ObjectiveController extends Controller
 
         $objectives = $em->getRepository(Objective::class)->findAll();
 
-        return $this->render('AppBundle:objective:index.html.twig', [
+        return $this->render('@App/objective/index.html.twig', [
             'objectives' => $objectives,
         ]);
     }
@@ -50,7 +50,7 @@ class ObjectiveController extends Controller
             return $this->redirectToRoute('objective_show', ['id' => $objective->getId()]);
         }
 
-        return $this->render('AppBundle:objective:new.html.twig', [
+        return $this->render('@App/objective/new.html.twig', [
             'objective' => $objective,
             'form' => $form->createView(),
         ]);
@@ -65,7 +65,7 @@ class ObjectiveController extends Controller
     {
         $deleteForm = $this->createDeleteForm($objective);
 
-        return $this->render('AppBundle:objective:show.html.twig', [
+        return $this->render('@App/objective/show.html.twig', [
             'objective' => $objective,
             'delete_form' => $deleteForm->createView(),
         ]);
@@ -88,7 +88,7 @@ class ObjectiveController extends Controller
             return $this->redirectToRoute('objective_edit', ['id' => $objective->getId()]);
         }
 
-        return $this->render('AppBundle:objective:edit.html.twig', [
+        return $this->render('@App/objective/edit.html.twig', [
             'objective' => $objective,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),

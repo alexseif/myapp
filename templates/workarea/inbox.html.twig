@@ -50,8 +50,8 @@
             <div class="col-2">
                 <div class="col-wrapper" id='inbox-days'>
                     {% if days|length %}
-                        {% include 'AppBundle:days:days_list_summary.html.twig' %}
-                        {% include 'AppBundle:holiday:holidays_list_summary.html.twig' %}
+                        {% include '@App/days/days_list_summary.html.twig' %}
+                        {% include '@App/holiday/holidays_list_summary.html.twig' %}
                     {% endif %}
                 </div>
             </div>

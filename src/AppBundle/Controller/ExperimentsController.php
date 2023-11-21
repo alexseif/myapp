@@ -30,7 +30,7 @@ class ExperimentsController extends Controller
             'Accounts' => 'experiment_accounts',
         ];
 
-        return $this->render('AppBundle:Experiments:index.html.twig', [
+        return $this->render('@App/Experiments/index.html.twig', [
             'experiments' => $experiments,
         ]);
     }
@@ -79,7 +79,7 @@ class ExperimentsController extends Controller
             $data['result']['price'] = $rateCaltulcator->task($formData['tasks']);
         }
 
-        return $this->render('AppBundle:Experiments:tasks.html.twig', [
+        return $this->render('@App/Experiments/tasks.html.twig', [
             'form' => $form->createView(),
             'data' => $data,
         ]);
@@ -141,7 +141,7 @@ class ExperimentsController extends Controller
             $data['result']['price'] = $rateCalculator->tasks($data['result']['tasks']);
         }
 
-        return $this->render('AppBundle:Experiments:accounts.html.twig', [
+        return $this->render('@App/Experiments/accounts.html.twig', [
             'form' => $form->createView(),
             'data' => $data,
         ]);

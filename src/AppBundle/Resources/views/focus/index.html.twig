@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-{% import "AppBundle:tasks:tasks_macros.html.twig" as tasks_view %}
+{% import "@App/tasks/tasks_macros.html.twig" as tasks_view %}
 
 {% block title %}Focus{% endblock %}
 
@@ -34,7 +34,7 @@
     </form>
     <div class="container">
         {% if dayCards|length %}
-            {{ include('AppBundle:days:days_list_summary.html.twig', {'days' : dayCards } ) }}
+            {{ include('@App/days/days_list_summary.html.twig', {'days' : dayCards } ) }}
         {% endif %}
         {{ tasks_view.ul(completed, {id: 'completed', displayListName: 'completed', class: 'm-2'}) }}
         {{ tasks_view.ul(tasks, {id: 'tasks', displayListName: 'tasks', focus: true} ) }}
