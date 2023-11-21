@@ -1,3 +1,4 @@
+git reset HEAD --hard
 git pull
 export SYMFONY_ENV=prod
 composer install --no-dev --optimize-autoloader
