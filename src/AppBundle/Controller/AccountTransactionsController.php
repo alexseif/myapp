@@ -17,6 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class AccountTransactionsController extends AbstractController
 {
+
     /**
      * Lists all AccountTransactions entities.
      *
@@ -26,10 +27,11 @@ class AccountTransactionsController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $accountTransactions = $em->getRepository(AccountTransactions::class)->findAll();
+        $accountTransactions = $em->getRepository(AccountTransactions::class)
+          ->findAll();
 
         return $this->render('accounttransactions/index.html.twig', [
-            'accountTransactions' => $accountTransactions,
+          'accountTransactions' => $accountTransactions,
         ]);
     }
 
@@ -43,22 +45,33 @@ class AccountTransactionsController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $accountTransaction = new AccountTransactions();
         if (!empty($request->get('account'))) {
-            $account = $em->getRepository(Accounts::class)->find($request->get('account'));
+            $account = $em->getRepository(Accounts::class)->find(
+              $request->get('account')
+            );
             $accountTransaction->setAccount($account);
         }
-        $form = $this->createForm(AccountTransactionsType::class, $accountTransaction);
+        if (!empty($request->get('amount'))) {
+            $accountTransaction->setAmount($request->get('amount'));
+        }
+        $form = $this->createForm(
+          AccountTransactionsType::class,
+          $accountTransaction
+        );
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em->persist($accountTransaction);
             $em->flush();
 
-            return $this->redirectToRoute('accounttransactions_show', ['id' => $accountTransaction->getId()]);
+            return $this->redirectToRoute(
+              'accounttransactions_show',
+              ['id' => $accountTransaction->getId()]
+            );
         }
 
         return $this->render('accounttransactions/new.html.twig', [
-            'accountTransaction' => $accountTransaction,
-            'transaction_form' => $form->createView(),
+          'accountTransaction' => $accountTransaction,
+          'transaction_form' => $form->createView(),
         ]);
     }
 
@@ -72,8 +85,8 @@ class AccountTransactionsController extends AbstractController
         $deleteForm = $this->createDeleteForm($accountTransaction);
 
         return $this->render('accounttransactions/show.html.twig', [
-            'accountTransaction' => $accountTransaction,
-            'delete_form' => $deleteForm->createView(),
+          'accountTransaction' => $accountTransaction,
+          'delete_form' => $deleteForm->createView(),
         ]);
     }
 
@@ -82,10 +95,15 @@ class AccountTransactionsController extends AbstractController
      *
      * @Route("/{id}/edit", name="accounttransactions_edit", methods={"GET", "POST"})
      */
-    public function editAction(Request $request, AccountTransactions $accountTransaction)
-    {
+    public function editAction(
+      Request $request,
+      AccountTransactions $accountTransaction
+    ) {
         $deleteForm = $this->createDeleteForm($accountTransaction);
-        $editForm = $this->createForm(AccountTransactionsType::class, $accountTransaction);
+        $editForm = $this->createForm(
+          AccountTransactionsType::class,
+          $accountTransaction
+        );
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
@@ -93,13 +111,16 @@ class AccountTransactionsController extends AbstractController
             $em->persist($accountTransaction);
             $em->flush();
 
-            return $this->redirectToRoute('accounttransactions_edit', ['id' => $accountTransaction->getId()]);
+            return $this->redirectToRoute(
+              'accounttransactions_edit',
+              ['id' => $accountTransaction->getId()]
+            );
         }
 
         return $this->render('accounttransactions/edit.html.twig', [
-            'accountTransaction' => $accountTransaction,
-            'transaction_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+          'accountTransaction' => $accountTransaction,
+          'transaction_form' => $editForm->createView(),
+          'delete_form' => $deleteForm->createView(),
         ]);
     }
 
@@ -108,8 +129,10 @@ class AccountTransactionsController extends AbstractController
      *
      * @Route("/{id}", name="accounttransactions_delete", methods={"DELETE"})
      */
-    public function deleteAction(Request $request, AccountTransactions $accountTransaction)
-    {
+    public function deleteAction(
+      Request $request,
+      AccountTransactions $accountTransaction
+    ) {
         $form = $this->createDeleteForm($accountTransaction);
         $form->handleRequest($request);
 
@@ -132,8 +155,14 @@ class AccountTransactionsController extends AbstractController
     private function createDeleteForm(AccountTransactions $accountTransaction)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('accounttransactions_delete', ['id' => $accountTransaction->getId()]))
-            ->setMethod('DELETE')
-            ->getForm();
+          ->setAction(
+            $this->generateUrl(
+              'accounttransactions_delete',
+              ['id' => $accountTransaction->getId()]
+            )
+          )
+          ->setMethod('DELETE')
+          ->getForm();
     }
+
 }

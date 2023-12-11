@@ -102,4 +102,7 @@
     <orderEntry type="library" name="jquery.dataTables" level="application" />
     <orderEntry type="library" name="loader" level="application" />
   </component>
+  <component name="SonarLintModuleSettings">
+    <option name="uniqueId" value="5c98b73a-6c7b-45b6-b8f0-476c9d368e48" />
+  </component>
 </module>

@@ -31,7 +31,7 @@
                         <thead>
                         <tr>
                             <th>Account</th>
-                            <th>Balacne</th>
+                            <th>Balance</th>
                             <th></th>
                         </tr>
                         </thead>
@@ -57,7 +57,7 @@
                                         </a>
                                     </td>
                                     <td>
-                                        {{ a.add('accounttransactions_new', { 'account': account.id }) }}
+                                        {{ a.add('accounttransactions_new', { 'account': account.id, 'amount' : account.balance * -1}) }}
                                     </td>
                                 </tr>
                             {% endif %}
