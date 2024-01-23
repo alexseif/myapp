@@ -199,14 +199,14 @@ class DateRanges
      *
      * @return DateTime
      */
-    public static function getMonthStart($date = 'now')
+    public static function getMonthStart($date = 'now', $billedOn = 25)
     {
         $monthStart = new DateTime($date);
-        if ($monthStart->format('d') < 25) {
+        if ($monthStart->format('d') < $billedOn) {
             $monthStart->modify('-1 month');
         }
         $monthStart->setTime(0, 0, 0);
-        $monthStart->setDate($monthStart->format('Y'), $monthStart->format('m'), 25);
+        $monthStart->setDate($monthStart->format('Y'), $monthStart->format('m'), $billedOn);
 
         return $monthStart;
     }
