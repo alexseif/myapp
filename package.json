@@ -14,9 +14,9 @@
     "license": "UNLICENSED",
     "private": true,
     "scripts": {
-        "dev-server": "encore dev-server",
-        "dev": "encore dev",
-        "watch": "encore dev --watch",
-        "build": "encore production --progress"
+        "dev-server": "npm run dev-server",
+        "dev": "npm run dev",
+        "watch": "npm run dev --watch",
+        "build": "npm run production --progress"
     }
 }
