@@ -1,0 +1,48 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Timesheets - {{ account }}{% endblock %}
+
+{% block content %}
+    <style>
+
+        .table td {
+            text-align: right;
+        }
+
+        .table td:first-child {
+            text-align: left;
+        }
+    </style>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <h2>Account: {{ account }}</h2>
+            </div>
+            <div class="offset-md-5 col-md-3">
+                <h3>Client: {{ account.client }}</h3>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="container">
+        <h3>Issued Statements</h3>
+        <table class="table table-bordered table-condensed table-striped">
+            <thead>
+            <tr>
+                <th>Coverage period</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in monthsArray %}
+                <tr>
+                    <td>
+                        <a href="{{ path('account_timesheet', {"id" : account.id, "from": item.start, "to":item.end }) }}">
+                            {{ item.start }} - {{ item.end }}
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

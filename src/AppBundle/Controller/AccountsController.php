@@ -3,9 +3,15 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Accounts;
+use AppBundle\Entity\Contract;
+use AppBundle\Entity\Tasks;
 use AppBundle\Form\AccountsType;
+use AppBundle\Util\DateRanges;
+use DateTime;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -71,6 +77,60 @@ class AccountsController extends Controller
         return $this->render('accounts/show.html.twig', [
           'account' => $account,
           'delete_form' => $deleteForm->createView(),
+        ]);
+    }
+
+
+    /**
+     * @Route("/{id}/timesheets", name="account_timesheets")
+     *
+     * @throws Exception
+     */
+    public function timesheetsAction(Accounts $account): ?Response
+    {
+        $today = new DateTime();
+        $monthsArray = DateRanges::populateMonths($account->getCreatedAt()->format('Ymd'), $today->format('Ymd'),
+          25);
+
+        return $this->render('accounts/report.html.twig', [
+          'account' => $account,
+          'monthsArray' => $monthsArray,
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/{from}/{to}", name="account_timesheet")
+     *
+     * @throws Exception
+     */
+    public function timesheetAction(Accounts $account, $from, $to): ?Response
+    {
+        $em = $this->getDoctrine()->getManager();
+        $fromDate = new DateTime($from);
+        $fromDate->setTime(0, 0, 0);
+        $toDate = new DateTime($to);
+        $toDate->setTime(23, 23, 59);
+        $tasks = $em->getRepository(Tasks::class)->findCompletedByClientByRange(
+          $account->getClient(),
+          $fromDate,
+          $toDate
+        );
+        $workingDays = 22;
+        $total = 0;
+
+
+        foreach ($tasks as $task) {
+            $total += $task->getDuration();
+        }
+        $totalHours = $total / 60;
+        $totalMins = $total % 60;
+
+        return $this->render('accounts/timesheet.html.twig', [
+          'account' => $account,
+          'from' => $from,
+          'to' => $to,
+          'tasks' => $tasks,
+          'total' => $total,
         ]);
     }
 
