@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{#{% import "@App/tasks/tasks_macros.html.twig" as tasks_view %}#}
-{% import "@App/tasks/tasks_macros.html.twig" as tasks_view %}
+{#{% import "tasks/tasks_macros.html.twig" as tasks_view %}#}
+{% import "tasks/tasks_macros.html.twig" as tasks_view %}
 {% block title %}Dashboard{% endblock %}
 {% block stylesheets %}
     {{ parent() }}
@@ -29,7 +29,7 @@
 {% block content %}
     <div class="row">
         <div class="col-lg-4 col-md-6 col-sm-12">
-            {% include '@App/default/taskLists.html.twig' %}
+            {% include 'default/taskLists.html.twig' %}
             <button class="btn btn-primary btn-sm float-right" type="button"
                     data-toggle="collapse" data-target="#collapseExample"
                     aria-expanded="false" aria-controls="collapseExample">
@@ -50,15 +50,15 @@
             </div>
         </div>
         <div class="col-lg-4 col-md-6 col-sm-12">
-{#            {% include '@App/default/accounts.html.twig' %}#}
-            {% include '@App/default/costOfLife.html.twig' %}
-            {% include '@App/default/graphs.html.twig' %}
+{#            {% include 'default/accounts.html.twig' %}#}
+            {% include 'default/costOfLife.html.twig' %}
+            {% include 'default/graphs.html.twig' %}
         </div>
         <div class="col-lg-4 col-md-6 col-sm-12">
             <hr class="border-info"/>
             {% if days|length %}
-                {% include '@App/days/days_list_summary.html.twig' %}
-                {% include '@App/holiday/holidays_list_summary.html.twig' %}
+                {% include 'days/days_list_summary.html.twig' %}
+                {% include 'holiday/holidays_list_summary.html.twig' %}
             {% endif %}
         </div>
     </div>

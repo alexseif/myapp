@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-{% import "@App/tasks/tasks_macros.html.twig" as tasks_view %}
+{% import "tasks/tasks_macros.html.twig" as tasks_view %}
 {% block title %}Workarea{% endblock %}
 {# TODO: http://bootsnipp.com/user/favorites #}
 {% block stylesheets %}
@@ -68,8 +68,8 @@
             <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2">
                 <div class="col-wrapper" id='inbox-days'>
                     {% if days|length %}
-                        {# {% include '@App/days/days_list.html.twig' %} #}
-                        {% include '@App/days/_list_summary.html.twig' %}
+                        {# {% include 'days/days_list.html.twig' %} #}
+                        {% include 'days/_list_summary.html.twig' %}
                     {% endif %}
                     {% set hideEmpty = true %}
                 </div><!-- .col-wrapper -->

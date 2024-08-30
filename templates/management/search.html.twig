@@ -1,0 +1,85 @@
+{% extends "base.html.twig" %}
+
+{% block title %}@App/management/index{% endblock %}
+
+{% block content %}
+    <style>
+        ol {
+            border: 1px dotted #444;
+            border-radius: 4px;
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ol li {
+            margin: 10px;
+            background: #444;
+            padding: 5px;
+            border: 1px solid rgb(128, 128, 128);
+            word-wrap: break-word;
+            position: relative;
+        }
+
+        span:not(.glyphicon) {
+            border-right: 1px dotted #CCC;
+            margin-right: 5px;
+            padding-right: 5px;
+        }
+
+        .task-list-name {
+            display: inline-block;
+            width: 210px;
+        }
+
+        .task-icons, .task-est {
+            display: inline-block;
+            width: 40px;
+            text-align: right;
+        }
+
+        .task-wrapper {
+            display: inline-block;
+            width: 100%;
+        }
+
+        .task-actions {
+            display: inline-block;
+        }
+    </style>
+    <div class="well">
+        {{ form_start(management_search_form) }}
+        {{ form_widget(management_search_form) }}
+        <button type="submit" value="Filter" class="btn btn-secondary">Search</button>
+        <a href="{{ path('management_index') }}" class="btn btn-warning">Del</a>
+        {{ form_end(management_search_form) }}
+    </div>
+    <h2>{{ (filters.search is defined) ? filters.search }}</h2>
+
+    {% for type,result in results %}
+        <h3>{{ type }} | {{ result|length }}</h3>
+        {% if type == 'days' %}
+            {% set days = result %}
+            {% include 'days/days_list.html.twig' %}
+        {% endif %}
+        {% if type == 'clients' %}
+            {% set clients = result %}
+            {% include 'client/clients_list.html.twig' %}
+        {% endif %}
+        {% if type == 'accounts' %}
+            {% set accounts = result %}
+            {% include 'accounts/accounts_list.html.twig' %}
+        {% endif %}
+        {% if type == 'taskLists' %}
+            {% set taskLists = result %}
+            {% include 'tasklists/taskLists_list.html.twig' %}
+        {% endif %}
+        {% if type == 'tasks' %}
+        {% endif %}
+        {% if type == 'notes' %}
+        {% endif %}
+    {% endfor %}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="/js/management.js"></script>
+{% endblock %}

@@ -1,23 +1,21 @@
 #!/usr/bin/env php
 <?php
 
-use Symfony\Component\Dotenv\Dotenv;
-use Symfony\Component\ErrorHandler\Debug;
-use Symfony\Component\Console\Application;
+use App\Kernel;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
 
-set_time_limit(0);
-
-require dirname(__DIR__).'/vendor/autoload.php';
-
-if (file_exists(dirname(__DIR__).'/.env')) {
-    (new Dotenv())->bootEnv(dirname(__DIR__).'/.env');
+if (!is_dir(dirname(__DIR__).'/vendor')) {
+    throw new LogicException('Dependencies are missing. Try running "composer install".');
 }
 
-if ($_SERVER['APP_DEBUG']) {
-    umask(0000);
-
-    Debug::enable();
+if (!is_file(dirname(__DIR__).'/vendor/autoload_runtime.php')) {
+    throw new LogicException('Symfony Runtime is missing. Try running "composer require symfony/runtime".');
 }
 
-$application = new Application($_SERVER['APP_ENV'], (bool) $_SERVER['APP_DEBUG']);
-$application->run();
+require_once dirname(__DIR__).'/vendor/autoload_runtime.php';
+
+return function (array $context) {
+    $kernel = new Kernel($context['APP_ENV'], (bool) $context['APP_DEBUG']);
+
+    return new Application($kernel);
+};
