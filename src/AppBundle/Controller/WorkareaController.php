@@ -86,6 +86,6 @@ class WorkareaController extends AbstractController
         TasksService $tasksService,
         $taskListName
     ) {
-        return JsonResponse::create($tasksService->getWorkareaTasksCount($taskListName));
+        return new JsonResponse($tasksService->getWorkareaTasksCount($taskListName));
     }
 }

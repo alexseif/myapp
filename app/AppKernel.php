@@ -3,6 +3,7 @@
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel;
+use Symfony\Bundle\DebugBundle\DebugBundle;
 
 class AppKernel extends Kernel
 {
@@ -25,12 +26,13 @@ class AppKernel extends Kernel
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
-            $bundles[] = new Symfony\Bundle\DebugBundle\DebugBundle();
+            $bundles[] = new DebugBundle();
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle(
             );
             $bundles[] = new \Symfony\Bundle\MakerBundle\MakerBundle();
 
             if ('dev' === $this->getEnvironment()) {
+                // Additional dev-specific bundles
             }
         }
 
