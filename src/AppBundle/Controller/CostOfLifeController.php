@@ -4,7 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\CostOfLife;
 use AppBundle\Form\CostOfLifeType;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
  *
  * @Route("costoflife")
  */
-class CostOfLifeController extends Controller
+class CostOfLifeController extends AbstractController
 {
     /**
      * Lists all costOfLife entities.

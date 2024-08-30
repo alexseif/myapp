@@ -4,7 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Objective;
 use AppBundle\Form\ObjectiveType;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
  *
  * @Route("objective")
  */
-class ObjectiveController extends Controller
+class ObjectiveController extends AbstractController
 {
     /**
      * Lists all objective entities.

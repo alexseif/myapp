@@ -9,7 +9,7 @@ use AppBundle\Form\AccountsType;
 use AppBundle\Util\DateRanges;
 use DateTime;
 use Exception;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
  *
  * @Route("/accounts")
  */
-class AccountsController extends Controller
+class AccountsController extends AbstractController
 {
 
     /**

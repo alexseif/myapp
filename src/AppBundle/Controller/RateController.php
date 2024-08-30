@@ -7,7 +7,8 @@ use AppBundle\Entity\Currency;
 use AppBundle\Entity\Rate;
 use AppBundle\Form\RateType;
 use AppBundle\Logic\CostOfLifeLogic;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use AppBundle\Service\CostService;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\PercentType;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,16 +19,16 @@ use Symfony\Component\Routing\Annotation\Route;
  *
  * @Route("rate")
  */
-class RateController extends Controller
+class RateController extends AbstractController
 {
     /**
      * Lists all rate entities.
      *
      * @Route("/", name="rate_index", methods={"GET"})
      */
-    public function indexAction()
+    public function indexAction(CostService  $costService)
     {
-        $costOfLife = $this->get('myapp.cost');
+        $costOfLife = $costService;
         $rateCalculator = $this->get('myapp.rate.calculator');
         $rates = $rateCalculator->getActive();
 

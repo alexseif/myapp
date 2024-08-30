@@ -6,7 +6,7 @@ use AppBundle\Entity\Accounts;
 use AppBundle\Entity\AccountTransactions;
 use AppBundle\Form\AccountingMainFilterType;
 use AppBundle\Util\DateRanges;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
  *
  * @Route("/accounting")
  */
-class AccountingController extends Controller
+class AccountingController extends AbstractController
 {
     /**
      * @Route("/", name="accounting_index", methods={"GET"})

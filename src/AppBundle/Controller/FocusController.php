@@ -6,13 +6,13 @@ use AppBundle\Entity\Client;
 use AppBundle\Entity\TaskLists;
 use AppBundle\Entity\Tasks;
 use AppBundle\Service\FocusService;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
-class FocusController extends Controller
+class FocusController extends AbstractController
 {
     /**
      * @Route("/focus", name="focus")

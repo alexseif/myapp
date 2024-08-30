@@ -8,7 +8,7 @@ use AppBundle\Entity\Days;
 use AppBundle\Entity\Notes;
 use AppBundle\Entity\TaskLists;
 use AppBundle\Entity\Tasks;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
  *
  * @Route("/management")
  */
-class ManagementController extends Controller
+class ManagementController extends AbstractController
 {
     /**
      * @Route("/", name="management_index")

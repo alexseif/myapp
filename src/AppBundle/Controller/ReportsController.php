@@ -8,7 +8,7 @@ use AppBundle\Entity\Client;
 use AppBundle\Entity\TaskLists;
 use AppBundle\Entity\Tasks;
 use AppBundle\Service\ReportService;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
  *
  * @Route("reports")
  */
-class ReportsController extends Controller
+class ReportsController extends AbstractController
 {
     /**
      * @Route("/", name="reports_index")

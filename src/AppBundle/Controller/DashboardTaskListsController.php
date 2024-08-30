@@ -5,7 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\DashboardTaskLists;
 use AppBundle\Entity\TaskLists;
 use AppBundle\Form\DashboardTaskListsType;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
  *
  * @Route("dashboardtasklists")
  */
-class DashboardTaskListsController extends Controller
+class DashboardTaskListsController extends AbstractController
 {
     /**
      * Lists all dashboardTaskList entities.

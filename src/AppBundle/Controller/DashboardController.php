@@ -5,12 +5,13 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Holiday;
 use AppBundle\Logic\EarnedLogic;
 use AppBundle\Service\AccountsService;
+use AppBundle\Service\CostService;
 use AppBundle\Service\ReminderService;
 use AppBundle\Service\TasksService;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-class DashboardController extends Controller
+class DashboardController extends AbstractController
 {
 
     /**
@@ -19,11 +20,12 @@ class DashboardController extends Controller
     public function dashboardAction(
       TasksService $ts,
       ReminderService $rs,
-      AccountsService $as
+      AccountsService $as,
+      CostService $costService
     ) {
         $em = $this->getDoctrine()->getManager();
 
-        $earnedLogic = new EarnedLogic($em, $this->get('myapp.cost'));
+        $earnedLogic = new EarnedLogic($em, $costService);
         $accounts = $as->getDashboard();
         return $this->render('dashboard/dashboard.html.twig', [
           'taskLists' => $ts->getDashboardTasklists(),
@@ -34,7 +36,7 @@ class DashboardController extends Controller
 //          'earned' => $earnedLogic->getEarned(),
 //          'issuedThisMonth' => $earnedLogic->getIssuedThisMonth(),
           'tskCnt' => $ts->getCompletedCountPerDayOfTheWeek(),
-          'costOfLife' => $this->get('myapp.cost'),
+          'costOfLife' => $costService,
           'piechart' => $ts->getPieChartByUrgencyAndPriority(),
         ]);
     }

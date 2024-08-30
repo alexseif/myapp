@@ -6,7 +6,7 @@ use AppBundle\Entity\Accounts;
 use AppBundle\Entity\Tasks;
 use AppBundle\Repository\AccountsRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
  *
  * @Route("/experiments")
  */
-class ExperimentsController extends Controller
+class ExperimentsController extends AbstractController
 {
     /**
      * @Route("/", name="experiments_index")
