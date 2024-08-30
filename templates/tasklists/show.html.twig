@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+{% import "tasks/tasks_macros.html.twig" as tasks_view %}
+{% import "macros/forms.html.twig" as forms %}
+{% import "macros/a.html.twig" as a %}
+{% block floatingActions %}{{ a.add('tasks_new', {"tasklist": taskList.id}) }}{% endblock %}
+{% block panelBack %}{{ a.back('tasklists_index') }}{% endblock %}
+{% block panelTitle %}{{ taskList.name }} Tasks{% endblock %}
+{% block panelTitleLabels %}
+    {% if (taskList.account) %}
+        <a href="{{ path('accounts_show', {'id': taskList.account.id}) }}"
+           class="badge badge-info">{{ taskList.account.name }}</a>
+        {% if (taskList.account.client) %}
+            <a href="{{ path('client_show', {'id': taskList.account.client.id}) }}"
+               class="badge badge-primary">{{ taskList.account.client.name }}</a>
+        {% endif %}
+    {% endif %}
+{% endblock %}
+{% block panelHeadingRight %}
+    <div class="d-inline">
+        <span class="badge badge-info">est: {{ taskList.estTotal|date("%d %H:%I") }}</span>
+        <span class="badge badge-primary">dur: {{ taskList.durationTotal|date("%d %H:%I") }}</span>
+    </div>
+    {{ a.edit('tasklists_edit', { 'id': taskList.id }) }}
+    {{ forms.delete(delete_form) }}
+{% endblock %}
+{% block panelBody %}
+    {{ tasks_view.ul(taskList.tasks, {id: taskList.name, displayListName: false}) }}
+{% endblock %}

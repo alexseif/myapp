@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+{% import "tasks/tasks_macros.html.twig" as taskUI %}
+{% block title %}Dashboard{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="/css/beta.css"/>
+{% endblock %}
+{% block container %}
+    <div class="floating-action dropup">
+        <a class="btn btn-info dropdown-toggle" id="dahboardMenuButton" data-toggle="dropdown" aria-haspopup="true"
+           aria-expanded="false">Add</a>
+        <ul class="dropdown-menu floating-actions" aria-labelledby="dahboardMenuButton">
+            <li><a href="{{ path('tasks_new') }}" class="btn btn-info">Task</a></li>
+            <li><a href="{{ path('tasklists_new') }}" class="btn btn-info">List</a></li>
+            <li><a href="{{ path('days_new') }}" class="btn btn-info">Day</a></li>
+            <li><a href="{{ path('notes_new') }}" class="btn btn-info">Note</a></li>
+        </ul>
+    </div>
+    <ul class="list-group action-list">
+        {% for item in actionItems %}
+            <li class="list-group-item action-item" id="{{ item.type }}-{{ item.id }}">
+                <div class="row">
+                    <div class="col-md-2">
+                        {{ taskUI.taskIcons(item.urgency, item.priority) }}
+                        <span class="badge badge-default action-list">{{ item.label }}</span>
+                    </div>
+                    <div class="text-lg col-md-8">{{ item.title }}</div>
+                    <div class="text-lg col-md-2">{{ item.duration }}</div>
+                </div>
+                <div class="row btns" style="display: none;">
+                    <div class="col-md-4 offset-md-4">
+                        <div class="btn-group btn-group-justified" role="group">
+                            <a class="btn btn-secondary action-prev">Prev</a>
+                            <a class="btn btn-secondary action-start">Start</a>
+                            <a class="btn btn-secondary action-hide">Hide</a>
+                            <a class="btn btn-secondary" target="_blank"
+                               href="{{ (item.type == 'day') ? path('days_edit', {'id':item.id}): path('tasks_edit', {'id':item.id}) }}">Edit</a>
+                            <a class="btn btn-secondary action-next">Next</a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="/js/beta.js"></script>
+{% endblock %}

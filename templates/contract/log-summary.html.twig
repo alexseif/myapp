@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+{% import "macros/forms.html.twig" as forms %}
+{% import "macros/a.html.twig" as a %}
+{% block panelTitle %}Contract: {{ contract.name }}{% endblock %}
+
+{% block panelBack %}{{ a.back('contract_index') }}{% endblock %}
+{% block panelHeadingRight %}
+    {{ a.edit('contract_edit', {'id':contract.id}) }}
+
+{% endblock %}
+
+{% block panelBody %}
+    <div class="card-body">
+        hours: {{ contract.hoursPerDay }}<br/>
+        start: {{ contract.startedAt|date }}
+        <hr/>
+        <table class="table table-bordered table-condensed table-striped">
+            <thead>
+            <tr>
+                <th>Month</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for monthKey,month in months %}
+                <tr>
+                    <td>
+                        <a href="{{ path('contract_log', {id: contract.id, from: month['start'], to: month['end']}) }}">
+                            {{ month['start'] }} - {{ month['end'] }}
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

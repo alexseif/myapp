@@ -1,0 +1,145 @@
+{% extends 'base.html.twig' %}
+{% import "tasks/tasks_macros.html.twig" as tasks_view %}
+{% block title %}Dashboard{% endblock %}
+{% block nav %}
+    {% include 'nav.html.twig' %}
+{% endblock %}
+{% block container %}
+    <div class="floating-action dropup">
+        <a class="btn btn-info dropdown-toggle" type="button" id="dahboardMenuButton" data-toggle="dropdown"
+           aria-haspopup="true" aria-expanded="false">
+            Add
+        </a>
+        <ul class="dropdown-menu floating-actions" aria-labelledby="dahboardMenuButton">
+            <li><a href="{{ path('tasks_new') }}" class="btn btn-info">Task</a></li>
+            <li><a href="{{ path('tasklists_new') }}" class="btn btn-info">List</a></li>
+            <li><a href="{{ path('days_new') }}" class="btn btn-info">Day</a></li>
+            <li><a href="{{ path('notes_new') }}" class="btn btn-info">Note</a></li>
+        </ul>
+    </div>
+
+    <style>
+        .row-1 {
+            height: 500px;
+            overflow: auto;
+        }
+
+        .nopadding {
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+
+        .pad-me {
+            padding: 10px;
+        }
+
+        .table-bottom-border tbody tr {
+            border-bottom: 1px solid black;
+        }
+
+        {#    .cards .list-group-item{width: 23%;margin: 1%;float: left;}#}
+        .cards .list-group-item {
+            margin: 1%;
+        }
+
+        .cards a.list-group-item h4 {
+            color: white;
+        }
+
+        .cards a.list-group-item p {
+            color: white;
+        }
+
+        .cards a.list-group-item h4 small {
+            float: right;
+        }
+
+        .progress {
+            margin: auto;
+        }
+    </style>
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="list-group cards row">
+                {% for list in lists if list.tasks(false)|length %}
+                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                        <a href="#" class="list-group-item task-list" data-id="{{ list.id }}">
+                            <h4 class="list-group-item-heading">{{ list.name }} <small>{{ list.tasks(false)|length }}
+                                    tasks</small></h4>
+                            <p class="list-group-item-text">
+                                {{ list.durationTotal|date("%d %H:%I") }}
+                            </p>
+                            {% set progress = ((list.tasks(true)|length-list.tasks(false)|length) / list.tasks(true)|length * 100) |round %}
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" aria-valuenow="{{ progress }}"
+                                     aria-valuemin="0" aria-valuemax="100"
+                                     style="min-width: 2em;width: {{ progress }}%;">
+                                    {{ progress }}%
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="row hide">
+        <section>
+            <div class="col-lg-4">
+                <div class="row-1 bg-info pad-me">
+                    <header>
+                        <div class="float-right text-right">
+                            <h2 class="nopadding">{{ today|date("G:i:s") }}</h2>
+                            <h3 class="nopadding">{{ today|date("jS F") }}</h3>
+                            <h4 class="nopadding"> {{ today|date("Y") }}</h4>
+                        </div>
+                    </header>
+                </div>
+            </div>
+        </section>
+        <div class="col-lg-2">
+            <div class="row-1 bg-success pad-me">
+                <table class="table table-bottom-border">
+                    <thead>
+                    <tr>
+                        <th>Heading</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>This is something</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="row-1 bg-warning pad-me">
+                Block 3
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $('a.task-list').click(function (e) {
+            $(this).data('id');
+            e.preventDefault();
+            var url = 'lists/' + $(this).data('id') + '/modal';
+
+
+            $.get(url, function (data) {
+                $('<div class="modal fade">' + data + '</div>').modal().on('hidden', function () {
+                    $(this).remove();
+                });
+            }).success(function () {
+                $('input:text:visible:first').focus();
+            });
+            Tasks.init();
+        });
+    </script>
+{% endblock %}

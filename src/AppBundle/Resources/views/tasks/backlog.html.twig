@@ -1,7 +1,0 @@
-{% extends 'base.html.twig' %}
-{% import "@App/tasks/tasks_macros.html.twig" as tasks_view %}
-
-{% block panelTitle %}Backlog{% endblock %}
-{% block panelBody %}
-    {{ tasks_view.ul(backlog) }}
-{% endblock %}

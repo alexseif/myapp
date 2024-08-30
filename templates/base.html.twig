@@ -26,7 +26,7 @@
     {% endblock %}
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
 </head>
-<body class="{% block bodyClasses %}{{ get_controller_name() }} {{ get_action_name() }} {{ app.request.attributes.get("_route") }}{% endblock %}">
+<body class="bg-dark {% block bodyClasses %}{{ get_controller_name() }} {{ get_action_name() }} {{ app.request.attributes.get("_route") }}{% endblock %}">
 <div id="ajax-container"></div>
 {% block body %}
     {% block nav %}
@@ -83,6 +83,7 @@
     {% endif %}
 {% endblock %}
 {% block javascripts %}
+            {% block importmap %}{{ importmap('app') }}{% endblock %}
     <script type="text/javascript">
         const tasks_path = '{{ path('tasks_index') }}';
         const workarea_get_tasks_completedToday_count_path = '{{ path('workarea_get_tasks_count', {'taskListName': 'completedToday'}) }}';

@@ -1,0 +1,19 @@
+twig:
+    debug: '%kernel.debug%'
+    strict_variables: '%kernel.debug%'
+    form_themes:
+        - 'bootstrap_3_layout.html.twig'
+    date:
+        format: d.m.y
+        interval_format: '%%d days'
+        timezone: Africa/Cairo
+    number_format:
+        decimals: 2
+        decimal_point: '.'
+        thousands_separator: ','
+    globals:
+        bottom_bar: '@myapp.bottomBar'
+        day_manager: '@myapp.dayManager'
+        progressMonitoring: '@myapp.progressMonitoring'
+        rate_calculator: '@myapp.rate.calculator'
+        WhatTodoNow: '@myapp.what_todo_now'
