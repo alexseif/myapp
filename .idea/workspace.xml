@@ -319,7 +319,7 @@
       <workItem from="1725032684366" duration="5091000" />
       <workItem from="1725081755863" duration="90000" />
       <workItem from="1725105941760" duration="1001000" />
-      <workItem from="1725108171084" duration="1420000" />
+      <workItem from="1725108171084" duration="1490000" />
     </task>
     <task id="LOCAL-00001" summary="composer update">
       <created>1689601265001</created>
@@ -576,7 +576,15 @@
       <option name="project" value="LOCAL" />
       <updated>1725109303423</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="Composer issues and composer update">
+      <option name="closed" value="true" />
+      <created>1725109633168</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1725109633168</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
