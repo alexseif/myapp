@@ -4,41 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7cd3a6ea-8379-4eac-9b81-16089730eddd" name="Changes" comment="Attempt to migrate Doctrine Migrations to symfony 6">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="7cd3a6ea-8379-4eac-9b81-16089730eddd" name="Changes" comment="Swiftmailer issue">
       <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/packages/doctrine_migrations.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/doctrine_migrations.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20170207195751.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20170207195751.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20170207202550.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20170207202550.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20170207214553.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20170207214553.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20170207231222.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20170207231222.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20170207231657.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20170207231657.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20170207232109.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20170207232109.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20170207232330.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20170207232330.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20170211153752.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20170211153752.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20170223100922.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20170223100922.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20170223112719.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20170223112719.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20170223120219.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20170223120219.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20170223121911.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20170223121911.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20170224144538.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20170224144538.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20170519123851.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20170519123851.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20170520082806.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20170520082806.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20170720042313.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20170720042313.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20170720074901.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20170720074901.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20170826153505.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20170826153505.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20170828210635.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20170828210635.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20170828211936.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20170828211936.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20170927104049.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20170927104049.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20171002223423.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20171002223423.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20171003032854.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20171003032854.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20171117154511.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20171117154511.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20171202203432.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20171202203432.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20180113223216.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20180113223216.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20181118160414.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20181118160414.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20181118161627.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20181118161627.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20181118162456.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20181118162456.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20190330152133.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20190330152133.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/bundles.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/bundles.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/packages/sensio_framework_extra.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/deployer.sh" beforeDir="false" afterPath="$PROJECT_DIR$/deployer.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/symfony.lock" beforeDir="false" afterPath="$PROJECT_DIR$/symfony.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -206,7 +178,6 @@
       <path value="$PROJECT_DIR$/vendor/symfony/twig-bridge" />
       <path value="$PROJECT_DIR$/vendor/symfony/filesystem" />
       <path value="$PROJECT_DIR$/vendor/symfony/intl" />
-      <path value="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle" />
       <path value="$PROJECT_DIR$/vendor/symfony/password-hasher" />
       <path value="$PROJECT_DIR$/vendor/symfony/polyfill-intl-normalizer" />
       <path value="$PROJECT_DIR$/vendor/phpstan/phpdoc-parser" />
@@ -353,6 +324,7 @@
       <workItem from="1725032684366" duration="5091000" />
       <workItem from="1725081755863" duration="90000" />
       <workItem from="1725105941760" duration="1001000" />
+      <workItem from="1725108171084" duration="974000" />
     </task>
     <task id="LOCAL-00001" summary="composer update">
       <created>1689601265001</created>
@@ -593,7 +565,15 @@
       <option name="project" value="LOCAL" />
       <updated>1725035518567</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="Swiftmailer issue">
+      <option name="closed" value="true" />
+      <created>1725108438425</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1725108438425</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -644,7 +624,8 @@
     <MESSAGE value="Upgrade symfony to 5" />
     <MESSAGE value="Upgrade symfony to 5.4&#10;with webpack and working modules" />
     <MESSAGE value="Upgrade symfony to 6" />
-    <option name="LAST_COMMIT_MESSAGE" value="Upgrade symfony to 6" />
+    <MESSAGE value="Swiftmailer issue" />
+    <option name="LAST_COMMIT_MESSAGE" value="Swiftmailer issue" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
