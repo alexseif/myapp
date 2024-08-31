@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ScheduleRepository;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -39,7 +40,7 @@ class Schedule
      * @param $est
      * @param $eta
      */
-    public function setSchedule($id, $task, $est, $eta)
+    public function setSchedule($id, $task, $est, $eta): void
     {
         $this->id = $id;
         $this->task = $task;
@@ -76,12 +77,12 @@ class Schedule
         return $this;
     }
 
-    public function getEta(): ?\DateTimeInterface
+    public function getEta(): ?DateTimeInterface
     {
         return $this->eta;
     }
 
-    public function setEta(\DateTimeInterface $eta): self
+    public function setEta(DateTimeInterface $eta): self
     {
         $this->eta = $eta;
 

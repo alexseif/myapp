@@ -15,7 +15,7 @@ use DateTime;
  */
 class DayManager
 {
-    public function isWorkDay()
+    public function isWorkDay(): bool
     {
         $today = new DateTime();
         if (in_array($today->format('N'), [5, 6])) { // 5 and 6 are weekend days
@@ -25,7 +25,7 @@ class DayManager
         return true;
     }
 
-    public function isWorkingDay()
+    public function isWorkingDay(): string
     {
         if ($this->isWorkDay()) {
             return 'Yes, it\'s a working day.';
@@ -39,7 +39,7 @@ class DayManager
      *
      * @return DateTime
      */
-    public function getMonthStart($date = 'now')
+    public function getMonthStart($date = 'now'): DateTime
     {
         $monthStart = new DateTime($date);
         if ($monthStart->format('d') < 25) {
@@ -56,7 +56,7 @@ class DayManager
      *
      * @return DateTime
      */
-    public function getMonthEnd($date = 'now')
+    public function getMonthEnd($date = 'now'): DateTime
     {
         $monthEnd = new DateTime($date);
         if ($monthEnd->format('d') >= 25) {
@@ -68,7 +68,7 @@ class DayManager
         return $monthEnd;
     }
 
-    public function getMonthPercentage($date = 'now')
+    public function getMonthPercentage($date = 'now'): float
     {
         $monthStart = $this->getMonthStart($date);
         $today = new DateTime();

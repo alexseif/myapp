@@ -23,7 +23,7 @@ class CurrencyController extends AbstractController
      *
      * @Route("/", name="currency_index", methods={"GET"})
      */
-    public function indexAction(EntityManagerInterface $entityManager)
+    public function indexAction(EntityManagerInterface $entityManager): \Symfony\Component\HttpFoundation\Response
     {
         $em = $entityManager;
 
@@ -69,7 +69,7 @@ class CurrencyController extends AbstractController
      *
      * @Route("/{id}", name="currency_show", methods={"GET"})
      */
-    public function showAction(Currency $currency)
+    public function showAction(Currency $currency): \Symfony\Component\HttpFoundation\Response
     {
         $deleteForm = $this->createDeleteForm($currency);
 
@@ -118,7 +118,7 @@ class CurrencyController extends AbstractController
       Request $request,
       Currency $currency,
       EntityManagerInterface $entityManager
-    ) {
+    ): \Symfony\Component\HttpFoundation\RedirectResponse {
         $form = $this->createDeleteForm($currency);
         $form->handleRequest($request);
 
@@ -138,7 +138,7 @@ class CurrencyController extends AbstractController
      *
      * @return FormInterface The form
      */
-    private function createDeleteForm(Currency $currency)
+    private function createDeleteForm(Currency $currency): FormInterface
     {
         return $this->createFormBuilder()
           ->setAction(

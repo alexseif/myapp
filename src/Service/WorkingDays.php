@@ -8,6 +8,7 @@ namespace App\Service;
 
 use App\Entity\Holiday;
 use App\Util\DateRanges;
+use DateTime;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -43,12 +44,12 @@ class WorkingDays
         $this->em = $em;
     }
 
-    public static function getWorkWeek()
+    public static function getWorkWeek(): array
     {
         return self::$workWeek;
     }
 
-    public static function getDayHours($day)
+    public static function getDayHours($day): ?int
     {
         if (array_key_exists($day, self::$workWeek)) {
             return self::$workWeek[$day];
@@ -57,12 +58,12 @@ class WorkingDays
         return null;
     }
 
-    public function updateHolidays()
+    public function updateHolidays(): void
     {
         $curlHolidays = DateRanges::getHolidays('egypt');
         $holidays = [];
         foreach ($curlHolidays as $curlHoliday) {
-            $dt = new \DateTime($curlHoliday[0]);
+            $dt = new DateTime($curlHoliday[0]);
             $dateKey = $dt->format('Y-m-d');
             if (array_key_exists($dateKey, $holidays)) {
                 $holidays[$dateKey]->setName($holidays[$dateKey]->getName().', '.$curlHoliday[2]);

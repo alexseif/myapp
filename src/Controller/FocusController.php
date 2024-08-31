@@ -19,7 +19,7 @@ class FocusController extends AbstractController
     /**
      * @Route("/focus", name="focus")
      */
-    public function focusAction(Request $request, FocusService $focusService, EntityManagerInterface $entityManager)
+    public function focusAction(Request $request, FocusService $focusService, EntityManagerInterface $entityManager): Response
     {
         $em = $entityManager;
 
@@ -59,7 +59,7 @@ class FocusController extends AbstractController
     /**
      * @Route("/singleTask", name="singleTask")
      */
-    public function singleTaskAction( EntityManagerInterface $entityManager)
+    public function singleTaskAction( EntityManagerInterface $entityManager): Response
     {
         $em = $entityManager;
         $tasksRepo = $em->getRepository(Tasks::class);

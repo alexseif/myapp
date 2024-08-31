@@ -79,7 +79,7 @@ class TaskListsController extends AbstractController
      *
      * @Route("/{id}", name="tasklists_show", methods={"GET"})
      */
-    public function showAction(TaskLists $taskList)
+    public function showAction(TaskLists $taskList): \Symfony\Component\HttpFoundation\Response
     {
         $deleteForm = $this->createDeleteForm($taskList);
 
@@ -120,7 +120,7 @@ class TaskListsController extends AbstractController
      *
      * @Route("/{id}/archive", name="tasklists_archive", methods={"GET", "POST"})
      */
-    public function archiveAction(Request $request, TaskLists $taskListv, EntityManagerInterface $entityManager)
+    public function archiveAction(Request $request, TaskLists $taskList, EntityManagerInterface $entityManager): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $taskList->setStatus('archive');
 
@@ -138,7 +138,7 @@ class TaskListsController extends AbstractController
      *
      * @Route("/{id}/unarchive", name="tasklists_unarchive", methods={"GET", "POST"})
      */
-    public function unarchiveAction(Request $request, TaskLists $taskList, EntityManagerInterface $entityManager)
+    public function unarchiveAction(Request $request, TaskLists $taskList, EntityManagerInterface $entityManager): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $taskList->setStatus('start');
 
@@ -156,7 +156,7 @@ class TaskListsController extends AbstractController
      *
      * @Route("/{id}", name="tasklists_delete", methods={"DELETE"})
      */
-    public function deleteAction(Request $request, TaskLists $taskList, EntityManagerInterface $entityManager)
+    public function deleteAction(Request $request, TaskLists $taskList, EntityManagerInterface $entityManager): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $form = $this->createDeleteForm($taskList);
         $form->handleRequest($request);

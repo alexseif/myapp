@@ -69,7 +69,7 @@ class TaskLists
      *
      * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -81,7 +81,7 @@ class TaskLists
      *
      * @return TaskLists
      */
-    public function setName($name)
+    public function setName($name): TaskLists
     {
         $this->name = $name;
 
@@ -93,7 +93,7 @@ class TaskLists
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -105,7 +105,7 @@ class TaskLists
      *
      * @return TaskLists
      */
-    public function setStatus($status)
+    public function setStatus($status): TaskLists
     {
         $this->status = $status;
 
@@ -117,7 +117,7 @@ class TaskLists
      *
      * @return string
      */
-    public function getStatus()
+    public function getStatus(): string
     {
         return $this->status;
     }
@@ -127,7 +127,7 @@ class TaskLists
      *
      * @return TaskLists
      */
-    public function addTask(Tasks $tasks)
+    public function addTask(Tasks $tasks): TaskLists
     {
         $tasks->setTaskList($this);
         $this->tasks[] = $tasks;
@@ -138,7 +138,7 @@ class TaskLists
     /**
      * Remove tasks.
      */
-    public function removeTask(Tasks $tasks)
+    public function removeTask(Tasks $tasks): void
     {
         $this->tasks->removeElement($tasks);
     }
@@ -148,7 +148,7 @@ class TaskLists
      *
      * @return Collection
      */
-    public function getTasks($showComplete = true)
+    public function getTasks($showComplete = true): Collection
     {
         $criteria = Criteria::create();
         if (true !== $showComplete) {
@@ -196,7 +196,7 @@ class TaskLists
      *
      * @return TaskLists
      */
-    public function setAccount(Accounts $account = null)
+    public function setAccount(Accounts $account = null): TaskLists
     {
         $this->account = $account;
 
@@ -206,9 +206,8 @@ class TaskLists
     /**
      * Get account.
      *
-     * @return Accounts
      */
-    public function getAccount()
+    public function getAccount(): Accounts|null
     {
         return $this->account;
     }

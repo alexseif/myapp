@@ -35,7 +35,7 @@ class DashboardTaskLists
      *
      * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -43,11 +43,11 @@ class DashboardTaskLists
     /**
      * Set taskList.
      *
-     * @param \Entity\TaskLists $taskList
+     * @paramTaskLists $taskList
      *
      * @return DashboardTaskLists
      */
-    public function setTaskList(TaskLists $taskList = null)
+    public function setTaskList(TaskLists $taskList = null): DashboardTaskLists
     {
         $this->taskList = $taskList;
 
@@ -57,9 +57,8 @@ class DashboardTaskLists
     /**
      * Get taskList.
      *
-     * @return \Entity\TaskLists
      */
-    public function getTaskList()
+    public function getTaskList():TaskLists
     {
         return $this->taskList;
     }

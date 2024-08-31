@@ -41,7 +41,7 @@ class TaskListsRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findActiveQuery()
+    public function findActiveQuery(): \Doctrine\ORM\QueryBuilder
     {
         return $this
             ->createQueryBuilder('tl')

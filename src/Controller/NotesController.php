@@ -21,7 +21,7 @@ class NotesController extends AbstractController
      *
      * @Route("/", name="notes_index", methods={"GET"})
      */
-    public function indexAction( EntityManagerInterface $entityManager)
+    public function indexAction( EntityManagerInterface $entityManager): \Symfony\Component\HttpFoundation\Response
     {
         $em = $entityManager;
 
@@ -62,7 +62,7 @@ class NotesController extends AbstractController
      *
      * @Route("/{id}", name="notes_show", methods={"GET"})
      */
-    public function showAction(Notes $note)
+    public function showAction(Notes $note): \Symfony\Component\HttpFoundation\Response
     {
         $deleteForm = $this->createDeleteForm($note);
 
@@ -103,7 +103,7 @@ class NotesController extends AbstractController
      *
      * @Route("/{id}", name="notes_delete", methods={"DELETE"})
      */
-    public function deleteAction(Request $request, Notes $note, EntityManagerInterface $entityManager)
+    public function deleteAction(Request $request, Notes $note, EntityManagerInterface $entityManager): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $form = $this->createDeleteForm($note);
         $form->handleRequest($request);

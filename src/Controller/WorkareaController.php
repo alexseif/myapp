@@ -65,7 +65,7 @@ class WorkareaController extends AbstractController
      *
      * @Route("/getTasks/{taskListName}", name="get_tasks")
      */
-    public function getTasksAction(TasksService $tasksService, $taskListName)
+    public function getTasksAction(TasksService $tasksService, $taskListName): Response
     {
         return $this->render('workarea/inboxTasks.html.twig', [
             'inboxTasks' => $tasksService->getWorkareaTasks($taskListName),

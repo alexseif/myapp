@@ -23,7 +23,7 @@ class HolidayController extends AbstractController
      *
      * @Route("/", name="holiday_index", methods={"GET"})
      */
-    public function indexAction(EntityManagerInterface $entityManager)
+    public function indexAction(EntityManagerInterface $entityManager): \Symfony\Component\HttpFoundation\Response
     {
         $em = $entityManager;
 
@@ -39,7 +39,7 @@ class HolidayController extends AbstractController
      *
      * @Route("/fetch", name="holiday_fetch", methods={"GET", "POST"})
      */
-    public function testAction(WorkingDays $workingDays)
+    public function testAction(WorkingDays $workingDays): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $workingDays->updateHolidays();
         $this->addFlash('Success', 'Holidays Updated');
@@ -82,7 +82,7 @@ class HolidayController extends AbstractController
      *
      * @Route("/{id}", name="holiday_show", methods={"GET"})
      */
-    public function showAction(Holiday $holiday)
+    public function showAction(Holiday $holiday): \Symfony\Component\HttpFoundation\Response
     {
         $deleteForm = $this->createDeleteForm($holiday);
 
@@ -133,7 +133,7 @@ class HolidayController extends AbstractController
       Request $request,
       Holiday $note,
       EntityManagerInterface $entityManager
-    ) {
+    ): \Symfony\Component\HttpFoundation\RedirectResponse {
         $form = $this->createDeleteForm($note);
         $form->handleRequest($request);
 

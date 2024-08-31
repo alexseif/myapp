@@ -50,7 +50,7 @@ class Days
      *
      * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -62,7 +62,7 @@ class Days
      *
      * @return Days
      */
-    public function setName($name)
+    public function setName($name): Days
     {
         $this->name = $name;
 
@@ -74,7 +74,7 @@ class Days
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -86,7 +86,7 @@ class Days
      *
      * @return Days
      */
-    public function setDeadline($deadline)
+    public function setDeadline($deadline): Days
     {
         $this->deadline = $deadline;
 
@@ -98,7 +98,7 @@ class Days
      *
      * @return \DateTime
      */
-    public function getDeadline()
+    public function getDeadline(): \DateTime
     {
         return $this->deadline;
     }
@@ -110,7 +110,7 @@ class Days
      *
      * @return Days
      */
-    public function setComplete($complete)
+    public function setComplete($complete): Days
     {
         $this->complete = $complete;
 
@@ -122,7 +122,7 @@ class Days
      *
      * @return bool
      */
-    public function getComplete()
+    public function getComplete(): bool
     {
         return $this->complete;
     }

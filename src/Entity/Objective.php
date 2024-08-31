@@ -43,7 +43,7 @@ class Objective
      *
      * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -55,7 +55,7 @@ class Objective
      *
      * @return Objective
      */
-    public function setName($name)
+    public function setName($name): Objective
     {
         $this->name = $name;
 
@@ -67,7 +67,7 @@ class Objective
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -79,7 +79,7 @@ class Objective
      *
      * @return Objective
      */
-    public function setDescription($description = null)
+    public function setDescription($description = null): Objective
     {
         $this->description = $description;
 
@@ -91,7 +91,7 @@ class Objective
      *
      * @return string|null
      */
-    public function getDescription()
+    public function getDescription(): ?string
     {
         return $this->description;
     }

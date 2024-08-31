@@ -148,7 +148,7 @@ class ProgressMonitoring
     /**
      * @return CostService
      */
-    public function getCostOfLife()
+    public function getCostOfLife(): CostService
     {
         return $this->costService;
     }
@@ -158,7 +158,7 @@ class ProgressMonitoring
      *
      * @return string
      */
-    public function formatNumber($number)
+    public function formatNumber($number): string
     {
         return Formatting::number($number);
     }
@@ -166,7 +166,7 @@ class ProgressMonitoring
     /**
      * @todo
      */
-    public function setClientsCount()
+    public function setClientsCount(): void
     {
         $this->clientsCount = count($this->em->getRepository(Client::class)->findBy([
             'enabled' => true,
@@ -176,7 +176,7 @@ class ProgressMonitoring
     /**
      * @return int
      */
-    public function getClientsCount()
+    public function getClientsCount(): int
     {
         return $this->clientsCount;
     }
@@ -184,7 +184,7 @@ class ProgressMonitoring
     /**
      * @todo
      */
-    public function setClientsProgress()
+    public function setClientsProgress(): void
     {
         $date = new DateTime();
         $date->modify('-1 year');
@@ -196,7 +196,7 @@ class ProgressMonitoring
     /**
      * @return string
      */
-    public function getClientsProgress()
+    public function getClientsProgress(): string
     {
         return $this->formatNumber($this->clientsProgress);
     }
@@ -204,7 +204,7 @@ class ProgressMonitoring
     /**
      * @todo
      */
-    public function setAccountsCount()
+    public function setAccountsCount(): void
     {
         $this->accountsCount = count($this->em->getRepository(Accounts::class)->findAll());
     }
@@ -212,7 +212,7 @@ class ProgressMonitoring
     /**
      * @return int
      */
-    public function getAccountsCount()
+    public function getAccountsCount(): int
     {
         return $this->accountsCount;
     }
@@ -220,7 +220,7 @@ class ProgressMonitoring
     /**
      * @todo
      */
-    public function setAccountsProgress()
+    public function setAccountsProgress(): void
     {
         $date = new DateTime();
         $date->modify('-1 year');
@@ -232,7 +232,7 @@ class ProgressMonitoring
     /**
      * @return string
      */
-    public function getAccountsProgress()
+    public function getAccountsProgress(): string
     {
         return $this->formatNumber($this->accountsProgress);
     }
@@ -240,7 +240,7 @@ class ProgressMonitoring
     /**
      * @todo
      */
-    public function setTasksCompletedCount()
+    public function setTasksCompletedCount(): void
     {
         $date = DateRanges::getMonthStart();
         $this->tasksCompletedCount = $this->em->getRepository(Tasks::class)
@@ -250,7 +250,7 @@ class ProgressMonitoring
     /**
      * @return int
      */
-    public function getTasksCompletedCount()
+    public function getTasksCompletedCount(): int
     {
         return $this->tasksCompletedCount;
     }
@@ -258,7 +258,7 @@ class ProgressMonitoring
     /**
      * @todo
      */
-    public function setTasksCompletedProgress()
+    public function setTasksCompletedProgress(): void
     {
         $date = DateRanges::getMonthStart();
         $tasksLastMonth = $this->em->getRepository(Tasks::class)
@@ -271,7 +271,7 @@ class ProgressMonitoring
     /**
      * @return string
      */
-    public function getTasksCompletedProgress()
+    public function getTasksCompletedProgress(): string
     {
         if ($this->tasksCompletedProgress >= 1000) {
             return $this->formatNumber($this->tasksCompletedProgress / 1000) . 'k';
@@ -283,7 +283,7 @@ class ProgressMonitoring
     /**
      * @todo
      */
-    public function setRevenueSum()
+    public function setRevenueSum(): void
     {
         $from = DateRanges::getMonthStart();
         $from->modify(self::MODIFY_MONTH);
@@ -295,7 +295,7 @@ class ProgressMonitoring
     /**
      * @return string
      */
-    public function getRevenueSum()
+    public function getRevenueSum(): string
     {
         if ($this->revenueSum <= 1000) {
             return $this->formatNumber($this->revenueSum / 1000) . 'k';
@@ -307,7 +307,7 @@ class ProgressMonitoring
     /**
      * @todo
      */
-    public function setRevenueProgress()
+    public function setRevenueProgress(): void
     {
         $from =
             DateRanges::getMonthStart();
@@ -324,7 +324,7 @@ class ProgressMonitoring
     /**
      * @return string
      */
-    public function getRevenueProgress()
+    public function getRevenueProgress(): string
     {
         return $this->formatNumber($this->revenueProgress);
     }
@@ -332,7 +332,7 @@ class ProgressMonitoring
     /**
      * @todo
      */
-    public function setDurationSum()
+    public function setDurationSum(): void
     {
         $from = DateRanges::getMonthStart();
         $from->modify(self::MODIFY_MONTH);
@@ -345,7 +345,7 @@ class ProgressMonitoring
     /**
      * @return string
      */
-    public function getDurationSum()
+    public function getDurationSum(): string
     {
         return $this->formatNumber($this->durationSum / 60) . ':' . ($this->durationSum % 60);
     }
@@ -353,7 +353,7 @@ class ProgressMonitoring
     /**
      * @todo
      */
-    public function setDurationProgress()
+    public function setDurationProgress(): void
     {
         $from = DateRanges::getMonthStart();
         $from->modify('-2 months');
@@ -368,7 +368,7 @@ class ProgressMonitoring
     /**
      * @return string
      */
-    public function getDurationProgress()
+    public function getDurationProgress(): string
     {
         return $this->formatNumber($this->durationProgress);
     }
@@ -376,7 +376,7 @@ class ProgressMonitoring
     /**
      * @todo
      */
-    public function setEarnedToday()
+    public function setEarnedToday(): void
     {
         $completedTasks = $this->em->getRepository(Tasks::class)->getCompletedToday();
         $total = 0;
@@ -390,7 +390,7 @@ class ProgressMonitoring
     /**
      * @return string
      */
-    public function getEarnedToday()
+    public function getEarnedToday(): string
     {
         return $this->formatNumber($this->earnedProgress['today']);
     }
@@ -398,7 +398,7 @@ class ProgressMonitoring
     /**
      * @todo: revise
      */
-    public function setEarnedThisWeek()
+    public function setEarnedThisWeek(): void
     {
         $completedTasks = $this->em->getRepository(Tasks::class)->getCompletedThisWeek();
         $total = 0;
@@ -412,7 +412,7 @@ class ProgressMonitoring
     /**
      * @return string
      */
-    public function getEarnedThisWeek()
+    public function getEarnedThisWeek(): string
     {
         return $this->formatNumber($this->earnedProgress['week']);
     }
@@ -420,7 +420,7 @@ class ProgressMonitoring
     /**
      * @todo
      */
-    public function setEarnedThisMonth()
+    public function setEarnedThisMonth(): void
     {
         $completedTasks = $this->em->getRepository(Tasks::class)->getCompletedThisMonth();
         $total = 0;
@@ -434,7 +434,7 @@ class ProgressMonitoring
     /**
      * @return string
      */
-    public function getEarnedThisMonth()
+    public function getEarnedThisMonth(): string
     {
         return $this->formatNumber($this->earnedProgress['month']);
     }
@@ -442,7 +442,7 @@ class ProgressMonitoring
     /**
      * @return string
      */
-    public function getMonthly()
+    public function getMonthly(): string
     {
         return $this->formatNumber($this->getCostOfLife()->getMonthly());
     }
@@ -450,7 +450,7 @@ class ProgressMonitoring
     /**
      * @return string
      */
-    public function getWeekly()
+    public function getWeekly(): string
     {
         return $this->formatNumber($this->getCostOfLife()->getWeekly());
     }
@@ -458,7 +458,7 @@ class ProgressMonitoring
     /**
      * @return string
      */
-    public function getDaily()
+    public function getDaily(): string
     {
         return $this->formatNumber($this->getCostOfLife()->getDaily());
     }
@@ -466,7 +466,7 @@ class ProgressMonitoring
     /**
      * @return string
      */
-    public function getHourly()
+    public function getHourly(): string
     {
         return $this->formatNumber($this->getCostOfLife()->getHourly());
     }
@@ -474,7 +474,7 @@ class ProgressMonitoring
     /**
      * @return string
      */
-    public function getMonthProgress()
+    public function getMonthProgress(): string
     {
         return $this->formatNumber($this->earnedProgress['month'] / $this->getCostOfLife()->getMonthly() * 100);
     }
@@ -482,7 +482,7 @@ class ProgressMonitoring
     /**
      * @return string
      */
-    public function getWeekProgress()
+    public function getWeekProgress(): string
     {
         return $this->formatNumber($this->earnedProgress['week'] / $this->getCostOfLife()->getWeekly() * 100);
     }
@@ -490,7 +490,7 @@ class ProgressMonitoring
     /**
      * @return string
      */
-    public function getTodayProgress()
+    public function getTodayProgress(): string
     {
         return $this->formatNumber($this->earnedProgress['today'] / $this->getCostOfLife()->getDaily() * 100);
     }

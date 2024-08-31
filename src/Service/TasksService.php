@@ -28,19 +28,19 @@ class TasksService
     }
 
     /**
-     * @return \Repository\TasksRepository
+     * @return TasksRepository
      */
     public function getRepository()
     {
         return $this->tasksRepository;
     }
 
-    public function getEm()
+    public function getEm(): EntityManagerInterface
     {
         return $this->em;
     }
 
-    public function getDashboardTasklists()
+    public function getDashboardTasklists(): array
     {
         return $this->getEm()->getRepository(DashboardTaskLists::class)->findAll();
     }
@@ -94,7 +94,7 @@ class TasksService
         return $this->getRepository()->randomTasks();
     }
 
-    public function getCompletedCountPerDayOfTheWeek()
+    public function getCompletedCountPerDayOfTheWeek(): array
     {
         $tsksCntDay = $this->getRepository()->findTasksCountByDay();
         $tskCnt = [];
@@ -110,7 +110,7 @@ class TasksService
         return $this->getRepository()->countByUrgenctAndPriority();
     }
 
-    public function getPieChartByUrgencyAndPriority()
+    public function getPieChartByUrgencyAndPriority(): array
     {
         $countByUrgenctAndPriority = $this->getByUrgencyAndPriority();
         $piechart = [];

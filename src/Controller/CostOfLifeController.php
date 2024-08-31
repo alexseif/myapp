@@ -22,7 +22,7 @@ class CostOfLifeController extends AbstractController
      *
      * @Route("/", name="costoflife_index", methods={"GET"})
      */
-    public function indexAction( EntityManagerInterface $entityManager)
+    public function indexAction( EntityManagerInterface $entityManager): \Symfony\Component\HttpFoundation\Response
     {
         $em = $entityManager;
 
@@ -63,7 +63,7 @@ class CostOfLifeController extends AbstractController
      *
      * @Route("/{id}", name="costoflife_show", methods={"GET"})
      */
-    public function showAction(CostOfLife $costOfLife)
+    public function showAction(CostOfLife $costOfLife): \Symfony\Component\HttpFoundation\Response
     {
         $deleteForm = $this->createDeleteForm($costOfLife);
 
@@ -102,7 +102,7 @@ class CostOfLifeController extends AbstractController
      *
      * @Route("/{id}", name="costoflife_delete", methods={"DELETE"})
      */
-    public function deleteAction(Request $request, CostOfLife $costOfLife, EntityManagerInterface $entityManager)
+    public function deleteAction(Request $request, CostOfLife $costOfLife, EntityManagerInterface $entityManager): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $form = $this->createDeleteForm($costOfLife);
         $form->handleRequest($request);
@@ -123,7 +123,7 @@ class CostOfLifeController extends AbstractController
      *
      * @return FormInterface The form
      */
-    private function createDeleteForm(CostOfLife $costOfLife)
+    private function createDeleteForm(CostOfLife $costOfLife): FormInterface
     {
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('costoflife_delete', ['id' => $costOfLife->getId()]))

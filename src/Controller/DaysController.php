@@ -22,7 +22,7 @@ class DaysController extends AbstractController
      *
      * @Route("/", name="days_index", methods={"GET"})
      */
-    public function indexAction(EntityManagerInterface $entityManager)
+    public function indexAction(EntityManagerInterface $entityManager): \Symfony\Component\HttpFoundation\Response
     {
         $em = $entityManager;
 
@@ -38,7 +38,7 @@ class DaysController extends AbstractController
      *
      * @Route("/archive", name="days_archive", methods={"GET"})
      */
-    public function archiveAction(EntityManagerInterface $entityManager)
+    public function archiveAction(EntityManagerInterface $entityManager): \Symfony\Component\HttpFoundation\Response
     {
         $em = $entityManager;
 
@@ -105,7 +105,7 @@ class DaysController extends AbstractController
      *
      * @Route("/{id}", name="days_delete", methods={"DELETE"})
      */
-    public function deleteAction(Request $request, Days $day, EntityManagerInterface $entityManager)
+    public function deleteAction(Request $request, Days $day, EntityManagerInterface $entityManager): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $form = $this->createDeleteForm($day);
         $form->handleRequest($request);
@@ -126,7 +126,7 @@ class DaysController extends AbstractController
      *
      * @return FormInterface The form
      */
-    private function createDeleteForm(Days $day)
+    private function createDeleteForm(Days $day): FormInterface
     {
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('days_delete', ['id' => $day->getId()]))

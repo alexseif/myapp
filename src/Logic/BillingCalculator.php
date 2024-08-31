@@ -21,12 +21,12 @@ class BillingCalculator
         }
     }
 
-    public function setWorkingDays()
+    public function setWorkingDays(): void
     {
         $this->workingDays = 22;
     }
 
-    public function calculateAmountPerMonthHoursPerDay()
+    public function calculateAmountPerMonthHoursPerDay(): void
     {
         $thisMonthHours = ($this->workingDays * $this->billingType['hours']);
         $this->pricePerUnit = $this->billingType['amount'] / $thisMonthHours;

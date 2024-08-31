@@ -45,7 +45,7 @@ class Day
         $this->schedules = $schedules;
     }
 
-    public function addTask(Tasks $task)
+    public function addTask(Tasks $task): bool
     {
         if ($this->dayLength > 0) {
             $this->tasks->add($task);

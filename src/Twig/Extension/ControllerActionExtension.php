@@ -26,7 +26,7 @@ class ControllerActionExtension extends AbstractExtension
      */
     protected $environment;
 
-    public function setRequest(Request $request = null)
+    public function setRequest(Request $request = null): void
     {
         $this->request = $request;
     }
@@ -42,7 +42,7 @@ class ControllerActionExtension extends AbstractExtension
     /**
      * Get current controller name.
      */
-    public function getControllerName()
+    public function getControllerName(): ?string
     {
         if (null !== $this->request) {
             $pattern = "#Controller\\\([a-zA-Z]*)Controller#";

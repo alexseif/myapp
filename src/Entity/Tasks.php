@@ -161,7 +161,7 @@ class Tasks
      *
      * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -173,7 +173,7 @@ class Tasks
      *
      * @return Tasks
      */
-    public function setTask($task)
+    public function setTask($task): Tasks
     {
         $this->task = $task;
 
@@ -185,7 +185,7 @@ class Tasks
      *
      * @return string
      */
-    public function getTask()
+    public function getTask(): string
     {
         return $this->task;
     }
@@ -197,7 +197,7 @@ class Tasks
      *
      * @return Tasks
      */
-    public function setCompleted($completed)
+    public function setCompleted($completed): Tasks
     {
         $this->completed = $completed;
 
@@ -209,7 +209,7 @@ class Tasks
      *
      * @return bool
      */
-    public function getCompleted()
+    public function getCompleted(): bool
     {
         return $this->completed;
     }
@@ -217,11 +217,11 @@ class Tasks
     /**
      * Set completedAt.
      *
-     * @param \DateTime $completedAt
+     * @param \DateTime|null $completedAt
      *
      * @return Tasks
      */
-    public function setCompletedAt($completedAt)
+    public function setCompletedAt($completedAt): Tasks
     {
         $this->completedAt = $completedAt;
 
@@ -233,7 +233,7 @@ class Tasks
      *
      * @return DateTime
      */
-    public function getCompletedAt()
+    public function getCompletedAt(): DateTime
     {
         return $this->completedAt;
     }
@@ -245,7 +245,7 @@ class Tasks
      *
      * @return Tasks
      */
-    public function setTaskList(TaskLists $taskList = null)
+    public function setTaskList(TaskLists $taskList = null): Tasks
     {
         $this->taskList = $taskList;
 
@@ -255,9 +255,8 @@ class Tasks
     /**
      * Get taskList.
      *
-     * @return TaskLists
      */
-    public function getTaskList()
+    public function getTaskList(): TaskLists|null
     {
         return $this->taskList;
     }
@@ -265,9 +264,8 @@ class Tasks
     /**
      * Get Account.
      *
-     * @return \Entity\Accounts
      */
-    public function getAccount()
+    public function getAccount(): Accounts
     {
         return $this->getTaskList()->getAccount();
     }
@@ -275,9 +273,8 @@ class Tasks
     /**
      * Get Client.
      *
-     * @return \Entity\Client
      */
-    public function getClient()
+    public function getClient(): Client|null
     {
         return ($this->getTaskList()->getAccount()) ? $this->getTaskList()
           ->getAccount()
@@ -287,9 +284,8 @@ class Tasks
     /**
      * Get Rate.
      *
-     * @return \Entity\Rate
      */
-    public function getRate()
+    public function getRate(): ?float
     {
         return ($this->getTaskList()->getAccount()) ? $this->getTaskList()
           ->getAccount()
@@ -304,7 +300,7 @@ class Tasks
      *
      * @return Tasks
      */
-    public function setOrder($order)
+    public function setOrder($order): Tasks
     {
         $this->order = $order;
 
@@ -316,7 +312,7 @@ class Tasks
      *
      * @return int
      */
-    public function getOrder()
+    public function getOrder(): int
     {
         return $this->order;
     }
@@ -328,7 +324,7 @@ class Tasks
      *
      * @return Tasks
      */
-    public function setPriority($priority)
+    public function setPriority($priority): Tasks
     {
         $this->priority = $priority;
 
@@ -340,7 +336,7 @@ class Tasks
      *
      * @return int
      */
-    public function getPriority()
+    public function getPriority(): int
     {
         return $this->priority;
     }
@@ -350,7 +346,7 @@ class Tasks
      *
      * @return string
      */
-    public function getPriorityName()
+    public function getPriorityName(): string
     {
         return $this->priorityName[$this->priority];
     }
@@ -362,7 +358,7 @@ class Tasks
      *
      * @return Tasks
      */
-    public function setUrgency($urgency)
+    public function setUrgency($urgency): Tasks
     {
         $this->urgency = $urgency;
 
@@ -374,7 +370,7 @@ class Tasks
      *
      * @return int
      */
-    public function getUrgency()
+    public function getUrgency(): int
     {
         return $this->urgency;
     }
@@ -384,7 +380,7 @@ class Tasks
      *
      * @return string
      */
-    public function getUrgencyName()
+    public function getUrgencyName(): string
     {
         return $this->urgencyName[$this->urgency];
     }
@@ -396,7 +392,7 @@ class Tasks
      *
      * @return Tasks
      */
-    public function setDuration($duration)
+    public function setDuration($duration): Tasks
     {
         $this->duration = $duration;
 
@@ -406,9 +402,8 @@ class Tasks
     /**
      * Get duration.
      *
-     * @return int
      */
-    public function getDuration()
+    public function getDuration(): int|null
     {
         return $this->duration;
     }
@@ -420,7 +415,7 @@ class Tasks
      *
      * @return Tasks
      */
-    public function setEta($eta)
+    public function setEta($eta): Tasks
     {
         $this->eta = $eta;
 
@@ -430,9 +425,8 @@ class Tasks
     /**
      * Get eta.
      *
-     * @return DateTime
      */
-    public function getEta()
+    public function getEta(): DateTime|null
     {
         return $this->eta;
     }
@@ -444,7 +438,7 @@ class Tasks
      *
      * @return Tasks
      */
-    public function setWorkLog(WorkLog $workLog = null)
+    public function setWorkLog(WorkLog $workLog = null): Tasks
     {
         $this->workLog = $workLog;
 
@@ -456,7 +450,7 @@ class Tasks
      *
      * @return WorkLog
      */
-    public function getWorkLog()
+    public function getWorkLog(): WorkLog
     {
         return $this->workLog;
     }
@@ -468,7 +462,7 @@ class Tasks
      *
      * @return Tasks
      */
-    public function setWorkLoggable($workLoggable)
+    public function setWorkLoggable($workLoggable): Tasks
     {
         $this->workLoggable = $workLoggable;
 
@@ -480,12 +474,12 @@ class Tasks
      *
      * @return bool
      */
-    public function getWorkLoggable()
+    public function getWorkLoggable(): bool
     {
         return $this->workLoggable;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->getTask();
     }
@@ -502,7 +496,7 @@ class Tasks
      *
      * @return Tasks
      */
-    public function setEst($est = null)
+    public function setEst($est = null): Tasks
     {
         $this->est = $est;
 
@@ -514,7 +508,7 @@ class Tasks
      *
      * @return int|null
      */
-    public function getEst()
+    public function getEst(): ?int
     {
         return $this->est;
     }

@@ -33,7 +33,7 @@ class EarnedLogic
         $this->calculateIssued();
     }
 
-    public function getEarned()
+    public function getEarned(): array
     {
         return [
             'daily' => $this->getDaily(),
@@ -42,7 +42,7 @@ class EarnedLogic
         ];
     }
 
-    public function calculateIssued()
+    public function calculateIssued(): void
     {
         $issued = 0;
         foreach ($this->em->getRepository(AccountTransactions::class)->issuedThisMonth() as $tm) {
@@ -51,7 +51,7 @@ class EarnedLogic
         $this->setIssuedThisMonth($issued);
     }
 
-    public function calculateMonthly()
+    public function calculateMonthly(): void
     {
         $completedTasks = $this->em->getRepository(Tasks::class)->getCompletedThisMonth();
         $total = 0;
@@ -62,7 +62,7 @@ class EarnedLogic
         $this->setMonthly($total);
     }
 
-    public function calculateWeekly()
+    public function calculateWeekly(): void
     {
         $completedTasks = $this->em->getRepository(Tasks::class)->getCompletedThisWeek();
         $total = 0;
@@ -73,7 +73,7 @@ class EarnedLogic
         $this->setWeekly($total);
     }
 
-    public function calculateDaily()
+    public function calculateDaily(): void
     {
         $completedTasks = $this->em->getRepository(Tasks::class)->getCompletedToday();
         $total = 0;
@@ -99,17 +99,17 @@ class EarnedLogic
         return $this->daily;
     }
 
-    public function setMonthly($monthly)
+    public function setMonthly($monthly): void
     {
         $this->monthly = $monthly;
     }
 
-    public function setWeekly($weekly)
+    public function setWeekly($weekly): void
     {
         $this->weekly = $weekly;
     }
 
-    public function setDaily($daily)
+    public function setDaily($daily): void
     {
         $this->daily = $daily;
     }
@@ -119,7 +119,7 @@ class EarnedLogic
         return $this->issuedThisMonth;
     }
 
-    public function setIssuedThisMonth($issuedThisMonth)
+    public function setIssuedThisMonth($issuedThisMonth): void
     {
         $this->issuedThisMonth = $issuedThisMonth;
     }

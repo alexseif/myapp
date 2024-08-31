@@ -53,7 +53,7 @@ class Sheet
     /**
      * @return string
      */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -61,7 +61,7 @@ class Sheet
     /**
      * @return DateTime
      */
-    public function getDate()
+    public function getDate(): DateTime
     {
         return $this->date;
     }
@@ -69,7 +69,7 @@ class Sheet
     /**
      * @return DateInterval
      */
-    public function getDays()
+    public function getDays(): DateInterval
     {
         return $this->days;
     }
@@ -77,7 +77,7 @@ class Sheet
     /**
      * @return int
      */
-    public function getAmount()
+    public function getAmount(): int
     {
         return $this->amount;
     }
@@ -85,7 +85,7 @@ class Sheet
     /**
      * @return int
      */
-    public function getBalance()
+    public function getBalance(): int
     {
         return $this->balance;
     }
@@ -93,17 +93,17 @@ class Sheet
     /**
      * @param string $title
      */
-    public function setTitle($title)
+    public function setTitle($title): void
     {
         $this->title = $title;
     }
 
-    public function setDate(DateTime $date)
+    public function setDate(DateTime $date): void
     {
         $this->date = $date;
     }
 
-    public function setDays(DateInterval $days)
+    public function setDays(DateInterval $days): void
     {
         $this->days = $days;
     }
@@ -111,7 +111,7 @@ class Sheet
     /**
      * @param int $amount
      */
-    public function setAmount($amount)
+    public function setAmount($amount): void
     {
         $this->amount = $amount;
     }
@@ -119,7 +119,7 @@ class Sheet
     /**
      * @param int $balance
      */
-    public function setBalance($balance)
+    public function setBalance($balance): void
     {
         $this->balance = $balance;
     }

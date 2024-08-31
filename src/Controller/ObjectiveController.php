@@ -21,7 +21,7 @@ class ObjectiveController extends AbstractController
      *
      * @Route("/", name="objective_index", methods={"GET"})
      */
-    public function indexAction(EntityManagerInterface $entityManager)
+    public function indexAction(EntityManagerInterface $entityManager): \Symfony\Component\HttpFoundation\Response
     {
         $em = $entityManager;
 
@@ -62,7 +62,7 @@ class ObjectiveController extends AbstractController
      *
      * @Route("/{id}", name="objective_show", methods={"GET"})
      */
-    public function showAction(Objective $objective)
+    public function showAction(Objective $objective): \Symfony\Component\HttpFoundation\Response
     {
         $deleteForm = $this->createDeleteForm($objective);
 
@@ -101,7 +101,7 @@ class ObjectiveController extends AbstractController
      *
      * @Route("/{id}", name="objective_delete", methods={"DELETE"})
      */
-    public function deleteAction(Request $request, Objective $objective, EntityManagerInterface $entityManager)
+    public function deleteAction(Request $request, Objective $objective, EntityManagerInterface $entityManager): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $form = $this->createDeleteForm($objective);
         $form->handleRequest($request);

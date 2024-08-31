@@ -63,7 +63,7 @@ class FocusService
     /**
      * @return array
      */
-    public function get()
+    public function get(): array
     {
         return $this->focus;
     }
@@ -86,7 +86,7 @@ class FocusService
         $this->focus['completed'] = $this->getTasksRepository()->getCompletedToday();
     }
 
-    public function setDayCards()
+    public function setDayCards(): void
     {
         $this->focus['dayCards'] = $this->getEm()->getRepository(Days::class)->getImportantCards();
     }

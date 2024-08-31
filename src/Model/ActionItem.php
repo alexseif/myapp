@@ -67,37 +67,37 @@ class ActionItem
         return $this->urgency;
     }
 
-    public function setId($id)
+    public function setId($id): void
     {
         $this->id = $id;
     }
 
-    public function setType($type)
+    public function setType($type): void
     {
         $this->type = $type;
     }
 
-    public function setTitle($title)
+    public function setTitle($title): void
     {
         $this->title = $title;
     }
 
-    public function setLabel($label)
+    public function setLabel($label): void
     {
         $this->label = $label;
     }
 
-    public function setDuration($duration)
+    public function setDuration($duration): void
     {
         $this->duration = $duration;
     }
 
-    public function setPriority($priority)
+    public function setPriority($priority): void
     {
         $this->priority = $priority;
     }
 
-    public function setUrgency($urgency)
+    public function setUrgency($urgency): void
     {
         $this->urgency = $urgency;
     }

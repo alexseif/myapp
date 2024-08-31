@@ -42,7 +42,7 @@ class CostService
         $this->calc();
     }
 
-    public function calc()
+    public function calc(): void
     {
         foreach ($this->currencies as $currency) {
             foreach ($this->units as $unit => $factor) {
@@ -74,7 +74,7 @@ class CostService
         return $this->col['hour']['EGP'];
     }
 
-    public function getCurrencies()
+    public function getCurrencies(): array
     {
         return $this->currencies;
     }

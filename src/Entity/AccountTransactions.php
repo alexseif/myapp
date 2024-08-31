@@ -66,7 +66,7 @@ class AccountTransactions
      *
      * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -78,7 +78,7 @@ class AccountTransactions
      *
      * @return AccountTransactions
      */
-    public function setAmount($amount)
+    public function setAmount($amount): AccountTransactions
     {
         $this->amount = $amount;
 
@@ -90,7 +90,7 @@ class AccountTransactions
      *
      * @return int
      */
-    public function getAmount()
+    public function getAmount(): int
     {
         return $this->amount;
     }
@@ -102,7 +102,7 @@ class AccountTransactions
      *
      * @return AccountTransactions
      */
-    public function setNote($note)
+    public function setNote($note): AccountTransactions
     {
         $this->note = $note;
 
@@ -114,7 +114,7 @@ class AccountTransactions
      *
      * @return string
      */
-    public function getNote()
+    public function getNote(): string
     {
         return $this->note;
     }
@@ -126,7 +126,7 @@ class AccountTransactions
      *
      * @return AccountTransactions
      */
-    public function setAccount(Accounts $account = null)
+    public function setAccount(Accounts $account = null): AccountTransactions
     {
         $this->account = $account;
 
@@ -138,7 +138,7 @@ class AccountTransactions
      *
      * @return Accounts
      */
-    public function getAccount()
+    public function getAccount(): Accounts
     {
         return $this->account;
     }
@@ -150,7 +150,7 @@ class AccountTransactions
      *
      * @return AccountTransactions
      */
-    public function setIssuedAt($issuedAt)
+    public function setIssuedAt($issuedAt): AccountTransactions
     {
         $this->issuedAt = $issuedAt;
 
@@ -162,7 +162,7 @@ class AccountTransactions
      *
      * @return DateTime
      */
-    public function getIssuedAt()
+    public function getIssuedAt(): DateTime
     {
         return $this->issuedAt;
     }

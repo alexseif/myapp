@@ -24,7 +24,7 @@ class ManagementController extends AbstractController
     /**
      * @Route("/", name="management_index")
      */
-    public function indexAction(Request $request, EntityManagerInterface $entityManager)
+    public function indexAction(Request $request, EntityManagerInterface $entityManager): \Symfony\Component\HttpFoundation\Response
     {
         $em = $entityManager;
 
@@ -43,7 +43,7 @@ class ManagementController extends AbstractController
     /**
      * @Route("/priority", name="management_priority")
      */
-    public function priorityAction(EntityManagerInterface $entityManager)
+    public function priorityAction(EntityManagerInterface $entityManager): \Symfony\Component\HttpFoundation\Response
     {
         $em = $entityManager;
 
@@ -59,10 +59,10 @@ class ManagementController extends AbstractController
      *
      * @Route("/search", name="management_search_page", methods={"GET"})
      */
-    public function searchAction(Request $request, EntityManagerInterface $entityManager)
+    public function searchAction(Request $request, EntityManagerInterface $entityManager): \Symfony\Component\HttpFoundation\Response
     {
         $em = $entityManager;
-        $form = $this->createForm(\Form\ManagementSearchType::class, $request->get('management_search'), [
+        $form = $this->createForm(ManagementSearchType::class, $request->get('management_search'), [
             'method' => 'GET',
             'action' => $this->generateUrl('management_search_page'),
         ]);
