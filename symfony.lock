@@ -94,18 +94,6 @@
             "tests/bootstrap.php"
         ]
     },
-    "sensio/framework-extra-bundle": {
-        "version": "5.6",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "main",
-            "version": "5.2",
-            "ref": "fb7e19da7f013d0d422fa9bce16f5c510e27609b"
-        },
-        "files": [
-            "config/packages/sensio_framework_extra.yaml"
-        ]
-    },
     "squizlabs/php_codesniffer": {
         "version": "3.7",
         "recipe": {
@@ -334,9 +322,6 @@
             "assets/controllers.json",
             "assets/controllers/hello_controller.js"
         ]
-    },
-    "symfony/swiftmailer-bundle": {
-        "version": "v2.3.8"
     },
     "symfony/translation": {
         "version": "5.4",

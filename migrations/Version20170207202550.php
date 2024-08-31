@@ -1,28 +1,40 @@
 <?php
 
-namespace Application\Migrations;
+declare(strict_types=1);
 
-use Doctrine\DBAL\Migrations\AbstractMigration;
+namespace DoctrineMigrations;
+
 use Doctrine\DBAL\Schema\Schema;
+use Doctrine\Migrations\AbstractMigration;
 
-/**
- * Auto-generated Migration: Please modify to your needs!
- */
 class Version20170207202550 extends AbstractMigration
 {
-    public function up(Schema $schema)
+    public function getDescription(): string
     {
-        // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
+        return 'Migration description';
+    }
 
+    public function up(Schema $schema): void
+    {
+        // Ensure the migration can only be executed on MySQL
+        $this->abortIf(
+            $this->connection->getDatabasePlatform()->getName() !== 'mysql',
+            'Migration can only be executed safely on \'mysql\'.'
+        );
+
+        // Add your SQL statements here
         $this->addSql('ALTER TABLE cost_of_life DROP INDEX UNIQ_FA9B3EF238248176, ADD INDEX IDX_FA9B3EF238248176 (currency_id)');
     }
 
-    public function down(Schema $schema)
+    public function down(Schema $schema): void
     {
-        // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
+        // Ensure the migration can only be executed on MySQL
+        $this->abortIf(
+            $this->connection->getDatabasePlatform()->getName() !== 'mysql',
+            'Migration can only be executed safely on \'mysql\'.'
+        );
 
+        // Add your SQL statements here
         $this->addSql('ALTER TABLE cost_of_life DROP INDEX IDX_FA9B3EF238248176, ADD UNIQUE INDEX UNIQ_FA9B3EF238248176 (currency_id)');
     }
 }
