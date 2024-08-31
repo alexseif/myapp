@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\HolidayRepository;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -46,7 +47,7 @@ class Holiday
         return $this->name;
     }
 
-    public function setName(string $name)
+    public function setName(string $name): Holiday
     {
         $this->name = $name;
 
@@ -58,7 +59,7 @@ class Holiday
         return $this->date;
     }
 
-    public function setDate(\DateTimeInterface $date)
+    public function setDate(DateTimeInterface $date): Holiday
     {
         $this->date = $date;
 
@@ -70,7 +71,7 @@ class Holiday
         return $this->type;
     }
 
-    public function setType($type)
+    public function setType($type): void
     {
         $this->type = $type;
     }

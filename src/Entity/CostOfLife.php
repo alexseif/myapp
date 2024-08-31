@@ -49,7 +49,7 @@ class CostOfLife
      *
      * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -61,7 +61,7 @@ class CostOfLife
      *
      * @return CostOfLife
      */
-    public function setName($name)
+    public function setName($name): CostOfLife
     {
         $this->name = $name;
 
@@ -73,7 +73,7 @@ class CostOfLife
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -85,7 +85,7 @@ class CostOfLife
      *
      * @return CostOfLife
      */
-    public function setValue($value)
+    public function setValue($value): CostOfLife
     {
         $this->value = $value;
 
@@ -97,7 +97,7 @@ class CostOfLife
      *
      * @return float
      */
-    public function getValue()
+    public function getValue(): float
     {
         return $this->value;
     }
@@ -109,7 +109,7 @@ class CostOfLife
      *
      * @return CostOfLife
      */
-    public function setCurrency(Currency $currency)
+    public function setCurrency(Currency $currency): CostOfLife
     {
         $this->currency = $currency;
 
@@ -121,7 +121,7 @@ class CostOfLife
      *
      * @return int
      */
-    public function getCurrency()
+    public function getCurrency(): int
     {
         return $this->currency;
     }

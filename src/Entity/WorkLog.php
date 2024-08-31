@@ -65,7 +65,7 @@ class WorkLog
      *
      * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -77,7 +77,7 @@ class WorkLog
      *
      * @return WorkLog
      */
-    public function setDuration($duration)
+    public function setDuration($duration): WorkLog
     {
         $this->duration = $duration;
 
@@ -89,7 +89,7 @@ class WorkLog
      *
      * @return int
      */
-    public function getDuration()
+    public function getDuration(): int
     {
         return $this->duration;
     }
@@ -101,7 +101,7 @@ class WorkLog
      *
      * @return WorkLog
      */
-    public function setPricePerUnit($pricePerUnit)
+    public function setPricePerUnit($pricePerUnit): WorkLog
     {
         $this->pricePerUnit = $pricePerUnit;
 
@@ -113,7 +113,7 @@ class WorkLog
      *
      * @return float
      */
-    public function getPricePerUnit()
+    public function getPricePerUnit(): float
     {
         return $this->pricePerUnit;
     }
@@ -125,7 +125,7 @@ class WorkLog
      *
      * @return WorkLog
      */
-    public function setTotal($total)
+    public function setTotal($total): WorkLog
     {
         $this->total = $total;
 
@@ -137,7 +137,7 @@ class WorkLog
      *
      * @return float
      */
-    public function getTotal()
+    public function getTotal(): float
     {
         return $this->total;
     }
@@ -145,11 +145,11 @@ class WorkLog
     /**
      * Set task.
      *
-     * @param \Entity\Tasks $task
+     * @paramTasks $task
      *
      * @return WorkLog
      */
-    public function setTask(Tasks $task = null)
+    public function setTask(Tasks $task = null): WorkLog
     {
         $this->task = $task;
 
@@ -159,9 +159,8 @@ class WorkLog
     /**
      * Get task.
      *
-     * @return \Entity\Tasks
      */
-    public function getTask()
+    public function getTask():Tasks
     {
         return $this->task;
     }
@@ -173,7 +172,7 @@ class WorkLog
      *
      * @return WorkLog
      */
-    public function setName($name)
+    public function setName($name): WorkLog
     {
         $this->name = $name;
 
@@ -185,7 +184,7 @@ class WorkLog
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }

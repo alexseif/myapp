@@ -9,6 +9,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -23,7 +25,7 @@ class DashboardTaskListsController extends AbstractController
      *
      * @Route("/", name="dashboardtasklists_index", methods={"GET"})
      */
-    public function indexAction(EntityManagerInterface $entityManager)
+    public function indexAction(EntityManagerInterface $entityManager): \Symfony\Component\HttpFoundation\Response
     {
         $em = $entityManager;
 
@@ -88,7 +90,7 @@ class DashboardTaskListsController extends AbstractController
      *
      * @Route("/add", name="dashboardtasklists_add", methods={"POST"})
      */
-    public function addAction(Request $request, EntityManagerInterface $entityManager)
+    public function addAction(Request $request, EntityManagerInterface $entityManager): \Symfony\Component\HttpFoundation\Response
     {
         $em = $entityManager;
 
@@ -100,10 +102,10 @@ class DashboardTaskListsController extends AbstractController
             $em->persist($dashboardTaskList);
             $em->flush();
         } else {
-            throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
+            throw new NotFoundHttpException();
         }
 
-        return new \Symfony\Component\HttpFoundation\Response();
+        return new Response();
     }
 
     /**
@@ -111,7 +113,7 @@ class DashboardTaskListsController extends AbstractController
      *
      * @Route("/remove", name="dashboardtasklists_remove", methods={"POST"})
      */
-    public function removeAction(Request $request, EntityManagerInterface $entityManager)
+    public function removeAction(Request $request, EntityManagerInterface $entityManager): \Symfony\Component\HttpFoundation\Response
     {
         $em = $entityManager;
 
@@ -121,10 +123,10 @@ class DashboardTaskListsController extends AbstractController
             $em->remove($dashboardTaskList);
             $em->flush();
         } else {
-            throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
+            throw new NotFoundHttpException();
         }
 
-        return new \Symfony\Component\HttpFoundation\Response();
+        return new Response();
     }
 
     /**
@@ -132,7 +134,7 @@ class DashboardTaskListsController extends AbstractController
      *
      * @Route("/{id}", name="dashboardtasklists_delete", methods={"DELETE"})
      */
-    public function deleteAction(Request $request, DashboardTaskLists $dashboardTaskList, EntityManagerInterface $entityManager)
+    public function deleteAction(Request $request, DashboardTaskLists $dashboardTaskList, EntityManagerInterface $entityManager): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $form = $this->createDeleteForm($dashboardTaskList);
         $form->handleRequest($request);
@@ -153,7 +155,7 @@ class DashboardTaskListsController extends AbstractController
      *
      * @return FormInterface The form
      */
-    private function createDeleteForm(DashboardTaskLists $dashboardTaskList)
+    private function createDeleteForm(DashboardTaskLists $dashboardTaskList): FormInterface
     {
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('dashboardtasklists_delete', ['id' => $dashboardTaskList->getId()]))

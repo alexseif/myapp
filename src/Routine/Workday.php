@@ -56,7 +56,7 @@ class Workday
      *
      * @return void
      */
-    public function addItem(string $name, string $duration)
+    public function addItem(string $name, string $duration): void
     {
         if (count($this->items)) {
             $this->items[] = new RoutineItem($name,

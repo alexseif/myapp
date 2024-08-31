@@ -60,7 +60,7 @@ class SchedulerController extends AbstractController
         TasksRepository $tasksRepository,
         EntityManagerInterface $entityManager,
         $scheduleItem
-    ) {
+    ): void {
         $task = $tasksRepository->find($scheduleItem['task']);
         if (!$task->getCompleted()) {
             $schedule = new Schedule();
@@ -79,7 +79,7 @@ class SchedulerController extends AbstractController
     /**
      * @Route("/save", name="scheduler_save")
      */
-    public function save(Request $request, TasksRepository $tasksRepository, EntityManagerInterface $entityManager)
+    public function save(Request $request, TasksRepository $tasksRepository, EntityManagerInterface $entityManager): JsonResponse
     {
         if ($request->isXmlHttpRequest()) {
             foreach ($request->get('data') as $scheduleItems) {
@@ -96,7 +96,7 @@ class SchedulerController extends AbstractController
     /**
      * @Route("/delete", name="scheduler_delete")
      */
-    public function delete(Request $request, TasksRepository $tasksRepository, EntityManagerInterface $entityManager)
+    public function delete(Request $request, TasksRepository $tasksRepository, EntityManagerInterface $entityManager): JsonResponse
     {
         if ($request->isXmlHttpRequest()) {
             $scheduleId = $request->get('schedule_id');

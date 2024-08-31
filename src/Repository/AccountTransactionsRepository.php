@@ -180,7 +180,7 @@ class AccountTransactionsRepository extends ServiceEntityRepository
      *
      * @return float
      */
-    public function getRevenueSumByDateRange($from, $to)
+    public function getRevenueSumByDateRange($from, $to): float
     {
         $qb = $this
             ->createQueryBuilder('at')
@@ -197,7 +197,7 @@ class AccountTransactionsRepository extends ServiceEntityRepository
     /**
      * @return float
      */
-    public function getAverage()
+    public function getAverage(): float
     {
         $qb = $this
             ->createQueryBuilder('at')

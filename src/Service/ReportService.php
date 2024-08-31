@@ -54,7 +54,7 @@ class ReportService
      *
      * @return array
      */
-    public function getIncome()
+    public function getIncome(): array
     {
         $txns = $this->getAccountTransactionRepository()->queryIncome();
 
@@ -72,7 +72,7 @@ class ReportService
         return $income;
     }
 
-    public function getIncomeGoogleChart()
+    public function getIncomeGoogleChart(): array
     {
         $income = $this->getIncome();
         $rows = [];
@@ -102,7 +102,7 @@ class ReportService
         ];
     }
 
-    public function getHoursPerMonthGoogleChart()
+    public function getHoursPerMonthGoogleChart(): array
     {
         $hoursPerMonths = $this->getTasksRepository()->findWorkingHoursPerMonth();
         $rows = [];

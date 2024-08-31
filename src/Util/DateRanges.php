@@ -30,7 +30,7 @@ class DateRanges
      *
      * @return array Array of months between $startDate & $endDate
      */
-    public static function populateMonths($startDate, $endDate, $setDayTo = 0)
+    public static function populateMonths($startDate, $endDate, $setDayTo = 0): array
     {
         $start = self::getMonthStart($startDate);
         $start->setDate($start->format('Y'), $start->format('m'), $setDayTo);
@@ -64,7 +64,7 @@ class DateRanges
      *
      * @return int
      */
-    public static function numberOfWorkingDays($from, $to)
+    public static function numberOfWorkingDays($from, $to): int
     {
         $workingDays = [1, 2, 3, 4, 7]; // date format = N (1 = Monday, ...)
         $holidayDays = ['*-12-25', '*-01-01', '*-10-29']; // variable and fixed holidays
@@ -96,7 +96,7 @@ class DateRanges
      *
      * @return int
      */
-    public static function getWorkingDays($startDate, $endDate)
+    public static function getWorkingDays($startDate, $endDate): int
     {
         $holidays = self::getHolidays('egypt');
 
@@ -144,7 +144,7 @@ class DateRanges
      *
      * @return array
      */
-    public static function getHolidays($country)
+    public static function getHolidays($country): array
     {
         //Url of Site with list
         $url = 'https://www.timeanddate.com/holidays/' . $country . '/';
@@ -201,7 +201,7 @@ class DateRanges
      *
      * @return DateTime
      */
-    public static function getMonthStart($date = 'now', $billedOn = 25)
+    public static function getMonthStart($date = 'now', $billedOn = 25): DateTime
     {
         $monthStart = new DateTime($date);
         if ($monthStart->format('d') < $billedOn) {
@@ -218,7 +218,7 @@ class DateRanges
      *
      * @return DateTime
      */
-    public static function getMonthEnd($date = 'now')
+    public static function getMonthEnd($date = 'now'): DateTime
     {
         $monthEnd = new DateTime($date);
         if ($monthEnd->format('d') >= 25) {
@@ -255,7 +255,7 @@ class DateRanges
     /**
      * @return array of days in a working week starting Sunday
      */
-    public static function getWorkWeek()
+    public static function getWorkWeek(): array
     {
         $day_start = date('d', strtotime('next Sunday')); // get next Sunday
         for ($x = 0; $x < 5; ++$x) {

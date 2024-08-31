@@ -56,7 +56,7 @@ class Rate
      *
      * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -68,7 +68,7 @@ class Rate
      *
      * @return Rate
      */
-    public function setRate($rate)
+    public function setRate($rate): Rate
     {
         $this->rate = $rate;
 
@@ -80,7 +80,7 @@ class Rate
      *
      * @return float
      */
-    public function getRate()
+    public function getRate(): float
     {
         return $this->rate;
     }
@@ -88,11 +88,11 @@ class Rate
     /**
      * Set client.
      *
-     * @param \Entity\Client|null $client
+     * @paramClient|null $client
      *
      * @return Rate
      */
-    public function setClient(Client $client = null)
+    public function setClient(Client $client = null): Rate
     {
         $this->client = $client;
 
@@ -102,9 +102,8 @@ class Rate
     /**
      * Get client.
      *
-     * @return \Entity\Client|null
      */
-    public function getClient()
+    public function getClient(): ?Client
     {
         return $this->client;
     }
@@ -116,7 +115,7 @@ class Rate
      *
      * @return Rate
      */
-    public function setActive($active)
+    public function setActive($active): Rate
     {
         $this->active = $active;
 
@@ -128,7 +127,7 @@ class Rate
      *
      * @return bool
      */
-    public function getActive()
+    public function getActive(): bool
     {
         return $this->active;
     }
@@ -140,7 +139,7 @@ class Rate
      *
      * @return Rate
      */
-    public function setNote($note = null)
+    public function setNote($note = null): Rate
     {
         $this->note = $note;
 
@@ -152,7 +151,7 @@ class Rate
      *
      * @return string|null
      */
-    public function getNote()
+    public function getNote(): ?string
     {
         return $this->note;
     }

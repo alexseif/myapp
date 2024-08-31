@@ -22,7 +22,7 @@ class ClientController extends AbstractController
      *
      * @Route("/", name="client_index", methods={"GET"})
      */
-    public function indexAction( EntityManagerInterface $entityManager)
+    public function indexAction( EntityManagerInterface $entityManager): \Symfony\Component\HttpFoundation\Response
     {
         $em = $entityManager;
 
@@ -64,7 +64,7 @@ class ClientController extends AbstractController
      *
      * @Route("/{id}", name="client_show", methods={"GET"})
      */
-    public function showAction(Client $client)
+    public function showAction(Client $client): \Symfony\Component\HttpFoundation\Response
     {
         $deleteForm = $this->createDeleteForm($client);
 
@@ -104,7 +104,7 @@ class ClientController extends AbstractController
      *
      * @Route("/{id}", name="client_delete", methods={"DELETE"})
      */
-    public function deleteAction(Request $request, Client $client, EntityManagerInterface $entityManager)
+    public function deleteAction(Request $request, Client $client, EntityManagerInterface $entityManager): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $form = $this->createDeleteForm($client);
         $form->handleRequest($request);
@@ -126,7 +126,7 @@ class ClientController extends AbstractController
      *
      * @return FormInterface The form
      */
-    private function createDeleteForm(Client $client)
+    private function createDeleteForm(Client $client): FormInterface
     {
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('client_delete', ['id' => $client->getId()]))

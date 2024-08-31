@@ -23,12 +23,12 @@ class WorkWeek
         'Thursday' => 8,
     ];
 
-    public static function getWorkWeek()
+    public static function getWorkWeek(): array
     {
         return self::$workWeek;
     }
 
-    public static function getDayHours($day)
+    public static function getDayHours($day): ?int
     {
         if (array_key_exists($day, self::$workWeek)) {
             return self::$workWeek[$day];

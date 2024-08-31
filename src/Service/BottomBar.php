@@ -10,6 +10,7 @@ use App\Entity\Objective;
 use App\Entity\Tasks;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Logic\EarnedLogic;
 
 /**
  * Description of Bottom Bar Service.
@@ -60,7 +61,7 @@ class BottomBar
     /**
      * @return array Tasks[]
      */
-    public function getTasks()
+    public function getTasks(): array
     {
         return $this->getEm()->getRepository(Tasks::class)->focusList(5);
     }
@@ -68,14 +69,14 @@ class BottomBar
     /**
      * @return array Contract[]
      */
-    public function getContractsProgress()
+    public function getContractsProgress(): array
     {
         return $this->getContractService()->progress();
     }
 
-    public function getProgress()
+    public function getProgress(): array
     {
-        $earnedLogic = new \Logic\EarnedLogic($this->getEm(), $this->getCostService());
+        $earnedLogic = new EarnedLogic($this->getEm(), $this->getCostService());
         $earned = $earnedLogic->getEarned();
 
         return [
@@ -85,7 +86,7 @@ class BottomBar
         ];
     }
 
-    public function getObjectives()
+    public function getObjectives(): array
     {
         return $this->getEm()->getRepository(Objective::class)->findBy([], ['createdAt' => 'asc'], 5);
     }

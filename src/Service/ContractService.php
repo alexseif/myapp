@@ -32,7 +32,7 @@ class ContractService
     /**
      * @return array progress of contracts
      */
-    public function progress()
+    public function progress(): array
     {
         $contracts = $this->em->getRepository(Contract::class)->findBy(['isCompleted' => false]);
         foreach ($contracts as $contract) {

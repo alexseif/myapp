@@ -32,7 +32,7 @@ class ClientRepository extends ServiceEntityRepository
     /**
      * @return array the objects
      */
-    public function findByYear($year)
+    public function findByYear($year): array
     {
         $queryBuilder = $this
             ->createQueryBuilder('c')

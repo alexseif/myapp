@@ -7,6 +7,7 @@
 namespace App\Service;
 
 use App\Entity\Accounts;
+use App\Repository\AccountsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
@@ -23,15 +24,14 @@ class AccountsService
         $this->em = $em;
     }
 
-    public function getEm()
+    public function getEm(): EntityManagerInterface
     {
         return $this->em;
     }
 
     /**
-     * @return \Repository\AccountsRepository
      */
-    public function getRepository()
+    public function getRepository(): AccountsRepository
     {
         return $this->getEm()->getRepository(Accounts::class);
     }

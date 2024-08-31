@@ -28,7 +28,7 @@ class AccountsController extends AbstractController
      *
      * @Route("/", name="accounts_index", methods={"GET"})
      */
-    public function indexAction(EntityManagerInterface $entityManager)
+    public function indexAction(EntityManagerInterface $entityManager): Response
     {
         $em = $entityManager;
 
@@ -71,7 +71,7 @@ class AccountsController extends AbstractController
      *
      * @Route("/{id}", name="accounts_show", methods={"GET"})
      */
-    public function showAction(Accounts $account)
+    public function showAction(Accounts $account): Response
     {
         $deleteForm = $this->createDeleteForm($account);
 
@@ -169,7 +169,7 @@ class AccountsController extends AbstractController
      *
      * @Route("/{id}", name="accounts_delete", methods={"DELETE"})
      */
-    public function deleteAction(Request $request, Accounts $account, EntityManagerInterface $entityManager)
+    public function deleteAction(Request $request, Accounts $account, EntityManagerInterface $entityManager): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $form = $this->createDeleteForm($account);
         $form->handleRequest($request);
@@ -190,7 +190,7 @@ class AccountsController extends AbstractController
      *
      * @return \Symfony\Component\Form\FormInterface The form
      */
-    private function createDeleteForm(Accounts $account)
+    private function createDeleteForm(Accounts $account): \Symfony\Component\Form\FormInterface
     {
         return $this->createFormBuilder()
           ->setAction(

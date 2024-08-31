@@ -80,7 +80,7 @@ class Accounts
      *
      * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -92,7 +92,7 @@ class Accounts
      *
      * @return Accounts
      */
-    public function setName($name)
+    public function setName($name): Accounts
     {
         $this->name = $name;
 
@@ -104,7 +104,7 @@ class Accounts
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -114,7 +114,7 @@ class Accounts
      *
      * @return Accounts
      */
-    public function addTransaction(AccountTransactions $transactions)
+    public function addTransaction(AccountTransactions $transactions): Accounts
     {
         $this->transactions[] = $transactions;
 
@@ -124,7 +124,7 @@ class Accounts
     /**
      * Remove transactions.
      */
-    public function removeTransaction(AccountTransactions $transactions)
+    public function removeTransaction(AccountTransactions $transactions): void
     {
         $this->transactions->removeElement($transactions);
     }
@@ -142,7 +142,7 @@ class Accounts
     /**
      * @ORM\PostLoad()
      */
-    public function calculateBalance()
+    public function calculateBalance(): void
     {
         $balance = 0;
         /** @var AccountTransactions $transaction */
@@ -169,7 +169,7 @@ class Accounts
      *
      * @return Accounts
      */
-    public function setClient(Client $client = null)
+    public function setClient(Client $client = null): Accounts
     {
         $this->client = $client;
 
@@ -181,7 +181,7 @@ class Accounts
      *
      * @return Client
      */
-    public function getClient()
+    public function getClient(): Client
     {
         return $this->client;
     }
@@ -191,7 +191,7 @@ class Accounts
      *
      * @return Accounts
      */
-    public function addTaskList(TaskLists $taskList)
+    public function addTaskList(TaskLists $taskList): Accounts
     {
         $this->taskLists[] = $taskList;
 
@@ -201,7 +201,7 @@ class Accounts
     /**
      * Remove taskLists.
      */
-    public function removeTaskList(TaskLists $taskList)
+    public function removeTaskList(TaskLists $taskList): void
     {
         $this->taskLists->removeElement($taskList);
     }
@@ -223,7 +223,7 @@ class Accounts
      *
      * @return Accounts
      */
-    public function setConceal($conceal)
+    public function setConceal($conceal): Accounts
     {
         $this->conceal = $conceal;
 
@@ -235,7 +235,7 @@ class Accounts
      *
      * @return bool
      */
-    public function getConceal()
+    public function getConceal(): bool
     {
         return $this->conceal;
     }

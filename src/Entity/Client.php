@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\Status;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -16,7 +17,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 class Client
 {
     use TimestampableEntity;
-    use \App\Entity\Traits\Status;
+    use Status;
 
     /**
      * @var int

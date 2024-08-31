@@ -34,7 +34,7 @@ class CostOfLifeLogic
         $this->calc();
     }
 
-    public function calc()
+    public function calc(): void
     {
         foreach ($this->currencies as $currency) {
             foreach ($this->units as $unit => $factor) {

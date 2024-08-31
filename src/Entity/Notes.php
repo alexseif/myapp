@@ -48,7 +48,7 @@ class Notes
      *
      * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -60,7 +60,7 @@ class Notes
      *
      * @return Notes
      */
-    public function setNote($note)
+    public function setNote($note): Notes
     {
         $this->note = $note;
 
@@ -72,7 +72,7 @@ class Notes
      *
      * @return string
      */
-    public function getNote()
+    public function getNote(): string
     {
         return $this->note;
     }
@@ -84,7 +84,7 @@ class Notes
      *
      * @return Notes
      */
-    public function setType($type)
+    public function setType($type): Notes
     {
         $this->type = $type;
 
@@ -96,7 +96,7 @@ class Notes
      *
      * @return string
      */
-    public function getType()
+    public function getType(): string
     {
         return $this->type;
     }

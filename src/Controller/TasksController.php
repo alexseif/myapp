@@ -327,7 +327,7 @@ class TasksController extends AbstractController
         ]);
     }
 
-    public function editXML(Request $request, Tasks $task)
+    public function editXML(Request $request, Tasks $task): JsonResponse
     {
         if (!is_null($request->get('postpone'))) {
             $postpone = $request->get('postpone');
@@ -416,7 +416,7 @@ class TasksController extends AbstractController
             $entityManager->flush();
         }
         if ($request->isXMLHttpRequest()) {
-            return JsonResponse::create();
+            return new JsonResponse();
         }
         $redirect = $this->generateUrl('focus');
 

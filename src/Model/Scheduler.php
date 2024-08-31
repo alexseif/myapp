@@ -7,6 +7,9 @@ namespace App\Model;
 
 use App\Entity\Contract;
 use App\Entity\Tasks;
+use DateInterval;
+use DatePeriod;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -42,7 +45,7 @@ class Scheduler
         $this->loadContractWeekLength();
     }
 
-    public function generate($concatenated = false)
+    public function generate($concatenated = false): void
     {
         foreach ($this->period as $dt) {
             $day = new Day();
@@ -55,7 +58,7 @@ class Scheduler
         }
     }
 
-    public function dayPreset(Day &$day, $date)
+    public function dayPreset(Day $day, $date): void
     {
         $this->loadContractDayLength();
         $day->setDate($date);
@@ -65,31 +68,31 @@ class Scheduler
 
     }
 
-    public function getPeriod()
+    public function getPeriod(): \DatePeriod
     {
-        $dto = new \DateTime();
+        $dto = new DateTime();
         $dto->setISODate($this->year, $this->week);
         $dto->modify('-1 days');
         $week_start = clone $dto;
         $dto->modify('+5 days');
         $week_end = clone $dto;
-        $interval = \DateInterval::createFromDateString('1 day');
+        $interval = DateInterval::createFromDateString('1 day');
 
-        return new \DatePeriod($week_start, $interval, $week_end);
+        return new DatePeriod($week_start, $interval, $week_end);
     }
 
-    public function setToday()
+    public function setToday(): void
     {
-        $this->today = new \DateTime();
+        $this->today = new DateTime();
         $this->today->setTime(0, 0, 0);
     }
 
-    public function getCompletedTasks($date)
+    public function getCompletedTasks($date): array
     {
         return $this->tasksRepository->getCompletedByDate($date);
     }
 
-    public function loadCompletedTasks(Day &$day)
+    public function loadCompletedTasks(Day $day): void
     {
         //Completed Tasks
         $completedTasks = $this->getCompletedTasks($day->getDate());
@@ -104,7 +107,7 @@ class Scheduler
         }
     }
 
-    public function loadScheduledTasks(Day &$day)
+    public function loadScheduledTasks(Day $day): void
     {
         //Scheduled Tasks
         $scheduledTasks = $this->tasksRepository->findBySchedule($day->getDate());
@@ -118,7 +121,7 @@ class Scheduler
     }
 
 
-    public function loadContractsTasks(Day &$day, $concatenated)
+    public function loadContractsTasks(Day $day, $concatenated): void
     {
         //Contract Tasks
         foreach ($this->contracts as $contract) {
@@ -138,7 +141,7 @@ class Scheduler
     }
 
 
-    public function loadTasks(&$day)
+    public function loadTasks(&$day): void
     {
         //Tasks (unscheduled)
         $focusTasks = $this->tasksRepository->focusListScheduler($day->getDate(), $this->tasked);
@@ -154,7 +157,7 @@ class Scheduler
         }
     }
 
-    function updateTasks(Tasks $task)
+    function updateTasks(Tasks $task): void
     {
         $this->tasked[] = $task->getId();
         if (array_key_exists($task->getClient()->getId(), $this->contractDayLength)) {
@@ -168,19 +171,19 @@ class Scheduler
         }
     }
 
-    public function loadContracts()
+    public function loadContracts(): void
     {
         $this->contracts = $this->contractRepository->findBy(['isCompleted' => false]);
     }
 
-    public function loadContractDayLength()
+    public function loadContractDayLength(): void
     {
         foreach ($this->contracts as $contract) {
             $this->contractDayLength[$contract->getClient()->getId()] = $contract->getHoursPerDay() * 60;
         }
     }
 
-    public function loadContractWeekLength()
+    public function loadContractWeekLength(): void
     {
         foreach ($this->contracts as $contract) {
             $this->contractWeekLength[$contract->getClient()->getId()] = ($contract->getHoursPerDay() * 60 * 5);
@@ -201,7 +204,7 @@ class Scheduler
     /**
      * @return void
      */
-    public function addDay(Day $day)
+    public function addDay(Day $day): void
     {
         $this->days->add($day);
     }

@@ -4,9 +4,14 @@ namespace App\Controller;
 
 use App\Entity\Holiday;
 use App\Util\WorkWeek;
+use DateInterval;
+use DatePeriod;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use stdClass;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Util\DateRanges;
 
 /**
  * WorkDays  controller.
@@ -19,19 +24,19 @@ class WorkDaysController extends AbstractController
     /**
      * @Route("/", name="workdays_index")
      */
-    public function indexAction()
+    public function indexAction(): \Symfony\Component\HttpFoundation\Response
     {
-        return $this->render('AppBundle:WorkDays:index.html.twig', []);
+        return $this->render('WorkDays/index.html.twig', []);
     }
 
     /**
      * @Route("/displayWorkWeek", name="workdays_show_week")
      */
-    public function displayWorkWeekAction()
+    public function displayWorkWeekAction(): \Symfony\Component\HttpFoundation\Response
     {
         $workWeek = WorkWeek::getWorkWeek();
 
-        return $this->render('AppBundle:WorkDays:display_work_week.html.twig', [
+        return $this->render('WorkDays/display_work_week.html.twig', [
           'workWeek' => $workWeek,
         ]);
     }
@@ -42,27 +47,27 @@ class WorkDaysController extends AbstractController
     public function displayWorkMonthAction(
       EntityManagerInterface $entityManager,
       $month = null
-    ) {
+    ): \Symfony\Component\HttpFoundation\Response {
         if (is_null($month)) {
-            $tmp = new \DateTime();
+            $tmp = new DateTime();
             $month = $tmp->format('m');
         }
 
-        $monthStart = \Util\DateRanges::getMonthStart();
-        $monthEnd = \Util\DateRanges::getMonthEnd();
+        $monthStart = DateRanges::getMonthStart();
+        $monthEnd = DateRanges::getMonthEnd();
 
-        $interval = new \DateInterval('P1D');
-        $periods = new \DatePeriod($monthStart, $interval, $monthEnd);
+        $interval = new DateInterval('P1D');
+        $periods = new DatePeriod($monthStart, $interval, $monthEnd);
         $workingDays = [1, 2, 3, 4, 7];
 
         $em = $entityManager;
 
         $dateTable = [];
-        $monthTotal = new \stdClass();
+        $monthTotal = new stdClass();
         $monthTotal->daysTotal = 0;
         $monthTotal->hoursTotal = 0;
         foreach ($periods as $period) {
-            $dateRow = new \stdClass();
+            $dateRow = new stdClass();
             $dateRow->date = $period;
             $dateRow->workday = true;
             $dateRow->weekend = false;
@@ -90,7 +95,7 @@ class WorkDaysController extends AbstractController
         }
 
         return $this->render(
-          'AppBundle:WorkDays:display_work_month.html.twig',
+          'WorkDays/display_work_month.html.twig',
           [
             'dateTable' => $dateTable,
             'monthTotal' => $monthTotal,

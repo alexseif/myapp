@@ -9,6 +9,7 @@ namespace App\Model;
 use App\Entity\Contract;
 use App\Repository\TasksRepository;
 use App\Util\DateRanges;
+use DateTime;
 
 /**
  * Description of ContractProgress.
@@ -84,7 +85,7 @@ class ContractProgress
         //@TODO: WorkingDaySoFar by billing date
         $this->workingDaysSoFar = DateRanges::numberOfWorkingDays(
           $this->getMonthStart(),
-          new \DateTime()
+          new DateTime()
         );
         $this->remainingDays = (self::DAYS_PER_MONTH - $this->getWorkingDaysSoFar(
           )) ?: 1;
@@ -117,12 +118,12 @@ class ContractProgress
         return $this->dailyTarget;
     }
 
-    public function getMonthStart(): \DateTime
+    public function getMonthStart(): DateTime
     {
         return $this->monthStart;
     }
 
-    public function getMonthEnd(): \DateTime
+    public function getMonthEnd(): DateTime
     {
         return $this->monthEnd;
     }

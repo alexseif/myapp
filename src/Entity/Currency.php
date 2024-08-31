@@ -51,7 +51,7 @@ class Currency
      *
      * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -63,7 +63,7 @@ class Currency
      *
      * @return Currency
      */
-    public function setCode($code)
+    public function setCode($code): Currency
     {
         $this->code = $code;
 
@@ -75,7 +75,7 @@ class Currency
      *
      * @return string
      */
-    public function getCode()
+    public function getCode(): string
     {
         return $this->code;
     }
@@ -87,7 +87,7 @@ class Currency
      *
      * @return Currency
      */
-    public function setName($name)
+    public function setName($name): Currency
     {
         $this->name = $name;
 
@@ -99,7 +99,7 @@ class Currency
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -111,7 +111,7 @@ class Currency
      *
      * @return Currency
      */
-    public function setEgp($egp)
+    public function setEgp($egp): Currency
     {
         $this->EGP = $egp;
 
@@ -123,7 +123,7 @@ class Currency
      *
      * @return float
      */
-    public function getEgp()
+    public function getEgp(): float
     {
         return $this->EGP;
     }

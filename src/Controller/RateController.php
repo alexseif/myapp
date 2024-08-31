@@ -28,7 +28,7 @@ class RateController extends AbstractController
      *
      * @Route("/", name="rate_index", methods={"GET"})
      */
-    public function indexAction(CostService  $costService, RateCalculator $rateCalculator)
+    public function indexAction(CostService  $costService, RateCalculator $rateCalculator): \Symfony\Component\HttpFoundation\Response
     {
         $costOfLife = $costService;
         $rates = $rateCalculator->getActive();
@@ -81,7 +81,7 @@ class RateController extends AbstractController
      *
      * @Route("/increase", name="rate_increase_all", methods={"GET", "POST"})
      */
-    public function increaseAllAction(Request $request, RateCalculator $rateCalculator)
+    public function increaseAllAction(Request $request, RateCalculator $rateCalculator): \Symfony\Component\HttpFoundation\Response
     {
         $form = $this->createFormBuilder()
             ->add('percent', PercentType::class)
@@ -119,7 +119,7 @@ class RateController extends AbstractController
      *
      * @Route("/{id}", name="rate_show", methods={"GET"})
      */
-    public function showAction(Rate $rate, EntityManagerInterface $entityManager)
+    public function showAction(Rate $rate, EntityManagerInterface $entityManager): \Symfony\Component\HttpFoundation\Response
     {
         $deleteForm = $this->createDeleteForm($rate);
         $em = $entityManager;
@@ -163,7 +163,7 @@ class RateController extends AbstractController
      *
      * @Route("/{id}", name="rate_delete", methods={"DELETE"})
      */
-    public function deleteAction(Request $request, Rate $rate, EntityManagerInterface $entityManager)
+    public function deleteAction(Request $request, Rate $rate, EntityManagerInterface $entityManager): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $form = $this->createDeleteForm($rate);
         $form->handleRequest($request);
@@ -184,7 +184,7 @@ class RateController extends AbstractController
      *
      * @return \Symfony\Component\Form\FormInterface The form
      */
-    private function createDeleteForm(Rate $rate)
+    private function createDeleteForm(Rate $rate): \Symfony\Component\Form\FormInterface
     {
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('rate_delete', ['id' => $rate->getId()]))

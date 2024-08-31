@@ -79,7 +79,7 @@ class Contract
      *
      * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -91,7 +91,7 @@ class Contract
      *
      * @return Contract
      */
-    public function setName($name)
+    public function setName($name): Contract
     {
         $this->name = $name;
 
@@ -103,7 +103,7 @@ class Contract
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -117,7 +117,7 @@ class Contract
      *
      * @return Contract
      */
-    public function setHoursPerDay($hoursPerDay)
+    public function setHoursPerDay($hoursPerDay): Contract
     {
         $this->hoursPerDay = $hoursPerDay;
 
@@ -129,7 +129,7 @@ class Contract
      *
      * @return int
      */
-    public function getHoursPerDay()
+    public function getHoursPerDay(): int
     {
         return $this->hoursPerDay;
     }
@@ -137,11 +137,11 @@ class Contract
     /**
      * Set client.
      *
-     * @param \Entity\Client|null $client
+     * @paramClient|null $client
      *
      * @return Contract
      */
-    public function setClient(Client $client = null)
+    public function setClient(Client $client = null): Contract
     {
         $this->client = $client;
 
@@ -151,9 +151,8 @@ class Contract
     /**
      * Get client.
      *
-     * @return \Entity\Client|null
      */
-    public function getClient()
+    public function getClient(): ?Client
     {
         return $this->client;
     }
@@ -165,7 +164,7 @@ class Contract
      *
      * @return Contract
      */
-    public function setStartedAt($startedAt)
+    public function setStartedAt($startedAt): Contract
     {
         $this->startedAt = $startedAt;
 
@@ -177,7 +176,7 @@ class Contract
      *
      * @return \DateTime
      */
-    public function getStartedAt()
+    public function getStartedAt(): \DateTime
     {
         return $this->startedAt;
     }
@@ -190,7 +189,7 @@ class Contract
     /**
      * @return bool $isCompleted
      */
-    public function getIsCompleted()
+    public function getIsCompleted(): bool
     {
         return $this->isCompleted;
     }
@@ -198,7 +197,7 @@ class Contract
     /**
      * @return self
      */
-    public function setIsCompleted(bool $isCompleted)
+    public function setIsCompleted(bool $isCompleted): self
     {
         $this->isCompleted = $isCompleted;
 
@@ -208,7 +207,7 @@ class Contract
     /**
      * @return \DateTimeInterface $completedAt
      */
-    public function getCompletedAt()
+    public function getCompletedAt(): \DateTimeInterface
     {
         return $this->completedAt;
     }
@@ -218,7 +217,7 @@ class Contract
      *
      * @return self
      */
-    public function setCompletedAt($completedAt)
+    public function setCompletedAt($completedAt): self
     {
         $this->completedAt = $completedAt;
 

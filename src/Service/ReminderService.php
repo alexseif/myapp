@@ -7,6 +7,7 @@
 namespace App\Service;
 
 use App\Entity\Days;
+use App\Repository\DaysRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
@@ -16,6 +17,7 @@ use Doctrine\ORM\EntityManagerInterface;
  */
 class ReminderService
 {
+
     protected $em;
 
     public function __construct(EntityManagerInterface $em)
@@ -23,15 +25,14 @@ class ReminderService
         $this->em = $em;
     }
 
-    public function getEm()
+    public function getEm(): EntityManagerInterface
     {
         return $this->em;
     }
 
     /**
-     * @return \Repository\DaysRepository
      */
-    public function getRepository()
+    public function getRepository(): DaysRepository
     {
         return $this->getEm()->getRepository(Days::class);
     }
@@ -40,4 +41,5 @@ class ReminderService
     {
         return $this->getRepository()->getActiveCards();
     }
+
 }

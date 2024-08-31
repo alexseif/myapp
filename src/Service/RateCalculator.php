@@ -52,7 +52,7 @@ class RateCalculator
 
     public function getRate(Client $client)
     {
-        if ($client and $client->hasRates()) {
+        if ($client && $client->hasRates()) {
             foreach ($client->getRates() as $rate) {
                 if ($rate->getActive()) {
                     return $rate->getRate();
@@ -93,15 +93,14 @@ class RateCalculator
     /**
      * @return EntityManager
      */
-    public function getEm()
+    public function getEm(): EntityManager
     {
         return $this->em;
     }
 
     /**
-     * @param EntityManager $em
      */
-    public function setEm($em)
+    public function setEm($em): void
     {
         $this->em = $em;
     }
@@ -116,12 +115,12 @@ class RateCalculator
         return $this->defaultRate;
     }
 
-    public function setCurrencies($currencies)
+    public function setCurrencies($currencies): void
     {
         $this->currencies = $currencies;
     }
 
-    public function setDefaultRate($defaultRate)
+    public function setDefaultRate($defaultRate): void
     {
         $this->defaultRate = $defaultRate;
     }
@@ -131,7 +130,7 @@ class RateCalculator
         return $this->costOfLife;
     }
 
-    public function setCostOfLife($costOfLife)
+    public function setCostOfLife($costOfLife): void
     {
         $this->costOfLife = $costOfLife;
     }
@@ -141,7 +140,7 @@ class RateCalculator
         return $this->cost;
     }
 
-    public function setCost($cost)
+    public function setCost($cost): void
     {
         $this->cost = $cost;
     }
@@ -149,12 +148,12 @@ class RateCalculator
     /**
      * @return ArrayCollection Rates
      */
-    public function getActive()
+    public function getActive(): ArrayCollection
     {
         return $this->em->getRepository(Rate::class)->getActiveRates();
     }
 
-    public function increaseByPercent(float $percent)
+    public function increaseByPercent(float $percent): void
     {
         $rates = $this->getActive();
         foreach ($rates as $rate) {
@@ -172,7 +171,7 @@ class RateCalculator
     /**
      * @param float $fixedValue
      */
-    public function increaseByFixedValue($fixedValue, $note)
+    public function increaseByFixedValue($fixedValue, $note): void
     {
         $rates = $this->getActive();
         foreach ($rates as $rate) {

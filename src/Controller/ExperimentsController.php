@@ -13,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -26,7 +27,7 @@ class ExperimentsController extends AbstractController
     /**
      * @Route("/", name="experiments_index")
      */
-    public function indexAction()
+    public function indexAction(): Response
     {
         $experiments = [
           'Reports' => 'reports_index',
@@ -46,7 +47,7 @@ class ExperimentsController extends AbstractController
       Request $request,
       RateCalculator $rateCalculator,
       TasksRepository $tasksRepository
-    ) {
+    ): Response {
         $data = [
           'experiments' => ['Rate Task' => 'experiment_tasks'],
           'tasks' => $tasksRepository->findAll(),
@@ -82,7 +83,7 @@ class ExperimentsController extends AbstractController
             $data['result']['experiment'] = $formData['experiments'];
             $data['result']['task'] = $formData['tasks'];
 
-            $data['result']['price'] = $rateCaltulcator->task(
+            $data['result']['price'] = $rateCalculator->task(
               $formData['tasks']
             );
         }
@@ -100,7 +101,7 @@ class ExperimentsController extends AbstractController
       Request $request,
       RateCalculator $rateCalculator,
       TasksRepository $tasksRepository
-    ) {
+    ): Response {
         $data = [
           'experiments' => ['Account' => 'experiment_accounts'],
         ];

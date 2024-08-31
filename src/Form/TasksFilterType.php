@@ -79,7 +79,7 @@ class TasksFilterType extends AbstractType
     {
         $resolver->setDefaults([
           'csrf_protection' => false,
-            //      'data_class' => \Entity\Tasks::class
+            //      'data_class' =>Tasks::class
         ]);
     }
 

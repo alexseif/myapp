@@ -69,7 +69,7 @@ class Mailer implements MailerInterface
       $context,
       $fromEmail,
       $toEmail
-    ) {
+    ): void {
         $body = $this->twig->render($templateName, $context);
         $email = (new Email())
           ->from($fromEmail)

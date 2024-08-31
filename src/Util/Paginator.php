@@ -110,7 +110,7 @@ class Paginator
      *
      * @return Paginator
      */
-    public function setQueryBuilder($queryBuilder)
+    public function setQueryBuilder($queryBuilder): Paginator
     {
         $this->queryBuilder = $queryBuilder;
 
@@ -120,7 +120,7 @@ class Paginator
     /**
      * @return int
      */
-    public function getPages()
+    public function getPages(): int
     {
         return $this->pages;
     }
@@ -128,7 +128,7 @@ class Paginator
     /**
      * @return Paginator
      */
-    protected function setPages()
+    protected function setPages(): Paginator
     {
         $this->pages = ceil($this->getTotal() / $this->getLimit());
 
@@ -153,7 +153,7 @@ class Paginator
     /**
      * @return int
      */
-    public function getNextPage()
+    public function getNextPage(): int
     {
         return $this->getPage() + 1;
     }
@@ -161,7 +161,7 @@ class Paginator
     /**
      * @return int
      */
-    public function getPrevPage()
+    public function getPrevPage(): int
     {
         return $this->getPage() - 1;
     }
