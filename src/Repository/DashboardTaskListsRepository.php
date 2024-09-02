@@ -20,7 +20,12 @@ class DashboardTaskListsRepository extends ServiceEntityRepository
     }
     public function findAllTaskLists()
     {
-        return $this->getEntityManager()->createQuery('SELECT tl, dtl.id FROM AppBundle:TaskLists tl LEFT JOIN AppBundle:DashboardTaskLists dtl WITH dtl.taskList = tl.id  ')
+return $this->createQueryBuilder('dtl')
+            ->select('dtl', 'tl.id')
+            ->leftJoin('dtl.taskList', 'tl')
+            ->getQuery()
             ->getResult();
+//        return $this->getEntityManager()->createQuery('SELECT tl, dtl.id FROM TaskLists tl LEFT JOIN DashboardTaskLists dtl WITH dtl.taskList = tl.id  ')
+//            ->getResult();
     }
 }

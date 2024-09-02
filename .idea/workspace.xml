@@ -2,13 +2,19 @@
 <project version="4">
   <component name="AnalysisUIOptions">
     <option name="GROUP_BY_SEVERITY" value="true" />
+    <option name="SHOW_STRUCTURE" value="true" />
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7cd3a6ea-8379-4eac-9b81-16089730eddd" name="Changes" comment="Fixing depraction">
+    <list default="true" id="7cd3a6ea-8379-4eac-9b81-16089730eddd" name="Changes" comment="return types issue">
+      <change beforePath="$PROJECT_DIR$/.idea/myapp.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/myapp.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/CostOfLife.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/CostOfLife.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/DashboardTaskListsRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/DashboardTaskListsRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/RateCalculator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/RateCalculator.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -219,6 +225,11 @@
       <path value="$PROJECT_DIR$/vendor/masterminds/html5" />
       <path value="$PROJECT_DIR$/vendor/phar-io/manifest" />
       <path value="$PROJECT_DIR$/vendor/phar-io/version" />
+      <path value="$PROJECT_DIR$/vendor/mongodb/mongodb" />
+      <path value="$PROJECT_DIR$/vendor/laminas/laminas-code" />
+      <path value="$PROJECT_DIR$/vendor/friendsofphp/proxy-manager-lts" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/mongodb-odm" />
+      <path value="$PROJECT_DIR$/vendor/jean85/pretty-package-versions" />
     </include_path>
   </component>
   <component name="ProblemsViewState">
@@ -325,7 +336,7 @@
       <workItem from="1725108171084" duration="2891000" />
       <workItem from="1725111206562" duration="2323000" />
       <workItem from="1725114059247" duration="168000" />
-      <workItem from="1725263228456" duration="2035000" />
+      <workItem from="1725263228456" duration="3473000" />
     </task>
     <task id="LOCAL-00001" summary="composer update">
       <created>1689601265001</created>
@@ -606,7 +617,23 @@
       <option name="project" value="LOCAL" />
       <updated>1725113385075</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="requiring mongo-db">
+      <option name="closed" value="true" />
+      <created>1725265764618</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1725265764618</updated>
+    </task>
+    <task id="LOCAL-00038" summary="return types issue">
+      <option name="closed" value="true" />
+      <created>1725266331678</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1725266331678</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -636,8 +663,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="guessing why production is broken" />
-    <MESSAGE value="guessed wrong" />
     <MESSAGE value="disabling accounts widget in dashboard" />
     <MESSAGE value="hotfix for sql mode" />
     <MESSAGE value="undo hotfix for sql mode" />
@@ -661,7 +686,9 @@
     <MESSAGE value="Composer issues and composer update" />
     <MESSAGE value="PHP8.2 Composer issues and composer update" />
     <MESSAGE value="Fixing depraction" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixing depraction" />
+    <MESSAGE value="requiring mongo-db" />
+    <MESSAGE value="return types issue" />
+    <option name="LAST_COMMIT_MESSAGE" value="return types issue" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
