@@ -8,34 +8,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7cd3a6ea-8379-4eac-9b81-16089730eddd" name="Changes" comment="php8.2 composer udpate">
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/bundles.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/bundles.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/AccountTransactionsType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/AccountTransactionsType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/AccountsType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/AccountsType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/BillingOptionsType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/BillingOptionsType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/ClientType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/ClientType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/ContractType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/ContractType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/CostOfLifeType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/CostOfLifeType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/CurrencyType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/CurrencyType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/DashboardTaskListsType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/DashboardTaskListsType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/DaysType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/DaysType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/HolidayType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/HolidayType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/ManagementSearchType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/ManagementSearchType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/NotesType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/NotesType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/RateType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/RateType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/TaskListsType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/TaskListsType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/TaskSizingType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/TaskSizingType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/TasklistSizingType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/TasklistSizingType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/Tasks1Type.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/Tasks1Type.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/Tasks2Type.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/Tasks2Type.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/TasksFilterType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/TasksFilterType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/TasksMassEditType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/TasksMassEditType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/TasksType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/TasksType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/WorkLogType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/WorkLogType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Twig/Extension/ControllerActionExtension.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Twig/Extension/ControllerActionExtension.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/symfony.lock" beforeDir="false" afterPath="$PROJECT_DIR$/symfony.lock" afterDir="false" />
+    <list default="true" id="7cd3a6ea-8379-4eac-9b81-16089730eddd" name="Changes" comment="php8.2 deprecation">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/packages/doctrine.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/doctrine.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/packages/framework.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/framework.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -355,7 +331,7 @@
       <workItem from="1725108171084" duration="2891000" />
       <workItem from="1725111206562" duration="2323000" />
       <workItem from="1725114059247" duration="168000" />
-      <workItem from="1725263228456" duration="4065000" />
+      <workItem from="1725263228456" duration="4449000" />
     </task>
     <task id="LOCAL-00001" summary="composer update">
       <created>1689601265001</created>
@@ -668,7 +644,15 @@
       <option name="project" value="LOCAL" />
       <updated>1725266796958</updated>
     </task>
-    <option name="localTasksCounter" value="41" />
+    <task id="LOCAL-00041" summary="php8.2 deprecation">
+      <option name="closed" value="true" />
+      <created>1725267359987</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1725267359987</updated>
+    </task>
+    <option name="localTasksCounter" value="42" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -698,7 +682,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="undo hotfix for sql mode" />
     <MESSAGE value="more performance" />
     <MESSAGE value="composer update &#10;And fixing deprecated framework: engine: twig" />
     <MESSAGE value="fixing deployer.sh" />
@@ -723,7 +706,8 @@
     <MESSAGE value="return types issue" />
     <MESSAGE value="errors" />
     <MESSAGE value="php8.2 composer udpate" />
-    <option name="LAST_COMMIT_MESSAGE" value="php8.2 composer udpate" />
+    <MESSAGE value="php8.2 deprecation" />
+    <option name="LAST_COMMIT_MESSAGE" value="php8.2 deprecation" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
