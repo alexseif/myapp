@@ -12,6 +12,7 @@ use App\Form\ManagementSearchType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -21,36 +22,43 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class ManagementController extends AbstractController
 {
+
     /**
      * @Route("/", name="management_index")
      */
-    public function indexAction(Request $request, EntityManagerInterface $entityManager): \Symfony\Component\HttpFoundation\Response
-    {
+    public function indexAction(
+      Request $request,
+      EntityManagerInterface $entityManager
+    ): Response {
         $em = $entityManager;
 
         $tasks = $em->getRepository(Tasks::class)->getIncomplete();
-        $form = $this->createForm(ManagementSearchType::class, $request->get('management_search'), [
+        $form = $this->createForm(
+          ManagementSearchType::class,
+          $request->get('management_search'),
+          [
             'method' => 'GET',
             'action' => $this->generateUrl('management_search_page'),
-        ]);
+          ]
+        );
 
         return $this->render('management/index.html.twig', [
-            'tasks' => $tasks,
-            'management_search_form' => $form->createView(),
+          'tasks' => $tasks,
+          'management_search_form' => $form->createView(),
         ]);
     }
 
     /**
      * @Route("/priority", name="management_priority")
      */
-    public function priorityAction(EntityManagerInterface $entityManager): \Symfony\Component\HttpFoundation\Response
-    {
+    public function priorityAction(EntityManagerInterface $entityManager
+    ): Response {
         $em = $entityManager;
 
         $tasks = $em->getRepository(Tasks::class)->getIncomplete();
 
         return $this->render('management/priority.html.twig', [
-            'tasks' => $tasks,
+          'tasks' => $tasks,
         ]);
     }
 
@@ -59,29 +67,47 @@ class ManagementController extends AbstractController
      *
      * @Route("/search", name="management_search_page", methods={"GET"})
      */
-    public function searchAction(Request $request, EntityManagerInterface $entityManager): \Symfony\Component\HttpFoundation\Response
-    {
+    public function searchAction(
+      Request $request,
+      EntityManagerInterface $entityManager
+    ): Response {
         $em = $entityManager;
-        $form = $this->createForm(ManagementSearchType::class, $request->get('management_search'), [
+        $form = $this->createForm(
+          ManagementSearchType::class,
+          $request->get('management_search'),
+          [
             'method' => 'GET',
             'action' => $this->generateUrl('management_search_page'),
-        ]);
+          ]
+        );
         $results = [];
         $filters = [];
         if ($request->query->has($form->getName())) {
             $filters = $request->get('management_search');
-            $results['days'] = $em->getRepository(Days::class)->search($filters['search']);
-            $results['clients'] = $em->getRepository(Client::class)->search($filters['search']);
-            $results['accounts'] = $em->getRepository(Accounts::class)->search($filters['search']);
-            $results['taskLists'] = $em->getRepository(TaskLists::class)->search($filters['search']);
-            $results['tasks'] = $em->getRepository(Tasks::class)->search($filters['search']);
-            $results['notes'] = $em->getRepository(Notes::class)->search($filters['search']);
+            $results['days'] = $em->getRepository(Days::class)->search(
+              $filters['search']
+            );
+            $results['clients'] = $em->getRepository(Client::class)->search(
+              $filters['search']
+            );
+            $results['accounts'] = $em->getRepository(Accounts::class)->search(
+              $filters['search']
+            );
+            $results['taskLists'] = $em->getRepository(TaskLists::class)
+              ->search($filters['search']);
+            $results['tasks'] = $em->getRepository(Tasks::class)->search(
+              $filters['search']
+            );
+            $results['notes'] = $em->getRepository(Notes::class)->search(
+              $filters['search']
+            );
         }
 
         return $this->render('management/search.html.twig', [
-            'filters' => $filters,
-            'results' => $results,
-            'management_search_form' => $form->createView(),
+          'filters' => $filters,
+          'results' => $results,
+          'management_search_form' => $form->createView(),
         ]);
     }
+
 }

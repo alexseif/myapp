@@ -16,6 +16,7 @@ use Twig_Environment;
  */
 class ControllerActionExtension extends AbstractExtension
 {
+
     /**
      * @var Request
      */
@@ -34,8 +35,8 @@ class ControllerActionExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('get_controller_name', [$this, 'getControllerName']),
-            new TwigFunction('get_action_name', [$this, 'getActionName']),
+          new TwigFunction('get_controller_name', [$this, 'getControllerName']),
+          new TwigFunction('get_action_name', [$this, 'getActionName']),
         ];
     }
 
@@ -47,7 +48,11 @@ class ControllerActionExtension extends AbstractExtension
         if (null !== $this->request) {
             $pattern = "#Controller\\\([a-zA-Z]*)Controller#";
             $matches = [];
-            $result = preg_match($pattern, $this->request->get('_controller'), $matches);
+            $result = preg_match(
+              $pattern,
+              $this->request->get('_controller'),
+              $matches
+            );
             if ($result) {
                 return strtolower($matches[1]);
             }
@@ -63,11 +68,16 @@ class ControllerActionExtension extends AbstractExtension
         if (null !== $this->request) {
             $pattern = '#::([a-zA-Z]*)Action#';
             $matches = [];
-            $result = preg_match($pattern, $this->request->get('_controller'), $matches);
+            $result = preg_match(
+              $pattern,
+              $this->request->get('_controller'),
+              $matches
+            );
             if ($result) {
                 return $matches[1];
             }
         }
         return null;
     }
+
 }

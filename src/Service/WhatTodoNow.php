@@ -9,6 +9,7 @@ use DateTime;
 
 class WhatTodoNow
 {
+
     public function whatTodoNow(): RoutineItem
     {
         $now = new DateTime();
@@ -27,4 +28,5 @@ class WhatTodoNow
 
         return $wtn;
     }
+
 }

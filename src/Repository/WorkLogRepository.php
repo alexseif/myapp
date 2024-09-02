@@ -14,32 +14,35 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class WorkLogRepository extends ServiceEntityRepository
 {
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, WorkLog::class);
     }
+
     public function orderByTaskList()
     {
         return $this
-            ->createQueryBuilder('wl')
-            ->select('wl, t')
-            ->join('wl.task', 't')
-            ->orderBy('t.taskList')
-            ->addOrderBy('wl.createdAt', 'DESC')
-            ->getQuery()
-            ->getResult();
+          ->createQueryBuilder('wl')
+          ->select('wl, t')
+          ->join('wl.task', 't')
+          ->orderBy('t.taskList')
+          ->addOrderBy('wl.createdAt', 'DESC')
+          ->getQuery()
+          ->getResult();
     }
 
     public function getByTaskList($taskList)
     {
         return $this
-            ->createQueryBuilder('wl')
-            ->select('wl, t')
-            ->join('wl.task', 't')
-            ->where('t.taskList = :tasklist')
-            ->setParameter(':tasklist', $taskList)
-            ->addOrderBy('wl.createdAt', 'DESC')
-            ->getQuery()
-            ->getResult();
+          ->createQueryBuilder('wl')
+          ->select('wl, t')
+          ->join('wl.task', 't')
+          ->where('t.taskList = :tasklist')
+          ->setParameter(':tasklist', $taskList)
+          ->addOrderBy('wl.createdAt', 'DESC')
+          ->getQuery()
+          ->getResult();
     }
+
 }

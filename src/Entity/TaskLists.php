@@ -18,6 +18,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
  */
 class TaskLists
 {
+
     use TimestampableEntity;
 
     /**
@@ -155,9 +156,9 @@ class TaskLists
             $criteria->where(Criteria::expr()->eq('completed', false));
         }
         $criteria->orderBy([
-            'completed' => 'asc',
-            'urgency' => 'desc',
-            'priority' => 'desc',
+          'completed' => 'asc',
+          'urgency' => 'desc',
+          'priority' => 'desc',
         ]);
 
         return $this->tasks->matching($criteria);
@@ -171,7 +172,9 @@ class TaskLists
         }
         $today = new DateTime();
         $endDay = new DateTime();
-        $endDay->add(DateInterval::createFromDateString($durationTotal.' minutes'));
+        $endDay->add(
+          DateInterval::createFromDateString($durationTotal . ' minutes')
+        );
 
         return $endDay->diff($today);
     }
@@ -184,7 +187,9 @@ class TaskLists
         }
         $today = new DateTime();
         $endDay = new DateTime();
-        $endDay->add(DateInterval::createFromDateString($estTotal.' minutes'));
+        $endDay->add(
+          DateInterval::createFromDateString($estTotal . ' minutes')
+        );
 
         return $endDay->diff($today);
     }
@@ -216,4 +221,5 @@ class TaskLists
     {
         return $this->getName();
     }
+
 }

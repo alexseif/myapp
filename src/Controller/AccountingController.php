@@ -8,7 +8,9 @@ use App\Form\AccountingMainFilterType;
 use App\Util\DateRanges;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -25,7 +27,7 @@ class AccountingController extends AbstractController
     public function indexAction(
       Request $request,
       EntityManagerInterface $entityManager
-    ): \Symfony\Component\HttpFoundation\Response {
+    ): Response {
         $accountingFilterForm = $this->getFilterFunction($request);
         $em = $entityManager;
         $accounts = $em->getRepository(Accounts::class)->findBy(
@@ -45,7 +47,7 @@ class AccountingController extends AbstractController
       Request $request,
       Accounts $account,
       EntityManagerInterface $entityManager
-    ): \Symfony\Component\HttpFoundation\Response {
+    ): Response {
         $accountingFilterForm = $this->getFilterFunction($request);
 
         $em = $entityManager;
@@ -96,7 +98,7 @@ class AccountingController extends AbstractController
       $from,
       $to,
       EntityManagerInterface $entityManager
-    ): \Symfony\Component\HttpFoundation\Response {
+    ): Response {
         $taxes = false;
         if ($request->query->has('taxes')) {
             $taxes = true;
@@ -126,7 +128,7 @@ class AccountingController extends AbstractController
     protected
     function getFilterFunction(
       Request $request
-    ): \Symfony\Component\Form\FormInterface {
+    ): FormInterface {
         return $this->createForm(
           AccountingMainFilterType::class,
           $request->get('accounting_filter'),

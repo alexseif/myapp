@@ -40,171 +40,170 @@ class AccountTransactionsRepository extends ServiceEntityRepository
         $today->setTime(00, 00, 00);
 
         return $this
-            ->createQueryBuilder('at')
-            ->select('at')
-            ->where('at.issuedAt >= :today')
-            ->andWhere('at.amount > 0')
-            ->orderBy(self::ISSUED_AT)
-            ->setParameter(':today', $today)
-            ->getQuery()
-            ->getResult();
+          ->createQueryBuilder('at')
+          ->select('at')
+          ->where('at.issuedAt >= :today')
+          ->andWhere('at.amount > 0')
+          ->orderBy(self::ISSUED_AT)
+          ->setParameter(':today', $today)
+          ->getQuery()
+          ->getResult();
     }
 
     public function queryAccountRange($account)
     {
         return $this
-            ->createQueryBuilder('at')
-            ->select('MIN(at.issuedAt) as rangeStart, MAX(at.issuedAt) as rangeEnd')
-            ->where(self::ACCOUNT_EQUAL)
-            ->groupBy('at.account')
-            ->setParameter(self::ACCOUNT_PARAMETER, $account)
-            ->getQuery()
-            ->getOneOrNullResult();
+          ->createQueryBuilder('at')
+          ->select(
+            'MIN(at.issuedAt) as rangeStart, MAX(at.issuedAt) as rangeEnd'
+          )
+          ->where(self::ACCOUNT_EQUAL)
+          ->groupBy('at.account')
+          ->setParameter(self::ACCOUNT_PARAMETER, $account)
+          ->getQuery()
+          ->getOneOrNullResult();
     }
 
     public function queryAccountFromTo($account, $from, $to)
     {
         return $this
-            ->createQueryBuilder('at')
-            ->where(self::ACCOUNT_EQUAL)
-            ->andWhere(self::ISSUED_AT_BETWEEN)
-            ->orderBy(self::ISSUED_AT)
-            ->setParameter(self::ACCOUNT_PARAMETER, $account)
-            ->setParameter(self::FROM, $from)
-            ->setParameter(':to', $to)
-            ->getQuery()
-            ->getResult();
+          ->createQueryBuilder('at')
+          ->where(self::ACCOUNT_EQUAL)
+          ->andWhere(self::ISSUED_AT_BETWEEN)
+          ->orderBy(self::ISSUED_AT)
+          ->setParameter(self::ACCOUNT_PARAMETER, $account)
+          ->setParameter(self::FROM, $from)
+          ->setParameter(':to', $to)
+          ->getQuery()
+          ->getResult();
     }
 
     public function queryAmountFromTo($account, $from, $to)
     {
         return $this
-            ->createQueryBuilder('at')
-            ->select(self::AMOUNT_SUM)
-            ->where(self::ACCOUNT_EQUAL)
-            ->andWhere(self::ISSUED_AT_BETWEEN)
-            ->orderBy(self::ISSUED_AT)
-            ->setParameter(self::ACCOUNT_PARAMETER, $account)
-            ->setParameter(self::FROM, $from)
-            ->setParameter(':to', $to)
-            ->getQuery()
-            ->getSingleResult();
+          ->createQueryBuilder('at')
+          ->select(self::AMOUNT_SUM)
+          ->where(self::ACCOUNT_EQUAL)
+          ->andWhere(self::ISSUED_AT_BETWEEN)
+          ->orderBy(self::ISSUED_AT)
+          ->setParameter(self::ACCOUNT_PARAMETER, $account)
+          ->setParameter(self::FROM, $from)
+          ->setParameter(':to', $to)
+          ->getQuery()
+          ->getSingleResult();
     }
 
     public function queryCurrentBalanceByAccountAndRange($account, $range)
     {
         return $this
-            ->createQueryBuilder('at')
-            ->select(self::AMOUNT_SUM)
-            ->where(self::ACCOUNT_EQUAL)
-            ->andWhere(self::ISSUED_AT_BETWEEN)
-            ->orderBy(self::ISSUED_AT)
-            ->setParameter(self::ACCOUNT_PARAMETER, $account)
-            ->setParameter(self::FROM, $range['start'])
-            ->setParameter(':to', $range['end'])
-            ->getQuery()
-            ->getSingleResult();
+          ->createQueryBuilder('at')
+          ->select(self::AMOUNT_SUM)
+          ->where(self::ACCOUNT_EQUAL)
+          ->andWhere(self::ISSUED_AT_BETWEEN)
+          ->orderBy(self::ISSUED_AT)
+          ->setParameter(self::ACCOUNT_PARAMETER, $account)
+          ->setParameter(self::FROM, $range['start'])
+          ->setParameter(':to', $range['end'])
+          ->getQuery()
+          ->getSingleResult();
     }
 
     public function queryCurrentBalanceByAccount($account, $to = null)
     {
         $query = $this
-            ->createQueryBuilder('at')
-            ->select(self::AMOUNT_SUM)
-            ->where(self::ACCOUNT_EQUAL)
-            ->orderBy(self::ISSUED_AT)
-            ->setParameter(self::ACCOUNT_PARAMETER, $account);
+          ->createQueryBuilder('at')
+          ->select(self::AMOUNT_SUM)
+          ->where(self::ACCOUNT_EQUAL)
+          ->orderBy(self::ISSUED_AT)
+          ->setParameter(self::ACCOUNT_PARAMETER, $account);
         if ($to !== null) {
             $query
-                ->andWhere('at.issuedAt <= :to')
-                ->setParameter(':to', $to);
+              ->andWhere('at.issuedAt <= :to')
+              ->setParameter(':to', $to);
         }
         return $query
-            ->getQuery()
-            ->getSingleResult();
+          ->getQuery()
+          ->getSingleResult();
     }
 
     public function queryCurrentBalanceByAccountTo($account, $to)
     {
         return $this
-            ->createQueryBuilder('at')
-            ->select(self::AMOUNT_SUM)
-            ->where(self::ACCOUNT_EQUAL)
-            ->andWhere('at.issuedAt <= :to')
-            ->orderBy(self::ISSUED_AT)
-            ->setParameter(self::ACCOUNT_PARAMETER, $account)
-            ->setParameter(':to', $to)
-            ->getQuery()
-            ->getSingleResult();
+          ->createQueryBuilder('at')
+          ->select(self::AMOUNT_SUM)
+          ->where(self::ACCOUNT_EQUAL)
+          ->andWhere('at.issuedAt <= :to')
+          ->orderBy(self::ISSUED_AT)
+          ->setParameter(self::ACCOUNT_PARAMETER, $account)
+          ->setParameter(':to', $to)
+          ->getQuery()
+          ->getSingleResult();
     }
 
     public function queryOverdueAccountTo($account, $to)
     {
         return $this
-            ->createQueryBuilder('at')
-            ->select(self::AMOUNT_SUM)
-            ->where(self::ACCOUNT_EQUAL)
-            ->andWhere('at.issuedAt <= :to')
-            ->orderBy(self::ISSUED_AT)
-            ->setParameter(self::ACCOUNT_PARAMETER, $account)
-            ->setParameter(':to', $to)
-            ->getQuery()
-            ->getSingleResult();
+          ->createQueryBuilder('at')
+          ->select(self::AMOUNT_SUM)
+          ->where(self::ACCOUNT_EQUAL)
+          ->andWhere('at.issuedAt <= :to')
+          ->orderBy(self::ISSUED_AT)
+          ->setParameter(self::ACCOUNT_PARAMETER, $account)
+          ->setParameter(':to', $to)
+          ->getQuery()
+          ->getSingleResult();
     }
 
     public function queryOverdueAccount($account)
     {
         return $this
-            ->createQueryBuilder('at')
-            ->select(self::AMOUNT_SUM)
-            ->where(self::ACCOUNT_EQUAL)
-            ->orderBy(self::ISSUED_AT)
-            ->setParameter(self::ACCOUNT_PARAMETER, $account)
-            ->getQuery()
-            ->getSingleResult();
+          ->createQueryBuilder('at')
+          ->select(self::AMOUNT_SUM)
+          ->where(self::ACCOUNT_EQUAL)
+          ->orderBy(self::ISSUED_AT)
+          ->setParameter(self::ACCOUNT_PARAMETER, $account)
+          ->getQuery()
+          ->getSingleResult();
     }
 
     public function queryIncome()
     {
         return $this
-            ->createQueryBuilder('at')
-            ->where('at.amount > 0')
-            ->orderBy(self::ISSUED_AT)
-            ->getQuery()
-            ->getResult();
+          ->createQueryBuilder('at')
+          ->where('at.amount > 0')
+          ->orderBy(self::ISSUED_AT)
+          ->getQuery()
+          ->getResult();
     }
 
     /**
      * @param DateTime $from
      * @param DateTime $to
      *
-     * @return float
      */
     public function getRevenueSumByDateRange($from, $to): float
     {
         $qb = $this
-            ->createQueryBuilder('at')
-            ->select('SUM(at.amount)')
-            ->where('at.amount < 0')
-            ->andWhere(self::ISSUED_AT_BETWEEN)
-            ->setParameter(self::FROM, $from)
-            ->setParameter(':to', $to);
+          ->createQueryBuilder('at')
+          ->select('SUM(at.amount)')
+          ->where('at.amount < 0')
+          ->andWhere(self::ISSUED_AT_BETWEEN)
+          ->setParameter(self::FROM, $from)
+          ->setParameter(':to', $to);
 
         return $qb->getQuery()
-            ->getSingleScalarResult();
+          ->getSingleScalarResult();
     }
 
-    /**
-     * @return float
-     */
     public function getAverage(): float
     {
         $qb = $this
-            ->createQueryBuilder('at')
-            ->select('avg(at.amount)')
-            ->where('at.amount < 0');
+          ->createQueryBuilder('at')
+          ->select('avg(at.amount)')
+          ->where('at.amount < 0');
 
         return $qb->getQuery()
-            ->getSingleScalarResult();
+          ->getSingleScalarResult();
     }
+
 }

@@ -13,6 +13,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
  */
 class WorkLog
 {
+
     use TimestampableEntity;
 
     /**
@@ -160,7 +161,7 @@ class WorkLog
      * Get task.
      *
      */
-    public function getTask():Tasks
+    public function getTask(): Tasks
     {
         return $this->task;
     }
@@ -188,4 +189,5 @@ class WorkLog
     {
         return $this->name;
     }
+
 }

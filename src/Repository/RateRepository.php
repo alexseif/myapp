@@ -14,16 +14,19 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class RateRepository extends ServiceEntityRepository
 {
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Rate::class);
     }
+
     public function getActiveRates()
     {
         return $this
-            ->createQueryBuilder('r')
-            ->where('r.active = true')
-            ->getQuery()
-            ->getResult();
+          ->createQueryBuilder('r')
+          ->where('r.active = true')
+          ->getQuery()
+          ->getResult();
     }
+
 }

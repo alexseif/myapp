@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
@@ -13,6 +14,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
  */
 class Days
 {
+
     use TimestampableEntity;
 
     /**
@@ -98,7 +100,7 @@ class Days
      *
      * @return \DateTime
      */
-    public function getDeadline(): \DateTime
+    public function getDeadline(): DateTime
     {
         return $this->deadline;
     }
@@ -131,4 +133,5 @@ class Days
     {
         return $this->getName();
     }
+
 }

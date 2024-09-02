@@ -108,7 +108,7 @@ class TasksController extends AbstractController
     ): Response {
         date_default_timezone_set('Africa/Cairo');
         $formData = new stdClass();
-        $formData->date = new \DateTime();
+        $formData->date = new DateTime();
         $formData->date->modify('-1 day');
 
         $form = $this->createFormBuilder($formData)

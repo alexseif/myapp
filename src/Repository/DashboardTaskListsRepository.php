@@ -14,18 +14,21 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class DashboardTaskListsRepository extends ServiceEntityRepository
 {
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, DashboardTaskLists::class);
     }
+
     public function findAllTaskLists()
     {
-return $this->createQueryBuilder('dtl')
-            ->select('dtl', 'tl.id')
-            ->leftJoin('dtl.taskList', 'tl')
-            ->getQuery()
-            ->getResult();
-//        return $this->getEntityManager()->createQuery('SELECT tl, dtl.id FROM TaskLists tl LEFT JOIN DashboardTaskLists dtl WITH dtl.taskList = tl.id  ')
-//            ->getResult();
+        return $this->createQueryBuilder('dtl')
+          ->select('dtl', 'tl.id')
+          ->leftJoin('dtl.taskList', 'tl')
+          ->getQuery()
+          ->getResult();
+        //        return $this->getEntityManager()->createQuery('SELECT tl, dtl.id FROM TaskLists tl LEFT JOIN DashboardTaskLists dtl WITH dtl.taskList = tl.id  ')
+        //            ->getResult();
     }
+
 }

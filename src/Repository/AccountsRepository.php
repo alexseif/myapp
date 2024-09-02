@@ -107,7 +107,7 @@ class AccountsRepository extends ServiceEntityRepository
           ->select('a')
           ->addSelect('c')
           ->addSelect('at')
-//          ->addSelect('SUM(at.amount) AS balance')
+          //          ->addSelect('SUM(at.amount) AS balance')
           ->leftJoin('a.client', 'c')
           ->leftJoin('a.transactions', 'at')
           ->where('a.conceal = false')

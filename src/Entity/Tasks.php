@@ -411,7 +411,7 @@ class Tasks
     /**
      * Set eta.
      *
-     * @param \DateTime $eta
+     * @param \DateTime|null $eta
      *
      * @return Tasks
      */

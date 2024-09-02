@@ -13,6 +13,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
  */
 class DashboardTaskLists
 {
+
     use TimestampableEntity;
 
     /**
@@ -58,7 +59,7 @@ class DashboardTaskLists
      * Get taskList.
      *
      */
-    public function getTaskList():TaskLists
+    public function getTaskList(): TaskLists
     {
         return $this->taskList;
     }
@@ -67,4 +68,5 @@ class DashboardTaskLists
     {
         return $this->taskList->getName();
     }
+
 }

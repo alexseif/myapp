@@ -13,8 +13,10 @@ namespace App\Util;
  */
 class Formatting
 {
+
     public static function number($number): string
     {
-        return number_format(round($number), 0);
+        return number_format(round($number));
     }
+
 }

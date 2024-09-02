@@ -13,6 +13,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
  */
 class CostOfLife
 {
+
     use TimestampableEntity;
 
     /**
@@ -125,4 +126,5 @@ class CostOfLife
     {
         return $this->currency;
     }
+
 }

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Holiday;
+use App\Util\DateRanges;
 use App\Util\WorkWeek;
 use DateInterval;
 use DatePeriod;
@@ -10,8 +11,8 @@ use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use stdClass;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Util\DateRanges;
 
 /**
  * WorkDays  controller.
@@ -24,15 +25,16 @@ class WorkDaysController extends AbstractController
     /**
      * @Route("/", name="workdays_index")
      */
-    public function indexAction(): \Symfony\Component\HttpFoundation\Response
+    public function indexAction(): Response
     {
-        return $this->render('WorkDays/index.html.twig', []);
+        return $this->render('WorkDays/index.html.twig');
     }
 
     /**
      * @Route("/displayWorkWeek", name="workdays_show_week")
      */
-    public function displayWorkWeekAction(): \Symfony\Component\HttpFoundation\Response
+    public function displayWorkWeekAction(
+    ): Response
     {
         $workWeek = WorkWeek::getWorkWeek();
 
@@ -47,7 +49,7 @@ class WorkDaysController extends AbstractController
     public function displayWorkMonthAction(
       EntityManagerInterface $entityManager,
       $month = null
-    ): \Symfony\Component\HttpFoundation\Response {
+    ): Response {
         if (is_null($month)) {
             $tmp = new DateTime();
             $month = $tmp->format('m');

@@ -13,6 +13,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
  */
 class Notes
 {
+
     use TimestampableEntity;
 
     /**
@@ -100,4 +101,5 @@ class Notes
     {
         return $this->type;
     }
+
 }

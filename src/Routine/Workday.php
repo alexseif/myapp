@@ -7,10 +7,12 @@ use DateTime;
 
 class Workday
 {
+
     /**
      * @var DateTime
      */
     protected $dayStart;
+
     protected $runningTime;
 
     /**
@@ -20,8 +22,10 @@ class Workday
 
     public function __construct(DateTime $dayStart = null)
     {
-        $this->setDayStart((new DateTime())
-            ->setTime(6, 15));
+        $this->setDayStart(
+          (new DateTime())
+            ->setTime(6, 15)
+        );
         if ($dayStart) {
             $this->setDayStart($dayStart);
         }
@@ -59,13 +63,19 @@ class Workday
     public function addItem(string $name, string $duration): void
     {
         if (count($this->items)) {
-            $this->items[] = new RoutineItem($name,
-                clone $this->getRunningTime()->add(end($this->items)->getDuration()),
-                DateInterval::createFromDateString($duration));
+            $this->items[] = new RoutineItem(
+              $name,
+              clone $this->getRunningTime()->add(
+                end($this->items)->getDuration()
+              ),
+              DateInterval::createFromDateString($duration)
+            );
         } else {
             // First item exception
-            $this->items[] = new RoutineItem($name, clone $this->getDayStart(),
-                DateInterval::createFromDateString($duration));
+            $this->items[] = new RoutineItem(
+              $name, clone $this->getDayStart(),
+              DateInterval::createFromDateString($duration)
+            );
         }
     }
 
@@ -88,4 +98,5 @@ class Workday
     {
         $this->runningTime = $runningTime;
     }
+
 }

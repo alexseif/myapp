@@ -13,6 +13,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
  */
 class Objective
 {
+
     use TimestampableEntity;
 
     /**
@@ -95,4 +96,5 @@ class Objective
     {
         return $this->description;
     }
+
 }

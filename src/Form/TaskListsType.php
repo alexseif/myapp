@@ -11,24 +11,29 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TaskListsType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options): void
-    {
+
+    public function buildForm(
+      FormBuilderInterface $builder,
+      array $options
+    ): void {
         $builder
-            ->add('name')
-            ->add('account', EntityType::class, [
-                    'required' => false,
-                    'class' => Accounts::class,
-                    'choice_label' => 'name',
-                    'attr' => [
-                        'class' => 'chosen',
-                    ], ]
-            );
+          ->add('name')
+          ->add('account', EntityType::class, [
+              'required' => false,
+              'class' => Accounts::class,
+              'choice_label' => 'name',
+              'attr' => [
+                'class' => 'chosen',
+              ],
+            ]
+          );
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => TaskLists::class,
+          'data_class' => TaskLists::class,
         ]);
     }
+
 }

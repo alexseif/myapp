@@ -19,40 +19,41 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class WorkareaController extends AbstractController
 {
+
     /**
      * @Route("/workarea", name="workarea")
      */
     public function workarea(
-        TasksRepository $tasksRepository,
-        DaysRepository $daysRepository,
-        AccountsRepository $accountsRepository,
-        AccountTransactionsRepository $accountTransactionsRepository,
-        TaskListsRepository $taskListsRepository,
-        CostService $costService
+      TasksRepository $tasksRepository,
+      DaysRepository $daysRepository,
+      AccountsRepository $accountsRepository,
+      AccountTransactionsRepository $accountTransactionsRepository,
+      TaskListsRepository $taskListsRepository,
+      CostService $costService
     ): Response {
         $days = $daysRepository->getImportantCards();
-//        $accounts = $accountsRepository->findBy(['conceal' => false]);
+        //        $accounts = $accountsRepository->findBy(['conceal' => false]);
         /** Cost Of Life * */
-//        $costOfLife = $costService;
-//        $earnedLogic = new EarnedLogic($this->getDoctrine()->getManager(), $costOfLife);
-//        $earned = $earnedLogic->getEarned();
-//
-//        $issuedThisMonth = $accountTransactionsRepository->issuedThisMonth();
-//        $issued = 0;
-//        foreach ($issuedThisMonth as $tm) {
-//            $issued += abs($tm->getAmount());
-//        }
+        //        $costOfLife = $costService;
+        //        $earnedLogic = new EarnedLogic($this->getDoctrine()->getManager(), $costOfLife);
+        //        $earned = $earnedLogic->getEarned();
+        //
+        //        $issuedThisMonth = $accountTransactionsRepository->issuedThisMonth();
+        //        $issued = 0;
+        //        foreach ($issuedThisMonth as $tm) {
+        //            $issued += abs($tm->getAmount());
+        //        }
         $completedTodayCount = $tasksRepository->getCompletedTodayCount();
 
         return $this->render('workarea/workarea.html.twig', [
-            'days' => $days,
-//            'accounts' => $accounts,
-//            'earned' => $earned,
-//            'issuedThisMonth' => $earnedLogic->getIssuedThisMonth(),
-//            'costOfLife' => $costOfLife,
-//            'issued' => $issued,
-            'taskLists' => $taskListsRepository->findAllWithActiveTasks(),
-            'completedTodayCount' => $completedTodayCount,
+          'days' => $days,
+            //            'accounts' => $accounts,
+            //            'earned' => $earned,
+            //            'issuedThisMonth' => $earnedLogic->getIssuedThisMonth(),
+            //            'costOfLife' => $costOfLife,
+            //            'issued' => $issued,
+          'taskLists' => $taskListsRepository->findAllWithActiveTasks(),
+          'completedTodayCount' => $completedTodayCount,
         ]);
     }
 
@@ -65,10 +66,12 @@ class WorkareaController extends AbstractController
      *
      * @Route("/getTasks/{taskListName}", name="get_tasks")
      */
-    public function getTasksAction(TasksService $tasksService, $taskListName): Response
-    {
+    public function getTasksAction(
+      TasksService $tasksService,
+      $taskListName
+    ): Response {
         return $this->render('workarea/inboxTasks.html.twig', [
-            'inboxTasks' => $tasksService->getWorkareaTasks($taskListName),
+          'inboxTasks' => $tasksService->getWorkareaTasks($taskListName),
         ]);
     }
 
@@ -82,9 +85,12 @@ class WorkareaController extends AbstractController
      * @Route("/getTasksCount/{taskListName}", name="get_tasks_count")
      */
     public function getTasksCountAction(
-        TasksService $tasksService,
-        $taskListName
+      TasksService $tasksService,
+      $taskListName
     ) {
-        return new JsonResponse($tasksService->getWorkareaTasksCount($taskListName));
+        return new JsonResponse(
+          $tasksService->getWorkareaTasksCount($taskListName)
+        );
     }
+
 }

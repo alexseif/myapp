@@ -6,7 +6,9 @@ use App\Entity\Objective;
 use App\Form\ObjectiveType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -16,19 +18,20 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class ObjectiveController extends AbstractController
 {
+
     /**
      * Lists all objective entities.
      *
      * @Route("/", name="objective_index", methods={"GET"})
      */
-    public function indexAction(EntityManagerInterface $entityManager): \Symfony\Component\HttpFoundation\Response
-    {
+    public function indexAction(EntityManagerInterface $entityManager
+    ): Response {
         $em = $entityManager;
 
         $objectives = $em->getRepository(Objective::class)->findAll();
 
         return $this->render('objective/index.html.twig', [
-            'objectives' => $objectives,
+          'objectives' => $objectives,
         ]);
     }
 
@@ -37,8 +40,10 @@ class ObjectiveController extends AbstractController
      *
      * @Route("/new", name="objective_new", methods={"GET", "POST"})
      */
-    public function newAction(Request $request, EntityManagerInterface $entityManager)
-    {
+    public function newAction(
+      Request $request,
+      EntityManagerInterface $entityManager
+    ) {
         $objective = new Objective();
         $form = $this->createForm(ObjectiveType::class, $objective);
         $form->handleRequest($request);
@@ -48,12 +53,15 @@ class ObjectiveController extends AbstractController
             $em->persist($objective);
             $em->flush();
 
-            return $this->redirectToRoute('objective_show', ['id' => $objective->getId()]);
+            return $this->redirectToRoute(
+              'objective_show',
+              ['id' => $objective->getId()]
+            );
         }
 
         return $this->render('objective/new.html.twig', [
-            'objective' => $objective,
-            'form' => $form->createView(),
+          'objective' => $objective,
+          'form' => $form->createView(),
         ]);
     }
 
@@ -62,13 +70,13 @@ class ObjectiveController extends AbstractController
      *
      * @Route("/{id}", name="objective_show", methods={"GET"})
      */
-    public function showAction(Objective $objective): \Symfony\Component\HttpFoundation\Response
-    {
+    public function showAction(Objective $objective
+    ): Response {
         $deleteForm = $this->createDeleteForm($objective);
 
         return $this->render('objective/show.html.twig', [
-            'objective' => $objective,
-            'delete_form' => $deleteForm->createView(),
+          'objective' => $objective,
+          'delete_form' => $deleteForm->createView(),
         ]);
     }
 
@@ -77,8 +85,11 @@ class ObjectiveController extends AbstractController
      *
      * @Route("/{id}/edit", name="objective_edit", methods={"GET", "POST"})
      */
-    public function editAction(Request $request, Objective $objective, EntityManagerInterface $entityManager)
-    {
+    public function editAction(
+      Request $request,
+      Objective $objective,
+      EntityManagerInterface $entityManager
+    ) {
         $deleteForm = $this->createDeleteForm($objective);
         $editForm = $this->createForm(ObjectiveType::class, $objective);
         $editForm->handleRequest($request);
@@ -86,13 +97,16 @@ class ObjectiveController extends AbstractController
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('objective_edit', ['id' => $objective->getId()]);
+            return $this->redirectToRoute(
+              'objective_edit',
+              ['id' => $objective->getId()]
+            );
         }
 
         return $this->render('objective/edit.html.twig', [
-            'objective' => $objective,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+          'objective' => $objective,
+          'edit_form' => $editForm->createView(),
+          'delete_form' => $deleteForm->createView(),
         ]);
     }
 
@@ -101,8 +115,11 @@ class ObjectiveController extends AbstractController
      *
      * @Route("/{id}", name="objective_delete", methods={"DELETE"})
      */
-    public function deleteAction(Request $request, Objective $objective, EntityManagerInterface $entityManager): \Symfony\Component\HttpFoundation\RedirectResponse
-    {
+    public function deleteAction(
+      Request $request,
+      Objective $objective,
+      EntityManagerInterface $entityManager
+    ): RedirectResponse {
         $form = $this->createDeleteForm($objective);
         $form->handleRequest($request);
 
@@ -125,8 +142,12 @@ class ObjectiveController extends AbstractController
     private function createDeleteForm(Objective $objective)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('objective_delete', ['id' => $objective->getId()]))
-            ->setMethod('DELETE')
-            ->getForm();
+          ->setAction(
+            $this->generateUrl('objective_delete', ['id' => $objective->getId()]
+            )
+          )
+          ->setMethod('DELETE')
+          ->getForm();
     }
+
 }

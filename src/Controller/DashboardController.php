@@ -10,6 +10,7 @@ use App\Service\ReminderService;
 use App\Service\TasksService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class DashboardController extends AbstractController
@@ -24,7 +25,7 @@ class DashboardController extends AbstractController
       AccountsService $as,
       CostService $costService,
       EntityManagerInterface $em
-    ): \Symfony\Component\HttpFoundation\Response {
+    ): Response {
         $earnedLogic = new EarnedLogic($em, $costService);
         $accounts = $as->getDashboard();
         return $this->render('dashboard/dashboard.html.twig', [
@@ -44,7 +45,7 @@ class DashboardController extends AbstractController
     /**
      * @Route("/elements", name="elements")
      */
-    public function elementsAction(): \Symfony\Component\HttpFoundation\Response
+    public function elementsAction(): Response
     {
         return $this->render('dashboard/elements.html.twig');
     }
@@ -52,7 +53,8 @@ class DashboardController extends AbstractController
     /**
      * @Route("/workspace", name="workspace")
      */
-    public function workspaceAction(): \Symfony\Component\HttpFoundation\Response
+    public function workspaceAction(
+    ): Response
     {
         return $this->render('dashboard/workspace.html.twig');
     }
@@ -60,7 +62,7 @@ class DashboardController extends AbstractController
     /**
      * @Route("/remind", name="remind")
      */
-    public function remindAction(): \Symfony\Component\HttpFoundation\Response
+    public function remindAction(): Response
     {
         return $this->render('dashboard/remindMe.html.twig');
     }
@@ -68,7 +70,7 @@ class DashboardController extends AbstractController
     /**
      * @Route("/empty", name="empty")
      */
-    public function emptyAction(): \Symfony\Component\HttpFoundation\Response
+    public function emptyAction(): Response
     {
         return $this->render('empty.html.twig');
     }

@@ -61,7 +61,10 @@ class ContractProgress
         $this->minutesPerDay = $contract->getHoursPerDay() * 60;
         $this->monthlyMinutes = self::DAYS_PER_MONTH * $this->minutesPerDay;
 
-        $this->monthStart = DateRanges::getMonthStart('now', $contract->getBilledOn());
+        $this->monthStart = DateRanges::getMonthStart(
+          'now',
+          $contract->getBilledOn()
+        );
         if ($contract->getBilledOn()) {
             $this->monthStart->setDate(
               $this->monthStart->format('Y'),

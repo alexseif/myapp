@@ -19,8 +19,11 @@ class FocusController extends AbstractController
     /**
      * @Route("/focus", name="focus")
      */
-    public function focusAction(Request $request, FocusService $focusService, EntityManagerInterface $entityManager): Response
-    {
+    public function focusAction(
+      Request $request,
+      FocusService $focusService,
+      EntityManagerInterface $entityManager
+    ): Response {
         $em = $entityManager;
 
         if ($request->query->has('client')) {
@@ -59,8 +62,8 @@ class FocusController extends AbstractController
     /**
      * @Route("/singleTask", name="singleTask")
      */
-    public function singleTaskAction( EntityManagerInterface $entityManager): Response
-    {
+    public function singleTaskAction(EntityManagerInterface $entityManager
+    ): Response {
         $em = $entityManager;
         $tasksRepo = $em->getRepository(Tasks::class);
         $weightedList = $tasksRepo->weightedList();

@@ -19,14 +19,15 @@ use Doctrine\ORM\EntityManagerInterface;
  */
 class WorkingDays
 {
+
     private static $workWeek = [
-        'Friday' => 0,
-        'Saturday' => 4,
-        'Sunday' => 8,
-        'Monday' => 8,
-        'Tuesday' => 8,
-        'Wednesday' => 8,
-        'Thursday' => 8,
+      'Friday' => 0,
+      'Saturday' => 4,
+      'Sunday' => 8,
+      'Monday' => 8,
+      'Tuesday' => 8,
+      'Wednesday' => 8,
+      'Thursday' => 8,
     ];
 
     /**
@@ -66,11 +67,17 @@ class WorkingDays
             $dt = new DateTime($curlHoliday[0]);
             $dateKey = $dt->format('Y-m-d');
             if (array_key_exists($dateKey, $holidays)) {
-                $holidays[$dateKey]->setName($holidays[$dateKey]->getName().', '.$curlHoliday[2]);
-                $holidays[$dateKey]->setType($holidays[$dateKey]->getType().', '.$curlHoliday[3]);
+                $holidays[$dateKey]->setName(
+                  $holidays[$dateKey]->getName() . ', ' . $curlHoliday[2]
+                );
+                $holidays[$dateKey]->setType(
+                  $holidays[$dateKey]->getType() . ', ' . $curlHoliday[3]
+                );
                 continue;
             }
-            $holiday = $this->em->getRepository(Holiday::class)->findOneBy(['date' => $dt]);
+            $holiday = $this->em->getRepository(Holiday::class)->findOneBy(
+              ['date' => $dt]
+            );
             $holidays[$dateKey] = ($holiday) ?: new Holiday();
             $holidays[$dateKey]->setDate($dt);
             $holidays[$dateKey]->setName($curlHoliday[2]);
@@ -79,4 +86,5 @@ class WorkingDays
         }
         $this->em->flush();
     }
+
 }

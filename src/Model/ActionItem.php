@@ -13,16 +13,30 @@ namespace App\Model;
  */
 class ActionItem
 {
+
     protected $id;
+
     protected $type;
+
     protected $title;
+
     protected $label;
+
     protected $duration;
+
     protected $priority;
+
     protected $urgency;
 
-    public function __construct($id, $type, $title, $duration, $label = null, $priority = null, $urgency = null)
-    {
+    public function __construct(
+      $id,
+      $type,
+      $title,
+      $duration,
+      $label = null,
+      $priority = null,
+      $urgency = null
+    ) {
         $this->id = $id;
         $this->type = $type;
         $this->title = $title;
@@ -101,4 +115,5 @@ class ActionItem
     {
         $this->urgency = $urgency;
     }
+
 }

@@ -165,9 +165,6 @@ class Accounts
     /**
      * Set client.
      *
-     * @param Client $client
-     *
-     * @return Accounts
      */
     public function setClient(Client $client = null): Accounts
     {

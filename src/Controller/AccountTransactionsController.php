@@ -8,7 +8,9 @@ use App\Form\AccountTransactionsType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -24,8 +26,8 @@ class AccountTransactionsController extends AbstractController
      *
      * @Route("/", name="accounttransactions_index", methods={"GET"})
      */
-    public function indexAction(EntityManagerInterface $entityManager): \Symfony\Component\HttpFoundation\Response
-    {
+    public function indexAction(EntityManagerInterface $entityManager
+    ): Response {
         $em = $entityManager;
 
         $accountTransactions = $em->getRepository(AccountTransactions::class)
@@ -83,8 +85,8 @@ class AccountTransactionsController extends AbstractController
      *
      * @Route("/{id}", name="accounttransactions_show", methods={"GET"})
      */
-    public function showAction(AccountTransactions $accountTransaction): \Symfony\Component\HttpFoundation\Response
-    {
+    public function showAction(AccountTransactions $accountTransaction
+    ): Response {
         $deleteForm = $this->createDeleteForm($accountTransaction);
 
         return $this->render('accounttransactions/show.html.twig', [
@@ -137,7 +139,7 @@ class AccountTransactionsController extends AbstractController
       Request $request,
       AccountTransactions $accountTransaction,
       EntityManagerInterface $entityManager
-    ): \Symfony\Component\HttpFoundation\RedirectResponse {
+    ): RedirectResponse {
         $form = $this->createDeleteForm($accountTransaction);
         $form->handleRequest($request);
 
@@ -157,8 +159,8 @@ class AccountTransactionsController extends AbstractController
      *
      * @return FormInterface The form
      */
-    private function createDeleteForm(AccountTransactions $accountTransaction): FormInterface
-    {
+    private function createDeleteForm(AccountTransactions $accountTransaction
+    ): FormInterface {
         return $this->createFormBuilder()
           ->setAction(
             $this->generateUrl(

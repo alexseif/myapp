@@ -9,6 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ObjectiveType extends AbstractType
 {
+
     /**
      * {@inheritdoc}
      */
@@ -23,7 +24,7 @@ class ObjectiveType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Objective::class
+          'data_class' => Objective::class,
         ]);
     }
 
@@ -34,4 +35,5 @@ class ObjectiveType extends AbstractType
     {
         return 'appbundle_objective';
     }
+
 }

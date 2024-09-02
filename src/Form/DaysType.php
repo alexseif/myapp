@@ -10,21 +10,25 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DaysType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options): void
-    {
+
+    public function buildForm(
+      FormBuilderInterface $builder,
+      array $options
+    ): void {
         $builder
-            ->add('name')
-            ->add('deadline', DateType::class, [
-                'widget' => 'single_text',
-                'format' => 'yyyy-MM-dd',
-            ])
-            ->add('complete');
+          ->add('name')
+          ->add('deadline', DateType::class, [
+            'widget' => 'single_text',
+            'format' => 'yyyy-MM-dd',
+          ])
+          ->add('complete');
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Days::class,
+          'data_class' => Days::class,
         ]);
     }
+
 }

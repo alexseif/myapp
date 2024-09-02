@@ -14,18 +14,21 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class NotesRepository extends ServiceEntityRepository
 {
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Notes::class);
     }
+
     public function search($searchTerm)
     {
         return $this
-            ->createQueryBuilder('n')
-            ->select()
-            ->where('n.note LIKE :searchTerm')
-            ->setParameter(':searchTerm', '%'.$searchTerm.'%')
-            ->getQuery()
-            ->getResult();
+          ->createQueryBuilder('n')
+          ->select()
+          ->where('n.note LIKE :searchTerm')
+          ->setParameter(':searchTerm', '%' . $searchTerm . '%')
+          ->getQuery()
+          ->getResult();
     }
+
 }

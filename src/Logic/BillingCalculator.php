@@ -7,8 +7,11 @@ namespace App\Logic;
 
 class BillingCalculator
 {
+
     protected $workingDays;
+
     protected $billingType;
+
     protected $pricePerUnit;
 
     public function __construct($billingType)
@@ -36,4 +39,5 @@ class BillingCalculator
     {
         return $this->pricePerUnit;
     }
+
 }

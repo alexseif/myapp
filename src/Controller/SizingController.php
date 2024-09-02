@@ -50,8 +50,7 @@ class SizingController extends AbstractController
                 $tasklist->estTotal += $task->getEst();
             }
             $tasklist->sizing = number_format(
-              $tasklist->estTotal * $tasklist->rate / 60,
-              0
+              $tasklist->estTotal * $tasklist->rate / 60
             );
         }
 
@@ -125,7 +124,7 @@ class SizingController extends AbstractController
             );
         }
 
-        return JsonResponse::create(
+        return new JsonResponse(
           $this->renderView('tasks/_new_sizing.html.twig', [
             'form' => $form->createView(),
             'query' => $query,
@@ -168,7 +167,7 @@ class SizingController extends AbstractController
             );
         }
 
-        return JsonResponse::create(
+        return new JsonResponse(
           $this->renderView('tasklists/_new_modal.html.twig', [
             'form' => $form->createView(),
             'query' => $query,
