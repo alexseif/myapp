@@ -31,7 +31,7 @@ class ControllerActionExtension extends AbstractExtension
         $this->request = $request;
     }
 
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new TwigFunction('get_controller_name', [$this, 'getControllerName']),

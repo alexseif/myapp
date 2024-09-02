@@ -12,7 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TasksMassEditType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('priority', ChoiceType::class, [
@@ -35,7 +35,7 @@ class TasksMassEditType extends AbstractType
             ->add('taskList', EntityType::class, ['class' => TaskLists::class, 'choice_label' => 'name']);
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Tasks::class,
