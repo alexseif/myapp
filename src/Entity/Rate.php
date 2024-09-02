@@ -88,7 +88,6 @@ class Rate
     /**
      * Set client.
      *
-     * @paramClient|null $client
      *
      * @return Rate
      */

@@ -148,7 +148,7 @@ class RateCalculator
     /**
      * @return ArrayCollection Rates
      */
-    public function getActive(): ArrayCollection
+    public function getActive(): array
     {
         return $this->em->getRepository(Rate::class)->getActiveRates();
     }

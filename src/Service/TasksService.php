@@ -30,7 +30,7 @@ class TasksService
     /**
      * @return TasksRepository
      */
-    public function getRepository()
+    public function getRepository(): TasksRepository
     {
         return $this->tasksRepository;
     }

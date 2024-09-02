@@ -121,7 +121,7 @@ class CostOfLife
      *
      * @return int
      */
-    public function getCurrency(): int
+    public function getCurrency(): Currency
     {
         return $this->currency;
     }

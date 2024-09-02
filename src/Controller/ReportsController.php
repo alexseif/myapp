@@ -144,7 +144,7 @@ class ReportsController extends AbstractController
     /**
      * @Route("/income/data", name="reports_income_data")
      */
-    public function incomeDataAction(ReportService $reportService)
+    public function incomeDataAction(ReportService $reportService): JsonResponse
     {
         return new JsonResponse($reportService->getIncomeGoogleChart());
     }
@@ -194,7 +194,7 @@ class ReportsController extends AbstractController
     /**
      * @Route("/hours_per_month/data", name="reports_hours_per_month_data")
      */
-    public function hoursPerMonthDataAction(ReportService $reportService)
+    public function hoursPerMonthDataAction(ReportService $reportService): JsonResponse
     {
         return new JsonResponse(
           $reportService->getHoursPerMonthGoogleChart()
