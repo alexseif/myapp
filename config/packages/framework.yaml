@@ -14,3 +14,11 @@ framework:
   assets: true
   php_errors:
     log: true
+  error_controller: null
+  router:
+    strict_requirements: null
+  profiler:
+    enabled: true
+    collect: true
+  debug:
+    enabled: true
