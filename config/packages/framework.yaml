@@ -20,5 +20,3 @@ framework:
   profiler:
     enabled: true
     collect: true
-  debug:
-    enabled: true
