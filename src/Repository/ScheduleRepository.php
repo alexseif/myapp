@@ -14,6 +14,7 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ScheduleRepository extends ServiceEntityRepository
 {
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Schedule::class);
@@ -22,11 +23,12 @@ class ScheduleRepository extends ServiceEntityRepository
     public function findByDate($date)
     {
         return $this->createQueryBuilder('schedule')
-            ->select('schedule, task')
-            ->leftJoin('schedule.task', 'task')
-            ->where('DATE(schedule.eta) = DATE(:date)')
-            ->setParameter(':date', $date)
-            ->getQuery()
-            ->getResult();
+          ->select('schedule, task')
+          ->leftJoin('schedule.task', 'task')
+          ->where('DATE(schedule.eta) = DATE(:date)')
+          ->setParameter(':date', $date)
+          ->getQuery()
+          ->getResult();
     }
+
 }

@@ -15,6 +15,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
  */
 class AccountTransactions
 {
+
     use TimestampableEntity;
 
     /**
@@ -122,9 +123,7 @@ class AccountTransactions
     /**
      * Set account.
      *
-     * @param Accounts $account
      *
-     * @return AccountTransactions
      */
     public function setAccount(Accounts $account = null): AccountTransactions
     {
@@ -166,4 +165,5 @@ class AccountTransactions
     {
         return $this->issuedAt;
     }
+
 }

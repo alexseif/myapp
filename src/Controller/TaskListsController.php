@@ -8,7 +8,9 @@ use App\Form\TaskListsType;
 use App\Form\TasksMassEditType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -18,13 +20,16 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class TaskListsController extends AbstractController
 {
+
     /**
      * Lists all TaskLists entities.
      *
      * @Route("/", name="tasklists_index", methods={"GET", "POST"})
      */
-    public function indexAction(Request $request, EntityManagerInterface $entityManager)
-    {
+    public function indexAction(
+      Request $request,
+      EntityManagerInterface $entityManager
+    ) {
         $em = $entityManager;
 
         $taskLists = $em->getRepository(TaskLists::class)->findAll();
@@ -33,7 +38,9 @@ class TaskListsController extends AbstractController
         $form = $this->createForm(TasksMassEditType::class, $taskTemplate);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $tasks = $em->getRepository(Tasks::class)->findBy(['taskList' => $taskTemplate->getTaskList()]);
+            $tasks = $em->getRepository(Tasks::class)->findBy(
+              ['taskList' => $taskTemplate->getTaskList()]
+            );
             foreach ($tasks as $task) {
                 $task->setPriority($taskTemplate->getPriority());
                 $task->setUrgency($taskTemplate->getUrgency());
@@ -44,8 +51,8 @@ class TaskListsController extends AbstractController
         }
 
         return $this->render('tasklists/index.html.twig', [
-            'taskLists' => $taskLists,
-            'tasksMassEdit_form' => $form->createView(),
+          'taskLists' => $taskLists,
+          'tasksMassEdit_form' => $form->createView(),
         ]);
     }
 
@@ -54,8 +61,10 @@ class TaskListsController extends AbstractController
      *
      * @Route("/new", name="tasklists_new", methods={"GET","POST"})
      */
-    public function newAction(Request $request, EntityManagerInterface $entityManager)
-    {
+    public function newAction(
+      Request $request,
+      EntityManagerInterface $entityManager
+    ) {
         $taskList = new TaskLists();
         $form = $this->createForm(TaskListsType::class, $taskList);
         $form->handleRequest($request);
@@ -69,8 +78,8 @@ class TaskListsController extends AbstractController
         }
 
         return $this->render('tasklists/new.html.twig', [
-            'taskList' => $taskList,
-            'tasklist_form' => $form->createView(),
+          'taskList' => $taskList,
+          'tasklist_form' => $form->createView(),
         ]);
     }
 
@@ -79,13 +88,13 @@ class TaskListsController extends AbstractController
      *
      * @Route("/{id}", name="tasklists_show", methods={"GET"})
      */
-    public function showAction(TaskLists $taskList): \Symfony\Component\HttpFoundation\Response
-    {
+    public function showAction(TaskLists $taskList
+    ): Response {
         $deleteForm = $this->createDeleteForm($taskList);
 
         return $this->render('tasklists/show.html.twig', [
-            'taskList' => $taskList,
-            'delete_form' => $deleteForm->createView(),
+          'taskList' => $taskList,
+          'delete_form' => $deleteForm->createView(),
         ]);
     }
 
@@ -94,8 +103,11 @@ class TaskListsController extends AbstractController
      *
      * @Route("/{id}/edit", name="tasklists_edit", methods={"GET", "POST"})
      */
-    public function editAction(Request $request, TaskLists $taskList, EntityManagerInterface $entityManager)
-    {
+    public function editAction(
+      Request $request,
+      TaskLists $taskList,
+      EntityManagerInterface $entityManager
+    ) {
         $deleteForm = $this->createDeleteForm($taskList);
         $editForm = $this->createForm(TaskListsType::class, $taskList);
         $editForm->handleRequest($request);
@@ -109,9 +121,9 @@ class TaskListsController extends AbstractController
         }
 
         return $this->render('tasklists/edit.html.twig', [
-            'taskList' => $taskList,
-            'tasklist_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+          'taskList' => $taskList,
+          'tasklist_form' => $editForm->createView(),
+          'delete_form' => $deleteForm->createView(),
         ]);
     }
 
@@ -120,15 +132,21 @@ class TaskListsController extends AbstractController
      *
      * @Route("/{id}/archive", name="tasklists_archive", methods={"GET", "POST"})
      */
-    public function archiveAction(Request $request, TaskLists $taskList, EntityManagerInterface $entityManager): \Symfony\Component\HttpFoundation\RedirectResponse
-    {
+    public function archiveAction(
+      Request $request,
+      TaskLists $taskList,
+      EntityManagerInterface $entityManager
+    ): RedirectResponse {
         $taskList->setStatus('archive');
 
         $em = $entityManager;
         $em->persist($taskList);
         $em->flush();
 
-        $this->addFlash('success', 'TaskList ' . $taskList->getName() . ' Archived');
+        $this->addFlash(
+          'success',
+          'TaskList ' . $taskList->getName() . ' Archived'
+        );
 
         return $this->redirectToRoute('tasklists_index');
     }
@@ -138,15 +156,21 @@ class TaskListsController extends AbstractController
      *
      * @Route("/{id}/unarchive", name="tasklists_unarchive", methods={"GET", "POST"})
      */
-    public function unarchiveAction(Request $request, TaskLists $taskList, EntityManagerInterface $entityManager): \Symfony\Component\HttpFoundation\RedirectResponse
-    {
+    public function unarchiveAction(
+      Request $request,
+      TaskLists $taskList,
+      EntityManagerInterface $entityManager
+    ): RedirectResponse {
         $taskList->setStatus('start');
 
         $em = $entityManager;
         $em->persist($taskList);
         $em->flush();
 
-        $this->addFlash('success', 'TaskList ' . $taskList->getName() . ' UnArchived');
+        $this->addFlash(
+          'success',
+          'TaskList ' . $taskList->getName() . ' UnArchived'
+        );
 
         return $this->redirectToRoute('tasklists_index');
     }
@@ -156,8 +180,11 @@ class TaskListsController extends AbstractController
      *
      * @Route("/{id}", name="tasklists_delete", methods={"DELETE"})
      */
-    public function deleteAction(Request $request, TaskLists $taskList, EntityManagerInterface $entityManager): \Symfony\Component\HttpFoundation\RedirectResponse
-    {
+    public function deleteAction(
+      Request $request,
+      TaskLists $taskList,
+      EntityManagerInterface $entityManager
+    ): RedirectResponse {
         $form = $this->createDeleteForm($taskList);
         $form->handleRequest($request);
 
@@ -180,8 +207,11 @@ class TaskListsController extends AbstractController
     private function createDeleteForm(TaskLists $taskList)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('tasklists_delete', ['id' => $taskList->getId()]))
-            ->setMethod('DELETE')
-            ->getForm();
+          ->setAction(
+            $this->generateUrl('tasklists_delete', ['id' => $taskList->getId()])
+          )
+          ->setMethod('DELETE')
+          ->getForm();
     }
+
 }

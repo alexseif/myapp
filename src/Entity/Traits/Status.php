@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 trait Status
 {
+
     /**
      * @var string
      *
@@ -45,4 +46,5 @@ trait Status
     {
         $this->enabled = $enabled;
     }
+
 }

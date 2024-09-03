@@ -13,28 +13,32 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AccountTransactionsType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options): void
-    {
+
+    public function buildForm(
+      FormBuilderInterface $builder,
+      array $options
+    ): void {
         $builder
-            ->add('account', EntityType::class, [
-                'class' => Accounts::class,
-                'choice_label' => 'name',
-                'attr' => [
-                    'class' => 'chosen',
-                ],
-            ])
-            ->add('amount', MoneyType::class)
-            ->add('issuedAt', DateType::class, [
-                'widget' => 'single_text',
-                'format' => 'yyyy-MM-dd',
-            ])
-            ->add('note');
+          ->add('account', EntityType::class, [
+            'class' => Accounts::class,
+            'choice_label' => 'name',
+            'attr' => [
+              'class' => 'chosen',
+            ],
+          ])
+          ->add('amount', MoneyType::class)
+          ->add('issuedAt', DateType::class, [
+            'widget' => 'single_text',
+            'format' => 'yyyy-MM-dd',
+          ])
+          ->add('note');
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => AccountTransactions::class,
+          'data_class' => AccountTransactions::class,
         ]);
     }
+
 }

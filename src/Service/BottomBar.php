@@ -8,9 +8,9 @@ namespace App\Service;
 
 use App\Entity\Objective;
 use App\Entity\Tasks;
+use App\Logic\EarnedLogic;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Logic\EarnedLogic;
 
 /**
  * Description of Bottom Bar Service.
@@ -19,6 +19,7 @@ use App\Logic\EarnedLogic;
  */
 class BottomBar
 {
+
     /**
      * @var EntityManager
      */
@@ -36,8 +37,11 @@ class BottomBar
 
     protected $progressMonitoring;
 
-    public function __construct(EntityManagerInterface $em, CostService $costService, ContractService $contractService)
-    {
+    public function __construct(
+      EntityManagerInterface $em,
+      CostService $costService,
+      ContractService $contractService
+    ) {
         $this->em = $em;
         $this->costService = $costService;
         $this->contractService = $contractService;
@@ -59,7 +63,6 @@ class BottomBar
     }
 
     /**
-     * @return array Tasks[]
      */
     public function getTasks(): array
     {
@@ -80,14 +83,17 @@ class BottomBar
         $earned = $earnedLogic->getEarned();
 
         return [
-            'earned' => $earned,
-            'issuedThisMonth' => $earnedLogic->getIssuedThisMonth(),
-            'costOfLife' => $this->costService,
+          'earned' => $earned,
+          'issuedThisMonth' => $earnedLogic->getIssuedThisMonth(),
+          'costOfLife' => $this->costService,
         ];
     }
 
     public function getObjectives(): array
     {
-        return $this->getEm()->getRepository(Objective::class)->findBy([], ['createdAt' => 'asc'], 5);
+        return $this->getEm()->getRepository(Objective::class)->findBy([],
+          ['createdAt' => 'asc'],
+          5);
     }
+
 }

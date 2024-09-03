@@ -14,6 +14,7 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class CostOfLifeRepository extends ServiceEntityRepository
 {
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, CostOfLife::class);
@@ -22,9 +23,10 @@ class CostOfLifeRepository extends ServiceEntityRepository
     public function sumCostOfLife()
     {
         return $this
-            ->createQueryBuilder('col')
-            ->select('SUM(col.value)/100 as cost')
-            ->getQuery()
-            ->getSingleResult();
+          ->createQueryBuilder('col')
+          ->select('SUM(col.value)/100 as cost')
+          ->getQuery()
+          ->getSingleResult();
     }
+
 }

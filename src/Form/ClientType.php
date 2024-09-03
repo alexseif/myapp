@@ -10,17 +10,20 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ClientType extends AbstractType
 {
+
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options): void
-    {
+    public function buildForm(
+      FormBuilderInterface $builder,
+      array $options
+    ): void {
         $builder->add('name')
-            ->add('enabled', CheckboxType::class, [
-                'required' => false,
-                'label_attr' => ['class' => 'switch_box'],
-            ])
-            ->add('billingOption', BillingOptionsType::class);
+          ->add('enabled', CheckboxType::class, [
+            'required' => false,
+            'label_attr' => ['class' => 'switch_box'],
+          ])
+          ->add('billingOption', BillingOptionsType::class);
     }
 
     /**
@@ -29,7 +32,7 @@ class ClientType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Client::class,
+          'data_class' => Client::class,
         ]);
     }
 
@@ -40,4 +43,5 @@ class ClientType extends AbstractType
     {
         return 'appbundle_client';
     }
+
 }

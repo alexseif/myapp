@@ -7,10 +7,11 @@ use App\Entity\Tasks;
 use App\Form\AccountsType;
 use App\Util\DateRanges;
 use DateTime;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -43,8 +44,10 @@ class AccountsController extends AbstractController
      *
      * @Route("/new", name="accounts_new", methods={"GET", "POST"})
      */
-    public function newAction(Request $request, EntityManagerInterface $entityManager)
-    {
+    public function newAction(
+      Request $request,
+      EntityManagerInterface $entityManager
+    ) {
         $account = new Accounts();
         $form = $this->createForm(AccountsType::class, $account);
         $form->handleRequest($request);
@@ -90,8 +93,11 @@ class AccountsController extends AbstractController
     public function timesheetsAction(Accounts $account): ?Response
     {
         $today = new DateTime();
-        $monthsArray = DateRanges::populateMonths($account->getCreatedAt()->format('Ymd'), $today->format('Ymd'),
-          25);
+        $monthsArray = DateRanges::populateMonths(
+          $account->getCreatedAt()->format('Ymd'),
+          $today->format('Ymd'),
+          25
+        );
 
         return $this->render('accounts/report.html.twig', [
           'account' => $account,
@@ -104,11 +110,15 @@ class AccountsController extends AbstractController
      *
      * @throws Exception
      */
-    public function timesheetAction(Accounts $account, $from, $to, EntityManagerInterface $entityManager): ?Response
-    {
+    public function timesheetAction(
+      Accounts $account,
+      $from,
+      $to,
+      EntityManagerInterface $entityManager
+    ): ?Response {
         $em = $entityManager;
         $fromDate = new DateTime($from);
-        $fromDate->setTime(0, 0, 0);
+        $fromDate->setTime(0, 0);
         $toDate = new DateTime($to);
         $toDate->setTime(23, 23, 59);
         $tasks = $em->getRepository(Tasks::class)->findCompletedByClientByRange(
@@ -140,8 +150,11 @@ class AccountsController extends AbstractController
      *
      * @Route("/{id}/edit", name="accounts_edit", methods={"GET", "POST"})
      */
-    public function editAction(Request $request, Accounts $account, EntityManagerInterface $entityManager)
-    {
+    public function editAction(
+      Request $request,
+      Accounts $account,
+      EntityManagerInterface $entityManager
+    ) {
         $deleteForm = $this->createDeleteForm($account);
         $editForm = $this->createForm(AccountsType::class, $account);
         $editForm->handleRequest($request);
@@ -169,8 +182,11 @@ class AccountsController extends AbstractController
      *
      * @Route("/{id}", name="accounts_delete", methods={"DELETE"})
      */
-    public function deleteAction(Request $request, Accounts $account, EntityManagerInterface $entityManager): \Symfony\Component\HttpFoundation\RedirectResponse
-    {
+    public function deleteAction(
+      Request $request,
+      Accounts $account,
+      EntityManagerInterface $entityManager
+    ): RedirectResponse {
         $form = $this->createDeleteForm($account);
         $form->handleRequest($request);
 
@@ -190,8 +206,8 @@ class AccountsController extends AbstractController
      *
      * @return \Symfony\Component\Form\FormInterface The form
      */
-    private function createDeleteForm(Accounts $account): \Symfony\Component\Form\FormInterface
-    {
+    private function createDeleteForm(Accounts $account
+    ): FormInterface {
         return $this->createFormBuilder()
           ->setAction(
             $this->generateUrl('accounts_delete', ['id' => $account->getId()])

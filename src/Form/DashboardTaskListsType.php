@@ -9,11 +9,14 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DashboardTaskListsType extends AbstractType
 {
+
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options): void
-    {
+    public function buildForm(
+      FormBuilderInterface $builder,
+      array $options
+    ): void {
         $builder->add('taskList');
     }
 
@@ -23,7 +26,7 @@ class DashboardTaskListsType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => DashboardTaskLists::class,
+          'data_class' => DashboardTaskLists::class,
         ]);
     }
 
@@ -34,4 +37,5 @@ class DashboardTaskListsType extends AbstractType
     {
         return 'appbundle_dashboardtasklists';
     }
+
 }

@@ -27,19 +27,20 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class ContractController extends AbstractController
 {
+
     /**
      * Lists all contract entities.
      *
      * @Route("/", name="contract_index", methods={"GET"})
      */
-    public function indexAction(EntityManagerInterface $entityManager): ?Response
-    {
+    public function indexAction(EntityManagerInterface $entityManager
+    ): ?Response {
         $em = $entityManager;
 
         $contracts = $em->getRepository(Contract::class)->findAll();
 
         return $this->render('contract/index.html.twig', [
-            'contracts' => $contracts,
+          'contracts' => $contracts,
         ]);
     }
 
@@ -48,8 +49,10 @@ class ContractController extends AbstractController
      *
      * @Route("/new", name="contract_new", methods={"GET", "POST"})
      */
-    public function newAction(Request $request, EntityManagerInterface $entityManager)
-    {
+    public function newAction(
+      Request $request,
+      EntityManagerInterface $entityManager
+    ) {
         $contract = new Contract();
         $form = $this->createForm(ContractType::class, $contract);
         $form->handleRequest($request);
@@ -59,12 +62,15 @@ class ContractController extends AbstractController
             $em->persist($contract);
             $em->flush();
 
-            return $this->redirectToRoute('contract_show', ['id' => $contract->getId()]);
+            return $this->redirectToRoute(
+              'contract_show',
+              ['id' => $contract->getId()]
+            );
         }
 
         return $this->render('contract/new.html.twig', [
-            'contract' => $contract,
-            'form' => $form->createView(),
+          'contract' => $contract,
+          'form' => $form->createView(),
         ]);
     }
 
@@ -78,8 +84,8 @@ class ContractController extends AbstractController
         $deleteForm = $this->createDeleteForm($contract);
 
         return $this->render('contract/show.html.twig', [
-            'contract' => $contract,
-            'delete_form' => $deleteForm->createView(),
+          'contract' => $contract,
+          'delete_form' => $deleteForm->createView(),
         ]);
     }
 
@@ -93,11 +99,15 @@ class ContractController extends AbstractController
         $today = new DateTime();
         $day = $contract->getBilledOn() ?: 25;
 
-        $months = DateRanges::populateMonths($contract->getStartedAt()->format('Ymd'), $today->format('Ymd'), $day);
+        $months = DateRanges::populateMonths(
+          $contract->getStartedAt()->format('Ymd'),
+          $today->format('Ymd'),
+          $day
+        );
 
         return $this->render('contract/log-summary.html.twig', [
-            'contract' => $contract,
-            'months' => $months,
+          'contract' => $contract,
+          'months' => $months,
         ]);
     }
 
@@ -108,12 +118,16 @@ class ContractController extends AbstractController
      *
      * @throws Exception
      */
-    public function logAction(Contract $contract, $from, $to, EntityManagerInterface $entityManager): ?Response
-    {
+    public function logAction(
+      Contract $contract,
+      $from,
+      $to,
+      EntityManagerInterface $entityManager
+    ): ?Response {
         $em = $entityManager;
         $tasksRepo = $em->getRepository(Tasks::class);
         $fromDate = new DateTime($from);
-        $fromDate->setTime(0, 0, 0);
+        $fromDate->setTime(0, 0);
         $toDate = new DateTime($to);
         $toDate->setTime(23, 23, 59);
         $workweek = [1, 2, 3, 4, 7];
@@ -129,7 +143,10 @@ class ContractController extends AbstractController
         $total = 0;
         foreach ($contractDays as $day) {
             if (in_array($day->format('N'), $workweek)) {
-                $holidays = $em->getRepository(Holiday::class)->findByRange($day, $day);
+                $holidays = $em->getRepository(Holiday::class)->findByRange(
+                  $day,
+                  $day
+                );
                 if ($holidays) {
                     $total += $contract->getHoursPerDay() * 60;
                     continue;
@@ -141,10 +158,14 @@ class ContractController extends AbstractController
                 }
                 $contractDetails[$dayKey]['title'] = $day->format('D Y-m-d');
                 $contractDetails[$dayKey]['day'] = $day;
-                $contractDetails[$dayKey]['tasks'] = $tasksRepo->findCompletedByClientByDate($contract->getClient(),
-                    $day);
-                $contractDetails[$dayKey]['total'] = $tasksRepo->sumDurationByClientByDate($contract->getClient(),
-                    $day);
+                $contractDetails[$dayKey]['tasks'] = $tasksRepo->findCompletedByClientByDate(
+                  $contract->getClient(),
+                  $day
+                );
+                $contractDetails[$dayKey]['total'] = $tasksRepo->sumDurationByClientByDate(
+                  $contract->getClient(),
+                  $day
+                );
                 $total += $contractDetails[$dayKey]['total']['duration'];
             }
         }
@@ -153,26 +174,31 @@ class ContractController extends AbstractController
         $totalMins = $total % 60;
         $remaining = $expected - $totalHours;
         $sign = ($remaining < 0);
-        $remaining = (($sign) ? "+" : "-") . floor(abs($remaining)) . ':' . $totalMins;
+        $remaining = (($sign) ? "+" : "-") . floor(
+            abs($remaining)
+          ) . ':' . $totalMins;
         return $this->render('contract/log.html.twig', [
-            'contract' => $contract,
-            'from' => $from,
-            'to' => $to,
-            'contractDetails' => $contractDetails,
-            'holidays' => $holidays,
-            'expected' => $expected,
-            'total' => $total,
-            'remaining' => $remaining
+          'contract' => $contract,
+          'from' => $from,
+          'to' => $to,
+          'contractDetails' => $contractDetails,
+          'holidays' => $holidays,
+          'expected' => $expected,
+          'total' => $total,
+          'remaining' => $remaining,
         ]);
     }
 
     /**
      * @Route("/{id}/report", name="contract_report")
      */
-    public function reportAction(Contract $contract, Request $request, EntityManagerInterface $entityManager): ?Response
-    {
+    public function reportAction(
+      Contract $contract,
+      Request $request,
+      EntityManagerInterface $entityManager
+    ): ?Response {
         $reportFilterFormBuider = $this->createFormBuilder()
-            ->add('test');
+          ->add('test');
         $reportFilterForm = $reportFilterFormBuider->getForm();
 
         $reportFilterForm->handleRequest($request);
@@ -180,8 +206,11 @@ class ContractController extends AbstractController
         $day = $contract->getBilledOn() ?: 25;
 
         $today = new DateTime();
-        $monthsArray = DateRanges::populateMonths($contract->getStartedAt()->format('Ymd'), $today->format('Ymd'),
-            $day);
+        $monthsArray = DateRanges::populateMonths(
+          $contract->getStartedAt()->format('Ymd'),
+          $today->format('Ymd'),
+          $day
+        );
 
         if ($reportFilterForm->isSubmitted() && $reportFilterForm->isValid()) {
             $accountingFilterData = $reportFilterForm->getData();
@@ -191,17 +220,21 @@ class ContractController extends AbstractController
             $txnRepo = $em->getRepository(AccountTransactions::class);
 
             foreach ($monthsArray as $key => $range) {
-                $monthsArray[$key]['forward_balance'] = $txnRepo->queryCurrentBalanceByAccountAndRange($contract,
-                    $range)['amount'];
-                $monthsArray[$key]['ending_balance'] = $txnRepo->queryOverdueAccountTo($contract,
-                    $range['end'])['amount'];
+                $monthsArray[$key]['forward_balance'] = $txnRepo->queryCurrentBalanceByAccountAndRange(
+                  $contract,
+                  $range
+                )['amount'];
+                $monthsArray[$key]['ending_balance'] = $txnRepo->queryOverdueAccountTo(
+                  $contract,
+                  $range['end']
+                )['amount'];
             }
         }
 
         return $this->render('contract/report.html.twig', [
-            'report_filter_form' => $reportFilterForm->createView(),
-            'contract' => $contract,
-            'monthsArray' => $monthsArray,
+          'report_filter_form' => $reportFilterForm->createView(),
+          'contract' => $contract,
+          'monthsArray' => $monthsArray,
         ]);
     }
 
@@ -210,15 +243,25 @@ class ContractController extends AbstractController
      *
      * @throws Exception
      */
-    public function timesheetAction(Contract $contract, $from, $to, EntityManagerInterface $entityManager): ?Response
-    {
+    public function timesheetAction(
+      Contract $contract,
+      $from,
+      $to,
+      EntityManagerInterface $entityManager
+    ): ?Response {
         $em = $entityManager;
         $fromDate = new DateTime($from);
-        $fromDate->setTime(0, 0, 0);
+        $fromDate->setTime(
+          0,
+          0
+        );
         $toDate = new DateTime($to);
         $toDate->setTime(23, 23, 59);
-        $tasks = $em->getRepository(Tasks::class)->findCompletedByClientByRange($contract->getClient(), $fromDate,
-            $toDate);
+        $tasks = $em->getRepository(Tasks::class)->findCompletedByClientByRange(
+          $contract->getClient(),
+          $fromDate,
+          $toDate
+        );
         $workingDays = 22;
         $expected = ($workingDays * $contract->getHoursPerDay());
         $total = 0;
@@ -231,16 +274,18 @@ class ContractController extends AbstractController
         $totalMins = $total % 60;
         $remaining = $expected - $totalHours;
         $sign = ($remaining < 0);
-        $remaining = (($sign) ? "+" : "-") . floor(abs($remaining)) . ':' . $totalMins;
+        $remaining = (($sign) ? "+" : "-") . floor(
+            abs($remaining)
+          ) . ':' . $totalMins;
 
         return $this->render('contract/timesheet.html.twig', [
-            'contract' => $contract,
-            'from' => $from,
-            'to' => $to,
-            'tasks' => $tasks,
-            'total' => $total,
-            'expected' => $expected,
-            'remaining' => $remaining,
+          'contract' => $contract,
+          'from' => $from,
+          'to' => $to,
+          'tasks' => $tasks,
+          'total' => $total,
+          'expected' => $expected,
+          'remaining' => $remaining,
         ]);
     }
 
@@ -249,8 +294,11 @@ class ContractController extends AbstractController
      *
      * @Route("/{id}/edit", name="contract_edit", methods={"GET", "POST"})
      */
-    public function editAction(Request $request, Contract $contract, EntityManagerInterface $entityManager)
-    {
+    public function editAction(
+      Request $request,
+      Contract $contract,
+      EntityManagerInterface $entityManager
+    ) {
         $deleteForm = $this->createDeleteForm($contract);
         $editForm = $this->createForm(ContractType::class, $contract);
         $editForm->handleRequest($request);
@@ -270,9 +318,9 @@ class ContractController extends AbstractController
         }
 
         return $this->render('contract/edit.html.twig', [
-            'contract' => $contract,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+          'contract' => $contract,
+          'edit_form' => $editForm->createView(),
+          'delete_form' => $deleteForm->createView(),
         ]);
     }
 
@@ -281,8 +329,11 @@ class ContractController extends AbstractController
      *
      * @Route("/{id}", name="contract_delete", methods={"DELETE"})
      */
-    public function deleteAction(Request $request, Contract $contract, EntityManagerInterface $entityManager): RedirectResponse
-    {
+    public function deleteAction(
+      Request $request,
+      Contract $contract,
+      EntityManagerInterface $entityManager
+    ): RedirectResponse {
         $form = $this->createDeleteForm($contract);
         $form->handleRequest($request);
 
@@ -303,8 +354,11 @@ class ContractController extends AbstractController
     private function createDeleteForm(Contract $contract): FormInterface
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('contract_delete', ['id' => $contract->getId()]))
-            ->setMethod('DELETE')
-            ->getForm();
+          ->setAction(
+            $this->generateUrl('contract_delete', ['id' => $contract->getId()])
+          )
+          ->setMethod('DELETE')
+          ->getForm();
     }
+
 }

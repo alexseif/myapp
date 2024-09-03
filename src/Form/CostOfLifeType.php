@@ -12,22 +12,26 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CostOfLifeType extends AbstractType
 {
+
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options): void
-    {
+    public function buildForm(
+      FormBuilderInterface $builder,
+      array $options
+    ): void {
         $builder
-            ->add('name')
-            ->add('value', MoneyType::class, [
-                'currency' => ($options['data']->getCurrency() ? $options['data']->getCurrency()->getCode() : ''),
-                'divisor' => 100,
-                'scale' => 2,
-            ])
-            ->add('currency', EntityType::class, [
-                'class' => Currency::class,
-                'choice_label' => 'code',
-            ]);
+          ->add('name')
+          ->add('value', MoneyType::class, [
+            'currency' => ($options['data']->getCurrency(
+            ) ? $options['data']->getCurrency()->getCode() : ''),
+            'divisor' => 100,
+            'scale' => 2,
+          ])
+          ->add('currency', EntityType::class, [
+            'class' => Currency::class,
+            'choice_label' => 'code',
+          ]);
     }
 
     /**
@@ -36,7 +40,7 @@ class CostOfLifeType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => CostOfLife::class,
+          'data_class' => CostOfLife::class,
         ]);
     }
 
@@ -47,4 +51,5 @@ class CostOfLifeType extends AbstractType
     {
         return 'appbundle_costoflife';
     }
+
 }

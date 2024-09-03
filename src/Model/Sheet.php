@@ -16,6 +16,7 @@ use DateTime;
  */
 class Sheet
 {
+
     /**
      * @var string title
      */
@@ -41,8 +42,13 @@ class Sheet
      */
     private $balance;
 
-    public function __construct($title, DateTime $date, DateInterval $days, $amount, $balance)
-    {
+    public function __construct(
+      $title,
+      DateTime $date,
+      DateInterval $days,
+      $amount,
+      $balance
+    ) {
         $this->setTitle($title);
         $this->setDate($date);
         $this->setDays($days);
@@ -123,4 +129,5 @@ class Sheet
     {
         $this->balance = $balance;
     }
+
 }

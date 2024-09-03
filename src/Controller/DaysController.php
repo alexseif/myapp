@@ -7,7 +7,9 @@ use App\Form\DaysType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -17,19 +19,20 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class DaysController extends AbstractController
 {
+
     /**
      * Lists all Days entities.
      *
      * @Route("/", name="days_index", methods={"GET"})
      */
-    public function indexAction(EntityManagerInterface $entityManager): \Symfony\Component\HttpFoundation\Response
-    {
+    public function indexAction(EntityManagerInterface $entityManager
+    ): Response {
         $em = $entityManager;
 
         $days = $em->getRepository(Days::class)->getActiveCards();
 
         return $this->render('days/index.html.twig', [
-            'days' => $days,
+          'days' => $days,
         ]);
     }
 
@@ -38,14 +41,14 @@ class DaysController extends AbstractController
      *
      * @Route("/archive", name="days_archive", methods={"GET"})
      */
-    public function archiveAction(EntityManagerInterface $entityManager): \Symfony\Component\HttpFoundation\Response
-    {
+    public function archiveAction(EntityManagerInterface $entityManager
+    ): Response {
         $em = $entityManager;
 
         $days = $em->getRepository(Days::class)->getArchiveCards();
 
         return $this->render('days/index.html.twig', [
-            'days' => $days,
+          'days' => $days,
         ]);
     }
 
@@ -54,8 +57,10 @@ class DaysController extends AbstractController
      *
      * @Route("/new", name="days_new", methods={"GET", "POST"})
      */
-    public function newAction(Request $request, EntityManagerInterface $entityManager)
-    {
+    public function newAction(
+      Request $request,
+      EntityManagerInterface $entityManager
+    ) {
         $day = new Days();
         $form = $this->createForm(DaysType::class, $day);
         $form->handleRequest($request);
@@ -69,8 +74,8 @@ class DaysController extends AbstractController
         }
 
         return $this->render('days/new.html.twig', [
-            'day' => $day,
-            'day_form' => $form->createView(),
+          'day' => $day,
+          'day_form' => $form->createView(),
         ]);
     }
 
@@ -79,8 +84,11 @@ class DaysController extends AbstractController
      *
      * @Route("/{id}/edit", name="days_edit", methods={"GET", "POST"})
      */
-    public function editAction(Request $request, Days $day, EntityManagerInterface $entityManager)
-    {
+    public function editAction(
+      Request $request,
+      Days $day,
+      EntityManagerInterface $entityManager
+    ) {
         $deleteForm = $this->createDeleteForm($day);
         $editForm = $this->createForm(DaysType::class, $day);
         $editForm->handleRequest($request);
@@ -94,9 +102,9 @@ class DaysController extends AbstractController
         }
 
         return $this->render('days/edit.html.twig', [
-            'day' => $day,
-            'day_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+          'day' => $day,
+          'day_form' => $editForm->createView(),
+          'delete_form' => $deleteForm->createView(),
         ]);
     }
 
@@ -105,8 +113,11 @@ class DaysController extends AbstractController
      *
      * @Route("/{id}", name="days_delete", methods={"DELETE"})
      */
-    public function deleteAction(Request $request, Days $day, EntityManagerInterface $entityManager): \Symfony\Component\HttpFoundation\RedirectResponse
-    {
+    public function deleteAction(
+      Request $request,
+      Days $day,
+      EntityManagerInterface $entityManager
+    ): RedirectResponse {
         $form = $this->createDeleteForm($day);
         $form->handleRequest($request);
 
@@ -129,8 +140,11 @@ class DaysController extends AbstractController
     private function createDeleteForm(Days $day): FormInterface
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('days_delete', ['id' => $day->getId()]))
-            ->setMethod('DELETE')
-            ->getForm();
+          ->setAction(
+            $this->generateUrl('days_delete', ['id' => $day->getId()])
+          )
+          ->setMethod('DELETE')
+          ->getForm();
     }
+
 }

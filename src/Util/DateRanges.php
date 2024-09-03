@@ -11,8 +11,6 @@ use DatePeriod;
 use DateTime;
 use DOMDocument;
 
-use function App\Util\tdrows;
-
 /**
  * Utility class for DateRanges Operations.
  *
@@ -20,6 +18,7 @@ use function App\Util\tdrows;
  */
 class DateRanges
 {
+
     /**
      * Function to populate months between 2 dates.
      *
@@ -30,8 +29,11 @@ class DateRanges
      *
      * @return array Array of months between $startDate & $endDate
      */
-    public static function populateMonths($startDate, $endDate, $setDayTo = 0): array
-    {
+    public static function populateMonths(
+      $startDate,
+      $endDate,
+      $setDayTo = 0
+    ): array {
         $start = self::getMonthStart($startDate);
         $start->setDate($start->format('Y'), $start->format('m'), $setDayTo);
         $end = self::getMonthEnd($endDate);
@@ -44,7 +46,7 @@ class DateRanges
             $dateArray[$index]['start'] = $dt->format('Y-m-d');
             if (($setDayTo > 0 && $setDayTo < 32) || is_string($setDayTo)) {
                 $dt->modify('+1 month')
-                    ->modify('-1 day');
+                  ->modify('-1 day');
                 $dateArray[$index++]['end'] = $dt->format('Y-m-d');
             } else {
                 $dateArray[$index++]['end'] = $dt->format('Y-m-t');
@@ -67,7 +69,11 @@ class DateRanges
     public static function numberOfWorkingDays($from, $to): int
     {
         $workingDays = [1, 2, 3, 4, 7]; // date format = N (1 = Monday, ...)
-        $holidayDays = ['*-12-25', '*-01-01', '*-10-29']; // variable and fixed holidays
+        $holidayDays = [
+          '*-12-25',
+          '*-01-01',
+          '*-10-29',
+        ]; // variable and fixed holidays
         $interval = new DateInterval('P1D');
         $periods = new DatePeriod($from, $interval, $to);
 
@@ -127,8 +133,8 @@ class DateRanges
             $dt = new DateTime($holiday[0]);
             $dtTimestamp = $dt->getTimestamp();
             if (($dtTimestamp >= $beginDT->getTimestamp())
-                && ($dtTimestamp <= $endDT->getTimestamp())
-                && (in_array($dt->format('N'), [5, 6], true))) {
+              && ($dtTimestamp <= $endDT->getTimestamp())
+              && (in_array($dt->format('N'), [5, 6], true))) {
                 ++$holiday_days;
             }
         }
@@ -188,12 +194,10 @@ class DateRanges
         //The first and second items in the array were the titles of the table and a blank row
         //so we unset them
         unset($holidays[0]);
-//    unset($holidays[1]);
-//    unset($holidays[2]);
+        //    unset($holidays[1]);
+        //    unset($holidays[2]);
         //then reindex the array
-        $holidays = array_values($holidays);
-
-        return $holidays;
+        return array_values($holidays);
     }
 
     /**
@@ -201,14 +205,20 @@ class DateRanges
      *
      * @return DateTime
      */
-    public static function getMonthStart($date = 'now', $billedOn = 25): DateTime
-    {
+    public static function getMonthStart(
+      $date = 'now',
+      $billedOn = 25
+    ): DateTime {
         $monthStart = new DateTime($date);
         if ($monthStart->format('d') < $billedOn) {
             $monthStart->modify('-1 month');
         }
-        $monthStart->setTime(0, 0, 0);
-        $monthStart->setDate($monthStart->format('Y'), $monthStart->format('m'), $billedOn);
+        $monthStart->setTime(0, 0);
+        $monthStart->setDate(
+          $monthStart->format('Y'),
+          $monthStart->format('m'),
+          $billedOn
+        );
 
         return $monthStart;
     }
@@ -230,8 +240,10 @@ class DateRanges
         return $monthEnd;
     }
 
-    public static function getDatesFromRange(DateTime $start, DateTime $end): array
-    {
+    public static function getDatesFromRange(
+      DateTime $start,
+      DateTime $end
+    ): array {
         // Declare an empty array
         $array = [];
 
@@ -259,9 +271,13 @@ class DateRanges
     {
         $day_start = date('d', strtotime('next Sunday')); // get next Sunday
         for ($x = 0; $x < 5; ++$x) {
-            $week_days[] = date('l', mktime(0, 0, 0, date('m'), $day_start + $x, date('y')));
+            $week_days[] = date(
+              'l',
+              mktime(0, 0, 0, date('m'), $day_start + $x, date('y'))
+            );
         } // create weekdays array.
 
         return $week_days;
     }
+
 }

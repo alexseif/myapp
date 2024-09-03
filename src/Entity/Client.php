@@ -16,6 +16,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
  */
 class Client
 {
+
     use TimestampableEntity;
     use Status;
 
@@ -161,7 +162,9 @@ class Client
 
     public function getRate()
     {
-        return ($this->getRates()->count()) ? $this->getRates()->last()->getRate() : null;
+        return ($this->getRates()->count()) ? $this->getRates()
+          ->last()
+          ->getRate() : null;
     }
 
     public function getContracts()
@@ -185,4 +188,5 @@ class Client
 
         return $this;
     }
+
 }

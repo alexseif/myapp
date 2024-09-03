@@ -7,7 +7,9 @@ use App\Form\CurrencyType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -23,8 +25,8 @@ class CurrencyController extends AbstractController
      *
      * @Route("/", name="currency_index", methods={"GET"})
      */
-    public function indexAction(EntityManagerInterface $entityManager): \Symfony\Component\HttpFoundation\Response
-    {
+    public function indexAction(EntityManagerInterface $entityManager
+    ): Response {
         $em = $entityManager;
 
         $currencies = $em->getRepository(Currency::class)->findAll();
@@ -69,8 +71,8 @@ class CurrencyController extends AbstractController
      *
      * @Route("/{id}", name="currency_show", methods={"GET"})
      */
-    public function showAction(Currency $currency): \Symfony\Component\HttpFoundation\Response
-    {
+    public function showAction(Currency $currency
+    ): Response {
         $deleteForm = $this->createDeleteForm($currency);
 
         return $this->render('currency/show.html.twig', [
@@ -118,7 +120,7 @@ class CurrencyController extends AbstractController
       Request $request,
       Currency $currency,
       EntityManagerInterface $entityManager
-    ): \Symfony\Component\HttpFoundation\RedirectResponse {
+    ): RedirectResponse {
         $form = $this->createDeleteForm($currency);
         $form->handleRequest($request);
 

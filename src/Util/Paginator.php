@@ -9,6 +9,7 @@ use Doctrine\ORM\QueryBuilder;
  */
 class Paginator
 {
+
     /**
      * @var string string
      */
@@ -52,8 +53,12 @@ class Paginator
      * @param int $page
      * @param int $offset
      */
-    public function __construct($path, QueryBuilder $queryBuilder, int $limit, $page = 0)
-    {
+    public function __construct(
+      $path,
+      QueryBuilder $queryBuilder,
+      int $limit,
+      $page = 0
+    ) {
         $this->path = $path;
         $this->page = $page;
         $this->limit = $limit;
@@ -143,9 +148,9 @@ class Paginator
     protected function setTotal(): Paginator
     {
         $this->total = $this->getQueryBuilder()
-            ->select('COUNT(1)')
-            ->getQuery()
-            ->getSingleScalarResult();
+          ->select('COUNT(1)')
+          ->getQuery()
+          ->getSingleScalarResult();
 
         return $this;
     }
@@ -177,4 +182,5 @@ class Paginator
 
         return $this;
     }
+
 }

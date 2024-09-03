@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Schedule
 {
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -88,4 +89,5 @@ class Schedule
 
         return $this;
     }
+
 }

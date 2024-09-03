@@ -16,11 +16,17 @@ use App\Entity\Tasks;
  */
 class EarnedLogic
 {
+
     protected $em;
+
     protected $costOfLife;
+
     protected $issuedThisMonth;
+
     protected $monthly;
+
     protected $weekly;
+
     protected $daily = 0;
 
     public function __construct($em, $costOfLife)
@@ -36,16 +42,19 @@ class EarnedLogic
     public function getEarned(): array
     {
         return [
-            'daily' => $this->getDaily(),
-            'weekly' => $this->getWeekly(),
-            'monthly' => $this->getMonthly(),
+          'daily' => $this->getDaily(),
+          'weekly' => $this->getWeekly(),
+          'monthly' => $this->getMonthly(),
         ];
     }
 
     public function calculateIssued(): void
     {
         $issued = 0;
-        foreach ($this->em->getRepository(AccountTransactions::class)->issuedThisMonth() as $tm) {
+        foreach (
+          $this->em->getRepository(AccountTransactions::class)
+            ->issuedThisMonth() as $tm
+        ) {
             $issued += abs($tm->getAmount());
         }
         $this->setIssuedThisMonth($issued);
@@ -53,10 +62,12 @@ class EarnedLogic
 
     public function calculateMonthly(): void
     {
-        $completedTasks = $this->em->getRepository(Tasks::class)->getCompletedThisMonth();
+        $completedTasks = $this->em->getRepository(Tasks::class)
+          ->getCompletedThisMonth();
         $total = 0;
         foreach ($completedTasks as $task) {
-            $rate = (is_numeric($task->getRate())) ? $task->getRate() : $this->costOfLife->getHourly();
+            $rate = (is_numeric($task->getRate())) ? $task->getRate(
+            ) : $this->costOfLife->getHourly();
             $total += $task->getDuration() / 60 * $rate;
         }
         $this->setMonthly($total);
@@ -64,10 +75,12 @@ class EarnedLogic
 
     public function calculateWeekly(): void
     {
-        $completedTasks = $this->em->getRepository(Tasks::class)->getCompletedThisWeek();
+        $completedTasks = $this->em->getRepository(Tasks::class)
+          ->getCompletedThisWeek();
         $total = 0;
         foreach ($completedTasks as $task) {
-            $rate = (is_numeric($task->getRate())) ? $task->getRate() : $this->costOfLife->getHourly();
+            $rate = (is_numeric($task->getRate())) ? $task->getRate(
+            ) : $this->costOfLife->getHourly();
             $total += $task->getDuration() / 60 * $rate;
         }
         $this->setWeekly($total);
@@ -75,10 +88,12 @@ class EarnedLogic
 
     public function calculateDaily(): void
     {
-        $completedTasks = $this->em->getRepository(Tasks::class)->getCompletedToday();
+        $completedTasks = $this->em->getRepository(Tasks::class)
+          ->getCompletedToday();
         $total = 0;
         foreach ($completedTasks as $task) {
-            $rate = (is_numeric($task->getRate())) ? $task->getRate() : $this->costOfLife->getHourly();
+            $rate = (is_numeric($task->getRate())) ? $task->getRate(
+            ) : $this->costOfLife->getHourly();
             $total += $task->getDuration() / 60 * $rate;
         }
         $this->setDaily($total);
@@ -123,4 +138,5 @@ class EarnedLogic
     {
         $this->issuedThisMonth = $issuedThisMonth;
     }
+
 }

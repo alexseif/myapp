@@ -136,7 +136,6 @@ class TasksRepository extends ServiceEntityRepository
     /**
      * Count of completed tasks after date.
      *
-     * @param \DateTime $date
      *
      */
     public function getCompletedAfterCount(DateTime $date): int
@@ -188,7 +187,6 @@ class TasksRepository extends ServiceEntityRepository
     /**
      * List of completed tasks this week.
      *
-     * @return array the objects
      */
     public function getCompletedThisWeek(): array
     {
@@ -253,6 +251,7 @@ class TasksRepository extends ServiceEntityRepository
      */
     public function focusListScheduler($date, $taskIds = []): array
     {
+
         $limit = 25;
         $offset = 0;
         $queryBuilder = $this->getQueryBuilder()
@@ -269,10 +268,10 @@ class TasksRepository extends ServiceEntityRepository
           ->addOrderBy(self::TASKLISTID, 'ASC')
           ->setParameter(self::DATE, $date->format('Y-m-d'));
 
-        if ($limit > 0 && is_int($limit)) {
+        if (is_int($limit) && $limit > 0) {
             $queryBuilder->setMaxResults($limit);
         }
-        if ($offset > 0 && is_int($offset)) {
+        if (is_int($offset) && $offset > 0) {
             $queryBuilder->setFirstResult($offset);
         }
 
@@ -587,7 +586,6 @@ class TasksRepository extends ServiceEntityRepository
      *
      * @param array|null $orderBy
      *
-     * @return QueryBuilder
      */
     public function findByWithJoinsQuery(
       array $criteria,
@@ -835,7 +833,6 @@ class TasksRepository extends ServiceEntityRepository
     /**
      * Task average duration.
      *
-     * @return float task average duration
      */
     public function getTaskAverageDuration(): float
     {

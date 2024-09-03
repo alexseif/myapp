@@ -11,22 +11,26 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AccountsType extends AbstractType
 {
+
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options): void
-    {
+    public function buildForm(
+      FormBuilderInterface $builder,
+      array $options
+    ): void {
         $builder
-            ->add('name')
-            ->add('conceal')
-            ->add('client', EntityType::class, [
-                    'required' => false,
-                    'class' => Client::class,
-                    'choice_label' => 'name',
-                    'attr' => [
-                        'class' => 'chosen',
-                    ], ]
-            );
+          ->add('name')
+          ->add('conceal')
+          ->add('client', EntityType::class, [
+              'required' => false,
+              'class' => Client::class,
+              'choice_label' => 'name',
+              'attr' => [
+                'class' => 'chosen',
+              ],
+            ]
+          );
     }
 
     /**
@@ -35,7 +39,7 @@ class AccountsType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Accounts::class,
+          'data_class' => Accounts::class,
         ]);
     }
 
@@ -46,4 +50,5 @@ class AccountsType extends AbstractType
     {
         return 'appbundle_accounts';
     }
+
 }

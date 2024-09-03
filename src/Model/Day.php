@@ -11,22 +11,26 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 class Day
 {
+
     /**
      * @var ArrayCollection
      */
     public $schedules;
+
     public $tasks;
 
     /**
      * @var DateTime
      */
     public $date;
+
     public $today;
 
     /**
      * @var bool
      */
     public $isToday;
+
     public $dayLength = 540;
 
     public function __construct()
@@ -111,4 +115,5 @@ class Day
     {
         $this->dayLength = $dayLength;
     }
+
 }

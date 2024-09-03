@@ -15,6 +15,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class Holiday
 {
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -75,4 +76,5 @@ class Holiday
     {
         $this->type = $type;
     }
+
 }

@@ -11,10 +11,12 @@ use stdClass;
 
 class ReportService
 {
+
     /**
      * @var AccountTransactionsRepository
      */
     protected $accountTransactionRepository;
+
     /**
      * @var TasksRepository
      */
@@ -23,19 +25,23 @@ class ReportService
     /**
      * ReportService constructor.
      */
-    public function __construct(AccountTransactionsRepository $accountTransactionRepository, TasksRepository $tasksRepository)
-    {
+    public function __construct(
+      AccountTransactionsRepository $accountTransactionRepository,
+      TasksRepository $tasksRepository
+    ) {
         $this->setAccountTransactionRepository($accountTransactionRepository);
         $this->setTasksRepository($tasksRepository);
     }
 
-    public function getAccountTransactionRepository(): AccountTransactionsRepository
+    public function getAccountTransactionRepository(
+    ): AccountTransactionsRepository
     {
         return $this->accountTransactionRepository;
     }
 
-    public function setAccountTransactionRepository(AccountTransactionsRepository $accountTransactionRepository): void
-    {
+    public function setAccountTransactionRepository(
+      AccountTransactionsRepository $accountTransactionRepository
+    ): void {
         $this->accountTransactionRepository = $accountTransactionRepository;
     }
 
@@ -63,10 +69,15 @@ class ReportService
             if (!array_key_exists($txn->getIssuedAt()->format('Y'), $income)) {
                 $income[$txn->getIssuedAt()->format('Y')] = [];
             }
-            if (!array_key_exists($txn->getIssuedAt()->format('m'), $income[$txn->getIssuedAt()->format('Y')])) {
-                $income[$txn->getIssuedAt()->format('Y')][$txn->getIssuedAt()->format('m')] = 0;
+            if (!array_key_exists(
+              $txn->getIssuedAt()->format('m'),
+              $income[$txn->getIssuedAt()->format('Y')]
+            )) {
+                $income[$txn->getIssuedAt()->format('Y')][$txn->getIssuedAt()
+                  ->format('m')] = 0;
             }
-            $income[$txn->getIssuedAt()->format('Y')][$txn->getIssuedAt()->format('m')] += $txn->getAmount();
+            $income[$txn->getIssuedAt()->format('Y')][$txn->getIssuedAt()
+              ->format('m')] += $txn->getAmount();
         }
 
         return $income;
@@ -79,7 +90,7 @@ class ReportService
         foreach ($income as $year => $months) {
             foreach ($months as $month => $amountValue) {
                 $issuedAt = new stdClass();
-                $issuedAt->v = 'Date('.$year.','.($month - 1).',1)';
+                $issuedAt->v = 'Date(' . $year . ',' . ($month - 1) . ',1)';
                 $amount = new stdClass();
                 $amount->v = $amountValue;
                 $row = new stdClass();
@@ -97,18 +108,23 @@ class ReportService
         $columns = [$IssuedAtCol, $AmountCol];
 
         return [
-            'cols' => $columns,
-            'rows' => $rows,
+          'cols' => $columns,
+          'rows' => $rows,
         ];
     }
 
     public function getHoursPerMonthGoogleChart(): array
     {
-        $hoursPerMonths = $this->getTasksRepository()->findWorkingHoursPerMonth();
+        $hoursPerMonths = $this->getTasksRepository()->findWorkingHoursPerMonth(
+        );
         $rows = [];
         foreach ($hoursPerMonths as $hoursPerMonth) {
             $completedAt = new stdClass();
-            $completedAt->v = 'Date('.$hoursPerMonth['completedAt']->format('Y').','.($hoursPerMonth['completedAt']->format('m') - 1).',1)';
+            $completedAt->v = 'Date(' . $hoursPerMonth['completedAt']->format(
+                'Y'
+              ) . ',' . ($hoursPerMonth['completedAt']->format(
+                  'm'
+                ) - 1) . ',1)';
             $duration = new stdClass();
             $duration->v = $hoursPerMonth['duration'];
             $row = new stdClass();
@@ -125,8 +141,9 @@ class ReportService
         $columns = [$IssuedAtCol, $AmountCol];
 
         return [
-            'cols' => $columns,
-            'rows' => $rows,
+          'cols' => $columns,
+          'rows' => $rows,
         ];
     }
+
 }

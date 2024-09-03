@@ -11,6 +11,7 @@ use App\Service\ReportService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -24,17 +25,16 @@ class ReportsController extends AbstractController
     /**
      * @Route("/", name="reports_index")
      */
-    public function indexAction(): \Symfony\Component\HttpFoundation\Response
+    public function indexAction(): Response
     {
-        return $this->render('Reports/index.html.twig', [// ...
-        ]);
+        return $this->render('Reports/index.html.twig');
     }
 
     /**
      * @Route("/clients", name="reports_clients")
      */
-    public function clientsAction(EntityManagerInterface $entityManager): \Symfony\Component\HttpFoundation\Response
-    {
+    public function clientsAction(EntityManagerInterface $entityManager
+    ): Response {
         $em = $entityManager;
         $clients = $em->getRepository(Client::class)->findAll();
 
@@ -46,8 +46,10 @@ class ReportsController extends AbstractController
     /**
      * @Route("/hourly/{client}", name="reports_client_hourly")
      */
-    public function hourlyAction(Client $client, EntityManagerInterface $entityManager): \Symfony\Component\HttpFoundation\Response
-    {
+    public function hourlyAction(
+      Client $client,
+      EntityManagerInterface $entityManager
+    ): Response {
         $em = $entityManager;
         $durations = $em->getRepository(Tasks::class)->findCompletedByClient(
           $client
@@ -78,8 +80,10 @@ class ReportsController extends AbstractController
     /**
      * @Route("/tasklist/{tasklist}", name="reports_tasklist")
      */
-    public function tasklistAction(TaskLists $tasklist, EntityManagerInterface $entityManager): \Symfony\Component\HttpFoundation\Response
-    {
+    public function tasklistAction(
+      TaskLists $tasklist,
+      EntityManagerInterface $entityManager
+    ): Response {
         $em = $entityManager;
         $tasks = $em->getRepository(Tasks::class)->findBy([
           'taskList' => $tasklist,
@@ -95,8 +99,8 @@ class ReportsController extends AbstractController
     /**
      * @Route("/diff", name="reports_diff")
      */
-    public function diffAction(EntityManagerInterface $entityManager): \Symfony\Component\HttpFoundation\Response
-    {
+    public function diffAction(EntityManagerInterface $entityManager
+    ): Response {
         $em = $entityManager;
         $txns = $em->getRepository(AccountTransactions::class)->queryIncome();
 
@@ -134,8 +138,8 @@ class ReportsController extends AbstractController
     /**
      * @Route("/income", name="reports_income")
      */
-    public function incomeAction(ReportService $reportService): \Symfony\Component\HttpFoundation\Response
-    {
+    public function incomeAction(ReportService $reportService
+    ): Response {
         return $this->render('Reports/income.html.twig', [
           'income' => $reportService->getIncome(),
         ]);
@@ -152,8 +156,8 @@ class ReportsController extends AbstractController
     /**
      * @Route("/annual_income", name="reports_annual_income")
      */
-    public function annualIncomeAction(EntityManagerInterface $entityManager): \Symfony\Component\HttpFoundation\Response
-    {
+    public function annualIncomeAction(EntityManagerInterface $entityManager
+    ): Response {
         $em = $entityManager;
         $txns = $em->getRepository(AccountTransactions::class)->queryIncome();
 
@@ -173,8 +177,8 @@ class ReportsController extends AbstractController
     /**
      * @Route("/tasks_years", name="reports_tasks_years")
      */
-    public function tasksYearsAction(EntityManagerInterface $entityManager): \Symfony\Component\HttpFoundation\Response
-    {
+    public function tasksYearsAction(EntityManagerInterface $entityManager
+    ): Response {
         $em = $entityManager;
         $tasksYears = $em->getRepository(Tasks::class)->findTasksYears();
 
@@ -186,7 +190,8 @@ class ReportsController extends AbstractController
     /**
      * @Route("/hours_per_month", name="reports_hours_per_month")
      */
-    public function hoursPerMonthAction(): \Symfony\Component\HttpFoundation\Response
+    public function hoursPerMonthAction(
+    ): Response
     {
         return $this->render('Reports/hoursPerMonth.html.twig');
     }
@@ -194,8 +199,8 @@ class ReportsController extends AbstractController
     /**
      * @Route("/hours_per_month/data", name="reports_hours_per_month_data")
      */
-    public function hoursPerMonthDataAction(ReportService $reportService): JsonResponse
-    {
+    public function hoursPerMonthDataAction(ReportService $reportService
+    ): JsonResponse {
         return new JsonResponse(
           $reportService->getHoursPerMonthGoogleChart()
         );
@@ -204,8 +209,10 @@ class ReportsController extends AbstractController
     /**
      * @Route("/clients_by_year/{year}", name="reports_clients_by_years")
      */
-    public function clientsByYearAction($year, EntityManagerInterface $entityManager): \Symfony\Component\HttpFoundation\Response
-    {
+    public function clientsByYearAction(
+      $year,
+      EntityManagerInterface $entityManager
+    ): Response {
         $em = $entityManager;
         $clients = $em->getRepository(Client::class)->findByYear($year);
         $reports = [];

@@ -18,11 +18,15 @@ use Doctrine\ORM\EntityManagerInterface;
  */
 class TasksService
 {
+
     protected $em;
+
     protected $tasksRepository;
 
-    public function __construct(EntityManagerInterface $em, TasksRepository $tasksRepository)
-    {
+    public function __construct(
+      EntityManagerInterface $em,
+      TasksRepository $tasksRepository
+    ) {
         $this->em = $em;
         $this->tasksRepository = $tasksRepository;
     }
@@ -42,7 +46,9 @@ class TasksService
 
     public function getDashboardTasklists(): array
     {
-        return $this->getEm()->getRepository(DashboardTaskLists::class)->findAll();
+        return $this->getEm()
+          ->getRepository(DashboardTaskLists::class)
+          ->findAll();
     }
 
     public function getWorkareaTasks($taskListName)
@@ -59,8 +65,12 @@ class TasksService
                 $inboxTasks = $this->getRepository()->getCompletedToday();
                 break;
             default:
-                $taskList = $this->getEm()->getRepository(TaskLists::class)->findOneBy(['name' => $taskListName]);
-                $inboxTasks = $this->getRepository()->focusByTasklist($taskList);
+                $taskList = $this->getEm()
+                  ->getRepository(TaskLists::class)
+                  ->findOneBy(['name' => $taskListName]);
+                $inboxTasks = $this->getRepository()->focusByTasklist(
+                  $taskList
+                );
                 break;
         }
 
@@ -75,14 +85,21 @@ class TasksService
                 $inboxTasksCount = 30;
                 break;
             case 'urgent':
-                $inboxTasksCount = count($this->getRepository()->getUrgentTasks());
+                $inboxTasksCount = count(
+                  $this->getRepository()->getUrgentTasks()
+                );
                 break;
             case 'completedToday':
-                $inboxTasksCount = $this->getRepository()->getCompletedTodayCount();
+                $inboxTasksCount = $this->getRepository()
+                  ->getCompletedTodayCount();
                 break;
             default:
-                $taskList = $this->getRepository()->findOneBy(['name' => $taskListName]);
-                $inboxTasksCount = count($this->getRepository()->focusByTasklist($taskList));
+                $taskList = $this->getRepository()->findOneBy(
+                  ['name' => $taskListName]
+                );
+                $inboxTasksCount = count(
+                  $this->getRepository()->focusByTasklist($taskList)
+                );
                 break;
         }
 
@@ -120,7 +137,7 @@ class TasksService
         $piechart['Normal'] = 0;
         $piechart['Low'] = 0;
         foreach ($countByUrgenctAndPriority as $row) {
-            $row['duration'] = (int) $row['duration'];
+            $row['duration'] = (int)$row['duration'];
             if ($row['urgency']) {
                 if ($row['priority']) {
                     $piechart['Urgent & Important'] = $row['duration'];
@@ -138,4 +155,5 @@ class TasksService
 
         return $piechart;
     }
+
 }

@@ -11,53 +11,56 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class BillingOptionsType extends AbstractType
 {
+
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options): void
-    {
+    public function buildForm(
+      FormBuilderInterface $builder,
+      array $options
+    ): void {
         $days = [];
         for ($i = 1; $i <= 30; ++$i) {
             $days[$i] = $i;
         }
         $builder
-            ->add('hours', NumberType::class, [
-                'required' => false,
-            ])
-            ->add('hoursPer', ChoiceType::class, [
-                'required' => false,
-                'choices' => [
-                    'day' => 'day',
-                    'month' => 'month',
-                    'every' => 'every',
-                ],
-                'expanded' => true,
-                'label_attr' => [
-                    'class' => 'radio-inline',
-                ],
-            ])
-            ->add('amount', MoneyType::class, [
-                'required' => false,
-            ])
-            ->add('amountPer', ChoiceType::class, [
-                'required' => false,
-                'choices' => [
-                    'day' => 'day',
-                    'month' => 'month',
-                    'every' => 'every',
-                ],
-                'expanded' => true,
-                'label_attr' => [
-                    'class' => 'radio-inline',
-                ],
-            ])
-            ->add('billingOn', ChoiceType::class, [
-                'required' => false,
-                'choices' => $days,
-            ])
-            ->add('discount', NumberType::class, [
-                'required' => false,
-            ]);
+          ->add('hours', NumberType::class, [
+            'required' => false,
+          ])
+          ->add('hoursPer', ChoiceType::class, [
+            'required' => false,
+            'choices' => [
+              'day' => 'day',
+              'month' => 'month',
+              'every' => 'every',
+            ],
+            'expanded' => true,
+            'label_attr' => [
+              'class' => 'radio-inline',
+            ],
+          ])
+          ->add('amount', MoneyType::class, [
+            'required' => false,
+          ])
+          ->add('amountPer', ChoiceType::class, [
+            'required' => false,
+            'choices' => [
+              'day' => 'day',
+              'month' => 'month',
+              'every' => 'every',
+            ],
+            'expanded' => true,
+            'label_attr' => [
+              'class' => 'radio-inline',
+            ],
+          ])
+          ->add('billingOn', ChoiceType::class, [
+            'required' => false,
+            'choices' => $days,
+          ])
+          ->add('discount', NumberType::class, [
+            'required' => false,
+          ]);
     }
 
     /**
@@ -66,7 +69,7 @@ class BillingOptionsType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => null,
+          'data_class' => null,
         ]);
     }
 
@@ -77,4 +80,5 @@ class BillingOptionsType extends AbstractType
     {
         return 'appbundle_billing_options';
     }
+
 }

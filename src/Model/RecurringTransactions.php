@@ -16,6 +16,7 @@ use DateTime;
  */
 class RecurringTransactions
 {
+
     /**
      * @var string title
      */
@@ -82,4 +83,5 @@ class RecurringTransactions
     {
         $this->date = $date;
     }
+
 }

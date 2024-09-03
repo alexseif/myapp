@@ -21,6 +21,7 @@ use Doctrine\ORM\EntityManagerInterface;
  */
 class FocusService
 {
+
     /**
      * @var EntityManagerInterface
      */
@@ -83,23 +84,31 @@ class FocusService
 
     public function setCompleted(): void
     {
-        $this->focus['completed'] = $this->getTasksRepository()->getCompletedToday();
+        $this->focus['completed'] = $this->getTasksRepository()
+          ->getCompletedToday();
     }
 
     public function setDayCards(): void
     {
-        $this->focus['dayCards'] = $this->getEm()->getRepository(Days::class)->getImportantCards();
+        $this->focus['dayCards'] = $this->getEm()
+          ->getRepository(Days::class)
+          ->getImportantCards();
     }
 
     public function setTasks(Client $client = null): void
     {
         if ($client) {
             $this->focus['client'] = $client;
-            $this->focus['tasks'] = $this->getTasksRepository()->focusByClient($client);
-            $contract = $this->getEm()->getRepository(Contract::class)->findOneBy(['client' => $client]);
+            $this->focus['tasks'] = $this->getTasksRepository()->focusByClient(
+              $client
+            );
+            $contract = $this->getEm()
+              ->getRepository(Contract::class)
+              ->findOneBy(['client' => $client]);
             if ($contract) {
                 $this->focus['contract'] = $contract;
-                $this->focus['todayHours'] = $this->focus['contract']->getHoursPerDay();
+                $this->focus['todayHours'] = $this->focus['contract']->getHoursPerDay(
+                );
             }
         } else {
             $this->focus['tasks'] = $this->getTasksRepository()->focusList();
@@ -108,6 +117,9 @@ class FocusService
 
     public function setTasksByTaskList(TaskLists $tasklist): void
     {
-        $this->focus['tasks'] = $this->getTasksRepository()->focusByTasklist($tasklist);
+        $this->focus['tasks'] = $this->getTasksRepository()->focusByTasklist(
+          $tasklist
+        );
     }
+
 }

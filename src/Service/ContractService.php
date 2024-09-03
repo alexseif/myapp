@@ -19,6 +19,7 @@ use Doctrine\ORM\EntityManagerInterface;
  */
 class ContractService
 {
+
     /**
      * @var EntityManager
      */
@@ -30,15 +31,22 @@ class ContractService
     }
 
     /**
-     * @return array progress of contracts
      */
     public function progress(): array
     {
-        $contracts = $this->em->getRepository(Contract::class)->findBy(['isCompleted' => false]);
+        $contracts = $this->em->getRepository(Contract::class)->findBy(
+          ['isCompleted' => false]
+        );
         foreach ($contracts as $contract) {
-            $contract->setProgress(new ContractProgress($contract, $this->em->getRepository(Tasks::class)));
+            $contract->setProgress(
+              new ContractProgress(
+                $contract,
+                $this->em->getRepository(Tasks::class)
+              )
+            );
         }
 
         return $contracts;
     }
+
 }

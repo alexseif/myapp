@@ -17,6 +17,7 @@ use Doctrine\ORM\EntityManagerInterface;
  */
 class AccountsService
 {
+
     protected $em;
 
     public function __construct(EntityManagerInterface $em)
@@ -40,4 +41,5 @@ class AccountsService
     {
         return $this->getRepository()->findByNotConceal();
     }
+
 }

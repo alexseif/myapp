@@ -13,6 +13,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
  */
 class Rate
 {
+
     use TimestampableEntity;
 
     /**
@@ -154,4 +155,5 @@ class Rate
     {
         return $this->note;
     }
+
 }

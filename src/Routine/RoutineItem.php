@@ -7,6 +7,7 @@ use DateTime;
 
 class RoutineItem
 {
+
     /**
      * @var string Routine Item name
      */
@@ -22,8 +23,11 @@ class RoutineItem
      */
     protected $duration;
 
-    public function __construct(string $name, DateTime $start, DateInterval $duration)
-    {
+    public function __construct(
+      string $name,
+      DateTime $start,
+      DateInterval $duration
+    ) {
         $this->name = $name;
         $this->start = $start;
         $this->duration = $duration;
@@ -58,4 +62,5 @@ class RoutineItem
     {
         $this->duration = $duration;
     }
+
 }

@@ -15,6 +15,7 @@ use DateTime;
  */
 class DayManager
 {
+
     public function isWorkDay(): bool
     {
         $today = new DateTime();
@@ -35,9 +36,6 @@ class DayManager
     }
 
     /**
-     * @param mixed $date Optional to specify which month start
-     *
-     * @return DateTime
      */
     public function getMonthStart($date = 'now'): DateTime
     {
@@ -45,16 +43,17 @@ class DayManager
         if ($monthStart->format('d') < 25) {
             $monthStart->modify('-1 month');
         }
-        $monthStart->setTime(0, 0, 0);
-        $monthStart->setDate($monthStart->format('Y'), $monthStart->format('m'), 25);
+        $monthStart->setTime(0, 0);
+        $monthStart->setDate(
+          $monthStart->format('Y'),
+          $monthStart->format('m'),
+          25
+        );
 
         return $monthStart;
     }
 
     /**
-     * @param mixed $date Optional to specify which month start
-     *
-     * @return DateTime
      */
     public function getMonthEnd($date = 'now'): DateTime
     {
@@ -76,4 +75,5 @@ class DayManager
 
         return round($diff->days / $today->format('t') * 100);
     }
+
 }

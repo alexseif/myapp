@@ -10,17 +10,22 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CurrencyType extends AbstractType
 {
+
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options): void
-    {
+    public function buildForm(
+      FormBuilderInterface $builder,
+      array $options
+    ): void {
         $builder->add('code')
-            ->add('name')
-            ->add('egp', MoneyType::class, ['currency' => 'EGP',
-                'divisor' => 100,
-                'scale' => 3,
-                'label' => 'EGP', ]);
+          ->add('name')
+          ->add('egp', MoneyType::class, [
+            'currency' => 'EGP',
+            'divisor' => 100,
+            'scale' => 3,
+            'label' => 'EGP',
+          ]);
     }
 
     /**
@@ -29,7 +34,7 @@ class CurrencyType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Currency::class,
+          'data_class' => Currency::class,
         ]);
     }
 
@@ -40,4 +45,5 @@ class CurrencyType extends AbstractType
     {
         return 'appbundle_currency';
     }
+
 }

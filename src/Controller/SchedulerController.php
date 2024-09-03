@@ -19,6 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class SchedulerController extends AbstractController
 {
+
     /**
      * @Route("/", name="scheduler_landing")
      */
@@ -31,44 +32,49 @@ class SchedulerController extends AbstractController
             ++$week;
         }
 
-        return $this->redirect($this->generateUrl('scheduler', ['year' => $year, 'week' => $week]));
+        return $this->redirect(
+          $this->generateUrl('scheduler', ['year' => $year, 'week' => $week])
+        );
     }
 
     /**
      * @Route("/{year}/{week}", name="scheduler")
      */
-    public function index(Request $request, EntityManagerInterface $entityManager, $year, $week): Response
-    {
-
+    public function index(
+      Request $request,
+      EntityManagerInterface $entityManager,
+      $year,
+      $week
+    ): Response {
         $form = $this->createFormBuilder()
-            ->add('concatenate', CheckboxType::class)
-            ->setMethod('GET')
-            ->getForm();
+          ->add('concatenate', CheckboxType::class)
+          ->setMethod('GET')
+          ->getForm();
         $form->handleRequest($request);
         $data = $form->getData();
         $scheduler = new Scheduler($entityManager, $year, $week);
-        $scheduler->generate($data ? $data['concatenate']: false);
+        $scheduler->generate($data ? $data['concatenate'] : false);
         return $this->render('scheduler/index.html.twig', [
-            'form' => $form->createView(),
-            'week' => $week,
-            'year' => $year,
-            'scheduler' => $scheduler,
+          'form' => $form->createView(),
+          'week' => $week,
+          'year' => $year,
+          'scheduler' => $scheduler,
         ]);
     }
 
     private function saveSchedules(
-        TasksRepository $tasksRepository,
-        EntityManagerInterface $entityManager,
-        $scheduleItem
+      TasksRepository $tasksRepository,
+      EntityManagerInterface $entityManager,
+      $scheduleItem
     ): void {
         $task = $tasksRepository->find($scheduleItem['task']);
         if (!$task->getCompleted()) {
             $schedule = new Schedule();
             $schedule->setSchedule(
-                $scheduleItem['id'] ?: null,
-                $task,
-                $scheduleItem['est'],
-                new DateTime($scheduleItem['eta'])
+              $scheduleItem['id'] ?: null,
+              $task,
+              $scheduleItem['est'],
+              new DateTime($scheduleItem['eta'])
             );
             if (is_null($schedule->getId())) {
                 $entityManager->persist($schedule);
@@ -79,12 +85,19 @@ class SchedulerController extends AbstractController
     /**
      * @Route("/save", name="scheduler_save")
      */
-    public function save(Request $request, TasksRepository $tasksRepository, EntityManagerInterface $entityManager): JsonResponse
-    {
+    public function save(
+      Request $request,
+      TasksRepository $tasksRepository,
+      EntityManagerInterface $entityManager
+    ): JsonResponse {
         if ($request->isXmlHttpRequest()) {
             foreach ($request->get('data') as $scheduleItems) {
                 foreach ($scheduleItems as $scheduleItem) {
-                    $this->saveSchedules($tasksRepository, $entityManager, $scheduleItem);
+                    $this->saveSchedules(
+                      $tasksRepository,
+                      $entityManager,
+                      $scheduleItem
+                    );
                 }
             }
             $entityManager->flush();
@@ -96,15 +109,21 @@ class SchedulerController extends AbstractController
     /**
      * @Route("/delete", name="scheduler_delete")
      */
-    public function delete(Request $request, TasksRepository $tasksRepository, EntityManagerInterface $entityManager): JsonResponse
-    {
+    public function delete(
+      Request $request,
+      TasksRepository $tasksRepository,
+      EntityManagerInterface $entityManager
+    ): JsonResponse {
         if ($request->isXmlHttpRequest()) {
             $scheduleId = $request->get('schedule_id');
-            $schedule = $entityManager->getRepository(Schedule::class)->find($scheduleId);
+            $schedule = $entityManager->getRepository(Schedule::class)->find(
+              $scheduleId
+            );
             $entityManager->remove($schedule);
             $entityManager->flush();
         }
 
         return new JsonResponse();
     }
+
 }

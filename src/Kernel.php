@@ -9,6 +9,7 @@ class Kernel extends BaseKernel
 {
 
     use MicroKernelTrait;
+
     public function boot()
     {
         date_default_timezone_set('Africa/Cairo');

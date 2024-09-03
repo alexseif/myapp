@@ -7,7 +7,9 @@ use App\Form\HolidayType;
 use App\Service\WorkingDays;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -23,8 +25,8 @@ class HolidayController extends AbstractController
      *
      * @Route("/", name="holiday_index", methods={"GET"})
      */
-    public function indexAction(EntityManagerInterface $entityManager): \Symfony\Component\HttpFoundation\Response
-    {
+    public function indexAction(EntityManagerInterface $entityManager
+    ): Response {
         $em = $entityManager;
 
         $holidays = $em->getRepository(Holiday::class)->findAll();
@@ -39,8 +41,8 @@ class HolidayController extends AbstractController
      *
      * @Route("/fetch", name="holiday_fetch", methods={"GET", "POST"})
      */
-    public function testAction(WorkingDays $workingDays): \Symfony\Component\HttpFoundation\RedirectResponse
-    {
+    public function testAction(WorkingDays $workingDays
+    ): RedirectResponse {
         $workingDays->updateHolidays();
         $this->addFlash('Success', 'Holidays Updated');
 
@@ -82,8 +84,8 @@ class HolidayController extends AbstractController
      *
      * @Route("/{id}", name="holiday_show", methods={"GET"})
      */
-    public function showAction(Holiday $holiday): \Symfony\Component\HttpFoundation\Response
-    {
+    public function showAction(Holiday $holiday
+    ): Response {
         $deleteForm = $this->createDeleteForm($holiday);
 
         return $this->render('holiday/show.html.twig', [
@@ -133,7 +135,7 @@ class HolidayController extends AbstractController
       Request $request,
       Holiday $note,
       EntityManagerInterface $entityManager
-    ): \Symfony\Component\HttpFoundation\RedirectResponse {
+    ): RedirectResponse {
         $form = $this->createDeleteForm($note);
         $form->handleRequest($request);
 

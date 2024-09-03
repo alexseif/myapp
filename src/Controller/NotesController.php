@@ -6,7 +6,9 @@ use App\Entity\Notes;
 use App\Form\NotesType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -16,19 +18,20 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class NotesController extends AbstractController
 {
+
     /**
      * Lists all Notes entities.
      *
      * @Route("/", name="notes_index", methods={"GET"})
      */
-    public function indexAction( EntityManagerInterface $entityManager): \Symfony\Component\HttpFoundation\Response
-    {
+    public function indexAction(EntityManagerInterface $entityManager
+    ): Response {
         $em = $entityManager;
 
         $notes = $em->getRepository(Notes::class)->findAll();
 
         return $this->render('notes/index.html.twig', [
-            'notes' => $notes,
+          'notes' => $notes,
         ]);
     }
 
@@ -37,8 +40,10 @@ class NotesController extends AbstractController
      *
      * @Route("/new", name="notes_new", methods={"GET", "POST"})
      */
-    public function newAction(Request $request, EntityManagerInterface $entityManager)
-    {
+    public function newAction(
+      Request $request,
+      EntityManagerInterface $entityManager
+    ) {
         $note = new Notes();
         $form = $this->createForm(NotesType::class, $note);
         $form->handleRequest($request);
@@ -48,12 +53,13 @@ class NotesController extends AbstractController
             $em->persist($note);
             $em->flush();
 
-            return $this->redirectToRoute('notes_show', ['id' => $note->getId()]);
+            return $this->redirectToRoute('notes_show', ['id' => $note->getId()]
+            );
         }
 
         return $this->render('notes/new.html.twig', [
-            'note' => $note,
-            'notes_form' => $form->createView(),
+          'note' => $note,
+          'notes_form' => $form->createView(),
         ]);
     }
 
@@ -62,13 +68,13 @@ class NotesController extends AbstractController
      *
      * @Route("/{id}", name="notes_show", methods={"GET"})
      */
-    public function showAction(Notes $note): \Symfony\Component\HttpFoundation\Response
-    {
+    public function showAction(Notes $note
+    ): Response {
         $deleteForm = $this->createDeleteForm($note);
 
         return $this->render('notes/show.html.twig', [
-            'note' => $note,
-            'delete_form' => $deleteForm->createView(),
+          'note' => $note,
+          'delete_form' => $deleteForm->createView(),
         ]);
     }
 
@@ -77,8 +83,11 @@ class NotesController extends AbstractController
      *
      * @Route("/{id}/edit", name="notes_edit", methods={"GET", "POST"})
      */
-    public function editAction(Request $request, Notes $note, EntityManagerInterface $entityManager)
-    {
+    public function editAction(
+      Request $request,
+      Notes $note,
+      EntityManagerInterface $entityManager
+    ) {
         $deleteForm = $this->createDeleteForm($note);
         $editForm = $this->createForm(NotesType::class, $note);
         $editForm->handleRequest($request);
@@ -88,13 +97,14 @@ class NotesController extends AbstractController
             $em->persist($note);
             $em->flush();
 
-            return $this->redirectToRoute('notes_show', ['id' => $note->getId()]);
+            return $this->redirectToRoute('notes_show', ['id' => $note->getId()]
+            );
         }
 
         return $this->render('notes/edit.html.twig', [
-            'note' => $note,
-            'notes_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+          'note' => $note,
+          'notes_form' => $editForm->createView(),
+          'delete_form' => $deleteForm->createView(),
         ]);
     }
 
@@ -103,8 +113,11 @@ class NotesController extends AbstractController
      *
      * @Route("/{id}", name="notes_delete", methods={"DELETE"})
      */
-    public function deleteAction(Request $request, Notes $note, EntityManagerInterface $entityManager): \Symfony\Component\HttpFoundation\RedirectResponse
-    {
+    public function deleteAction(
+      Request $request,
+      Notes $note,
+      EntityManagerInterface $entityManager
+    ): RedirectResponse {
         $form = $this->createDeleteForm($note);
         $form->handleRequest($request);
 
@@ -127,8 +140,11 @@ class NotesController extends AbstractController
     private function createDeleteForm(Notes $note)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('notes_delete', ['id' => $note->getId()]))
-            ->setMethod('DELETE')
-            ->getForm();
+          ->setAction(
+            $this->generateUrl('notes_delete', ['id' => $note->getId()])
+          )
+          ->setMethod('DELETE')
+          ->getForm();
     }
+
 }

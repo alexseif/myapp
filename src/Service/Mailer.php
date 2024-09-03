@@ -4,10 +4,10 @@ namespace App\Service;
 
 use FOS\UserBundle\Mailer\MailerInterface;
 use FOS\UserBundle\Model\UserInterface;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Twig\Environment;
 use Symfony\Component\Mailer\MailerInterface as SymfonyMailerInterface;
 use Symfony\Component\Mime\Email;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Twig\Environment;
 
 class Mailer implements MailerInterface
 {

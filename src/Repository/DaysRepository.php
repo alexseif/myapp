@@ -14,6 +14,7 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class DaysRepository extends ServiceEntityRepository
 {
+
     public const DEADLINE = 'd.deadline';
 
     public function __construct(ManagerRegistry $registry)
@@ -24,41 +25,42 @@ class DaysRepository extends ServiceEntityRepository
     public function getActiveCards()
     {
         return $this->createQueryBuilder('d')
-            ->where('d.complete = 0')
-            ->orWhere('d.deadline >= CURRENT_TIMESTAMP()')
-            ->orderBy(self::DEADLINE, 'ASC')
-            ->getQuery()
-            ->getResult();
+          ->where('d.complete = 0')
+          ->orWhere('d.deadline >= CURRENT_TIMESTAMP()')
+          ->orderBy(self::DEADLINE, 'ASC')
+          ->getQuery()
+          ->getResult();
     }
 
     public function getImportantCards()
     {
         return $this->createQueryBuilder('d')
-            ->where('d.complete = 0')
-            ->andWhere('DATEDIFF(d.deadline, CURRENT_TIMESTAMP() ) <= 30')
-            ->orderBy(self::DEADLINE, 'ASC')
-            ->getQuery()
-            ->getResult();
+          ->where('d.complete = 0')
+          ->andWhere('DATEDIFF(d.deadline, CURRENT_TIMESTAMP() ) <= 30')
+          ->orderBy(self::DEADLINE, 'ASC')
+          ->getQuery()
+          ->getResult();
     }
 
     public function getArchiveCards()
     {
         return $this->createQueryBuilder('d')
-            ->where('d.complete = 1')
-            ->andWhere('d.deadline < CURRENT_TIMESTAMP()')
-            ->orderBy(self::DEADLINE, 'DESC')
-            ->getQuery()
-            ->getResult();
+          ->where('d.complete = 1')
+          ->andWhere('d.deadline < CURRENT_TIMESTAMP()')
+          ->orderBy(self::DEADLINE, 'DESC')
+          ->getQuery()
+          ->getResult();
     }
 
     public function search($searchTerm)
     {
         return $this
-            ->createQueryBuilder('d')
-            ->select()
-            ->where('d.name LIKE :searchTerm')
-            ->setParameter(':searchTerm', '%' . $searchTerm . '%')
-            ->getQuery()
-            ->getResult();
+          ->createQueryBuilder('d')
+          ->select()
+          ->where('d.name LIKE :searchTerm')
+          ->setParameter(':searchTerm', '%' . $searchTerm . '%')
+          ->getQuery()
+          ->getResult();
     }
+
 }

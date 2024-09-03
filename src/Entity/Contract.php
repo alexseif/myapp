@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Model\ContractProgress;
+use DateTime;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
@@ -14,6 +16,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
  */
 class Contract
 {
+
     use TimestampableEntity;
 
     /**
@@ -109,7 +112,6 @@ class Contract
     }
 
 
-
     /**
      * Set hoursPerDay.
      *
@@ -176,7 +178,7 @@ class Contract
      *
      * @return \DateTime
      */
-    public function getStartedAt(): \DateTime
+    public function getStartedAt(): DateTime
     {
         return $this->startedAt;
     }
@@ -207,13 +209,13 @@ class Contract
     /**
      * @return \DateTimeInterface $completedAt
      */
-    public function getCompletedAt(): \DateTimeInterface
+    public function getCompletedAt(): DateTimeInterface
     {
         return $this->completedAt;
     }
 
     /**
-     * @param \DateTimeInterface $completedAt
+     * @param \DateTimeInterface|null $completedAt
      *
      * @return self
      */
@@ -245,4 +247,5 @@ class Contract
     {
         $this->progress = $progress;
     }
+
 }

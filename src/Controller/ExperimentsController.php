@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Accounts;
-use App\Entity\Rate;
 use App\Entity\Tasks;
 use App\Repository\AccountsRepository;
 use App\Repository\TasksRepository;

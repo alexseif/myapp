@@ -12,21 +12,24 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class RateType extends AbstractType
 {
+
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options): void
-    {
+    public function buildForm(
+      FormBuilderInterface $builder,
+      array $options
+    ): void {
         $builder
-            ->add('rate', MoneyType::class)
-            ->add('client', EntityType::class, [
-                'class' => Client::class,
-                'choice_label' => 'name',
-                'attr' => [
-                    'class' => 'chosen',
-                ],
-            ])
-            ->add('note');
+          ->add('rate', MoneyType::class)
+          ->add('client', EntityType::class, [
+            'class' => Client::class,
+            'choice_label' => 'name',
+            'attr' => [
+              'class' => 'chosen',
+            ],
+          ])
+          ->add('note');
     }
 
     /**
@@ -35,7 +38,7 @@ class RateType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Rate::class,
+          'data_class' => Rate::class,
         ]);
     }
 
@@ -46,4 +49,5 @@ class RateType extends AbstractType
     {
         return 'appbundle_rate';
     }
+
 }

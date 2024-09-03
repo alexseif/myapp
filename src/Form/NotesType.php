@@ -9,19 +9,23 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class NotesType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options): void
-    {
+
+    public function buildForm(
+      FormBuilderInterface $builder,
+      array $options
+    ): void {
         $builder
-            ->add('note', null, [
-                'label' => false,
-                'required' => false,
-            ]);
+          ->add('note', null, [
+            'label' => false,
+            'required' => false,
+          ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Notes::class
+          'data_class' => Notes::class,
         ]);
     }
+
 }
