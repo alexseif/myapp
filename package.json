@@ -1,24 +1,35 @@
 {
-    "devDependencies": {
-        "@babel/core": "^7.25.2",
-        "@babel/preset-env": "^7.25.3",
-        "@hotwired/stimulus": "^3.2.2",
-        "@hotwired/turbo": "^7.1.1 || ^8.0",
-        "@symfony/stimulus-bridge": "^3.2.2",
-        "@symfony/ux-turbo": "file:vendor/symfony/ux-turbo/assets",
-        "@symfony/webpack-encore": "^4.6.1",
-        "core-js": "^3.38.0",
-        "regenerator-runtime": "^0.13.11",
-        "webpack": "^5.93.0",
-        "webpack-cli": "^4.10.0",
-        "webpack-notifier": "^1.15.0"
-    },
-    "license": "UNLICENSED",
-    "private": true,
-    "scripts": {
-        "dev-server": "npm run dev-server",
-        "dev": "npm run dev",
-        "watch": "npm run dev --watch",
-        "build": "npm run production --progress"
-    }
+  "devDependencies": {
+    "@babel/core": "^7.25.2",
+    "@babel/preset-env": "^7.25.3",
+    "@hotwired/stimulus": "^3.2.2",
+    "@hotwired/turbo": "^7.1.1 || ^8.0",
+    "@symfony/stimulus-bridge": "^3.2.2",
+    "@symfony/ux-turbo": "file:vendor/symfony/ux-turbo/assets",
+    "@symfony/webpack-encore": "^4.6.1",
+    "core-js": "^3.38.0",
+    "regenerator-runtime": "^0.13.11",
+    "webpack": "^5.93.0",
+    "webpack-cli": "^4.10.0",
+    "webpack-notifier": "^1.15.0"
+  },
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "dev-server": "encore dev-server",
+    "dev": "encore dev",
+    "watch": "encore dev --watch",
+    "build": "encore production --progress"
+  },
+  "name": "myapp",
+  "version": "1.0.0",
+  "main": "webpack.config.js",
+  "directories": {
+    "test": "tests"
+  },
+  "keywords": [],
+  "author": "",
+  "description": "",
+  "build": "webpack --mode production --progress",
+  "production": "webpack --mode production --progress"
 }
