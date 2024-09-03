@@ -53,11 +53,11 @@ class WorkLog
      */
     private $total;
 
+    // Ensure the task property is correctly mapped
+
     /**
-     * One Task has One WorkLog.
-     *
      * @ORM\OneToOne(targetEntity="Tasks", inversedBy="workLog")
-     * @ORM\JoinColumn(name="task_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="task_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $task;
 
@@ -74,7 +74,7 @@ class WorkLog
     /**
      * Set duration.
      *
-     * @param int $duration
+     *  int $duration
      *
      * @return WorkLog
      */
@@ -98,7 +98,7 @@ class WorkLog
     /**
      * Set pricePerUnit.
      *
-     * @param float $pricePerUnit
+     *  float $pricePerUnit
      *
      * @return WorkLog
      */
@@ -112,9 +112,8 @@ class WorkLog
     /**
      * Get pricePerUnit.
      *
-     * @return float
      */
-    public function getPricePerUnit(): float
+    public function getPricePerUnit(): float|null
     {
         return $this->pricePerUnit;
     }
@@ -122,9 +121,7 @@ class WorkLog
     /**
      * Set total.
      *
-     * @param float $total
      *
-     * @return WorkLog
      */
     public function setTotal($total): WorkLog
     {
@@ -146,7 +143,7 @@ class WorkLog
     /**
      * Set task.
      *
-     * @paramTasks $task
+     * Tasks $task
      *
      * @return WorkLog
      */
@@ -169,7 +166,7 @@ class WorkLog
     /**
      * Set name.
      *
-     * @param string $name
+     *  string $name
      *
      * @return WorkLog
      */

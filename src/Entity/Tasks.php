@@ -107,10 +107,10 @@ class Tasks
      */
     private $taskList;
 
+    // Add cascade={"remove"} to the workLog property
+
     /**
-     * One Task has One WorkLog.
-     *
-     * @ORM\OneToOne(targetEntity="WorkLog", mappedBy="task")
+     * @ORM\OneToOne(targetEntity="WorkLog", mappedBy="task", cascade={"persist", "remove"})
      */
     private $workLog;
 
@@ -448,9 +448,8 @@ class Tasks
     /**
      * Get workLog.
      *
-     * @return WorkLog
      */
-    public function getWorkLog(): WorkLog
+    public function getWorkLog(): WorkLog|null
     {
         return $this->workLog;
     }

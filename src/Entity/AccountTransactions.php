@@ -115,7 +115,7 @@ class AccountTransactions
      *
      * @return string
      */
-    public function getNote(): string
+    public function getNote(): string|null
     {
         return $this->note;
     }
@@ -137,7 +137,7 @@ class AccountTransactions
      *
      * @return Accounts
      */
-    public function getAccount(): Accounts
+    public function getAccount(): Accounts|null
     {
         return $this->account;
     }

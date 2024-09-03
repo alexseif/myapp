@@ -124,6 +124,7 @@ class WorkLogController extends AbstractController
         $costOfLife = new CostOfLifeLogic($cost, $currencies);
         $pricePerUnit = $costOfLife->getHourly();
         $workLog = new Worklog();
+        $workLog->setPricePerUnit($pricePerUnit);
 
         if ($request->get('task')) {
             $task = $em->getRepository(Tasks::class)->find(
