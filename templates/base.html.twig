@@ -7,21 +7,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}{{ block('panelTitle')|striptags }}{% endblock %} | myApp</title>
     {% block stylesheets %}
-        <link rel="stylesheet" href="//cdn.materialdesignicons.com/5.4.55/css/materialdesignicons.min.css">
-        <!-- Bootswatch Darkly theme-->
-        <link href="{{ asset('/assets/bootstrap-4.3.1-dist/css/bootstrap.min.css') }}" rel="stylesheet"
-              type="text/css"/>
-        <link href="{{ asset('/css/bootstrap-darkly.min.css') }}" rel="stylesheet" type="text/css"/>
-        <link href="{{ asset('/assets/jquery-ui-1.12.1/jquery-ui.min.css') }}" rel="stylesheet" type="text/css"/>
-        <link href="{{ asset('/assets/jquery-ui-1.12.1/jquery-ui.theme.css') }}" rel="stylesheet" type="text/css"/>
-        <link href="{{ asset('/css/chosen.min.css') }}" rel="stylesheet" type="text/css"/>
-        <link href="{{ asset('/assets/fontawesome-free-5.9.0-web/css/all.min.css') }}" rel="stylesheet"
-              type="text/css"/>
-        <!-- Custom Styling -->
-        <link rel="stylesheet" href="{{ asset('/css/common.css') }}"/>
-        <link rel="stylesheet" href="{{ asset('assets/css/frontend.css') }}">
+        {{ encore_entry_link_tags('app') }}
+{#        <link rel="stylesheet" href="//cdn.materialdesignicons.com/5.4.55/css/materialdesignicons.min.css">#}
+{#        <!-- Bootswatch Darkly theme-->#}
+{#        <link href="{{ asset('/assets/bootstrap-4.3.1-dist/css/bootstrap.min.css') }}" rel="stylesheet"#}
+{#              type="text/css"/>#}
+{#        <link href="{{ asset('/css/bootstrap-darkly.min.css') }}" rel="stylesheet" type="text/css"/>#}
+{#        <link href="{{ asset('/assets/jquery-ui-1.12.1/jquery-ui.min.css') }}" rel="stylesheet" type="text/css"/>#}
+{#        <link href="{{ asset('/assets/jquery-ui-1.12.1/jquery-ui.theme.css') }}" rel="stylesheet" type="text/css"/>#}
+{#        <link href="{{ asset('/css/chosen.min.css') }}" rel="stylesheet" type="text/css"/>#}
+{#        <link href="{{ asset('/assets/fontawesome-free-5.9.0-web/css/all.min.css') }}" rel="stylesheet"#}
+{#              type="text/css"/>#}
+{#        <!-- Custom Styling -->#}
+{#        <link rel="stylesheet" href="{{ asset('/css/common.css') }}"/>#}
+{#        <link rel="stylesheet" href="{{ asset('assets/css/frontend.css') }}">#}
 
-        <link rel="stylesheet" href="{{ asset('/css/custom.css') }}"/>
+{#        <link rel="stylesheet" href="{{ asset('/css/custom.css') }}"/>#}
         {# <script src="https://kit.fontawesome.com/f85e5626c0.js"></script> #}
     {% endblock %}
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
@@ -83,24 +84,25 @@
     {% endif %}
 {% endblock %}
 {% block javascripts %}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
+    {{ encore_entry_script_tags('app') }}
+    {% block importmap %}{{ importmap('app') }}{% endblock %}
     <script type="text/javascript">
         const tasks_path = '{{ path('tasks_index') }}';
         const workarea_get_tasks_completedToday_count_path = '{{ path('workarea_get_tasks_count', {'taskListName': 'completedToday'}) }}';
         const tasks_order = '{{ path('tasks_order') }}';
     </script>
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="{{ asset('/assets/jquery-3.4.1/jquery-3.4.1.min.js') }}"></script>
-    <script src="{{ asset('/assets/jquery-3.4.1/jquery-migrate-1.4.1.min.js') }}"></script>
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="{{ asset('/assets/popper.min.js') }}"></script>
-    <script src="{{ asset('/assets/bootstrap-4.3.1-dist/js/bootstrap.min.js') }}"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
-    <script src="{{ asset('/assets/jquery-ui-1.12.1/jquery-ui.min.js') }}"></script>
-    <script src="{{ asset('/js/bootstrap-notify.min.js') }}"></script>
-    <script src="{{ asset('/js/chosen.jquery.min.js') }}"></script>
-    <script src="{{ asset('/js/common.js') }}"></script>
-    <script src="{{ asset('/js/tasks.js') }}"></script>
+{#    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->#}
+{#    <script src="{{ asset('/assets/jquery-3.4.1/jquery-3.4.1.min.js') }}"></script>#}
+{#    <script src="{{ asset('/assets/jquery-3.4.1/jquery-migrate-1.4.1.min.js') }}"></script>#}
+{#    <!-- Latest compiled and minified JavaScript -->#}
+{#    <script src="{{ asset('/assets/popper.min.js') }}"></script>#}
+{#    <script src="{{ asset('/assets/bootstrap-4.3.1-dist/js/bootstrap.min.js') }}"></script>#}
+{#    <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>#}
+{#    <script src="{{ asset('/assets/jquery-ui-1.12.1/jquery-ui.min.js') }}"></script>#}
+{#    <script src="{{ asset('/js/bootstrap-notify.min.js') }}"></script>#}
+{#    <script src="{{ asset('/js/chosen.jquery.min.js') }}"></script>#}
+{#    <script src="{{ asset('/js/common.js') }}"></script>#}
+{#    <script src="{{ asset('/js/tasks.js') }}"></script>#}
 {% endblock %}
 </body>
 </html>

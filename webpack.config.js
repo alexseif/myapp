@@ -13,7 +13,14 @@ Encore
     .setPublicPath('/build')
     // only needed for CDN's or subdirectory deploy
     //.setManifestKeyPrefix('build/')
-
+    .copyFiles({
+        from: './assets/images',
+        to: 'images/[path][name].[ext]',
+        // Optional: If versioning is enabled, add the file hash too
+        // to: 'images/[path][name].[hash:8].[ext]',
+        // Optional: Only copy files matching this pattern
+        // pattern: /\.(png|jpg|jpeg)$/
+    })
     /*
      * ENTRY CONFIG
      *
@@ -57,20 +64,45 @@ Encore
     })
 
     // enables Sass/SCSS support
-    //.enableSassLoader()
+    .enableSassLoader()
+    .autoProvidejQuery()
+    .addAliases({
+        'jquery-ui': 'jquery-ui-dist/jquery-ui.js',
+        'jquery-migrate': 'jquery-migrate/dist/jquery-migrate.js',
+        'modernizr': 'modernizr/modernizr.js',
+        'chosen-js': 'chosen-js/chosen.jquery.js',
+        'bootstrap-notify': 'bootstrap-notify/bootstrap-notify.js',
+    })
+    .addLoader({
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+            loader: 'babel-loader',
+            options: {
+                presets: ['@babel/preset-env'],
+            },
+        },
+    })
+.addLoader({
+    test: /\.css$/,
+    use: ['style-loader', 'css-loader'],
+})
+// .configureWebpack((config) => {
+//     config.resolve.fallback = {
+//         "path": require.resolve("path-browserify")
+//     };
+// })
+// uncomment if you use TypeScript
+//.enableTypeScriptLoader()
 
-    // uncomment if you use TypeScript
-    //.enableTypeScriptLoader()
+// uncomment if you use React
+//.enableReactPreset()
 
-    // uncomment if you use React
-    //.enableReactPreset()
+// uncomment to get integrity="..." attributes on your script & link tags
+// requires WebpackEncoreBundle 1.4 or higher
+//.enableIntegrityHashes(Encore.isProduction())
 
-    // uncomment to get integrity="..." attributes on your script & link tags
-    // requires WebpackEncoreBundle 1.4 or higher
-    //.enableIntegrityHashes(Encore.isProduction())
-
-    // uncomment if you're having problems with a jQuery plugin
-    //.autoProvidejQuery()
+// uncomment if you're having problems with a jQuery plugin
 ;
 
 module.exports = Encore.getWebpackConfig();
