@@ -5,16 +5,16 @@ controllers:
     type: attribute
 
 
-#fos_user:
-#    resource: '@FOSUserBundle/Resources/config/routing/all.xml'
-#    prefix: /
+fos_user:
+    resource: '@FOSUserBundle/Resources/config/routing/all.xml'
+    prefix: /
 
-fos_user_security_login:
-    path: /login
-    controller: FOS\UserBundle\Controller\SecurityController::loginAction
-
-fos_user_security_check:
-    path: /login_check
-
-fos_user_security_logout:
-    path: /logout
+#fos_user_security_login:
+#    path: /login
+#    controller: FOS\UserBundle\Controller\SecurityController::loginAction
+#
+#fos_user_security_check:
+#    path: /login_check
+#
+#fos_user_security_logout:
+#    path: /logout
