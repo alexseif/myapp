@@ -38,4 +38,7 @@ return [
         'version' => '5.3.3',
         'type' => 'css',
     ],
+    'modernizr' => [
+        'version' => '3.13.1',
+    ],
 ];

@@ -1,3 +1,5 @@
+const path = require('path');
+const webpack = require('webpack');
 const Encore = require('@symfony/webpack-encore');
 
 // Manually configure the runtime environment if not already configured yet by the "encore" command.
@@ -28,9 +30,29 @@ Encore
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
     .addEntry('app', './assets/app.js')
-
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     .enableStimulusBridge('./assets/controllers.json')
+    .addAliases({
+        'jquery': 'jquery/src/jquery',
+    })
+    .addLoader({
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
+    })
+    .addLoader({
+        test: /\.(jpe?g|png|gif)$/i,
+        loader: 'file-loader',
+        options: {
+            name: '[name].[ext]',
+            outputPath: 'assets/images/',
+        },
+    })
+    .addPlugin(new webpack.ProvidePlugin({
+        $: 'jquery',
+        jQuery: 'jquery',
+        'window.jQuery': 'jquery',
+        'window.$': 'jquery',
+    }))
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
@@ -83,10 +105,6 @@ Encore
             },
         },
     })
-.addLoader({
-    test: /\.css$/,
-    use: ['style-loader', 'css-loader'],
-})
 // .configureWebpack((config) => {
 //     config.resolve.fallback = {
 //         "path": require.resolve("path-browserify")

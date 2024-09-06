@@ -7,7 +7,7 @@ let Tasks = {
         if (this.isFocus) {
             $('<div class="task-list m-4" id="focus"></div>').prependTo('.container');
             this.drawFocus();
-            if (!touch) {
+            if (!window.touch) {
                 $(".task-list").sortable({
                     connectWith: ".task-list", items: ".task-item:not(.completed)", update: this.updateOrder
                 });
@@ -19,7 +19,7 @@ let Tasks = {
         $('[data-toggle="popover"]').popover({html: true, container: "body"});
         $('[data-toggle="modal"]').click(this.showModal);
 
-        if (!touch) {
+        if (!window.touch) {
             $(".task-list").sortable({
                 connectWith: ".task-list", items: ".task-item:not(.completed)", update: this.updateOrder
             });

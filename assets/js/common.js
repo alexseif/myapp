@@ -14,6 +14,7 @@ function timeOfDay(response) {
 }
 
 let touch = false;
+window.touch = touch;
 let pageSession = {"hide": []};
 var ONE_HOUR = 60 * 60 * 1000; /* ms */
 
@@ -72,6 +73,7 @@ $(document).ready(function () {
     if (typeof Modernizr == 'object') {
         if (Modernizr.touch) {
             touch = true;
+            window.touch = touch;
         }
     }
 

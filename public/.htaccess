@@ -65,3 +65,5 @@ DirectoryIndex index.php
         RedirectMatch 307 ^/$ /index.php/
     </IfModule>
 </IfModule>
+
+AddType application/javascript .js

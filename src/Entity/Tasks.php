@@ -233,7 +233,7 @@ class Tasks
      *
      * @return DateTime
      */
-    public function getCompletedAt(): DateTime
+    public function getCompletedAt(): DateTime|null
     {
         return $this->completedAt;
     }

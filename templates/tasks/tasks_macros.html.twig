@@ -1,11 +1,11 @@
 {% macro taskIcons(urgency = 0, priority = 0) %}
     {% if urgency %}
-        <span class="badge badge-warning">U</span>
+        <span class="badge bg-warning">U</span>
     {% endif %}
     {% if priority > 0 %}
-        <span class="badge badge-danger">H</span>
+        <span class="badge bg-danger">H</span>
     {% elseif priority < 0 %}
-        <span class="badge badge-secondary">L</span>
+        <span class="badge bg-secondary">L</span>
     {% endif %}
 {% endmacro %}
 
@@ -33,24 +33,25 @@
          data-list="{{ task.taskList.id }}"
     >
         <div class="card-header">
-            <div class="task-actions float-right">
+            <div class="task-actions float-end">
                 <a href="#" class="card-toggle three-dot-menu collapsed"
-                   data-toggle="collapse" data-target="#task-body-{{ task.id }}" aria-expanded="false"
+                   data-bs-toggle="collapse" data-bs-target="#task-body-{{ task.id }}" aria-expanded="false"
                    aria-controls="task-body-{{ task.id }}">
                     <div></div>
                 </a>
             </div>
-            <div class="d-none task-actions dropdown float-right">
-                <a href="#" class="dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false">
+            <div class="d-none task-actions dropdown float-end">
+                <a href="#" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown"
+                   aria-expanded="false">
                     <i class="mdi mdi-dots-vertical"></i>
                 </a>
-                <div class="dropdown-menu dropdown-menu-right">
+                <div class="dropdown-menu dropdown-menu-end">
                     <div class="d-flex flex-row">
                         {% if(not task.completed) %}
                             <a href="javascript:void(0);" class="postpone dropdown-item" data-taskid="{{ task.id }}"
-                                    data-postpone="+20 min" title="20 mins"><i class="fas fa-stopwatch"></i></a>
+                               data-postpone="+20 min" title="20 mins"><i class="fas fa-stopwatch"></i></a>
                             <a href="javascript:void(0);" class="postpone dropdown-item" data-taskid="{{ task.id }}"
-                                    data-postpone="tomorrow" title="tomorrow"><i class="fas fa-bed"></i></a>
+                               data-postpone="tomorrow" title="tomorrow"><i class="fas fa-bed"></i></a>
                         {% endif %}
                         <!-- item-->
                         <a href="{{ path('tasks_edit', { 'id': task.id }) }}"
@@ -65,7 +66,7 @@
                        data-duration="{{ task.duration }}"/>
                 <span class="font-weight-normal m-0 d-inline" title="{{ task.task }}">{{ task.task }}</span>
             </label>
-            <a title="Task List" class="badge badge-default d-none d-md-inline" data-tasklist="{{ task.taskList.name }}"
+            <a title="Task List" class="badge bg-default d-none d-md-inline" data-tasklist="{{ task.taskList.name }}"
                href="{{ path("focus_tasklist", {'name':task.taskList.name}) }}">{{ task.taskList.name }}</a>
         </div><!-- .card-header -->
         <div class="collapse" id="task-body-{{ task.id }}" aria-labelledby="task-header-{{ task.id }}">
@@ -123,11 +124,13 @@
                         </a>
                     {% endif %}
                     <!-- item-->
-                    <a href="{{ path('tasks_edit', { 'id': task.id }) }}" title="Edit" class=" btn btn-block btn-outline-info">
+                    <a href="{{ path('tasks_edit', { 'id': task.id }) }}" title="Edit"
+                       class=" btn btn-block btn-outline-info">
                         <i class="fas fa-pencil-alt"></i>
                     </a>
                     <!-- item-->
-                    <a href="{{ path('tasks_show', { 'id': task.id }) }}" title="Show" class=" btn btn-block btn-outline-info">
+                    <a href="{{ path('tasks_show', { 'id': task.id }) }}" title="Show"
+                       class=" btn btn-block btn-outline-info">
                         <i class="fas fa-eye"></i>
                     </a>
                 </div><!-- d-flex -->

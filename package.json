@@ -53,11 +53,15 @@
   "build": "webpack --mode production --progress",
   "production": "webpack --mode production --progress",
   "dependencies": {
+    "@mdi/font": "^7.4.47",
     "@symfony/stimulus-bridge": "^3.2.2",
     "assert": "^2.1.0",
     "css-loader": "^7.1.2",
     "fs": "^0.0.1-security",
+    "google-charts": "^2.0.0",
     "jquery": "^3.7.1",
+    "jquery-ui-sortable": "^1.0.0",
+    "material-design-icons": "^3.0.1",
     "moment": "^2.30.1",
     "path": "^0.12.7",
     "path-browserify": "^1.0.1",
@@ -65,6 +69,7 @@
     "sass": "^1.78.0",
     "sass-loader": "^14.2.1",
     "style-loader": "^4.0.0",
-    "symfony-collection-js": "^4.3.1"
+    "symfony-collection-js": "^4.3.1",
+    "webpack-jquery-ui": "^2.0.1"
   }
 }

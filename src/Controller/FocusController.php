@@ -74,21 +74,22 @@ class FocusController extends AbstractController
             }
         }
         $tasks = [];
+        $reorderTasksList = [];
+
         foreach ($taskListsOrder as $taskListId) {
             $reorderTasks = $tasksRepo->findBy([
               'taskList' => $taskListId,
               'completed' => false,
-            ],
-              [
-                'urgency' => 'DESC',
-                'priority' => 'DESC',
-                'order' => 'ASC',
-              ],
-              10
-            );
-            //            @todo: refactor & test
-            $tasks = array_merge($tasks, $reorderTasks);
+            ], [
+              'urgency' => 'DESC',
+              'priority' => 'DESC',
+              'order' => 'ASC',
+            ], 10);
+
+            $reorderTasksList[] = $reorderTasks;
         }
+
+        $tasks = array_merge(...$reorderTasksList);
 
         return $this->render('focus/singleTask.html.twig', [
           'tasks' => $tasks,

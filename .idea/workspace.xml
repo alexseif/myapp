@@ -8,8 +8,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7cd3a6ea-8379-4eac-9b81-16089730eddd" name="Changes" comment="upgrade error fixes">
+    <list default="true" id="7cd3a6ea-8379-4eac-9b81-16089730eddd" name="Changes" comment="npm update">
+      <change afterPath="$PROJECT_DIR$/assets/js/dashboard.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/js/common.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/common.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/js/tasks.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/tasks.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/styles/app.scss" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styles/app.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/importmap.php" beforeDir="false" afterPath="$PROJECT_DIR$/importmap.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/.htaccess" beforeDir="false" afterPath="$PROJECT_DIR$/public/.htaccess" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/FocusController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/FocusController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Tasks.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Tasks.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/dashboard/dashboard.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/dashboard/dashboard.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/default/taskLists.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/default/taskLists.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/nav.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/nav.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/tasks/tasks_macros.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/tasks/tasks_macros.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webpack.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/webpack.config.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,6 +40,13 @@
   <component name="ComposerSettings" doNotAsk="true" synchronizationState="SYNCHRONIZE">
     <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
     <execution />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -346,6 +369,8 @@
       <workItem from="1725441212392" duration="36000" />
       <workItem from="1725442893951" duration="364000" />
       <workItem from="1725443423571" duration="75000" />
+      <workItem from="1725624697236" duration="1895000" />
+      <workItem from="1725627401528" duration="4112000" />
     </task>
     <task id="LOCAL-00001" summary="composer update">
       <created>1689601265001</created>
@@ -409,14 +434,6 @@
       <option name="presentableId" value="LOCAL-00009" />
       <option name="project" value="LOCAL" />
       <updated>1689831782343</updated>
-    </task>
-    <task id="LOCAL-00010" summary="composer update &#10;And fixing deprecated framework: engine: twig">
-      <option name="closed" value="true" />
-      <created>1700555539208</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1700555539208</updated>
     </task>
     <task id="LOCAL-00011" summary="composer update &#10;And fixing deprecated framework: engine: twig">
       <option name="closed" value="true" />
@@ -714,7 +731,31 @@
       <option name="project" value="LOCAL" />
       <updated>1725361016115</updated>
     </task>
-    <option name="localTasksCounter" value="48" />
+    <task id="LOCAL-00048" summary="upgrade error fixes">
+      <option name="closed" value="true" />
+      <created>1725626437025</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1725626437025</updated>
+    </task>
+    <task id="LOCAL-00049" summary="upgrade error fixes">
+      <option name="closed" value="true" />
+      <created>1725626452740</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1725626452740</updated>
+    </task>
+    <task id="LOCAL-00050" summary="npm update">
+      <option name="closed" value="true" />
+      <created>1725626994868</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1725626994869</updated>
+    </task>
+    <option name="localTasksCounter" value="51" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -744,14 +785,12 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="#36 - closed" />
     <MESSAGE value="Composer update -W" />
     <MESSAGE value="rector and php-cs-fixer" />
     <MESSAGE value="Fixing contract progress calc" />
     <MESSAGE value="Switched yarn to npm" />
     <MESSAGE value="Timesheets for accounts" />
     <MESSAGE value="Composer update" />
-    <MESSAGE value="npm update" />
     <MESSAGE value="composer update" />
     <MESSAGE value="Upgrade symfony to 5" />
     <MESSAGE value="Upgrade symfony to 5.4&#10;with webpack and working modules" />
@@ -768,8 +807,10 @@
     <MESSAGE value="debugging production" />
     <MESSAGE value="fixing assets issue" />
     <MESSAGE value="updating deployer to symfony 6" />
+    <MESSAGE value="Composer udpate npm update" />
     <MESSAGE value="upgrade error fixes" />
-    <option name="LAST_COMMIT_MESSAGE" value="upgrade error fixes" />
+    <MESSAGE value="npm update" />
+    <option name="LAST_COMMIT_MESSAGE" value="npm update" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

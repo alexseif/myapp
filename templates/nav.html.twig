@@ -1,85 +1,69 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-3">
     <a class="navbar-brand" href="{{ path('dashboard') }}">myApp</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item"><a class="nav-link" href="{{ path('workarea_workarea') }}">Workarea</a></li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="viewsDropdown" role="button" data-toggle="dropdown"
-                       aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="viewsDropdown" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">
                         Views
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="viewsDropdown">
-                        <a class="dropdown-item" href="{{ path('focus') }}">Focus</a>
-                        <a class="dropdown-item" href="{{ path('singleTask') }}">Single Task</a>
-                        <a class="dropdown-item" href="{{ path('management_index') }}">Management</a>
-                        <a class="dropdown-item" href="{{ path('management_priority') }}">Priority</a>
-
-                    </div>
+                    <ul class="dropdown-menu" aria-labelledby="viewsDropdown">
+                        <li><a class="dropdown-item" href="{{ path('focus') }}">Focus</a></li>
+                        <li><a class="dropdown-item" href="{{ path('singleTask') }}">Single Task</a></li>
+                        <li><a class="dropdown-item" href="{{ path('management_index') }}">Management</a></li>
+                        <li><a class="dropdown-item" href="{{ path('management_priority') }}">Priority</a></li>
+                    </ul>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="tasksDropdown" role="button" data-toggle="dropdown"
-                       aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="tasksDropdown" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">
                         Tasks
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="tasksDropdown">
-                        <a class="dropdown-item" href="{{ path('tasklists_index') }}" title="Task Lists">
-                            Lists
-                        </a>
-                        <a class="dropdown-item" href="{{ path('tasks_index') }}" title="Tasks">
-                            Tasks
-                        </a>
-                        <a class="dropdown-item" href="{{ path('tasks_progress_by_date') }}"
-                           title="Tasks Progress By Date">
-                            Progress By Date
-                        </a>
-                        <a class="dropdown-item" href="{{ path('tasks_backlog') }}" title="Shopping index">
-                            Backlog
-                        </a>
-                        <a class="dropdown-item" href="{{ path('tasks_new') }}" title="New Task">
-                            Add Task
-                        </a>
-                    </div>
+                    <ul class="dropdown-menu" aria-labelledby="tasksDropdown">
+                        <li><a class="dropdown-item" href="{{ path('tasklists_index') }}" title="Task Lists">Lists</a></li>
+                        <li><a class="dropdown-item" href="{{ path('tasks_index') }}" title="Tasks">Tasks</a></li>
+                        <li><a class="dropdown-item" href="{{ path('tasks_progress_by_date') }}" title="Tasks Progress By Date">Progress By Date</a></li>
+                        <li><a class="dropdown-item" href="{{ path('tasks_backlog') }}" title="Shopping index">Backlog</a></li>
+                        <li><a class="dropdown-item" href="{{ path('tasks_new') }}" title="New Task">Add Task</a></li>
+                    </ul>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="daysDropdown" role="button" data-toggle="dropdown"
-                       aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="daysDropdown" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">
                         Days
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="daysDropdown">
-                        <a class="dropdown-item" href="{{ path('days_index') }}">Days</a>
-                        <a class="dropdown-item" href="{{ path('days_new') }}">Add Day</a>
-                        <a class="dropdown-item" href="{{ path('days_archive') }}">Archive</a>
-                    </div>
+                    <ul class="dropdown-menu" aria-labelledby="daysDropdown">
+                        <li><a class="dropdown-item" href="{{ path('days_index') }}">Days</a></li>
+                        <li><a class="dropdown-item" href="{{ path('days_new') }}">Add Day</a></li>
+                        <li><a class="dropdown-item" href="{{ path('days_archive') }}">Archive</a></li>
+                    </ul>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="workDropdown" role="button" data-toggle="dropdown"
-                       aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="workDropdown" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">
                         Work
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="workDropdown">
-                        <a class="dropdown-item" href="{{ path('client_index') }}">Clients</a>
-                        <a class="dropdown-item" href="{{ path('accounts_index') }}">Accounts</a>
-                        <a class="dropdown-item" href="{{ path('sizing_index') }}">Sizing</a>
-                        <a class="dropdown-item" href="{{ path('schedule_index') }}">Schedule</a>
-                        <a class="dropdown-item" href="{{ path('accounting_index') }}">Accounting</a>
-                        <a class="dropdown-item" href="{{ path('worklog_index') }}">Worklog</a>
-                        <a class="dropdown-item" href="{{ path('contract_index') }}">Contracts</a>
-                    </div>
+                    <ul class="dropdown-menu" aria-labelledby="workDropdown">
+                        <li><a class="dropdown-item" href="{{ path('client_index') }}">Clients</a></li>
+                        <li><a class="dropdown-item" href="{{ path('accounts_index') }}">Accounts</a></li>
+                        <li><a class="dropdown-item" href="{{ path('sizing_index') }}">Sizing</a></li>
+                        <li><a class="dropdown-item" href="{{ path('schedule_index') }}">Schedule</a></li>
+                        <li><a class="dropdown-item" href="{{ path('accounting_index') }}">Accounting</a></li>
+                        <li><a class="dropdown-item" href="{{ path('worklog_index') }}">Worklog</a></li>
+                        <li><a class="dropdown-item" href="{{ path('contract_index') }}">Contracts</a></li>
+                    </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link"
-                       href="{{ path('scheduler_landing') }}">
-                        Scheduler</a>
+                    <a class="nav-link" href="{{ path('scheduler_landing') }}">Scheduler</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('notes_index') }}">
-                        Notes
-                    </a>
+                    <a class="nav-link" href="{{ path('notes_index') }}">Notes</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('tasks_search') }}">
@@ -87,14 +71,13 @@
                     </a>
                 </li>
                 {% if ("dashboard" == app.request.get('_route')) %}
-                    <li class="nav-item"><a class="nav-link" href="{{ path('dashboardtasklists_index') }}">
-                            <i class="fas fa-wrench"></i>
-                        </a></li>
                 {% endif %}
+                <li class="nav-item"><a class="nav-link" href="{{ path('dashboardtasklists_index') }}">
+                        <i class="fas fa-wrench"></i>
+                    </a></li>
                 <li class="navbar-text">{{ "now"|date('d.m H:i') }}</li>
             </ul>
-            <ul class="navbar-nav ml-auto">
-
+            <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
                     <a class="nav-link" type="button" href="#" id="clear-storage">
                         <i class="fas fa-broom"></i>
@@ -102,17 +85,17 @@
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="settingsDropdown" role="button"
-                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                       data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-cog"></i>
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="settingsDropdown">
-                        <a class="dropdown-item" href="{{ path('currency_index') }}">Currency</a>
-                        <a class="dropdown-item" href="{{ path('costoflife_index') }}">Cost Of Life</a>
-                        <a class="dropdown-item" href="{{ path('rate_index') }}">Rates</a>
-                        <a class="dropdown-item" href="{{ path('holiday_index') }}">Holidays</a>
-                        <a class="dropdown-item" href="{{ path('experiments_index') }}">Experiments</a>
-                        <a class="dropdown-item" href="{{ path('objective_index') }}">Objectives</a>
-                    </div>
+                    <ul class="dropdown-menu" aria-labelledby="settingsDropdown">
+                        <li><a class="dropdown-item" href="{{ path('currency_index') }}">Currency</a></li>
+                        <li><a class="dropdown-item" href="{{ path('costoflife_index') }}">Cost Of Life</a></li>
+                        <li><a class="dropdown-item" href="{{ path('rate_index') }}">Rates</a></li>
+                        <li><a class="dropdown-item" href="{{ path('holiday_index') }}">Holidays</a></li>
+                        <li><a class="dropdown-item" href="{{ path('experiments_index') }}">Experiments</a></li>
+                        <li><a class="dropdown-item" href="{{ path('objective_index') }}">Objectives</a></li>
+                    </ul>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('fos_user_security_logout') }}" title="Bye">

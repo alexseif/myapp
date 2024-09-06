@@ -11,11 +11,14 @@ import './styles/app.scss';
 // start the Stimulus application
 // import './bootstrap';
 // Import JavaScript files
+// import Modernizr from 'modernizr'
 
 import $ from 'jquery';
 import 'jquery-migrate';
-window.$ = $;
-window.jQuery = $;
+// require('webpack-jquery-ui');
+// require('webpack-jquery-ui/css');
+// import 'jquery-ui/ui/widgets/sortable'; // Import the sortable widget
+import 'jquery-ui-sortable';
 import 'popper.js';
 import {
     Alert,
@@ -31,6 +34,14 @@ import {
     Toast,
     Tooltip
 } from 'bootstrap';
+import 'bootstrap-notify';
+import 'chosen-js';
+import './js/common';
+import './js/tasks';
+import './js/dashboard';
+
+window.$ = $;
+window.jQuery = $;
 
 window.bootstrap = {
     Alert,
@@ -46,10 +57,3 @@ window.bootstrap = {
     Toast,
     Tooltip
 };
-import moment from 'moment';
-// import 'modernizr';
-// import 'jquery-ui';
-import 'bootstrap-notify';
-import 'chosen-js';
-import './js/common';
-import './js/tasks';
