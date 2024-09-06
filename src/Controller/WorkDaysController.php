@@ -12,7 +12,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use stdClass;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 /**
  * WorkDays  controller.
@@ -22,17 +22,13 @@ use Symfony\Component\Routing\Annotation\Route;
 class WorkDaysController extends AbstractController
 {
 
-    /**
-     * @Route("/", name="workdays_index")
-     */
+    #[Route("/", name:"workdays_index")]
     public function indexAction(): Response
     {
         return $this->render('WorkDays/index.html.twig');
     }
 
-    /**
-     * @Route("/displayWorkWeek", name="workdays_show_week")
-     */
+    #[Route("/displayWorkWeek", name:"workdays_show_week")]
     public function displayWorkWeekAction(
     ): Response
     {
@@ -43,9 +39,7 @@ class WorkDaysController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/month/{month}", name="workdays_show_month")
-     */
+    #[Route("/month/{month}", name:"workdays_show_month")]
     public function displayWorkMonthAction(
       EntityManagerInterface $entityManager,
       $month = null

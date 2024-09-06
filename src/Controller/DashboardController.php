@@ -11,14 +11,12 @@ use App\Service\TasksService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 class DashboardController extends AbstractController
 {
 
-    /**
-     * @Route("/", name="dashboard")
-     */
+    #[Route("/", name:"dashboard")]
     public function dashboardAction(
       TasksService $ts,
       ReminderService $rs,
@@ -42,34 +40,26 @@ class DashboardController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/elements", name="elements")
-     */
+    #[Route("/elements", name:"elements")]
     public function elementsAction(): Response
     {
         return $this->render('dashboard/elements.html.twig');
     }
 
-    /**
-     * @Route("/workspace", name="workspace")
-     */
+    #[Route("/workspace", name:"workspace")]
     public function workspaceAction(
     ): Response
     {
         return $this->render('dashboard/workspace.html.twig');
     }
 
-    /**
-     * @Route("/remind", name="remind")
-     */
+    #[Route("/remind", name:"remind")]
     public function remindAction(): Response
     {
         return $this->render('dashboard/remindMe.html.twig');
     }
 
-    /**
-     * @Route("/empty", name="empty")
-     */
+    #[Route("/empty", name:"empty")]
     public function emptyAction(): Response
     {
         return $this->render('empty.html.twig');

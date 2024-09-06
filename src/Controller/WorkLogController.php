@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 /**
  * Worklog controller.
@@ -65,9 +65,7 @@ class WorkLogController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/completedTasks", name="completed_tasks")
-     */
+    #[Route("/completedTasks", name:"completed_tasks")]
     public function completedTasksAction(
       Request $request,
       EntityManagerInterface $entityManager

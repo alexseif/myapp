@@ -36,105 +36,105 @@ class Tasks
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private int $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="task", type="string", length=255)
      */
-    private $task;
+    private string $task;
 
     /**
      * @var int
      *
      * @ORM\Column(name="torder", type="integer")
      */
-    private $order;
+    private int $order;
 
     /**
      * @var int
      *
      * @ORM\Column(name="priority", type="integer")
      */
-    private $priority;
+    private int $priority;
 
     /**
      * @var int
      *
      * @ORM\Column(name="urgency", type="integer")
      */
-    private $urgency;
+    private int $urgency;
 
     /**
      * @var int
      *
      * @ORM\Column(name="duration", type="integer", nullable=true)
      */
-    private $duration;
+    private int|null $duration;
 
     /**
      * @var int
      *
      * @ORM\Column(name="est", type="integer", nullable=true)
      */
-    private $est;
+    private int|null $est;
 
     /**
      * @var datetimeAlias
      *
      * @ORM\Column(name="eta", type="datetime", nullable=true)
      */
-    private $eta;
+    private datetimeAlias|null $eta;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="completed", type="boolean")
      */
-    private $completed = false;
+    private bool $completed = false;
 
     /**
      * @var DateTime
      *
      * @ORM\Column(name="completedAt", type="datetime", nullable=true)
      */
-    private $completedAt;
+    private datetimeAlias $completedAt;
 
     /**
      * @ORM\ManyToOne(targetEntity="TaskLists", inversedBy="tasks")
      * @ORM\JoinColumn(name="task_list_id", referencedColumnName="id")
      */
-    private $taskList;
+    private ?TaskLists $taskList;
 
     // Add cascade={"remove"} to the workLog property
 
     /**
      * @ORM\OneToOne(targetEntity="WorkLog", mappedBy="task", cascade={"persist", "remove"})
      */
-    private $workLog;
+    private ?WorkLog $workLog;
 
     /**
      * If task is available for WorkLog.
      *
      * @ORM\Column(name="work_loggable", type="boolean", options={"default": TRUE})
      */
-    private $workLoggable;
+    private bool $workLoggable;
 
     /**
      * @ORM\OneToOne(targetEntity=Schedule::class, mappedBy="task", cascade={"persist", "remove"})
      */
-    private $schedule;
+    private ?Schedule $schedule;
 
     /**
      * @var string[]
      */
-    public $priorityName;
+    public array $priorityName;
 
     /**
      * @var string[]
      */
-    public $urgencyName;
+    public array $urgencyName;
 
     /**
      * Constructor.
@@ -142,8 +142,8 @@ class Tasks
     public function __construct()
     {
         $this->order = 0;
-        $this->priority = Tasks::NORMAL_PRIORITY;
-        $this->urgency = Tasks::NORMAL_URGENCY;
+        $this->priority = self::NORMAL_PRIORITY;
+        $this->urgency = self::NORMAL_URGENCY;
         $this->workLoggable = true;
         $this->priorityName = [
           -1 => 'Low',
@@ -173,7 +173,7 @@ class Tasks
      *
      * @return Tasks
      */
-    public function setTask($task): Tasks
+    public function setTask(string $task): Tasks
     {
         $this->task = $task;
 
@@ -197,7 +197,7 @@ class Tasks
      *
      * @return Tasks
      */
-    public function setCompleted($completed): Tasks
+    public function setCompleted(bool $completed): Tasks
     {
         $this->completed = $completed;
 
@@ -221,7 +221,7 @@ class Tasks
      *
      * @return Tasks
      */
-    public function setCompletedAt($completedAt): Tasks
+    public function setCompletedAt(?datetimeAlias $completedAt): Tasks
     {
         $this->completedAt = $completedAt;
 
@@ -231,7 +231,7 @@ class Tasks
     /**
      * Get completedAt.
      *
-     * @return DateTime
+     * @return \DateTime|null
      */
     public function getCompletedAt(): DateTime|null
     {
@@ -241,7 +241,7 @@ class Tasks
     /**
      * Set taskList.
      *
-     * @param TaskLists $taskList
+     * @param \App\Entity\TaskLists|null $taskList
      *
      * @return Tasks
      */
@@ -300,7 +300,7 @@ class Tasks
      *
      * @return Tasks
      */
-    public function setOrder($order): Tasks
+    public function setOrder(int $order): Tasks
     {
         $this->order = $order;
 
@@ -324,7 +324,7 @@ class Tasks
      *
      * @return Tasks
      */
-    public function setPriority($priority): Tasks
+    public function setPriority(int $priority): Tasks
     {
         $this->priority = $priority;
 
@@ -358,7 +358,7 @@ class Tasks
      *
      * @return Tasks
      */
-    public function setUrgency($urgency): Tasks
+    public function setUrgency(int $urgency): Tasks
     {
         $this->urgency = $urgency;
 
@@ -392,7 +392,7 @@ class Tasks
      *
      * @return Tasks
      */
-    public function setDuration($duration): Tasks
+    public function setDuration(int $duration): Tasks
     {
         $this->duration = $duration;
 
@@ -415,7 +415,7 @@ class Tasks
      *
      * @return Tasks
      */
-    public function setEta($eta): Tasks
+    public function setEta(?datetimeAlias $eta): Tasks
     {
         $this->eta = $eta;
 
@@ -434,7 +434,7 @@ class Tasks
     /**
      * Set workLog.
      *
-     * @param WorkLog $workLog
+     * @param \App\Entity\WorkLog|null $workLog
      *
      * @return Tasks
      */
@@ -461,7 +461,7 @@ class Tasks
      *
      * @return Tasks
      */
-    public function setWorkLoggable($workLoggable): Tasks
+    public function setWorkLoggable(bool $workLoggable): Tasks
     {
         $this->workLoggable = $workLoggable;
 
@@ -495,7 +495,7 @@ class Tasks
      *
      * @return Tasks
      */
-    public function setEst($est = null): Tasks
+    public function setEst(?int $est = null): Tasks
     {
         $this->est = $est;
 

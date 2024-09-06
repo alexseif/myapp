@@ -12,7 +12,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 /**
  * Rate controller.
@@ -22,17 +22,13 @@ use Symfony\Component\Routing\Annotation\Route;
 class ReportsController extends AbstractController
 {
 
-    /**
-     * @Route("/", name="reports_index")
-     */
+    #[Route("/", name:"reports_index")]
     public function indexAction(): Response
     {
         return $this->render('Reports/index.html.twig');
     }
 
-    /**
-     * @Route("/clients", name="reports_clients")
-     */
+    #[Route("/clients", name:"reports_clients")]
     public function clientsAction(EntityManagerInterface $entityManager
     ): Response {
         $em = $entityManager;
@@ -43,9 +39,7 @@ class ReportsController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/hourly/{client}", name="reports_client_hourly")
-     */
+    #[Route("/hourly/{client}", name:"reports_client_hourly")]
     public function hourlyAction(
       Client $client,
       EntityManagerInterface $entityManager
@@ -77,9 +71,7 @@ class ReportsController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/tasklist/{tasklist}", name="reports_tasklist")
-     */
+    #[Route("/tasklist/{tasklist}", name:"reports_tasklist")]
     public function tasklistAction(
       TaskLists $tasklist,
       EntityManagerInterface $entityManager
@@ -96,9 +88,7 @@ class ReportsController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/diff", name="reports_diff")
-     */
+    #[Route("/diff", name:"reports_diff")]
     public function diffAction(EntityManagerInterface $entityManager
     ): Response {
         $em = $entityManager;
@@ -135,9 +125,7 @@ class ReportsController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/income", name="reports_income")
-     */
+    #[Route("/income", name:"reports_income")]
     public function incomeAction(ReportService $reportService
     ): Response {
         return $this->render('Reports/income.html.twig', [
@@ -145,17 +133,13 @@ class ReportsController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/income/data", name="reports_income_data")
-     */
+    #[Route("/income/data", name:"reports_income_data")]
     public function incomeDataAction(ReportService $reportService): JsonResponse
     {
         return new JsonResponse($reportService->getIncomeGoogleChart());
     }
 
-    /**
-     * @Route("/annual_income", name="reports_annual_income")
-     */
+    #[Route("/annual_income", name:"reports_annual_income")]
     public function annualIncomeAction(EntityManagerInterface $entityManager
     ): Response {
         $em = $entityManager;
@@ -174,9 +158,7 @@ class ReportsController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/tasks_years", name="reports_tasks_years")
-     */
+    #[Route("/tasks_years", name:"reports_tasks_years")]
     public function tasksYearsAction(EntityManagerInterface $entityManager
     ): Response {
         $em = $entityManager;
@@ -187,18 +169,14 @@ class ReportsController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/hours_per_month", name="reports_hours_per_month")
-     */
+    #[Route("/hours_per_month", name:"reports_hours_per_month")]
     public function hoursPerMonthAction(
     ): Response
     {
         return $this->render('Reports/hoursPerMonth.html.twig');
     }
 
-    /**
-     * @Route("/hours_per_month/data", name="reports_hours_per_month_data")
-     */
+    #[Route("/hours_per_month/data", name:"reports_hours_per_month_data")]
     public function hoursPerMonthDataAction(ReportService $reportService
     ): JsonResponse {
         return new JsonResponse(
@@ -206,9 +184,7 @@ class ReportsController extends AbstractController
         );
     }
 
-    /**
-     * @Route("/clients_by_year/{year}", name="reports_clients_by_years")
-     */
+    #[Route("/clients_by_year/{year}", name:"reports_clients_by_years")]
     public function clientsByYearAction(
       $year,
       EntityManagerInterface $entityManager

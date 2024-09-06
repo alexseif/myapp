@@ -7,14 +7,12 @@ use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 class DefaultController extends AbstractController
 {
 
-    /**
-     * @Route("/lists", name="lists_view")
-     */
+    #[Route("/lists", name:"lists_view")]
     public function listsAction(EntityManagerInterface $entityManager
     ): Response {
         $em = $entityManager;
@@ -30,9 +28,7 @@ class DefaultController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/lists/{id}/modal", name="list_show_modal", methods={"GET"})
-     */
+    #[Route("/lists/{id}/modal", name:"list_show_modal", methods:["GET"])]
     public function listModalAction(TaskLists $taskList
     ): Response {
         $tasks = $taskList->getTasks(false);
@@ -43,9 +39,7 @@ class DefaultController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/getBottomBarDetails", name="get_bottom_bar_details", methods={"GET"})
-     */
+    #[Route("/getBottomBarDetails", name:"get_bottom_bar_details", methods:["GET"])]
     public function getBottomBarDetails(
     ): Response
     {

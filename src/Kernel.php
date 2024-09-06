@@ -10,7 +10,7 @@ class Kernel extends BaseKernel
 
     use MicroKernelTrait;
 
-    public function boot()
+    public function boot(): void
     {
         date_default_timezone_set('Africa/Cairo');
         parent::boot();

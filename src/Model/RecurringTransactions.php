@@ -20,17 +20,17 @@ class RecurringTransactions
     /**
      * @var string title
      */
-    private $title;
+    private string $title;
 
     /**
      * @var int amount
      */
-    private $amount;
+    private int $amount;
 
     /**
      * @var DateTime date
      */
-    private $date;
+    private DateTime $date;
 
     public function __construct($title, $amount, DateTime $date)
     {
@@ -66,7 +66,7 @@ class RecurringTransactions
     /**
      * @param string $title
      */
-    public function setTitle($title): void
+    public function setTitle(string $title): void
     {
         $this->title = $title;
     }
@@ -74,7 +74,7 @@ class RecurringTransactions
     /**
      * @param int $amount
      */
-    public function setAmount($amount): void
+    public function setAmount(int $amount): void
     {
         $this->amount = $amount;
     }

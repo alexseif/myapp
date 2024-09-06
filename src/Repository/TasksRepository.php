@@ -98,11 +98,6 @@ class TasksRepository extends ServiceEntityRepository
         return parent::findBy($criteria, $orderBy, $limit, $offset);
     }
 
-    public function findAll(): array
-    {
-        return $this->findBy([]);
-    }
-
     public function getIncomplete()
     {
         return $this
@@ -118,9 +113,8 @@ class TasksRepository extends ServiceEntityRepository
     /**
      * List of completed tasks after date.
      *
-     * @return array the objects
      */
-    public function getCompletedAfter(DateTime $date): array
+    public function getCompletedAfter(DateTime $date)
     {
         return $this->getQueryBuilder()
           ->where('t.completedAt >= :date')
@@ -138,7 +132,7 @@ class TasksRepository extends ServiceEntityRepository
      *
      *
      */
-    public function getCompletedAfterCount(DateTime $date): int
+    public function getCompletedAfterCount(DateTime $date)
     {
         return $this
           ->createQueryBuilder('t')
@@ -174,7 +168,7 @@ class TasksRepository extends ServiceEntityRepository
     /**
      * Count of completed tasks today.
      *
-     * @return array the objects
+     * @return int the objects
      */
     public function getCompletedTodayCount(): int
     {
@@ -217,7 +211,7 @@ class TasksRepository extends ServiceEntityRepository
      *
      * @return Tasks[]
      */
-    public function focusList($limit = 20, $offset = 0): array
+    public function focusList(int $limit = 20, $offset = 0): array
     {
         $today = new DateTime();
         $queryBuilder = $this->getQueryBuilder()
@@ -244,14 +238,12 @@ class TasksRepository extends ServiceEntityRepository
 
     /**
      * @param \DateTime $date
-     * @param int $limit
-     * @param int $offset
+     * @param array $taskIds
      *
      * @return Tasks[]
      */
-    public function focusListScheduler($date, $taskIds = []): array
+    public function focusListScheduler(DateTime $date, $taskIds = []): array
     {
-
         $limit = 25;
         $offset = 0;
         $queryBuilder = $this->getQueryBuilder()
@@ -283,14 +275,14 @@ class TasksRepository extends ServiceEntityRepository
     /**
      * @param $client
      * @param $date
-     * @param $taskIds
+     * @param array $taskIds
      *
      * @return Tasks[]
      */
     public function focusListByClientAndDate(
       $client,
       $date,
-      $taskIds = []
+      array $taskIds = []
     ): array {
         $queryBuilder = $this->getQueryBuilder()
           ->where(self::NOT_COMPLETED)
@@ -314,8 +306,7 @@ class TasksRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param int $limit
-     * @param int $offset
+     * @param \DateTime $date
      *
      * @return Tasks[]
      */
@@ -584,8 +575,12 @@ class TasksRepository extends ServiceEntityRepository
     /**
      * Finds Tasks entities with joins to increase performance.
      *
-     * @param array|null $orderBy
+     * @param array $criteria
+     * @param array $orderBy
+     * @param null $limit
+     * @param null $offset
      *
+     * @return \Doctrine\ORM\QueryBuilder
      */
     public function findByWithJoinsQuery(
       array $criteria,
@@ -637,7 +632,10 @@ class TasksRepository extends ServiceEntityRepository
     /**
      * Finds Tasks entities with joins to increase performance.
      *
-     * @param array|null $orderBy
+     * @param array $criteria
+     * @param array $orderBy
+     * @param null $limit
+     * @param null $offset
      *
      * @return array the objects
      */

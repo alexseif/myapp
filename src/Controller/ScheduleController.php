@@ -9,17 +9,13 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
-/**
- * @Route("/schedule")
- */
+#[Route("/schedule")]
 class ScheduleController extends AbstractController
 {
 
-    /**
-     * @Route("/", name="schedule_index", methods={"GET"})
-     */
+    #[Route("/", name:"schedule_index", methods:["GET"])]
     public function index(ScheduleRepository $scheduleRepository): Response
     {
         return $this->render('schedule/index.html.twig', [
@@ -27,9 +23,7 @@ class ScheduleController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/new", name="schedule_new", methods={"GET", "POST"})
-     */
+    #[Route("/new", name:"schedule_new", methods:["GET", "POST"])]
     public function new(
       Request $request,
       EntityManagerInterface $entityManager
@@ -55,9 +49,7 @@ class ScheduleController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/delete_all", name="schedule_delete_all", methods={"GET"})
-     */
+    #[Route("/delete_all", name:"schedule_delete_all", methods:["GET"])]
     public function deleteAll(
       EntityManagerInterface $entityManager,
       ScheduleRepository $scheduleRepository
@@ -75,9 +67,7 @@ class ScheduleController extends AbstractController
         );
     }
 
-    /**
-     * @Route("/{id}", name="schedule_show", methods={"GET"})
-     */
+    #[Route("/{id}", name:"schedule_show", methods:["GET"])]
     public function show(Schedule $schedule): Response
     {
         return $this->render('schedule/show.html.twig', [
@@ -85,9 +75,7 @@ class ScheduleController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/edit", name="schedule_edit", methods={"GET", "POST"})
-     */
+    #[Route("/{id}/edit", name:"schedule_edit", methods:["GET", "POST"])]
     public function edit(
       Request $request,
       Schedule $schedule,
@@ -112,9 +100,7 @@ class ScheduleController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="schedule_delete", methods={"POST"})
-     */
+    #[Route("/{id}", name:"schedule_delete", methods:["DELETE"])]
     public function delete(
       Request $request,
       Schedule $schedule,

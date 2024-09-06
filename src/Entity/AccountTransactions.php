@@ -25,34 +25,34 @@ class AccountTransactions
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private int $id;
 
     /**
      * @var int
      *
      * @ORM\Column(name="amount", type="integer")
      */
-    private $amount;
+    private int $amount;
 
     /**
-     * @var string
+     * @var string|null
      *
      * @ORM\Column(name="note", type="text", nullable=true)
      */
-    private $note;
+    private string|null $note = '';
 
     /**
      * @var DateTime
      *
      * @ORM\Column(name="issuedAt", type="date")
      */
-    private $issuedAt;
+    private DateTime $issuedAt;
 
     /**
      * @ORM\ManyToOne(targetEntity="Accounts", inversedBy="transactions")
      * @ORM\JoinColumn(name="account_id", referencedColumnName="id")
      */
-    private $account;
+    private ?Accounts $account;
 
     /**
      * AccountTransactions constructor.
@@ -79,7 +79,7 @@ class AccountTransactions
      *
      * @return AccountTransactions
      */
-    public function setAmount($amount): AccountTransactions
+    public function setAmount(int $amount): AccountTransactions
     {
         $this->amount = $amount;
 
@@ -103,7 +103,7 @@ class AccountTransactions
      *
      * @return AccountTransactions
      */
-    public function setNote($note): AccountTransactions
+    public function setNote(string $note = ''): AccountTransactions
     {
         $this->note = $note;
 
@@ -113,7 +113,7 @@ class AccountTransactions
     /**
      * Get note.
      *
-     * @return string
+     * @return string|null
      */
     public function getNote(): string|null
     {
@@ -135,7 +135,7 @@ class AccountTransactions
     /**
      * Get account.
      *
-     * @return Accounts
+     * @return \App\Entity\Accounts|null
      */
     public function getAccount(): Accounts|null
     {
@@ -149,7 +149,7 @@ class AccountTransactions
      *
      * @return AccountTransactions
      */
-    public function setIssuedAt($issuedAt): AccountTransactions
+    public function setIssuedAt(DateTime $issuedAt): AccountTransactions
     {
         $this->issuedAt = $issuedAt;
 

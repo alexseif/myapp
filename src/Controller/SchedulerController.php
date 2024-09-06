@@ -12,23 +12,19 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
-/**
- * @Route("/scheduler")
- */
+#[Route("/scheduler")]
 class SchedulerController extends AbstractController
 {
 
-    /**
-     * @Route("/", name="scheduler_landing")
-     */
+    #[Route("/", name:"scheduler_landing")]
     public function landing(): Response
     {
         $date = new DateTime();
         $year = $date->format('Y');
         $week = $date->format('W');
-        if (7 === $date->format('N')) {
+        if (7 == $date->format('N')) {
             ++$week;
         }
 
@@ -37,9 +33,7 @@ class SchedulerController extends AbstractController
         );
     }
 
-    /**
-     * @Route("/{year}/{week}", name="scheduler")
-     */
+    #[Route("/{year}/{week}", name:"scheduler")]
     public function index(
       Request $request,
       EntityManagerInterface $entityManager,
@@ -82,9 +76,7 @@ class SchedulerController extends AbstractController
         }
     }
 
-    /**
-     * @Route("/save", name="scheduler_save")
-     */
+    #[Route("/save", name:"scheduler_save")]
     public function save(
       Request $request,
       TasksRepository $tasksRepository,
@@ -106,9 +98,7 @@ class SchedulerController extends AbstractController
         return new JsonResponse();
     }
 
-    /**
-     * @Route("/delete", name="scheduler_delete")
-     */
+    #[Route("/delete", name:"scheduler_delete")]
     public function delete(
       Request $request,
       TasksRepository $tasksRepository,

@@ -27,44 +27,44 @@ class Accounts
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private int $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
      */
-    private $name;
+    private string $name;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="conceal", type="boolean")
      */
-    private $conceal = false;
+    private bool $conceal = false;
 
     /**
      * @ORM\OneToMany(targetEntity="AccountTransactions", mappedBy="account",
      *   cascade={"remove"})
      */
-    private $transactions;
+    private Collection $transactions;
 
     /**
      * @ORM\ManyToOne(targetEntity="Client", inversedBy="accounts")
      * @ORM\JoinColumn(name="client_id", referencedColumnName="id",
      *   nullable=true)
      */
-    private $client;
+    private Client $client;
 
     /**
      * @ORM\OneToMany(targetEntity="TaskLists", mappedBy="account")
      */
-    private $taskLists;
+    private Collection $taskLists;
 
     /**
      * @var int
      */
-    private $balance = 0;
+    private int $balance = 0;
 
     /**
      * Constructor.
@@ -92,7 +92,7 @@ class Accounts
      *
      * @return Accounts
      */
-    public function setName($name): Accounts
+    public function setName(string $name): Accounts
     {
         $this->name = $name;
 
@@ -112,7 +112,6 @@ class Accounts
     /**
      * Add transactions.
      *
-     * @return Accounts
      */
     public function addTransaction(AccountTransactions $transactions): Accounts
     {
@@ -132,7 +131,6 @@ class Accounts
     /**
      * Get transactions.
      *
-     * @return Collection
      */
     public function getTransactions()
     {
@@ -186,7 +184,6 @@ class Accounts
     /**
      * Add taskLists.
      *
-     * @return Accounts
      */
     public function addTaskList(TaskLists $taskList): Accounts
     {
@@ -220,7 +217,7 @@ class Accounts
      *
      * @return Accounts
      */
-    public function setConceal($conceal): Accounts
+    public function setConceal(bool $conceal): Accounts
     {
         $this->conceal = $conceal;
 

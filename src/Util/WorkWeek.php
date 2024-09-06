@@ -14,7 +14,7 @@ namespace App\Util;
 class WorkWeek
 {
 
-    private static $workWeek = [
+    private static array $workWeek = [
       'Friday' => 0,
       'Saturday' => 4,
       'Sunday' => 8,
@@ -31,11 +31,7 @@ class WorkWeek
 
     public static function getDayHours($day): ?int
     {
-        if (array_key_exists($day, self::$workWeek)) {
-            return self::$workWeek[$day];
-        }
-
-        return null;
+        return self::$workWeek[$day] ?? null;
     }
 
 }

@@ -27,19 +27,19 @@ class Client
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private int $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
      */
-    private $name;
+    private string $name;
 
     /**
      * @ORM\OneToMany(targetEntity="Accounts", mappedBy="client")
      */
-    private $accounts;
+    private Collection $accounts;
 
     /**
      * @ORM\OneToMany(targetEntity="Contract", mappedBy="client")
@@ -50,12 +50,12 @@ class Client
      * @ORM\OneToMany(targetEntity="Rate", mappedBy="client", cascade={"remove"})
      * @ORM\OrderBy({"createdAt" = "ASC"})
      */
-    private $rates;
+    private Collection $rates;
 
     /**
      * @ORM\Column(type="array", nullable=true)
      */
-    private $billingOption = [];
+    private  $billingOption = [];
 
     /**
      * Constructor.

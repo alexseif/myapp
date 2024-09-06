@@ -23,17 +23,17 @@ class BottomBar
     /**
      * @var EntityManager
      */
-    protected $em;
+    protected EntityManagerInterface|EntityManager $em;
 
     /**
      * @var CostService
      */
-    protected $costService;
+    protected CostService $costService;
 
     /**
      * @var ContractService
      */
-    protected $contractService;
+    protected ContractService $contractService;
 
     protected $progressMonitoring;
 

@@ -17,23 +17,23 @@ class Schedule
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\OneToOne(targetEntity=Tasks::class, inversedBy="schedule")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $task;
+    private ?Tasks $task;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $est;
+    private ?int $est;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $eta;
+    private ?DateTimeInterface $eta;
 
     /**
      * @param $id

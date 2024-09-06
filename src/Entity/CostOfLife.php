@@ -23,27 +23,27 @@ class CostOfLife
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private int $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
      */
-    private $name;
+    private string $name;
 
     /**
      * @var float
      *
      * @ORM\Column(name="value", type="float")
      */
-    private $value;
+    private float $value;
 
     /**
      * @ORM\ManyToOne(targetEntity="Currency")
      * @ORM\JoinColumn(name="currency_id", referencedColumnName="id")
      */
-    private $currency;
+    private Currency $currency;
 
     /**
      * Get id.
@@ -62,7 +62,7 @@ class CostOfLife
      *
      * @return CostOfLife
      */
-    public function setName($name): CostOfLife
+    public function setName(string $name): CostOfLife
     {
         $this->name = $name;
 
@@ -86,7 +86,7 @@ class CostOfLife
      *
      * @return CostOfLife
      */
-    public function setValue($value): CostOfLife
+    public function setValue(float $value): CostOfLife
     {
         $this->value = $value;
 
@@ -106,7 +106,7 @@ class CostOfLife
     /**
      * Set currency.
      *
-     * @param int $currency
+     * @param \App\Entity\Currency $currency
      *
      * @return CostOfLife
      */
@@ -120,7 +120,7 @@ class CostOfLife
     /**
      * Get currency.
      *
-     * @return int
+     * @return \App\Entity\Currency
      */
     public function getCurrency(): Currency
     {

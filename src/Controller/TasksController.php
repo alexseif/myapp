@@ -11,6 +11,7 @@ use App\Util\Paginator;
 use DateInterval;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use stdClass;
@@ -20,24 +21,20 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
-/**
- * @Route("/tasks")
- */
+#[Route("/tasks")]
 class TasksController extends AbstractController
 {
 
-    public $entityManager;
+    public EntityManagerInterface $entityManager;
 
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
     }
 
-    /**
-     * @Route("/", name="tasks_index", methods={"GET"})
-     */
+    #[Route("/", name:"tasks_index", methods:["GET"])]
     public function index(
       TasksRepository $tasksRepository,
       Request $request
@@ -317,9 +314,7 @@ class TasksController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="tasks_show", methods={"GET"})
-     */
+    #[Route("/{id}", name:"tasks_show", methods:["GET"])]
     public function show(Tasks $task): Response
     {
         return $this->render('tasks/show.html.twig', [
@@ -378,14 +373,12 @@ class TasksController extends AbstractController
                 $lastMonth = new DateTime();
                 $lastMonth->sub(new DateInterval('P1M'));
                 $task->setCompletedAt($lastMonth);
-            } else {
-                if ($task->getCompleted()) {
-                    if (null == $task->getCompletedAt()) {
-                        $task->setCompletedAt(new DateTime());
-                    }
-                } else {
-                    $task->setCompletedAt(null);
+            } elseif ($task->getCompleted()) {
+                if (null == $task->getCompletedAt()) {
+                    $task->setCompletedAt(new DateTime());
                 }
+            } else {
+                $task->setCompletedAt(null);
             }
 
             $entityManager->flush();
@@ -400,9 +393,7 @@ class TasksController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="tasks_delete", methods={"DELETE"})
-     */
+    #[Route("/{id}", name:"tasks_delete", methods:["DELETE"])]
     public function delete(
       Request $request,
       Tasks $task,

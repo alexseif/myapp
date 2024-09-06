@@ -16,17 +16,13 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
-/**
- * @Route("/sizing", name="sizing")
- */
+#[Route("/sizing", name:"sizing")]
 class SizingController extends AbstractController
 {
 
-    /**
-     * @Route("/", name="_index")
-     */
+    #[Route("/", name:"_index")]
     public function index(
       Request $request,
       TaskListsRepository $taskListsRepository,

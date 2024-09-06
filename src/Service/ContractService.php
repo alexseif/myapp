@@ -23,7 +23,7 @@ class ContractService
     /**
      * @var EntityManager
      */
-    protected $em;
+    protected EntityManagerInterface|EntityManager $em;
 
     public function __construct(EntityManagerInterface $em)
     {

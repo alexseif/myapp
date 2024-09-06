@@ -26,56 +26,56 @@ class Contract
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private int $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
      */
-    private $name;
+    private string $name;
 
     /**
      * @ORM\ManyToOne(targetEntity="Client", inversedBy="contracts")
      * @ORM\JoinColumn(name="client_id", referencedColumnName="id", nullable=true)
      */
-    private $client;
+    private ?Client $client;
 
     /**
      * @var int
      *
      * @ORM\Column(name="hoursPerDay", type="integer")
      */
-    private $hoursPerDay;
+    private int $hoursPerDay;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="startedAt", type="date")
      */
-    private $startedAt;
+    private DateTime $startedAt;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isCompleted;
+    private bool $isCompleted;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $completedAt;
+    private DateTimeInterface $completedAt;
 
     /**
      * Day of month to issue bill.
      *
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $billedOn = 25;
+    private int $billedOn = 25;
 
     /**
      * @var ContractProgress
      */
-    private $progress;
+    private ContractProgress $progress;
 
     /**
      * Get id.
@@ -94,7 +94,7 @@ class Contract
      *
      * @return Contract
      */
-    public function setName($name): Contract
+    public function setName(string $name): Contract
     {
         $this->name = $name;
 
@@ -119,7 +119,7 @@ class Contract
      *
      * @return Contract
      */
-    public function setHoursPerDay($hoursPerDay): Contract
+    public function setHoursPerDay(int $hoursPerDay): Contract
     {
         $this->hoursPerDay = $hoursPerDay;
 
@@ -141,7 +141,6 @@ class Contract
      *
      * @paramClient|null $client
      *
-     * @return Contract
      */
     public function setClient(Client $client = null): Contract
     {
@@ -166,7 +165,7 @@ class Contract
      *
      * @return Contract
      */
-    public function setStartedAt($startedAt): Contract
+    public function setStartedAt(DateTime $startedAt): Contract
     {
         $this->startedAt = $startedAt;
 
@@ -196,9 +195,6 @@ class Contract
         return $this->isCompleted;
     }
 
-    /**
-     * @return self
-     */
     public function setIsCompleted(bool $isCompleted): self
     {
         $this->isCompleted = $isCompleted;
@@ -219,7 +215,7 @@ class Contract
      *
      * @return self
      */
-    public function setCompletedAt($completedAt): self
+    public function setCompletedAt(?DateTimeInterface $completedAt): self
     {
         $this->completedAt = $completedAt;
 

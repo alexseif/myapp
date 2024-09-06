@@ -25,12 +25,12 @@ class FocusService
     /**
      * @var EntityManagerInterface
      */
-    protected $em;
+    protected EntityManagerInterface $em;
 
     /**
      * @var array
      */
-    protected $focus = [];
+    protected array $focus = [];
 
     /**
      * FocusService constructor.

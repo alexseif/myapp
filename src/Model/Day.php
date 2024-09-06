@@ -8,12 +8,13 @@ namespace App\Model;
 use App\Entity\Tasks;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 class Day
 {
 
     /**
-     * @var ArrayCollection
+     * @var Collection
      */
     public $schedules;
 
@@ -39,12 +40,12 @@ class Day
         $this->schedules = new ArrayCollection();
     }
 
-    public function getSchedules(): ArrayCollection
+    public function getSchedules(): Collection
     {
         return $this->schedules;
     }
 
-    public function setSchedules(ArrayCollection $schedules): void
+    public function setSchedules(Collection $schedules): void
     {
         $this->schedules = $schedules;
     }
@@ -66,12 +67,12 @@ class Day
         return false;
     }
 
-    public function getTasks(): ArrayCollection
+    public function getTasks(): Collection
     {
         return $this->tasks;
     }
 
-    public function setTasks(ArrayCollection $tasks): void
+    public function setTasks(Collection $tasks): void
     {
         $this->tasks = $tasks;
     }

@@ -20,7 +20,7 @@ use Doctrine\ORM\EntityManagerInterface;
 class WorkingDays
 {
 
-    private static $workWeek = [
+    private static array $workWeek = [
       'Friday' => 0,
       'Saturday' => 4,
       'Sunday' => 8,
@@ -33,12 +33,12 @@ class WorkingDays
     /**
      * @var EntityManager
      */
-    protected $em;
+    protected EntityManagerInterface|EntityManager $em;
 
     /**
      * @var CostService
      */
-    protected $cs;
+    protected CostService $cs;
 
     public function __construct(EntityManagerInterface $em)
     {
@@ -52,11 +52,7 @@ class WorkingDays
 
     public static function getDayHours($day): ?int
     {
-        if (array_key_exists($day, self::$workWeek)) {
-            return self::$workWeek[$day];
-        }
-
-        return null;
+        return self::$workWeek[$day] ?? null;
     }
 
     public function updateHolidays(): void

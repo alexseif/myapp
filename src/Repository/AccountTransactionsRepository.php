@@ -181,7 +181,7 @@ class AccountTransactionsRepository extends ServiceEntityRepository
      * @param DateTime $to
      *
      */
-    public function getRevenueSumByDateRange($from, $to): float
+    public function getRevenueSumByDateRange(DateTime $from, DateTime $to): float
     {
         $qb = $this
           ->createQueryBuilder('at')

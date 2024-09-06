@@ -24,28 +24,28 @@ class Days
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private int $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
      */
-    private $name;
+    private string $name;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="deadline", type="date")
      */
-    private $deadline;
+    private DateTime $deadline;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="complete", type="boolean")
      */
-    private $complete;
+    private bool $complete;
 
     /**
      * Get id.
@@ -64,7 +64,7 @@ class Days
      *
      * @return Days
      */
-    public function setName($name): Days
+    public function setName(string $name): Days
     {
         $this->name = $name;
 
@@ -88,7 +88,7 @@ class Days
      *
      * @return Days
      */
-    public function setDeadline($deadline): Days
+    public function setDeadline(DateTime $deadline): Days
     {
         $this->deadline = $deadline;
 
@@ -112,7 +112,7 @@ class Days
      *
      * @return Days
      */
-    public function setComplete($complete): Days
+    public function setComplete(bool $complete): Days
     {
         $this->complete = $complete;
 

@@ -23,28 +23,28 @@ class Currency
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private int $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="code", type="string", length=3, unique=true)
      */
-    private $code;
+    private string $code;
 
     /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
      */
-    private $name;
+    private string $name;
 
     /**
      * @var float
      *
      * @ORM\Column(name="egp", type="float")
      */
-    private $EGP;
+    private float $EGP;
 
     /**
      * Get id.
@@ -63,7 +63,7 @@ class Currency
      *
      * @return Currency
      */
-    public function setCode($code): Currency
+    public function setCode(string $code): Currency
     {
         $this->code = $code;
 
@@ -87,7 +87,7 @@ class Currency
      *
      * @return Currency
      */
-    public function setName($name): Currency
+    public function setName(string $name): Currency
     {
         $this->name = $name;
 
@@ -111,7 +111,7 @@ class Currency
      *
      * @return Currency
      */
-    public function setEgp($egp): Currency
+    public function setEgp(float $egp): Currency
     {
         $this->EGP = $egp;
 

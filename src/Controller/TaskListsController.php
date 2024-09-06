@@ -11,7 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 /**
  * TaskLists controller.
@@ -202,7 +202,7 @@ class TaskListsController extends AbstractController
      *
      * @param TaskLists $taskList The TaskLists entity
      *
-     * @return \Symfony\Component\Form\Form|\Symfony\Component\Form\FormInterface
+     * @return \Symfony\Component\Form\FormInterface
      */
     private function createDeleteForm(TaskLists $taskList)
     {

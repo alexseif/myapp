@@ -23,34 +23,34 @@ class Rate
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private int $id;
 
     /**
      * @var float
      *
      * @ORM\Column(name="rate", type="float")
      */
-    private $rate;
+    private float $rate;
 
     /**
      * @ORM\ManyToOne(targetEntity="Client", inversedBy="rates")
      * @ORM\JoinColumn(name="client_id", referencedColumnName="id")
      */
-    private $client;
+    private ?Client $client;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="active", type="boolean")
      */
-    private $active;
+    private bool $active;
 
     /**
      * @var string
      *
      * @ORM\Column(name="note", type="text", nullable=true)
      */
-    private $note;
+    private string $note;
 
     /**
      * Get id.
@@ -69,7 +69,7 @@ class Rate
      *
      * @return Rate
      */
-    public function setRate($rate): Rate
+    public function setRate(float $rate): Rate
     {
         $this->rate = $rate;
 
@@ -90,7 +90,6 @@ class Rate
      * Set client.
      *
      *
-     * @return Rate
      */
     public function setClient(Client $client = null): Rate
     {
@@ -115,7 +114,7 @@ class Rate
      *
      * @return Rate
      */
-    public function setActive($active): Rate
+    public function setActive(bool $active): Rate
     {
         $this->active = $active;
 
@@ -139,7 +138,7 @@ class Rate
      *
      * @return Rate
      */
-    public function setNote($note = null): Rate
+    public function setNote(string $note = null): Rate
     {
         $this->note = $note;
 

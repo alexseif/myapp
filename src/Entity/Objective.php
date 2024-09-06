@@ -23,21 +23,21 @@ class Objective
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private int $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
      */
-    private $name;
+    private string $name;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="description", type="text", nullable=true)
      */
-    private $description;
+    private ?string $description;
 
     /**
      * Get id.
@@ -56,7 +56,7 @@ class Objective
      *
      * @return Objective
      */
-    public function setName($name): Objective
+    public function setName(string $name): Objective
     {
         $this->name = $name;
 
@@ -80,7 +80,7 @@ class Objective
      *
      * @return Objective
      */
-    public function setDescription($description = null): Objective
+    public function setDescription(string $description = null): Objective
     {
         $this->description = $description;
 

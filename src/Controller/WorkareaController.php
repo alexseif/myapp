@@ -12,17 +12,13 @@ use App\Service\TasksService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
-/**
- * @Route("/workarea", name="workarea_")
- */
+#[Route("/workarea", name:"workarea_")]
 class WorkareaController extends AbstractController
 {
 
-    /**
-     * @Route("/workarea", name="workarea")
-     */
+    #[Route("/workarea", name:"workarea")]
     public function workarea(
       TasksRepository $tasksRepository,
       DaysRepository $daysRepository,
@@ -60,15 +56,13 @@ class WorkareaController extends AbstractController
     /**
      * Get Inbox Tasks and render view.
      *
-     * @param string $taskListName
      *
-     * @return \Symfony\Component\HttpFoundation\Response
      *
      * @Route("/getTasks/{taskListName}", name="get_tasks")
      */
     public function getTasksAction(
       TasksService $tasksService,
-      $taskListName
+      string $taskListName
     ): Response {
         return $this->render('workarea/inboxTasks.html.twig', [
           'inboxTasks' => $tasksService->getWorkareaTasks($taskListName),
@@ -78,7 +72,6 @@ class WorkareaController extends AbstractController
     /**
      * Get Inbox Tasks and render view.
      *
-     * @param string $taskListName
      *
      * @return \Symfony\Component\HttpFoundation\Response
      *
@@ -86,7 +79,7 @@ class WorkareaController extends AbstractController
      */
     public function getTasksCountAction(
       TasksService $tasksService,
-      $taskListName
+      string $taskListName
     ) {
         return new JsonResponse(
           $tasksService->getWorkareaTasksCount($taskListName)

@@ -18,7 +18,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 /**
  * Contract controller.
@@ -189,9 +189,7 @@ class ContractController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/report", name="contract_report")
-     */
+    #[Route("/{id}/report", name:"contract_report")]
     public function reportAction(
       Contract $contract,
       Request $request,

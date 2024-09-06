@@ -11,6 +11,7 @@ use DateInterval;
 use DatePeriod;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 
 class Scheduler
@@ -25,7 +26,7 @@ class Scheduler
     public $contracts;
 
     /**
-     * @var ArrayCollection
+     * @var Collection
      */
     public $days;
 
@@ -121,6 +122,7 @@ class Scheduler
               $task->getClient()->getId(),
               $this->contractDayLength
             )) {
+                $mins = 0;
                 if ($task->getCompleted()) {
                     $mins = $task->getDuration();
                 }
@@ -191,7 +193,7 @@ class Scheduler
         }
     }
 
-    function updateTasks(Tasks $task): void
+    public function updateTasks(Tasks $task): void
     {
         $this->tasked[] = $task->getId();
         if (array_key_exists(
@@ -232,19 +234,16 @@ class Scheduler
     }
 
 
-    public function getDays(): ArrayCollection
+    public function getDays(): Collection
     {
         return $this->days;
     }
 
-    public function setDays(ArrayCollection $days): void
+    public function setDays(Collection $days): void
     {
         $this->days = $days;
     }
 
-    /**
-     * @return void
-     */
     public function addDay(Day $day): void
     {
         $this->days->add($day);

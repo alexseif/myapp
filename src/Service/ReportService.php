@@ -15,12 +15,12 @@ class ReportService
     /**
      * @var AccountTransactionsRepository
      */
-    protected $accountTransactionRepository;
+    protected AccountTransactionsRepository $accountTransactionRepository;
 
     /**
      * @var TasksRepository
      */
-    protected $tasksRepository;
+    protected TasksRepository $tasksRepository;
 
     /**
      * ReportService constructor.

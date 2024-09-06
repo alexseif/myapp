@@ -33,96 +33,96 @@ class ProgressMonitoring
      * @todo: remove and use repository in entity service
      *
      */
-    protected $em;
+    protected EntityManagerInterface|EntityManager $em;
 
     /**
      * @var CostService
      */
-    protected $costService;
+    protected CostService $costService;
 
     /**
      * @var int total number of clients
      * @todo move to seperate service
      *
      */
-    private $clientsCount;
+    private int $clientsCount;
 
     /**
      * @var float clients annual increase
      * @todo move to seperate service
      *
      */
-    private $clientsProgress;
+    private float $clientsProgress;
 
     /**
      * @var int total number of accounts
      * @todo move to seperate service
      *
      */
-    private $accountsCount;
+    private int $accountsCount;
 
     /**
      * @var float accounts annual increase
      * @todo move to seperate service
      *
      */
-    private $accountsProgress;
+    private float $accountsProgress;
 
     /**
      * @var int total number of tasks this month
      * @todo move to seperate service
      *
      */
-    private $tasksCompletedCount;
+    private int $tasksCompletedCount;
 
     /**
      * @var float tasks this month increase
      * @todo move to seperate service
      *
      */
-    private $tasksCompletedProgress;
+    private float $tasksCompletedProgress;
 
     /**
      * @var float revenue sum this month
      * @todo move to seperate service
      *
      */
-    private $revenueSum;
+    private float $revenueSum;
 
     /**
      * @var float revenue this month increase
      * @todo move to seperate service
      *
      */
-    private $revenueProgress;
+    private float $revenueProgress;
 
     /**
      * @var int duration sum this month
      * @todo move to seperate service
      *
      */
-    private $durationSum;
+    private int $durationSum;
 
     /**
      * @var int duration this month increase
      * @todo move to seperate service
      *
      */
-    private $durationProgress;
+    private int $durationProgress;
 
     /**
      * @var array
      * @todo move to seperate service
      *
      */
-    private $earnedProgress;
+    private array $earnedProgress;
 
     /**
      * @var array
      * @todo move to seperate service
      *
      */
-    private $averageReport;
+    private array $averageReport;
 
     /**
      * ProgressMonitoring constructor.

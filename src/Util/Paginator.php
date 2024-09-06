@@ -13,51 +13,51 @@ class Paginator
     /**
      * @var string string
      */
-    protected $path;
+    protected string $path;
 
     /**
      * @var QueryBuilder
      */
-    protected $queryBuilder;
+    protected QueryBuilder $queryBuilder;
 
     /**
      * @var int current page
      */
-    protected $page = 0;
+    protected int $page = 0;
 
     /**
      * @var int total number of pages
      */
-    protected $pages = 0;
+    protected int $pages = 0;
 
     /**
      * @var int
      */
-    protected $limit = 100;
+    protected int $limit = 100;
 
     /**
      * @var int
      */
-    protected $offset = 0;
+    protected int $offset = 0;
 
     /**
      * @var int
      */
-    protected $total = 0;
+    protected int $total = 0;
 
     /**
      * Paginator constructor.
      *
      * @param string $path
-     * @param $queryBuilder
+     * @param \Doctrine\ORM\QueryBuilder $queryBuilder
+     * @param int $limit
      * @param int $page
-     * @param int $offset
      */
     public function __construct(
-      $path,
+      string $path,
       QueryBuilder $queryBuilder,
       int $limit,
-      $page = 0
+      int $page = 0
     ) {
         $this->path = $path;
         $this->page = $page;
@@ -115,7 +115,7 @@ class Paginator
      *
      * @return Paginator
      */
-    public function setQueryBuilder($queryBuilder): Paginator
+    public function setQueryBuilder(mixed $queryBuilder): Paginator
     {
         $this->queryBuilder = $queryBuilder;
 

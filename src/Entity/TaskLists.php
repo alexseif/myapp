@@ -28,33 +28,33 @@ class TaskLists
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private int $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
      */
-    private $name;
+    private string $name;
 
     /**
      * @ORM\ManyToOne(targetEntity="Accounts", inversedBy="taskLists")
      * @ORM\JoinColumn(name="account_id", referencedColumnName="id", nullable=true)
      */
-    private $account;
+    private ?Accounts $account;
 
     /**
      * @var string
      *
      * @ORM\Column(name="status", type="string", length=255)
      */
-    private $status;
+    private string $status;
 
     /**
      * @ORM\OneToMany(targetEntity="Tasks", mappedBy="taskList", cascade={"remove"})
      * @ORM\OrderBy({"completed" = "ASC", "order" = "ASC"})
      */
-    private $tasks;
+    private Collection $tasks;
 
     /**
      * Constructor.
@@ -82,7 +82,7 @@ class TaskLists
      *
      * @return TaskLists
      */
-    public function setName($name): TaskLists
+    public function setName(string $name): TaskLists
     {
         $this->name = $name;
 
@@ -106,7 +106,7 @@ class TaskLists
      *
      * @return TaskLists
      */
-    public function setStatus($status): TaskLists
+    public function setStatus(string $status): TaskLists
     {
         $this->status = $status;
 
@@ -126,7 +126,6 @@ class TaskLists
     /**
      * Add tasks.
      *
-     * @return TaskLists
      */
     public function addTask(Tasks $tasks): TaskLists
     {
@@ -147,7 +146,6 @@ class TaskLists
     /**
      * Get tasks.
      *
-     * @return Collection
      */
     public function getTasks($showComplete = true): Collection
     {
@@ -197,7 +195,7 @@ class TaskLists
     /**
      * Set account.
      *
-     * @param Accounts $account
+     * @param \App\Entity\Accounts|null $account
      *
      * @return TaskLists
      */

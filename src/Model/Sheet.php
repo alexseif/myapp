@@ -20,27 +20,27 @@ class Sheet
     /**
      * @var string title
      */
-    private $title;
+    private string $title;
 
     /**
      * @var DateTime date
      */
-    private $date;
+    private DateTime $date;
 
     /**
      * @var DateInterval days
      */
-    private $days;
+    private DateInterval $days;
 
     /**
      * @var int amount
      */
-    private $amount;
+    private int $amount;
 
     /**
      * @var int balance
      */
-    private $balance;
+    private int $balance;
 
     public function __construct(
       $title,
@@ -99,7 +99,7 @@ class Sheet
     /**
      * @param string $title
      */
-    public function setTitle($title): void
+    public function setTitle(string $title): void
     {
         $this->title = $title;
     }
@@ -117,7 +117,7 @@ class Sheet
     /**
      * @param int $amount
      */
-    public function setAmount($amount): void
+    public function setAmount(int $amount): void
     {
         $this->amount = $amount;
     }
@@ -125,7 +125,7 @@ class Sheet
     /**
      * @param int $balance
      */
-    public function setBalance($balance): void
+    public function setBalance(int $balance): void
     {
         $this->balance = $balance;
     }

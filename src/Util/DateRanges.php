@@ -30,9 +30,9 @@ class DateRanges
      * @return array Array of months between $startDate & $endDate
      */
     public static function populateMonths(
-      $startDate,
-      $endDate,
-      $setDayTo = 0
+      string $startDate,
+      string $endDate,
+      int|string $setDayTo = 0
     ): array {
         $start = self::getMonthStart($startDate);
         $start->setDate($start->format('Y'), $start->format('m'), $setDayTo);
@@ -66,7 +66,7 @@ class DateRanges
      *
      * @return int
      */
-    public static function numberOfWorkingDays($from, $to): int
+    public static function numberOfWorkingDays(DateTime $from, DateTime $to): int
     {
         $workingDays = [1, 2, 3, 4, 7]; // date format = N (1 = Monday, ...)
         $holidayDays = [
@@ -102,7 +102,7 @@ class DateRanges
      *
      * @return int
      */
-    public static function getWorkingDays($startDate, $endDate): int
+    public static function getWorkingDays(string $startDate, string $endDate): int
     {
         $holidays = self::getHolidays('egypt');
 
@@ -150,7 +150,7 @@ class DateRanges
      *
      * @return array
      */
-    public static function getHolidays($country): array
+    public static function getHolidays(string $country): array
     {
         //Url of Site with list
         $url = 'https://www.timeanddate.com/holidays/' . $country . '/';
@@ -179,8 +179,7 @@ class DateRanges
                 //This pplaces the items into an array
                 $tempArray = explode(',', $str);
                 //This gets rid of empty array elements
-                unset($tempArray[4]);
-                unset($tempArray[5]);
+                unset($tempArray[4], $tempArray[5]);
 
                 return $tempArray;
             }
@@ -201,12 +200,10 @@ class DateRanges
     }
 
     /**
-     * @param mixed $date Optional to specify which month start
      *
-     * @return DateTime
      */
     public static function getMonthStart(
-      $date = 'now',
+      string $date = 'now',
       $billedOn = 25
     ): DateTime {
         $monthStart = new DateTime($date);
@@ -224,11 +221,10 @@ class DateRanges
     }
 
     /**
-     * @param mixed $date Optional to specify which month start
      *
      * @return DateTime
      */
-    public static function getMonthEnd($date = 'now'): DateTime
+    public static function getMonthEnd(string $date = 'now'): DateTime
     {
         $monthEnd = new DateTime($date);
         if ($monthEnd->format('d') >= 25) {

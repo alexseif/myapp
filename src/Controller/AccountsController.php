@@ -14,7 +14,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 /**
  * Accounts controller.
@@ -47,7 +47,7 @@ class AccountsController extends AbstractController
     public function newAction(
       Request $request,
       EntityManagerInterface $entityManager
-    ) {
+    ): RedirectResponse|Response {
         $account = new Accounts();
         $form = $this->createForm(AccountsType::class, $account);
         $form->handleRequest($request);
@@ -154,7 +154,7 @@ class AccountsController extends AbstractController
       Request $request,
       Accounts $account,
       EntityManagerInterface $entityManager
-    ) {
+    ): RedirectResponse|Response {
         $deleteForm = $this->createDeleteForm($account);
         $editForm = $this->createForm(AccountsType::class, $account);
         $editForm->handleRequest($request);

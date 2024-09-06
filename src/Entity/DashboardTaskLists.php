@@ -23,13 +23,13 @@ class DashboardTaskLists
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\OneToOne(targetEntity="TaskLists")
      * @ORM\JoinColumn(name="taskLists_id", referencedColumnName="id")
      */
-    private $taskList;
+    private TaskLists $taskList;
 
     /**
      * Get id.
@@ -46,7 +46,6 @@ class DashboardTaskLists
      *
      * @paramTaskLists $taskList
      *
-     * @return DashboardTaskLists
      */
     public function setTaskList(TaskLists $taskList = null): DashboardTaskLists
     {

@@ -11,7 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 /**
  * Accounting controller.
@@ -21,9 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class AccountingController extends AbstractController
 {
 
-    /**
-     * @Route("/", name="accounting_index", methods={"GET"})
-     */
+    #[Route("/", name:"accounting_index", methods:["GET"])]
     public function indexAction(
       Request $request,
       EntityManagerInterface $entityManager
@@ -40,9 +38,7 @@ class AccountingController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/account/{id}", name="accounting_account_page", methods={"GET"})
-     */
+    #[Route("/account/{id}", name:"accounting_account_page", methods:["GET"])]
     public function accountAction(
       Request $request,
       Accounts $account,
@@ -89,9 +85,7 @@ class AccountingController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/balance/{id}/{from}/{to}", name="accounting_balance_page", methods={"GET"})
-     */
+    #[Route("/balance/{id}/{from}/{to}", name:"accounting_balance_page", methods:["GET"])]
     public function balanceAction(
       Request $request,
       Accounts $account,

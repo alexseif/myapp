@@ -13,7 +13,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 /**
  * Management controller.
@@ -23,9 +23,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ManagementController extends AbstractController
 {
 
-    /**
-     * @Route("/", name="management_index")
-     */
+    #[Route("/", name:"management_index")]
     public function indexAction(
       Request $request,
       EntityManagerInterface $entityManager
@@ -48,9 +46,7 @@ class ManagementController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/priority", name="management_priority")
-     */
+    #[Route("/priority", name:"management_priority")]
     public function priorityAction(EntityManagerInterface $entityManager
     ): Response {
         $em = $entityManager;

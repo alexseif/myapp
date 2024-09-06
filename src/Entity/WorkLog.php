@@ -23,35 +23,35 @@ class WorkLog
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private int $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
      */
-    private $name;
+    private string $name;
 
     /**
      * @var int
      *
      * @ORM\Column(name="duration", type="integer")
      */
-    private $duration;
+    private int $duration;
 
     /**
      * @var float
      *
      * @ORM\Column(name="pricePerUnit", type="float")
      */
-    private $pricePerUnit;
+    private float $pricePerUnit;
 
     /**
      * @var float
      *
      * @ORM\Column(name="total", type="float")
      */
-    private $total;
+    private float $total;
 
     // Ensure the task property is correctly mapped
 
@@ -59,7 +59,7 @@ class WorkLog
      * @ORM\OneToOne(targetEntity="Tasks", inversedBy="workLog")
      * @ORM\JoinColumn(name="task_id", referencedColumnName="id", onDelete="CASCADE")
      */
-    private $task;
+    private Tasks $task;
 
     /**
      * Get id.
@@ -76,7 +76,6 @@ class WorkLog
      *
      *  int $duration
      *
-     * @return WorkLog
      */
     public function setDuration($duration): WorkLog
     {
@@ -100,7 +99,6 @@ class WorkLog
      *
      *  float $pricePerUnit
      *
-     * @return WorkLog
      */
     public function setPricePerUnit($pricePerUnit): WorkLog
     {
@@ -145,7 +143,6 @@ class WorkLog
      *
      * Tasks $task
      *
-     * @return WorkLog
      */
     public function setTask(Tasks $task = null): WorkLog
     {
@@ -168,7 +165,6 @@ class WorkLog
      *
      *  string $name
      *
-     * @return WorkLog
      */
     public function setName($name): WorkLog
     {

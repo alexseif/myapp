@@ -23,21 +23,21 @@ class Notes
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private int $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="note", type="text")
      */
-    private $note;
+    private string $note;
 
     /**
      * @var string
      *
      * @ORM\Column(name="type", type="string", length=255)
      */
-    private $type;
+    private string $type;
 
     public function __construct()
     {
@@ -61,7 +61,7 @@ class Notes
      *
      * @return Notes
      */
-    public function setNote($note): Notes
+    public function setNote(string $note): Notes
     {
         $this->note = $note;
 
@@ -85,7 +85,7 @@ class Notes
      *
      * @return Notes
      */
-    public function setType($type): Notes
+    public function setType(string $type): Notes
     {
         $this->type = $type;
 

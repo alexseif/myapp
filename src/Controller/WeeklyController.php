@@ -6,7 +6,7 @@ use DateInterval;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 /**
  * Weekly controller.
@@ -16,9 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class WeeklyController extends AbstractController
 {
 
-    /**
-     * @Route("/", name="default")
-     */
+    #[Route("/", name:"default")]
     public function defaultAction(): Response
     {
         $BOL = new DateTime();

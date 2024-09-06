@@ -13,7 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 /**
  * Experiments controller.
@@ -23,9 +23,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ExperimentsController extends AbstractController
 {
 
-    /**
-     * @Route("/", name="experiments_index")
-     */
+    #[Route("/", name:"experiments_index")]
     public function indexAction(): Response
     {
         $experiments = [
@@ -39,9 +37,7 @@ class ExperimentsController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/tasks", name="experiment_tasks", methods={"GET", "POST"})
-     */
+    #[Route("/tasks", name:"experiment_tasks", methods:["GET", "POST"])]
     public function listTasksAction(
       Request $request,
       RateCalculator $rateCalculator,
@@ -93,9 +89,7 @@ class ExperimentsController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/accounts", name="experiment_accounts", methods={"GET", "POST"})
-     */
+    #[Route("/accounts", name:"experiment_accounts", methods:["GET", "POST"])]
     public function accountsAction(
       Request $request,
       RateCalculator $rateCalculator,

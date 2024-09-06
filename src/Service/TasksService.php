@@ -19,9 +19,9 @@ use Doctrine\ORM\EntityManagerInterface;
 class TasksService
 {
 
-    protected $em;
+    protected EntityManagerInterface $em;
 
-    protected $tasksRepository;
+    protected TasksRepository $tasksRepository;
 
     public function __construct(
       EntityManagerInterface $em,

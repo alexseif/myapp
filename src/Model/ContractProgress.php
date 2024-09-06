@@ -22,7 +22,7 @@ class ContractProgress
     /**
      * @var float
      */
-    private $contractProgress;
+    private float $contractProgress;
 
     private $todaysProgress;
 
@@ -162,7 +162,7 @@ class ContractProgress
     /**
      * @param float|int $monthProgress
      */
-    public function setMonthProgress($monthProgress): void
+    public function setMonthProgress(float|int $monthProgress): void
     {
         $this->monthProgress = $monthProgress;
     }

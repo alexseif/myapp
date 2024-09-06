@@ -8,24 +8,75 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7cd3a6ea-8379-4eac-9b81-16089730eddd" name="Changes" comment="npm update">
-      <change afterPath="$PROJECT_DIR$/assets/js/dashboard.js" afterDir="false" />
+    <list default="true" id="7cd3a6ea-8379-4eac-9b81-16089730eddd" name="Changes" comment="Some console error fixing after migration to webpack&#10;Some bootstrap upgrades">
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/common.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/common.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/tasks.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/tasks.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/styles/app.scss" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styles/app.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/importmap.php" beforeDir="false" afterPath="$PROJECT_DIR$/importmap.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/.htaccess" beforeDir="false" afterPath="$PROJECT_DIR$/public/.htaccess" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/AccountTransactionsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/AccountTransactionsController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/AccountingController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/AccountingController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/AccountsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/AccountsController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/ClientController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/ClientController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/ContractController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/ContractController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/CostOfLifeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/CostOfLifeController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/CurrencyController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/CurrencyController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/DashboardController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/DashboardController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/DashboardTaskListsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/DashboardTaskListsController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/DaysController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/DaysController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/DefaultController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/DefaultController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/ExperimentsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/ExperimentsController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/FocusController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/FocusController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/HolidayController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/HolidayController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/ManagementController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/ManagementController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/NotesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/NotesController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/ObjectiveController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/ObjectiveController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/RateController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/RateController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/ReportsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/ReportsController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/ScheduleController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/ScheduleController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/SchedulerController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/SchedulerController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/SizingController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/SizingController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/TaskListsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/TaskListsController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/TasksController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/TasksController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/WeeklyController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/WeeklyController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/WorkDaysController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/WorkDaysController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/WorkLogController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/WorkLogController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/WorkareaController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/WorkareaController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/AccountTransactions.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/AccountTransactions.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Accounts.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Accounts.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Client.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Client.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Contract.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Contract.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/CostOfLife.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/CostOfLife.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Currency.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Currency.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/DashboardTaskLists.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/DashboardTaskLists.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Days.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Days.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Notes.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Notes.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Objective.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Objective.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Rate.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Rate.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Schedule.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Schedule.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/TaskLists.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/TaskLists.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Entity/Tasks.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Tasks.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/dashboard/dashboard.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/dashboard/dashboard.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/default/taskLists.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/default/taskLists.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/nav.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/nav.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/tasks/tasks_macros.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/tasks/tasks_macros.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webpack.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/webpack.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Traits/Status.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Traits/Status.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/WorkLog.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/WorkLog.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Form/AccountingMainFilterType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/AccountingMainFilterType.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Form/ObjectiveType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/ObjectiveType.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Kernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Kernel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Model/ContractProgress.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/ContractProgress.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Model/Day.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Day.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Model/RecurringTransactions.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/RecurringTransactions.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Model/Scheduler.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Scheduler.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Model/Sheet.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Sheet.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/AccountTransactionsRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/AccountTransactionsRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/TasksRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/TasksRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/BottomBar.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/BottomBar.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/ContractService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/ContractService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/FocusService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/FocusService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/ProgressMonitoring.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/ProgressMonitoring.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/RateCalculator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/RateCalculator.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/ReportService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/ReportService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/TasksService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/TasksService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/WorkingDays.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/WorkingDays.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Twig/Extension/ControllerActionExtension.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Twig/Extension/ControllerActionExtension.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Util/DateRanges.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Util/DateRanges.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Util/Paginator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Util/Paginator.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Util/WorkWeek.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Util/WorkWeek.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,6 +100,19 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <excluded-from-favorite>
+      <branch-storage>
+        <map>
+          <entry type="LOCAL">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="master" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </excluded-from-favorite>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
         <entry key="$PROJECT_DIR$" value="master" />
@@ -92,7 +156,8 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="NamedScopeManager">
-    <scope name="src/" pattern="file[myapp]:src//*" />
+    <scope name="src/" pattern="" />
+    <scope name="Controller" pattern="file[myapp]:src/Controller/*" />
   </component>
   <component name="PhpWorkspaceProjectConfiguration" interpreter_name="/bin/php">
     <include_path>
@@ -370,7 +435,7 @@
       <workItem from="1725442893951" duration="364000" />
       <workItem from="1725443423571" duration="75000" />
       <workItem from="1725624697236" duration="1895000" />
-      <workItem from="1725627401528" duration="4112000" />
+      <workItem from="1725627401528" duration="7251000" />
     </task>
     <task id="LOCAL-00001" summary="composer update">
       <created>1689601265001</created>
@@ -434,14 +499,6 @@
       <option name="presentableId" value="LOCAL-00009" />
       <option name="project" value="LOCAL" />
       <updated>1689831782343</updated>
-    </task>
-    <task id="LOCAL-00011" summary="composer update &#10;And fixing deprecated framework: engine: twig">
-      <option name="closed" value="true" />
-      <created>1700555552429</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1700555552429</updated>
     </task>
     <task id="LOCAL-00012" summary="fixing deployer.sh">
       <option name="closed" value="true" />
@@ -755,7 +812,15 @@
       <option name="project" value="LOCAL" />
       <updated>1725626994869</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="Some console error fixing after migration to webpack&#10;Some bootstrap upgrades">
+      <option name="closed" value="true" />
+      <created>1725631901720</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1725631901721</updated>
+    </task>
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -785,7 +850,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Composer update -W" />
     <MESSAGE value="rector and php-cs-fixer" />
     <MESSAGE value="Fixing contract progress calc" />
     <MESSAGE value="Switched yarn to npm" />
@@ -810,7 +874,8 @@
     <MESSAGE value="Composer udpate npm update" />
     <MESSAGE value="upgrade error fixes" />
     <MESSAGE value="npm update" />
-    <option name="LAST_COMMIT_MESSAGE" value="npm update" />
+    <MESSAGE value="Some console error fixing after migration to webpack&#10;Some bootstrap upgrades" />
+    <option name="LAST_COMMIT_MESSAGE" value="Some console error fixing after migration to webpack&#10;Some bootstrap upgrades" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

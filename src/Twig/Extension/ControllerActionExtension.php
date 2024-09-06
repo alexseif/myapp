@@ -25,7 +25,7 @@ class ControllerActionExtension extends AbstractExtension
     /**
      * @var Twig_Environment
      */
-    protected $environment;
+    protected Twig_Environment $environment;
 
     public function setRequest(Request $request = null): void
     {

@@ -11,14 +11,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 class FocusController extends AbstractController
 {
 
-    /**
-     * @Route("/focus", name="focus")
-     */
+    #[Route("/focus", name:"focus")]
     public function focusAction(
       Request $request,
       FocusService $focusService,
@@ -44,9 +42,7 @@ class FocusController extends AbstractController
         );
     }
 
-    /**
-     * @Route("/focus/{name}", name="focus_tasklist")
-     */
+    #[Route("/focus/{name}", name:"focus_tasklist")]
     public function focusByTaskListAction(
       TaskLists $tasklist,
       FocusService $focusService
@@ -59,9 +55,7 @@ class FocusController extends AbstractController
         );
     }
 
-    /**
-     * @Route("/singleTask", name="singleTask")
-     */
+    #[Route("/singleTask", name:"singleTask")]
     public function singleTaskAction(EntityManagerInterface $entityManager
     ): Response {
         $em = $entityManager;

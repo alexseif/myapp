@@ -12,7 +12,7 @@ use App\Entity\Currency;
 use App\Entity\Rate;
 use App\Entity\Tasks;
 use App\Logic\CostOfLifeLogic;
-use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -146,7 +146,7 @@ class RateCalculator
     }
 
     /**
-     * @return ArrayCollection Rates
+     * @return array Rates
      */
     public function getActive(): array
     {
@@ -171,7 +171,7 @@ class RateCalculator
     /**
      * @param float $fixedValue
      */
-    public function increaseByFixedValue($fixedValue, $note): void
+    public function increaseByFixedValue(float $fixedValue, $note): void
     {
         $rates = $this->getActive();
         foreach ($rates as $rate) {

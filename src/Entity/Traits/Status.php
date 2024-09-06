@@ -18,14 +18,14 @@ trait Status
      *
      * @ORM\Column(name="status", type="string", length=255, nullable=true)
      */
-    private $status;
+    private string $status;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="enabled", type="boolean")
      */
-    private $enabled = true;
+    private bool $enabled = true;
 
     public function getStatus(): string
     {
