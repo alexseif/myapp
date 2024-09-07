@@ -1,5 +1,6 @@
 import './shortcut';
 import $ from 'jquery';
+import { GoogleCharts } from 'google-charts';
 
 // Shortcut keys
 shortcut.add("alt+T", function () {
@@ -13,11 +14,10 @@ shortcut.add("alt+F", function () {
 });
 
 // Google Charts
-google.charts.load("current", { packages: ["corechart"] });
-google.charts.setOnLoadCallback(drawChart);
+GoogleCharts.load(drawChart);
 
 function taskCompletionByDay() {
-    var data = google.visualization.arrayToDataTable([
+    var data = GoogleCharts.api.visualization.arrayToDataTable([
         ['Day', 'Tasks'],
         ...window.tskCnt.map(t => [t.day.slice(0, 3).toUpperCase(), t.tasks])
     ]);
@@ -28,12 +28,12 @@ function taskCompletionByDay() {
         backgroundColor: 'transparent',
         pieSliceBorderColor: '#222222',
     };
-    var chart = new google.visualization.PieChart(document.getElementById('taskCompletionGraph'));
+    var chart = new GoogleCharts.api.visualization.PieChart(document.getElementById('taskCompletionGraph'));
     chart.draw(data, options);
 }
 
 function tasksByPriority() {
-    var data = google.visualization.arrayToDataTable([
+    var data = GoogleCharts.api.visualization.arrayToDataTable([
         ['TaskType', 'TaskCount'],
         ...window.piechart.map(p => [p.key, p.count])
     ]);
@@ -50,7 +50,7 @@ function tasksByPriority() {
             4: { color: '#464545' }
         }
     };
-    var chart = new google.visualization.PieChart(document.getElementById('tasksByPriority'));
+    var chart = new GoogleCharts.api.visualization.PieChart(document.getElementById('tasksByPriority'));
     chart.draw(data, options);
 }
 
