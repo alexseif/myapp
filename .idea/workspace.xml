@@ -9,11 +9,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7cd3a6ea-8379-4eac-9b81-16089730eddd" name="Changes" comment="Twig ago extension&#10;Tasks completedAt bug fix">
-      <change afterPath="$PROJECT_DIR$/src/Twig/AppExtension.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/services.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/services.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/TasksController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/TasksController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Tasks.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Tasks.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/WorkLogController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/WorkLogController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Logic/BillingCalculator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logic/BillingCalculator.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -381,7 +379,8 @@
       <workItem from="1725798339352" duration="157000" />
       <workItem from="1725798662072" duration="281000" />
       <workItem from="1725799786395" duration="15000" />
-      <workItem from="1725801566789" duration="1213000" />
+      <workItem from="1725801566789" duration="1230000" />
+      <workItem from="1725805356870" duration="498000" />
     </task>
     <task id="LOCAL-00001" summary="composer update">
       <created>1689601265001</created>
@@ -445,14 +444,6 @@
       <option name="presentableId" value="LOCAL-00009" />
       <option name="project" value="LOCAL" />
       <updated>1689831782343</updated>
-    </task>
-    <task id="LOCAL-00015" summary="Composer update">
-      <option name="closed" value="true" />
-      <created>1702292263595</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1702292263595</updated>
     </task>
     <task id="LOCAL-00016" summary="#36 - closed">
       <option name="closed" value="true" />
@@ -766,7 +757,15 @@
       <option name="project" value="LOCAL" />
       <updated>1725720897717</updated>
     </task>
-    <option name="localTasksCounter" value="55" />
+    <task id="LOCAL-00055" summary="Twig ago extension&#10;Tasks completedAt bug fix">
+      <option name="closed" value="true" />
+      <created>1725802958531</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1725802958531</updated>
+    </task>
+    <option name="localTasksCounter" value="56" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

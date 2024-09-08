@@ -65,7 +65,7 @@ class WorkLogController extends AbstractController
         ]);
     }
 
-    #[Route("/completedTasks", name:"completed_tasks")]
+    #[Route("/completedTasks", name: "completed_tasks")]
     public function completedTasksAction(
       Request $request,
       EntityManagerInterface $entityManager
@@ -146,7 +146,6 @@ class WorkLogController extends AbstractController
                 $billingCalculator = new BillingCalculator($billingOption);
                 $pricePerUnit = $billingCalculator->getPricePerUnit();
             }
-
             $workLog->setPricePerUnit($pricePerUnit);
             $workLog->setTask($task);
             $workLog->setName($task->getTask());

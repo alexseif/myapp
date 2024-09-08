@@ -21,6 +21,8 @@ class BillingCalculator
 
         if (('month' === $this->billingType['amountPer']) && 'day' === $this->billingType['hoursPer']) {
             $this->calculateAmountPerMonthHoursPerDay();
+        }else{
+            $this->pricePerUnit = $this->billingType['amount'];
         }
     }
 
