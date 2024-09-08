@@ -8,10 +8,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7cd3a6ea-8379-4eac-9b81-16089730eddd" name="Changes" comment="Twig ago extension&#10;Tasks completedAt bug fix">
+    <list default="true" id="7cd3a6ea-8379-4eac-9b81-16089730eddd" name="Changes" comment="Upgrading accounting to bootstrap 5&#10;Fixed chosen issue">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/WorkLogController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/WorkLogController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Logic/BillingCalculator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logic/BillingCalculator.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/js/common.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/common.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Form/AccountingMainFilterType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/AccountingMainFilterType.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/Accounting/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/Accounting/index.html.twig" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,6 +88,7 @@
 }</component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file:///etc/php/7.4/cli/php.ini" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/templates/tasks/progressByDate.html.twig" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -380,7 +383,7 @@
       <workItem from="1725798662072" duration="281000" />
       <workItem from="1725799786395" duration="15000" />
       <workItem from="1725801566789" duration="1230000" />
-      <workItem from="1725805356870" duration="498000" />
+      <workItem from="1725805356870" duration="1251000" />
     </task>
     <task id="LOCAL-00001" summary="composer update">
       <created>1689601265001</created>
@@ -444,22 +447,6 @@
       <option name="presentableId" value="LOCAL-00009" />
       <option name="project" value="LOCAL" />
       <updated>1689831782343</updated>
-    </task>
-    <task id="LOCAL-00016" summary="#36 - closed">
-      <option name="closed" value="true" />
-      <created>1702292339980</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1702292339980</updated>
-    </task>
-    <task id="LOCAL-00017" summary="Composer update -W">
-      <option name="closed" value="true" />
-      <created>1705834325853</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1705834325853</updated>
     </task>
     <task id="LOCAL-00018" summary="rector and php-cs-fixer">
       <option name="closed" value="true" />
@@ -765,7 +752,23 @@
       <option name="project" value="LOCAL" />
       <updated>1725802958531</updated>
     </task>
-    <option name="localTasksCounter" value="56" />
+    <task id="LOCAL-00056" summary="Billing calculator fix">
+      <option name="closed" value="true" />
+      <created>1725805867865</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1725805867865</updated>
+    </task>
+    <task id="LOCAL-00057" summary="Permissions fix">
+      <option name="closed" value="true" />
+      <created>1725806047696</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1725806047696</updated>
+    </task>
+    <option name="localTasksCounter" value="58" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -795,9 +798,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Composer update" />
-    <MESSAGE value="composer update" />
-    <MESSAGE value="Upgrade symfony to 5" />
     <MESSAGE value="Upgrade symfony to 5.4&#10;with webpack and working modules" />
     <MESSAGE value="Upgrade symfony to 6" />
     <MESSAGE value="Swiftmailer issue" />
@@ -820,7 +820,10 @@
     <MESSAGE value="Trying to fix security." />
     <MESSAGE value="Some updates trying to fix js" />
     <MESSAGE value="Twig ago extension&#10;Tasks completedAt bug fix" />
-    <option name="LAST_COMMIT_MESSAGE" value="Twig ago extension&#10;Tasks completedAt bug fix" />
+    <MESSAGE value="Billing calculator fix" />
+    <MESSAGE value="Permissions fix" />
+    <MESSAGE value="Upgrading accounting to bootstrap 5&#10;Fixed chosen issue" />
+    <option name="LAST_COMMIT_MESSAGE" value="Upgrading accounting to bootstrap 5&#10;Fixed chosen issue" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

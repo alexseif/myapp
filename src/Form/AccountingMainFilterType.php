@@ -13,8 +13,7 @@ use Symfony\Component\Routing\RouterInterface;
 
 class AccountingMainFilterType extends AbstractType
 {
-
-    protected $router;
+    private RouterInterface $router;
 
     public function __construct(RouterInterface $router)
     {
@@ -24,34 +23,33 @@ class AccountingMainFilterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-          ->add('account', EntityType::class, [
-              'placeholder' => 'Choose an Account',
-              'class' => Accounts::class,
-              'query_builder' => function (AccountsRepository $er) {
-                  return $er->findAllWithJoin();
-              },
-              'choice_value' => function (?Accounts $entity) {
-                  return ($entity) ? $this->router->generate(
-                    'accounting_account_page', ['id' => $entity->getId()],
-                    UrlGeneratorInterface::ABSOLUTE_URL
-                  ) : '';
-              },
-              'group_by' => function ($account) {
-                  return $account->getClient();
-              },
-              'choice_label' => 'name',
-              'attr' => [
-                'class' => 'chosen',
-              ],
-            ]
-          );
+            ->add('account', EntityType::class, [
+                'placeholder' => 'Choose an Account',
+                'class' => Accounts::class,
+                'query_builder' => function (AccountsRepository $er) {
+                    return $er->findAllWithJoin();
+                },
+                'choice_value' => function (?Accounts $entity) {
+                    return $entity ? $this->router->generate(
+                        'accounting_account_page',
+                        ['id' => $entity->getId()],
+                        UrlGeneratorInterface::ABSOLUTE_URL
+                    ) : '';
+                },
+                'group_by' => function ($account) {
+                    return $account->getClient();
+                },
+                'choice_label' => 'name',
+                'attr' => [
+                    'class' => 'chosen',
+                ],
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-          'csrf_protection' => false,
+            'csrf_protection' => false,
         ]);
     }
-
 }

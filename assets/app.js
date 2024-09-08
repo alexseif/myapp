@@ -40,3 +40,5 @@ window.bootstrap = {
     Tooltip
 };
 
+
+$('.chosen').chosen();

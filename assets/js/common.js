@@ -50,10 +50,9 @@ function clearPageSession() {
 
 /**
  *
- * @param e
  * @returns {boolean}
  */
-function deleteMe(e) {
+function deleteMe() {
     pageSession["hide"].push($(this).parent().data('id'));
     savePageSession();
     $(this).parent().remove();
@@ -135,7 +134,6 @@ $(document).ready(function () {
             callback: 'timeOfDay'
         }
     });
-    $('.chosen').chosen();
     //btn-app-post
     $('.btn-app-post').click(function () {
         $url = $(this).data('action');
