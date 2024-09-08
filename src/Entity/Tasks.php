@@ -95,11 +95,10 @@ class Tasks
     private bool $completed = false;
 
     /**
-     * @var DateTime
      *
      * @ORM\Column(name="completedAt", type="datetime", nullable=true)
      */
-    private datetimeAlias $completedAt;
+    private DateTime|null $completedAt;
 
     /**
      * @ORM\ManyToOne(targetEntity="TaskLists", inversedBy="tasks")

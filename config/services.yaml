@@ -75,3 +75,6 @@ services:
       $router: '@router'
       $twig: '@twig'
       $fromEmail: '%env(MAILER_FROM_EMAIL)%'
+
+  App\Twig\AppExtension:
+    tags: [ 'twig.extension' ]

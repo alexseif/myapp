@@ -11,7 +11,6 @@ use App\Util\Paginator;
 use DateInterval;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use stdClass;
@@ -34,7 +33,7 @@ class TasksController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
-    #[Route("/", name:"tasks_index", methods:["GET"])]
+    #[Route("/", name: "tasks_index", methods: ["GET"])]
     public function index(
       TasksRepository $tasksRepository,
       Request $request
@@ -288,7 +287,8 @@ class TasksController extends AbstractController
       EntityManagerInterface $entityManager
     ): Response {
         $task = $this->createNewTask($taskListsRepository, $request);
-
+//        $task->setCreatedAt(new DateTime());
+//        $task->setUpdatedAt(new DateTime());
         $form = $this->createForm(TasksType::class, $task);
         $form->handleRequest($request);
 
@@ -314,7 +314,7 @@ class TasksController extends AbstractController
         ]);
     }
 
-    #[Route("/{id}", name:"tasks_show", methods:["GET"])]
+    #[Route("/{id}", name: "tasks_show", methods: ["GET"])]
     public function show(Tasks $task): Response
     {
         return $this->render('tasks/show.html.twig', [
@@ -393,7 +393,7 @@ class TasksController extends AbstractController
         ]);
     }
 
-    #[Route("/{id}", name:"tasks_delete", methods:["DELETE"])]
+    #[Route("/{id}", name: "tasks_delete", methods: ["DELETE"])]
     public function delete(
       Request $request,
       Tasks $task,
