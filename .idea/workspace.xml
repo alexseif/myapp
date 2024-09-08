@@ -10,10 +10,7 @@
   <component name="ChangeListManager">
     <list default="true" id="7cd3a6ea-8379-4eac-9b81-16089730eddd" name="Changes" comment="Upgrading accounting to bootstrap 5&#10;Fixed chosen issue">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/common.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/common.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/AccountingMainFilterType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/AccountingMainFilterType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/Accounting/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/Accounting/index.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Contract.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Contract.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -383,7 +380,8 @@
       <workItem from="1725798662072" duration="281000" />
       <workItem from="1725799786395" duration="15000" />
       <workItem from="1725801566789" duration="1230000" />
-      <workItem from="1725805356870" duration="1251000" />
+      <workItem from="1725805356870" duration="1308000" />
+      <workItem from="1725810441307" duration="13000" />
     </task>
     <task id="LOCAL-00001" summary="composer update">
       <created>1689601265001</created>
@@ -447,14 +445,6 @@
       <option name="presentableId" value="LOCAL-00009" />
       <option name="project" value="LOCAL" />
       <updated>1689831782343</updated>
-    </task>
-    <task id="LOCAL-00018" summary="rector and php-cs-fixer">
-      <option name="closed" value="true" />
-      <created>1705834859286</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1705834859286</updated>
     </task>
     <task id="LOCAL-00019" summary="rector and php-cs-fixer">
       <option name="closed" value="true" />
@@ -768,7 +758,15 @@
       <option name="project" value="LOCAL" />
       <updated>1725806047696</updated>
     </task>
-    <option name="localTasksCounter" value="58" />
+    <task id="LOCAL-00058" summary="Upgrading accounting to bootstrap 5&#10;Fixed chosen issue">
+      <option name="closed" value="true" />
+      <created>1725806627323</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1725806627323</updated>
+    </task>
+    <option name="localTasksCounter" value="59" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

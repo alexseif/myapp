@@ -70,7 +70,7 @@ class Contract
      *
      * @ORM\Column(type="integer", nullable=true)
      */
-    private int $billedOn = 25;
+    private int|null $billedOn = 25;
 
     /**
      * @var ContractProgress
