@@ -1,0 +1,9 @@
+{
+    "symfony-vscode.consolePath": "/usr/local/bin/symfony",
+    "symfony-vscode.servicesFilters": {
+        
+        "[a-f0-9]{64}_[0-9]+": "id",
+        "~": "id",
+        "instanceof\\.": "id"
+    }
+}

@@ -1,0 +1,33 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Symfony: server:start",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "symfony server:start",
+            "cwd": "${workspaceFolder}",
+        },
+        {
+            "name": "Symfony: npm watch",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "npm run watch",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "Symfony: Browser Preview",
+            "type": "vscode-edge-devtools.debug",
+            "request": "launch",
+            "url": "https://127.0.0.1:8000",
+            "webRoot": "${workspaceFolder}/public"
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Symfony: Full Stack",
+            "configurations": ["Symfony: server:start", "Symfony: npm watch", "Symfony: Browser Preview"],
+            "stopAll": true
+        }
+    ]
+}
