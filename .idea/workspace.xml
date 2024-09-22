@@ -9,13 +9,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7cd3a6ea-8379-4eac-9b81-16089730eddd" name="Changes" comment="Worklog fix">
-      <change afterPath="$PROJECT_DIR$/assets/completed.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/worklog/completedTasks.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/worklog/completedTasks.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webpack.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/webpack.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/Version20240904083116.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20240904083116.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20240904083116 extends AbstractMigration
+final class Version20240922084310 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,7 +20,6 @@ final class Version20240904083116 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE work_log DROP FOREIGN KEY FK_F5513F598DB60186');
         $this->addSql('ALTER TABLE work_log ADD CONSTRAINT FK_F5513F598DB60186 FOREIGN KEY (task_id) REFERENCES tasks (id) ON DELETE CASCADE');
     }
 
@@ -28,6 +27,5 @@ final class Version20240904083116 extends AbstractMigration
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE work_log DROP FOREIGN KEY FK_F5513F598DB60186');
-        $this->addSql('ALTER TABLE work_log ADD CONSTRAINT FK_F5513F598DB60186 FOREIGN KEY (task_id) REFERENCES tasks (id) ON UPDATE NO ACTION ON DELETE NO ACTION');
     }
 }
