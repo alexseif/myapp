@@ -8,8 +8,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7cd3a6ea-8379-4eac-9b81-16089730eddd" name="Changes" comment="Worklog fix">
-      <change beforePath="$PROJECT_DIR$/migrations/Version20240904083116.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20240904083116.php" afterDir="false" />
+    <list default="true" id="7cd3a6ea-8379-4eac-9b81-16089730eddd" name="Changes" comment="doctrine migration fix">
+      <change beforePath="$PROJECT_DIR$/.idea/myapp.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/myapp.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/Version20240922084310.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20240922084310.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -788,7 +790,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Upgrade symfony to 6" />
     <MESSAGE value="Swiftmailer issue" />
     <MESSAGE value="Composer issues and composer update" />
     <MESSAGE value="PHP8.2 Composer issues and composer update" />
@@ -813,7 +814,8 @@
     <MESSAGE value="Permissions fix" />
     <MESSAGE value="Upgrading accounting to bootstrap 5&#10;Fixed chosen issue" />
     <MESSAGE value="Worklog fix" />
-    <option name="LAST_COMMIT_MESSAGE" value="Worklog fix" />
+    <MESSAGE value="doctrine migration fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="doctrine migration fix" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
