@@ -1,12 +1,5 @@
-const path = require('path');
-const webpack = require('webpack');
 const Encore = require('@symfony/webpack-encore');
-
-// Manually configure the runtime environment if not already configured yet by the "encore" command.
-// It's useful when you use tools that rely on webpack.config.js file.
-if (!Encore.isRuntimeEnvironmentConfigured()) {
-    Encore.configureRuntimeEnvironment(process.env.NODE_ENV || 'dev');
-}
+const webpack = require('webpack');
 
 Encore
     // directory where compiled assets will be stored
@@ -15,6 +8,8 @@ Encore
     .setPublicPath('/build')
     // only needed for CDN's or subdirectory deploy
     //.setManifestKeyPrefix('build/')
+
+    // Copy images from assets to the build directory
     .copyFiles({
         from: './assets/images',
         to: 'images/[path][name].[ext]',
@@ -23,6 +18,7 @@ Encore
         // Optional: Only copy files matching this pattern
         // pattern: /\.(png|jpg|jpeg)$/
     })
+
     /*
      * ENTRY CONFIG
      *
@@ -30,11 +26,19 @@ Encore
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
     .addEntry('app', './assets/app.js')
+    .addEntry('completed', './assets/completed.js')
+
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     .enableStimulusBridge('./assets/controllers.json')
+
+    // Add aliases for modules
     .addAliases({
-        'jquery': 'jquery/src/jquery',
+        'chart.js': 'chart.js/dist/Chart.js',
     })
+    .enableSingleRuntimeChunk()
+    // Remove this line
+    // .autoProvidejQuery()
+    // Add loaders for CSS and images
     .addLoader({
         test: /\.css$/,
         use: ['style-loader', 'css-loader'],
@@ -43,84 +47,45 @@ Encore
         test: /\.(jpe?g|png|gif)$/i,
         loader: 'file-loader',
         options: {
-            name: '[name].[ext]',
-            outputPath: 'assets/images/',
+            name: '[path][name].[ext]',
         },
     })
+
+    // Add this configuration for handling CSS files from node_modules
+    .addRule({
+        test: /\.css$/,
+        include: /node_modules/,
+        use: ['style-loader', 'css-loader']
+    })
+
+    // Enable source maps during development
+    .enableSourceMaps(!Encore.isProduction())
+
+    // Enable versioning (cache-busting) in production
+    .enableVersioning(Encore.isProduction())
+
+    // Enable Sass/SCSS support
+    .enableSassLoader()
+
+    // Enable PostCSS support
+    .enablePostCssLoader()
+
+    // Add plugin to provide jQuery globally
     .addPlugin(new webpack.ProvidePlugin({
         $: 'jquery',
         jQuery: 'jquery',
         'window.jQuery': 'jquery',
-        'window.$': 'jquery',
     }))
 
-    // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
-    .splitEntryChunks()
-
-    // will require an extra script tag for runtime.js
-    // but, you probably want this, unless you're building a single-page app
-    .enableSingleRuntimeChunk()
-
-    /*
-     * FEATURE CONFIG
-     *
-     * Enable & configure other features below. For a full
-     * list of features, see:
-     * https://symfony.com/doc/current/frontend.html#adding-more-features
-     */
-    .cleanupOutputBeforeBuild()
-    .enableBuildNotifications()
-    .enableSourceMaps(!Encore.isProduction())
-    // enables hashed filenames (e.g. app.abc123.css)
-    .enableVersioning(Encore.isProduction())
-
-    // configure Babel
-    // .configureBabel((config) => {
-    //     config.plugins.push('@babel/a-babel-plugin');
-    // })
-
-    // enables and configure @babel/preset-env polyfills
+    // Configure Sass loader with the new implementation
     .configureBabelPresetEnv((config) => {
         config.useBuiltIns = 'usage';
-        config.corejs = '3.23';
+        config.corejs = 3;
     })
 
-    // enables Sass/SCSS support
-    .enableSassLoader()
-    .autoProvidejQuery()
-    .addAliases({
-        'jquery-ui': 'jquery-ui-dist/jquery-ui.js',
-        'jquery-migrate': 'jquery-migrate/dist/jquery-migrate.js',
-        'modernizr': 'modernizr/modernizr.js',
-        'chosen-js': 'chosen-js/chosen.jquery.js',
-        'bootstrap-notify': 'bootstrap-notify/bootstrap-notify.js',
-    })
-    .addLoader({
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: {
-            loader: 'babel-loader',
-            options: {
-                presets: ['@babel/preset-env'],
-            },
-        },
-    })
-// .configureWebpack((config) => {
-//     config.resolve.fallback = {
-//         "path": require.resolve("path-browserify")
-//     };
-// })
-// uncomment if you use TypeScript
-//.enableTypeScriptLoader()
-
-// uncomment if you use React
-//.enableReactPreset()
-
-// uncomment to get integrity="..." attributes on your script & link tags
-// requires WebpackEncoreBundle 1.4 or higher
-//.enableIntegrityHashes(Encore.isProduction())
-
-// uncomment if you're having problems with a jQuery plugin
-;
+    // Remove this line as it's not a valid Encore method
+    // .configureSassLoader(options => {
+    //     options.implementation = require('sass');
+    // })
 
 module.exports = Encore.getWebpackConfig();

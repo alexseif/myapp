@@ -23,8 +23,14 @@ import './js/common';
 import './js/tasks';
 import './js/dashboard';
 
+// Import DataTables styles
+import 'datatables.net-bs5/css/dataTables.bootstrap5.min.css';
+
+// Set up jQuery globally
 window.$ = $;
 window.jQuery = $;
+
+// Set up bootstrap
 window.bootstrap = {
     Alert,
     Button,
@@ -40,5 +46,7 @@ window.bootstrap = {
     Tooltip
 };
 
-
-$('.chosen').chosen();
+// Initialize Chosen plugin after jQuery is set up
+$(document).ready(function() {
+    $('.chosen').chosen();
+});

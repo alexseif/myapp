@@ -1,42 +1,27 @@
 {% extends 'base.html.twig' %}
 {% import "macros/forms.html.twig" as forms %}
 {% import "macros/a.html.twig" as a %}
+
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css"/>
-    <style>
-        table.dataTable tbody tr {
-            background-color: transparent;
-        }
-
-        .table-hover tbody tr:hover {
-            background-color: black;
-        }
-
-        table tbody tr td {
-            text-align: left;
-        }
-    </style>
+    {# {{ encore_entry_link_tags('completed') }} #}
 {% endblock %}
+
 {% block container %}
     {% include 'flash.html.twig' %}
     {% set btn='btn btn-sm' %}
     <div class="text-center mb-2">
-        <a class="{{ btn }} btn-primary" id="select">
-            *</a>
-        <a class="{{ btn }} btn-primary" id="log">Log</a>
-        <a class="{{ btn }} btn-warning" id="unloggable">Unloggable</a>
-        <a class="{{ btn }} btn-danger" id="delete">Delete</a>
-        <a class="{{ btn }} btn-secondary"
-           href="{{ path('completed_tasks', {'unlog':true}) }}">Hidden</a>
-        <a class="{{ btn }} btn-secondary" id="reset"
-           href="{{ path('completed_tasks') }}">Reset View</a>
+        <a class="{{ btn }} btn-primary" id="select">*</a>
+        <a class="{{ btn }} btn-primary" id="log" data-url="{{ path('worklog_autolog') }}">Log</a>
+        <a class="{{ btn }} btn-warning" id="unloggable" data-url="{{ path('worklog_unloggable') }}">Unloggable</a>
+        <a class="{{ btn }} btn-danger" id="delete" data-url="{{ path('worklog_autodelete') }}">Delete</a>
+        <a class="{{ btn }} btn-secondary" href="{{ path('completed_tasks', {'unlog':true}) }}">Hidden</a>
+        <a class="{{ btn }} btn-secondary" id="reset" href="{{ path('completed_tasks') }}">Reset View</a>
     </div>
 
     <table class="table table-bordered table-striped table-responsive" id="tasks">
         <thead>
         <tr>
-            <th></th>
             <th>Task</th>
             <th>TaskList - Account - Client</th>
             <th>EST</th>
@@ -44,13 +29,15 @@
             <th>Created At</th>
             <th>Completed At</th>
             <th>Logged</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
         {% for task in tasks %}
             <tr>
                 <td>
-                    <label><input type="checkbox" name="tasks[]" value="{{ task.id }}"/></label>
+                    <label for="task-{{ task.id }}"><input type="checkbox" name="tasks[]" id="task-{{ task.id }}"
+                                                           value="{{ task.id }}"/></label>
                 </td>
                 <td>
                     <a href="{{ path('tasks_show', { 'id' : task.id }) }}"
@@ -101,67 +88,8 @@
         </tbody>
     </table>
 {% endblock %}
+
 {% block javascripts %}
     {{ parent() }}
-    <script type="text/javascript" src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            let tasksTable = $('#tasks').DataTable({
-                "stateSave": true,
-            });
-            $('#tasks tbody').on('dblclick', 'tr', function () {
-                $(this).children('td').first().children('label').children('input')[0].click();
-            });
-
-            // Select all
-            $('#select').click(function () {
-                console.log('checking');
-                $('input[name="tasks[]"]').each(function () {
-                    $(this).attr('checked', true);
-                });
-            });
-
-            //Autolog
-            $('#log').click(function () {
-                let data = [];
-                $('input[name="tasks[]"]:checked').each(
-                    function (i) {
-                        data[i] = $(this).val();
-                    });
-                $.post('{{ path('worklog_autolog') }}', {"task_ids": data}, function () {
-                    location.reload();
-                });
-            });
-
-            //unloggable
-            $('#unloggable').click(function () {
-                let data = [];
-                $('input[name="tasks[]"]:checked').each(
-                    function (i) {
-                        data[i] = $(this).val();
-                    });
-                $.post('{{ path('worklog_unloggable') }}', {"task_ids": data}, function () {
-                    location.reload();
-                });
-            });
-
-            // Delete worklog
-            $('#delete').click(function () {
-                let data = [];
-                $('input[name="tasks[]"]:checked').each(
-                    function (i) {
-                        data[i] = $(this).val();
-                    });
-                $.post('{{ path('worklog_autodelete') }}', {"task_ids": data}, function () {
-                    location.reload();
-                });
-            });
-
-            //reset view
-            $('#reset').click(function () {
-                tasksTable.state.clear();
-                return true;
-            });
-        });
-    </script>
+    {{ encore_entry_script_tags('completed') }}
 {% endblock %}

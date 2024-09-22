@@ -8,9 +8,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7cd3a6ea-8379-4eac-9b81-16089730eddd" name="Changes" comment="Upgrading accounting to bootstrap 5&#10;Fixed chosen issue">
+    <list default="true" id="7cd3a6ea-8379-4eac-9b81-16089730eddd" name="Changes" comment="Worklog fix">
+      <change afterPath="$PROJECT_DIR$/assets/completed.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Contract.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Contract.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/worklog/completedTasks.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/worklog/completedTasks.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webpack.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/webpack.config.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -298,13 +303,6 @@
       <recent name="$PROJECT_DIR$/src" />
       <recent name="$PROJECT_DIR$/templates/bundles/FOSUserBundle" />
     </key>
-  </component>
-  <component name="SharedIndexes">
-    <attachedChunks>
-      <set>
-        <option value="bundled-js-predefined-d6986cc7102b-7c0b70fcd90d-JavaScript-PS-242.21829.154" />
-      </set>
-    </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -796,7 +794,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Upgrade symfony to 5.4&#10;with webpack and working modules" />
     <MESSAGE value="Upgrade symfony to 6" />
     <MESSAGE value="Swiftmailer issue" />
     <MESSAGE value="Composer issues and composer update" />
@@ -821,7 +818,8 @@
     <MESSAGE value="Billing calculator fix" />
     <MESSAGE value="Permissions fix" />
     <MESSAGE value="Upgrading accounting to bootstrap 5&#10;Fixed chosen issue" />
-    <option name="LAST_COMMIT_MESSAGE" value="Upgrading accounting to bootstrap 5&#10;Fixed chosen issue" />
+    <MESSAGE value="Worklog fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="Worklog fix" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
