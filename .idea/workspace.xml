@@ -10,7 +10,6 @@
   <component name="ChangeListManager">
     <list default="true" id="7cd3a6ea-8379-4eac-9b81-16089730eddd" name="Changes" comment="doctrine migration fix">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20240922084310.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20240922084310.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

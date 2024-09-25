@@ -39,7 +39,7 @@ class AccountTransactions
      *
      * @ORM\Column(name="note", type="text", nullable=true)
      */
-    private string|null $note = '';
+    private ?string $note = null;
 
     /**
      * @var DateTime
@@ -99,11 +99,11 @@ class AccountTransactions
     /**
      * Set note.
      *
-     * @param string $note
+     * @param string|null $note
      *
      * @return AccountTransactions
      */
-    public function setNote(string $note = ''): AccountTransactions
+    public function setNote(?string $note = null): AccountTransactions
     {
         $this->note = $note;
 
@@ -115,7 +115,7 @@ class AccountTransactions
      *
      * @return string|null
      */
-    public function getNote(): string|null
+    public function getNote(): ?string
     {
         return $this->note;
     }
