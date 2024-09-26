@@ -14,7 +14,6 @@
     "doctrine/dbal": "^3",
     "doctrine/doctrine-bundle": "^2.12",
     "doctrine/doctrine-migrations-bundle": "^3.3",
-    "doctrine/mongodb-odm": "^2.8",
     "doctrine/orm": "^2.11",
     "friendsofsymfony/user-bundle": "^4.0",
     "gedmo/doctrine-extensions": "^3.16",
@@ -57,9 +56,9 @@
     "twig/twig": "^3.12"
   },
   "require-dev": {
-    "roave/security-advisories": "dev-latest",
     "doctrine/doctrine-fixtures-bundle": "^3.6",
     "phpunit/phpunit": "^9.6",
+    "roave/security-advisories": "dev-latest",
     "symfony/browser-kit": "6.4.*",
     "symfony/css-selector": "6.4.*",
     "symfony/debug-bundle": "6.4.*",
