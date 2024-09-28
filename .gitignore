@@ -35,3 +35,4 @@ assets/gulp/node_modules
 deployer-dev.sh
 
 /.phpdoc
+/build

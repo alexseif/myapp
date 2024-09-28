@@ -139,7 +139,7 @@ class Contract
     /**
      * Set client.
      *
-     * @paramClient|null $client
+     * @param Client|null $client
      *
      */
     public function setClient(Client $client = null): Contract

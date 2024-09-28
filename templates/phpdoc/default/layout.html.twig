@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}{{ project.name }}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ asset('documentation/css/normalize.css') }}">
+    <link rel="stylesheet" href="{{ asset('documentation/css/base.css') }}">
+    <link rel="stylesheet" href="{{ asset('documentation/css/template.css') }}">
+    <script src="{{ asset('documentation/js/template.js') }}"></script>
+    <script src="{{ asset('documentation/js/search.js') }}"></script>
+    {% block head %}{% endblock %}
+</head>
+<body>
+    {% block content %}{{ content|raw }}{% endblock %}
+</body>
