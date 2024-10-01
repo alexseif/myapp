@@ -14,6 +14,7 @@
     "doctrine/dbal": "^3",
     "doctrine/doctrine-bundle": "^2.12",
     "doctrine/doctrine-migrations-bundle": "^3.3",
+    "doctrine/mongodb-odm": "^2.9",
     "doctrine/orm": "^2.11",
     "friendsofsymfony/user-bundle": "^4.0",
     "gedmo/doctrine-extensions": "^3.16",
