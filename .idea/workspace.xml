@@ -8,9 +8,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7cd3a6ea-8379-4eac-9b81-16089730eddd" name="Changes" comment="">
+    <list default="true" id="7cd3a6ea-8379-4eac-9b81-16089730eddd" name="Changes" comment="fix: composer insssue on production">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/tasks/show.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/tasks/show.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/tasks/tasks_macros.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/tasks/tasks_macros.html.twig" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -789,7 +791,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Swiftmailer issue" />
     <MESSAGE value="Composer issues and composer update" />
     <MESSAGE value="PHP8.2 Composer issues and composer update" />
     <MESSAGE value="Fixing depraction" />
@@ -814,7 +815,8 @@
     <MESSAGE value="Upgrading accounting to bootstrap 5&#10;Fixed chosen issue" />
     <MESSAGE value="Worklog fix" />
     <MESSAGE value="doctrine migration fix" />
-    <option name="LAST_COMMIT_MESSAGE" value="doctrine migration fix" />
+    <MESSAGE value="fix: composer insssue on production" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: composer insssue on production" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

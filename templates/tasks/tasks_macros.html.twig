@@ -18,7 +18,7 @@
     </div>
 {% endmacro %}
 
-{% macro show(task) %}
+{% macro show(task, open = 0) %}
     <div class="card widget-flat task-item widget-{{ (task.urgency)? 'warning' : (task.priority>0)? 'danger': (task.priority<0)?'default':'info' }} {{ task.completed ? "completed" }}"
          data-order="id_{{ task.id }}"
          id="task_{{ task.id }}"
@@ -69,7 +69,7 @@
             <a title="Task List" class="badge bg-default d-none d-md-inline" data-tasklist="{{ task.taskList.name }}"
                href="{{ path("focus_tasklist", {'name':task.taskList.name}) }}">{{ task.taskList.name }}</a>
         </div><!-- .card-header -->
-        <div class="collapse" id="task-body-{{ task.id }}" aria-labelledby="task-header-{{ task.id }}">
+        <div class="collapse {{ (open == 1) ? 'show' }}" id="task-body-{{ task.id }}" aria-labelledby="task-header-{{ task.id }}">
             <div class="card-body d-flex justify-content-around">
                 <div class="d-flex flex-column justify-content-around m-1">
           <span>
