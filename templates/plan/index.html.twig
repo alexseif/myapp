@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+{% macro buildUl(items, depth =1) %}
+	{% set depth = depth + 1 %}
+	<div
+		class="list-group">
+		{# <div class="row"> #}
+		{% for topic, item in items %}
+			{# <div class="col{{ (depth == 2) ? "" : "-12" }}"> #}
+			{{ _self.buildLi(topic, item, depth) }}
+			{# </div> #}
+		{% endfor %}
+		{# </div> #}
+	</div>
+{% endmacro %}
+{% macro buildLi(topic, item, depth) %}
+	<div class="list-group-item">
+		{% if item is iterable %}
+			<h{{depth}}>{{topic}}</h{{depth}}>
+			{{ _self.buildUl(item, depth) }}
+		{% else %}
+			{% if item ends with "::class" %}
+				<b>{{ item }}</b>
+			{% else %}
+				{{ item }}
+			{% endif %}
+		{% endif %}
+	</div>
+{% endmacro %}
+{% block panelTitle %}Plan
+{% endblock %}
+{% block panelBody %}
+	<div class="card-body">
+		{{ _self.buildUl(plan) }}
+	</div>
+{% endblock %}

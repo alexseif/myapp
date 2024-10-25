@@ -24,7 +24,7 @@ import './js/tasks';
 import './js/dashboard';
 
 // Import DataTables styles
-import 'datatables.net-bs5/css/dataTables.bootstrap5.min.css';
+import 'datatables.net-bs5/css/dataTables.bootstrap5.min';
 
 // Set up jQuery globally
 window.$ = $;
@@ -47,6 +47,6 @@ window.bootstrap = {
 };
 
 // Initialize Chosen plugin after jQuery is set up
-$(document).ready(function() {
+$(function () {
     $('.chosen').chosen();
 });
