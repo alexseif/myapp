@@ -8,10 +8,10 @@ use Twig\TwigFilter;
 class AppExtension extends AbstractExtension
 {
 
-    public function getFilters()
+    public function getFilters(): array
     {
         return [
-          new TwigFilter('ago', [$this, 'agoFilter']),
+            new TwigFilter('ago', [$this, 'agoFilter']),
         ];
     }
 
@@ -42,5 +42,4 @@ class AppExtension extends AbstractExtension
 
         return 'just now';
     }
-
 }

@@ -9,6 +9,7 @@
     "ext-dom": "*",
     "ext-iconv": "*",
     "ext-intl": "*",
+    "ext-mongodb": "*",
     "beberlei/doctrineextensions": "^1.5",
     "doctrine/annotations": "^2.0",
     "doctrine/dbal": "^3",

@@ -1,14 +1,14 @@
 framework:
-  secret: '%env(APP_SECRET)%'
+  secret: "%env(APP_SECRET)%"
   form: true
   csrf_protection: true
-  validation: {
-    enable_attributes: true
-  }
+  validation: { enable_attributes: true }
   trusted_hosts: ~
   session:
     handler_id: null
-    save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
+    save_path: "%kernel.project_dir%/var/sessions/%kernel.environment%"
+    cookie_secure: auto
+    cookie_samesite: lax
   fragments: true
   http_method_override: true
   assets: true
@@ -20,3 +20,4 @@ framework:
   profiler:
     enabled: true
     collect: true
+  handle_all_throwables: true
