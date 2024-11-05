@@ -1,6 +1,6 @@
-import './styles/app.scss';
+import './styles/app.scss'; 
 import $ from 'jquery';
-import 'jquery-migrate';
+import 'jquery-migrate/dist/jquery-migrate.js';
 import 'jquery-ui-sortable';
 import 'popper.js';
 import {
@@ -24,7 +24,7 @@ import './js/tasks';
 import './js/dashboard';
 
 // Import DataTables styles
-import 'datatables.net-bs5/css/dataTables.bootstrap5.min';
+import 'datatables.net-bs5';
 
 // Set up jQuery globally
 window.$ = $;

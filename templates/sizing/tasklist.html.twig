@@ -1,220 +1,147 @@
 {% extends 'base.html.twig' %}
 {% import "macros/a.html.twig" as a %}
 {% block floatingActions %}
-    {{ a.linkGlyph('primary btn-modal', 'fa fa-plus', 'sizing_new_task', query) }}
+	{{ a.linkGlyph('primary btn-modal', 'fa fa-plus', 'sizing_new_task', query) }}
 {% endblock %}
-{% block title %}{{ tasklist.account }} Sizing{% endblock %}
+{% block title %}
+	{{ tasklist.account }}
+	Sizing
+{% endblock %}
 {% block stylesheets %}
-    {{ parent() }}
-    <!--suppress CssUnusedSymbol -->
-    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css"/>
-    <style>
-        table.dataTable tbody tr {
-            background-color: transparent;
-        }
+	{{ parent() }}
+	<!--suppress CssUnusedSymbol -->
+	<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css"/>
+	<style>
+		table.dataTable tbody tr {
+			background-color: transparent;
+		}
 
-        .table-hover tbody tr:hover {
-            background-color: black;
-        }
+		.table-hover tbody tr:hover {
+			background-color: black;
+		}
 
-        table tbody tr td {
-            text-align: left;
-        }
-    </style>
-    <style>
-        table tr td:nth-child(2) {
-            width: 40%;
-        }
+		table tbody tr td {
+			text-align: left;
+		}
+	</style>
+	<style>
+		table tr td:nth-child(2) {
+			width: 40%;
+		}
 
-        table tr td:nth-child(3),
-        table tr th:nth-child(3),
-        table tr td:nth-child(4),
-        table tr th:nth-child(4),
-        table tr td:last-child,
-        table tr th:last-child,
-        table tr td input.est {
-            text-align: right;
-        }
+		table tr td:nth-child(3),
+		table tr th:nth-child(3),
+		table tr td:nth-child(4),
+		table tr th:nth-child(4),
+		table tr td:last-child,
+		table tr th:last-child,
+		table tr td input.est {
+			text-align: right;
+		}
 
-        th {
-            background-color: #222;
-            position: sticky;
-            top: 0; /* Don't forget this, required for the stickiness */
-            box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
-        }
-    </style>
+		th {
+			background-color: #222;
+			position: sticky;
+			top: 0; /* Don't forget this, required for the stickiness */
+			box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
+		}
+	</style>
 {% endblock %}
 {% block content %}
-    <a class="btn btn-sm btn-secondary float-right" id="reset"
-       href="{{ path('sizing_by_tasklist', query) }}">Reset View</a>
+	<a class="btn btn-sm btn-secondary float-right" id="reset" href="{{ path('sizing_by_tasklist', query) }}">Reset View</a>
 
-    <h2>Size tasks</h2>
-    <div class="tasks">
-        {{ form_start(form) }}
-        {{ form_row(form._token) }}
-        {{ form_errors(form) }}
-        <h3>Tasks</h3>
-        <table class="table table-striped" id="sizing_table">
-            <thead>
-            <tr>
-                <th></th>
-                <th>
-                    <a href="{{ path('tasklists_show', { 'id':tasklist.id }) }}">
-                        {{ tasklist }}</a>
-                    -
-                    <a href="{{ path('accounts_show', { 'id':tasklist.account.id }) }}">
-                        {{ tasklist.account }}</a>
-                    -
-                    <a href="{{ path('client_show', { 'id':tasklist.account.client.id }) }}">
-                        {{ tasklist.account.client }}</a>
-                </th>
-                <th>
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-sm btn-secondary assign-est" data-est="30">30mins</button>
-                        <button type="button" class="btn btn-sm btn-secondary assign-est" data-est="60">60mins</button>
-                        <button type="button" class="btn btn-sm btn-secondary clear-est" data-est="60">Clear</button>
-                    </div>
-                </th>
-                <th>Status: {{ tasklist.status }}</th>
-                <th id="rate" data-rate="{{ rate_calculator.getRate(tasklist.account.client) }}" colspan="4">
-                    EGP {{ rate_calculator.getRate(tasklist.account.client)|number_format }}
-                </th>
-            </tr>
-            <tr>
-                <th>id</th>
-                <th>task</th>
-                <th>est</th>
-                <th>value</th>
-                <th class="d-none details">eta</th>
-                <th class="d-none details">priority</th>
-                <th class="d-none details">urgency</th>
-                <th>
-                    <div class="btn-group btn-group-sm">
-                        <button type="button" id="show-details" class="btn btn-info">Details</button>
-                        <button type="button" id="show-delete" class="btn btn-info">Delete</button>
-                    </div>
-                </th>
-            </tr>
-            </thead>
-            <tbody>
-            {# {% for task in tasklist.tasks %} #}
-            {% for task in form.tasks %}
-                {% if not task.vars.value.completed %}
-                    <tr id="{{ task.vars.value.id }}">
-                        <td>
-                            <a href="{{ path('tasks_show', { 'id':task.vars.value.id }) }}"
-                               target="_blank">{{ task.vars.value.id }}</a>
-                        </td>
-                        <td>{{ form_widget(task.task) }}</td>
-                        <td data-order="{{ task.vars.value.est }}">{{ form_widget(task.est, {'attr':{'data-task':task.vars.value.id}}) }}</td>
-                        <td class="total"></td>
-                        <td class="d-none details">{{ form_widget(task.eta) }}</td>
-                        <td class="d-none details"
-                            data-order="{{ task.vars.value.priority }}">{{ form_widget(task.priority) }}</td>
-                        <td class="d-none details"
-                            data-order="{{ task.vars.value.urgency }}">{{ form_widget(task.urgency) }}</td>
-                        <td class="">
-                            <a class="btn btn-danger btn-confirm btn-ajax-delete d-none"
-                               data-data='{"_token":"{{ csrf_token('delete' ~ task.vars.value.id) }}", "_method": "DELETED"}'
-                               data-delete-url="{{ path('tasks_delete', {'id': task.vars.value.id}) }}">
-                                <i class="fa fa-trash"></i>
-                            </a>
-                        </td>
-                    </tr>
-                {% endif %}
-            {% endfor %}
-            </tbody>
-            <tfoot>
-            <tr>
-                <th>#</th>
-                <th id="est-count"></th>
-                <th id="est-total" data-est=0></th>
-                <th id="total" data-total=0></th>
-                <th colspan="4">
-                    <button type="submit" class="btn btn-sm btn-success">Save</button>
-                </th>
-            </tr>
-            </tfoot>
-        </table>
+	<h2>Size tasks</h2>
+	<div class="tasks">
+		{{ form_start(form) }}
+		{{ form_row(form._token) }}
+		{{ form_errors(form) }}
+		<h3>Tasks</h3>
+		<table class="table table-striped" id="sizing_table">
+			<thead>
+				<tr>
+					<th></th>
+					<th>
+						<a href="{{ path('tasklists_show', { 'id':tasklist.id }) }}">
+							{{ tasklist }}</a>
+						-
+						<a href="{{ path('accounts_show', { 'id':tasklist.account.id }) }}">
+							{{ tasklist.account }}</a>
+						-
+						<a href="{{ path('client_show', { 'id':tasklist.account.client.id }) }}">
+							{{ tasklist.account.client }}</a>
+					</th>
+					<th>
+						<div class="btn-group">
+							<button type="button" class="btn btn-sm btn-secondary assign-est" data-est="30">30mins</button>
+							<button type="button" class="btn btn-sm btn-secondary assign-est" data-est="60">60mins</button>
+							<button type="button" class="btn btn-sm btn-secondary clear-est" data-est="60">Clear</button>
+						</div>
+					</th>
+					<th>Status:
+						{{ tasklist.status }}</th>
+					<th id="rate" data-rate="{{ rate_calculator.getRate(tasklist.account.client) }}" colspan="4">
+						EGP
+						{{ rate_calculator.getRate(tasklist.account.client)|number_format }}
+					</th>
+				</tr>
+				<tr>
+					<th>id</th>
+					<th>task</th>
+					<th>est</th>
+					<th>value</th>
+					<th class="d-none details">eta</th>
+					<th class="d-none details">priority</th>
+					<th class="d-none details">urgency</th>
+					<th>
+						<div class="btn-group btn-group-sm">
+							<button type="button" id="show-details" class="btn btn-info">Details</button>
+							<button type="button" id="show-delete" class="btn btn-info">Delete</button>
+						</div>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				{# {% for task in tasklist.tasks %} #}
+				{% for task in form.tasks %}
+					{% if not task.vars.value.completed %}
+						<tr id="{{ task.vars.value.id }}">
+							<td>
+								<a href="{{ path('tasks_show', { 'id':task.vars.value.id }) }}" target="_blank">{{ task.vars.value.id }}</a>
+							</td>
+							<td>{{ form_widget(task.task) }}</td>
+							<td data-order="{{ task.vars.value.est }}">{{ form_widget(task.est, {'attr':{'data-task':task.vars.value.id}}) }}</td>
+							<td class="total"></td>
+							<td class="d-none details">{{ form_widget(task.eta) }}</td>
+							<td class="d-none details" data-order="{{ task.vars.value.priority }}">{{ form_widget(task.priority) }}</td>
+							<td class="d-none details" data-order="{{ task.vars.value.urgency }}">{{ form_widget(task.urgency) }}</td>
+							<td class="">
+								<a class="btn btn-danger btn-confirm btn-ajax-delete d-none" data-data='{"_token":"{{ csrf_token(' delete' ~ task.vars.value.id) }}", "_method": "deleted"}' data-delete-url="{{ path('tasks_delete', {'id': task.vars.value.id}) }}">
+									<i class="fa fa-trash"></i>
+								</a>
+							</td>
+						</tr>
+					{% endif %}
+				{% endfor %}
+			</tbody>
+			<tfoot>
+				<tr>
+					<th>#</th>
+					<th id="est-count"></th>
+					<th id="est-total" data-est="0"></th>
+					<th id="total" data-total="0"></th>
+					<th colspan="4">
+						<button type="submit" class="btn btn-sm btn-success">Save</button>
+					</th>
+				</tr>
+			</tfoot>
+		</table>
 
-        {{ form_end(form, {'render_rest': false}) }}
-    </div>
+		{{ form_end(form, {'render_rest': false}) }}
+	</div>
 {% endblock %}
 {% block javascripts %}
-    {{ parent() }}
-    {# @todo: create class #}
-    <script>
-        function calculateEstTotal() {
-            let estTotal = 0;
-            $inputEst = $('input.est');
-            $inputEst.each(function () {
-                estTotal += parseInt($(this).val(), 10) || 0;
-            });
-            $('#est-total')
-                .data('total', estTotal)
-                .text(estTotal);
-
-            $('#est-count').text($inputEst.length);
-
-            return estTotal;
-        }
-
-        function updateTotal() {
-            let estTotal = calculateEstTotal();
-            let total = parseInt(estTotal * rate / 60, 10) || 0;
-            $('#total')
-                .data('total', total)
-                .text('EGP ' + total + '.00');
-        }
-
-        function estChanged() {
-            $task = $(this).data('task');
-            let newEst = $(this).val();
-            $('#' + $task + ' .total').text(parseInt(newEst * rate / 60, 10) || 0);
-            updateTotal();
-        }
-
-        let rate = parseInt($('#rate').data('rate'), 10) || 0;
-        $(function () {
-            $('input.est').change(estChanged)
-                .each(estChanged);
-            $('#show-details').click(function () {
-                $('table .details').toggleClass('d-none');
-            });
-            $('#show-delete').click(function () {
-                $('table .btn-ajax-delete').toggleClass('d-none');
-            });
-        })
-    </script>
-    <script type="text/javascript" src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-    <script>
-        $(function () {
-            let sizingTable = $('#sizing_table').DataTable({
-                "stateSave": true,
-                "aaSorting": [],
-            });
-            //reset view
-            $('#reset').click(function () {
-                sizingTable.state.clear();
-                return true;
-            });
-
-            //assign est
-            $('.assign-est').click(function () {
-                _self = this;
-                $est = $(_self).data('est');
-                $('input.est').each(function () {
-                    $(this).val($(this).val() || $est);
-                });
-            });
-            //clear est
-            $('.clear-est').click(function () {
-                _self = this;
-                $est = $(_self).data('est');
-                $('input.est').each(function () {
-                    $(this).val(null);
-                });
-            });
-        });
-    </script>
+	{{ parent() }}
+	{# @todo: create class #}
+	{# <script type="text/javascript" src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script> #}
+	<script src="{{ asset('build/sizing.js') }}"></script>
 {% endblock %}

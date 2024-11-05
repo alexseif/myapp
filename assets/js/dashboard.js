@@ -1,6 +1,6 @@
 import './shortcut';
 import $ from 'jquery';
-import { GoogleCharts } from 'google-charts';
+import { GoogleCharts } from '../../node_modules/google-charts';
 
 // Shortcut keys
 shortcut.add("alt+T", function () {

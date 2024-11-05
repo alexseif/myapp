@@ -2,42 +2,26 @@ const Encore = require('@symfony/webpack-encore');
 const webpack = require('webpack');
 
 Encore
-    // directory where compiled assets will be stored
+    // Directory where compiled assets will be stored
     .setOutputPath('public/build/')
-    // public path used by the web server to access the output path
+    // Public path used by the web server to access the output path
     .setPublicPath('/build')
-    // only needed for CDN's or subdirectory deploy
-    //.setManifestKeyPrefix('build/')
 
     // Copy images from assets to the build directory
     .copyFiles({
         from: './assets/images',
         to: 'images/[path][name].[ext]',
-        // Optional: If versioning is enabled, add the file hash too
-        // to: 'images/[path][name].[hash:8].[ext]',
-        // Optional: Only copy files matching this pattern
-        // pattern: /\.(png|jpg|jpeg)$/
     })
 
-    /*
-     * ENTRY CONFIG
-     *
-     * Each entry will result in one JavaScript file (e.g. app.js)
-     * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
-     */
+    // Entry configuration
     .addEntry('app', './assets/app.js')
     .addEntry('completed', './assets/completed.js')
-
-    // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
-    .enableStimulusBridge('./assets/controllers.json')
-
-    // Add aliases for modules
-    .addAliases({
-        'chart.js': 'chart.js/dist/Chart.js',
-    })
+    // Enable SCSS support
+    .enableSassLoader()
     .enableSingleRuntimeChunk()
-    // Remove this line
-    // .autoProvidejQuery()
+    // Enable PostCSS support
+    .enablePostCssLoader()
+
     // Add loaders for CSS and images
     .addLoader({
         test: /\.css$/,
@@ -50,25 +34,17 @@ Encore
             name: '[path][name].[ext]',
         },
     })
-
-    // Add this configuration for handling CSS files from node_modules
-    .addRule({
-        test: /\.css$/,
-        include: /node_modules/,
-        use: ['style-loader', 'css-loader']
-    })
-
+ // Add this configuration for handling CSS files from node_modules
+ .addRule({
+    test: /\.css$/,
+    include: /node_modules/,
+    use: ['style-loader', 'css-loader']
+})
     // Enable source maps during development
     .enableSourceMaps(!Encore.isProduction())
 
     // Enable versioning (cache-busting) in production
     .enableVersioning(Encore.isProduction())
-
-    // Enable Sass/SCSS support
-    .enableSassLoader()
-
-    // Enable PostCSS support
-    .enablePostCssLoader()
 
     // Add plugin to provide jQuery globally
     .addPlugin(new webpack.ProvidePlugin({
@@ -77,15 +53,16 @@ Encore
         'window.jQuery': 'jquery',
     }))
 
-    // Configure Sass loader with the new implementation
+    // Configure Babel preset environment
     .configureBabelPresetEnv((config) => {
         config.useBuiltIns = 'usage';
         config.corejs = 3;
     })
 
-    // Remove this line as it's not a valid Encore method
-    // .configureSassLoader(options => {
-    //     options.implementation = require('sass');
-    // })
+    // Enable DataTables support
+    .addEntry('datatables', 'datatables.net-bs5') // Ensure DataTables is included
+
+    // Enable Bootstrap support
+    .autoProvidejQuery() // Automatically provide jQuery to modules
 
 module.exports = Encore.getWebpackConfig();
