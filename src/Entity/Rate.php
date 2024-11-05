@@ -50,7 +50,7 @@ class Rate
      *
      * @ORM\Column(name="note", type="text", nullable=true)
      */
-    private string $note;
+    private ?string $note;
 
     /**
      * Get id.
@@ -138,7 +138,7 @@ class Rate
      *
      * @return Rate
      */
-    public function setNote(string $note = null): Rate
+    public function setNote(?string $note): Rate
     {
         $this->note = $note;
 
@@ -154,5 +154,4 @@ class Rate
     {
         return $this->note;
     }
-
 }
